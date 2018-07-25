@@ -16,14 +16,17 @@ const nodesBetween = (state, _from, _to) => {
 };
 
 const defaultPredicate = (node, pos, parent) =>
-  parent.type.name === 'doc' && node.textContent;
+  parent.type.name === 'doc' &&
+  (node.type.name === 'embed' || node.textContent);
 
 const moveNode = (pos, predicate, state, dispatch, dir) => {
   const all = new AllSelection(state.doc);
 
   const [nextNode, nextNodePos] =
-    nodesBetween(state, pos, dir < 0 ? all.from : all.to).find(args =>
-      predicate(...args)
+    nodesBetween(state, pos, dir < 0 ? all.from : all.to).find(
+      ([candidateNode, candidatePos, candidateParent, candidateIndex]) =>
+        candidatePos !== pos &&
+        predicate(candidateNode, candidatePos, candidateParent, candidateIndex)
     ) || [];
 
   if (typeof nextNodePos === 'undefined') {
@@ -42,7 +45,7 @@ const moveNode = (pos, predicate, state, dispatch, dir) => {
   const insertPos = tr.mapping.mapResult(nodePos).pos;
   tr.insert(insertPos, node.type.create({ ...node.attrs }));
 
-  const mappedPos = tr.mapping.mapResult(pos).pos;
+  // const mappedPos = tr.mapping.mapResult(pos).pos;
   // merge the surrounding blocks if possible
   // this is only useful if we have root `textElement` nodes like in composer
   // as the time of this commit
