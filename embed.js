@@ -103,14 +103,14 @@ const build = types => {
                   node.type.name === 'embed' &&
                   node.attrs.type === initNode.attrs.type
                 ) {
-                  update({
-                    fields: node.attrs.fields,
-                    commands: buildCommands(
+                  update(
+                    node.attrs.fields,
+                    buildCommands(
                       getPos(),
                       unpackDeco(decorations),
                       view.dispatch
                     )
-                  });
+                  );
                   return true;
                 }
                 return false;
