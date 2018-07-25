@@ -33,7 +33,7 @@ const get = () => htmlToDoc(window.localStorage.getItem('pm'));
 const set = doc => window.localStorage.setItem('pm', docToHtml(doc));
 
 const { plugin: embed, insertEmbed } = build({
-  image: image()
+  image: image({ editSrc: true })
 });
 
 // window.localStorage.setItem('pm', '');
