@@ -5,11 +5,12 @@ class EmbedProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.updateFields = this.updateFields.bind(this);
+    this.updateState = this.updateState.bind(this);
 
     this.state = {
       commands: this.props.commands,
-      fields: this.props.fields
+      fields: this.props.fields,
+      errors: []
     };
   }
 
@@ -30,23 +31,24 @@ class EmbedProvider extends Component {
       state,
       () =>
         notifyListeners &&
-        this.props.onStateChange(this.state.fields /*  errors here */)
+        this.props.onStateChange(this.state.fields, this.state.errors)
     );
   }
 
-  updateFields(fields = {}) {
+  updateState(fields = {}, errors = []) {
     this.setState({
       fields: {
         ...this.state.fields,
         ...fields
-      }
+      },
+      errors
     });
   }
 
   render() {
     return (
       <EmbedWrapper name="Image" {...this.state.commands}>
-        {this.props.children[0](this.state.fields, this.updateFields)}
+        {this.props.children[0](this.state.fields, this.updateState)}
       </EmbedWrapper>
     );
   }

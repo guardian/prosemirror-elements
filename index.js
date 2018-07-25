@@ -32,7 +32,7 @@ const htmlToDoc = html => {
 const get = () => htmlToDoc(window.localStorage.getItem('pm'));
 const set = doc => window.localStorage.setItem('pm', docToHtml(doc));
 
-const { plugin: embed, insertEmbed } = build({
+const { plugin: embed, insertEmbed, getErrors } = build({
   image: image({ editSrc: true })
 });
 
@@ -41,14 +41,14 @@ const { plugin: embed, insertEmbed } = build({
 const view = new EditorView(document.querySelector('#editor'), {
   state: EditorState.create({
     doc: get(),
-    plugins: [
-      ...exampleSetup({ schema: mySchema }),
-      embed
-    ]
+    plugins: [...exampleSetup({ schema: mySchema }), embed]
   }),
   dispatchTransaction: tr => {
     const state = view.state.apply(tr);
     view.updateState(state);
+    document.body.style.backgroundColor = !getErrors(state).length
+      ? 'transparent'
+      : 'red';
     set(state.doc);
   }
 });
