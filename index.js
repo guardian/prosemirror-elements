@@ -4,7 +4,7 @@ import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
-import image from './image-embed';
+import image from './embeds/image/plugin';
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
