@@ -13,23 +13,77 @@ const nodesBetween = (state, _from, _to) => {
     arr.reverse();
   }
   return arr;
+  ([candidateNode, candidatePos, candidateParent, candidateIndex]) =>
+    candidatePos !== pos &&
+    predicate(candidateNode, candidatePos, candidateParent, candidateIndex);
 };
 
 const defaultPredicate = (node, pos, parent) =>
   parent.type.name === 'doc' &&
   (node.type.name === 'embed' || node.textContent);
 
-const moveNode = (pos, predicate, state, dispatch, dir) => {
+const findPredicate = (consumerPredicate, currentPos) => ([
+  candidateNode,
+  candidatePos,
+  candidateParent,
+  candidateIndex
+]) =>
+  candidatePos !== currentPos &&
+  consumerPredicate(
+    candidateNode,
+    candidatePos,
+    candidateParent,
+    candidateIndex
+  );
+
+const nextPosFinder = consumerPredicate => (pos, state, dir) => {
   const all = new AllSelection(state.doc);
+  const predicate = findPredicate(consumerPredicate, pos);
 
-  const [nextNode, nextNodePos] =
-    nodesBetween(state, pos, dir < 0 ? all.from : all.to).find(
-      ([candidateNode, candidatePos, candidateParent, candidateIndex]) =>
-        candidatePos !== pos &&
-        predicate(candidateNode, candidatePos, candidateParent, candidateIndex)
-    ) || [];
+  switch (dir) {
+    case 'up': {
+      const [, nextNodePos] =
+        nodesBetween(state, pos, all.from).find(predicate) || [];
 
-  if (typeof nextNodePos === 'undefined') {
+      if (typeof nextNodePos === 'undefined') {
+        return null;
+      }
+
+      return nextNodePos;
+    }
+    case 'down': {
+      const [nextNode, nextNodePos] =
+        nodesBetween(state, pos, all.to).find(predicate) || [];
+
+      if (typeof nextNodePos === 'undefined') {
+        return null;
+      }
+
+      return nextNodePos + nextNode.nodeSize;
+    }
+    case 'top': {
+      if (pos === all.from) {
+        return false;
+      }
+      return all.from;
+    }
+    case 'bottom': {
+      if (pos === all.to) {
+        return false;
+      }
+      return all.to;
+    }
+    default: {
+      console.warn(`Unknown direction: ${dir}`);
+      return null;
+    }
+  }
+};
+
+const moveNode = consumerPredicate => (pos, state, dispatch, dir) => {
+  const nextPos = nextPosFinder(consumerPredicate)(pos, state, dir);
+
+  if (nextPos === null) {
     return false;
   }
 
@@ -37,12 +91,10 @@ const moveNode = (pos, predicate, state, dispatch, dir) => {
     return true;
   }
 
-  const nodePos = dir < 0 ? nextNodePos : nextNodePos + nextNode.nodeSize;
-
   const { node } = state.doc.childAfter(pos);
 
   const tr = state.tr.deleteRange(pos, pos + 1);
-  const insertPos = tr.mapping.mapResult(nodePos).pos;
+  const insertPos = tr.mapping.mapResult(nextPos).pos;
   tr.insert(insertPos, node.type.create({ ...node.attrs }));
 
   // const mappedPos = tr.mapping.mapResult(pos).pos;
@@ -56,23 +108,36 @@ const moveNode = (pos, predicate, state, dispatch, dir) => {
   dispatch(tr);
 };
 
-const moveNodeUp = (pos, predicate = defaultPredicate) => (state, dispatch) =>
-  moveNode(pos, predicate, state, dispatch, -1);
+const moveNodeUp = predicate => pos => (state, dispatch) =>
+  moveNode(predicate)(pos, state, dispatch, 'up');
 
-const moveNodeDown = (pos, predicate = defaultPredicate) => (state, dispatch) =>
-  moveNode(pos, predicate, state, dispatch, 1);
+const moveNodeDown = predicate => pos => (state, dispatch) =>
+  moveNode(predicate)(pos, state, dispatch, 'down');
+
+const moveNodeTop = predicate => pos => (state, dispatch) =>
+  moveNode(predicate)(pos, state, dispatch, 'top');
+
+const moveNodeBottom = predicate => pos => (state, dispatch) =>
+  moveNode(predicate)(pos, state, dispatch, 'bottom');
+
+const buildMoveCommands = predicate => (pos, state, dispatch) => ({
+  moveUp: (run = true) => moveNodeUp(predicate)(pos)(state, run && dispatch),
+  moveDown: (run = true) =>
+    moveNodeDown(predicate)(pos)(state, run && dispatch),
+  moveTop: (run = true) => moveNodeTop(predicate)(pos)(state, run && dispatch),
+  moveBottom: (run = true) =>
+    moveNodeBottom(predicate)(pos)(state, run && dispatch)
+});
 
 const removeNode = pos => (state, dispatch) => {
   if (!dispatch) {
     return true;
   }
-  const pos = pos();
   dispatch(state.tr.deleteRange(pos, pos + 1));
 };
 
-const buildCommands = (pos, state, dispatch) => ({
-  moveUp: (run = true) => moveNodeUp(pos)(state, run && dispatch),
-  moveDown: (run = true) => moveNodeDown(pos)(state, run && dispatch),
+const buildCommands = predicate => (pos, state, dispatch) => ({
+  ...buildMoveCommands(predicate)(pos, state, dispatch),
   remove: (run = true) => removeNode(pos)(state, run && dispatch)
 });
 
@@ -103,4 +168,4 @@ const stateToNodeView = name => ({
     decorations.find(deco => deco.type.attrs.type === name).type.attrs.state
 });
 
-export { buildCommands, stateToNodeView };
+export { buildCommands, defaultPredicate, stateToNodeView };

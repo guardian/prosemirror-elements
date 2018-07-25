@@ -1,5 +1,5 @@
 import { Plugin } from 'prosemirror-state';
-import { buildCommands, stateToNodeView } from './helpers';
+import { buildCommands, defaultPredicate, stateToNodeView } from './helpers';
 
 const addEmbedNode = schema =>
   schema.append({
@@ -38,8 +38,9 @@ const addEmbedNode = schema =>
 
 const { packDecos, unpackDeco } = stateToNodeView('embed');
 
-const build = types => {
+const build = (types, predicate = defaultPredicate) => {
   const typeNames = Object.keys(types);
+  const commands = buildCommands(predicate);
 
   return {
     insertEmbed: (type, fields = {}) => (state, dispatch) => {
@@ -93,7 +94,7 @@ const build = types => {
                 );
               },
               initNode.attrs.fields,
-              buildCommands(getPos(), view.state, view.dispatch)
+              commands(getPos(), view.state, view.dispatch)
             );
 
             return {
@@ -105,11 +106,7 @@ const build = types => {
                 ) {
                   update(
                     node.attrs.fields,
-                    buildCommands(
-                      getPos(),
-                      unpackDeco(decorations),
-                      view.dispatch
-                    )
+                    commands(getPos(), unpackDeco(decorations), view.dispatch)
                   );
                   return true;
                 }
