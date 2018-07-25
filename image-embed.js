@@ -8,19 +8,13 @@ class ImageEmbed extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
 
     this.state = {
+      commands: this.props.commands,
       fields: this.props.fields
     };
   }
 
   componentDidMount() {
-    this.props.updater.subscribe(fields =>
-      this.setState(
-        {
-          fields
-        },
-        false
-      )
-    );
+    this.props.updater.subscribe(state => this.setState(state, false));
   }
 
   setState(state, notifyListeners = true) {
@@ -43,7 +37,7 @@ class ImageEmbed extends Component {
 
   render() {
     return (
-      <EmbedWrapper name="Image">
+      <EmbedWrapper name="Image" {...this.state.commands}>
         <input
           type="text"
           value={this.state.fields.name}
@@ -54,14 +48,14 @@ class ImageEmbed extends Component {
   }
 }
 
-const mount = () => (dom, updateFields, fields) => {
+const mount = () => (dom, updateFields, fields, commands) => {
   const createUpdater = () => {
     let sub = () => {};
     return {
       subscribe: fn => {
         sub = fn;
       },
-      setFields: fields => sub(fields)
+      update: (...args) => sub(...args)
     };
   };
   const updater = createUpdater();
@@ -70,10 +64,11 @@ const mount = () => (dom, updateFields, fields) => {
       onStateChange={updateFields}
       fields={fields}
       updater={updater}
+      commands={commands}
     />,
     dom
   );
-  return updater.setFields;
+  return updater.update;
 };
 
 export default mount;

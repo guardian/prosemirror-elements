@@ -1,4 +1,5 @@
 import { Plugin } from 'prosemirror-state';
+import { buildCommands, stateToNodeView } from './helpers';
 
 const addEmbedNode = schema =>
   schema.append({
@@ -34,6 +35,8 @@ const addEmbedNode = schema =>
       ]
     }
   });
+
+const { packDecos, unpackDeco } = stateToNodeView('embed');
 
 const build = types => {
   const typeNames = Object.keys(types);
@@ -72,6 +75,7 @@ const build = types => {
         }
       },
       props: {
+        decorations: packDecos,
         nodeViews: {
           embed: (initNode, view, getPos) => {
             const dom = document.createElement('div');
@@ -88,18 +92,31 @@ const build = types => {
                   })
                 );
               },
-              initNode.attrs.fields
+              initNode.attrs.fields,
+              buildCommands(getPos(), view.state, view.dispatch)
             );
+
             return {
               dom,
-              update: node => {
-                update(node.attrs.fields);
-                return (
+              update: (node, decorations) => {
+                if (
                   node.type.name === 'embed' &&
                   node.attrs.type === initNode.attrs.type
-                );
+                ) {
+                  update({
+                    fields: node.attrs.fields,
+                    commands: buildCommands(
+                      getPos(),
+                      unpackDeco(decorations),
+                      view.dispatch
+                    )
+                  });
+                  return true;
+                }
+                return false;
               },
-              stopEvent: () => true
+              stopEvent: () => true,
+              destroy: () => null
             };
           }
         }
