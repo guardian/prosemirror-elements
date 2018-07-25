@@ -1,6 +1,6 @@
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model';
+import { Schema, DOMParser, DOMSerializer, Fragment } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
@@ -16,21 +16,24 @@ const mySchema = new Schema({
 const parser = DOMParser.fromSchema(mySchema);
 const serializer = DOMSerializer.fromSchema(mySchema);
 
-const docToHtml = doc => {
+const docToHtml = (doc: Fragment<Schema<any, "code" | "em" | "link" | "strong">>) => {
   const dom = serializer.serializeFragment(doc);
   const e = document.createElement('div');
   e.appendChild(dom);
   return e.innerHTML;
 };
 
-const htmlToDoc = html => {
+const htmlToDoc = (html: string) => {
   const dom = document.createElement('div');
   dom.innerHTML = html;
   return parser.parse(dom);
 };
 
-const get = () => htmlToDoc(window.localStorage.getItem('pm'));
-const set = doc => window.localStorage.setItem('pm', docToHtml(doc));
+const get = () => {
+  const state = window.localStorage.getItem('pm');
+  return state ? htmlToDoc(state) : null;
+}
+const set = (doc: Fragment<Schema<any, "code" | "em" | "link" | "strong">>) => window.localStorage.setItem('pm', docToHtml(doc));
 
 const { plugin: embed, insertEmbed } = build({
   image: image()
@@ -38,7 +41,13 @@ const { plugin: embed, insertEmbed } = build({
 
 // window.localStorage.setItem('pm', '');
 
-const view = new EditorView(document.querySelector('#editor'), {
+const editorElement = document.querySelector('#editor');
+
+if (!editorElement) {
+  throw new Error('No #editor element present in DOM');
+}
+
+const view = new EditorView(editorElement, {
   state: EditorState.create({
     doc: get(),
     plugins: [

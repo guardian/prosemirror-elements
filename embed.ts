@@ -1,6 +1,8 @@
 import { Plugin } from 'prosemirror-state';
+import { Schema, Node } from 'prosemirror-model';
+import { canJoin } from 'prosemirror-transform';
 
-const addEmbedNode = schema =>
+const addEmbedNode = (schema: Schema) =>
   schema.append({
     embed: {
       group: 'block',
@@ -14,7 +16,7 @@ const addEmbedNode = schema =>
         }
       },
       draggable: false,
-      toDOM: node => [
+      toDOM: (node: Node) => [
         'embed-attrs',
         {
           type: node.attrs.type,
@@ -25,10 +27,10 @@ const addEmbedNode = schema =>
       parseDOM: [
         {
           tag: 'embed-attrs',
-          getAttrs: dom => ({
+          getAttrs: (dom: HTMLElement) => ({
             type: dom.getAttribute('type'),
-            fields: JSON.parse(dom.getAttribute('fields')),
-            errors: JSON.parse(dom.getAttribute('errors'))
+            fields: JSON.parse(dom.getAttribute('fields') || ''),
+            errors: JSON.parse(dom.getAttribute('errors') || '')
           })
         }
       ]
@@ -53,6 +55,18 @@ const build = types => {
           state.schema.nodes.embed.create({ type, fields })
         )
       );
+    },
+    removeEmbed: (state, dispatch) => {
+      const pos = getPos();
+
+      const tr = view.state.tr.delete(pos, pos + 1);
+
+      // merge the surrounding blocks if poss
+      if (canJoin(tr.doc, pos)) {
+          tr.join(pos);
+      }
+
+      view.dispatch(tr);
     },
     plugin: new Plugin({
       state: {
