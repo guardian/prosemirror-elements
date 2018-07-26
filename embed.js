@@ -1,5 +1,5 @@
-import { Plugin } from 'prosemirror-state';
-import { buildCommands, defaultPredicate, stateToNodeView } from './helpers';
+import { buildCommands, defaultPredicate } from './helpers';
+import buildPlugin from './plugin';
 
 const addEmbedNode = schema =>
   schema.append({
@@ -10,8 +10,8 @@ const addEmbedNode = schema =>
         fields: {
           default: {}
         },
-        errors: {
-          default: []
+        hasErrors: {
+          default: false
         }
       },
       draggable: false,
@@ -36,12 +36,9 @@ const addEmbedNode = schema =>
     }
   });
 
-const { packDecos, unpackDeco } = stateToNodeView('embed');
-
 const build = (types, predicate = defaultPredicate) => {
   const typeNames = Object.keys(types);
-  const commands = buildCommands(predicate);
-
+  const plugin = buildPlugin(types, buildCommands(predicate));
   return {
     insertEmbed: (type, fields = {}) => (state, dispatch) => {
       if (typeNames.indexOf(type) === -1) {
@@ -58,67 +55,8 @@ const build = (types, predicate = defaultPredicate) => {
         )
       );
     },
-    plugin: new Plugin({
-      state: {
-        init: () => ({
-          errors: []
-        }),
-        apply: (tr, value, oldState, newState) => {
-          const errors = [];
-          newState.doc.descendants((node, pos, parent) => {
-            if (node.type.name === 'embed') {
-              errors.push(...node.attrs.errors);
-            }
-          });
-          return {
-            errors
-          };
-        }
-      },
-      props: {
-        decorations: packDecos,
-        nodeViews: {
-          embed: (initNode, view, getPos) => {
-            const dom = document.createElement('div');
-            const mount = types[initNode.attrs.type];
-
-            const update = mount(
-              dom,
-              (fields, errors = []) => {
-                view.dispatch(
-                  view.state.tr.setNodeMarkup(getPos(), null, {
-                    ...initNode.attrs,
-                    fields,
-                    errors
-                  })
-                );
-              },
-              initNode.attrs.fields,
-              commands(getPos(), view.state, view.dispatch)
-            );
-
-            return {
-              dom,
-              update: (node, decorations) => {
-                if (
-                  node.type.name === 'embed' &&
-                  node.attrs.type === initNode.attrs.type
-                ) {
-                  update(
-                    node.attrs.fields,
-                    commands(getPos(), unpackDeco(decorations), view.dispatch)
-                  );
-                  return true;
-                }
-                return false;
-              },
-              stopEvent: () => true,
-              destroy: () => null
-            };
-          }
-        }
-      }
-    })
+    hasErrors: state => plugin.getState(state).hasErrors,
+    plugin
   };
 };
 

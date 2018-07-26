@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h, Component } from 'preact';
 
 const ImageEmbed = ({
   fields: { caption, src, alt },
