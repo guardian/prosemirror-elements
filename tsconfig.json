@@ -10,7 +10,8 @@
       "rootDir": "src",
       "strictNullChecks": true,
       "noImplicitAny": true,
-      "jsxFactory": "h"
+      "jsxFactory": "h",
+      "allowSyntheticDefaultImports": true
     },
     "exclude": [
       "node_modules",

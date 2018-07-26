@@ -1,11 +1,12 @@
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import * as OrderedMap from 'orderedmap';
-import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec } from 'prosemirror-model';
+import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec, Node } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
 import image from './embeds/image/plugin';
+// For the use of 'require' here, see https://stackoverflow.com/questions/39415661/what-does-resolves-to-a-non-module-entity-and-cannot-be-imported-using-this
+import OrderedMap = require('orderedmap'); 
 
 schema.spec.nodes
 
@@ -19,7 +20,7 @@ const mySchema = new Schema({
 const parser = DOMParser.fromSchema(mySchema);
 const serializer = DOMSerializer.fromSchema(mySchema);
 
-const docToHtml = (doc: Fragment<Schema<any, "code" | "em" | "link" | "strong">>) => {
+const docToHtml = (doc: Node) => {
   const dom = serializer.serializeFragment(doc);
   const e = document.createElement('div');
   e.appendChild(dom);
@@ -36,10 +37,10 @@ const get = () => {
   const state = window.localStorage.getItem('pm');
   return state ? htmlToDoc(state) : null;
 }
-const set = (doc: Fragment<Schema<any, "code" | "em" | "link" | "strong">>) => window.localStorage.setItem('pm', docToHtml(doc));
+const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
 const { plugin: embed, insertEmbed } = build({
-  image: image()
+  image: image({ editSrc: true })
 });
 
 // window.localStorage.setItem('pm', '');
@@ -58,8 +59,9 @@ const view = new EditorView(editorElement, {
       embed
     ]
   }),
-  dispatchTransaction: tr => {
+  dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);
+    state.doc
     view.updateState(state);
     set(state.doc);
   }

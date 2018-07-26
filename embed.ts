@@ -1,8 +1,8 @@
 import { Plugin, EditorState, Transaction } from 'prosemirror-state';
-import * as OrderedMap from 'orderedmap';
 import { Schema, Node, SchemaSpec, NodeSpec } from 'prosemirror-model';
 import { canJoin } from 'prosemirror-transform';
-import { buildCommands, stateToNodeView } from './helpers';
+import { buildCommands, defaultPredicate, stateToNodeView } from './helpers';
+import OrderedMap = require('orderedmap'); 
 
 const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
   schema.append({
@@ -41,8 +41,9 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
 
 const { packDecos, unpackDeco } = stateToNodeView('embed');
 
-const build = <Schema>(types: {[pluginKey: string]: IEmbedPlugin}) => {
+const build = (types: {[pluginKey: string]: IEmbedPlugin}, predicate = defaultPredicate) => {
   const typeNames = Object.keys(types);
+  const commands = buildCommands(predicate);
 
   return {
     insertEmbed: (type: string, fields = {}) => (state: EditorState, dispatch: (tr: Transaction<Schema>) => void) => {
@@ -60,7 +61,7 @@ const build = <Schema>(types: {[pluginKey: string]: IEmbedPlugin}) => {
         )
       );
     },
-    removeEmbed: (state: EditorState, dispatch: (tr: Transaction<Schema>) => void) => {
+    removeEmbed: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const pos = getPos();
 
       const tr = state.tr.delete(pos, pos + 1);
@@ -108,7 +109,7 @@ const build = <Schema>(types: {[pluginKey: string]: IEmbedPlugin}) => {
                 );
               },
               initNode.attrs.fields,
-              buildCommands(getPos(), view.state, view.dispatch)
+              commands(getPos(), view.state, view.dispatch)
             );
 
             return {
@@ -120,11 +121,7 @@ const build = <Schema>(types: {[pluginKey: string]: IEmbedPlugin}) => {
                 ) {
                   update(
                     node.attrs.fields,
-                    buildCommands(
-                      getPos(),
-                      unpackDeco(decorations),
-                      view.dispatch
-                    )
+                    commands(getPos(), unpackDeco(decorations), view.dispatch)
                   );
                   return true;
                 }

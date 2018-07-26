@@ -1,10 +1,10 @@
 const createUpdater = () => {
-  let sub = () => {};
+  let sub: (...args: any[]) => void = () => {};
   return {
-    subscribe: fn => {
+    subscribe: (fn: (...args: any[]) => void) => {
       sub = fn;
     },
-    update: (...args) => sub(...args)
+    update: (...args: any[]) => sub(...args)
   };
 };
 
