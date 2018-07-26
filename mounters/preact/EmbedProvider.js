@@ -9,8 +9,7 @@ class EmbedProvider extends Component {
 
     this.state = {
       commands: this.props.commands,
-      fields: this.props.fields,
-      errors: []
+      fields: this.props.fields
     };
   }
 
@@ -24,31 +23,37 @@ class EmbedProvider extends Component {
         false
       )
     );
+    this.onStateChange();
   }
 
-  setState(state, notifyListeners = true) {
-    super.setState(
-      state,
-      () =>
-        notifyListeners &&
-        this.props.onStateChange(this.state.fields, this.state.errors)
+  onStateChange() {
+    this.props.onStateChange(
+      this.state.fields,
+      this.props.validate(this.state.fields)
     );
   }
 
-  updateState(fields = {}, errors = []) {
+  setState(state, notifyListeners = true) {
+    super.setState(state, () => notifyListeners && this.onStateChange());
+  }
+
+  updateState(fields = {}) {
     this.setState({
       fields: {
         ...this.state.fields,
         ...fields
-      },
-      errors
+      }
     });
   }
 
   render() {
     return (
       <EmbedWrapper name="Image" {...this.state.commands}>
-        {this.props.children[0](this.state.fields, this.updateState)}
+        {this.props.children[0](
+          this.state.fields,
+          this.props.validate(this.state.fields),
+          this.updateState
+        )}
       </EmbedWrapper>
     );
   }

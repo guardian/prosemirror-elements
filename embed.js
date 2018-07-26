@@ -10,8 +10,8 @@ const addEmbedNode = schema =>
         fields: {
           default: {}
         },
-        errors: {
-          default: []
+        hasErrors: {
+          default: false
         }
       },
       draggable: false,
@@ -55,7 +55,7 @@ const build = (types, predicate = defaultPredicate) => {
         )
       );
     },
-    getErrors: state => plugin.getState(state).errors,
+    hasErrors: state => plugin.getState(state).hasErrors,
     plugin
   };
 };

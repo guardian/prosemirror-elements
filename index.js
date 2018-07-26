@@ -4,7 +4,7 @@ import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
-import image from './embeds/image/plugin';
+import image from './embeds/image/embed';
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
@@ -32,7 +32,7 @@ const htmlToDoc = html => {
 const get = () => htmlToDoc(window.localStorage.getItem('pm'));
 const set = doc => window.localStorage.setItem('pm', docToHtml(doc));
 
-const { plugin: embed, insertEmbed, getErrors } = build({
+const { plugin: embed, insertEmbed, hasErrors } = build({
   image: image({ editSrc: true })
 });
 
@@ -46,9 +46,9 @@ const view = new EditorView(document.querySelector('#editor'), {
   dispatchTransaction: tr => {
     const state = view.state.apply(tr);
     view.updateState(state);
-    document.body.style.backgroundColor = !getErrors(state).length
-      ? 'transparent'
-      : 'red';
+    document.body.style.backgroundColor = hasErrors(state)
+      ? 'red'
+      : 'transparent';
     set(state.doc);
   }
 });
