@@ -5,8 +5,6 @@ import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
 import image from './embeds/image/embed';
-// For the use of 'require' here, see https://stackoverflow.com/questions/39415661/what-does-resolves-to-a-non-module-entity-and-cannot-be-imported-using-this
-import OrderedMap = require('orderedmap'); 
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
@@ -19,7 +17,7 @@ const parser = DOMParser.fromSchema(mySchema);
 const serializer = DOMSerializer.fromSchema(mySchema);
 
 const docToHtml = (doc: Node) => {
-  const dom = serializer.serializeFragment(doc);
+  const dom = serializer.serializeFragment(doc.content);
   const e = document.createElement('div');
   e.appendChild(dom);
   return e.innerHTML;
@@ -33,7 +31,7 @@ const htmlToDoc = (html: string) => {
 
 const get = () => {
   const state = window.localStorage.getItem('pm');
-  return state ? htmlToDoc(state) : null;
+  return state ? htmlToDoc(state) : mySchema.nodes.doc.createAndFill();
 }
 const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
@@ -41,7 +39,7 @@ const { plugin: embed, insertEmbed, hasErrors } = build({
   image: image({ editSrc: true })
 });
 
-// window.localStorage.setItem('pm', '');
+ window.localStorage.setItem('pm', '');
 
 const editorElement = document.querySelector('#editor');
 

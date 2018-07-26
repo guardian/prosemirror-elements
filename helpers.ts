@@ -12,7 +12,10 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   const [from, to] = range;
 
   let arr: Array<TNodesBetweenArgs> = [];
-  state.doc.nodesBetween(from, to, (...args: TNodesBetweenArgs) => !!arr.push(args));
+  state.doc.nodesBetween(
+    from,
+    to,
+    (node: Node<any>, pos: number, parent: Node<any>, index: number) => !!arr.push([node, pos, parent, index]));
   if (dir < 0) {
     arr.reverse();
   }
@@ -46,20 +49,20 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (pos: number, state: Ed
 
   switch (dir) {
     case 'up': {
-      const [, nextNodePos] =
+      const [, nextNodePos = null] =
         nodesBetween(state, pos, all.from).find(predicate) || [];
 
-      if (typeof nextNodePos === 'undefined') {
+      if (nextNodePos === null) {
         return null;
       }
 
       return nextNodePos;
     }
     case 'down': {
-      const [nextNode, nextNodePos] =
+      const [nextNode = null, nextNodePos = null] =
         nodesBetween(state, pos, all.to).find(predicate) || [];
 
-      if (typeof nextNodePos === 'undefined') {
+      if (nextNodePos === null || nextNode === null) {
         return null;
       }
 
@@ -148,31 +151,24 @@ const buildCommands = (predicate: TPredicate) => (pos: number, state: EditorStat
   remove: (run = true) => removeNode(pos)(state, run && dispatch)
 });
 
-const stateToNodeView = (name: string) => ({
-  packDecos: (state: EditorState) => {
-    let decorations: Decoration[] = [];
-    state.doc.descendants((node, pos) => {
-      if (node.type.name === name) {
-        decorations.push(
-          Decoration.node(
-            pos,
-            pos + 1,
-            {
-              type: 'embed',
-              state
-            },
-            {
-              inclusiveStart: false,
-              inclusiveEnd: false
-            }
-          )
-        );
-      }
-    });
-    return DecorationSet.create(state.doc, decorations);
-  },
-  unpackDeco: (decorations: Decoration[]) =>
-    decorations.find(deco => deco.type.attrs.type === name).type.attrs.state
-});
+const createDecorations = (name: string) => (state: EditorState) => {
+  let decorations: Decoration[] = [];
+  state.doc.descendants((node, pos) => {
+    if (node.type.name === name) {
+      decorations.push(
+        Decoration.node(
+          pos,
+          pos + 1,
+          { class: Math.random().toString() },
+          {
+            inclusiveStart: false,
+            inclusiveEnd: false
+          }
+        )
+      );
+    }
+  });
+  return DecorationSet.create(state.doc, decorations);
+};
 
-export { buildCommands, defaultPredicate, stateToNodeView };
+export { buildCommands, defaultPredicate, createDecorations };

@@ -1,19 +1,18 @@
-import { h, render } from 'preact';
-import mount from '../../mount';
-import EmbedProvider from './EmbedProvider';
+import { h, render, VNode } from "preact";
+import mount from "../../mount";
+import EmbedProvider from "./EmbedProvider";
 
-export default mount(
-  (consumer, validate, dom, updateState, fields, commands, updater) =>
+export default mount<VNode>(
+  (consumer, validate, dom, updateState, fields, commands, subscribe) =>
     render(
       <EmbedProvider
-        updater={updater}
+        subscribe={subscribe}
         onStateChange={updateState}
         fields={fields}
         validate={validate}
         commands={commands}
-      >
-        {consumer}
-      </EmbedProvider>,
+        consumer={consumer}
+      />,
       dom
     )
 );

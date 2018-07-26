@@ -1,19 +1,32 @@
-import { h, Component } from 'preact';
+import { h, VNode } from "preact";
+import TFields from "../../types/Fields";
 
 const ImageEmbed = ({
   fields: { caption, src, alt },
   errors,
   updateFields,
   editSrc
+}: {
+  fields: {
+    caption: string;
+    src: string;
+    alt: string;
+  };
+  errors: { [field: string]: string[] };
+  updateFields: (fields: TFields) => void;
+  editSrc: boolean;
 }) => (
   <div>
-    <img style={{ width: '250px', height: 'auto' }} src={src} alt={alt} />
+    <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
     <label>
       Caption
       <input
         type="text"
         value={caption}
-        onInput={e => updateFields({ caption: e.target.value })}
+        onInput={e =>
+          e.target instanceof HTMLInputElement &&
+          updateFields({ caption: e.target.value })
+        }
       />
     </label>
     <label>
@@ -22,7 +35,10 @@ const ImageEmbed = ({
         type="text"
         value={alt}
         style={{ borderColor: errors.alt.length ? "red" : null }}
-        onInput={e => updateFields({ alt: e.target.value })}
+        onInput={e =>
+          e.target instanceof HTMLInputElement &&
+          updateFields({ alt: e.target.value })
+        }
       />
     </label>
     {editSrc && (
@@ -31,7 +47,10 @@ const ImageEmbed = ({
         <input
           type="text"
           value={src}
-          onInput={e => updateFields({ src: e.target.value })}
+          onInput={e =>
+            e.target instanceof HTMLInputElement &&
+            updateFields({ src: e.target.value })
+          }
         />
       </label>
     )}

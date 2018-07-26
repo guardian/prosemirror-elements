@@ -1,3 +1,9 @@
+import TFields from "./types/Fields";
+import TEmbed from "./types/Embed";
+import TConsumer from "./types/Consumer";
+import TValidator from "./types/Validator";
+import { TCommands, TCommandCreator } from "./types/Commands";
+
 const createUpdater = () => {
   let sub: (...args: any[]) => void = () => {};
   return {
@@ -8,12 +14,26 @@ const createUpdater = () => {
   };
 };
 
-const mount = render => (consumer, validate) => (
-  dom,
-  updateFields,
-  fields,
-  commands
-) => {
+// @placeholder
+type TRenderer<T> = (
+  consumer: TConsumer<T, TFields>,
+  validate: TValidator<TFields>,
+  dom: HTMLElement,
+  updateState: (fields: TFields) => void,
+  fields: TFields,
+  commands: TCommands,
+  subscribe: (
+    fn: (fields: TFields, commands: ReturnType<TCommandCreator>) => void
+  ) => void
+) => void;
+
+const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
+  FieldAttrs extends TFields
+>(
+  consumer: TConsumer<RenderReturn, FieldAttrs>,
+  validate: TValidator<TFields>,
+  defaultState: FieldAttrs
+): TEmbed<FieldAttrs> => (dom, updateState, fields, commands) => {
   const updater = createUpdater();
   render(
     consumer,
@@ -23,10 +43,10 @@ const mount = render => (consumer, validate) => (
       // currently uses setTimeout to make sure the view is ready as this can
       // be called on view load
       // PR open https://github.com/ProseMirror/prosemirror-view/pull/34
-      setTimeout(() => updateFields(fields, !!validate(fields))),
-    fields,
+      setTimeout(() => updateState(fields, !!validate(fields))),
+    Object.assign(defaultState, fields),
     commands,
-    updater
+    updater.subscribe
   );
   return updater.update;
 };
