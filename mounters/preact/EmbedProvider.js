@@ -1,6 +1,12 @@
 import { h, Component } from 'preact';
 import EmbedWrapper from './EmbedWrapper';
 
+const fieldErrors = (fields, errors) =>
+  Object.keys(fields).reduce((acc, key) => ({
+    ...acc,
+    [key]: (errors || {})[key] || []
+  }));
+
 class EmbedProvider extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +57,10 @@ class EmbedProvider extends Component {
       <EmbedWrapper name="Image" {...this.state.commands}>
         {this.props.children[0](
           this.state.fields,
-          this.props.validate(this.state.fields),
+          fieldErrors(
+            this.state.fields,
+            this.props.validate(this.state.fields)
+          ),
           this.updateState
         )}
       </EmbedWrapper>
