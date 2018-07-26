@@ -1,7 +1,8 @@
-import { h } from 'preact';
+import { h, Component } from 'preact';
 
 const ImageEmbed = ({
   fields: { caption, src, alt },
+  errors,
   updateFields,
   editSrc
 }) => (
@@ -20,6 +21,7 @@ const ImageEmbed = ({
       <input
         type="text"
         value={alt}
+        style={{ borderColor: errors.alt.length ? "red" : null }}
         onInput={e => updateFields({ alt: e.target.value })}
       />
     </label>

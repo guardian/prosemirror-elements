@@ -1,8 +1,11 @@
+
 import { Plugin, EditorState, Transaction } from 'prosemirror-state';
 import { Schema, Node, SchemaSpec, NodeSpec } from 'prosemirror-model';
 import { canJoin } from 'prosemirror-transform';
 import { buildCommands, defaultPredicate, stateToNodeView } from './helpers';
 import OrderedMap = require('orderedmap'); 
+
+import buildPlugin from './plugin';
 
 const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
   schema.append({
@@ -13,8 +16,8 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
         fields: {
           default: {}
         },
-        errors: {
-          default: []
+        hasErrors: {
+          default: false
         }
       },
       draggable: false,
@@ -39,12 +42,15 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
     }
   });
 
+<<<<<<< HEAD:embed.ts
 const { packDecos, unpackDeco } = stateToNodeView('embed');
 
 const build = (types: {[pluginKey: string]: IEmbedPlugin}, predicate = defaultPredicate) => {
+=======
+const build = (types, predicate = defaultPredicate) => {
+>>>>>>> dcdd4daf46b5d6dc6f68c4fc86dd77edd9c6a16b:embed.js
   const typeNames = Object.keys(types);
-  const commands = buildCommands(predicate);
-
+  const plugin = buildPlugin(types, buildCommands(predicate));
   return {
     insertEmbed: (type: string, fields = {}) => (state: EditorState, dispatch: (tr: Transaction<Schema>) => void) => {
       if (typeNames.indexOf(type) === -1) {
@@ -61,6 +67,7 @@ const build = (types: {[pluginKey: string]: IEmbedPlugin}, predicate = defaultPr
         )
       );
     },
+<<<<<<< HEAD:embed.ts
     removeEmbed: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const pos = getPos();
 
@@ -134,6 +141,10 @@ const build = (types: {[pluginKey: string]: IEmbedPlugin}, predicate = defaultPr
         }
       }
     })
+=======
+    hasErrors: state => plugin.getState(state).hasErrors,
+    plugin
+>>>>>>> dcdd4daf46b5d6dc6f68c4fc86dd77edd9c6a16b:embed.js
   };
 };
 

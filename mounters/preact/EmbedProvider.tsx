@@ -1,11 +1,17 @@
 import { h, Component } from 'preact';
 import EmbedWrapper from './EmbedWrapper';
 
+const fieldErrors = (fields, errors) =>
+  Object.keys(fields).reduce((acc, key) => ({
+    ...acc,
+    [key]: (errors || {})[key] || []
+  }));
+
 class EmbedProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.updateFields = this.updateFields.bind(this);
+    this.updateState = this.updateState.bind(this);
 
     this.state = {
       commands: this.props.commands,
@@ -23,18 +29,21 @@ class EmbedProvider extends Component {
         false
       )
     );
+    this.onStateChange();
   }
 
-  setState(state, notifyListeners = true) {
-    super.setState(
-      state,
-      () =>
-        notifyListeners &&
-        this.props.onStateChange(this.state.fields /*  errors here */)
+  onStateChange() {
+    this.props.onStateChange(
+      this.state.fields,
+      this.props.validate(this.state.fields)
     );
   }
 
-  updateFields(fields = {}) {
+  setState(state, notifyListeners = true) {
+    super.setState(state, () => notifyListeners && this.onStateChange());
+  }
+
+  updateState(fields = {}) {
     this.setState({
       fields: {
         ...this.state.fields,
@@ -46,7 +55,14 @@ class EmbedProvider extends Component {
   render() {
     return (
       <EmbedWrapper name="Image" {...this.state.commands}>
-        {this.props.children[0](this.state.fields, this.updateFields)}
+        {this.props.children[0](
+          this.state.fields,
+          fieldErrors(
+            this.state.fields,
+            this.props.validate(this.state.fields)
+          ),
+          this.updateState
+        )}
       </EmbedWrapper>
     );
   }

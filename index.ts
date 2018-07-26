@@ -4,11 +4,9 @@ import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec, Node } from 'pros
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
-import image from './embeds/image/plugin';
+import image from './embeds/image/embed';
 // For the use of 'require' here, see https://stackoverflow.com/questions/39415661/what-does-resolves-to-a-non-module-entity-and-cannot-be-imported-using-this
 import OrderedMap = require('orderedmap'); 
-
-schema.spec.nodes
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
@@ -39,7 +37,7 @@ const get = () => {
 }
 const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
-const { plugin: embed, insertEmbed } = build({
+const { plugin: embed, insertEmbed, hasErrors } = build({
   image: image({ editSrc: true })
 });
 
@@ -54,15 +52,15 @@ if (!editorElement) {
 const view = new EditorView(editorElement, {
   state: EditorState.create({
     doc: get(),
-    plugins: [
-      ...exampleSetup({ schema: mySchema }),
-      embed
-    ]
+    plugins: [...exampleSetup({ schema: mySchema }), embed]
   }),
   dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);
     state.doc
     view.updateState(state);
+    document.body.style.backgroundColor = hasErrors(state)
+      ? 'red'
+      : 'transparent';
     set(state.doc);
   }
 });
