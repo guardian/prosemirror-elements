@@ -1,15 +1,18 @@
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Schema, DOMParser, DOMSerializer, Fragment } from 'prosemirror-model';
+import * as OrderedMap from 'orderedmap';
+import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
-import image from './image-embed';
+import image from './embeds/image/plugin';
+
+schema.spec.nodes
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
 const mySchema = new Schema({
-  nodes: addEmbedNode(schema.spec.nodes),
+  nodes: addEmbedNode(schema.spec.nodes as OrderedMap<NodeSpec>),
   marks: schema.spec.marks
 });
 

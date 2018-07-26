@@ -1,8 +1,10 @@
-import { Plugin } from 'prosemirror-state';
-import { Schema, Node } from 'prosemirror-model';
+import { Plugin, EditorState, Transaction } from 'prosemirror-state';
+import * as OrderedMap from 'orderedmap';
+import { Schema, Node, SchemaSpec, NodeSpec } from 'prosemirror-model';
 import { canJoin } from 'prosemirror-transform';
+import { buildCommands, stateToNodeView } from './helpers';
 
-const addEmbedNode = (schema: Schema) =>
+const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
   schema.append({
     embed: {
       group: 'block',
@@ -37,11 +39,13 @@ const addEmbedNode = (schema: Schema) =>
     }
   });
 
-const build = types => {
+const { packDecos, unpackDeco } = stateToNodeView('embed');
+
+const build = <Schema>(types: {[pluginKey: string]: IEmbedPlugin}) => {
   const typeNames = Object.keys(types);
 
   return {
-    insertEmbed: (type, fields = {}) => (state, dispatch) => {
+    insertEmbed: (type: string, fields = {}) => (state: EditorState, dispatch: (tr: Transaction<Schema>) => void) => {
       if (typeNames.indexOf(type) === -1) {
         throw new Error(
           `[prosemirror-embeds]: ${type} is not recognised. Only ${typeNames.join(
@@ -56,25 +60,25 @@ const build = types => {
         )
       );
     },
-    removeEmbed: (state, dispatch) => {
+    removeEmbed: (state: EditorState, dispatch: (tr: Transaction<Schema>) => void) => {
       const pos = getPos();
 
-      const tr = view.state.tr.delete(pos, pos + 1);
+      const tr = state.tr.delete(pos, pos + 1);
 
       // merge the surrounding blocks if poss
       if (canJoin(tr.doc, pos)) {
           tr.join(pos);
       }
 
-      view.dispatch(tr);
+      dispatch(tr);
     },
     plugin: new Plugin({
       state: {
         init: () => ({
           errors: []
         }),
-        apply: (tr, value, oldState, newState) => {
-          const errors = [];
+        apply: (tr: Transaction, value, oldState: EditorState, newState: EditorState) => {
+          const errors: string[] = [];
           newState.doc.descendants((node, pos, parent) => {
             if (node.type.name === 'embed') {
               errors.push(...node.attrs.errors);
@@ -86,6 +90,7 @@ const build = types => {
         }
       },
       props: {
+        decorations: packDecos,
         nodeViews: {
           embed: (initNode, view, getPos) => {
             const dom = document.createElement('div');
@@ -93,27 +98,40 @@ const build = types => {
 
             const update = mount(
               dom,
-              (fields, errors = []) => {
+              (fields: string[], errors = []) => {
                 view.dispatch(
-                  view.state.tr.setNodeMarkup(getPos(), null, {
+                  view.state.tr.setNodeMarkup(getPos(), undefined, {
                     ...initNode.attrs,
                     fields,
                     errors
                   })
                 );
               },
-              initNode.attrs.fields
+              initNode.attrs.fields,
+              buildCommands(getPos(), view.state, view.dispatch)
             );
+
             return {
               dom,
-              update: node => {
-                update(node.attrs.fields);
-                return (
+              update: (node, decorations) => {
+                if (
                   node.type.name === 'embed' &&
                   node.attrs.type === initNode.attrs.type
-                );
+                ) {
+                  update(
+                    node.attrs.fields,
+                    buildCommands(
+                      getPos(),
+                      unpackDeco(decorations),
+                      view.dispatch
+                    )
+                  );
+                  return true;
+                }
+                return false;
               },
-              stopEvent: () => true
+              stopEvent: () => true,
+              destroy: () => null
             };
           }
         }
