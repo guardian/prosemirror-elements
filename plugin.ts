@@ -1,17 +1,21 @@
 import { Plugin } from 'prosemirror-state';
-import { stateToNodeView } from './helpers';
+import { Node, Schema } from 'prosemirror-model';
+import { createDecorations, buildCommands } from './helpers';
+import Embed from './types/Embed';
+import TFields from './types/Fields';
 
-const { packDecos, unpackDeco } = stateToNodeView('embed');
+const decorations = createDecorations('embed');
 
-export default (types, commands) =>
-  new Plugin({
+export default <LocalSchema extends Schema>(types: {[embedType: string]: Embed<TFields>}, commands: ReturnType<typeof buildCommands>) => {
+  type EmbedNode = Node<LocalSchema>;
+  return new Plugin({
     state: {
       init: () => ({
         hasErrors: false
       }),
       apply: (tr, value, oldState, newState) => {
         let hasErrors = false;
-        newState.doc.descendants((node, pos, parent) => {
+        newState.doc.descendants((node: EmbedNode, pos, parent) => {
           if (node.type.name === 'embed' && !hasErrors) {
             hasErrors = node.attrs.hasErrors;
           }
@@ -22,17 +26,17 @@ export default (types, commands) =>
       }
     },
     props: {
-      decorations: packDecos,
+      decorations,
       nodeViews: {
-        embed: (initNode, view, getPos) => {
+        embed: (initNode: EmbedNode, view, getPos) => {
           const dom = document.createElement('div');
           const mount = types[initNode.attrs.type];
 
           const update = mount(
             dom,
-            (fields, hasErrors) => {
+            (fields: {[field: string]: string}, hasErrors: boolean) => {
               view.dispatch(
-                view.state.tr.setNodeMarkup(getPos(), null, {
+                view.state.tr.setNodeMarkup(getPos(), undefined, {
                   ...initNode.attrs,
                   fields,
                   hasErrors
@@ -45,14 +49,14 @@ export default (types, commands) =>
 
           return {
             dom,
-            update: (node, decorations) => {
+            update: (node: EmbedNode) => {
               if (
                 node.type.name === 'embed' &&
                 node.attrs.type === initNode.attrs.type
               ) {
                 update(
                   node.attrs.fields,
-                  commands(getPos(), unpackDeco(decorations), view.dispatch)
+                  commands(getPos(), view.state, view.dispatch)
                 );
                 return true;
               }
@@ -64,4 +68,6 @@ export default (types, commands) =>
         }
       }
     }
-  });
+  })
+}
+

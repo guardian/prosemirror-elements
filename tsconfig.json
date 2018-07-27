@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "outDir": "dist",
+      "module": "commonjs",
+      "target": "es5",
+      "lib": ["es6", "dom"],
+      "sourceMap": true,
+      "jsx": "react",
+      "moduleResolution": "node",
+      "rootDir": "./",
+      "strictNullChecks": true,
+      "noImplicitAny": true,
+      "jsxFactory": "h",
+      "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+      "node_modules",
+      "dist",
+      "scripts"
+    ]
+  }

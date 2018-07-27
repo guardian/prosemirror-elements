@@ -13,6 +13,44 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
+"@types/orderedmap@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/orderedmap/-/orderedmap-1.0.0.tgz#807455a192bba52cbbb4517044bc82bdbfa8c596"
+
+"@types/prosemirror-model@*":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-model/-/prosemirror-model-1.5.0.tgz#a37548559ec32dc77b179ca8738df44ef261a3ef"
+  dependencies:
+    "@types/orderedmap" "*"
+
+"@types/prosemirror-schema-basic@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-schema-basic/-/prosemirror-schema-basic-1.0.1.tgz#e8e0a9257f96935cea1faec554e20c16c77cac1e"
+  dependencies:
+    "@types/prosemirror-model" "*"
+
+"@types/prosemirror-state@*", "@types/prosemirror-state@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-state/-/prosemirror-state-1.2.0.tgz#c758204e8de51c9d3e3d657619258442a809a679"
+  dependencies:
+    "@types/prosemirror-model" "*"
+    "@types/prosemirror-transform" "*"
+    "@types/prosemirror-view" "*"
+
+"@types/prosemirror-transform@*", "@types/prosemirror-transform@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-transform/-/prosemirror-transform-1.1.0.tgz#6e042cbf45fdbea0c9d62201a60ac55b8c0661cf"
+  dependencies:
+    "@types/prosemirror-model" "*"
+
+"@types/prosemirror-view@*":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-view/-/prosemirror-view-1.3.0.tgz#b360b52db2c96b3dcf4b47fd9536d26501e2b1cb"
+  dependencies:
+    "@types/prosemirror-model" "*"
+    "@types/prosemirror-state" "*"
+    "@types/prosemirror-transform" "*"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -4133,6 +4171,10 @@ type-check@~0.3.2:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typescript@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 uglify-es@^3.3.9:
   version "3.3.9"

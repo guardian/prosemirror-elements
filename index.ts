@@ -1,6 +1,6 @@
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Schema, DOMParser, DOMSerializer } from 'prosemirror-model';
+import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec, Node } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
@@ -9,28 +9,31 @@ import image from './embeds/image/embed';
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
 const mySchema = new Schema({
-  nodes: addEmbedNode(schema.spec.nodes),
+  nodes: addEmbedNode(schema.spec.nodes as OrderedMap<NodeSpec>),
   marks: schema.spec.marks
 });
 
 const parser = DOMParser.fromSchema(mySchema);
 const serializer = DOMSerializer.fromSchema(mySchema);
 
-const docToHtml = doc => {
-  const dom = serializer.serializeFragment(doc);
+const docToHtml = (doc: Node) => {
+  const dom = serializer.serializeFragment(doc.content);
   const e = document.createElement('div');
   e.appendChild(dom);
   return e.innerHTML;
 };
 
-const htmlToDoc = html => {
+const htmlToDoc = (html: string) => {
   const dom = document.createElement('div');
   dom.innerHTML = html;
   return parser.parse(dom);
 };
 
-const get = () => htmlToDoc(window.localStorage.getItem('pm'));
-const set = doc => window.localStorage.setItem('pm', docToHtml(doc));
+const get = () => {
+  const state = window.localStorage.getItem('pm');
+  return state ? htmlToDoc(state) : mySchema.nodes.doc.createAndFill();
+}
+const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
 const { plugin: embed, insertEmbed, hasErrors } = build({
   image: image({ editSrc: true })
@@ -38,13 +41,20 @@ const { plugin: embed, insertEmbed, hasErrors } = build({
 
 // window.localStorage.setItem('pm', '');
 
-const view = new EditorView(document.querySelector('#editor'), {
+const editorElement = document.querySelector('#editor');
+
+if (!editorElement) {
+  throw new Error('No #editor element present in DOM');
+}
+
+const view = new EditorView(editorElement, {
   state: EditorState.create({
     doc: get(),
     plugins: [...exampleSetup({ schema: mySchema }), embed]
   }),
-  dispatchTransaction: tr => {
+  dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);
+    state.doc
     view.updateState(state);
     document.body.style.backgroundColor = hasErrors(state)
       ? 'red'
