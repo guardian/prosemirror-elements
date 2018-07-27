@@ -102,7 +102,7 @@ const moveNode = (consumerPredicate: TPredicate) => (pos: number, state: EditorS
 
   const tr = state.tr.deleteRange(pos, pos + 1);
   
-  if (node && nextPos) {
+  if (node && (nextPos || nextPos === 0)) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
     tr.insert(insertPos, node.type.create({ ...node.attrs }));
   }
