@@ -1,3 +1,3 @@
-type TErrors = {[field: string]: string[]};
+type TErrors = {[field: string]: string[]} | null;
 
 export default TErrors;

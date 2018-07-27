@@ -23,8 +23,10 @@
     "@types/prosemirror-state": "^1.2.0",
     "@types/prosemirror-transform": "^1.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "jest": "^23.4.1",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
     "parcel-bundler": "^1.9.7",
+    "prosemirror-test-builder": "^1.0.1",
     "typescript": "^2.9.2"
   }
 }

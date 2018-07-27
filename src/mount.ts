@@ -1,8 +1,9 @@
-import TFields from "./types/Fields";
-import TEmbed from "./types/Embed";
-import TConsumer from "./types/Consumer";
-import TValidator from "./types/Validator";
-import { TCommands, TCommandCreator } from "./types/Commands";
+import TFields from './types/Fields';
+import TEmbed from './types/Embed';
+import TErrors from './types/Errors';
+import TConsumer from './types/Consumer';
+import TValidator from './types/Validator';
+import { TCommands, TCommandCreator } from './types/Commands';
 
 const createUpdater = () => {
   let sub: (...args: any[]) => void = () => {};
@@ -14,10 +15,18 @@ const createUpdater = () => {
   };
 };
 
+const fieldErrors = (fields: TFields, errors: TErrors) =>
+  Object.keys(fields).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: (errors || {})[key] || []
+    }),
+    {}
+  );
+
 // @placeholder
 type TRenderer<T> = (
-  consumer: TConsumer<T, TFields>,
-  validate: TValidator<TFields>,
+  consume: (fields: TFields, updateFields: (fields: TFields) => void) => void,
   dom: HTMLElement,
   updateState: (fields: TFields) => void,
   fields: TFields,
@@ -36,8 +45,8 @@ const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
 ): TEmbed<FieldAttrs> => (dom, updateState, fields, commands) => {
   const updater = createUpdater();
   render(
-    consumer,
-    validate,
+    (fields: FieldAttrs, updateFields) =>
+      consumer(fields, fieldErrors(fields, validate(fields)), updateFields),
     dom,
     fields =>
       // currently uses setTimeout to make sure the view is ready as this can
