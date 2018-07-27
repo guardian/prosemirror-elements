@@ -3,8 +3,8 @@ import { EditorView } from 'prosemirror-view';
 import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec, Node } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
-import { addEmbedNode, build } from './embed';
-import image from './embeds/image/embed';
+import { addEmbedNode, build } from '../src/embed';
+import image from '../src/embeds/image/embed';
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
