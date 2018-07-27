@@ -30,7 +30,7 @@ class EmbedProvider extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    this.updateState = this.updateState.bind(this);
+    this.updateFields = this.updateFields.bind(this);
 
     this.state = {
       commands: this.props.commands,
