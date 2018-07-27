@@ -52,6 +52,7 @@ class EmbedProvider extends Component<IProps, IState> {
   }
 
   onStateChange() {
+    console.log('onStateChange', this.state.fields);
     this.props.onStateChange(
       this.state.fields
     );

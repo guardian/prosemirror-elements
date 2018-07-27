@@ -39,7 +39,7 @@ const { plugin: embed, insertEmbed, hasErrors } = build({
   image: image({ editSrc: true })
 });
 
- window.localStorage.setItem('pm', '');
+// window.localStorage.setItem('pm', '');
 
 const editorElement = document.querySelector('#editor');
 

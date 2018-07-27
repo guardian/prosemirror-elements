@@ -35,8 +35,8 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
           tag: 'embed-attrs',
           getAttrs: (dom: HTMLElement) => ({
             type: dom.getAttribute('type'),
-            fields: JSON.parse(dom.getAttribute('fields') || ''),
-            errors: JSON.parse(dom.getAttribute('errors') || '')
+            fields: JSON.parse(dom.getAttribute('fields') || "{}"),
+            errors: JSON.parse(dom.getAttribute('errors') || "null")
           })
         }
       ]
