@@ -39,11 +39,14 @@ class EmbedProvider extends Component<IProps, IState> {
   }
 
   componentDidMount() {
-    this.props.subscribe((fields, commands) =>
+    this.props.subscribe((fields = {}, commands) =>
       this.updateState(
         {
           commands,
-          fields
+          fields: {
+            ...this.state.fields,
+            ...fields
+          }
         },
         false
       )
