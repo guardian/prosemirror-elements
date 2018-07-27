@@ -14,7 +14,7 @@ const image = ({ editSrc = false } = {}) =>
       />
     ),
     ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
-    { caption: "dsadsa", src: "ewqewq", alt: "cxzcxz" }
+    { caption: "", src: "", alt: "" }
   );
 
 export default image;
