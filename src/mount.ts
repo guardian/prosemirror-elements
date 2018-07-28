@@ -3,17 +3,8 @@ import TEmbed from './types/Embed';
 import TErrors from './types/Errors';
 import TConsumer from './types/Consumer';
 import TValidator from './types/Validator';
-import { TCommands, TCommandCreator } from './types/Commands';
-
-const createUpdater = () => {
-  let sub: (...args: any[]) => void = () => {};
-  return {
-    subscribe: (fn: (...args: any[]) => void) => {
-      sub = fn;
-    },
-    update: (...args: any[]) => sub(...args)
-  };
-};
+import { TCommands } from './types/Commands';
+import createStore, { TState } from './createStore';
 
 const fieldErrors = (fields: TFields, errors: TErrors) =>
   Object.keys(fields).reduce(
@@ -26,38 +17,48 @@ const fieldErrors = (fields: TFields, errors: TErrors) =>
 
 // @placeholder
 type TRenderer<T> = (
-  consume: (fields: TFields, updateFields: (fields: TFields) => void) => void,
   dom: HTMLElement,
-  updateState: (fields: TFields) => void,
-  fields: TFields,
-  commands: TCommands,
-  subscribe: (
-    fn: (fields: TFields, commands: ReturnType<TCommandCreator>) => void
-  ) => void
+  initState: TState,
+  consume: (fields: TFields, commands: TCommands) => T,
+  subscribe: (fn: (state: TState) => void) => void
 ) => void;
 
-const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
-  FieldAttrs extends TFields
->(
+const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <FieldAttrs extends TFields>(
   consumer: TConsumer<RenderReturn, FieldAttrs>,
   validate: TValidator<TFields>,
-  defaultState: FieldAttrs
+  defaultFields: FieldAttrs
 ): TEmbed<FieldAttrs> => (dom, updateState, fields, commands) => {
-  const updater = createUpdater();
+  const store = createStore(Object.assign(defaultFields, fields), commands);
+
+  store.subscribe(({ fields }, rebuild) => {
+    if (rebuild) {
+      return;
+    }
+    // currently uses setTimeout to make sure the view is ready as this can
+    // be called on view load
+    // PR open https://github.com/ProseMirror/prosemirror-view/pull/34
+    setTimeout(() => updateState(fields, !!validate(fields)));
+  });
+
+  store.runSubscribers();
+
   render(
-    (fields: FieldAttrs, updateFields) =>
-      consumer(fields, fieldErrors(fields, validate(fields)), updateFields),
     dom,
-    fields =>
-      // currently uses setTimeout to make sure the view is ready as this can
-      // be called on view load
-      // PR open https://github.com/ProseMirror/prosemirror-view/pull/34
-      setTimeout(() => updateState(fields, !!validate(fields))),
-    Object.assign(defaultState, fields),
-    commands,
-    updater.subscribe
+    store.getState(),
+    (fields: FieldAttrs, commands: TCommands) =>
+      consumer(
+        fields,
+        fieldErrors(fields, validate(fields)),
+        commands,
+        store.update
+      ),
+    store.subscribe
   );
-  return updater.update;
+  return (fields: FieldAttrs, commands: TCommands) =>
+    store.rebuild({
+      fields: Object.assign(defaultFields, fields),
+      commands
+    });
 };
 
 export default mount;

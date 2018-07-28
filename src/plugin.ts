@@ -6,7 +6,10 @@ import TFields from './types/Fields';
 
 const decorations = createDecorations('embed');
 
-export default <LocalSchema extends Schema>(types: {[embedType: string]: Embed<TFields>}, commands: ReturnType<typeof buildCommands>) => {
+export default <LocalSchema extends Schema>(
+  types: { [embedType: string]: Embed<TFields> },
+  commands: ReturnType<typeof buildCommands>
+) => {
   type EmbedNode = Node<LocalSchema>;
   return new Plugin({
     state: {
@@ -34,7 +37,7 @@ export default <LocalSchema extends Schema>(types: {[embedType: string]: Embed<T
 
           const update = mount(
             dom,
-            (fields: {[field: string]: string}, hasErrors: boolean) => {
+            (fields: { [field: string]: string }, hasErrors: boolean) => {
               view.dispatch(
                 view.state.tr.setNodeMarkup(getPos(), undefined, {
                   ...initNode.attrs,
@@ -68,6 +71,5 @@ export default <LocalSchema extends Schema>(types: {[embedType: string]: Embed<T
         }
       }
     }
-  })
-}
-
+  });
+};

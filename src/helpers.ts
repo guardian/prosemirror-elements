@@ -1,7 +1,7 @@
-import { AllSelection, EditorState, Transaction, } from 'prosemirror-state';
+import { AllSelection, EditorState, Transaction } from 'prosemirror-state';
 // import { canJoin } from 'prosemirror-transform';
 import { DecorationSet, Decoration } from 'prosemirror-view';
-import { Node } from 'prosemirror-model'
+import { Node } from 'prosemirror-model';
 
 type TNodesBetweenArgs = [Node<any>, number, Node<any>, number];
 
@@ -15,15 +15,22 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   state.doc.nodesBetween(
     from,
     to,
-    (node: Node<any>, pos: number, parent: Node<any>, index: number) => !!arr.push([node, pos, parent, index]));
+    (node: Node<any>, pos: number, parent: Node<any>, index: number) =>
+      !!arr.push([node, pos, parent, index])
+  );
   if (dir < 0) {
     arr.reverse();
   }
   return arr;
 };
 
-type TPredicate = (node: Node<any>, pos: number, parent: Node<any>, index?: number) => boolean
-type TDirection = 'up'|'down'|'top'|'bottom';
+type TPredicate = (
+  node: Node<any>,
+  pos: number,
+  parent: Node<any>,
+  index?: number
+) => boolean;
+type TDirection = 'up' | 'down' | 'top' | 'bottom';
 
 const defaultPredicate: TPredicate = (node: Node, pos: number, parent: Node) =>
   parent.type.name === 'doc' &&
@@ -43,7 +50,11 @@ const findPredicate = (consumerPredicate: TPredicate, currentPos: number) => ([
     candidateIndex
   );
 
-const nextPosFinder = (consumerPredicate: TPredicate) => (pos: number, state: EditorState, dir: TDirection) => {
+const nextPosFinder = (consumerPredicate: TPredicate) => (
+  pos: number,
+  state: EditorState,
+  dir: TDirection
+) => {
   const all = new AllSelection(state.doc);
   const predicate = findPredicate(consumerPredicate, pos);
 
@@ -87,7 +98,12 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (pos: number, state: Ed
   }
 };
 
-const moveNode = (consumerPredicate: TPredicate) => (pos: number, state: EditorState, dispatch: ((tr: Transaction) => void) | false, dir: TDirection) => {
+const moveNode = (consumerPredicate: TPredicate) => (
+  pos: number,
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false,
+  dir: TDirection
+) => {
   const nextPos = nextPosFinder(consumerPredicate)(pos, state, dir);
 
   if (nextPos === null) {
@@ -101,7 +117,7 @@ const moveNode = (consumerPredicate: TPredicate) => (pos: number, state: EditorS
   const { node } = state.doc.childAfter(pos);
 
   const tr = state.tr.deleteRange(pos, pos + 1);
-  
+
   if (node && (nextPos || nextPos === 0)) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
     tr.insert(insertPos, node.type.create({ ...node.attrs }));
@@ -118,19 +134,31 @@ const moveNode = (consumerPredicate: TPredicate) => (pos: number, state: EditorS
   dispatch(tr);
 };
 
-const moveNodeUp = (predicate: TPredicate) => (pos: number) => (state: EditorState, dispatch: ((tr: Transaction) => void) | false) =>
-  moveNode(predicate)(pos, state, dispatch, 'up');
+const moveNodeUp = (predicate: TPredicate) => (pos: number) => (
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => moveNode(predicate)(pos, state, dispatch, 'up');
 
-const moveNodeDown = (predicate: TPredicate) => (pos: number) => (state: EditorState, dispatch: ((tr: Transaction) => void) | false) =>
-  moveNode(predicate)(pos, state, dispatch, 'down');
+const moveNodeDown = (predicate: TPredicate) => (pos: number) => (
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => moveNode(predicate)(pos, state, dispatch, 'down');
 
-const moveNodeTop = (predicate: TPredicate) => (pos: number) => (state: EditorState, dispatch: ((tr: Transaction) => void) | false) =>
-  moveNode(predicate)(pos, state, dispatch, 'top');
+const moveNodeTop = (predicate: TPredicate) => (pos: number) => (
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => moveNode(predicate)(pos, state, dispatch, 'top');
 
-const moveNodeBottom = (predicate: TPredicate) => (pos: number) => (state: EditorState, dispatch: ((tr: Transaction) => void) | false) =>
-  moveNode(predicate)(pos, state, dispatch, 'bottom');
+const moveNodeBottom = (predicate: TPredicate) => (pos: number) => (
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => moveNode(predicate)(pos, state, dispatch, 'bottom');
 
-const buildMoveCommands = (predicate: TPredicate) => (pos: number, state: EditorState, dispatch: ((tr: Transaction) => void) | false) => ({
+const buildMoveCommands = (predicate: TPredicate) => (
+  pos: number,
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => ({
   moveUp: (run = true) => moveNodeUp(predicate)(pos)(state, run && dispatch),
   moveDown: (run = true) =>
     moveNodeDown(predicate)(pos)(state, run && dispatch),
@@ -139,14 +167,21 @@ const buildMoveCommands = (predicate: TPredicate) => (pos: number, state: Editor
     moveNodeBottom(predicate)(pos)(state, run && dispatch)
 });
 
-const removeNode = (pos: number) => (state: EditorState, dispatch: ((tr: Transaction) => void) | false) => {
+const removeNode = (pos: number) => (
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => {
   if (!dispatch) {
     return true;
   }
   dispatch(state.tr.deleteRange(pos, pos + 1));
 };
 
-const buildCommands = (predicate: TPredicate) => (pos: number, state: EditorState, dispatch: (tr: Transaction) => void) => ({
+const buildCommands = (predicate: TPredicate) => (
+  pos: number,
+  state: EditorState,
+  dispatch: (tr: Transaction) => void
+) => ({
   ...buildMoveCommands(predicate)(pos, state, dispatch),
   remove: (run = true) => removeNode(pos)(state, run && dispatch)
 });

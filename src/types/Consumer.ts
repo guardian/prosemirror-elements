@@ -1,9 +1,15 @@
 import TFields from "./Fields";
 import TErrors from "./Errors";
+import { TCommands } from "./Commands";
+
+type TFieldErrors = {
+  [key: string]: string[]
+};
 
 type TConsumer<ConsumerResult, FieldAttrs extends TFields> = (
   fields: FieldAttrs,
-  errors: TErrors,
+  errors: TFieldErrors,
+  commands: TCommands,
   updateFields: (fields: FieldAttrs) => void
 ) => ConsumerResult;
 

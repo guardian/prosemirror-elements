@@ -1,15 +1,12 @@
 import { h, Component, VNode } from 'preact';
-import EmbedWrapper from './EmbedWrapper';
 import TFields from '../../types/Fields';
 import { TCommands } from '../../types/Commands';
-import Consumer from '../../types/Consumer';
+import { TState } from '../../createStore';
 
 type IProps = {
-  subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
-  commands: TCommands;
-  fields: TFields;
-  onStateChange: (fields: TFields) => void;
-  consume: (fields: TFields, updateFields: (fields: TFields) => void) => void;
+  initState: TState;
+  subscribe: (fn: (state: TState) => void) => void;
+  consume: (fields: TFields, commands: TCommands) => VNode;
 };
 
 type IState = {
@@ -17,63 +14,18 @@ type IState = {
   fields: TFields;
 };
 
-class EmbedProvider extends Component<IProps, IState> {
+class EmbedProvider extends Component<IProps, TState> {
   constructor(props: IProps) {
     super(props);
-
-    this.updateFields = this.updateFields.bind(this);
-
-    this.state = {
-      commands: this.props.commands,
-      fields: this.props.fields
-    };
+    this.state = this.props.initState;
   }
 
   componentDidMount() {
-    this.props.subscribe((fields = {}, commands) =>
-      this.updateState(
-        {
-          commands,
-          fields: {
-            ...this.state.fields,
-            ...fields
-          }
-        },
-        false
-      )
-    );
-    this.onStateChange();
-  }
-
-  onStateChange() {
-    this.props.onStateChange(this.state.fields);
-  }
-
-  updateState(state: Partial<IState>, notifyListeners: boolean) {
-    this.setState(
-      { ...this.state, ...state },
-      () => notifyListeners && this.onStateChange()
-    );
-  }
-
-  updateFields(fields = {}) {
-    this.updateState(
-      {
-        fields: {
-          ...this.state.fields,
-          ...fields
-        }
-      },
-      true
-    );
+    this.props.subscribe(state => this.setState(state));
   }
 
   render() {
-    return (
-      <EmbedWrapper name="Image" {...this.state.commands}>
-        {this.props.consume(this.state.fields, this.updateFields)}
-      </EmbedWrapper>
-    );
+    return this.props.consume(this.state.fields, this.state.commands);
   }
 }
 

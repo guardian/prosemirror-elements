@@ -1,5 +1,5 @@
 import { h, VNode } from 'preact';
-import { TCommandCreator } from '../../types/Commands';
+import { TCommandCreator } from '../types/Commands';
 
 type Commands = ReturnType<TCommandCreator>;
 
