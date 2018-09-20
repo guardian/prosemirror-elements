@@ -1,5 +1,5 @@
-import { h, VNode } from "preact";
-import TFields from "../../types/Fields";
+import { h, VNode } from 'preact';
+import TFields from '../../types/Fields';
 
 const ImageEmbed = ({
   fields: { caption, src, alt },
@@ -17,7 +17,7 @@ const ImageEmbed = ({
   editSrc: boolean;
 }) => (
   <div>
-    <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
+    <img style={{ width: '250px', height: 'auto' }} src={src} alt={alt} />
     <label>
       Caption
       <input
@@ -34,7 +34,7 @@ const ImageEmbed = ({
       <input
         type="text"
         value={alt}
-        style={{ borderColor: errors.alt.length ? "red" : null }}
+        style={{ borderColor: errors.alt.length ? 'red' : null }}
         onInput={e =>
           e.target instanceof HTMLInputElement &&
           updateFields({ alt: e.target.value })

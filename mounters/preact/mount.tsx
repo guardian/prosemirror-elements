@@ -1,6 +1,6 @@
-import { h, render, VNode } from "preact";
-import mount from "../../mount";
-import EmbedProvider from "./EmbedProvider";
+import { h, render, VNode } from 'preact';
+import mount from '../../mount';
+import EmbedProvider from './EmbedProvider';
 
 export default mount<VNode>(
   (consumer, validate, dom, updateState, fields, commands, subscribe) =>

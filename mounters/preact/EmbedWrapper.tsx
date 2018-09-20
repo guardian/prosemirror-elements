@@ -12,8 +12,8 @@ const EmbedWrapper = ({
   remove,
   children
 }: {
-  name: string,
-  children?: VNode
+  name: string;
+  children?: VNode;
 } & ReturnType<TCommandCreator>) => (
   <div>
     <div>{name}</div>

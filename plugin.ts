@@ -11,22 +11,29 @@ export default <LocalSchema extends Schema>(
   commands: ReturnType<typeof buildCommands>
 ) => {
   type EmbedNode = Node<LocalSchema>;
+
+  const hasErrors = (doc: Node) => {
+    let foundError = false;
+    doc.descendants((node: EmbedNode, pos, parent) => {
+      if (!foundError) {
+        if (node.type.name === 'embed') {
+          foundError = node.attrs.hasErrors;
+        }
+      } else {
+        return false;
+      }
+    });
+    return foundError;
+  };
+
   return new Plugin({
     state: {
-      init: () => ({
-        hasErrors: false
+      init: (_, state) => ({
+        hasErrors: hasErrors(state.doc)
       }),
-      apply: (tr, value, oldState, newState) => {
-        let hasErrors = false;
-        newState.doc.descendants((node: EmbedNode, pos, parent) => {
-          if (node.type.name === 'embed' && !hasErrors) {
-            hasErrors = node.attrs.hasErrors;
-          }
-        });
-        return {
-          hasErrors
-        };
-      }
+      apply: (tr, value, oldState, state) => ({
+        hasErrors: hasErrors(state.doc)
+      })
     },
     props: {
       decorations,

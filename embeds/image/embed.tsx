@@ -1,7 +1,7 @@
-import { h } from "preact";
-import preactMount from "../../mounters/preact/mount";
-import ImageEmbed from "./ImageEmbed";
-import TImageFields from "./types/Fields";
+import { h } from 'preact';
+import preactMount from '../../mounters/preact/mount';
+import ImageEmbed from './ImageEmbed';
+import TImageFields from './types/Fields';
 
 const image = ({ editSrc = false } = {}) =>
   preactMount<TImageFields>(
@@ -13,8 +13,8 @@ const image = ({ editSrc = false } = {}) =>
         editSrc={editSrc}
       />
     ),
-    ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
-    { caption: "", src: "", alt: "" }
+    ({ alt }) => (alt ? null : { alt: ['Alt tag must be set'] }),
+    { caption: '', src: '', alt: '' }
   );
 
 export default image;

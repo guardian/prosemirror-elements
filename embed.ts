@@ -1,8 +1,6 @@
-
-import { Plugin, EditorState, Transaction } from 'prosemirror-state';
-import { Schema, Node, SchemaSpec, NodeSpec } from 'prosemirror-model';
-import { canJoin } from 'prosemirror-transform';
-import { buildCommands, defaultPredicate, createDecorations } from './helpers';
+import { EditorState, Transaction } from 'prosemirror-state';
+import { Schema, Node, NodeSpec } from 'prosemirror-model';
+import { buildCommands, defaultPredicate } from './helpers';
 import Embed from './types/Embed';
 
 import buildPlugin from './plugin';
@@ -27,27 +25,36 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
         {
           type: node.attrs.type,
           fields: JSON.stringify(node.attrs.fields),
-          errors: JSON.stringify(node.attrs.errors)
+          'has-errors': JSON.stringify(node.attrs.hasErrors)
         }
       ],
       parseDOM: [
         {
           tag: 'embed-attrs',
-          getAttrs: (dom: HTMLElement) => ({
-            type: dom.getAttribute('type'),
-            fields: JSON.parse(dom.getAttribute('fields') || "{}"),
-            errors: JSON.parse(dom.getAttribute('errors') || "null")
-          })
+          getAttrs: (dom: HTMLElement) => {
+            const hasErrorAttr = dom.getAttribute('has-errors');
+            return {
+              type: dom.getAttribute('type'),
+              fields: JSON.parse(dom.getAttribute('fields') || '{}'),
+              hasErrors: hasErrorAttr && hasErrorAttr !== 'false'
+            };
+          }
         }
       ]
     }
   });
 
-const build = (types: {[pluginKey: string]: Embed<TFields>}, predicate = defaultPredicate) => {
+const build = (
+  types: { [pluginKey: string]: Embed<TFields> },
+  predicate = defaultPredicate
+) => {
   const typeNames = Object.keys(types);
   const plugin = buildPlugin(types, buildCommands(predicate));
   return {
-    insertEmbed: (type: string, fields = {}) => (state: EditorState, dispatch: (tr: Transaction<Schema>) => void) => {
+    insertEmbed: (type: string, fields = {}) => (
+      state: EditorState,
+      dispatch: (tr: Transaction<Schema>) => void
+    ) => {
       if (typeNames.indexOf(type) === -1) {
         throw new Error(
           `[prosemirror-embeds]: ${type} is not recognised. Only ${typeNames.join(

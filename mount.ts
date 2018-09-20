@@ -39,11 +39,7 @@ const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
     consumer,
     validate,
     dom,
-    fields =>
-      // currently uses setTimeout to make sure the view is ready as this can
-      // be called on view load
-      // PR open https://github.com/ProseMirror/prosemirror-view/pull/34
-      setTimeout(() => updateState(fields, !!validate(fields))),
+    fields => updateState(fields, !!validate(fields)),
     Object.assign(defaultState, fields),
     commands,
     updater.subscribe

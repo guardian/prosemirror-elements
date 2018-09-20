@@ -1,6 +1,12 @@
 import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Schema, DOMParser, DOMSerializer, Fragment, NodeSpec, Node } from 'prosemirror-model';
+import {
+  Schema,
+  DOMParser,
+  DOMSerializer,
+  NodeSpec,
+  Node
+} from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
@@ -32,7 +38,7 @@ const htmlToDoc = (html: string) => {
 const get = () => {
   const state = window.localStorage.getItem('pm');
   return state ? htmlToDoc(state) : mySchema.nodes.doc.createAndFill();
-}
+};
 const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
 const { plugin: embed, insertEmbed, hasErrors } = build({
@@ -47,6 +53,12 @@ if (!editorElement) {
   throw new Error('No #editor element present in DOM');
 }
 
+const highlightErrors = (state: EditorState) => {
+  document.body.style.backgroundColor = hasErrors(state)
+    ? 'red'
+    : 'transparent';
+};
+
 const view = new EditorView(editorElement, {
   state: EditorState.create({
     doc: get(),
@@ -54,14 +66,13 @@ const view = new EditorView(editorElement, {
   }),
   dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);
-    state.doc
     view.updateState(state);
-    document.body.style.backgroundColor = hasErrors(state)
-      ? 'red'
-      : 'transparent';
+    highlightErrors(state);
     set(state.doc);
   }
 });
+
+highlightErrors(view.state);
 
 const insertImageEmbed = insertEmbed('image');
 
