@@ -63,34 +63,20 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
       const [, nextNodePos = null] =
         nodesBetween(state, pos, all.from).find(predicate) || [];
 
-      if (nextNodePos === null) {
-        return null;
-      }
-
       return nextNodePos;
     }
     case 'down': {
       const [nextNode = null, nextNodePos = null] =
         nodesBetween(state, pos, all.to).find(predicate) || [];
 
-      if (nextNodePos === null || nextNode === null) {
-        return null;
-      }
-
-      return nextNodePos + nextNode.nodeSize;
+      return nextNodePos && nextNode && nextNodePos + nextNode.nodeSize;
     }
     case 'top': {
-      if (pos === all.from) {
-        return null;
-      }
-      return all.from;
+      return pos === all.from ? null : all.from;
     }
     case 'bottom': {
       // as this is a node view the end is just pos + 1
-      if (pos + 1 === all.to) {
-        return null;
-      }
-      return all.to;
+      return pos + 1 === all.to ? null : all.to;
     }
     default: {
       console.warn(`Unknown direction: ${dir}`);
@@ -171,12 +157,7 @@ const buildMoveCommands = (predicate: TPredicate) => (
 const removeNode = (pos: number) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
-) => {
-  if (!dispatch) {
-    return true;
-  }
-  dispatch(state.tr.deleteRange(pos, pos + 1));
-};
+) => (dispatch ? dispatch(state.tr.deleteRange(pos, pos + 1)) : true);
 
 const buildCommands = (predicate: TPredicate) => (
   pos: number,
@@ -187,6 +168,8 @@ const buildCommands = (predicate: TPredicate) => (
   remove: (run = true) => removeNode(pos)(state, run && dispatch)
 });
 
+// this forces our view to update every time an edit is made by inserting
+// a decoration right on top of it and updating it's attributes
 const createDecorations = (name: string) => (state: EditorState) => {
   let decorations: Decoration[] = [];
   state.doc.descendants((node, pos) => {
@@ -195,8 +178,9 @@ const createDecorations = (name: string) => (state: EditorState) => {
         Decoration.node(
           pos,
           pos + 1,
-          { class: Math.random().toString() },
+          {},
           {
+            key: Math.random().toString(),
             inclusiveStart: false,
             inclusiveEnd: false
           }
