@@ -11,7 +11,8 @@
       "strictNullChecks": true,
       "noImplicitAny": true,
       "jsxFactory": "h",
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "noEmit": true
     },
     "exclude": [
       "node_modules",

@@ -119,6 +119,7 @@ const moveNode = (consumerPredicate: TPredicate) => (
   // }
 
   dispatch(tr);
+  return true;
 };
 
 const moveNodeUp = (predicate: TPredicate) => (pos: number) => (

@@ -1,4 +1,4 @@
-import { h, VNode } from 'preact';
+import { h } from 'preact';
 import TFields from '../../types/Fields';
 
 const ImageEmbed = ({
