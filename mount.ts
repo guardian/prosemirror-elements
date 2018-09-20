@@ -40,7 +40,7 @@ const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
     validate,
     dom,
     fields => updateState(fields, !!validate(fields)),
-    Object.assign(defaultState, fields),
+    Object.assign({}, defaultState, fields),
     commands,
     updater.subscribe
   );

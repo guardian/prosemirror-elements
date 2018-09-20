@@ -8,8 +8,11 @@
   },
   "dependencies": {
     "babel-preset-preact": "^1.1.0",
+    "emotion": "^9.2.10",
     "preact": "^8.2.9",
     "preact-dom": "^1.0.1",
+    "preact-emotion": "^9.2.10",
+    "prop-types": "^15.6.2",
     "prosemirror-example-setup": "^1.0.1",
     "prosemirror-model": "^1.6.0",
     "prosemirror-schema-basic": "^1.0.0",
