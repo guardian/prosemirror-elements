@@ -54,7 +54,7 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
   pos: number,
   state: EditorState,
   dir: TDirection
-) => {
+): number | null => {
   const all = new AllSelection(state.doc);
   const predicate = findPredicate(consumerPredicate, pos);
 
@@ -81,13 +81,14 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
     }
     case 'top': {
       if (pos === all.from) {
-        return false;
+        return null;
       }
       return all.from;
     }
     case 'bottom': {
-      if (pos === all.to) {
-        return false;
+      // as this is a node view the end is just pos + 1
+      if (pos + 1 === all.to) {
+        return null;
       }
       return all.to;
     }
