@@ -16,7 +16,7 @@ const fieldErrors = (fields: TFields, errors: TErrors | null) =>
   );
 
 type IProps = {
-  subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
+  subscribe: (fn: (fields: TFields) => void) => void;
   commands: TCommands;
   fields: TFields;
   onStateChange: (fields: TFields) => void;
@@ -24,71 +24,38 @@ type IProps = {
   consumer: Consumer<VNode, TFields>;
 };
 
-type IState = {
-  commands: TCommands;
-  fields: TFields;
-};
+type IState = TFields;
 
 class EmbedProvider extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-
-    this.updateFields = this.updateFields.bind(this);
-
-    this.state = {
-      commands: this.props.commands,
-      fields: this.props.fields
-    };
+    this.state = this.props.fields;
   }
 
   componentDidMount() {
-    this.props.subscribe((fields = {}, commands) =>
-      this.updateState(
-        {
-          commands,
-          fields: {
-            ...this.state.fields,
-            ...fields
-          }
-        },
-        false
-      )
-    );
+    this.props.subscribe((fields = {}) => this.updateState(fields, false));
   }
 
-  onStateChange() {
+  private onStateChange() {
     console.log('onStateChange', this.state.fields);
-    this.props.onStateChange(this.state.fields);
+    this.props.onStateChange(this.state);
   }
 
-  updateState(state: Partial<IState>, notifyListeners: boolean) {
-    this.setState(
-      { ...this.state, ...state },
-      () => notifyListeners && this.onStateChange()
-    );
+  private updateState(
+    state: Pick<IState, string | number>,
+    notifyListeners: boolean
+  ) {
+    this.setState(state, () => notifyListeners && this.onStateChange());
   }
 
-  updateFields(fields = {}) {
-    this.updateState(
-      {
-        fields: {
-          ...this.state.fields,
-          ...fields
-        }
-      },
-      true
-    );
-  }
+  updateFields = (fields = {}) => this.updateState(fields, true);
 
   render() {
     return (
-      <EmbedWrapper name="Image" {...this.state.commands}>
+      <EmbedWrapper name="Image" {...this.props.commands}>
         {this.props.consumer(
-          this.state.fields,
-          fieldErrors(
-            this.state.fields,
-            this.props.validate(this.state.fields)
-          ),
+          this.state,
+          fieldErrors(this.state, this.props.validate(this.state)),
           this.updateFields
         )}
       </EmbedWrapper>

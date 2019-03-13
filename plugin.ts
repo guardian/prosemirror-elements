@@ -4,19 +4,20 @@ import { createDecorations, buildCommands } from './helpers';
 import Embed from './types/Embed';
 import TFields from './types/Fields';
 
-const decorations = createDecorations('embed');
-
 export default <LocalSchema extends Schema>(
   types: { [embedType: string]: Embed<TFields> },
-  commands: ReturnType<typeof buildCommands>
+  commands: ReturnType<typeof buildCommands>,
+  nodeName = 'embed'
 ) => {
   type EmbedNode = Node<LocalSchema>;
+
+  const decorations = createDecorations(nodeName);
 
   const hasErrors = (doc: Node) => {
     let foundError = false;
     doc.descendants((node: EmbedNode, pos, parent) => {
       if (!foundError) {
-        if (node.type.name === 'embed') {
+        if (node.type.name === nodeName) {
           foundError = node.attrs.hasErrors;
         }
       } else {
@@ -36,45 +37,40 @@ export default <LocalSchema extends Schema>(
       })
     },
     props: {
+      // these decos force a redraw on every transaction in order to
+      // make sure the `commands(false)` run again to check whether they can be run
+      // this feels wildly inefficient but I hope whatever is rendering below here
+      // has got our back
       decorations,
       nodeViews: {
         embed: (initNode: EmbedNode, view, getPos) => {
           const dom = document.createElement('div');
           dom.contentEditable = 'false';
           const mount = types[initNode.attrs.type];
-
-          console.log(view.state.doc);
+          const cmds = commands(getPos, view);
 
           const update = mount(
             dom,
             (fields: { [field: string]: string }, hasErrors: boolean) => {
               view.dispatch(
                 view.state.tr.setNodeMarkup(getPos(), undefined, {
-                  ...initNode.attrs,
+                  type: initNode.attrs.type,
                   fields,
                   hasErrors
                 })
               );
             },
             initNode.attrs.fields,
-            commands(getPos(), view.state, view.dispatch)
+            cmds
           );
 
           return {
             dom,
-            update: (node: EmbedNode) => {
-              if (
-                node.type.name === 'embed' &&
-                node.attrs.type === initNode.attrs.type
-              ) {
-                update(
-                  node.attrs.fields,
-                  commands(getPos(), view.state, view.dispatch)
-                );
-                return true;
-              }
-              return false;
-            },
+            update: (node: EmbedNode) =>
+              node.type.name === nodeName &&
+              node.attrs.type === initNode.attrs.type
+                ? (update(node.attrs.fields), true)
+                : false,
             stopEvent: () => true,
             destroy: () => null
           };

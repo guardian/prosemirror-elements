@@ -6,9 +6,9 @@ import Embed from './types/Embed';
 import buildPlugin from './plugin';
 import TFields from './types/Fields';
 
-const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
+const addEmbedNode = (schema: OrderedMap<NodeSpec>, nodeName = 'embed') =>
   schema.append({
-    embed: {
+    [nodeName]: {
       group: 'block',
       attrs: {
         type: {},

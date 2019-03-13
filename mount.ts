@@ -1,8 +1,8 @@
-import TFields from "./types/Fields";
-import TEmbed from "./types/Embed";
-import TConsumer from "./types/Consumer";
-import TValidator from "./types/Validator";
-import { TCommands, TCommandCreator } from "./types/Commands";
+import TFields from './types/Fields';
+import TEmbed from './types/Embed';
+import TConsumer from './types/Consumer';
+import TValidator from './types/Validator';
+import { TCommands } from './types/Commands';
 
 const createUpdater = () => {
   let sub: (...args: any[]) => void = () => {};
@@ -22,9 +22,7 @@ type TRenderer<T> = (
   updateState: (fields: TFields) => void,
   fields: TFields,
   commands: TCommands,
-  subscribe: (
-    fn: (fields: TFields, commands: ReturnType<TCommandCreator>) => void
-  ) => void
+  subscribe: (fn: (fields: TFields) => void) => void
 ) => void;
 
 const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
@@ -40,7 +38,10 @@ const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
     validate,
     dom,
     fields => updateState(fields, !!validate(fields)),
-    Object.assign({}, defaultState, fields),
+    {
+      ...defaultState,
+      ...fields
+    },
     commands,
     updater.subscribe
   );
