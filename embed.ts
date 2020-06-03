@@ -45,18 +45,19 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
     }
   });
 
-const build = (
-  types: { [pluginKey: string]: Embed<TFields> },
+const build = <TEmbedMap extends Record<string, Embed<TFields>>>(
+  types: TEmbedMap,
   predicate = defaultPredicate
 ) => {
+  type EmbedKeys = keyof TEmbedMap;
   const typeNames = Object.keys(types);
   const plugin = buildPlugin(types, buildCommands(predicate));
   return {
-    insertEmbed: (type: string, fields = {}) => (
+    insertEmbed: (type: EmbedKeys, fields = {}) => (
       state: EditorState,
       dispatch: (tr: Transaction<Schema>) => void
     ) => {
-      if (typeNames.indexOf(type) === -1) {
+      if (typeNames.indexOf(type.toString()) === -1) {
         throw new Error(
           `[prosemirror-embeds]: ${type} is not recognised. Only ${typeNames.join(
             ', '
