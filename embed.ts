@@ -47,13 +47,13 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
 /**
  * Creates an plugin responsible for the display and management of Embeds.
  *
- * Embeds are atomic entities that represent novel content in the document –
- * for example, images, videos, or iFramed content.
- *
- * For the creation of Embeds, see the `createEmbed` method.
+ * Embeds are atomic entities that represent novel content in the document – for
+ * example, images, videos, or iFramed content. See `/embeds` for functions to
+ * construct them.
  *
  * @param types A map from an embed name to an Embed.
- * @param isValidMoveNode A predicate used to determine which nodes should be considered when move commands are issued.
+ * @param isValidMoveNode A predicate used to determine which nodes should be
+ *  considered when move commands are issued.
  */
 const createPlugin = <TEmbedMap extends Record<string, Embed<TFields>>>(
   types: TEmbedMap,
