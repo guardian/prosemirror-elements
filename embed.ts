@@ -1,12 +1,12 @@
 import { EditorState, Transaction } from 'prosemirror-state';
 import { Schema, Node, NodeSpec } from 'prosemirror-model';
-import { buildCommands, defaultPredicate } from './helpers';
+import { buildCommands, defaultPredicate as defaultIsValidMoveNode } from './helpers';
 import Embed from './types/Embed';
 
 import buildPlugin from './plugin';
 import TFields from './types/Fields';
 
-const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
+const addEmbedNode = (schema: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
   schema.append({
     embed: {
       group: 'block',
@@ -45,13 +45,24 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
     }
   });
 
-const build = <TEmbedMap extends Record<string, Embed<TFields>>>(
+/**
+ * Creates an plugin responsible for the display and management of Embeds.
+ *
+ * Embeds are atomic entities that represent novel content in the document –
+ * for example, images, videos, or iFramed content.
+ *
+ * For the creation of Embeds, see the `createEmbed` method.
+ *
+ * @param types A map from an embed name to an Embed.
+ * @param isValidMoveNode A predicate used to determine which nodes should be considered when move commands are issued.
+ */
+const createPlugin = <TEmbedMap extends Record<string, Embed<TFields>>>(
   types: TEmbedMap,
-  predicate = defaultPredicate
+  isValidMoveNode = defaultIsValidMoveNode
 ) => {
   type EmbedKeys = keyof TEmbedMap;
   const typeNames = Object.keys(types);
-  const plugin = buildPlugin(types, buildCommands(predicate));
+  const plugin = buildPlugin(types, buildCommands(isValidMoveNode));
   return {
     insertEmbed: (type: EmbedKeys, fields = {}) => (
       state: EditorState,
@@ -76,4 +87,4 @@ const build = <TEmbedMap extends Record<string, Embed<TFields>>>(
   };
 };
 
-export { build, addEmbedNode };
+export { createPlugin, addEmbedNode };

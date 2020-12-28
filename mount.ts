@@ -33,14 +33,14 @@ const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
   consumer: TConsumer<RenderReturn, FieldAttrs>,
   validate: TValidator<TFields>,
   defaultState: FieldAttrs
-): TEmbed<FieldAttrs> => (dom, updateState, fields, commands) => {
+): TEmbed<FieldAttrs> => (dom, updateState, prosemirrorFields, commands) => {
   const updater = createUpdater();
   render(
     consumer,
     validate,
     dom,
-    fields => updateState(fields, !!validate(fields)),
-    Object.assign({}, defaultState, fields),
+    componentFields => updateState(componentFields, !!validate(componentFields)),
+    Object.assign({}, defaultState, prosemirrorFields),
     commands,
     updater.subscribe
   );

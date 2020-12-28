@@ -9,7 +9,7 @@ import {
 } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
-import { addEmbedNode, build } from './embed';
+import { addEmbedNode, createPlugin } from './embed';
 import image from './embeds/image/embed';
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
@@ -41,7 +41,7 @@ const get = () => {
 };
 const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
-const { plugin: embed, insertEmbed, hasErrors } = build({
+const { plugin: embed, insertEmbed, hasErrors } = createPlugin({
   image: image({ editSrc: true })
 });
 
@@ -71,6 +71,8 @@ const view = new EditorView(editorElement, {
     set(state.doc);
   }
 });
+
+ProseMirrorDevTools.applyDevTools(view, { EditorState: EditorState });
 
 highlightErrors(view.state);
 

@@ -10,11 +10,11 @@ export default <LocalSchema extends Schema>(
   types: { [embedType: string]: Embed<TFields> },
   commands: ReturnType<typeof buildCommands>
 ) => {
-  type EmbedNode = Node<LocalSchema>;
+  type TNode = Node<LocalSchema>;
 
   const hasErrors = (doc: Node) => {
     let foundError = false;
-    doc.descendants((node: EmbedNode, pos, parent) => {
+    doc.descendants((node: TNode, pos, parent) => {
       if (!foundError) {
         if (node.type.name === 'embed') {
           foundError = node.attrs.hasErrors;
@@ -38,7 +38,7 @@ export default <LocalSchema extends Schema>(
     props: {
       decorations,
       nodeViews: {
-        embed: (initNode: EmbedNode, view, getPos) => {
+        embed: (initNode: TNode, view, getPos) => {
           const dom = document.createElement('div');
           dom.contentEditable = 'false';
           const mount = types[initNode.attrs.type];
@@ -62,7 +62,7 @@ export default <LocalSchema extends Schema>(
 
           return {
             dom,
-            update: (node: EmbedNode) => {
+            update: (node: TNode) => {
               if (
                 node.type.name === 'embed' &&
                 node.attrs.type === initNode.attrs.type
