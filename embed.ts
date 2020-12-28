@@ -6,7 +6,7 @@ import Embed from './types/Embed';
 import buildPlugin from './plugin';
 import TFields from './types/Fields';
 
-const addEmbedNode = (schema: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
+const addEmbedNodeToSchema = (schema: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
   schema.append({
     embed: {
       group: 'element',
@@ -87,4 +87,4 @@ const createPlugin = <TEmbedMap extends Record<string, Embed<TFields>>>(
   };
 };
 
-export { createPlugin, addEmbedNode, getEmbedAttrsFromNode };
+export { createPlugin, addEmbedNodeToSchema, getEmbedAttrsFromNode };
