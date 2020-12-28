@@ -32,7 +32,20 @@ type TPredicate = (
 ) => boolean;
 type TDirection = 'up' | 'down' | 'top' | 'bottom';
 
-const defaultPredicate: TPredicate = (node: Node, pos: number, parent: Node) =>
+const isEmbedNode = (node: Node) => node.type.name === 'embed'
+
+const getEmbedAttrsFromNode = (node: Node) => {
+  if (!isEmbedNode(node)) {
+    return;
+  }
+  return {
+    type: node.attrs.type,
+    fields: node.attrs.fields,
+    hasErrors: node.attrs.hasErrors
+  }
+}
+
+const defaultIsValidMoveNode: TPredicate = (node: Node, pos: number, parent: Node) =>
   parent.type.name === 'doc' &&
   (node.type.name === 'embed' || !!node.textContent);
 
@@ -107,7 +120,8 @@ const moveNode = (consumerPredicate: TPredicate) => (
 
   if (node && (nextPos || nextPos === 0)) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
-    tr.insert(insertPos, node.type.create({ ...node.attrs }));
+    const newNode = node.type.create({ ...node.attrs });
+    tr.insert(insertPos, newNode);
   }
 
   // const mappedPos = tr.mapping.mapResult(pos).pos;
@@ -192,4 +206,4 @@ const createDecorations = (name: string) => (state: EditorState) => {
   return DecorationSet.create(state.doc, decorations);
 };
 
-export { buildCommands, defaultPredicate, createDecorations };
+export { buildCommands, defaultIsValidMoveNode, createDecorations, getEmbedAttrsFromNode };

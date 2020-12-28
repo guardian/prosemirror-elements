@@ -43,8 +43,6 @@ export default <LocalSchema extends Schema>(
           dom.contentEditable = 'false';
           const mount = types[initNode.attrs.type];
 
-          console.log(view.state.doc);
-
           const update = mount(
             dom,
             (fields: { [field: string]: string }, hasErrors: boolean) => {

@@ -1,15 +1,15 @@
 import { EditorState, Transaction } from 'prosemirror-state';
 import { Schema, Node, NodeSpec } from 'prosemirror-model';
-import { buildCommands, defaultPredicate as defaultIsValidMoveNode } from './helpers';
-import Embed from './types/Embed';
 
+import { buildCommands, defaultIsValidMoveNode, getEmbedAttrsFromNode } from './helpers';
+import Embed from './types/Embed';
 import buildPlugin from './plugin';
 import TFields from './types/Fields';
 
 const addEmbedNode = (schema: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
   schema.append({
     embed: {
-      group: 'block',
+      group: 'element',
       attrs: {
         type: {},
         fields: {
@@ -33,7 +33,6 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
           tag: 'embed-attrs',
           getAttrs: (dom: HTMLElement) => {
             const hasErrorAttr = dom.getAttribute('has-errors');
-            console.log(dom.getAttribute('fields'));
             return {
               type: dom.getAttribute('type'),
               fields: JSON.parse(dom.getAttribute('fields') || '{}'),
@@ -83,8 +82,9 @@ const createPlugin = <TEmbedMap extends Record<string, Embed<TFields>>>(
       );
     },
     hasErrors: (state: EditorState) => plugin.getState(state).hasErrors,
+
     plugin
   };
 };
 
-export { createPlugin, addEmbedNode };
+export { createPlugin, addEmbedNode, getEmbedAttrsFromNode };
