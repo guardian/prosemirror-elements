@@ -11,11 +11,14 @@ import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { addEmbedNode, build } from './embed';
 import image from './embeds/image/embed';
+import { addImageNode, ImageNodeView } from './embeds/image-native/imageNative';
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
+const nodes = addImageNode(addEmbedNode(schema.spec.nodes as OrderedMap<NodeSpec>))
+
 const mySchema = new Schema({
-  nodes: addEmbedNode(schema.spec.nodes as OrderedMap<NodeSpec>),
+  nodes,
   marks: schema.spec.marks
 });
 
@@ -67,8 +70,13 @@ const view = new EditorView(editorElement, {
   dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);
     view.updateState(state);
+
+    console.log(tr)
     highlightErrors(state);
     set(state.doc);
+  },
+  nodeViews: {
+    imageNative(node) { return new ImageNodeView() }
   }
 });
 
@@ -82,3 +90,25 @@ embedButton.addEventListener('click', () =>
   insertImageEmbed(view.state, view.dispatch)
 );
 document.body.appendChild(embedButton);
+
+
+const insertNativeEmbed = (
+  state: EditorState,
+  dispatch: (tr: Transaction<Schema>) => void
+) => {
+  // check whether we can
+  dispatch(
+    state.tr.replaceSelectionWith(
+      state.schema.nodes.imageNative.create()
+    )
+  );
+}
+
+const nativeEmbedButton = document.createElement('button');
+nativeEmbedButton.innerHTML = 'Embed native';
+nativeEmbedButton.addEventListener('click', () =>
+  insertNativeEmbed(view.state, view.dispatch)
+);
+document.body.appendChild(nativeEmbedButton);
+
+(window as any).ProseMirrorDevTools.applyDevTools(view, { EditorState: EditorState });

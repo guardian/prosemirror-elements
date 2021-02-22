@@ -15,6 +15,7 @@ const ImageEmbed = ({
   errors: { [field: string]: string[] };
   updateFields: (fields: TFields) => void;
   editSrc: boolean;
+  prosemirrorChildren: HTMLElement
 }) => (
   <div>
     <img style={{ width: '250px', height: 'auto' }} src={src} alt={alt} />
