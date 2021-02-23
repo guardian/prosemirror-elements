@@ -29,7 +29,8 @@ const docToHtml = (doc: Node) => {
   const dom = serializer.serializeFragment(doc.content);
   const e = document.createElement('div');
   e.appendChild(dom);
-  return e.innerHTML;
+  const innerHTML =  e.innerHTML;
+  return innerHTML;
 };
 
 const htmlToDoc = (html: string) => {
@@ -90,25 +91,5 @@ embedButton.addEventListener('click', () =>
   insertImageEmbed(view.state, view.dispatch)
 );
 document.body.appendChild(embedButton);
-
-
-const insertNativeEmbed = (
-  state: EditorState,
-  dispatch: (tr: Transaction<Schema>) => void
-) => {
-  // check whether we can
-  dispatch(
-    state.tr.replaceSelectionWith(
-      state.schema.nodes.imageNative.create()
-    )
-  );
-}
-
-const nativeEmbedButton = document.createElement('button');
-nativeEmbedButton.innerHTML = 'Embed native';
-nativeEmbedButton.addEventListener('click', () =>
-  insertNativeEmbed(view.state, view.dispatch)
-);
-document.body.appendChild(nativeEmbedButton);
 
 (window as any).ProseMirrorDevTools.applyDevTools(view, { EditorState: EditorState });

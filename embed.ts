@@ -1,49 +1,69 @@
-import { EditorState, Transaction } from 'prosemirror-state';
-import { Schema, Node, NodeSpec } from 'prosemirror-model';
-import { buildCommands, defaultPredicate } from './helpers';
-import Embed from './types/Embed';
+import { EditorState, Transaction } from "prosemirror-state";
+import { Schema, Node, NodeSpec } from "prosemirror-model";
+import { buildCommands, defaultPredicate } from "./helpers";
+import Embed from "./types/Embed";
 
-import buildPlugin from './plugin';
-import TFields from './types/Fields';
+import buildPlugin from "./plugin";
+import TFields from "./types/Fields";
+
+export const embedSchema: { [key: string]: NodeSpec } = {
+  caption: {
+    group: "block",
+    content: "paragraph",
+    toDOM() {
+      return ["div", { class: "imageNative-caption" }, 0];
+    },
+    parseDOM: [{ tag: "div" }],
+  },
+  altText: {
+    group: "block",
+    content: "paragraph",
+    toDOM() {
+      return ["div", { class: "imageNative-altText" }, 0];
+    },
+    parseDOM: [{ tag: "div" }],
+  },
+  embed: {
+    group: "block",
+    content: "caption altText",
+    attrs: {
+      type: {},
+      fields: {
+        default: {},
+      },
+      hasErrors: {
+        default: false,
+      },
+    },
+    draggable: false,
+    toDOM: (node: Node) => [
+      "embed-attrs",
+      {
+        type: node.attrs.type,
+        fields: JSON.stringify(node.attrs.fields),
+        "has-errors": JSON.stringify(node.attrs.hasErrors),
+      },
+      0
+    ],
+    parseDOM: [
+      {
+        tag: "embed-attrs",
+        getAttrs: (dom: HTMLElement) => {
+          const hasErrorAttr = dom.getAttribute("has-errors");
+          console.log(dom.getAttribute("fields"));
+          return {
+            type: dom.getAttribute("type"),
+            fields: JSON.parse(dom.getAttribute("fields") || "{}"),
+            hasErrors: hasErrorAttr && hasErrorAttr !== "false",
+          };
+        },
+      },
+    ],
+  },
+};
 
 const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
-  schema.append({
-    embed: {
-      group: 'block',
-      attrs: {
-        type: {},
-        fields: {
-          default: {}
-        },
-        hasErrors: {
-          default: false
-        }
-      },
-      draggable: false,
-      toDOM: (node: Node) => [
-        'embed-attrs',
-        {
-          type: node.attrs.type,
-          fields: JSON.stringify(node.attrs.fields),
-          'has-errors': JSON.stringify(node.attrs.hasErrors)
-        }
-      ],
-      parseDOM: [
-        {
-          tag: 'embed-attrs',
-          getAttrs: (dom: HTMLElement) => {
-            const hasErrorAttr = dom.getAttribute('has-errors');
-            console.log(dom.getAttribute('fields'));
-            return {
-              type: dom.getAttribute('type'),
-              fields: JSON.parse(dom.getAttribute('fields') || '{}'),
-              hasErrors: hasErrorAttr && hasErrorAttr !== 'false'
-            };
-          }
-        }
-      ]
-    }
-  });
+  schema.append(embedSchema);
 
 const build = (
   types: { [pluginKey: string]: Embed<TFields> },
@@ -59,7 +79,7 @@ const build = (
       if (typeNames.indexOf(type) === -1) {
         throw new Error(
           `[prosemirror-embeds]: ${type} is not recognised. Only ${typeNames.join(
-            ', '
+            ", "
           )} have can be added`
         );
       }
@@ -71,7 +91,7 @@ const build = (
       );
     },
     hasErrors: (state: EditorState) => plugin.getState(state).hasErrors,
-    plugin
+    plugin,
   };
 };
 

@@ -10,7 +10,6 @@
       "rootDir": "./",
       "strictNullChecks": true,
       "noImplicitAny": true,
-      "jsxFactory": "h",
       "allowSyntheticDefaultImports": true,
       "noEmit": true
     },

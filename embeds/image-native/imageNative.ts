@@ -5,7 +5,7 @@ export const addImageNode = (schema: OrderedMap<NodeSpec>) => schema.append({
     group: "block",
     content: "paragraph",
     toDOM() {
-      return ["div", { class: "imageNative-caption" }, 0];
+      return ["div", { class: "imageNative-caption", contentEditable: 'true' }, 0];
     },
     parseDOM: [{ tag: "div" }],
   },
@@ -13,7 +13,7 @@ export const addImageNode = (schema: OrderedMap<NodeSpec>) => schema.append({
     group: "block",
     content: "paragraph",
     toDOM() {
-      return ["div", { class: "imageNative-altText" }, 0];
+      return ["div", { class: "imageNative-altText", contentEditable: 'true' }, 0];
     },
     parseDOM: [{ tag: "div" }],
   },

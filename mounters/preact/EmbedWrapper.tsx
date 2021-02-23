@@ -1,40 +1,40 @@
-import { h, VNode } from 'preact';
-import styled from 'preact-emotion';
-import { TCommandCreator } from '../../types/Commands';
+import React, { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { TCommandCreator } from "../../types/Commands";
 
-const Container = styled('div')`
+const Container = styled("div")`
   background: #eee;
   border-top: 1px solid #111;
   margin: 16px 0;
 `;
 
-const Header = styled('div')`
+const Header = styled("div")`
   border-bottom: 1px solid #aaa;
   margin-left: 12px;
   padding: 12px 12px 12px 0;
 `;
 
-const Title = styled('h2')`
+const Title = styled("h2")`
   font-size: 20px;
   margin: 0;
 `;
 
-const Body = styled('div')`
+const Body = styled("div")`
   display: flex;
 `;
 
-const Panel = styled('div')`
+const Panel = styled("div")`
   flex-grow: 1;
   overflow: hidden;
   padding: 12px;
 `;
 
-const Actions = styled('div')`
+const Actions = styled("div")`
   display: flex;
   flex-direction: column;
 `;
 
-const Button = styled('button')`
+const Button = styled("button")`
   appearance: none;
   background: #ff7f0f;
   border: none;
@@ -42,7 +42,7 @@ const Button = styled('button')`
   color: #fff;
   cursor: pointer;
   flex-grow: ${({ expanded }: { expanded?: boolean }) =>
-    expanded ? '1' : '0'};
+    expanded ? "1" : "0"};
   font-size: 16px;
   line-height: 1;
   padding: 8px;
@@ -69,10 +69,10 @@ const EmbedWrapper = ({
   moveTop,
   moveBottom,
   remove,
-  children
+  children,
 }: {
   name: string;
-  children?: VNode;
+  children?: ReactNode;
 } & ReturnType<TCommandCreator>) => (
   <Container>
     <Header>

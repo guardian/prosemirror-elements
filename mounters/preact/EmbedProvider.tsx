@@ -1,4 +1,4 @@
-import { h, Component, VNode } from 'preact';
+import React, {Component, ReactNode} from 'react';
 import EmbedWrapper from './EmbedWrapper';
 import TFields from '../../types/Fields';
 import TErrors from '../../types/Errors';
@@ -21,7 +21,8 @@ type IProps = {
   fields: TFields;
   onStateChange: (fields: TFields) => void;
   validate: TValidator<TFields>;
-  consumer: Consumer<VNode, TFields>;
+  consumer: Consumer<ReactNode, TFields>;
+  contentDOM: HTMLElement;
 };
 
 type IState = {
@@ -89,7 +90,8 @@ class EmbedProvider extends Component<IProps, IState> {
             this.state.fields,
             this.props.validate(this.state.fields)
           ),
-          this.updateFields
+          this.updateFields,
+          this.props.contentDOM
         )}
       </EmbedWrapper>
     );

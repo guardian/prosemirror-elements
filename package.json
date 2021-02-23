@@ -7,25 +7,28 @@
     "dev": "parcel index.html --no-hmr"
   },
   "dependencies": {
-    "babel-preset-preact": "^1.1.0",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
     "emotion": "^9.2.10",
-    "preact": "^8.2.9",
-    "preact-dom": "^1.0.1",
-    "preact-emotion": "^9.2.10",
     "prop-types": "^15.6.2",
     "prosemirror-example-setup": "^1.0.1",
     "prosemirror-model": "^1.6.0",
     "prosemirror-schema-basic": "^1.0.0",
     "prosemirror-state": "^1.2.2",
     "prosemirror-transform": "^1.1.3",
-    "prosemirror-view": "^1.3.7"
+    "prosemirror-view": "^1.3.7",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.13",
     "@types/prosemirror-schema-basic": "^1.0.1",
     "@types/prosemirror-state": "^1.2.0",
     "@types/prosemirror-transform": "^1.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "parcel-bundler": "^1.9.7",
+    "parcel-bundler": "^1.12.4",
+    "react": "^17.0.1",
     "typescript": "^2.9.2"
   }
 }

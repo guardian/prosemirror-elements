@@ -1,11 +1,12 @@
-import { h } from 'preact';
-import TFields from '../../types/Fields';
+import React, { useEffect, useRef } from "react";
+import TFields from "../../types/Fields";
 
 const ImageEmbed = ({
   fields: { caption, src, alt },
   errors,
   updateFields,
-  editSrc
+  editSrc,
+  contentDOM,
 }: {
   fields: {
     caption: string;
@@ -15,49 +16,37 @@ const ImageEmbed = ({
   errors: { [field: string]: string[] };
   updateFields: (fields: TFields) => void;
   editSrc: boolean;
-  prosemirrorChildren: HTMLElement
-}) => (
-  <div>
-    <img style={{ width: '250px', height: 'auto' }} src={src} alt={alt} />
+  contentDOM: HTMLElement;
+}) => {
+  const contentDOMParentRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!contentDOMParentRef.current) {
+      return;
+    }
+    contentDOMParentRef.current.appendChild(contentDOM);
+  }, []);
+  return (
     <div>
-      <label>
-        Caption
-        <input
-          type="text"
-          value={caption}
-          onInput={e =>
-            e.target instanceof HTMLInputElement &&
-            updateFields({ caption: e.target.value })
-          }
-        />
-      </label>
-      <label>
-        Alt
-        <input
-          type="text"
-          value={alt}
-          style={{ borderColor: errors.alt.length ? 'red' : null }}
-          onInput={e =>
-            e.target instanceof HTMLInputElement &&
-            updateFields({ alt: e.target.value })
-          }
-        />
-      </label>
-      {editSrc && (
-        <label>
-          Src
-          <input
-            type="text"
-            value={src}
-            onInput={e =>
-              e.target instanceof HTMLInputElement &&
-              updateFields({ src: e.target.value })
-            }
-          />
-        </label>
-      )}
+      <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
+      <div>
+        <div className="image-parent" ref={contentDOMParentRef}></div>
+        {editSrc && (
+          <label>
+            Big?
+            <input
+              type="checkbox"
+              checked={src}
+              onChange={(e) => {
+                console.log(e.target.checked)
+                e.target instanceof HTMLInputElement &&
+                updateFields({ src: e.target.checked })
+              }}
+            />
+          </label>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ImageEmbed;
