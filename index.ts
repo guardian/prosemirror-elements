@@ -17,7 +17,7 @@ import { addImageNode, ImageNodeView } from './embeds/image-native/imageNative';
 // create a schema with list support.
 const nodes = addImageNode(addEmbedNode(schema.spec.nodes as OrderedMap<NodeSpec>))
 
-const mySchema = new Schema({
+export const mySchema = new Schema({
   nodes,
   marks: schema.spec.marks
 });
@@ -74,10 +74,8 @@ const view = new EditorView(editorElement, {
 
     console.log(tr)
     highlightErrors(state);
+    console.log(state.doc)
     set(state.doc);
-  },
-  nodeViews: {
-    imageNative(node) { return new ImageNodeView() }
   }
 });
 

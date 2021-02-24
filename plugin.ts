@@ -4,6 +4,7 @@ import { createDecorations, buildCommands } from "./helpers";
 import Embed from "./types/Embed";
 import TFields from "./types/Fields";
 import { embedSchema } from "./embed";
+import { RTENode } from "./RTENode";
 
 const decorations = createDecorations("embed");
 
@@ -39,20 +40,27 @@ export default <LocalSchema extends Schema>(
     props: {
       decorations,
       nodeViews: {
-        embed: (initNode: EmbedNode, view, getPos) => {
-          console.log("nodeView called");
-
+        embed: (initNode: EmbedNode, view, getPos: () => number) => {
           const dom = document.createElement("div");
-          const contentDOM = document.createElement("div");
           dom.contentEditable = "false";
           const createEmbedView = types[initNode.attrs.type];
-          console.log({types, type: initNode.attrs})
+
+          const nestedEditors = {} as { [nodeType: string]: RTENode };
+          initNode.forEach((node, offset, _index) => {
+            console.log({_index})
+            const typeName = node.type.name;
+            if (nestedEditors[typeName]) {
+              console.error(
+                `[prosemirror-embeds]: Attempted to instantiate a nested editor with type ${typeName}, but another instance with that name has already been created.`
+              );
+            }
+            nestedEditors[typeName] = new RTENode(node, view, getPos, offset);
+          });
+
           const update = createEmbedView(
             dom,
-            contentDOM,
+            nestedEditors,
             (fields: { [field: string]: string }, hasErrors: boolean) => {
-              console.log({ fields });
-              console.log(getPos(), view.state.doc.resolve(getPos()))
               view.dispatch(
                 view.state.tr.setNodeMarkup(getPos(), undefined, {
                   ...initNode.attrs,
@@ -67,25 +75,34 @@ export default <LocalSchema extends Schema>(
 
           return {
             dom,
-            contentDOM,
             update: (node: EmbedNode) => {
+              console.log(node.type.name, node)
               if (
                 node.type.name === "embed" &&
                 node.attrs.type === initNode.attrs.type
               ) {
-                console.log("updating");
                 update(
                   node.attrs.fields,
                   commands(getPos(), view.state, view.dispatch)
                 );
+
+                node.forEach((node, offset, _index) => {
+                  const typeName = node.type.name;
+                  const nestedEditor = nestedEditors[typeName];
+                  if (!nestedEditor) {
+                    console.error(`[prosemirror-embeds]: Could not find a nested editor for node type ${typeName} to update. This shouldn't happen!`)
+                  }
+                  nestedEditor.update(node, offset);
+                })
                 return true;
               }
-
               console.log("update false", node.type.name, node.attrs.type);
               return false;
             },
             stopEvent: () => true,
-            destroy: () => null,
+            destroy: () => {
+              Object.values(nestedEditors).map(editor => editor.close())
+            },
           };
         },
       },

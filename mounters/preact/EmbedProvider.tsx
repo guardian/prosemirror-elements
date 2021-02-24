@@ -5,6 +5,7 @@ import TErrors from '../../types/Errors';
 import { TCommands } from '../../types/Commands';
 import Consumer from '../../types/Consumer';
 import TValidator from '../../types/Validator';
+import { NestedEditorMap } from '../../types/Embed';
 
 const fieldErrors = (fields: TFields, errors: TErrors | null) =>
   Object.keys(fields).reduce(
@@ -22,7 +23,7 @@ type IProps = {
   onStateChange: (fields: TFields) => void;
   validate: TValidator<TFields>;
   consumer: Consumer<ReactNode, TFields>;
-  contentDOM: HTMLElement;
+  nestedEditors: NestedEditorMap;
 };
 
 type IState = {
@@ -91,7 +92,7 @@ class EmbedProvider extends Component<IProps, IState> {
             this.props.validate(this.state.fields)
           ),
           this.updateFields,
-          this.props.contentDOM
+          this.props.nestedEditors
         )}
       </EmbedWrapper>
     );

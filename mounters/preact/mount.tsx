@@ -9,13 +9,12 @@ export default mount<ReactNode>(
     consumer,
     validate,
     dom,
-    contentDOM,
+    nestedEditors,
     updateState,
     fields,
     commands,
     subscribe
   ) => {
-    console.log('mounting ')
     render(
       <EmbedProvider
         subscribe={subscribe}
@@ -24,7 +23,7 @@ export default mount<ReactNode>(
         validate={validate}
         commands={commands}
         consumer={consumer}
-        contentDOM={contentDOM}
+        nestedEditors={nestedEditors}
       />,
       dom
     );

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import NestedEditorView from "../../mounters/preact/NestedEditorView";
+import { NestedEditorMap } from "../../types/Embed";
 import TFields from "../../types/Fields";
 
 const ImageEmbed = ({
@@ -6,7 +8,7 @@ const ImageEmbed = ({
   errors,
   updateFields,
   editSrc,
-  contentDOM,
+  nestedEditors,
 }: {
   fields: {
     caption: string;
@@ -16,26 +18,20 @@ const ImageEmbed = ({
   errors: { [field: string]: string[] };
   updateFields: (fields: TFields) => void;
   editSrc: boolean;
-  contentDOM: HTMLElement;
+  nestedEditors: NestedEditorMap;
 }) => {
-  const contentDOMParentRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (!contentDOMParentRef.current) {
-      return;
-    }
-    contentDOMParentRef.current.appendChild(contentDOM);
-  }, []);
+
   return (
     <div>
-      <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
+      <img style={{ width: "250px", height: "auto" }} src="localhost" alt={alt} />
       <div>
-        <div className="image-parent" ref={contentDOMParentRef}></div>
+        {Object.entries(nestedEditors).map(([nameType, editor]) => <NestedEditorView key={nameType} name={nameType} editor={editor} />)}
         {editSrc && (
           <label>
             Big?
             <input
               type="checkbox"
-              checked={src}
+              checked={!!src}
               onChange={(e) => {
                 console.log(e.target.checked)
                 e.target instanceof HTMLInputElement &&

@@ -1,5 +1,5 @@
 import TFields from "./types/Fields";
-import TEmbedCreator from "./types/Embed";
+import TEmbedCreator, { NestedEditorMap } from "./types/Embed";
 import TConsumer from "./types/Consumer";
 import TValidator from "./types/Validator";
 import { TCommands, TCommandCreator } from "./types/Commands";
@@ -22,7 +22,7 @@ type TRenderer<T> = (
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  contentDOM: HTMLElement,
+  nestedEditors: NestedEditorMap,
   updateState: (fields: TFields) => void,
   fields: TFields,
   commands: TCommands,

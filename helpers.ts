@@ -102,12 +102,12 @@ const moveNode = (consumerPredicate: TPredicate) => (
   }
 
   const { node } = state.doc.childAfter(pos);
-
-  const tr = state.tr.deleteRange(pos, pos + 1);
+  const to = node ? pos + node.nodeSize : pos;
+  const tr = state.tr.deleteRange(pos, to);
 
   if (node && (nextPos || nextPos === 0)) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
-    tr.insert(insertPos, node.type.create({ ...node.attrs }));
+    tr.insert(insertPos, node);
   }
 
   // const mappedPos = tr.mapping.mapResult(pos).pos;
@@ -158,7 +158,15 @@ const buildMoveCommands = (predicate: TPredicate) => (
 const removeNode = (pos: number) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
-) => (dispatch ? dispatch(state.tr.deleteRange(pos, pos + 1)) : true);
+) => {
+  if (!dispatch) {
+    return true;
+  }
+  const { node } = state.doc.childAfter(pos);
+  const to = node ? pos + node.nodeSize : pos;
+  console.log({to, pos})
+  dispatch(state.tr.deleteRange(pos, to))
+}
 
 const buildCommands = (predicate: TPredicate) => (
   pos: number,
