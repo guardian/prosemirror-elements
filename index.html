@@ -28,6 +28,25 @@
     width: 100%;
     min-height: 1em;
   }
+
+  .SelectionCollab__caret-widget-container {
+  height: calc(1em);
+  display: inline-block;
+  position: relative;
+}
+
+.SelectionCollab__caret-widget-user-name {
+  position: absolute;
+  padding: 2px;
+  bottom: calc(1em);
+  left: -1px;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: white;
+}
+
+
   </style>
 </head>
 
@@ -48,19 +67,8 @@
 <body>
   <div id="editor">
   </div>
-  <div id="content" style="display: none;">
-    <h3>Hello ProseMirror</h3>
+  <div id="app-root" class="App__body">
 
-    <p>This is editable text. You can focus it and start typing.</p>
-    <embed-attrs url="test" />
-    <p>To apply styling, you can select a piece of text and manipulate its styling from the menu. The basic schema supports
-      <em>emphasis</em>,
-      <strong>strong text
-      </strong>,
-      <a href="http://marijnhaverbeke.nl/blog">links</a>,
-      <code>code
-        font</code>, and images.
-    </p>
   </div>
   <script src="index.ts"></script>
 </body>

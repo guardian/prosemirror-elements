@@ -3,7 +3,7 @@
       "outDir": "dist",
       "module": "commonjs",
       "target": "es5",
-      "lib": ["es2017", "dom"],
+      "lib": ["dom", "esnext"],
       "sourceMap": true,
       "jsx": "react",
       "moduleResolution": "node",
