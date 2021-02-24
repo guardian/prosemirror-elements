@@ -1,7 +1,7 @@
-import { AllSelection, EditorState, Transaction } from 'prosemirror-state';
+import { AllSelection, EditorState, Transaction } from "prosemirror-state";
 // import { canJoin } from 'prosemirror-transform';
-import { DecorationSet, Decoration } from 'prosemirror-view';
-import { Node } from 'prosemirror-model';
+import { DecorationSet, Decoration, EditorView } from "prosemirror-view";
+import { Node } from "prosemirror-model";
 
 type TNodesBetweenArgs = [Node<any>, number, Node<any>, number];
 
@@ -30,17 +30,17 @@ type TPredicate = (
   parent: Node<any>,
   index?: number
 ) => boolean;
-type TDirection = 'up' | 'down' | 'top' | 'bottom';
+type TDirection = "up" | "down" | "top" | "bottom";
 
 const defaultPredicate: TPredicate = (node: Node, pos: number, parent: Node) =>
-  parent.type.name === 'doc' &&
-  (node.type.name === 'embed' || !!node.textContent);
+  parent.type.name === "doc" &&
+  (node.type.name === "embed" || !!node.textContent);
 
 const findPredicate = (consumerPredicate: TPredicate, currentPos: number) => ([
   candidateNode,
   candidatePos,
   candidateParent,
-  candidateIndex
+  candidateIndex,
 ]: TNodesBetweenArgs) =>
   candidatePos !== currentPos &&
   consumerPredicate(
@@ -57,26 +57,28 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
 ): number | null => {
   const all = new AllSelection(state.doc);
   const predicate = findPredicate(consumerPredicate, pos);
-
+  console.log({pos})
+  const node = state.doc.nodeAt(pos);
+  const nodeSize = node ? node.nodeSize : pos;
   switch (dir) {
-    case 'up': {
+    case "up": {
       const [, nextNodePos = null] =
         nodesBetween(state, pos, all.from).find(predicate) || [];
 
       return nextNodePos;
     }
-    case 'down': {
+    case "down": {
       const [nextNode = null, nextNodePos = null] =
         nodesBetween(state, pos, all.to).find(predicate) || [];
 
       return nextNodePos && nextNode && nextNodePos + nextNode.nodeSize;
     }
-    case 'top': {
+    case "top": {
       return pos === all.from ? null : all.from;
     }
-    case 'bottom': {
+    case "bottom": {
       // as this is a node view the end is just pos + 1
-      return pos + 1 === all.to ? null : all.to;
+      return pos + nodeSize === all.to ? null : all.to;
     }
     default: {
       console.warn(`Unknown direction: ${dir}`);
@@ -86,17 +88,22 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
 };
 
 const moveNode = (consumerPredicate: TPredicate) => (
-  pos: number,
+  getPos: () => number | undefined,
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false,
   dir: TDirection
 ) => {
+  const pos = getPos();
+  if (pos === undefined) {
+    return false;
+  }
+  console.log({pos})
   const nextPos = nextPosFinder(consumerPredicate)(pos, state, dir);
 
   if (nextPos === null) {
     return false;
   }
-
+  console.log({nextPos, dir, dispatch})
   if (!dispatch) {
     return true;
   }
@@ -107,7 +114,7 @@ const moveNode = (consumerPredicate: TPredicate) => (
 
   if (node && (nextPos || nextPos === 0)) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
-    tr.insert(insertPos, node);
+    tr.insert(insertPos, node.cut(0));
   }
 
   // const mappedPos = tr.mapping.mapResult(pos).pos;
@@ -122,59 +129,59 @@ const moveNode = (consumerPredicate: TPredicate) => (
   return true;
 };
 
-const moveNodeUp = (predicate: TPredicate) => (pos: number) => (
-  state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false
-) => moveNode(predicate)(pos, state, dispatch, 'up');
+const moveNodeUp = (predicate: TPredicate) => (getPos: () => number | undefined) => (
+  view: EditorView,
+  run = true
+) => moveNode(predicate)(getPos, view.state, run && view.dispatch, "up");
 
-const moveNodeDown = (predicate: TPredicate) => (pos: number) => (
-  state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false
-) => moveNode(predicate)(pos, state, dispatch, 'down');
+const moveNodeDown = (predicate: TPredicate) => (getPos: () => number | undefined) => (
+  view: EditorView,
+  run = true
+) => moveNode(predicate)(getPos, view.state, run && view.dispatch, "down");
 
-const moveNodeTop = (predicate: TPredicate) => (pos: number) => (
-  state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false
-) => moveNode(predicate)(pos, state, dispatch, 'top');
+const moveNodeTop = (predicate: TPredicate) => (getPos: () => number | undefined) => (
+  view: EditorView,
+  run = true
+) => moveNode(predicate)(getPos, view.state, run && view.dispatch, "top");
 
-const moveNodeBottom = (predicate: TPredicate) => (pos: number) => (
-  state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false
-) => moveNode(predicate)(pos, state, dispatch, 'bottom');
+const moveNodeBottom = (predicate: TPredicate) => (getPos: () => number | undefined) => (
+  view: EditorView,
+  run = true
+) => moveNode(predicate)(getPos, view.state, run && view.dispatch, "bottom");
 
 const buildMoveCommands = (predicate: TPredicate) => (
-  pos: number,
-  state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false
+  getPos: () => number | undefined,
+  view: EditorView
 ) => ({
-  moveUp: (run = true) => moveNodeUp(predicate)(pos)(state, run && dispatch),
-  moveDown: (run = true) =>
-    moveNodeDown(predicate)(pos)(state, run && dispatch),
-  moveTop: (run = true) => moveNodeTop(predicate)(pos)(state, run && dispatch),
-  moveBottom: (run = true) =>
-    moveNodeBottom(predicate)(pos)(state, run && dispatch)
+  moveUp: (run = true) => moveNodeUp(predicate)(getPos)(view, run),
+  moveDown: (run = true) => moveNodeDown(predicate)(getPos)(view, run),
+  moveTop: (run = true) => moveNodeTop(predicate)(getPos)(view, run),
+  moveBottom: (run = true) => moveNodeBottom(predicate)(getPos)(view, run),
 });
 
-const removeNode = (pos: number) => (
+const removeNode = (getPos: () => number | undefined) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
 ) => {
   if (!dispatch) {
     return true;
   }
+  const pos = getPos();
+  if (pos === undefined) {
+    return;
+  }
   const { node } = state.doc.childAfter(pos);
   const to = node ? pos + node.nodeSize : pos;
-  console.log({to, pos})
-  dispatch(state.tr.deleteRange(pos, to))
-}
+  console.log({ to, pos });
+  dispatch(state.tr.deleteRange(pos, to));
+};
 
 const buildCommands = (predicate: TPredicate) => (
-  pos: number,
-  state: EditorState,
-  dispatch: (tr: Transaction) => void
+  getPos: () => number | undefined,
+  view: EditorView
 ) => ({
-  ...buildMoveCommands(predicate)(pos, state, dispatch),
-  remove: (run = true) => removeNode(pos)(state, run && dispatch)
+  ...buildMoveCommands(predicate)(getPos, view),
+  remove: (run = true) => removeNode(getPos)(view.state, run && view.dispatch),
 });
 
 // this forces our view to update every time an edit is made by inserting
@@ -191,7 +198,7 @@ const createDecorations = (name: string) => (state: EditorState) => {
           {
             key: Math.random().toString(),
             inclusiveStart: false,
-            inclusiveEnd: false
+            inclusiveEnd: false,
           }
         )
       );

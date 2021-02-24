@@ -41,6 +41,7 @@ export default <LocalSchema extends Schema>(
       decorations,
       nodeViews: {
         embed: (initNode: EmbedNode, view, getPos: () => number) => {
+          console.log('mount', { view })
           const dom = document.createElement("div");
           dom.contentEditable = "false";
           const createEmbedView = types[initNode.attrs.type];
@@ -70,20 +71,20 @@ export default <LocalSchema extends Schema>(
               );
             },
             initNode.attrs.fields,
-            commands(getPos(), view.state, view.dispatch)
+            commands(getPos, view)
           );
 
           return {
             dom,
             update: (node: EmbedNode) => {
-              console.log(node.type.name, node)
+              console.log('update', node.type.name, node)
               if (
                 node.type.name === "embed" &&
                 node.attrs.type === initNode.attrs.type
               ) {
                 update(
                   node.attrs.fields,
-                  commands(getPos(), view.state, view.dispatch)
+                  commands(getPos, view)
                 );
 
                 node.forEach((node, offset, _index) => {

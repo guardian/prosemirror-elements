@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { TCommandCreator } from "../../types/Commands";
 
@@ -62,6 +62,14 @@ const Button = styled("button")`
   }
 `;
 
+export function useForceUpdate() {
+  const [, setTick] = useState(0);
+  const update = useCallback(() => {
+    setTick((tick) => tick + 1);
+  }, []);
+  return update;
+}
+
 const EmbedWrapper = ({
   name,
   moveUp,
@@ -73,53 +81,80 @@ const EmbedWrapper = ({
 }: {
   name: string;
   children?: ReactNode;
-} & ReturnType<TCommandCreator>) => (
-  <Container>
-    <Header>
-      <Title>{name}</Title>
-    </Header>
-    <Body>
-      <Panel>{children}</Panel>
-      <Actions>
-        {moveTop && (
-          <Button disabled={!moveTop(false)} onClick={() => moveTop(true)}>
-            ↟
-          </Button>
-        )}
-        {moveUp && (
-          <Button
-            expanded
-            disabled={!moveUp(false)}
-            onClick={() => moveUp(true)}
-          >
-            ↑
-          </Button>
-        )}
-        {moveDown && (
-          <Button
-            expanded
-            disabled={!moveDown(false)}
-            onClick={() => moveDown(true)}
-          >
-            ↓
-          </Button>
-        )}
-        {moveBottom && (
-          <Button
-            disabled={!moveBottom(false)}
-            onClick={() => moveBottom(true)}
-          >
-            ↡
-          </Button>
-        )}
-        {remove && (
-          <Button disabled={!remove(false)} onClick={() => remove(true)}>
-            ✕
-          </Button>
-        )}
-      </Actions>
-    </Body>
-  </Container>
-);
+} & ReturnType<TCommandCreator>) => {
+  // We need to force an update when we use the 'move' commands, as there's no
+  // guarantee that Prosemirror will call update on the parent NodeView, and as a
+  // result we won't get a rerender with the new move states – and our `disabled`
+  // props will be stale as a result.
+  //
+  // There may be ways to trigger this at the NodeView level, but this approach is
+  // likely to be more efficient regardless, as we won't have to remount the embed
+  // node and rerender it in its entirety.
+  const forceUpdate = useForceUpdate();
+
+  return (
+    <Container>
+      <Header>
+        <Title>{name}</Title>
+      </Header>
+      <Body>
+        <Panel>{children}</Panel>
+        <Actions>
+          {moveTop && (
+            <Button
+              disabled={!moveTop(false)}
+              onClick={() => {
+                moveTop(true);
+                forceUpdate();
+              }}
+            >
+              ↟
+            </Button>
+          )}
+          {moveUp && (
+            <Button
+              expanded
+              disabled={!moveUp(false)}
+              onClick={() => {
+                moveUp(true);
+                forceUpdate();
+              }}
+            >
+              ↑
+            </Button>
+          )}
+          {moveDown && (
+            <Button
+              expanded
+              disabled={!moveDown(false)}
+              onClick={() => {
+                moveDown(true);
+                forceUpdate();
+              }}
+            >
+              ↓
+            </Button>
+          )}
+          {moveBottom && (
+            <Button
+              disabled={!moveBottom(false)}
+              onClick={() => {
+                moveBottom(true);
+                forceUpdate();
+              }}
+            >
+              ↡
+            </Button>
+          )}
+          {remove && (
+            <Button disabled={!remove(false)} onClick={() => remove(true)}>
+              ✕
+            </Button>
+          )}
+        </Actions>
+      </Body>
+    </Container>
+  );
+};
 
 export default EmbedWrapper;

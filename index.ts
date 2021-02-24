@@ -79,6 +79,8 @@ const view = new EditorView(editorElement, {
   }
 });
 
+window.view = view;
+
 highlightErrors(view.state);
 
 const insertImageEmbed = insertEmbed('image');
