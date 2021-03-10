@@ -38,7 +38,7 @@ export default <LocalSchema extends Schema>(
     props: {
       decorations,
       nodeViews: {
-        embed: (initNode: EmbedNode, view, getPos) => {
+        embed: (initNode: EmbedNode, view, getPos: () => number) => {
           const dom = document.createElement('div');
           dom.contentEditable = 'false';
           const mount = types[initNode.attrs.type];
