@@ -1,10 +1,10 @@
 // @todo: placeholder
 
-import { RTENode } from '../RTENode';
+import { RTENodeView } from '../RTENode';
 import { TCommandCreator } from './Commands';
 import TFields from './Fields';
 
-export type NestedEditorMap = {[typeName: string]: RTENode}
+export type NestedEditorMap = {[typeName: string]: RTENodeView}
 
 type TEmbedCreator<FieldAttrs extends TFields> = (
     dom: HTMLElement,

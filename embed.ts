@@ -50,7 +50,6 @@ export const embedSchema: { [key: string]: NodeSpec } = {
         tag: "embed-attrs",
         getAttrs: (dom: HTMLElement) => {
           const hasErrorAttr = dom.getAttribute("has-errors");
-          console.log(dom.getAttribute("fields"));
           return {
             type: dom.getAttribute("type"),
             fields: JSON.parse(dom.getAttribute("fields") || "{}"),

@@ -82,16 +82,6 @@ const EmbedWrapper = ({
   name: string;
   children?: ReactNode;
 } & ReturnType<TCommandCreator>) => {
-  // We need to force an update when we use the 'move' commands, as there's no
-  // guarantee that Prosemirror will call update on the parent NodeView, and as a
-  // result we won't get a rerender with the new move states – and our `disabled`
-  // props will be stale as a result.
-  //
-  // There may be ways to trigger this at the NodeView level, but this approach is
-  // likely to be more efficient regardless, as we won't have to remount the embed
-  // node and rerender it in its entirety.
-  const forceUpdate = useForceUpdate();
-
   return (
     <Container>
       <Header>
@@ -101,13 +91,7 @@ const EmbedWrapper = ({
         <Panel>{children}</Panel>
         <Actions>
           {moveTop && (
-            <Button
-              disabled={!moveTop(false)}
-              onClick={() => {
-                moveTop(true);
-                forceUpdate();
-              }}
-            >
+            <Button disabled={!moveTop(false)} onClick={() => moveTop(true)}>
               ↟
             </Button>
           )}
@@ -115,10 +99,7 @@ const EmbedWrapper = ({
             <Button
               expanded
               disabled={!moveUp(false)}
-              onClick={() => {
-                moveUp(true);
-                forceUpdate();
-              }}
+              onClick={() => moveUp(true)}
             >
               ↑
             </Button>
@@ -127,10 +108,7 @@ const EmbedWrapper = ({
             <Button
               expanded
               disabled={!moveDown(false)}
-              onClick={() => {
-                moveDown(true);
-                forceUpdate();
-              }}
+              onClick={() => moveDown(true)}
             >
               ↓
             </Button>
@@ -138,10 +116,7 @@ const EmbedWrapper = ({
           {moveBottom && (
             <Button
               disabled={!moveBottom(false)}
-              onClick={() => {
-                moveBottom(true);
-                forceUpdate();
-              }}
+              onClick={() => moveBottom(true)}
             >
               ↡
             </Button>

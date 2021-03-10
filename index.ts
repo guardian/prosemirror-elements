@@ -1,4 +1,4 @@
-import { EditorState, Transaction } from "prosemirror-state";
+import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
   Schema,
@@ -9,9 +9,19 @@ import {
 } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { exampleSetup } from "prosemirror-example-setup";
+import { collab } from "prosemirror-collab";
+
+import "prosemirror-view/style/prosemirror.css";
+import "prosemirror-menu/style/menu.css";
+import "prosemirror-example-setup/style/style.css";
+import "prosemirror-example-setup/style/style.css";
+
+import CollabServer from "./collab/CollabServer";
+import EditorConnection from "./collab/EditorConnection";
+import { createSelectionCollabPlugin } from "./collab/collabHelpers";
 import { addEmbedNode, build } from "./embed";
 import image from "./embeds/image/embed";
-import { addImageNode, ImageNodeView } from "./embeds/image-native/imageNative";
+import { addImageNode } from "./embeds/image-native/imageNative";
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
@@ -23,7 +33,6 @@ export const mySchema = new Schema({
   nodes,
   marks: schema.spec.marks,
 });
-
 const parser = DOMParser.fromSchema(mySchema);
 const serializer = DOMSerializer.fromSchema(mySchema);
 
@@ -66,45 +75,10 @@ const highlightErrors = (state: EditorState) => {
     : "transparent";
 };
 
-// const view = new EditorView(editorElement, {
-//   state: EditorState.create({
-//     doc: get(),
-//     plugins: [...exampleSetup({ schema: mySchema }), embed]
-//   }),
-//   dispatchTransaction: (tr: Transaction) => {
-//     const state = view.state.apply(tr);
-//     view.updateState(state);
-
-//     console.log(tr)
-//     highlightErrors(state);
-//     console.log(state.doc)
-//     set(state.doc);
-//   }
-// });
-
 const insertImageEmbed = insertEmbed("image");
 
-import { Selection } from "prosemirror-state";
-import { Step } from "prosemirror-transform";
 import { history } from "prosemirror-history";
 import { buildMenuItems } from "prosemirror-example-setup";
-
-import "prosemirror-view/style/prosemirror.css";
-import "prosemirror-menu/style/menu.css";
-import "prosemirror-example-setup/style/style.css";
-import "prosemirror-example-setup/style/style.css";
-import {
-  collab,
-  receiveTransaction,
-  sendableSteps,
-  getVersion,
-} from "prosemirror-collab";
-import {
-  COLLAB_ACTION,
-  createSelectionCollabPlugin,
-  actionSelectionsChanged,
-  getSelectionVersion,
-} from "./collabHelpers";
 
 const getEditorTemplate = (id: number) => `
   <div id="editor-${id}" class="Editor" spellcheck="false">
@@ -123,133 +97,10 @@ const getEditorTemplate = (id: number) => `
 
 const historyPlugin = history();
 
-const initialVersion = 0;
-
-type StepsPayload = NonNullable<ReturnType<typeof sendableSteps>>;
-type LocalStep = { step: Step; clientID: string };
-type SelectionMap = Map<
-  string,
-  { selection: Selection | undefined; userName: string; version: number }
->;
-class CollabServer {
-  private version: number = 0;
-  private steps: LocalStep[] = [];
-  private doc: Node | undefined;
-  private selections: SelectionMap = new Map();
-
-  public init(doc: Node) {
-    this.doc = doc;
-  }
-
-  public addSteps({ version, steps, clientID }: StepsPayload) {
-    if (this.version !== version) return false;
-    for (let i = 0; i < steps.length; i++) {
-      this.doc = steps[i].apply(this.doc!).doc!;
-    }
-    this.version += steps.length;
-    this.steps = this.steps.concat(
-      steps.map((step) => ({ step, clientID: clientID.toString() }))
-    );
-  }
-
-  public addSelection(
-    selection: Selection,
-    clientID: string,
-    userName: string,
-    version: number
-  ) {
-    this.selections.set(clientID, { userName, selection, version });
-  }
-
-  public getState(
-    version: number
-  ): { steps: LocalStep[]; selections: SelectionMap } | false {
-    let startIndex = this.steps.length - (this.version - version);
-    if (startIndex < 0) {
-      return false;
-    }
-
-    return {
-      steps: this.steps.slice(startIndex),
-      selections: this.selections,
-    };
-  }
-}
-
-class EditorConnection {
-  private state: EditorState;
-  private lastSentSelection: Selection | undefined = undefined;
-
-  constructor(
-    private view: EditorView,
-    private server: CollabServer,
-    private clientID: string,
-    private userName: string
-  ) {
-    this.state = view.state;
-    view.setProps({
-      dispatchTransaction: (tr) => this.dispatchTransaction(tr),
-    });
-    this.startPolling();
-  }
-
-  private dispatchTransaction = (transaction: Transaction) => {
-    this.state = this.state.apply(transaction);
-    const steps = sendableSteps(this.state);
-    if (steps) {
-      this.addStepsFromEditor(steps);
-    }
-    if (this.state.selection !== this.lastSentSelection) {
-      this.addSelection(this.state.selection);
-    }
-    this.view.updateState(this.state);
-
-    highlightErrors(this.state);
-    set(this.clientID, this.state.doc);
-  };
-
-  private addStepsFromEditor(steps: StepsPayload) {
-    console.log({ steps });
-    this.server.addSteps(steps);
-  }
-
-  private addSelection(selection: Selection) {
-    this.lastSentSelection = this.state.selection;
-    const version = getSelectionVersion(this.state);
-    this.server.addSelection(selection, this.clientID, this.userName, version);
-  }
-
-  public startPolling() {
-    setInterval(() => {
-      const version = getVersion(this.state);
-      const state = server.getState(version);
-      if (!state) {
-        return console.log("Could not get steps on last poll");
-      }
-      const { steps, selections } = state;
-      const tr = receiveTransaction(
-        this.state,
-        steps.map((s) => s.step),
-        steps.map((s) => s.clientID)
-      );
-      const selectionSpecs = [...Array.from(selections.entries())].map(
-        ([clientID, { userName, selection, version }]) => ({
-          clientID,
-          userName,
-          selection,
-          version,
-        })
-      );
-      tr.setMeta(COLLAB_ACTION, actionSelectionsChanged(selectionSpecs));
-      console.log({ tr, selectionSpecs });
-      this.dispatchTransaction(tr);
-    }, 5000);
-  }
-}
-
 let menu = buildMenuItems(mySchema);
 
 const appEl = document.getElementById("app-root");
+const initialVersion = 0;
 const createEditors = (noOfEditors: number, server: CollabServer) =>
   Array(noOfEditors)
     .fill(undefined)
@@ -299,13 +150,17 @@ const createEditors = (noOfEditors: number, server: CollabServer) =>
         view,
         server,
         clientID,
-        `User ${clientID}`
+        `User ${clientID}`,
+        (tr) => {
+          highlightErrors(view.state);
+          set(clientID, view.state.doc);
+        }
       );
       return view;
     });
 
 const server = new CollabServer();
-const editors = createEditors(4, server);
+const editors = createEditors(2, server);
 const doc = editors[0].state.doc;
 server.init(doc);
 

@@ -57,7 +57,6 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
 ): number | null => {
   const all = new AllSelection(state.doc);
   const predicate = findPredicate(consumerPredicate, pos);
-  console.log({pos})
   const node = state.doc.nodeAt(pos);
   const nodeSize = node ? node.nodeSize : pos;
   switch (dir) {
@@ -97,13 +96,13 @@ const moveNode = (consumerPredicate: TPredicate) => (
   if (pos === undefined) {
     return false;
   }
-  console.log({pos})
+
   const nextPos = nextPosFinder(consumerPredicate)(pos, state, dir);
 
   if (nextPos === null) {
     return false;
   }
-  console.log({nextPos, dir, dispatch})
+
   if (!dispatch) {
     return true;
   }
@@ -172,7 +171,7 @@ const removeNode = (getPos: () => number | undefined) => (
   }
   const { node } = state.doc.childAfter(pos);
   const to = node ? pos + node.nodeSize : pos;
-  console.log({ to, pos });
+
   dispatch(state.tr.deleteRange(pos, to));
 };
 
@@ -192,8 +191,8 @@ const createDecorations = (name: string) => (state: EditorState) => {
     if (node.type.name === name) {
       decorations.push(
         Decoration.node(
-          pos,
           pos + 1,
+          pos + node.nodeSize,
           {},
           {
             key: Math.random().toString(),
@@ -204,6 +203,7 @@ const createDecorations = (name: string) => (state: EditorState) => {
       );
     }
   });
+
   return DecorationSet.create(state.doc, decorations);
 };
 
