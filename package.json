@@ -4,7 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "start": "webpack"
+    "dev": "parcel index.html --no-hmr"
   },
   "dependencies": {
     "babel-preset-preact": "^2.0.0",
