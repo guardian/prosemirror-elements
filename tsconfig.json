@@ -4,6 +4,7 @@
       "module": "commonjs",
       "target": "es5",
       "lib": ["es6", "dom"],
+      "types": ["cypress", "chai"],
       "sourceMap": true,
       "jsx": "react",
       "moduleResolution": "node",
