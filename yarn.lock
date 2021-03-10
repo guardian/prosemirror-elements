@@ -270,15 +270,6 @@
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
-"@cypress/webpack-preprocessor@^5.6.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-5.6.0.tgz#9648ae22d2e52f17a604e2a493af27a9c96568bd"
-  integrity sha512-kSelTDe6gs3Skp4vPP2vfTvAl+Ua+9rR/AMTir7bgJihDvzFESqnjWtF6N1TrPo+vCFVGx0VUA6JUvDkhvpwhA==
-  dependencies:
-    bluebird "^3.7.1"
-    debug "4.3.2"
-    lodash "^4.17.20"
-
 "@cypress/xvfb@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@cypress/xvfb/-/xvfb-1.2.4.tgz#2daf42e8275b39f4aa53c14214e557bd14e7748a"
@@ -1416,6 +1407,15 @@ csstype@^2.5.2:
   version "2.6.16"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.16.tgz#544d69f547013b85a40d15bff75db38f34fe9c39"
   integrity sha512-61FBWoDHp/gRtsoDkq/B1nWrCUG/ok1E3tUrcNbZjsE9Cxd9yzUirjS3+nAATB8U4cTtaQmAHbNndoFz5L6C9Q==
+
+cypress-webpack-preprocessor-v5@^5.0.0-alpha.1:
+  version "5.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/cypress-webpack-preprocessor-v5/-/cypress-webpack-preprocessor-v5-5.0.0-alpha.1.tgz#381cac58c5ff4035c9b0de89379d5e80ee1c16e4"
+  integrity sha512-U5tb21Yxj3j8hofGz/g83NU+dIDNF+yO7DPwrgS5+5TZltc2OOnOpAApiyE23J6dvZyymkUx3bRGyR//Zwrx+A==
+  dependencies:
+    bluebird "^3.7.1"
+    debug "^4.1.1"
+    lodash "^4.17.20"
 
 cypress@^6.6.0:
   version "6.6.0"

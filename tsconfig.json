@@ -6,17 +6,13 @@
       "lib": ["es6", "dom"],
       "types": ["cypress", "chai"],
       "sourceMap": true,
+      "strict": true,
       "jsx": "react",
-      "moduleResolution": "node",
-      "rootDir": "./",
-      "strictNullChecks": true,
-      "noImplicitAny": true,
       "jsxFactory": "h",
       "allowSyntheticDefaultImports": true
     },
     "exclude": [
       "node_modules",
-      "dist",
-      "scripts"
+      "dist"
     ]
   }

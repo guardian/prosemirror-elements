@@ -1,4 +1,4 @@
-import { build } from "../../../embed";
+import { build } from "../../../src/embed";
 
 describe("build", () => {
   it("creates a plugin, and insertEmbed and hasErrors methods", () => {
