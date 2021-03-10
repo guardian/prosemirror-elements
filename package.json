@@ -25,8 +25,6 @@
     "@types/prosemirror-schema-basic": "^1.0.1",
     "@types/prosemirror-state": "^1.2.0",
     "@types/prosemirror-transform": "^1.1.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "parcel-bundler": "^1.9.7",
     "ts-loader": "^8.0.17",
     "typescript": "^4.2.3",
     "webpack": "^5.24.4",
