@@ -38,18 +38,18 @@ export default <LocalSchema extends Schema>(
     props: {
       decorations,
       nodeViews: {
-        embed: (initNode: EmbedNode, view, getPos: () => number) => {
+        embed: (initNode: EmbedNode, view, getPos) => {
           const dom = document.createElement('div');
           dom.contentEditable = 'false';
           const mount = types[initNode.attrs.type];
+          const pos = typeof getPos === "boolean" ? 0 : getPos();
 
-          console.log(view.state.doc);
 
           const update = mount(
             dom,
             (fields: { [field: string]: string }, hasErrors: boolean) => {
               view.dispatch(
-                view.state.tr.setNodeMarkup(getPos(), undefined, {
+                view.state.tr.setNodeMarkup(pos, undefined, {
                   ...initNode.attrs,
                   fields,
                   hasErrors
@@ -57,7 +57,7 @@ export default <LocalSchema extends Schema>(
               );
             },
             initNode.attrs.fields,
-            commands(getPos(), view.state, view.dispatch)
+            commands(pos, view.state, view.dispatch)
           );
 
           return {
@@ -69,7 +69,7 @@ export default <LocalSchema extends Schema>(
               ) {
                 update(
                   node.attrs.fields,
-                  commands(getPos(), view.state, view.dispatch)
+                  commands(pos, view.state, view.dispatch)
                 );
                 return true;
               }

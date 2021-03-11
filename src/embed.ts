@@ -31,7 +31,8 @@ const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
       parseDOM: [
         {
           tag: 'embed-attrs',
-          getAttrs: (dom: HTMLElement) => {
+          getAttrs: (dom: Element) => {
+            if (typeof dom === 'string') { return }
             const hasErrorAttr = dom.getAttribute('has-errors');
             console.log(dom.getAttribute('fields'));
             return {
