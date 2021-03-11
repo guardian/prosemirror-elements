@@ -1,8 +1,9 @@
-import { h, render, VNode } from 'preact';
-import mount from '../../mount';
-import EmbedProvider from './EmbedProvider';
+import React, { ReactElement } from "react";
+import { render } from "react-dom";
+import mount from "../../mount";
+import EmbedProvider from "./EmbedProvider";
 
-export default mount<VNode>(
+export default mount<ReactElement>(
   (consumer, validate, dom, updateState, fields, commands, subscribe) =>
     render(
       <EmbedProvider

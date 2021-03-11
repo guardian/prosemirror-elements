@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React from 'react';
 import TFields from '../../types/Fields';
 
 const ImageEmbed = ({
@@ -35,7 +35,7 @@ const ImageEmbed = ({
         <input
           type="text"
           value={alt}
-          style={{ borderColor: errors.alt.length ? 'red' : null }}
+          style={{ borderColor: errors.alt.length ? 'red' : undefined }}
           onInput={e =>
             e.target instanceof HTMLInputElement &&
             updateFields({ alt: e.target.value })
