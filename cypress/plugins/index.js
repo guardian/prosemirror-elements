@@ -15,5 +15,6 @@
 const webpackPreprocessor = require('cypress-webpack-preprocessor-v5')
 
 module.exports = (on) => {
-  on('file:preprocessor', webpackPreprocessor())
+  const webpackOptions = require('../../webpack.config.js');
+  on("file:preprocessor", webpackPreprocessor({ webpackOptions, watchOptions: {} }));
 }

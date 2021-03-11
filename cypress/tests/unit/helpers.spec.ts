@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 import { build } from "../../../src/embed";
 
 describe("build", () => {
