@@ -4,6 +4,11 @@ module.exports = {
   entry: './src/index.ts',
   mode: 'development',
   devtool: 'inline-source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 7890,
+  },
   module: {
     rules: [
       {
