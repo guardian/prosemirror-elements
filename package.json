@@ -12,6 +12,7 @@
     "babel-preset-preact": "^2.0.0",
     "cypress": "^6.6.0",
     "emotion": "^9.2.10",
+    "orderedmap": "^1.1.1",
     "preact": "^8.2.9",
     "preact-dom": "^1.0.1",
     "preact-emotion": "^9.2.10",
@@ -26,8 +27,8 @@
   "devDependencies": {
     "@babel/core": "^7.12.17",
     "@cypress/webpack-preprocessor": "^5.6.0",
-    "@types/prosemirror-model": "^1.11.3",
     "@types/chai": "^4.2.15",
+    "@types/prosemirror-model": "^1.11.3",
     "@types/prosemirror-schema-basic": "^1.0.1",
     "@types/prosemirror-state": "^1.2.6",
     "@types/prosemirror-transform": "^1.1.0",
