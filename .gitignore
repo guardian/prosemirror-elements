@@ -2,3 +2,7 @@ dist/
 node_modules/
 *.log
 .cache
+.DS_Store
+.vscode
+cypress/videos
+cypress/screenshots

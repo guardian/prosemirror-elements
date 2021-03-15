@@ -1,5 +1,6 @@
 import { EditorState, Transaction } from 'prosemirror-state';
 import { Schema, Node, NodeSpec } from 'prosemirror-model';
+import OrderedMap from 'orderedmap';
 import { buildCommands, defaultPredicate } from './helpers';
 import Embed from './types/Embed';
 

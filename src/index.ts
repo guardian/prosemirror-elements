@@ -1,5 +1,6 @@
 import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
+import OrderedMap from 'orderedmap';
 import {
   Schema,
   DOMParser,
