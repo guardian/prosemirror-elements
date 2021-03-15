@@ -2,6 +2,9 @@
   "name": "prosemirror-embeds",
   "version": "1.0.0",
   "main": "index.ts",
+  "engines": {
+    "node": "14.15"
+  },
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --open",
