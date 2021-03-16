@@ -20,7 +20,7 @@ const mount = <FieldAttrs extends TFields>(
  createEmbed: CreateReactEmbed<FieldAttrs>,
  validate: TValidator<TFields>,
  defaultFields: FieldAttrs
-): TEmbed<FieldAttrs> => applyMount<ReactElement, FieldAttrs>(
+): TEmbed<FieldAttrs> => applyMount<FieldAttrs>(
   (dom, updateState, fields, commands, subscribe) =>
     render(
       <EmbedProvider

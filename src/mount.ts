@@ -12,8 +12,7 @@ const createUpdater = () => {
   };
 };
 
-// @placeholder
-type TRenderer<T> = (
+type EmbedMounter = (
   dom: HTMLElement,
   updateState: (fields: TFields, hasErrors: boolean) => void,
   fields: TFields,
@@ -24,17 +23,20 @@ type TRenderer<T> = (
 ) => void;
 
 /**
- * Apply a mounter – a function that describes a way to draw embeds.
+ * Apply an embed mounter – a function that describes a way to draw embeds and manage their state.
  *
- * @param render The function provided by the mounter to render the embed.
+ * Mounters are agnostic as to how rendering happens. We provide an example in React, but any
+ * other way to manage application state and render it into a DOM node is equally applicable.
+ *
+ * @param mount The function provided by the mounter to render the embed.
  */
-const applyMount = <RenderReturn, FieldAttrs extends TFields>(render: TRenderer<RenderReturn>): TEmbed<FieldAttrs> =>
+const applyMount = <FieldAttrs extends TFields>(mount: EmbedMounter): TEmbed<FieldAttrs> =>
     /**
      * The function called by the Embed plugin to mount an embed.
      */
     (dom, updateState, initialFields, commands) => {
       const updater = createUpdater();
-      render(
+      mount(
         dom,
         updateState,
         initialFields,
