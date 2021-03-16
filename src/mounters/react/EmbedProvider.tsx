@@ -3,8 +3,8 @@ import EmbedWrapper from './EmbedWrapper';
 import TFields from '../../types/Fields';
 import TErrors from '../../types/Errors';
 import { TCommands } from '../../types/Commands';
-import Consumer from '../../types/Consumer';
 import TValidator from '../../types/Validator';
+import { CreateReactEmbed } from './mount';
 
 const fieldErrors = (fields: TFields, errors: TErrors | null) =>
   Object.keys(fields).reduce(
@@ -21,7 +21,7 @@ type IProps = {
   fields: TFields;
   onStateChange: (fields: TFields) => void;
   validate: TValidator<TFields>;
-  consumer: Consumer<ReactElement, TFields>;
+  createEmbed: CreateReactEmbed<TFields>;
 };
 
 type IState = {
@@ -83,7 +83,7 @@ class EmbedProvider extends Component<IProps, IState> {
   render() {
     return (
       <EmbedWrapper name="Image" {...this.state.commands}>
-        {this.props.consumer(
+        {this.props.createEmbed(
           this.state.fields,
           fieldErrors(
             this.state.fields,

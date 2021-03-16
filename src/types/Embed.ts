@@ -1,5 +1,3 @@
-// @todo: placeholder
-
 import { TCommandCreator } from './Commands';
 import TFields from './Fields';
 

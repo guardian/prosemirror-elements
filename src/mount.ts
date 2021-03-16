@@ -1,7 +1,5 @@
 import TFields from "./types/Fields";
 import TEmbed from "./types/Embed";
-import TConsumer from "./types/Consumer";
-import TValidator from "./types/Validator";
 import { TCommands, TCommandCreator } from "./types/Commands";
 
 const createUpdater = () => {
@@ -10,16 +8,14 @@ const createUpdater = () => {
     subscribe: (fn: (...args: any[]) => void) => {
       sub = fn;
     },
-    update: (...args: any[]) => sub(...args)
+    update: (...args: any[]) => sub(...args),
   };
 };
 
 // @placeholder
 type TRenderer<T> = (
-  consumer: TConsumer<T, TFields>,
-  validate: TValidator<TFields>,
   dom: HTMLElement,
-  updateState: (fields: TFields) => void,
+  updateState: (fields: TFields, hasErrors: boolean) => void,
   fields: TFields,
   commands: TCommands,
   subscribe: (
@@ -27,24 +23,25 @@ type TRenderer<T> = (
   ) => void
 ) => void;
 
-const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
-  FieldAttrs extends TFields
->(
-  consumer: TConsumer<RenderReturn, FieldAttrs>,
-  validate: TValidator<TFields>,
-  defaultState: FieldAttrs
-): TEmbed<FieldAttrs> => (dom, updateState, fields, commands) => {
-  const updater = createUpdater();
-  render(
-    consumer,
-    validate,
-    dom,
-    fields => updateState(fields, !!validate(fields)),
-    Object.assign({}, defaultState, fields),
-    commands,
-    updater.subscribe
-  );
-  return updater.update;
-};
+/**
+ * Apply a mounter – a function that describes a way to draw embeds.
+ *
+ * @param render The function provided by the mounter to render the embed.
+ */
+const applyMount = <RenderReturn, FieldAttrs extends TFields>(render: TRenderer<RenderReturn>): TEmbed<FieldAttrs> =>
+    /**
+     * The function called by the Embed plugin to mount an embed.
+     */
+    (dom, updateState, initialFields, commands) => {
+      const updater = createUpdater();
+      render(
+        dom,
+        updateState,
+        initialFields,
+        commands,
+        updater.subscribe
+      );
+      return updater.update;
+    };
 
-export default mount;
+export default applyMount;

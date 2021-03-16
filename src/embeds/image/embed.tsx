@@ -1,10 +1,10 @@
 import React from 'react';
-import preactMount from '../../mounters/react/mount';
+import reactMount from '../../mounters/react/mount';
 import ImageEmbed from './ImageEmbed';
 import TImageFields from './types/Fields';
 
 const image = ({ editSrc = false } = {}) =>
-  preactMount<TImageFields>(
+  reactMount<TImageFields>(
     (fields, errors, updateFields) => (
       <ImageEmbed
         fields={fields}
