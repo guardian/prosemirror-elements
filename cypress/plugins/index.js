@@ -12,9 +12,12 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-const webpackPreprocessor = require('cypress-webpack-preprocessor-v5')
+const webpackPreprocessor = require("cypress-webpack-preprocessor-v5");
 
 module.exports = (on) => {
-  const webpackOptions = require('../../webpack.config.js');
-  on("file:preprocessor", webpackPreprocessor({ webpackOptions, watchOptions: {} }));
-}
+  const webpackOptions = require("../../webpack.config.js");
+  on(
+    "file:preprocessor",
+    webpackPreprocessor({ webpackOptions, watchOptions: {} })
+  );
+};

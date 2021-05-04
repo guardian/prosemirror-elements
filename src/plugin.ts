@@ -1,23 +1,26 @@
-import { Plugin } from 'prosemirror-state';
-import { Node, Schema } from 'prosemirror-model';
-import { createDecorations, buildCommands } from './helpers';
-import Embed from './types/Embed';
-import TFields from './types/Fields';
+import type { Node, Schema } from "prosemirror-model";
+import { Plugin } from "prosemirror-state";
+import type { buildCommands } from "./helpers";
+import { createDecorations } from "./helpers";
+import type { TEmbed } from "./types/Embed";
+import type { TFields } from "./types/Fields";
 
-const decorations = createDecorations('embed');
+const decorations = createDecorations("embed");
 
-export default <LocalSchema extends Schema>(
-  types: { [embedType: string]: Embed<TFields> },
+export type PluginState = { hasErrors: boolean };
+
+export const createPlugin = <LocalSchema extends Schema>(
+  types: Record<string, TEmbed<TFields>>,
   commands: ReturnType<typeof buildCommands>
-) => {
+): Plugin<PluginState, LocalSchema> => {
   type EmbedNode = Node<LocalSchema>;
 
   const hasErrors = (doc: Node) => {
     let foundError = false;
-    doc.descendants((node: EmbedNode, pos, parent) => {
+    doc.descendants((node: EmbedNode) => {
       if (!foundError) {
-        if (node.type.name === 'embed') {
-          foundError = node.attrs.hasErrors;
+        if (node.type.name === "embed") {
+          foundError = node.attrs.hasErrors as boolean;
         }
       } else {
         return false;
@@ -26,33 +29,32 @@ export default <LocalSchema extends Schema>(
     return foundError;
   };
 
-  return new Plugin({
+  return new Plugin<PluginState, LocalSchema>({
     state: {
       init: (_, state) => ({
-        hasErrors: hasErrors(state.doc)
+        hasErrors: hasErrors(state.doc),
       }),
-      apply: (tr, value, oldState, state) => ({
-        hasErrors: hasErrors(state.doc)
-      })
+      apply: (_tr, _value, _oldState, state) => ({
+        hasErrors: hasErrors(state.doc),
+      }),
     },
     props: {
       decorations,
       nodeViews: {
         embed: (initNode: EmbedNode, view, getPos) => {
-          const dom = document.createElement('div');
-          dom.contentEditable = 'false';
-          const mount = types[initNode.attrs.type];
+          const dom = document.createElement("div");
+          dom.contentEditable = "false";
+          const mount = types[initNode.attrs.type as string];
           const pos = typeof getPos === "boolean" ? 0 : getPos();
-
 
           const update = mount(
             dom,
-            (fields: { [field: string]: string }, hasErrors: boolean) => {
+            (fields: Record<string, string>, hasErrors: boolean) => {
               view.dispatch(
                 view.state.tr.setNodeMarkup(pos, undefined, {
                   ...initNode.attrs,
                   fields,
-                  hasErrors
+                  hasErrors,
                 })
               );
             },
@@ -64,7 +66,7 @@ export default <LocalSchema extends Schema>(
             dom,
             update: (node: EmbedNode) => {
               if (
-                node.type.name === 'embed' &&
+                node.type.name === "embed" &&
                 node.attrs.type === initNode.attrs.type
               ) {
                 update(
@@ -76,10 +78,10 @@ export default <LocalSchema extends Schema>(
               return false;
             },
             stopEvent: () => true,
-            destroy: () => null
+            destroy: () => null,
           };
-        }
-      }
-    }
+        },
+      },
+    },
   });
 };

@@ -1,3 +1,1 @@
-type TErrors = {[field: string]: string[]};
-
-export default TErrors;
+export type TErrors = Record<string, string[]>;

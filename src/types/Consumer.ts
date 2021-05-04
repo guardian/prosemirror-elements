@@ -1,10 +1,8 @@
-import TFields from "./Fields";
-import TErrors from "./Errors";
+import type { TErrors } from "./Errors";
+import type { TFields } from "./Fields";
 
-type TConsumer<ConsumerResult, FieldAttrs extends TFields> = (
+export type TConsumer<ConsumerResult, FieldAttrs extends TFields> = (
   fields: FieldAttrs,
   errors: TErrors,
   updateFields: (fields: FieldAttrs) => void
 ) => ConsumerResult;
-
-export default TConsumer;
