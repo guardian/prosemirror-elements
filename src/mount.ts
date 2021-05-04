@@ -1,6 +1,8 @@
 import TFields from "./types/Fields";
 import TEmbed from "./types/Embed";
 import { TCommands, TCommandCreator } from "./types/Commands";
+import { NodeSpec } from "prosemirror-model";
+import OrderedMap from "orderedmap";
 
 const createUpdater = () => {
   let sub: (...args: any[]) => void = () => {};
@@ -30,11 +32,11 @@ type EmbedMounter = (
  *
  * @param mount The function provided by the mounter to render the embed.
  */
-const applyMount = <FieldAttrs extends TFields>(mount: EmbedMounter): TEmbed<FieldAttrs> =>
+const applyMount = <FieldAttrs extends TFields>(mount: EmbedMounter, schema: OrderedMap<NodeSpec>): TEmbed<FieldAttrs> => {
     /**
      * The function called by the Embed plugin to mount an embed.
      */
-    (dom, updateState, initialFields, commands) => {
+    const mountEmbed = (dom, updateState, initialFields, commands) => {
       const updater = createUpdater();
       mount(
         dom,
@@ -45,5 +47,8 @@ const applyMount = <FieldAttrs extends TFields>(mount: EmbedMounter): TEmbed<Fie
       );
       return updater.update;
     };
+
+    return { mountEmbed, schema }
+  }
 
 export default applyMount;

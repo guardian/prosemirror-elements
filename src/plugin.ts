@@ -41,11 +41,10 @@ export default <LocalSchema extends Schema>(
         embed: (initNode: EmbedNode, view, getPos) => {
           const dom = document.createElement('div');
           dom.contentEditable = 'false';
-          const mount = types[initNode.attrs.type];
+          const { mountEmbed } = types[initNode.attrs.type];
           const pos = typeof getPos === "boolean" ? 0 : getPos();
 
-
-          const update = mount(
+          const update = mountEmbed(
             dom,
             (fields: { [field: string]: string }, hasErrors: boolean) => {
               view.dispatch(

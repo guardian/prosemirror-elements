@@ -1,7 +1,11 @@
+import OrderedMap from 'orderedmap';
+import { NodeSpec } from 'prosemirror-model';
 import React from 'react';
 import reactMount from '../../mounters/react/mount';
 import ImageEmbed from './ImageEmbed';
 import TImageFields from './types/Fields';
+
+const imageSchema: OrderedMap<NodeSpec> = OrderedMap.from({})
 
 const image = ({ editSrc = false } = {}) =>
   reactMount<TImageFields>(
@@ -13,8 +17,9 @@ const image = ({ editSrc = false } = {}) =>
         editSrc={editSrc}
       />
     ),
+    imageSchema,
     ({ alt }) => (alt ? null : { alt: ['Alt tag must be set'] }),
-    { caption: '', src: '', alt: '' }
+    { caption: '', src: '', alt: '' },
   );
 
 export default image;

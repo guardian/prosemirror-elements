@@ -1,68 +1,39 @@
-import { EditorState, Transaction } from 'prosemirror-state';
-import { Schema, Node, NodeSpec } from 'prosemirror-model';
-import OrderedMap from 'orderedmap';
-import { buildCommands, defaultPredicate } from './helpers';
-import Embed from './types/Embed';
+import { EditorState, Transaction } from "prosemirror-state";
+import { Schema, Node, NodeSpec } from "prosemirror-model";
+import OrderedMap from "orderedmap";
+import { buildCommands, defaultPredicate } from "./helpers";
+import Embed from "./types/Embed";
 
-import buildPlugin from './plugin';
-import TFields from './types/Fields';
+import buildPlugin from "./plugin";
+import TFields from "./types/Fields";
+import baseEmbedSchema from "./embedSchema";
 
-const addEmbedNode = (schema: OrderedMap<NodeSpec>) =>
-  schema.append({
-    embed: {
-      group: 'block',
-      attrs: {
-        type: {},
-        fields: {
-          default: {}
-        },
-        hasErrors: {
-          default: false
-        }
-      },
-      draggable: false,
-      toDOM: (node: Node) => [
-        'embed-attrs',
-        {
-          type: node.attrs.type,
-          fields: JSON.stringify(node.attrs.fields),
-          'has-errors': JSON.stringify(node.attrs.hasErrors)
-        }
-      ],
-      parseDOM: [
-        {
-          tag: 'embed-attrs',
-          getAttrs: (dom: Element) => {
-            if (typeof dom === 'string') { return }
-            const hasErrorAttr = dom.getAttribute('has-errors');
-            console.log(dom.getAttribute('fields'));
-            return {
-              type: dom.getAttribute('type'),
-              fields: JSON.parse(dom.getAttribute('fields') || '{}'),
-              hasErrors: hasErrorAttr && hasErrorAttr !== 'false'
-            };
-          }
-        }
-      ]
-    }
-  });
+const appendEmbedSchema = (
+  currentSchema: OrderedMap<NodeSpec>,
+  incomingSchema: OrderedMap<NodeSpec>
+) => currentSchema.append(incomingSchema);
 
 const build = (
-  types: { [pluginKey: string]: Embed<TFields> },
+  types: { [embedName: string]: Embed<TFields> },
   predicate = defaultPredicate
 ) => {
   const typeNames = Object.keys(types);
   const plugin = buildPlugin(types, buildCommands(predicate));
+  const schema = Object.values(types)
+    .map(embed => embed.schema)
+    .reduce(appendEmbedSchema, baseEmbedSchema);
+
   return {
+    schema,
     insertEmbed: (type: string, fields = {}) => (
       state: EditorState,
       dispatch: (tr: Transaction<Schema>) => void
     ) => {
       if (typeNames.indexOf(type) === -1) {
         throw new Error(
-          `[prosemirror-embeds]: ${type} is not recognised. Only ${typeNames.join(
-            ', '
-          )} have can be added`
+          `[prosemirror-embeds]: ${type} is not recognised – only elements of type ${typeNames.join(
+            ", "
+          )} have been registered`
         );
       }
       // check whether we can
@@ -73,8 +44,8 @@ const build = (
       );
     },
     hasErrors: (state: EditorState) => plugin.getState(state).hasErrors,
-    plugin
+    plugin,
   };
 };
 
-export { build, addEmbedNode };
+export { build, appendEmbedSchema as addEmbedNode };

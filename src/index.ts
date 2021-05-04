@@ -10,13 +10,17 @@ import {
 } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
 import { exampleSetup } from 'prosemirror-example-setup';
-import { addEmbedNode, build } from './embed';
+import { build } from './embed';
 import image from './embeds/image/embed';
+
+const { plugin: embed, insertEmbed, hasErrors, schema: embedSchema } = build({
+  image: image({ editSrc: true })
+});
 
 // Mix the nodes from prosemirror-schema-list into the basic schema to
 // create a schema with list support.
 const mySchema = new Schema({
-  nodes: addEmbedNode(schema.spec.nodes as OrderedMap<NodeSpec>),
+  nodes: embedSchema.append(schema.spec.nodes),
   marks: schema.spec.marks
 });
 
@@ -42,9 +46,6 @@ const get = () => {
 };
 const set = (doc: Node) => window.localStorage.setItem('pm', docToHtml(doc));
 
-const { plugin: embed, insertEmbed, hasErrors } = build({
-  image: image({ editSrc: true })
-});
 
 // window.localStorage.setItem('pm', ''); // reset state for debugging
 

@@ -1,3 +1,5 @@
+import OrderedMap from "orderedmap";
+import { NodeSpec } from "prosemirror-model";
 import React, { ReactElement } from "react";
 import { render } from "react-dom";
 import applyMount from "../../mount";
@@ -17,22 +19,25 @@ export type CreateReactEmbed<FieldAttrs extends TFields> = (
  * Mount a react-based embed render function, creating an Embed that the plugin can render.
  */
 const mount = <FieldAttrs extends TFields>(
- createEmbed: CreateReactEmbed<FieldAttrs>,
- validate: TValidator<TFields>,
- defaultFields: FieldAttrs
-): TEmbed<FieldAttrs> => applyMount<FieldAttrs>(
-  (dom, updateState, fields, commands, subscribe) =>
-    render(
-      <EmbedProvider
-        subscribe={subscribe}
-        onStateChange={(fields) => updateState(fields, !!validate(fields))}
-        fields={{...defaultFields, ...fields}}
-        validate={validate}
-        commands={commands}
-        createEmbed={createEmbed}
-      />,
-      dom
-    )
-);
+  createEmbed: CreateReactEmbed<FieldAttrs>,
+  embedSchema: OrderedMap<NodeSpec>,
+  validate: TValidator<TFields>,
+  defaultFields: FieldAttrs
+): TEmbed<FieldAttrs> =>
+  applyMount<FieldAttrs>(
+    (dom, updateState, fields, commands, subscribe) =>
+      render(
+        <EmbedProvider
+          subscribe={subscribe}
+          onStateChange={(fields) => updateState(fields, !!validate(fields))}
+          fields={{ ...defaultFields, ...fields }}
+          validate={validate}
+          commands={commands}
+          createEmbed={createEmbed}
+        />,
+        dom
+      ),
+    embedSchema
+  );
 
 export default mount;
