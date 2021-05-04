@@ -9,7 +9,8 @@
   "scripts": {
     "start": "webpack serve --open",
     "test": "cypress open",
-    "test-ci": "cypress run"
+    "test-ci": "cypress run",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.1.5",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.17",
     "@cypress/webpack-preprocessor": "^5.6.0",
+    "@guardian/eslint-config-typescript": "^0.5.0",
     "@types/chai": "^4.2.15",
     "@types/prosemirror-model": "^1.11.3",
     "@types/prosemirror-schema-basic": "^1.0.1",
@@ -37,9 +39,17 @@
     "@types/prosemirror-view": "^1.17.1",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
     "cypress-webpack-preprocessor-v5": "^5.0.0-alpha.1",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1",
     "ts-loader": "^8.0.17",
-    "typescript": "^4.2.3",
+    "typescript": "^4.2.4",
     "webpack": "^5.24.4",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
