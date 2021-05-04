@@ -1,5 +1,5 @@
-import { h, VNode } from 'preact';
-import styled from 'preact-emotion';
+import React, { ReactElement } from 'react';
+import styled from '@emotion/styled';
 import { TCommandCreator } from '../../types/Commands';
 
 const Container = styled('div')`
@@ -72,7 +72,7 @@ const EmbedWrapper = ({
   children
 }: {
   name: string;
-  children?: VNode;
+  children?: ReactElement;
 } & ReturnType<TCommandCreator>) => (
   <Container>
     <Header>

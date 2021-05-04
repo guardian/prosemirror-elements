@@ -1,5 +1,5 @@
-import { h } from 'preact';
-import preactMount from '../../mounters/preact/mount';
+import React from 'react';
+import preactMount from '../../mounters/react/mount';
 import ImageEmbed from './ImageEmbed';
 import TImageFields from './types/Fields';
 

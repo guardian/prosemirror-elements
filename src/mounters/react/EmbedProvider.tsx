@@ -1,4 +1,4 @@
-import { h, Component, VNode } from 'preact';
+import React, { Component, ReactElement } from 'react';
 import EmbedWrapper from './EmbedWrapper';
 import TFields from '../../types/Fields';
 import TErrors from '../../types/Errors';
@@ -21,7 +21,7 @@ type IProps = {
   fields: TFields;
   onStateChange: (fields: TFields) => void;
   validate: TValidator<TFields>;
-  consumer: Consumer<VNode, TFields>;
+  consumer: Consumer<ReactElement, TFields>;
 };
 
 type IState = {

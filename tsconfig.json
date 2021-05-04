@@ -11,8 +11,8 @@
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "jsx": "react",
-    "jsxFactory": "h",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
