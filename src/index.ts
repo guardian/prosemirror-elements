@@ -79,3 +79,8 @@ embedButton.addEventListener("click", () =>
   insertImageEmbed(view.state, view.dispatch)
 );
 document.body.appendChild(embedButton);
+
+// Handy debugging tools
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call -- debug
+(window as any).ProseMirrorDevTools.applyDevTools(view, { EditorState });
