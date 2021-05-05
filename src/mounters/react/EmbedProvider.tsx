@@ -1,7 +1,9 @@
+import type { Schema } from "prosemirror-model";
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
+import type { NestedEditorMap } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
@@ -16,22 +18,27 @@ const fieldErrors = (fields: TFields, errors: TErrors | null) =>
     {}
   );
 
-type IProps = {
-  subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
+type IProps<FieldAttrs extends TFields> = {
+  subscribe: (fn: (fields: FieldAttrs, commands: TCommands) => void) => void;
   commands: TCommands;
-  fields: TFields;
-  onStateChange: (fields: TFields) => void;
-  validate: TValidator<TFields>;
-  consumer: TConsumer<ReactElement, TFields>;
+  fields: FieldAttrs;
+  defaultFields: FieldAttrs;
+  onStateChange: (fields: Partial<FieldAttrs>) => void;
+  validate: TValidator<FieldAttrs>;
+  consumer: TConsumer<ReactElement, FieldAttrs>;
+  nestedEditors: NestedEditorMap;
 };
 
-type IState = {
+type IState<FieldAttrs extends TFields> = {
   commands: TCommands;
-  fields: TFields;
+  fields: FieldAttrs;
 };
 
-export class EmbedProvider extends Component<IProps, IState> {
-  constructor(props: IProps) {
+export class EmbedProvider<FieldAttrs extends TFields> extends Component<
+  IProps<FieldAttrs>,
+  IState<FieldAttrs>
+> {
+  constructor(props: IProps<FieldAttrs>) {
     super(props);
 
     this.updateFields = this.updateFields.bind(this);
@@ -43,7 +50,7 @@ export class EmbedProvider extends Component<IProps, IState> {
   }
 
   componentDidMount() {
-    this.props.subscribe((fields = {}, commands) =>
+    this.props.subscribe((fields = this.props.defaultFields, commands) =>
       this.updateState(
         {
           commands,
@@ -62,7 +69,10 @@ export class EmbedProvider extends Component<IProps, IState> {
     this.props.onStateChange(this.state.fields);
   }
 
-  updateState(state: Partial<IState>, notifyListeners: boolean): void {
+  updateState(
+    state: Partial<IState<FieldAttrs>>,
+    notifyListeners: boolean
+  ): void {
     this.setState(
       { ...this.state, ...state },
       () => notifyListeners && this.onStateChange()
@@ -90,7 +100,8 @@ export class EmbedProvider extends Component<IProps, IState> {
             this.state.fields,
             this.props.validate(this.state.fields)
           ),
-          this.updateFields
+          this.updateFields,
+          this.props.nestedEditors
         )}
       </EmbedWrapper>
     );

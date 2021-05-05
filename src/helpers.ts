@@ -26,7 +26,7 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   return arr;
 };
 
-type TPredicate = (
+export type TPredicate = (
   node: Node,
   pos: number,
   parent: Node,
@@ -120,37 +120,38 @@ const moveNode = (consumerPredicate: TPredicate) => (
   return true;
 };
 
-const moveNodeUp = (predicate: TPredicate) => (pos: number) => (
+const moveNodeUp = (predicate: TPredicate, pos: number) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
 ) => moveNode(predicate)(pos, state, dispatch, "up");
 
-const moveNodeDown = (predicate: TPredicate) => (pos: number) => (
+const moveNodeDown = (predicate: TPredicate, pos: number) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
 ) => moveNode(predicate)(pos, state, dispatch, "down");
 
-const moveNodeTop = (predicate: TPredicate) => (pos: number) => (
+const moveNodeTop = (predicate: TPredicate, pos: number) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
 ) => moveNode(predicate)(pos, state, dispatch, "top");
 
-const moveNodeBottom = (predicate: TPredicate) => (pos: number) => (
+const moveNodeBottom = (predicate: TPredicate, pos: number) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
 ) => moveNode(predicate)(pos, state, dispatch, "bottom");
 
-const buildMoveCommands = (predicate: TPredicate) => (
+const buildMoveCommands = (
+  predicate: TPredicate,
   pos: number,
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false
 ) => ({
-  moveUp: (run = true) => moveNodeUp(predicate)(pos)(state, run && dispatch),
+  moveUp: (run = true) => moveNodeUp(predicate, pos)(state, run && dispatch),
   moveDown: (run = true) =>
-    moveNodeDown(predicate)(pos)(state, run && dispatch),
-  moveTop: (run = true) => moveNodeTop(predicate)(pos)(state, run && dispatch),
+    moveNodeDown(predicate, pos)(state, run && dispatch),
+  moveTop: (run = true) => moveNodeTop(predicate, pos)(state, run && dispatch),
   moveBottom: (run = true) =>
-    moveNodeBottom(predicate)(pos)(state, run && dispatch),
+    moveNodeBottom(predicate, pos)(state, run && dispatch),
 });
 
 const removeNode = (pos: number) => (
@@ -158,12 +159,13 @@ const removeNode = (pos: number) => (
   dispatch: ((tr: Transaction) => void) | false
 ) => (dispatch ? dispatch(state.tr.deleteRange(pos, pos + 1)) : true);
 
-const buildCommands = (predicate: TPredicate) => (
+const buildCommands = (
+  predicate: TPredicate,
   pos: number,
   state: EditorState,
   dispatch: (tr: Transaction) => void
 ): TCommands => ({
-  ...buildMoveCommands(predicate)(pos, state, dispatch),
+  ...buildMoveCommands(predicate, pos, state, dispatch),
   remove: (run = true) => removeNode(pos)(state, run && dispatch),
 });
 

@@ -39,10 +39,8 @@ const get = () => {
 const set = (doc: Node) => window.localStorage.setItem("pm", docToHtml(doc));
 
 const { plugin: embedPlugin, insertEmbed, hasErrors } = build({
-  image: createImageEmbed({ editSrc: true }),
+  imageEmbed: createImageEmbed({ editSrc: true }),
 });
-
-// window.localStorage.setItem('pm', ''); // reset state for debugging
 
 const editorElement = document.querySelector("#editor");
 
@@ -71,12 +69,13 @@ const view = new EditorView(editorElement, {
 
 highlightErrors(view.state);
 
-const insertImageEmbed = insertEmbed("image");
-
 const embedButton = document.createElement("button");
 embedButton.innerHTML = "Embed";
 embedButton.addEventListener("click", () =>
-  insertImageEmbed(view.state, view.dispatch)
+  insertEmbed("imageEmbed", { alt: "", caption: "", src: "" })(
+    view.state,
+    view.dispatch
+  )
 );
 document.body.appendChild(embedButton);
 
