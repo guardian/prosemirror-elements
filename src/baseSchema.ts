@@ -18,7 +18,8 @@ export const baseEmbedSchema: NodeSpec = {
     parseDOM: [{ tag: "div" }],
   },
   imageEmbed: {
-    group: "caption altText",
+    group: "block",
+    content: "caption altText",
     attrs: {
       type: {},
       fields: {
