@@ -2,7 +2,7 @@ import type OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import { baseEmbedSchema } from "./baseSchema";
-import { defaultPredicate } from "./helpers";
+import { buildCommands, defaultPredicate } from "./helpers";
 import { createPlugin } from "./plugin";
 import type { TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
@@ -55,7 +55,7 @@ const build = <EmbedKeys extends string, EmbedFields extends TFields>(
     );
   };
 
-  const plugin = createPlugin<EmbedFields>(types, predicate);
+  const plugin = createPlugin<EmbedFields>(types, buildCommands(predicate));
 
   return {
     insertEmbed,

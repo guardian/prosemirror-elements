@@ -4,8 +4,8 @@ import { schema } from "prosemirror-schema-basic";
 import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { GenericEmbedsSpec } from "./embed";
-import type { TPredicate } from "./helpers";
-import { buildCommands, createDecorations } from "./helpers";
+import type { Commands } from "./helpers";
+import { createDecorations } from "./helpers";
 import { RTENodeView } from "./nodeViews/RTENode";
 import type { NestedEditorMap, TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
@@ -19,7 +19,7 @@ export const createPlugin = <
   LocalSchema extends Schema = Schema
 >(
   embedsSpec: GenericEmbedsSpec<FieldAttrs>,
-  predicate: TPredicate
+  commands: Commands
 ): Plugin<PluginState, LocalSchema> => {
   type EmbedNode = Node<LocalSchema>;
 
@@ -48,7 +48,7 @@ export const createPlugin = <
     },
     props: {
       decorations,
-      nodeViews: createNodeViews(embedsSpec, predicate),
+      nodeViews: createNodeViews(embedsSpec, commands),
     },
   });
 };
@@ -57,14 +57,14 @@ type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
 const createNodeViews = <FieldAttrs extends TFields>(
   embedsSpec: GenericEmbedsSpec<FieldAttrs>,
-  predicate: TPredicate
+  commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
   for (const embedName in embedsSpec) {
     nodeViews[embedName] = createNodeView(
       embedName,
       embedsSpec[embedName],
-      predicate
+      commands
     );
   }
 
@@ -76,11 +76,11 @@ type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 const createNodeView = <FieldAttrs extends TFields>(
   embedName: string,
   createEmbed: TEmbed<FieldAttrs>,
-  predicate: TPredicate
-): NodeViewCreator => (initNode, view, getPos, innerDecos) => {
+  commands: Commands
+): NodeViewCreator => (initNode, view, _getPos, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
-  const pos = typeof getPos === "boolean" ? 0 : getPos();
+  const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
   const nestedEditors = {} as NestedEditorMap;
   const temporaryHardcodedSchema = new Schema({
@@ -96,6 +96,7 @@ const createNodeView = <FieldAttrs extends TFields>(
         `[prosemirror-embeds]: Attempted to instantiate a nested editor with type ${typeName}, but another instance with that name has already been created.`
       );
     }
+    console.log({ pos: getPos(), offset });
     nestedEditors[typeName] = new RTENodeView(
       node,
       view,
@@ -111,7 +112,7 @@ const createNodeView = <FieldAttrs extends TFields>(
     nestedEditors,
     (fields, hasErrors) => {
       view.dispatch(
-        view.state.tr.setNodeMarkup(pos, undefined, {
+        view.state.tr.setNodeMarkup(getPos(), undefined, {
           ...initNode.attrs,
           fields,
           hasErrors,
@@ -119,7 +120,7 @@ const createNodeView = <FieldAttrs extends TFields>(
       );
     },
     initNode.attrs.fields,
-    buildCommands(predicate, pos, view.state, view.dispatch)
+    commands(getPos, view)
   );
 
   return {
@@ -129,10 +130,7 @@ const createNodeView = <FieldAttrs extends TFields>(
         node.type.name === embedName &&
         node.attrs.type === initNode.attrs.type
       ) {
-        update(
-          node.attrs.fields,
-          buildCommands(predicate, pos, view.state, view.dispatch)
-        );
+        update(node.attrs.fields, commands(getPos, view));
         return true;
       }
       return false;

@@ -65,7 +65,6 @@ export class EmbedProvider<FieldAttrs extends TFields> extends Component<
   }
 
   onStateChange(): void {
-    console.log("onStateChange", this.state.fields);
     this.props.onStateChange(this.state.fields);
   }
 
