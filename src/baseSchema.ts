@@ -37,6 +37,7 @@ export const baseEmbedSchema: NodeSpec = {
         fields: JSON.stringify(node.attrs.fields),
         "has-errors": JSON.stringify(node.attrs.hasErrors),
       },
+      0
     ],
     parseDOM: [
       {
@@ -46,7 +47,7 @@ export const baseEmbedSchema: NodeSpec = {
             return;
           }
           const hasErrorAttr = dom.getAttribute("has-errors");
-          console.log(dom.getAttribute("fields"));
+
           return {
             type: dom.getAttribute("type"),
             fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
