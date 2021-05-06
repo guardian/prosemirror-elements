@@ -10,7 +10,7 @@ import { RTENodeView } from "./nodeViews/RTENode";
 import type { NestedEditorMap, TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
 
-const decorations = createDecorations("embed");
+const decorations = createDecorations("imageEmbed");
 
 export type PluginState = { hasErrors: boolean };
 
@@ -77,7 +77,7 @@ const createNodeView = <FieldAttrs extends TFields>(
   embedName: string,
   createEmbed: TEmbed<FieldAttrs>,
   commands: Commands
-): NodeViewCreator => (initNode, view, _getPos, innerDecos) => {
+): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
@@ -96,7 +96,6 @@ const createNodeView = <FieldAttrs extends TFields>(
         `[prosemirror-embeds]: Attempted to instantiate a nested editor with type ${typeName}, but another instance with that name has already been created.`
       );
     }
-    console.log({ pos: getPos(), offset });
     nestedEditors[typeName] = new RTENodeView(
       node,
       view,
@@ -125,17 +124,25 @@ const createNodeView = <FieldAttrs extends TFields>(
 
   return {
     dom,
-    update: (node: Node) => {
+    update: (node, _, innerDecos) => {
       if (
         node.type.name === embedName &&
         node.attrs.type === initNode.attrs.type
       ) {
         update(node.attrs.fields, commands(getPos, view));
+        node.forEach((node, offset) => {
+          const typeName = node.type.name;
+          const nestedEditor = nestedEditors[typeName];
+          nestedEditor.update(node, innerDecos, offset);
+        });
         return true;
       }
       return false;
     },
     stopEvent: () => true,
-    destroy: () => null,
+    destroy: () => {
+      Object.values(nestedEditors).map((editor) => editor.close());
+    },
+    ignoreMutation: () => true,
   };
 };

@@ -48,7 +48,11 @@ export class RTENodeView<LocalSchema extends Schema> {
     this.dom.textContent = "";
   }
 
-  public update(node: Node, decorations: DecorationSet, offset: number) {
+  public update(
+    node: Node,
+    decorations: DecorationSet | Decoration[],
+    offset: number
+  ) {
     if (!node.sameMarkup(this.node)) {
       return false;
     }
@@ -86,7 +90,7 @@ export class RTENodeView<LocalSchema extends Schema> {
 
   private updateInnerEditor(
     node: Node,
-    decorations: DecorationSet,
+    decorations: DecorationSet | Decoration[],
     offset: number
   ) {
     this.offset = offset;
@@ -186,7 +190,7 @@ export class RTENodeView<LocalSchema extends Schema> {
     const localDecoSet =
       decorationSet instanceof DecorationSet
         ? decorationSet
-        : DecorationSet.create(this.innerEditorView.state.doc, decorationSet);
+        : DecorationSet.create(this.node, decorationSet);
     const offsetMap = new Mapping([StepMap.offset(-this.offset - 1)]);
     this.decorations = localDecoSet.map(offsetMap, this.node);
   }

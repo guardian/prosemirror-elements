@@ -190,7 +190,7 @@ const createDecorations = (name: string) => (state: EditorState) => {
     if (node.type.name === name) {
       decorations.push(
         Decoration.node(
-          pos + 1,
+          pos,
           pos + node.nodeSize,
           {},
           {
