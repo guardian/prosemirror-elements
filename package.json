@@ -37,7 +37,6 @@
     "@types/prosemirror-schema-basic": "^1.0.1",
     "@types/prosemirror-state": "^1.2.6",
     "@types/prosemirror-transform": "^1.1.0",
-    "@types/prosemirror-view": "^1.17.1",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
