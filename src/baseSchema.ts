@@ -37,7 +37,7 @@ export const baseEmbedSchema: NodeSpec = {
         fields: JSON.stringify(node.attrs.fields),
         "has-errors": JSON.stringify(node.attrs.hasErrors),
       },
-      0
+      0,
     ],
     parseDOM: [
       {

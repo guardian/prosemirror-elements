@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style,@typescript-eslint/ban-types --
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style,@typescript-eslint/ban-types,@typescript-eslint/no-explicit-any --
  * These are temporary type definitions to accommodate 1.18, and will be replaced once they're added to DefinitelyType.
  */
 

@@ -59,6 +59,6 @@ document.body.appendChild(embedButton);
 
 // Handy debugging tools
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call -- debug
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- debug
 (window as any).ProseMirrorDevTools.applyDevTools(view, { EditorState });
 ((window as unknown) as { view: EditorView }).view = view;

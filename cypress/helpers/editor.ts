@@ -19,21 +19,14 @@ export const getElementType = (element: JQuery) => {
 
 export const addEmbed = () => cy.get("#embed").click();
 
-export const typeIntoProsemirror = (content: string, paragraphIndex = 1) =>
-  cy.get(`.ProseMirror p:nth-child(${paragraphIndex})`).type(content);
+export const typeIntoProsemirror = (content: string) =>
+  cy.get(`.ProseMirror`).type(content);
 
-export const getEmbedField = (fieldName: string, paragraphIndex = 1) =>
-  cy.get(
-    `div${selectDataCy(
-      getNestedViewTestId(fieldName)
-    )} .ProseMirror p:nth-child(${paragraphIndex})`
-  );
+export const getEmbedField = (fieldName: string) =>
+  cy.get(`div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror`);
 
-export const typeIntoEmbedField = (
-  fieldName: string,
-  content: string,
-  paragraphIndex = 1
-) => getEmbedField(fieldName, paragraphIndex).type(content);
+export const typeIntoEmbedField = (fieldName: string, content: string) =>
+  getEmbedField(fieldName).type(content);
 
 export const getArrayOfBlockElementTypes = () => {
   // eslint-disable-next-line prefer-const -- it is used.
