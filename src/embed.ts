@@ -48,11 +48,18 @@ const build = <EmbedKeys extends string, EmbedFields extends TFields>(
         )} have can be added`
       );
     }
-    dispatch(
-      state.tr.replaceSelectionWith(
-        (state.schema as Schema).nodes[type].create({ type, fields })
-      )
-    );
+    const newNode = (state.schema as Schema).nodes[type].createAndFill({
+      type,
+      fields,
+    });
+    if (newNode) {
+      dispatch(state.tr.replaceSelectionWith(newNode));
+    } else {
+      // This shouldn't happen, as the schema should always be able to fill
+      // the node with correct children if we're not supplying content –
+      // see https://prosemirror.net/docs/ref/#model.NodeType.createAndFill
+      console.warn(`Could not create node for ${type}`);
+    }
   };
 
   const plugin = createPlugin<EmbedFields>(types, buildCommands(predicate));

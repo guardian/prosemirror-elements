@@ -129,7 +129,7 @@ export class RTENodeView<LocalSchema extends Schema> {
 
   private updateOuterEditor(
     innerTr: Transaction,
-    state: EditorState,
+    innerState: EditorState,
     transactions: Transaction[]
   ) {
     if (typeof this.getPos === "boolean") {
@@ -149,7 +149,7 @@ export class RTENodeView<LocalSchema extends Schema> {
       }
     }
 
-    const selection = state.selection;
+    const selection = innerState.selection;
     const mappedSelection = selection.map(outerTr.doc, offsetMap);
 
     const selectionHasChanged = !outerTr.selection.eq(mappedSelection);
