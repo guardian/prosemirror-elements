@@ -1,4 +1,3 @@
-import type { Schema } from "prosemirror-model";
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { TCommands } from "../../types/Commands";

@@ -7,6 +7,8 @@ type Props = {
   editor: RTENodeView<Schema>;
 };
 
+export const getNestedViewTestId = (name: string) => `NestedEditorView-${name}`;
+
 export const NestedEditorView: React.FunctionComponent<Props> = ({
   name,
   editor,
@@ -19,7 +21,7 @@ export const NestedEditorView: React.FunctionComponent<Props> = ({
     editorRef.current.appendChild(editor.dom);
   }, []);
   return (
-    <div>
+    <div data-cy={getNestedViewTestId(name)}>
       <label>
         <strong>{name}</strong>
       </label>

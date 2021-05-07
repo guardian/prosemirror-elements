@@ -12,14 +12,13 @@ type Props = {
   editSrc: boolean;
 };
 
+export const ImageEmbedTestId = "ImageEmbed";
+
 export const ImageEmbed: React.FunctionComponent<Props> = ({
-  fields: { caption, src, alt },
-  errors,
-  updateFields,
-  editSrc,
+  fields: { src, alt },
   nestedEditors,
 }) => (
-  <div>
+  <div data-cy={ImageEmbedTestId}>
     <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
     {Object.entries(nestedEditors).map(([nameType, editor]) => (
       <NestedEditorView key={nameType} name={nameType} editor={editor} />
