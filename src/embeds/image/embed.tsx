@@ -35,7 +35,20 @@ export const imageSchemaSpec: NodeSpec = {
   },
 };
 
-export const createImageEmbed = (): TEmbed =>
+export const imageProps = [
+  {
+    type: "string",
+    name: "caption",
+  },
+  {
+    type: "string",
+    name: "altText",
+  },
+] as const;
+
+export const createImageEmbed = ({ editSrc = false } = {}): TEmbed<
+  typeof imageProps
+> =>
   createReactEmbed(
     (fields, errors, updateFields, nestedEditors) => {
       return (

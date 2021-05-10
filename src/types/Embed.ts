@@ -8,9 +8,22 @@ export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
   RTENodeView<LocalSchema>
 >;
 
-export type TEmbed = (
+export type ElementProps = Readonly<{
+  type: "string";
+  name: string;
+}>;
+
+export type SchemaFromProps<Props extends Readonly<ElementProps[]>> = Schema<
+  Props[number]["name"]
+>;
+
+export type NestedEditorMapFromProps<Props extends Readonly<ElementProps[]>> = {
+  [name in Props[number]["name"]]: RTENodeView<SchemaFromProps<Props>>;
+};
+
+export type TEmbed<Props extends ElementProps[]> = (
   dom: HTMLElement,
-  nestedEditors: NestedEditorMap,
+  nestedEditors: NestedEditorMapFromProps<Props>,
   updateState: (fields: TFields, hasErrors: boolean) => void,
   initFields: TFields,
   commands: ReturnType<TCommandCreator>
