@@ -21,7 +21,7 @@ export type NestedEditorMapFromProps<Props extends Readonly<ElementProps[]>> = {
   [name in Props[number]["name"]]: RTENodeView<SchemaFromProps<Props>>;
 };
 
-export type TEmbed<Props extends ElementProps[]> = (
+export type TEmbed<Props extends Readonly<ElementProps[]>> = (
   dom: HTMLElement,
   nestedEditors: NestedEditorMapFromProps<Props>,
   updateState: (fields: TFields, hasErrors: boolean) => void,

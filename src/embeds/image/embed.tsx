@@ -1,7 +1,7 @@
 import type { NodeSpec } from "prosemirror-model";
 import React from "react";
 import { createReactEmbed } from "../../mounters/react/mount";
-import type { TEmbed } from "../../types/Embed";
+import type { ElementProps, TEmbed } from "../../types/Embed";
 import { ImageEmbed } from "./ImageEmbed";
 
 export const imageSchemaSpec: NodeSpec = {
@@ -47,10 +47,11 @@ export const imageProps = [
 ] as const;
 
 export const createImageEmbed = ({ editSrc = false } = {}): TEmbed<
-  typeof imageProps
+  ElementProps[]
 > =>
   createReactEmbed(
-    (fields, errors, updateFields, nestedEditors) => {
+    // @todo Sneaky any whilst we work on the typings
+    (fields, errors, updateFields, nestedEditors: any) => {
       return (
         <ImageEmbed
           fields={fields}

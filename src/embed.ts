@@ -4,21 +4,21 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { baseEmbedSchema } from "./baseSchema";
 import { buildCommands, defaultPredicate } from "./helpers";
 import { createPlugin } from "./plugin";
-import type { TEmbed } from "./types/Embed";
+import type { ElementProps, TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
 
 const addEmbedNode = (schemaSpec: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
   schemaSpec.append(baseEmbedSchema);
 
 export type EmbedsSpec<EmbedTypes extends string> = {
-  [key in EmbedTypes]: TEmbed;
+  [key in EmbedTypes]: TEmbed<ElementProps[]>;
 };
 
 // Sometimes we don't need to keep so much type information about the embed
 // spec around when passing it – for example, when consuming it for internal
 // purposes. In this case, using GenericEmbedsSpec avoids the type parameters
 // in EmbedsSpec, improving ergonomics.
-export type GenericEmbedsSpec = Record<string, TEmbed>;
+export type GenericEmbedsSpec = Record<string, TEmbed<ElementProps[]>>;
 
 const build = <EmbedKeys extends string>(
   types: EmbedsSpec<EmbedKeys>,

@@ -7,7 +7,7 @@ import type { GenericEmbedsSpec } from "./embed";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import { RTENodeView } from "./nodeViews/RTENode";
-import type { NestedEditorMap, TEmbed } from "./types/Embed";
+import type { ElementProps, NestedEditorMap, TEmbed } from "./types/Embed";
 
 const decorations = createDecorations("imageEmbed");
 
@@ -71,7 +71,7 @@ type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
 const createNodeView = (
   embedName: string,
-  createEmbed: TEmbed,
+  createEmbed: TEmbed<ElementProps[]>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
