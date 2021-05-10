@@ -2,6 +2,7 @@ import {
   addEmbed,
   assertDocHtml,
   getEmbedField,
+  getEmbedMenuButton,
   typeIntoEmbedField,
   typeIntoProsemirror,
 } from "../../helpers/editor";
@@ -9,22 +10,34 @@ import {
 describe("ImageEmbed", () => {
   beforeEach(() => cy.visit("/"));
 
+  const fields = ["caption", "altText"];
+  const fieldStyles = [
+    { title: "strong style", tag: "strong" },
+    { title: "emphasis", tag: "em" },
+  ];
+
   describe("Accepting input", () => {
     it("should accept editor input", () => {
       typeIntoProsemirror("{selectall}Text");
       cy.get(".ProseMirror > p").should("have.text", "Text");
     });
 
-    it("should accept input in an embed - caption", () => {
-      addEmbed();
-      typeIntoEmbedField("caption", "Caption text");
-      getEmbedField("caption").should("have.text", "Caption text");
-    });
+    fields.forEach((field) => {
+      it(`should accept input in an embed for the ${field} field`, () => {
+        addEmbed();
+        const text = `${field} text`;
+        typeIntoEmbedField(field, text);
+        getEmbedField(field).should("have.text", text);
+      });
 
-    it("should accept input in an embed - altText", () => {
-      addEmbed();
-      typeIntoEmbedField("altText", "Alt text");
-      getEmbedField("altText").should("have.text", "Alt text");
+      fieldStyles.forEach((style) => {
+        it("should toggle style of an input in an embed - altText", () => {
+          addEmbed();
+          getEmbedMenuButton(field, `Toggle ${style.title}`).click();
+          typeIntoEmbedField(field, "Example text");
+          getEmbedField(field).find(style.tag);
+        });
+      });
     });
   });
 

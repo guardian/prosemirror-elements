@@ -25,6 +25,18 @@ export const typeIntoProsemirror = (content: string) =>
 export const getEmbedField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror`);
 
+export const getEmbedMenu = (fieldName: string) =>
+  cy.get(
+    `div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror-menubar`
+  );
+
+export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
+  cy.get(
+    `div${selectDataCy(
+      getNestedViewTestId(fieldName)
+    )} .ProseMirror-menubar [title="${buttonTitle}"]`
+  );
+
 export const typeIntoEmbedField = (fieldName: string, content: string) =>
   getEmbedField(fieldName).type(content);
 
