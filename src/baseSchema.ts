@@ -3,7 +3,7 @@ import type { Node, NodeSpec } from "prosemirror-model";
 export const baseEmbedSchema: NodeSpec = {
   caption: {
     group: "block",
-    content: "paragraph",
+    content: "inline*",
     toDOM() {
       return ["div", { class: "imageNative-caption" }, 0];
     },
@@ -11,7 +11,7 @@ export const baseEmbedSchema: NodeSpec = {
   },
   altText: {
     group: "block",
-    content: "paragraph",
+    content: "inline*",
     toDOM() {
       return ["div", { class: "imageNative-altText" }, 0];
     },

@@ -26,9 +26,9 @@ export class RTENodeView<LocalSchema extends Schema> {
     private node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
-    // Returns the current position of the node in the document.
+    // Returns the current position of the parent Nodeview in the document.
     private getPos: boolean | (() => number),
-    // @todo
+    // The offset of this node relative to its parent NodeView.
     private offset: number,
     // The schema that the internal editor should use.
     schema: Schema,
@@ -137,8 +137,13 @@ export class RTENodeView<LocalSchema extends Schema> {
     }
 
     const outerTr = this.outerView.state.tr;
-    // @todo why this magic number?
-    const offsetMap = StepMap.offset(this.getPos() + this.offset + 2);
+    // When we insert content, we must offset to account for a few things:
+    //  - getPos() returns the position directly before the parent node (+1)
+    //  - the node we will be altering is a child of its parent (+1)
+    const contentOffset = 2;
+    const offsetMap = StepMap.offset(
+      this.getPos() + this.offset + contentOffset
+    );
     for (let i = 0; i < transactions.length; i++) {
       const steps = transactions[i].steps;
       for (let j = 0; j < steps.length; j++) {
@@ -191,7 +196,9 @@ export class RTENodeView<LocalSchema extends Schema> {
       decorationSet instanceof DecorationSet
         ? decorationSet
         : DecorationSet.create(this.node, decorationSet);
-    const offsetMap = new Mapping([StepMap.offset(-this.offset - 1)]);
+    // Offset because the node we are displaying these decorations in is a child of its parent (-1)
+    const localOffset = -1;
+    const offsetMap = new Mapping([StepMap.offset(-this.offset + localOffset)]);
     this.decorations = localDecoSet.map(offsetMap, this.node);
   }
 }

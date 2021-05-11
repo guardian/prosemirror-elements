@@ -50,7 +50,7 @@ const build = <EmbedKeys extends string>(
       // This shouldn't happen, as the schema should always be able to fill
       // the node with correct children if we're not supplying content –
       // see https://prosemirror.net/docs/ref/#model.NodeType.createAndFill
-      console.warn(`Could not create node for ${type}`);
+      console.warn(`[prosemirror-embeds]: could not create node for ${type}`);
     }
   };
 
