@@ -23,7 +23,7 @@ describe("ImageEmbed", () => {
     });
 
     fields.forEach((field) => {
-      it(`should accept input in an embed for the ${field} field`, () => {
+      it(`Field: ${field} – should accept input in an embed`, () => {
         addEmbed();
         const text = `${field} text`;
         typeIntoEmbedField(field, text);
@@ -31,11 +31,13 @@ describe("ImageEmbed", () => {
       });
 
       fieldStyles.forEach((style) => {
-        it("should toggle style of an input in an embed - altText", () => {
+        it(`Field: ${field} – should toggle style of an input in an embed`, () => {
           addEmbed();
           getEmbedMenuButton(field, `Toggle ${style.title}`).click();
           typeIntoEmbedField(field, "Example text");
-          getEmbedField(field).find(style.tag);
+          getEmbedField(field)
+            .find(style.tag)
+            .should("have.text", "Example text");
         });
       });
     });
