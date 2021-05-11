@@ -9,7 +9,7 @@
   "scripts": {
     "start": "webpack serve --open",
     "test": "cypress open",
-    "test-ci": "lint && cypress run",
+    "test-ci": "yarn lint && cypress run",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
