@@ -1,18 +1,23 @@
-import TFields from "./types/Fields";
-import TEmbed from "./types/Embed";
-import TConsumer from "./types/Consumer";
-import TValidator from "./types/Validator";
-import { TCommands, TCommandCreator } from "./types/Commands";
+import type { TCommandCreator, TCommands } from "./types/Commands";
+import type { TConsumer } from "./types/Consumer";
+import type { TEmbed } from "./types/Embed";
+import type { TFields } from "./types/Fields";
+import type { TValidator } from "./types/Validator";
 
 const createUpdater = () => {
-  let sub: (...args: any[]) => void = () => {};
+  let sub: Subscriber = () => undefined;
   return {
-    subscribe: (fn: (...args: any[]) => void) => {
+    subscribe: (fn: Subscriber) => {
       sub = fn;
     },
-    update: (...args: any[]) => sub(...args)
+    update: ((fields, commands) => sub(fields, commands)) as Subscriber,
   };
 };
+
+type Subscriber = (
+  fields: TFields,
+  commands: ReturnType<TCommandCreator>
+) => void;
 
 // @placeholder
 type TRenderer<T> = (
@@ -27,7 +32,7 @@ type TRenderer<T> = (
   ) => void
 ) => void;
 
-const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
+export const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
   FieldAttrs extends TFields
 >(
   consumer: TConsumer<RenderReturn, FieldAttrs>,
@@ -39,12 +44,10 @@ const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
     consumer,
     validate,
     dom,
-    fields => updateState(fields, !!validate(fields)),
+    (fields) => updateState(fields, !!validate(fields)),
     Object.assign({}, defaultState, fields),
     commands,
     updater.subscribe
   );
   return updater.update;
 };
-
-export default mount;

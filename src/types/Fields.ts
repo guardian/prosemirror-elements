@@ -1,3 +1,1 @@
-type TFields = {[field: string]: string};
-
-export default TFields;
+export type TFields = Record<string, string>;

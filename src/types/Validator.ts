@@ -1,5 +1,5 @@
-import TFields from './Fields';
+import type { TFields } from "./Fields";
 
-type TValidator<FieldAttrs extends TFields> = (fields: FieldAttrs) => null| {[field: string]: string[]};
-
-export default TValidator;
+export type TValidator<FieldAttrs extends TFields> = (
+  fields: FieldAttrs
+) => null | Record<string, string[]>;

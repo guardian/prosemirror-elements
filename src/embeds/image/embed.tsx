@@ -1,10 +1,13 @@
-import React from 'react';
-import preactMount from '../../mounters/react/mount';
-import ImageEmbed from './ImageEmbed';
-import TImageFields from './types/Fields';
+import React from "react";
+import { reactMount } from "../../mounters/react/mount";
+import type { TEmbed } from "../../types/Embed";
+import { ImageEmbed } from "./ImageEmbed";
+import type { TImageFields } from "./types/Fields";
 
-const image = ({ editSrc = false } = {}) =>
-  preactMount<TImageFields>(
+export const createImageEmbed = ({
+  editSrc = false,
+} = {}): TEmbed<TImageFields> =>
+  reactMount<TImageFields>(
     (fields, errors, updateFields) => (
       <ImageEmbed
         fields={fields}
@@ -13,8 +16,6 @@ const image = ({ editSrc = false } = {}) =>
         editSrc={editSrc}
       />
     ),
-    ({ alt }) => (alt ? null : { alt: ['Alt tag must be set'] }),
-    { caption: '', src: '', alt: '' }
+    ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
+    { caption: "", src: "", alt: "" }
   );
-
-export default image;

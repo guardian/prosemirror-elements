@@ -1,30 +1,32 @@
-import React from 'react';
-import TFields from '../../types/Fields';
+import React from "react";
+import type { TFields } from "../../types/Fields";
 
-const ImageEmbed = ({
-  fields: { caption, src, alt },
-  errors,
-  updateFields,
-  editSrc
-}: {
+type Props = {
   fields: {
     caption: string;
     src: string;
     alt: string;
   };
-  errors: { [field: string]: string[] };
+  errors: Record<string, string[]>;
   updateFields: (fields: TFields) => void;
   editSrc: boolean;
+};
+
+export const ImageEmbed: React.FunctionComponent<Props> = ({
+  fields: { caption, src, alt },
+  errors,
+  updateFields,
+  editSrc,
 }) => (
   <div>
-    <img style={{ width: '250px', height: 'auto' }} src={src} alt={alt} />
+    <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
     <div>
       <label>
         Caption
         <input
           type="text"
           value={caption}
-          onInput={e =>
+          onInput={(e) =>
             e.target instanceof HTMLInputElement &&
             updateFields({ caption: e.target.value })
           }
@@ -35,8 +37,8 @@ const ImageEmbed = ({
         <input
           type="text"
           value={alt}
-          style={{ borderColor: errors.alt.length ? 'red' : undefined }}
-          onInput={e =>
+          style={{ borderColor: errors.alt.length ? "red" : undefined }}
+          onInput={(e) =>
             e.target instanceof HTMLInputElement &&
             updateFields({ alt: e.target.value })
           }
@@ -48,7 +50,7 @@ const ImageEmbed = ({
           <input
             type="text"
             value={src}
-            onInput={e =>
+            onInput={(e) =>
               e.target instanceof HTMLInputElement &&
               updateFields({ src: e.target.value })
             }
@@ -58,5 +60,3 @@ const ImageEmbed = ({
     </div>
   </div>
 );
-
-export default ImageEmbed;
