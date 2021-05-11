@@ -3,6 +3,7 @@ import type { Node } from "prosemirror-model";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
+import { addTestDecorationPlugin } from "../cypress/helpers/editor";
 import { build } from "./embed";
 import { createImageEmbed } from "./embeds/image/embed";
 import { docToHtml, htmlToDoc, mySchema } from "./prosemirrorSetup";
@@ -34,7 +35,11 @@ const highlightErrors = (state: EditorState) => {
 const view = new EditorView(editorElement, {
   state: EditorState.create({
     doc: get(),
-    plugins: [...exampleSetup({ schema: mySchema }), embedPlugin],
+    plugins: [
+      ...exampleSetup({ schema: mySchema }),
+      embedPlugin,
+      addTestDecorationPlugin,
+    ],
   }),
   dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);

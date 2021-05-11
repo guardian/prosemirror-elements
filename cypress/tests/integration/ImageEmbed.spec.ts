@@ -30,6 +30,15 @@ describe("ImageEmbed", () => {
         getEmbedField(field).should("have.text", text);
       });
 
+      it(`Field: ${field} – should render decorations passed from the parent editor`, () => {
+        addEmbed();
+        const text = `${field} deco `;
+        typeIntoEmbedField(field, text);
+        getEmbedField(field)
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
       fieldStyles.forEach((style) => {
         it(`Field: ${field} – should toggle style of an input in an embed`, () => {
           addEmbed();
