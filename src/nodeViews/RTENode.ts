@@ -81,11 +81,15 @@ export class RTENodeView<LocalSchema extends Schema> {
     const { state, transactions } = this.innerEditorView.state.applyTransaction(
       tr
     );
-    this.innerEditorView.updateState(state);
 
+    // Applying the outer state first ensures that decorations in the parent
+    // view are correctly mapped through this transaction by the time they're
+    // accessed by the innerEditorView.
     if (!tr.getMeta("fromOutside")) {
       this.updateOuterEditor(tr, state, transactions);
     }
+
+    this.innerEditorView.updateState(state);
   }
 
   private updateInnerEditor(
