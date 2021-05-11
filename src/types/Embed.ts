@@ -8,10 +8,10 @@ export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
   RTENodeView<LocalSchema>
 >;
 
-export type TEmbed<FieldAttrs extends TFields> = (
+export type TEmbed = (
   dom: HTMLElement,
   nestedEditors: NestedEditorMap,
-  updateState: (fields: Partial<FieldAttrs>, hasErrors: boolean) => void,
-  initFields: FieldAttrs,
+  updateState: (fields: TFields, hasErrors: boolean) => void,
+  initFields: TFields,
   commands: ReturnType<TCommandCreator>
-) => (fields: FieldAttrs, commands: ReturnType<TCommandCreator>) => void;
+) => (fields: TFields, commands: ReturnType<TCommandCreator>) => void;

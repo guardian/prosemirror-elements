@@ -10,33 +10,25 @@ import type { TFields } from "./types/Fields";
 const addEmbedNode = (schemaSpec: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
   schemaSpec.append(baseEmbedSchema);
 
-export type EmbedsSpec<
-  EmbedTypes extends string,
-  EmbedFields extends TFields
-> = { [key in EmbedTypes]: TEmbed<EmbedFields> };
+export type EmbedsSpec<EmbedTypes extends string> = {
+  [key in EmbedTypes]: TEmbed;
+};
 
 // Sometimes we don't need to keep so much type information about the embed
 // spec around when passing it – for example, when consuming it for internal
 // purposes. In this case, using GenericEmbedsSpec avoids the type parameters
 // in EmbedsSpec, improving ergonomics.
-export type GenericEmbedsSpec<FieldAttrs extends TFields> = Record<
-  string,
-  TEmbed<FieldAttrs>
->;
+export type GenericEmbedsSpec = Record<string, TEmbed>;
 
-type GetFieldsFromTEmbed<PEmbed> = PEmbed extends TEmbed<infer Fields>
-  ? Fields
-  : never;
-
-const build = <EmbedKeys extends string, EmbedFields extends TFields>(
-  types: EmbedsSpec<EmbedKeys, EmbedFields>,
+const build = <EmbedKeys extends string>(
+  types: EmbedsSpec<EmbedKeys>,
   predicate = defaultPredicate
 ) => {
   const typeNames = Object.keys(types);
 
   const insertEmbed = <EmbedKey extends EmbedKeys>(
     type: EmbedKey,
-    fields: GetFieldsFromTEmbed<EmbedsSpec<EmbedKey, EmbedFields>[EmbedKey]>
+    fields: TFields
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
@@ -62,7 +54,7 @@ const build = <EmbedKeys extends string, EmbedFields extends TFields>(
     }
   };
 
-  const plugin = createPlugin<EmbedFields>(types, buildCommands(predicate));
+  const plugin = createPlugin(types, buildCommands(predicate));
 
   return {
     insertEmbed,

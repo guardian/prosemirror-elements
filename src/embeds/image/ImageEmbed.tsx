@@ -1,12 +1,12 @@
 import React from "react";
 import { NestedEditorView } from "../../mounters/react/NestedEditorView";
 import type { NestedEditorMap } from "../../types/Embed";
-import type { TImageFields } from "./types/Fields";
+import type { TFields } from "../../types/Fields";
 
 type Props = {
-  fields: TImageFields;
+  fields: TFields;
   errors: Record<string, string[]>;
-  updateFields: (fields: Partial<TImageFields>) => void;
+  updateFields: (fields: TFields) => void;
   // @todo Make this schema specific to the embed once created
   nestedEditors: NestedEditorMap;
   editSrc: boolean;

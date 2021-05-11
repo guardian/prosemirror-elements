@@ -17,27 +17,23 @@ const fieldErrors = (fields: TFields, errors: TErrors | null) =>
     {}
   );
 
-type IProps<FieldAttrs extends TFields> = {
-  subscribe: (fn: (fields: FieldAttrs, commands: TCommands) => void) => void;
+type IProps = {
+  subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
   commands: TCommands;
-  fields: FieldAttrs;
-  defaultFields: FieldAttrs;
-  onStateChange: (fields: Partial<FieldAttrs>) => void;
-  validate: TValidator<FieldAttrs>;
-  consumer: TConsumer<ReactElement, FieldAttrs>;
+  fields: TFields;
+  onStateChange: (fields: TFields) => void;
+  validate: TValidator;
+  consumer: TConsumer<ReactElement>;
   nestedEditors: NestedEditorMap;
 };
 
-type IState<FieldAttrs extends TFields> = {
+type IState = {
   commands: TCommands;
-  fields: FieldAttrs;
+  fields: TFields;
 };
 
-export class EmbedProvider<FieldAttrs extends TFields> extends Component<
-  IProps<FieldAttrs>,
-  IState<FieldAttrs>
-> {
-  constructor(props: IProps<FieldAttrs>) {
+export class EmbedProvider extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.updateFields = this.updateFields.bind(this);
@@ -49,7 +45,7 @@ export class EmbedProvider<FieldAttrs extends TFields> extends Component<
   }
 
   componentDidMount() {
-    this.props.subscribe((fields = this.props.defaultFields, commands) =>
+    this.props.subscribe((fields, commands) =>
       this.updateState(
         {
           commands,
@@ -67,10 +63,7 @@ export class EmbedProvider<FieldAttrs extends TFields> extends Component<
     this.props.onStateChange(this.state.fields);
   }
 
-  updateState(
-    state: Partial<IState<FieldAttrs>>,
-    notifyListeners: boolean
-  ): void {
+  updateState(state: Partial<IState>, notifyListeners: boolean): void {
     this.setState(
       { ...this.state, ...state },
       () => notifyListeners && this.onStateChange()

@@ -8,17 +8,13 @@ import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import { RTENodeView } from "./nodeViews/RTENode";
 import type { NestedEditorMap, TEmbed } from "./types/Embed";
-import type { TFields } from "./types/Fields";
 
 const decorations = createDecorations("imageEmbed");
 
 export type PluginState = { hasErrors: boolean };
 
-export const createPlugin = <
-  FieldAttrs extends TFields,
-  LocalSchema extends Schema = Schema
->(
-  embedsSpec: GenericEmbedsSpec<FieldAttrs>,
+export const createPlugin = <LocalSchema extends Schema = Schema>(
+  embedsSpec: GenericEmbedsSpec,
   commands: Commands
 ): Plugin<PluginState, LocalSchema> => {
   type EmbedNode = Node<LocalSchema>;
@@ -55,8 +51,8 @@ export const createPlugin = <
 
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
-const createNodeViews = <FieldAttrs extends TFields>(
-  embedsSpec: GenericEmbedsSpec<FieldAttrs>,
+const createNodeViews = (
+  embedsSpec: GenericEmbedsSpec,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
@@ -73,9 +69,9 @@ const createNodeViews = <FieldAttrs extends TFields>(
 
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
-const createNodeView = <FieldAttrs extends TFields>(
+const createNodeView = (
   embedName: string,
-  createEmbed: TEmbed<FieldAttrs>,
+  createEmbed: TEmbed,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");

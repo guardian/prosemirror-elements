@@ -1,9 +1,8 @@
 import type { NodeSpec } from "prosemirror-model";
 import React from "react";
-import { createReactRenderer } from "../../mounters/react/mount";
+import { createReactEmbed } from "../../mounters/react/mount";
 import type { TEmbed } from "../../types/Embed";
 import { ImageEmbed } from "./ImageEmbed";
-import type { TImageFields } from "./types/Fields";
 
 export const imageSchemaSpec: NodeSpec = {
   caption: {
@@ -36,16 +35,8 @@ export const imageSchemaSpec: NodeSpec = {
   },
 };
 
-const defaultImageFields: TImageFields = {
-  caption: "",
-  src: "",
-  alt: "",
-};
-
-export const createImageEmbed = ({
-  editSrc = false,
-} = {}): TEmbed<TImageFields> =>
-  createReactRenderer<TImageFields>(defaultImageFields)(
+export const createImageEmbed = ({ editSrc = false } = {}): TEmbed =>
+  createReactEmbed(
     (fields, errors, updateFields, nestedEditors) => {
       return (
         <ImageEmbed

@@ -2,9 +2,9 @@ import type { NestedEditorMap } from "./Embed";
 import type { TErrors } from "./Errors";
 import type { TFields } from "./Fields";
 
-export type TConsumer<ConsumerResult, FieldAttrs extends TFields> = (
-  fields: FieldAttrs,
+export type TConsumer<ConsumerResult> = (
+  fields: TFields,
   errors: TErrors,
-  updateFields: (fields: Partial<FieldAttrs>) => void,
+  updateFields: (fields: TFields) => void,
   nestedEditors: NestedEditorMap
 ) => ConsumerResult;
