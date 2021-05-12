@@ -3,21 +3,28 @@ import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
-import type { GenericEmbedsSpec } from "./embed";
+import type { EmbedsSpec } from "./embed";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import { RTENodeView } from "./nodeViews/RTENode";
-import type { ElementProps, NestedEditorMap, TEmbed } from "./types/Embed";
+import type {
+  ElementProps,
+  NestedEditorMapFromProps,
+  TEmbed,
+} from "./types/Embed";
 
 const decorations = createDecorations("imageEmbed");
 
 export type PluginState = { hasErrors: boolean };
 
-export const createPlugin = <LocalSchema extends Schema = Schema>(
-  embedsSpec: GenericEmbedsSpec,
+export const createPlugin = <
+  EmbedKeys extends string,
+  Props extends ElementProps
+>(
+  embedsSpec: EmbedsSpec<EmbedKeys, Props>,
   commands: Commands
-): Plugin<PluginState, LocalSchema> => {
-  type EmbedNode = Node<LocalSchema>;
+): Plugin<PluginState, Schema> => {
+  type EmbedNode = Node<Schema>;
 
   const hasErrors = (doc: Node) => {
     let foundError = false;
@@ -33,7 +40,7 @@ export const createPlugin = <LocalSchema extends Schema = Schema>(
     return foundError;
   };
 
-  return new Plugin<PluginState, LocalSchema>({
+  return new Plugin<PluginState, Schema>({
     state: {
       init: (_, state) => ({
         hasErrors: hasErrors(state.doc),
@@ -51,8 +58,8 @@ export const createPlugin = <LocalSchema extends Schema = Schema>(
 
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
-const createNodeViews = (
-  embedsSpec: GenericEmbedsSpec,
+const createNodeViews = <EmbedKeys extends string, Props extends ElementProps>(
+  embedsSpec: EmbedsSpec<EmbedKeys, Props>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
@@ -69,23 +76,23 @@ const createNodeViews = (
 
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
-const createNodeView = (
+const createNodeView = <Props extends ElementProps>(
   embedName: string,
-  createEmbed: TEmbed<ElementProps[]>,
+  embed: TEmbed<Props>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const nestedEditors = {} as NestedEditorMap;
+  const nestedEditors = {} as NestedEditorMapFromProps<Props>;
   const temporaryHardcodedSchema = new Schema({
     nodes: schema.spec.nodes,
     marks: schema.spec.marks,
   });
 
   initNode.forEach((node, offset) => {
-    const typeName = node.type.name;
+    const typeName = node.type.name as keyof NestedEditorMapFromProps<Props>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
     if (nestedEditors[typeName]) {
       console.error(
@@ -102,7 +109,7 @@ const createNodeView = (
     );
   });
 
-  const update = createEmbed(
+  const update = embed.createEmbed(
     dom,
     nestedEditors,
     (fields, hasErrors) => {
@@ -127,7 +134,8 @@ const createNodeView = (
       ) {
         update(node.attrs.fields, commands(getPos, view));
         node.forEach((node, offset) => {
-          const typeName = node.type.name;
+          const typeName = node.type
+            .name as keyof NestedEditorMapFromProps<Props>;
           const nestedEditor = nestedEditors[typeName];
           nestedEditor.update(node, innerDecos, offset);
         });
@@ -137,7 +145,9 @@ const createNodeView = (
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(nestedEditors).map((editor) => editor.close());
+      Object.values(nestedEditors).map((editor) =>
+        (editor as RTENodeView<Schema>).close()
+      );
     },
     ignoreMutation: () => true,
   };

@@ -1,7 +1,6 @@
 import type { NodeSpec } from "prosemirror-model";
 import React from "react";
-import { createReactEmbed } from "../../mounters/react/mount";
-import type { ElementProps, TEmbed } from "../../types/Embed";
+import { createReactEmbedRenderer } from "../../mounters/react/mount";
 import { ImageEmbed } from "./ImageEmbed";
 
 export const imageSchemaSpec: NodeSpec = {
@@ -37,30 +36,27 @@ export const imageSchemaSpec: NodeSpec = {
 
 export const imageProps = [
   {
-    type: "string",
+    type: "richText",
     name: "caption",
   },
   {
-    type: "string",
+    type: "richText",
     name: "altText",
   },
 ] as const;
 
-export const createImageEmbed = ({ editSrc = false } = {}): TEmbed<
-  ElementProps[]
-> =>
-  createReactEmbed(
-    // @todo Sneaky any whilst we work on the typings
-    (fields, errors, updateFields, nestedEditors: any) => {
-      return (
-        <ImageEmbed
-          fields={fields}
-          errors={errors}
-          updateFields={updateFields}
-          nestedEditors={nestedEditors}
-        />
-      );
-    },
-    ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
-    { caption: "", src: "", alt: "" }
-  );
+export const imageEmbed = createReactEmbedRenderer(
+  imageProps,
+  (fields, errors, updateFields, nestedEditors) => {
+    return (
+      <ImageEmbed
+        fields={fields}
+        errors={errors}
+        updateFields={updateFields}
+        nestedEditors={nestedEditors}
+      />
+    );
+  },
+  ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
+  { caption: "", src: "", alt: "" }
+);
