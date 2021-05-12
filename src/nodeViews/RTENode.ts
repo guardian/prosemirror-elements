@@ -169,10 +169,6 @@ export class RTENodeView<LocalSchema extends Schema> {
     innerState: EditorState,
     transactions: Transaction[]
   ) {
-    if (typeof this.getPos === "boolean") {
-      return;
-    }
-
     const outerTr = this.outerView.state.tr;
     // When we insert content, we must offset to account for a few things:
     //  - getPos() returns the position directly before the parent node (+1)
