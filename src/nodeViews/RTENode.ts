@@ -27,7 +27,7 @@ export class RTENodeView<LocalSchema extends Schema> {
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent Nodeview in the document.
-    private getPos: boolean | (() => number),
+    private getPos: () => number,
     // The offset of this node relative to its parent NodeView.
     private offset: number,
     // The schema that the internal editor should use.
