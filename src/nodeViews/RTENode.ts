@@ -66,13 +66,6 @@ export class RTENodeView<LocalSchema extends Schema> {
     if (this.innerEditorView) this.close();
   }
 
-  /**
-   * Prevent events received in the inner editor from propagating to the outer editor.
-   */
-  public stopEvent(event: Event) {
-    return this.innerEditorView?.dom.contains(event.target as HTMLElement);
-  }
-
   private onInnerStateChange(tr: Transaction) {
     if (!this.innerEditorView) {
       return;
