@@ -37,7 +37,7 @@ const build = <EmbedKeys extends string>(
       throw new Error(
         `[prosemirror-embeds]: ${type} is not recognised. Only ${typeNames.join(
           ", "
-        )} have can be added`
+        )} can be added`
       );
     }
     const newNode = (state.schema as Schema).nodes[type].createAndFill({
