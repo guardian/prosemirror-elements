@@ -1,5 +1,6 @@
 import { Plugin } from "prosemirror-state";
-import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { EditorView } from "prosemirror-view";
+import { Decoration, DecorationSet } from "prosemirror-view";
 import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
 import { getNestedViewTestId } from "../../src/mounters/react/NestedEditorView";
 import { docToHtml } from "../../src/prosemirrorSetup";
@@ -38,8 +39,10 @@ export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
     )} .ProseMirror-menubar [title="${buttonTitle}"]`
   );
 
+// If we don't focus the nested RTE we're typing into before type() is called,
+// Cypress tends to type into the parent RTE instead.
 export const typeIntoEmbedField = (fieldName: string, content: string) =>
-  getEmbedField(fieldName).type(content);
+  getEmbedField(fieldName).focus().type(content);
 
 export const getArrayOfBlockElementTypes = () => {
   // eslint-disable-next-line prefer-const -- it is used.
