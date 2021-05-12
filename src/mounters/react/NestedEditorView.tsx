@@ -18,7 +18,7 @@ export const NestedEditorView: React.FunctionComponent<Props> = ({
     if (!editorRef.current) {
       return;
     }
-    editorRef.current.appendChild(editor.dom);
+    editorRef.current.appendChild(editor.nodeViewElement);
   }, []);
   return (
     <div data-cy={getNestedViewTestId(name)}>

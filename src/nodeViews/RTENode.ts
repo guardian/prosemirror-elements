@@ -15,7 +15,7 @@ import { DecorationSet, EditorView } from "prosemirror-view";
 export class RTENodeView<LocalSchema extends Schema> {
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
-  public dom = document.createElement("div");
+  public nodeViewElement = document.createElement("div");
   // The editor view for this NodeView.
   private innerEditorView: EditorView | undefined;
   // The decorations that apply to this NodeView.
@@ -45,19 +45,19 @@ export class RTENodeView<LocalSchema extends Schema> {
     }
     this.innerEditorView.destroy();
     this.innerEditorView = undefined;
-    this.dom.textContent = "";
+    this.nodeViewElement.textContent = "";
   }
 
   public update(
     node: Node,
     decorations: DecorationSet | Decoration[],
-    offset: number
+    elementOffset: number
   ) {
     if (!node.sameMarkup(this.node)) {
       return false;
     }
 
-    this.updateInnerEditor(node, decorations, offset);
+    this.updateInnerEditor(node, decorations, elementOffset);
 
     return true;
   }
@@ -95,9 +95,9 @@ export class RTENodeView<LocalSchema extends Schema> {
   private updateInnerEditor(
     node: Node,
     decorations: DecorationSet | Decoration[],
-    offset: number
+    elementOffset: number
   ) {
-    this.offset = offset;
+    this.offset = elementOffset;
     this.node = node;
     this.applyDecorationsFromOuterEditor(decorations);
 
@@ -172,7 +172,7 @@ export class RTENodeView<LocalSchema extends Schema> {
   }
 
   private createInnerEditorView(schema: Schema) {
-    return new EditorView<LocalSchema>(this.dom, {
+    return new EditorView<LocalSchema>(this.nodeViewElement, {
       state: EditorState.create<LocalSchema>({
         doc: this.node,
         plugins: [
