@@ -79,7 +79,6 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
       return pos === all.from ? null : all.from;
     }
     case "bottom": {
-      // as this is a node view the end is just pos + 1
       return pos + nodeSize === all.to ? null : all.to;
     }
   }
