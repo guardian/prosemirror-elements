@@ -39,6 +39,15 @@ describe("ImageEmbed", () => {
           .should("have.text", "deco");
       });
 
+      it(`Field: ${field} – should map decorations passed from the parent editor correctly when they move`, () => {
+        addEmbed();
+        const text = `${field} deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more text`;
+        typeIntoEmbedField(field, text);
+        getEmbedField(field)
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
       fieldStyles.forEach((style) => {
         it(`Field: ${field} – should toggle style of an input in an embed`, () => {
           addEmbed();
