@@ -6,7 +6,10 @@
     "lib": ["dom", "ESNext"],
     "types": ["cypress"],
     "sourceMap": true,
-    "strict": true,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
