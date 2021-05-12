@@ -17,7 +17,7 @@ const get = () => {
 const set = (doc: Node) => window.localStorage.setItem("pm", docToHtml(doc));
 
 const { plugin: embedPlugin, insertEmbed, hasErrors } = build({
-  imageEmbed: createImageEmbed({ editSrc: true }),
+  imageEmbed: createImageEmbed(),
 });
 
 const editorElement = document.querySelector("#editor");

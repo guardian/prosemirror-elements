@@ -35,7 +35,7 @@ export const imageSchemaSpec: NodeSpec = {
   },
 };
 
-export const createImageEmbed = ({ editSrc = false } = {}): TEmbed =>
+export const createImageEmbed = (): TEmbed =>
   createReactEmbed(
     (fields, errors, updateFields, nestedEditors) => {
       return (
@@ -43,7 +43,6 @@ export const createImageEmbed = ({ editSrc = false } = {}): TEmbed =>
           fields={fields}
           errors={errors}
           updateFields={updateFields}
-          editSrc={editSrc}
           nestedEditors={nestedEditors}
         />
       );

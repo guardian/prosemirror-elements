@@ -9,7 +9,6 @@ type Props = {
   updateFields: (fields: TFields) => void;
   // @todo Make this schema specific to the embed once created
   nestedEditors: NestedEditorMap;
-  editSrc: boolean;
 };
 
 export const ImageEmbedTestId = "ImageEmbed";
