@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
+import type { NestedEditorMap } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
@@ -21,8 +22,9 @@ type IProps = {
   commands: TCommands;
   fields: TFields;
   onStateChange: (fields: TFields) => void;
-  validate: TValidator<TFields>;
-  consumer: TConsumer<ReactElement, TFields>;
+  validate: TValidator;
+  consumer: TConsumer<ReactElement>;
+  nestedEditors: NestedEditorMap;
 };
 
 type IState = {
@@ -43,7 +45,7 @@ export class EmbedProvider extends Component<IProps, IState> {
   }
 
   componentDidMount() {
-    this.props.subscribe((fields = {}, commands) =>
+    this.props.subscribe((fields, commands) =>
       this.updateState(
         {
           commands,
@@ -58,7 +60,6 @@ export class EmbedProvider extends Component<IProps, IState> {
   }
 
   onStateChange(): void {
-    console.log("onStateChange", this.state.fields);
     this.props.onStateChange(this.state.fields);
   }
 
@@ -90,7 +91,8 @@ export class EmbedProvider extends Component<IProps, IState> {
             this.state.fields,
             this.props.validate(this.state.fields)
           ),
-          this.updateFields
+          this.updateFields,
+          this.props.nestedEditors
         )}
       </EmbedWrapper>
     );

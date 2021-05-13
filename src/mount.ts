@@ -1,29 +1,37 @@
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
-import type { TEmbed } from "./types/Embed";
+import type { NestedEditorMap, TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
 import type { TValidator } from "./types/Validator";
-
-const createUpdater = () => {
-  let sub: Subscriber = () => undefined;
-  return {
-    subscribe: (fn: Subscriber) => {
-      sub = fn;
-    },
-    update: ((fields, commands) => sub(fields, commands)) as Subscriber,
-  };
-};
 
 type Subscriber = (
   fields: TFields,
   commands: ReturnType<TCommandCreator>
 ) => void;
 
-// @placeholder
+type Updater = {
+  update: Subscriber;
+  subscribe: (s: Subscriber) => void;
+};
+
+const createUpdater = (): Updater => {
+  let sub: Subscriber = () => undefined;
+  return {
+    subscribe: (fn) => {
+      sub = fn;
+    },
+    update: (fields, commands) => sub(fields, commands),
+  };
+};
+
 type TRenderer<T> = (
-  consumer: TConsumer<T, TFields>,
-  validate: TValidator<TFields>,
+  consumer: TConsumer<T>,
+  validate: TValidator,
+  // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
+  // The HTMLElement representing the node's children, if there are any. The renderer can
+  // choose to append this node if it needs to render children.
+  nestedEditors: NestedEditorMap,
   updateState: (fields: TFields) => void,
   fields: TFields,
   commands: TCommands,
@@ -32,18 +40,17 @@ type TRenderer<T> = (
   ) => void
 ) => void;
 
-export const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => <
-  FieldAttrs extends TFields
->(
-  consumer: TConsumer<RenderReturn, FieldAttrs>,
-  validate: TValidator<TFields>,
-  defaultState: FieldAttrs
-): TEmbed<FieldAttrs> => (dom, updateState, fields, commands) => {
+export const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => (
+  consumer: TConsumer<RenderReturn>,
+  validate: TValidator,
+  defaultState: TFields
+): TEmbed => (dom, nestedEditors, updateState, fields, commands) => {
   const updater = createUpdater();
   render(
     consumer,
     validate,
     dom,
+    nestedEditors,
     (fields) => updateState(fields, !!validate(fields)),
     Object.assign({}, defaultState, fields),
     commands,

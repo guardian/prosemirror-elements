@@ -4,8 +4,17 @@ import { render } from "react-dom";
 import { mount } from "../../mount";
 import { EmbedProvider } from "./EmbedProvider";
 
-export const reactMount = mount<ReactElement>(
-  (consumer, validate, dom, updateState, fields, commands, subscribe) =>
+export const createReactEmbed = mount<ReactElement>(
+  (
+    consumer,
+    validate,
+    dom,
+    nestedEditors,
+    updateState,
+    fields,
+    commands,
+    subscribe
+  ) =>
     render(
       <EmbedProvider
         subscribe={subscribe}
@@ -14,6 +23,7 @@ export const reactMount = mount<ReactElement>(
         validate={validate}
         commands={commands}
         consumer={consumer}
+        nestedEditors={nestedEditors}
       />,
       dom
     )

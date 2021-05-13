@@ -1,11 +1,17 @@
-// @todo: placeholder
-
+import type { Schema } from "prosemirror-model";
+import type { RTENodeView } from "../nodeViews/RTENode";
 import type { TCommandCreator } from "./Commands";
 import type { TFields } from "./Fields";
 
-export type TEmbed<FieldAttrs extends TFields> = (
+export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
+  string,
+  RTENodeView<LocalSchema>
+>;
+
+export type TEmbed = (
   dom: HTMLElement,
+  nestedEditors: NestedEditorMap,
   updateState: (fields: TFields, hasErrors: boolean) => void,
-  initFields: FieldAttrs,
+  initFields: TFields,
   commands: ReturnType<TCommandCreator>
-) => (fields: FieldAttrs, commands: ReturnType<TCommandCreator>) => void;
+) => (fields: TFields, commands: ReturnType<TCommandCreator>) => void;

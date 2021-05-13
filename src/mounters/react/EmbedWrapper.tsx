@@ -68,6 +68,13 @@ type Props = {
   children?: ReactElement;
 } & ReturnType<TCommandCreator>;
 
+export const embedWrapperTestId = "EmbedWrapper";
+export const moveTopTestId = "EmbedWrapper__moveTop";
+export const moveBottomTestId = "EmbedWrapper__moveBottom";
+export const moveUpTestId = "EmbedWrapper__moveUp";
+export const moveDownTestId = "EmbedWrapper__moveDown";
+export const removeTestId = "EmbedWrapper__remove";
+
 export const EmbedWrapper: React.FunctionComponent<Props> = ({
   name,
   moveUp,
@@ -77,31 +84,49 @@ export const EmbedWrapper: React.FunctionComponent<Props> = ({
   remove,
   children,
 }) => (
-  <Container>
+  <Container data-cy={embedWrapperTestId}>
     <Header>
       <Title>{name}</Title>
     </Header>
     <Body>
       <Panel>{children}</Panel>
       <Actions>
-        <Button disabled={!moveTop(false)} onClick={() => moveTop(true)}>
+        <Button
+          data-cy={moveTopTestId}
+          disabled={!moveTop(false)}
+          onClick={() => moveTop(true)}
+        >
           ↟
         </Button>
-        <Button expanded disabled={!moveUp(false)} onClick={() => moveUp(true)}>
+        <Button
+          data-cy={moveUpTestId}
+          expanded
+          disabled={!moveUp(false)}
+          onClick={() => moveUp(true)}
+        >
           ↑
         </Button>
         <Button
+          data-cy={moveDownTestId}
           expanded
           disabled={!moveDown(false)}
           onClick={() => moveDown(true)}
         >
           ↓
         </Button>
-        <Button disabled={!moveBottom(false)} onClick={() => moveBottom(true)}>
+        <Button
+          data-cy={moveBottomTestId}
+          disabled={!moveBottom(false)}
+          onClick={() => moveBottom(true)}
+        >
           ↡
         </Button>
 
-        <Button disabled={!remove(false)} onClick={() => remove(true)}>
+        <Button
+          data-cy={removeTestId}
+          disabled={!remove(false)}
+          onClick={() => remove(true)}
+        >
           ✕
         </Button>
       </Actions>

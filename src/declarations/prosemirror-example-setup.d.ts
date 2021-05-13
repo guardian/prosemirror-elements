@@ -1,5 +1,6 @@
-declare module "prosemirror-keymap" {
+declare module "prosemirror-example-setup" {
+  import type { Schema } from "prosemirror-model";
   import type { Plugin } from "prosemirror-state";
 
-  const keymap: (map: Record<string, () => void>) => Plugin;
+  const exampleSetup: ({ schema }: { schema: Schema }) => Plugin[];
 }

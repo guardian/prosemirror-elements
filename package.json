@@ -9,7 +9,8 @@
   "scripts": {
     "start": "webpack serve --open",
     "test": "cypress open",
-    "ci": "yarn lint && cypress run",
+    "ci": "yarn lint && webpack serve & (wait-on http://localhost:7890 && cypress run)",
+    "postci": "kill $(lsof -t -i:7890)",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
@@ -23,7 +24,7 @@
     "prosemirror-schema-basic": "^1.0.0",
     "prosemirror-state": "^1.3.4",
     "prosemirror-transform": "^1.1.3",
-    "prosemirror-view": "^1.18.0",
+    "prosemirror-view": "^1.18.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -37,7 +38,6 @@
     "@types/prosemirror-schema-basic": "^1.0.1",
     "@types/prosemirror-state": "^1.2.6",
     "@types/prosemirror-transform": "^1.1.0",
-    "@types/prosemirror-view": "^1.17.1",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
@@ -51,6 +51,7 @@
     "prettier": "^2.2.1",
     "ts-loader": "^8.0.17",
     "typescript": "^4.2.4",
+    "wait-on": "^5.3.0",
     "webpack": "^5.24.4",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
