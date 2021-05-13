@@ -3,10 +3,10 @@ import type { Node } from "prosemirror-model";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { addTestDecorationPlugin } from "../cypress/helpers/editor";
 import { build } from "./embed";
 import { createImageEmbed } from "./embeds/image/embed";
 import { docToHtml, htmlToDoc, mySchema } from "./prosemirrorSetup";
+import { testDecorationPlugin } from "./testHelpers";
 
 const get = () => {
   const state = window.localStorage.getItem("pm");
@@ -38,7 +38,7 @@ const view = new EditorView(editorElement, {
     plugins: [
       ...exampleSetup({ schema: mySchema }),
       embedPlugin,
-      addTestDecorationPlugin,
+      testDecorationPlugin,
     ],
   }),
   dispatchTransaction: (tr: Transaction) => {

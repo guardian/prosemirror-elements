@@ -8,8 +8,9 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --open",
-    "test": "cypress open",
-    "ci": "yarn lint && webpack serve & (wait-on http://localhost:7890 && cypress run)",
+    "test-integration": "cypress open",
+    "test": "jest",
+    "ci": "yarn lint && yarn test && webpack serve & (wait-on http://localhost:7890 && cypress run)",
     "postci": "kill $(lsof -t -i:7890)",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },

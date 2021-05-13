@@ -1,6 +1,4 @@
-import { Plugin } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
-import { Decoration, DecorationSet } from "prosemirror-view";
 import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
 import { getNestedViewTestId } from "../../src/mounters/react/NestedEditorView";
 import { docToHtml } from "../../src/prosemirrorSetup";
@@ -62,30 +60,3 @@ export const assertDocHtml = (expectedHtml: string) =>
     );
     expect(expectedHtml).to.equal(actualHtml);
   });
-
-export const addTestDecorationPlugin = new Plugin({
-  props: {
-    decorations: (state) => {
-      const decorateThisPhrase = "deco";
-      const ranges = [] as Array<[number, number]>;
-      state.doc.descendants((node, offset) => {
-        if (node.isLeaf && node.textContent) {
-          const indexOfDeco = node.textContent.indexOf(decorateThisPhrase);
-          if (indexOfDeco !== -1) {
-            ranges.push([
-              indexOfDeco + offset,
-              indexOfDeco + offset + decorateThisPhrase.length,
-            ]);
-          }
-        }
-      });
-
-      return DecorationSet.create(
-        state.doc,
-        ranges.map(([from, to]) =>
-          Decoration.inline(from, to, { class: "TestDecoration" })
-        )
-      );
-    },
-  },
-});
