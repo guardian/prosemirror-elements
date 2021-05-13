@@ -4,12 +4,12 @@
     "module": "commonjs",
     "target": "es5",
     "lib": ["dom", "ESNext"],
+    "types": ["jest"],
     "sourceMap": true,
     "strict": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "declarations"],
-  "exclude": ["src/**/*.spec.ts"]
+  "include": ["src/**/*", "declarations"]
 }

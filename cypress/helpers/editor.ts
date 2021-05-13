@@ -43,7 +43,7 @@ export const typeIntoEmbedField = (fieldName: string, content: string) =>
   getEmbedField(fieldName).focus().type(content);
 
 export const getArrayOfBlockElementTypes = () => {
-  // eslint-disable-next-line prefer-const -- it is used.
+  // eslint-disable-next-line prefer-const -- it is reassigned.
   let elementTypes = [] as string[];
   return new Cypress.Promise((resolve) => {
     cy.get("#editor > .ProseMirror-menubar-wrapper > .ProseMirror")
