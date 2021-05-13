@@ -7,13 +7,13 @@ import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { build } from "./embed";
-import { imageEmbed } from "./embeds/image/embed";
+import { createImageEmbed } from "./embeds/image/embed";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
 
-const { plugin: embedPlugin, insertEmbed, hasErrors, nodeSpec } = build({
-  imageEmbed,
-});
+const { plugin: embedPlugin, insertEmbed, hasErrors, nodeSpec } = build([
+  createImageEmbed("imageEmbed"),
+]);
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),

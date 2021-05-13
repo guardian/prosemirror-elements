@@ -1,32 +1,18 @@
 import OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { baseEmbedSchema } from "./baseSchema";
 import { buildCommands, defaultPredicate } from "./helpers";
 import { createPlugin } from "./plugin";
 import type { ElementProps, TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
 
-const addEmbedNode = (schemaSpec: OrderedMap<NodeSpec>): OrderedMap<NodeSpec> =>
-  schemaSpec.append(baseEmbedSchema);
-
-export type EmbedsSpec<
-  EmbedTypes extends string,
-  Props extends ElementProps
-> = {
-  [key in EmbedTypes]: TEmbed<Props>;
-};
-
-const build = <EmbedKeys extends string, Props extends ElementProps>(
-  embedSpec: EmbedsSpec<EmbedKeys, Props>,
+export const build = <Props extends ElementProps, Name extends string>(
+  embedSpec: Array<TEmbed<Props, Name>>,
   predicate = defaultPredicate
 ) => {
-  const typeNames = Object.keys(embedSpec);
+  const typeNames = embedSpec.map((_) => _.name);
 
-  const insertEmbed = <EmbedKey extends EmbedKeys>(
-    type: EmbedKey,
-    fields: TFields
-  ) => (
+  const insertEmbed = (type: Name, fields: TFields) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
@@ -59,14 +45,9 @@ const build = <EmbedKeys extends string, Props extends ElementProps>(
   };
 
   const plugin = createPlugin(embedSpec, buildCommands(predicate));
-  const nodeSpecs = Object.values(embedSpec).map(
-    (embed) => (embed as TEmbed<ElementProps>).nodeSpec
-  );
-
-  const nodeSpec = nodeSpecs.reduce(
-    (acc, spec) => acc.append(spec),
-    OrderedMap.from<NodeSpec>({})
-  );
+  const nodeSpec = embedSpec
+    .map((embed) => embed.nodeSpec)
+    .reduce((acc, spec) => acc.append(spec), OrderedMap.from<NodeSpec>({}));
 
   return {
     insertEmbed,
@@ -75,5 +56,3 @@ const build = <EmbedKeys extends string, Props extends ElementProps>(
     nodeSpec,
   };
 };
-
-export { build, addEmbedNode };

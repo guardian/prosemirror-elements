@@ -3,7 +3,6 @@ import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
-import type { EmbedsSpec } from "./embed";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import { RTENodeView } from "./nodeViews/RTENode";
@@ -17,11 +16,8 @@ const decorations = createDecorations("imageEmbed");
 
 export type PluginState = { hasErrors: boolean };
 
-export const createPlugin = <
-  EmbedKeys extends string,
-  Props extends ElementProps
->(
-  embedsSpec: EmbedsSpec<EmbedKeys, Props>,
+export const createPlugin = <Name extends string, Props extends ElementProps>(
+  embedsSpec: Array<TEmbed<Props, Name>>,
   commands: Commands
 ): Plugin<PluginState, Schema> => {
   type EmbedNode = Node<Schema>;
@@ -58,17 +54,13 @@ export const createPlugin = <
 
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
-const createNodeViews = <EmbedKeys extends string, Props extends ElementProps>(
-  embedsSpec: EmbedsSpec<EmbedKeys, Props>,
+const createNodeViews = <Name extends string, Props extends ElementProps>(
+  embedsSpec: Array<TEmbed<Props, Name>>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
-  for (const embedName in embedsSpec) {
-    nodeViews[embedName] = createNodeView(
-      embedName,
-      embedsSpec[embedName],
-      commands
-    );
+  for (const embed of embedsSpec) {
+    nodeViews[embed.name] = createNodeView(embed.name, embed, commands);
   }
 
   return nodeViews;
@@ -76,9 +68,9 @@ const createNodeViews = <EmbedKeys extends string, Props extends ElementProps>(
 
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
-const createNodeView = <Props extends ElementProps>(
-  embedName: string,
-  embed: TEmbed<Props>,
+const createNodeView = <Props extends ElementProps, Name extends string>(
+  embedName: Name,
+  embed: TEmbed<Props, Name>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");

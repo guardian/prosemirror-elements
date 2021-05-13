@@ -8,12 +8,11 @@ export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
   RTENodeView<LocalSchema>
 >;
 
-type RTEProp = Readonly<
-  {
-    type: "richText";
-    name: string;
-  } & Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">>
->;
+type RTEProp = Readonly<{
+  type: "richText";
+  name: string;
+}> &
+  Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">>;
 
 export type ElementProp = RTEProp;
 
@@ -27,7 +26,8 @@ export type NestedEditorMapFromProps<Props extends ElementProps> = {
   [name in Props[number]["name"]]: RTENodeView<SchemaFromProps<Props>>;
 };
 
-export type TEmbed<Props extends ElementProps> = {
+export type TEmbed<Props extends ElementProps, Name extends string> = {
+  name: Name;
   nodeSpec: NodeSpec;
   createEmbed: (
     dom: HTMLElement,

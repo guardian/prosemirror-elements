@@ -45,14 +45,20 @@ export type TRenderer<RendererOutput, Props extends ElementProps> = (
   ) => void
 ) => void;
 
-export const mount = <RenderOutput, Props extends ElementProps>(
+export const mount = <
+  RenderOutput,
+  Props extends ElementProps,
+  Name extends string
+>(
+  name: Name,
   props: Props,
   render: TRenderer<RenderOutput, Props>,
   consumer: TConsumer<RenderOutput, Props>,
   validate: TValidator,
   defaultState: TFields
-): TEmbed<Props> => ({
-  nodeSpec: getNodeSpecFromProps("imageEmbed", props),
+): TEmbed<Props, Name> => ({
+  name,
+  nodeSpec: getNodeSpecFromProps(name, props),
   createEmbed: (dom, nestedEditors, updateState, fields, commands) => {
     const updater = createUpdater();
     render(

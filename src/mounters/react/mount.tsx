@@ -9,7 +9,11 @@ import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
 import { EmbedProvider } from "./EmbedProvider";
 
-export const createReactEmbedRenderer = <Props extends ElementProps>(
+export const createReactEmbedRenderer = <
+  Props extends ElementProps,
+  Name extends string
+>(
+  name: Name,
   props: Props,
   consumer: TConsumer<ReactElement, Props>,
   validate: TValidator,
@@ -38,5 +42,5 @@ export const createReactEmbedRenderer = <Props extends ElementProps>(
       dom
     );
 
-  return mount(props, renderer, consumer, validate, defaultState);
+  return mount(name, props, renderer, consumer, validate, defaultState);
 };
