@@ -1,21 +1,47 @@
-import { build } from "./embed";
-import { mount } from "./mount";
-import type { ElementProps } from "./types/Embed";
-
-/**
- * Create an embed which renders nothing. Useful when testing schema output.
- */
-export const createNoopEmbed = (name: string, props: ElementProps) =>
-  mount(
-    name,
-    props,
-    () => () => null,
-    () => null,
-    () => null,
-    {}
-  );
+import { build } from "../embed";
+import { mount } from "../mount";
+import { createNoopEmbed } from "./helpers";
 
 describe("mount", () => {
+  describe("nestedEditorProps typesafety", () => {
+    it("should provide typesafe nestedEditorProps to its consumer", () => {
+      const props = {
+        type: "richText",
+        name: "prop1",
+      } as const;
+      mount(
+        "testEmbed",
+        [props],
+        () => () => null,
+        (_, __, ___, nestedEditorProps) => {
+          // Prop1 is derived from the props
+          nestedEditorProps.prop1;
+        },
+        () => null,
+        {}
+      );
+    });
+
+    it("should not typecheck when props are not provided", () => {
+      const props = {
+        type: "richText",
+        name: "notProp1",
+      } as const;
+      mount(
+        "testEmbed",
+        [props],
+        () => () => null,
+        (_, __, ___, nestedEditorProps) => {
+          console.log("hai");
+          // @ts-expect-error – prop1 is not available on this object,
+          // as it is not defined in `props` passed into `mount`
+          nestedEditorProps.prop1;
+        },
+        () => null,
+        {}
+      );
+    });
+  });
   describe("nodeSpec generation", () => {
     it("should create an nodeSpec with no nodes when the spec is empty", () => {
       const { nodeSpec } = build([]);

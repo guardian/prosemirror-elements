@@ -19,7 +19,8 @@ interface Prop {
 }
 
 interface RTEProp
-  extends Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
+  extends Prop,
+    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: "richText";
   name: string;
 }
