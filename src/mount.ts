@@ -1,4 +1,4 @@
-import { getNodeSpecFromProps } from "./baseSchema";
+import { getNodeSpecFromProps } from "./nodeSpec";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
 import type {

@@ -8,11 +8,21 @@ export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
   RTENodeView<LocalSchema>
 >;
 
-type RTEProp = Readonly<{
+/**
+ * A property of an embed, to be modelled as a Node in Prosemirror.
+ */
+interface Prop {
+  // The data type of the property.
+  type: string;
+  // The name the property should have in the schema. Should be unique within the schema.
+  name: string;
+}
+
+interface RTEProp
+  extends Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: "richText";
   name: string;
-}> &
-  Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">>;
+}
 
 export type ElementProp = RTEProp;
 
