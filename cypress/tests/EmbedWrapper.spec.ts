@@ -1,16 +1,16 @@
-import { ImageEmbedTestId } from "../../../src/embeds/image/ImageEmbed";
+import { ImageEmbedTestId } from "../../src/embeds/image/ImageEmbed";
 import {
   moveBottomTestId,
   moveDownTestId,
   moveTopTestId,
   moveUpTestId,
   removeTestId,
-} from "../../../src/mounters/react/EmbedWrapper";
+} from "../../src/mounters/react/EmbedWrapper";
 import {
   addEmbed,
   getArrayOfBlockElementTypes,
   selectDataCy,
-} from "../../helpers/editor";
+} from "../helpers/editor";
 
 describe("EmbedWrapper", () => {
   beforeEach(() => cy.visit("/"));
