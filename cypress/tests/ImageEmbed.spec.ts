@@ -67,7 +67,7 @@ describe("ImageEmbed", () => {
       typeIntoEmbedField("caption", "Caption text");
       typeIntoEmbedField("altText", "Alt text");
       assertDocHtml(
-        `<embed-attrs type="imageEmbed" fields="{&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;src&quot;:&quot;&quot;}" has-errors="false"><div class="imageNative-caption"><p>Caption text</p></div><div class="imageNative-altText"><p>Alt text</p></div></embed-attrs><p>First paragraph</p><p>Second paragraph</p>`
+        `<embed-attrs type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-caption"><p>Caption text</p></div><div class="ProsemirrorEmbed__imageEmbed-altText"><p>Alt text</p></div></embed-attrs><p>First paragraph</p><p>Second paragraph</p>`
       );
     });
   });

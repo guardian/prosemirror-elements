@@ -22,6 +22,7 @@ const getNodeSpecForEmbed = (
     group: "block",
     content: props.map((prop) => prop.name).join(" "),
     attrs: {
+      type: embedName,
       hasErrors: {
         default: false,
       },
