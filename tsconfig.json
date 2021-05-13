@@ -10,6 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "declarations"],
   "exclude": ["src/**/*.spec.ts"]
 }
