@@ -5,7 +5,7 @@ import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
-import { RTENodeView } from "./nodeViews/RTENode";
+import { RTENodeView } from "./nodeViews/RTENodeView";
 import type {
   ElementProps,
   NodeViewProp,
@@ -139,7 +139,7 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
           const typeName = node.type
             .name as keyof NodeViewPropMapFromProps<Props>;
           const nestedEditor = nodeViewPropMap[typeName];
-          nestedEditor.nodeView.update(node, innerDecos, offset);
+          nestedEditor.nodeView.update(node, offset, innerDecos);
         });
         return true;
       }
@@ -148,7 +148,7 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     stopEvent: () => true,
     destroy: () => {
       Object.values(nodeViewPropMap).map((editor) =>
-        (editor as NodeViewProp).nodeView.close()
+        (editor as NodeViewProp).nodeView.destroy()
       );
     },
     ignoreMutation: () => true,

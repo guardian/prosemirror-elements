@@ -1,5 +1,5 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
-import type { RTENodeView } from "../nodeViews/RTENode";
+import type { EmbedNodeView } from "../nodeViews/EmbedNodeView";
 import type { TCommandCreator } from "./Commands";
 import type { TFields } from "./Fields";
 
@@ -29,7 +29,7 @@ export type SchemaFromProps<Props extends ElementProps> = Schema<
 >;
 
 export type NodeViewProp = {
-  nodeView: RTENodeView<Schema>;
+  nodeView: EmbedNodeView;
   prop: ElementProp;
 };
 
