@@ -8,7 +8,12 @@ type Props = {
 
 export const getPropFieldTestId = (name: string) => `PropField-${name}`;
 
-export const PropField: React.FunctionComponent<Props> = ({ nodeViewProp }) => {
+/**
+ * A component able to render a NodeViewProp.
+ */
+export const NodeViewPropField: React.FunctionComponent<Props> = ({
+  nodeViewProp,
+}) => {
   switch (nodeViewProp.prop.type) {
     case "richText":
       return <RichTextPropField nodeViewProp={nodeViewProp} />;

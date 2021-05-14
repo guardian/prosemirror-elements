@@ -17,13 +17,13 @@ export const createImageEmbed = <Name extends string>(name: Name) =>
   createReactEmbedRenderer(
     name,
     imageProps,
-    (fields, errors, updateFields, nestedEditors) => {
+    (fields, errors, updateFields, nodeViewPropMap) => {
       return (
         <ImageEmbed
           fields={fields}
           errors={errors}
           updateFields={updateFields}
-          nestedEditors={nestedEditors}
+          nodeViewPropMap={nodeViewPropMap}
         />
       );
     },

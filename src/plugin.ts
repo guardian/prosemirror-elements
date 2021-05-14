@@ -8,7 +8,8 @@ import { createDecorations } from "./helpers";
 import { RTENodeView } from "./nodeViews/RTENode";
 import type {
   ElementProps,
-  NestedEditorMapFromProps,
+  NodeViewProp,
+  NodeViewPropMapFromProps,
   TEmbed,
 } from "./types/Embed";
 
@@ -77,16 +78,16 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const nestedEditors = {} as NestedEditorMapFromProps<Props>;
+  const nodeViewPropMap = {} as NodeViewPropMapFromProps<Props>;
   const temporaryHardcodedSchema = new Schema({
     nodes: schema.spec.nodes,
     marks: schema.spec.marks,
   });
 
   initNode.forEach((node, offset) => {
-    const typeName = node.type.name as keyof NestedEditorMapFromProps<Props>;
+    const typeName = node.type.name as keyof NodeViewPropMapFromProps<Props>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (nestedEditors[typeName]) {
+    if (nodeViewPropMap[typeName]) {
       throw new Error(
         `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but another instance with that name has already been created.`
       );
@@ -97,7 +98,7 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
         `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but could not find the associate prop`
       );
     }
-    nestedEditors[typeName] = {
+    nodeViewPropMap[typeName] = {
       prop,
       nodeView: new RTENodeView(
         node,
@@ -110,9 +111,9 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     };
   });
 
-  const update = embed.createEmbed(
+  const update = embed.createUpdator(
     dom,
-    nestedEditors,
+    nodeViewPropMap,
     (fields, hasErrors) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
@@ -136,8 +137,8 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
         update(node.attrs.fields, commands(getPos, view));
         node.forEach((node, offset) => {
           const typeName = node.type
-            .name as keyof NestedEditorMapFromProps<Props>;
-          const nestedEditor = nestedEditors[typeName];
+            .name as keyof NodeViewPropMapFromProps<Props>;
+          const nestedEditor = nodeViewPropMap[typeName];
           nestedEditor.nodeView.update(node, innerDecos, offset);
         });
         return true;
@@ -146,8 +147,8 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(nestedEditors).map((editor) =>
-        (editor as RTENodeView<Schema>).close()
+      Object.values(nodeViewPropMap).map((editor) =>
+        (editor as NodeViewProp).nodeView.close()
       );
     },
     ignoreMutation: () => true,

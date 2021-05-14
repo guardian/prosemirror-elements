@@ -3,11 +3,6 @@ import type { RTENodeView } from "../nodeViews/RTENode";
 import type { TCommandCreator } from "./Commands";
 import type { TFields } from "./Fields";
 
-export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
-  string,
-  RTENodeView<LocalSchema>
->;
-
 /**
  * A property of an embed, to be modelled as a Node in Prosemirror.
  */
@@ -38,7 +33,7 @@ export type NodeViewProp = {
   prop: ElementProp;
 };
 
-export type NestedEditorMapFromProps<Props extends ElementProps> = {
+export type NodeViewPropMapFromProps<Props extends ElementProps> = {
   [name in Props[number]["name"]]: NodeViewProp;
 };
 
@@ -46,9 +41,9 @@ export type TEmbed<Props extends ElementProps, Name extends string> = {
   name: Name;
   props: Props;
   nodeSpec: NodeSpec;
-  createEmbed: (
+  createUpdator: (
     dom: HTMLElement,
-    nestedEditors: NestedEditorMapFromProps<Props>,
+    nestedEditors: NodeViewPropMapFromProps<Props>,
     updateState: (fields: TFields, hasErrors: boolean) => void,
     initFields: TFields,
     commands: ReturnType<TCommandCreator>

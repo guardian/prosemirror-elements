@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
-import type { ElementProps, NestedEditorMapFromProps } from "../../types/Embed";
+import type { ElementProps, NodeViewPropMapFromProps } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
@@ -24,7 +24,7 @@ type IProps<Props extends ElementProps> = {
   onStateChange: (fields: TFields) => void;
   validate: TValidator;
   consumer: TConsumer<ReactElement, Props>;
-  nestedEditors: NestedEditorMapFromProps<Props>;
+  nestedEditors: NodeViewPropMapFromProps<Props>;
 };
 
 type IState = {
