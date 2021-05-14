@@ -21,6 +21,7 @@ export const ImageEmbed: React.FunctionComponent<Props> = ({
     <div data-cy={ImageEmbedTestId}>
       <NodeViewPropField nodeViewProp={nodeViewPropMap.altText} />
       <NodeViewPropField nodeViewProp={nodeViewPropMap.caption} />
+      <NodeViewPropField nodeViewProp={nodeViewPropMap.useSrc} />
     </div>
   );
 };

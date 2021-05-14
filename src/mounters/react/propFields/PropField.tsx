@@ -17,5 +17,7 @@ export const NodeViewPropField: React.FunctionComponent<Props> = ({
   switch (nodeViewProp.prop.type) {
     case "richText":
       return <RichTextPropField nodeViewProp={nodeViewProp} />;
+    case "checkbox":
+      return <RichTextPropField nodeViewProp={nodeViewProp} />;
   }
 };

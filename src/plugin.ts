@@ -1,11 +1,9 @@
-import type { Node } from "prosemirror-model";
-import { Schema } from "prosemirror-model";
-import { schema } from "prosemirror-schema-basic";
+import type { Node, Schema } from "prosemirror-model";
 import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
-import { RTENodeView } from "./nodeViews/RTENodeView";
+import { getEmbedNodeViewFromType } from "./pluginHelpers";
 import type {
   ElementProps,
   NodeViewProp,
@@ -79,10 +77,6 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
   const nodeViewPropMap = {} as NodeViewPropMapFromProps<Props>;
-  const temporaryHardcodedSchema = new Schema({
-    nodes: schema.spec.nodes,
-    marks: schema.spec.marks,
-  });
 
   initNode.forEach((node, offset) => {
     const typeName = node.type.name as keyof NodeViewPropMapFromProps<Props>;
@@ -100,14 +94,13 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     }
     nodeViewPropMap[typeName] = {
       prop,
-      nodeView: new RTENodeView(
+      nodeView: getEmbedNodeViewFromType(prop, {
         node,
         view,
         getPos,
         offset,
-        temporaryHardcodedSchema,
-        innerDecos
-      ),
+        innerDecos,
+      }),
     };
   });
 

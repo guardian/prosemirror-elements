@@ -13,6 +13,12 @@ interface Prop {
   name: string;
 }
 
+interface CheckboxProp extends Prop {
+  type: "checkbox";
+  name: string;
+  defaultValue: boolean;
+}
+
 interface RTEProp
   extends Prop,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
@@ -20,7 +26,7 @@ interface RTEProp
   name: string;
 }
 
-export type ElementProp = RTEProp;
+export type ElementProp = RTEProp | CheckboxProp;
 
 export type ElementProps = Readonly<ElementProp[]>;
 
