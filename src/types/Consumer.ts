@@ -1,4 +1,4 @@
-import type { ElementProps, NestedEditorMapFromProps } from "./Embed";
+import type { ElementProps, NodeViewPropMapFromProps } from "./Embed";
 import type { TErrors } from "./Errors";
 import type { TFields } from "./Fields";
 
@@ -6,5 +6,5 @@ export type TConsumer<ConsumerResult, Props extends ElementProps> = (
   fields: TFields,
   errors: TErrors,
   updateFields: (fields: TFields) => void,
-  nestedEditors: NestedEditorMapFromProps<Props>
+  nestedEditors: NodeViewPropMapFromProps<Props>
 ) => ConsumerResult;

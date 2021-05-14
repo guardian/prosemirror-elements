@@ -1,6 +1,6 @@
 import React from "react";
-import { PropField } from "../../mounters/react/propFields/PropField";
-import type { NestedEditorMapFromProps } from "../../types/Embed";
+import { NodeViewPropField } from "../../mounters/react/propFields/PropField";
+import type { NodeViewPropMapFromProps } from "../../types/Embed";
 import type { TFields } from "../../types/Fields";
 import type { imageProps } from "./embed";
 
@@ -8,19 +8,19 @@ type Props = {
   fields: TFields;
   errors: Record<string, string[]>;
   updateFields: (fields: TFields) => void;
-  nestedEditors: NestedEditorMapFromProps<typeof imageProps>;
+  nodeViewPropMap: NodeViewPropMapFromProps<typeof imageProps>;
 };
 
 export const ImageEmbedTestId = "ImageEmbed";
 
 export const ImageEmbed: React.FunctionComponent<Props> = ({
   fields: { src, alt },
-  nestedEditors,
+  nodeViewPropMap,
 }) => {
   return (
     <div data-cy={ImageEmbedTestId}>
-      <PropField nodeViewProp={nestedEditors.altText} />
-      <PropField nodeViewProp={nestedEditors.caption} />
+      <NodeViewPropField nodeViewProp={nodeViewPropMap.altText} />
+      <NodeViewPropField nodeViewProp={nodeViewPropMap.caption} />
     </div>
   );
 };
