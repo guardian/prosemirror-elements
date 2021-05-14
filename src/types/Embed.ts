@@ -33,12 +33,18 @@ export type SchemaFromProps<Props extends ElementProps> = Schema<
   Props[number]["name"]
 >;
 
+export type NodeViewProp = {
+  nodeView: RTENodeView<Schema>;
+  prop: ElementProp;
+};
+
 export type NestedEditorMapFromProps<Props extends ElementProps> = {
-  [name in Props[number]["name"]]: RTENodeView<SchemaFromProps<Props>>;
+  [name in Props[number]["name"]]: NodeViewProp;
 };
 
 export type TEmbed<Props extends ElementProps, Name extends string> = {
   name: Name;
+  props: Props;
   nodeSpec: NodeSpec;
   createEmbed: (
     dom: HTMLElement,

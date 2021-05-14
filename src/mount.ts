@@ -58,6 +58,7 @@ export const mount = <
   defaultState: TFields
 ): TEmbed<Props, Name> => ({
   name,
+  props,
   nodeSpec: getNodeSpecFromProps(name, props),
   createEmbed: (dom, nestedEditors, updateState, fields, commands) => {
     const updater = createUpdater();

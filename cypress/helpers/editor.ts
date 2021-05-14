@@ -1,6 +1,5 @@
-import type { EditorView } from "prosemirror-view";
 import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
-import { getNestedViewTestId } from "../../src/mounters/react/NestedEditorView";
+import { getPropFieldTestId } from "../../src/mounters/react/propFields/PropField";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
@@ -22,17 +21,17 @@ export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
 export const getEmbedField = (fieldName: string) =>
-  cy.get(`div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror`);
+  cy.get(`div${selectDataCy(getPropFieldTestId(fieldName))} .ProseMirror`);
 
 export const getEmbedMenu = (fieldName: string) =>
   cy.get(
-    `div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror-menubar`
+    `div${selectDataCy(getPropFieldTestId(fieldName))} .ProseMirror-menubar`
   );
 
 export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
   cy.get(
     `div${selectDataCy(
-      getNestedViewTestId(fieldName)
+      getPropFieldTestId(fieldName)
     )} .ProseMirror-menubar [title="${buttonTitle}"]`
   );
 

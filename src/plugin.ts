@@ -87,18 +87,27 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     const typeName = node.type.name as keyof NestedEditorMapFromProps<Props>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
     if (nestedEditors[typeName]) {
-      console.error(
-        `[prosemirror-embeds]: Attempted to instantiate a nested editor with type ${typeName}, but another instance with that name has already been created.`
+      throw new Error(
+        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but another instance with that name has already been created.`
       );
     }
-    nestedEditors[typeName] = new RTENodeView(
-      node,
-      view,
-      getPos,
-      offset,
-      temporaryHardcodedSchema,
-      innerDecos
-    );
+    const prop = embed.props.find((prop) => prop.name === typeName);
+    if (!prop) {
+      throw new Error(
+        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but could not find the associate prop`
+      );
+    }
+    nestedEditors[typeName] = {
+      prop,
+      nodeView: new RTENodeView(
+        node,
+        view,
+        getPos,
+        offset,
+        temporaryHardcodedSchema,
+        innerDecos
+      ),
+    };
   });
 
   const update = embed.createEmbed(
@@ -129,7 +138,7 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
           const typeName = node.type
             .name as keyof NestedEditorMapFromProps<Props>;
           const nestedEditor = nestedEditors[typeName];
-          nestedEditor.update(node, innerDecos, offset);
+          nestedEditor.nodeView.update(node, innerDecos, offset);
         });
         return true;
       }

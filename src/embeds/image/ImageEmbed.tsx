@@ -1,5 +1,5 @@
 import React from "react";
-import { NestedEditorView } from "../../mounters/react/NestedEditorView";
+import { PropField } from "../../mounters/react/propFields/PropField";
 import type { NestedEditorMapFromProps } from "../../types/Embed";
 import type { TFields } from "../../types/Fields";
 import type { imageProps } from "./embed";
@@ -19,17 +19,8 @@ export const ImageEmbed: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <div data-cy={ImageEmbedTestId}>
-      <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
-      <NestedEditorView
-        key={"altText"}
-        name={"altText"}
-        editor={nestedEditors.altText}
-      />
-      <NestedEditorView
-        key={"caption"}
-        name={"caption"}
-        editor={nestedEditors.caption}
-      />
+      <PropField nodeViewProp={nestedEditors.altText} />
+      <PropField nodeViewProp={nestedEditors.caption} />
     </div>
   );
 };
