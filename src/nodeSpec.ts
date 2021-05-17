@@ -76,7 +76,7 @@ const getNodeSpecForProp = (embedName: string, prop: ElementProp): NodeSpec => {
           parseDOM: getDefaultParseDOMForLeafNode(embedName, prop.name),
           attrs: {
             fields: {
-              default: {},
+              default: { value: prop.defaultValue },
             },
           },
         },
@@ -105,7 +105,6 @@ const getDefaultParseDOMForLeafNode = (embedName: string, propName: string) => [
   {
     tag: getTagForNode(embedName, propName),
     getAttrs: (dom: Element) => {
-      console.log({ dom: dom.getAttribute("fields") });
       if (typeof dom === "string") {
         return;
       }

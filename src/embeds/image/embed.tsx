@@ -18,15 +18,8 @@ export const createImageEmbed = <Name extends string>(name: Name) =>
   createReactEmbedRenderer(
     name,
     imageProps,
-    (fields, errors, updateFields, nodeViewPropMap) => {
-      return (
-        <ImageEmbed
-          fields={fields}
-          errors={errors}
-          updateFields={updateFields}
-          nodeViewPropMap={nodeViewPropMap}
-        />
-      );
+    (_, errors, __, nodeViewPropMap) => {
+      return <ImageEmbed errors={errors} nodeViewPropMap={nodeViewPropMap} />;
     },
     ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
     { caption: "", src: "", alt: "" }
