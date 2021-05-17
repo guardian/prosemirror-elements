@@ -14,14 +14,20 @@ export const ImageEmbedTestId = "ImageEmbed";
 
 export const ImageEmbed: React.FunctionComponent<Props> = ({
   fields,
+  errors,
   nodeViewPropMap,
 }) => {
   return (
     <div data-cy={ImageEmbedTestId}>
-      {JSON.stringify(fields)}
       <PropView nodeViewProp={nodeViewPropMap.altText} />
       <PropView nodeViewProp={nodeViewPropMap.caption} />
       <PropView nodeViewProp={nodeViewPropMap.useSrc} />
+      <hr />
+      <h4>Embed errors</h4>
+      <pre>{JSON.stringify(errors)}</pre>
+      <hr />
+      <h4>Embed values</h4>
+      <pre>{JSON.stringify(fields)}</pre>
     </div>
   );
 };

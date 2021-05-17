@@ -25,6 +25,10 @@ export const createImageEmbed = <Name extends string>(name: Name) =>
         />
       );
     },
-    ({ altText }) => (altText ? null : { alt: ["Alt tag must be set"] }),
+    ({ altText }) => {
+      const el = document.createElement("div");
+      el.innerHTML = altText;
+      return el.innerText ? null : { altText: ["Alt tag must be set"] };
+    },
     { caption: "", useSrc: { value: true }, altText: "" }
   );

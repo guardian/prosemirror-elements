@@ -15,7 +15,7 @@ const fieldErrors = <FSpec extends FieldSpec<string>>(
   Object.keys(fields).reduce(
     (acc, key) => ({
       ...acc,
-      [key]: errors ? errors[key] : [],
+      [key]: errors?.[key] ? errors[key] : [],
     }),
     {}
   );
@@ -91,14 +91,15 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
   }
 
   render() {
+    const errors = fieldErrors(
+      this.state.fields,
+      this.props.validate(this.state.fields)
+    );
     return (
       <EmbedWrapper name="Image" {...this.state.commands}>
         {this.props.consumer(
           this.state.fields,
-          fieldErrors(
-            this.state.fields,
-            this.props.validate(this.state.fields)
-          ),
+          errors,
           this.updateFields,
           this.props.nestedEditors
         )}

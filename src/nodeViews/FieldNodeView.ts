@@ -33,10 +33,12 @@ export abstract class FieldNodeView<Fields extends unknown>
 
   protected abstract updateInnerView(fields: Fields): void;
 
-  public update(node: Node) {
+  public update(node: Node, elementOffset: number) {
     if (!node.sameMarkup(this.node)) {
       return false;
     }
+
+    this.offset = elementOffset;
 
     this.updateInnerView(node.attrs as Fields);
 
@@ -56,6 +58,7 @@ export abstract class FieldNodeView<Fields extends unknown>
     //  - getPos() returns the position directly before the parent node (+1)
     const contentOffset = 1;
     const nodePos = this.getPos() + this.offset + contentOffset;
+    console.log(nodePos);
     outerTr.setNodeMarkup(nodePos, undefined, {
       fields,
     });
