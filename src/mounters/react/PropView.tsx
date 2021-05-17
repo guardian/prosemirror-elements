@@ -16,11 +16,11 @@ export const PropView: React.FunctionComponent<Props> = ({ nodeViewProp }) => {
     editorRef.current.appendChild(nodeViewProp.nodeView.nodeViewElement);
   }, []);
   return (
-    <div data-cy={getPropViewTestId(nodeViewProp.prop.name)}>
+    <div data-cy={getPropViewTestId(nodeViewProp.name)}>
       <label>
-        <strong>{nodeViewProp.prop.name}</strong>
+        <strong>{nodeViewProp.name}</strong>
       </label>
-      <div className="NestedEditorView" ref={editorRef}></div>
+      <div ref={editorRef}></div>
     </div>
   );
 };

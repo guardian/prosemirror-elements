@@ -6,12 +6,13 @@ describe("mount", () => {
   describe("nestedEditorProps typesafety", () => {
     it("should provide typesafe nestedEditorProps to its consumer", () => {
       const props = {
-        type: "richText",
-        name: "prop1",
+        prop1: {
+          type: "richText",
+        },
       } as const;
       mount(
         "testEmbed",
-        [props],
+        props,
         () => () => null,
         (_, __, ___, nestedEditorProps) => {
           // Prop1 is derived from the props
@@ -24,12 +25,13 @@ describe("mount", () => {
 
     it("should not typecheck when props are not provided", () => {
       const props = {
-        type: "richText",
-        name: "notProp1",
+        notProp1: {
+          type: "richText",
+        },
       } as const;
       mount(
         "testEmbed",
-        [props],
+        props,
         () => () => null,
         (_, __, ___, nestedEditorProps) => {
           // @ts-expect-error – prop1 is not available on this object,
@@ -48,8 +50,8 @@ describe("mount", () => {
     });
 
     it("should create an nodeSpec with a parent node for each embed", () => {
-      const testEmbed1 = createNoopEmbed("testEmbed1", []);
-      const testEmbed2 = createNoopEmbed("testEmbed2", []);
+      const testEmbed1 = createNoopEmbed("testEmbed1", {});
+      const testEmbed2 = createNoopEmbed("testEmbed2", {});
       const { nodeSpec } = build([testEmbed1, testEmbed2]);
       expect(nodeSpec.size).toBe(2);
       expect(nodeSpec.get("testEmbed1")).toMatchObject({ content: "" });
@@ -57,16 +59,14 @@ describe("mount", () => {
     });
 
     it("should create child nodes for each embed prop, and the parent node should include them in its content expression", () => {
-      const testEmbed1 = createNoopEmbed("testEmbed1", [
-        {
+      const testEmbed1 = createNoopEmbed("testEmbed1", {
+        prop1: {
           type: "richText",
-          name: "prop1",
         },
-        {
+        prop2: {
           type: "richText",
-          name: "prop2",
         },
-      ]);
+      });
       const { nodeSpec } = build([testEmbed1]);
       expect(nodeSpec.get("testEmbed1")).toMatchObject({
         content: "prop1 prop2",
@@ -76,20 +76,21 @@ describe("mount", () => {
     });
 
     it("should allow the user to specify custom toDOM and parseDOM properties on richText props", () => {
-      const prop = {
-        type: "richText" as const,
-        name: "prop1",
-        content: "text",
-        toDOM: () => "div",
-        parseDOM: [{ tag: "header" }],
+      const props = {
+        prop1: {
+          type: "richText" as const,
+          content: "text",
+          toDOM: () => "div",
+          parseDOM: [{ tag: "header" }],
+        },
       };
 
-      const testEmbed1 = createNoopEmbed("testEmbed1", [prop]);
+      const testEmbed1 = createNoopEmbed("testEmbed1", props);
       const { nodeSpec } = build([testEmbed1]);
-      expect(nodeSpec.get(prop.name)).toEqual({
-        content: prop.content,
-        toDOM: prop.toDOM,
-        parseDOM: prop.parseDOM,
+      expect(nodeSpec.get("prop1")).toEqual({
+        content: props.prop1.content,
+        toDOM: props.prop1.toDOM,
+        parseDOM: props.prop1.parseDOM,
       });
     });
   });

@@ -4,13 +4,13 @@ import { render } from "react-dom";
 import { mount } from "../../mount";
 import type { TRenderer } from "../../mount";
 import type { TConsumer } from "../../types/Consumer";
-import type { ElementProps } from "../../types/Embed";
+import type { EmbedProps } from "../../types/Embed";
 import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
 import { EmbedProvider } from "./EmbedProvider";
 
 export const createReactEmbedRenderer = <
-  Props extends ElementProps,
+  Props extends EmbedProps<string>,
   Name extends string
 >(
   name: Name,

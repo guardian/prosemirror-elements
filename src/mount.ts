@@ -2,7 +2,7 @@ import { getNodeSpecFromProps } from "./nodeSpec";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
 import type {
-  ElementProps,
+  EmbedProps,
   NodeViewPropMapFromProps,
   TEmbed,
 } from "./types/Embed";
@@ -29,7 +29,7 @@ const createUpdater = (): Updater => {
   };
 };
 
-export type TRenderer<RendererOutput, Props extends ElementProps> = (
+export type TRenderer<RendererOutput, Props extends EmbedProps<string>> = (
   consumer: TConsumer<RendererOutput, Props>,
   validate: TValidator,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
@@ -47,7 +47,7 @@ export type TRenderer<RendererOutput, Props extends ElementProps> = (
 
 export const mount = <
   RenderOutput,
-  Props extends ElementProps,
+  Props extends EmbedProps<string>,
   Name extends string
 >(
   name: Name,

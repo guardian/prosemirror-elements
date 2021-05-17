@@ -5,8 +5,7 @@ import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import { getEmbedNodeViewFromType } from "./pluginHelpers";
 import type {
-  ElementProps,
-  NodeViewProp,
+  EmbedProps,
   NodeViewPropMapFromProps,
   TEmbed,
 } from "./types/Embed";
@@ -15,7 +14,10 @@ const decorations = createDecorations("imageEmbed");
 
 export type PluginState = { hasErrors: boolean };
 
-export const createPlugin = <Name extends string, Props extends ElementProps>(
+export const createPlugin = <
+  Name extends string,
+  Props extends EmbedProps<string>
+>(
   embedsSpec: Array<TEmbed<Props, Name>>,
   commands: Commands
 ): Plugin<PluginState, Schema> => {
@@ -53,7 +55,7 @@ export const createPlugin = <Name extends string, Props extends ElementProps>(
 
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
-const createNodeViews = <Name extends string, Props extends ElementProps>(
+const createNodeViews = <Name extends string, Props extends EmbedProps<string>>(
   embedsSpec: Array<TEmbed<Props, Name>>,
   commands: Commands
 ): NodeViewSpec => {
@@ -67,7 +69,7 @@ const createNodeViews = <Name extends string, Props extends ElementProps>(
 
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
-const createNodeView = <Props extends ElementProps, Name extends string>(
+const createNodeView = <Props extends EmbedProps<string>, Name extends string>(
   embedName: Name,
   embed: TEmbed<Props, Name>,
   commands: Commands
@@ -79,21 +81,23 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
   const nodeViewPropMap = {} as NodeViewPropMapFromProps<Props>;
 
   initNode.forEach((node, offset) => {
-    const typeName = node.type.name as keyof NodeViewPropMapFromProps<Props>;
+    const name = node.type.name as keyof NodeViewPropMapFromProps<Props>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (nodeViewPropMap[typeName]) {
+    if (nodeViewPropMap[name]) {
       throw new Error(
-        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but another instance with that name has already been created.`
+        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${name}, but another instance with that name has already been created.`
       );
     }
-    const prop = embed.props.find((prop) => prop.name === typeName);
+    const prop = embed.props[name];
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!prop) {
       throw new Error(
-        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but could not find the associate prop`
+        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate prop`
       );
     }
-    nodeViewPropMap[typeName] = {
+    nodeViewPropMap[name] = {
       prop,
+      name,
       nodeView: getEmbedNodeViewFromType(prop, {
         node,
         view,
@@ -140,9 +144,7 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(nodeViewPropMap).map((editor) =>
-        (editor as NodeViewProp).nodeView.destroy()
-      );
+      Object.values(nodeViewPropMap).map((editor) => editor.nodeView.destroy());
     },
     ignoreMutation: () => true,
   };

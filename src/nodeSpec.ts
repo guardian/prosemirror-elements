@@ -1,13 +1,14 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec } from "prosemirror-model";
-import type { ElementProp, ElementProps } from "./types/Embed";
+import type { EmbedProps, PropSpec } from "./types/Embed";
 
-export const getNodeSpecFromProps = <Props extends ElementProps>(
+export const getNodeSpecFromProps = <Props extends EmbedProps<string>>(
   embedName: string,
   props: Props
 ): OrderedMap<NodeSpec> => {
-  const propSpecs = props.reduce(
-    (acc, prop) => acc.append(getNodeSpecForProp(embedName, prop)),
+  const propSpecs = Object.entries(props).reduce(
+    (acc, [propName, propSpec]) =>
+      acc.append(getNodeSpecForProp(embedName, propName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
@@ -16,11 +17,11 @@ export const getNodeSpecFromProps = <Props extends ElementProps>(
 
 const getNodeSpecForEmbed = (
   embedName: string,
-  props: ElementProps
+  props: EmbedProps<string>
 ): NodeSpec => ({
   [embedName]: {
     group: "block",
-    content: props.map((prop) => prop.name).join(" "),
+    content: Object.keys(props).join(" "),
     attrs: {
       type: embedName,
       hasErrors: {
@@ -57,23 +58,27 @@ const getNodeSpecForEmbed = (
   },
 });
 
-const getNodeSpecForProp = (embedName: string, prop: ElementProp): NodeSpec => {
+const getNodeSpecForProp = (
+  embedName: string,
+  propName: string,
+  prop: PropSpec
+): NodeSpec => {
   switch (prop.type) {
     case "richText":
       return {
-        [prop.name]: {
+        [propName]: {
           content: prop.content ?? "paragraph",
           toDOM:
-            prop.toDOM ?? getDefaultToDOMForContentNode(embedName, prop.name),
+            prop.toDOM ?? getDefaultToDOMForContentNode(embedName, propName),
           parseDOM: prop.parseDOM ?? [{ tag: "div" }],
         },
       };
     case "checkbox":
       return {
-        [prop.name]: {
+        [propName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(embedName, prop.name),
-          parseDOM: getDefaultParseDOMForLeafNode(embedName, prop.name),
+          toDOM: getDefaultToDOMForLeafNode(embedName, propName),
+          parseDOM: getDefaultParseDOMForLeafNode(embedName, propName),
           attrs: {
             fields: {
               default: { value: prop.defaultValue },

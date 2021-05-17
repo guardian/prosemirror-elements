@@ -3,10 +3,10 @@ import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import { buildCommands, defaultPredicate } from "./helpers";
 import { createPlugin } from "./plugin";
-import type { ElementProps, TEmbed } from "./types/Embed";
+import type { EmbedProps, TEmbed } from "./types/Embed";
 import type { TFields } from "./types/Fields";
 
-export const build = <Props extends ElementProps, Name extends string>(
+export const build = <Props extends EmbedProps<string>, Name extends string>(
   embedSpec: Array<TEmbed<Props, Name>>,
   predicate = defaultPredicate
 ) => {

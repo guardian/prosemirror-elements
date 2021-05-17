@@ -4,7 +4,7 @@ import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
 import { RTENodeView } from "./nodeViews/RTENodeView";
-import type { ElementProp } from "./types/Embed";
+import type { PropSpec } from "./types/Embed";
 
 const temporaryHardcodedSchema = new Schema({
   nodes: schema.spec.nodes,
@@ -20,7 +20,7 @@ type Options = {
 };
 
 export const getEmbedNodeViewFromType = (
-  prop: ElementProp,
+  prop: PropSpec,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
   switch (prop.type) {
