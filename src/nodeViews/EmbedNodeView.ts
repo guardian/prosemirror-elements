@@ -4,13 +4,15 @@ import type { Decoration, DecorationSet } from "prosemirror-view";
 /**
  * Represents a prosemirror-embed view of a Prosemirror Node.
  */
-export interface EmbedNodeView {
-  nodeViewElement: HTMLElement;
+export abstract class EmbedNodeView<NodeValue> {
+  public static propName: string;
+  // The HTML element this nodeView renders content into.
+  public abstract nodeViewElement: HTMLElement;
 
   /**
    * Called when the nodeView is updated.
    */
-  update(
+  public abstract update(
     node: Node,
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
@@ -19,5 +21,10 @@ export interface EmbedNodeView {
   /**
    * Called when the nodeView is destroyed.
    */
-  destroy(): void;
+  public abstract destroy(): void;
+
+  /**
+   * Get the value from a given node that's represented by this NodeView.
+   */
+  public abstract getNodeValue(node: Node): NodeValue;
 }

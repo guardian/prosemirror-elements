@@ -3,12 +3,9 @@ import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
+import type { NodeViewPropValues } from "./nodeViews/helpers";
 import { getEmbedNodeViewFromType } from "./pluginHelpers";
-import type {
-  EmbedProps,
-  NodeViewPropMapFromProps,
-  TEmbed,
-} from "./types/Embed";
+import type { EmbedProps, NodeViewPropMap, TEmbed } from "./types/Embed";
 
 const decorations = createDecorations("imageEmbed");
 
@@ -78,10 +75,10 @@ const createNodeView = <Props extends EmbedProps<string>, Name extends string>(
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const nodeViewPropMap = {} as NodeViewPropMapFromProps<Props>;
+  const nodeViewPropMap = {} as NodeViewPropMap<Props>;
 
   initNode.forEach((node, offset) => {
-    const name = node.type.name as keyof NodeViewPropMapFromProps<Props>;
+    const name = node.type.name as keyof NodeViewPropMap<Props>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
     if (nodeViewPropMap[name]) {
       throw new Error(
@@ -131,13 +128,20 @@ const createNodeView = <Props extends EmbedProps<string>, Name extends string>(
         node.type.name === embedName &&
         node.attrs.type === initNode.attrs.type
       ) {
-        update(node.attrs.fields, commands(getPos, view));
+        // We gather the values from each child as we iterate over the
+        // node, to update the renderer. It's difficult to be typesafe here,
+        // as the Node's name value is loosely typed as `string`, and so we
+        // cannot index into the embed `props` to discover the appropriate type.
+        const propValues: Record<string, unknown> = {};
         node.forEach((node, offset) => {
-          const typeName = node.type
-            .name as keyof NodeViewPropMapFromProps<Props>;
+          const typeName = node.type.name as keyof NodeViewPropMap<Props>;
           const nestedEditor = nodeViewPropMap[typeName];
           nestedEditor.nodeView.update(node, offset, innerDecos);
+          propValues[typeName] = nestedEditor.nodeView.getNodeValue(node);
         });
+
+        update(propValues as NodeViewPropValues<Props>, commands(getPos, view));
+
         return true;
       }
       return false;

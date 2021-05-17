@@ -1,14 +1,17 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
+import type { Validator } from "../../mount";
+import type { NodeViewPropValues } from "../../nodeViews/helpers";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
-import type { EmbedProps, NodeViewPropMapFromProps } from "../../types/Embed";
+import type { EmbedProps, NodeViewPropMap } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
-import type { TFields } from "../../types/Fields";
-import type { TValidator } from "../../types/Validator";
 import { EmbedWrapper } from "./EmbedWrapper";
 
-const fieldErrors = (fields: TFields, errors: TErrors | null) =>
+const fieldErrors = <Props extends EmbedProps<string>>(
+  fields: NodeViewPropValues<Props>,
+  errors: TErrors | null
+) =>
   Object.keys(fields).reduce(
     (acc, key) => ({
       ...acc,
@@ -18,23 +21,25 @@ const fieldErrors = (fields: TFields, errors: TErrors | null) =>
   );
 
 type IProps<Props extends EmbedProps<string>> = {
-  subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
+  subscribe: (
+    fn: (fields: NodeViewPropValues<Props>, commands: TCommands) => void
+  ) => void;
   commands: TCommands;
-  fields: TFields;
-  onStateChange: (fields: TFields) => void;
-  validate: TValidator;
+  fields: NodeViewPropValues<Props>;
+  onStateChange: (fields: NodeViewPropValues<Props>) => void;
+  validate: Validator<Props>;
   consumer: TConsumer<ReactElement, Props>;
-  nestedEditors: NodeViewPropMapFromProps<Props>;
+  nestedEditors: NodeViewPropMap<Props>;
 };
 
-type IState = {
+type IState<Props extends EmbedProps<string>> = {
   commands: TCommands;
-  fields: TFields;
+  fields: NodeViewPropValues<Props>;
 };
 
 export class EmbedProvider<Props extends EmbedProps<string>> extends Component<
   IProps<Props>,
-  IState
+  IState<Props>
 > {
   constructor(props: IProps<Props>) {
     super(props);
@@ -66,7 +71,7 @@ export class EmbedProvider<Props extends EmbedProps<string>> extends Component<
     this.props.onStateChange(this.state.fields);
   }
 
-  updateState(state: Partial<IState>, notifyListeners: boolean): void {
+  updateState(state: Partial<IState<Props>>, notifyListeners: boolean): void {
     this.setState(
       { ...this.state, ...state },
       () => notifyListeners && this.onStateChange()

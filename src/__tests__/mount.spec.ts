@@ -19,7 +19,7 @@ describe("mount", () => {
           nestedEditorProps.prop1;
         },
         () => null,
-        {}
+        { prop1: "text" }
       );
     });
 
@@ -39,7 +39,7 @@ describe("mount", () => {
           nestedEditorProps.prop1;
         },
         () => null,
-        {}
+        { notProp1: "text" }
       );
     });
   });

@@ -2,11 +2,10 @@ import type { ReactElement } from "react";
 import React from "react";
 import { render } from "react-dom";
 import { mount } from "../../mount";
-import type { TRenderer } from "../../mount";
+import type { TRenderer, Validator } from "../../mount";
+import type { NodeViewPropValues } from "../../nodeViews/helpers";
 import type { TConsumer } from "../../types/Consumer";
 import type { EmbedProps } from "../../types/Embed";
-import type { TFields } from "../../types/Fields";
-import type { TValidator } from "../../types/Validator";
 import { EmbedProvider } from "./EmbedProvider";
 
 export const createReactEmbedRenderer = <
@@ -16,8 +15,8 @@ export const createReactEmbedRenderer = <
   name: Name,
   props: Props,
   consumer: TConsumer<ReactElement, Props>,
-  validate: TValidator,
-  defaultState: TFields
+  validate: Validator<Props>,
+  defaultState: NodeViewPropValues<Props>
 ) => {
   const renderer: TRenderer<ReactElement, Props> = (
     consumer,

@@ -7,7 +7,8 @@ import type { EmbedNodeView } from "./EmbedNodeView";
  * node that contains fields that are updated atomically.
  */
 export abstract class FieldNodeView<Fields extends unknown>
-  implements EmbedNodeView {
+  implements EmbedNodeView<Fields> {
+  public static propName: string;
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public nodeViewElement = document.createElement("div");
@@ -25,6 +26,8 @@ export abstract class FieldNodeView<Fields extends unknown>
   ) {
     this.createInnerView(node.attrs.fields || defaultFields);
   }
+
+  public abstract getNodeValue(node: Node): Fields;
 
   protected abstract createInnerView(fields: Fields): void;
 
