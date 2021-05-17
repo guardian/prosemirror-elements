@@ -20,8 +20,11 @@ export const addEmbed = () => cy.get("#embed").click();
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
-export const getEmbedField = (fieldName: string) =>
+export const getEmbedRichTextField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getPropFieldTestId(fieldName))} .ProseMirror`);
+
+export const getEmbedField = (fieldName: string) =>
+  cy.get(`div${selectDataCy(getPropFieldTestId(fieldName))}`);
 
 export const getEmbedMenu = (fieldName: string) =>
   cy.get(
@@ -38,7 +41,7 @@ export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
 // If we don't focus the nested RTE we're typing into before type() is called,
 // Cypress tends to type into the parent RTE instead.
 export const typeIntoEmbedField = (fieldName: string, content: string) =>
-  getEmbedField(fieldName).focus().type(content);
+  getEmbedRichTextField(fieldName).focus().type(content);
 
 export const getArrayOfBlockElementTypes = () => {
   // eslint-disable-next-line prefer-const -- it is reassigned.
