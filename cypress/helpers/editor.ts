@@ -1,5 +1,5 @@
 import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
-import { getPropFieldTestId } from "../../src/mounters/react/propFields/PropField";
+import { getPropViewTestId } from "../../src/mounters/react/PropView";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
@@ -21,20 +21,20 @@ export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
 export const getEmbedRichTextField = (fieldName: string) =>
-  cy.get(`div${selectDataCy(getPropFieldTestId(fieldName))} .ProseMirror`);
+  cy.get(`div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror`);
 
 export const getEmbedField = (fieldName: string) =>
-  cy.get(`div${selectDataCy(getPropFieldTestId(fieldName))}`);
+  cy.get(`div${selectDataCy(getPropViewTestId(fieldName))}`);
 
 export const getEmbedMenu = (fieldName: string) =>
   cy.get(
-    `div${selectDataCy(getPropFieldTestId(fieldName))} .ProseMirror-menubar`
+    `div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror-menubar`
   );
 
 export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
   cy.get(
     `div${selectDataCy(
-      getPropFieldTestId(fieldName)
+      getPropViewTestId(fieldName)
     )} .ProseMirror-menubar [title="${buttonTitle}"]`
   );
 
