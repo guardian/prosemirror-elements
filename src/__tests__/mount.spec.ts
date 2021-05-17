@@ -32,7 +32,6 @@ describe("mount", () => {
         [props],
         () => () => null,
         (_, __, ___, nestedEditorProps) => {
-          console.log("hai");
           // @ts-expect-error – prop1 is not available on this object,
           // as it is not defined in `props` passed into `mount`
           nestedEditorProps.prop1;

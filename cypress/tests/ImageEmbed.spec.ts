@@ -66,7 +66,7 @@ describe("ImageEmbed", () => {
           typeIntoEmbedField("caption", "Caption text");
           typeIntoEmbedField("altText", "Alt text");
           assertDocHtml(
-            `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-caption"><p>Caption text</p></div><div class="ProsemirrorEmbed__imageEmbed-altText"><p>Alt text</p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
+            `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-caption"><p>Caption text</p></div><div class="ProsemirrorEmbed__imageEmbed-altText"><p>Alt text</p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{&quot;value&quot;:false}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
           );
         });
       });
@@ -77,6 +77,13 @@ describe("ImageEmbed", () => {
         addEmbed();
         getEmbedField("useSrc").find("input").click();
         getEmbedField("useSrc").find("input").should("be.checked");
+      });
+
+      it(`should have a default value when instantiated`, () => {
+        addEmbed();
+        assertDocHtml(
+          `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-caption"><p></p></div><div class="ProsemirrorEmbed__imageEmbed-altText"><p></p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{&quot;value&quot;:false}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
+        );
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - checked`, () => {
