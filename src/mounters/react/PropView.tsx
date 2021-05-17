@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import type { NodeViewProp } from "../../../types/Embed";
-import { getPropFieldTestId } from "./PropField";
+import type { NodeViewProp } from "../../types/Embed";
 
 type Props = {
   nodeViewProp: NodeViewProp;
 };
 
-export const RichTextPropField: React.FunctionComponent<Props> = ({
-  nodeViewProp,
-}) => {
+export const getPropViewTestId = (name: string) => `PropField-${name}`;
+
+export const PropView: React.FunctionComponent<Props> = ({ nodeViewProp }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!editorRef.current) {
@@ -17,7 +16,7 @@ export const RichTextPropField: React.FunctionComponent<Props> = ({
     editorRef.current.appendChild(nodeViewProp.nodeView.nodeViewElement);
   }, []);
   return (
-    <div data-cy={getPropFieldTestId(nodeViewProp.prop.name)}>
+    <div data-cy={getPropViewTestId(nodeViewProp.prop.name)}>
       <label>
         <strong>{nodeViewProp.prop.name}</strong>
       </label>

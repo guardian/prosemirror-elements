@@ -1,5 +1,5 @@
 import React from "react";
-import { NodeViewPropField } from "../../mounters/react/propFields/PropField";
+import { PropView } from "../../mounters/react/PropView";
 import type { NodeViewPropMapFromProps } from "../../types/Embed";
 import type { imageProps } from "./embed";
 
@@ -15,9 +15,9 @@ export const ImageEmbed: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <div data-cy={ImageEmbedTestId}>
-      <NodeViewPropField nodeViewProp={nodeViewPropMap.altText} />
-      <NodeViewPropField nodeViewProp={nodeViewPropMap.caption} />
-      <NodeViewPropField nodeViewProp={nodeViewPropMap.useSrc} />
+      <PropView nodeViewProp={nodeViewPropMap.altText} />
+      <PropView nodeViewProp={nodeViewPropMap.caption} />
+      <PropView nodeViewProp={nodeViewPropMap.useSrc} />
     </div>
   );
 };
