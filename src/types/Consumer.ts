@@ -1,8 +1,8 @@
-import type { ElementProps, NodeViewPropMapFromProps } from "./Embed";
+import type { EmbedProps, NodeViewPropMapFromProps } from "./Embed";
 import type { TErrors } from "./Errors";
 import type { TFields } from "./Fields";
 
-export type TConsumer<ConsumerResult, Props extends ElementProps> = (
+export type TConsumer<ConsumerResult, Props extends EmbedProps<string>> = (
   fields: TFields,
   errors: TErrors,
   updateFields: (fields: TFields) => void,

@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
-import type { ElementProps, NodeViewPropMapFromProps } from "../../types/Embed";
+import type { EmbedProps, NodeViewPropMapFromProps } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
@@ -17,7 +17,7 @@ const fieldErrors = (fields: TFields, errors: TErrors | null) =>
     {}
   );
 
-type IProps<Props extends ElementProps> = {
+type IProps<Props extends EmbedProps<string>> = {
   subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
   commands: TCommands;
   fields: TFields;
@@ -32,7 +32,7 @@ type IState = {
   fields: TFields;
 };
 
-export class EmbedProvider<Props extends ElementProps> extends Component<
+export class EmbedProvider<Props extends EmbedProps<string>> extends Component<
   IProps<Props>,
   IState
 > {

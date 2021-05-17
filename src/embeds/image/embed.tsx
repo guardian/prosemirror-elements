@@ -2,17 +2,15 @@ import React from "react";
 import { createReactEmbedRenderer } from "../../mounters/react/mount";
 import { ImageEmbed } from "./ImageEmbed";
 
-export const imageProps = [
-  {
+export const imageProps = {
+  caption: {
     type: "richText",
-    name: "caption",
   },
-  {
+  altText: {
     type: "richText",
-    name: "altText",
   },
-  { type: "checkbox", name: "useSrc", defaultValue: false },
-] as const;
+  useSrc: { type: "checkbox", defaultValue: false },
+} as const;
 
 export const createImageEmbed = <Name extends string>(name: Name) =>
   createReactEmbedRenderer(
