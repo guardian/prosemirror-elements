@@ -57,7 +57,7 @@ export const mount = <
   render: TRenderer<RenderOutput, Props>,
   consumer: TConsumer<RenderOutput, Props>,
   validate: Validator<Props>,
-  defaultState: NodeViewPropValues<Props>
+  defaultState: Partial<NodeViewPropValues<Props>>
 ): TEmbed<Props, Name> => ({
   name,
   props,
