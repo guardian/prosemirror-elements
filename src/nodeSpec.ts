@@ -1,27 +1,27 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec } from "prosemirror-model";
-import type { EmbedProps, PropSpec } from "./types/Embed";
+import type { Field, FieldSpec } from "./types/Embed";
 
-export const getNodeSpecFromProps = <Props extends EmbedProps<string>>(
+export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
   embedName: string,
-  props: Props
+  fieldSpec: FSpec
 ): OrderedMap<NodeSpec> => {
-  const propSpecs = Object.entries(props).reduce(
+  const propSpecs = Object.entries(fieldSpec).reduce(
     (acc, [propName, propSpec]) =>
       acc.append(getNodeSpecForProp(embedName, propName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
-  return propSpecs.append(getNodeSpecForEmbed(embedName, props));
+  return propSpecs.append(getNodeSpecForEmbed(embedName, fieldSpec));
 };
 
 const getNodeSpecForEmbed = (
   embedName: string,
-  props: EmbedProps<string>
+  fieldSpec: FieldSpec<string>
 ): NodeSpec => ({
   [embedName]: {
     group: "block",
-    content: Object.keys(props).join(" "),
+    content: Object.keys(fieldSpec).join(" "),
     attrs: {
       type: embedName,
       hasErrors: {
@@ -61,7 +61,7 @@ const getNodeSpecForEmbed = (
 const getNodeSpecForProp = (
   embedName: string,
   propName: string,
-  prop: PropSpec
+  prop: Field
 ): NodeSpec => {
   switch (prop.type) {
     case "richText":

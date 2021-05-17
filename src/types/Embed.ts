@@ -1,63 +1,63 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { CheckboxNodeView } from "../nodeViews/CheckboxNodeView";
-import type { NodeViewPropValues } from "../nodeViews/helpers";
+import type { FieldNameToValueMap } from "../nodeViews/helpers";
 import type { RTENodeView } from "../nodeViews/RTENodeView";
 import type { TCommandCreator } from "./Commands";
 
 /**
- * The specification for an embed property, to be modelled as a Node in Prosemirror.
+ * The specification for an embed field, to be modelled as a Node in Prosemirror.
  */
-interface BasePropSpec {
-  // The data type of the property.
+interface BaseFieldSpec {
+  // The data type of the field.
   type: string;
 }
 
-interface CheckboxProp extends BasePropSpec {
+interface CheckboxField extends BaseFieldSpec {
   type: typeof CheckboxNodeView.propName;
   defaultValue: boolean;
 }
 
-interface RTEProp
-  extends BasePropSpec,
+interface RTEField
+  extends BaseFieldSpec,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: typeof RTENodeView.propName;
 }
 
-export type PropSpec = RTEProp | CheckboxProp;
+export type Field = RTEField | CheckboxField;
 
-export type EmbedProps<Names extends string> = Record<Names, PropSpec>;
+export type FieldSpec<Names extends string> = Record<Names, Field>;
 
-export type SchemaFromProps<Props extends EmbedProps<string>> = Schema<
-  Extract<keyof Props, string>
+export type SchemaFromEmbedFieldSpec<FSpec extends FieldSpec<string>> = Schema<
+  Extract<keyof FSpec, string>
 >;
 
-export type EmbedNodeViews = RTENodeView | CheckboxNodeView;
+export type FieldNodeViews = RTENodeView | CheckboxNodeView;
 
-export type NodeViewProp = {
-  nodeView: EmbedNodeViews;
-  prop: PropSpec;
+export type FieldNodeViewSpec = {
+  nodeView: FieldNodeViews;
+  fieldSpec: Field;
   name: string;
 };
 
-export type NodeViewPropMap<Props extends EmbedProps<string>> = {
-  [name in Extract<keyof Props, string>]: NodeViewProp;
+export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
+  [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec;
 };
 
-export type TEmbed<Props extends EmbedProps<string>, Name extends string> = {
+export type TEmbed<FSpec extends FieldSpec<string>, Name extends string> = {
   name: Name;
-  props: Props;
+  fieldSpec: FSpec;
   nodeSpec: NodeSpec;
   createUpdator: (
     dom: HTMLElement,
-    nestedEditors: NodeViewPropMap<Props>,
+    nestedEditors: FieldNameToNodeViewSpec<FSpec>,
     updateState: (
-      fields: NodeViewPropValues<Props>,
+      fields: FieldNameToValueMap<FSpec>,
       hasErrors: boolean
     ) => void,
-    initFields: NodeViewPropValues<Props>,
+    initFields: FieldNameToValueMap<FSpec>,
     commands: ReturnType<TCommandCreator>
   ) => (
-    fields: NodeViewPropValues<Props>,
+    fields: FieldNameToValueMap<FSpec>,
     commands: ReturnType<TCommandCreator>
   ) => void;
 };

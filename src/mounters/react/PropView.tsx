@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import type { NodeViewProp } from "../../types/Embed";
+import type { FieldNodeViewSpec } from "../../types/Embed";
 
 type Props = {
-  nodeViewProp: NodeViewProp;
+  nodeViewProp: FieldNodeViewSpec;
 };
 
 export const getPropViewTestId = (name: string) => `PropField-${name}`;

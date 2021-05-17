@@ -3,22 +3,22 @@ import React from "react";
 import { render } from "react-dom";
 import { mount } from "../../mount";
 import type { TRenderer, Validator } from "../../mount";
-import type { NodeViewPropValues } from "../../nodeViews/helpers";
+import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TConsumer } from "../../types/Consumer";
-import type { EmbedProps } from "../../types/Embed";
+import type { FieldSpec } from "../../types/Embed";
 import { EmbedProvider } from "./EmbedProvider";
 
 export const createReactEmbedRenderer = <
-  Props extends EmbedProps<string>,
+  FSpec extends FieldSpec<string>,
   Name extends string
 >(
   name: Name,
-  props: Props,
-  consumer: TConsumer<ReactElement, Props>,
-  validate: Validator<Props>,
-  defaultState: NodeViewPropValues<Props>
+  fieldSpec: FSpec,
+  consumer: TConsumer<ReactElement, FSpec>,
+  validate: Validator<FSpec>,
+  defaultState: FieldNameToValueMap<FSpec>
 ) => {
-  const renderer: TRenderer<ReactElement, Props> = (
+  const renderer: TRenderer<ReactElement, FSpec> = (
     consumer,
     validate,
     dom,
@@ -29,7 +29,7 @@ export const createReactEmbedRenderer = <
     subscribe
   ) =>
     render(
-      <EmbedProvider<Props>
+      <EmbedProvider<FSpec>
         subscribe={subscribe}
         onStateChange={updateState}
         fields={fields}
@@ -41,5 +41,5 @@ export const createReactEmbedRenderer = <
       dom
     );
 
-  return mount(name, props, renderer, consumer, validate, defaultState);
+  return mount(name, fieldSpec, renderer, consumer, validate, defaultState);
 };

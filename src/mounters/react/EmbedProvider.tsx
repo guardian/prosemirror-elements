@@ -1,15 +1,15 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { Validator } from "../../mount";
-import type { NodeViewPropValues } from "../../nodeViews/helpers";
+import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
-import type { EmbedProps, NodeViewPropMap } from "../../types/Embed";
+import type { FieldNameToNodeViewSpec, FieldSpec } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import { EmbedWrapper } from "./EmbedWrapper";
 
-const fieldErrors = <Props extends EmbedProps<string>>(
-  fields: NodeViewPropValues<Props>,
+const fieldErrors = <FSpec extends FieldSpec<string>>(
+  fields: FieldNameToValueMap<FSpec>,
   errors: TErrors | null
 ) =>
   Object.keys(fields).reduce(
@@ -20,28 +20,28 @@ const fieldErrors = <Props extends EmbedProps<string>>(
     {}
   );
 
-type IProps<Props extends EmbedProps<string>> = {
+type IProps<FSpec extends FieldSpec<string>> = {
   subscribe: (
-    fn: (fields: NodeViewPropValues<Props>, commands: TCommands) => void
+    fn: (fields: FieldNameToValueMap<FSpec>, commands: TCommands) => void
   ) => void;
   commands: TCommands;
-  fields: NodeViewPropValues<Props>;
-  onStateChange: (fields: NodeViewPropValues<Props>) => void;
-  validate: Validator<Props>;
-  consumer: TConsumer<ReactElement, Props>;
-  nestedEditors: NodeViewPropMap<Props>;
+  fields: FieldNameToValueMap<FSpec>;
+  onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
+  validate: Validator<FSpec>;
+  consumer: TConsumer<ReactElement, FSpec>;
+  nestedEditors: FieldNameToNodeViewSpec<FSpec>;
 };
 
-type IState<Props extends EmbedProps<string>> = {
+type IState<FSpec extends FieldSpec<string>> = {
   commands: TCommands;
-  fields: NodeViewPropValues<Props>;
+  fields: FieldNameToValueMap<FSpec>;
 };
 
-export class EmbedProvider<Props extends EmbedProps<string>> extends Component<
-  IProps<Props>,
-  IState<Props>
+export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
+  IProps<FSpec>,
+  IState<FSpec>
 > {
-  constructor(props: IProps<Props>) {
+  constructor(props: IProps<FSpec>) {
     super(props);
 
     this.updateFields = this.updateFields.bind(this);
@@ -71,7 +71,7 @@ export class EmbedProvider<Props extends EmbedProps<string>> extends Component<
     this.props.onStateChange(this.state.fields);
   }
 
-  updateState(state: Partial<IState<Props>>, notifyListeners: boolean): void {
+  updateState(state: Partial<IState<FSpec>>, notifyListeners: boolean): void {
     this.setState(
       { ...this.state, ...state },
       () => notifyListeners && this.onStateChange()

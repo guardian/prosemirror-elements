@@ -2,26 +2,26 @@ import OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import { buildCommands, defaultPredicate } from "./helpers";
-import type { NodeViewPropValues } from "./nodeViews/helpers";
+import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import { createPlugin } from "./plugin";
-import type { EmbedProps, TEmbed } from "./types/Embed";
+import type { FieldSpec, TEmbed } from "./types/Embed";
 
 /**
  * Build an embed plugin with the given embed specs, along with the schema required
  * by those embeds, and a method to insert embeds into the document.
  */
 export const buildEmbedPlugin = <
-  Props extends EmbedProps<string>,
+  FSpec extends FieldSpec<string>,
   Name extends string
 >(
-  embedSpec: Array<TEmbed<Props, Name>>,
+  embedSpec: Array<TEmbed<FSpec, Name>>,
   predicate = defaultPredicate
 ) => {
   const typeNames = embedSpec.map((_) => _.name);
 
   const insertEmbed = (
     type: Name,
-    fields: Partial<NodeViewPropValues<Props>>
+    fields: Partial<FieldNameToValueMap<FSpec>>
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void

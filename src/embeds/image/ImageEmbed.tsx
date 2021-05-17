@@ -1,13 +1,13 @@
 import React from "react";
 import { PropView } from "../../mounters/react/PropView";
-import type { NodeViewPropValues } from "../../nodeViews/helpers";
-import type { NodeViewPropMap } from "../../types/Embed";
+import type { FieldNameToValueMap } from "../../nodeViews/helpers";
+import type { FieldNameToNodeViewSpec } from "../../types/Embed";
 import type { imageProps } from "./embed";
 
 type Props = {
-  fields: NodeViewPropValues<typeof imageProps>;
+  fields: FieldNameToValueMap<typeof imageProps>;
   errors: Record<string, string[]>;
-  nodeViewPropMap: NodeViewPropMap<typeof imageProps>;
+  nodeViewPropMap: FieldNameToNodeViewSpec<typeof imageProps>;
 };
 
 export const ImageEmbedTestId = "ImageEmbed";

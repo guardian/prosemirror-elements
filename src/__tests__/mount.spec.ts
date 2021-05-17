@@ -3,20 +3,20 @@ import { mount } from "../mount";
 import { createNoopEmbed } from "./helpers";
 
 describe("mount", () => {
-  describe("nestedEditorProps typesafety", () => {
-    it("should provide typesafe nestedEditorProps to its consumer", () => {
-      const props = {
+  describe("nodeView typesafety", () => {
+    it("should provide typesafe nodeView to its consumer", () => {
+      const fieldSpec = {
         prop1: {
           type: "richText",
         },
       } as const;
       mount(
         "testEmbed",
-        props,
+        fieldSpec,
         () => () => null,
-        (_, __, ___, nestedEditorProps) => {
-          // Prop1 is derived from the props
-          nestedEditorProps.prop1;
+        (_, __, ___, fieldNodeViews) => {
+          // Prop1 is derived from the fieldSpec
+          fieldNodeViews.prop1;
         },
         () => null,
         { prop1: "text" }
@@ -24,25 +24,67 @@ describe("mount", () => {
     });
 
     it("should not typecheck when props are not provided", () => {
-      const props = {
+      const fieldSpec = {
         notProp1: {
           type: "richText",
         },
       } as const;
       mount(
         "testEmbed",
-        props,
+        fieldSpec,
         () => () => null,
-        (_, __, ___, nestedEditorProps) => {
+        (_, __, ___, fieldNodeViews) => {
           // @ts-expect-error – prop1 is not available on this object,
-          // as it is not defined in `props` passed into `mount`
-          nestedEditorProps.prop1;
+          // as it is not defined in `fieldSpec` passed into `mount`
+          fieldNodeViews.prop1;
         },
         () => null,
         { notProp1: "text" }
       );
     });
   });
+
+  describe("field typesafety", () => {
+    it("should provide typesafe fields to its consumer", () => {
+      const fieldSpec = {
+        prop1: {
+          type: "richText",
+        },
+      } as const;
+      mount(
+        "testEmbed",
+        fieldSpec,
+        () => () => null,
+        (fields) => {
+          // Prop1 is derived from the fieldSpec, and is a string b/c it's a richText field
+          fields.prop1.toString();
+        },
+        () => null,
+        { prop1: "text" }
+      );
+    });
+
+    it("should not typecheck when props are not provided", () => {
+      const fieldSpec = {
+        notProp1: {
+          type: "richText",
+        },
+      } as const;
+      mount(
+        "testEmbed",
+        fieldSpec,
+        () => () => null,
+        (fields) => {
+          // @ts-expect-error – prop1 is not available on this object,
+          // as it is not defined in `fieldSpec` passed into `mount`
+          fields.doesNotExist;
+        },
+        () => null,
+        { notProp1: "text" }
+      );
+    });
+  });
+
   describe("nodeSpec generation", () => {
     it("should create an nodeSpec with no nodes when the spec is empty", () => {
       const { nodeSpec } = buildEmbedPlugin([]);
@@ -76,7 +118,7 @@ describe("mount", () => {
     });
 
     it("should allow the user to specify custom toDOM and parseDOM properties on richText props", () => {
-      const props = {
+      const fieldSpec = {
         prop1: {
           type: "richText" as const,
           content: "text",
@@ -85,12 +127,12 @@ describe("mount", () => {
         },
       };
 
-      const testEmbed1 = createNoopEmbed("testEmbed1", props);
+      const testEmbed1 = createNoopEmbed("testEmbed1", fieldSpec);
       const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
       expect(nodeSpec.get("prop1")).toEqual({
-        content: props.prop1.content,
-        toDOM: props.prop1.toDOM,
-        parseDOM: props.prop1.parseDOM,
+        content: fieldSpec.prop1.content,
+        toDOM: fieldSpec.prop1.toDOM,
+        parseDOM: fieldSpec.prop1.parseDOM,
       });
     });
   });
