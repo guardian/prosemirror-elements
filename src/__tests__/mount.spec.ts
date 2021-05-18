@@ -32,7 +32,6 @@ describe("mount", () => {
         [props],
         () => () => null,
         (_, __, ___, nestedEditorProps) => {
-          console.log("hai");
           // @ts-expect-error – prop1 is not available on this object,
           // as it is not defined in `props` passed into `mount`
           nestedEditorProps.prop1;
@@ -54,7 +53,7 @@ describe("mount", () => {
       const { nodeSpec } = build([testEmbed1, testEmbed2]);
       expect(nodeSpec.size).toBe(2);
       expect(nodeSpec.get("testEmbed1")).toMatchObject({ content: "" });
-      expect(nodeSpec.get("testEmbed1")).toMatchObject({ content: "" });
+      expect(nodeSpec.get("testEmbed2")).toMatchObject({ content: "" });
     });
 
     it("should create child nodes for each embed prop, and the parent node should include them in its content expression", () => {
