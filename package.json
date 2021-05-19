@@ -8,8 +8,9 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --open",
-    "test": "cypress open",
-    "ci": "yarn lint && webpack serve & (wait-on http://localhost:7890 && cypress run)",
+    "test:integration": "cypress open",
+    "test:unit": "jest",
+    "ci": "yarn lint && yarn test:unit && webpack serve & (wait-on http://localhost:7890 && cypress run)",
     "postci": "kill $(lsof -t -i:7890)",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -29,10 +30,10 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.17",
     "@cypress/webpack-preprocessor": "^5.6.0",
     "@guardian/eslint-config-typescript": "^0.5.0",
     "@types/chai": "^4.2.15",
+    "@types/jest": "^26.0.23",
     "@types/prosemirror-history": "^1.0.2",
     "@types/prosemirror-model": "^1.11.3",
     "@types/prosemirror-schema-basic": "^1.0.1",
@@ -48,7 +49,9 @@
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
+    "ts-jest": "^26.5.6",
     "ts-loader": "^8.0.17",
     "typescript": "^4.2.4",
     "wait-on": "^5.3.0",

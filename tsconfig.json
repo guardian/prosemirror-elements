@@ -4,15 +4,12 @@
     "module": "commonjs",
     "target": "es5",
     "lib": ["dom", "ESNext"],
-    "types": ["cypress"],
+    "types": ["jest"],
     "sourceMap": true,
     "strict": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*", "declarations"]
 }

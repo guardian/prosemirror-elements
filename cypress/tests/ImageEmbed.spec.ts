@@ -5,7 +5,7 @@ import {
   getEmbedMenuButton,
   typeIntoEmbedField,
   typeIntoProsemirror,
-} from "../../helpers/editor";
+} from "../helpers/editor";
 
 describe("ImageEmbed", () => {
   beforeEach(() => cy.visit("/"));

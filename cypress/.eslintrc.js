@@ -1,10 +1,13 @@
 module.exports = {
-  root: true,
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "prettier"],
+  extends: "../.eslintrc.js",
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ["./tsconfig.json"],
+  },
+  ignorePatterns: ["**/*.js"],
   overrides: [
     {
-      files: ["src/**/*.{ts,tsx}"],
+      files: ["*.ts", "*.tsx"],
       extends: ["@guardian/eslint-config-typescript"],
       rules: {
         "@typescript-eslint/unbound-method": 0,
