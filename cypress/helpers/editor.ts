@@ -1,7 +1,6 @@
 import type { EditorView } from "prosemirror-view";
 import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
 import { getNestedViewTestId } from "../../src/mounters/react/NestedEditorView";
-import { docToHtml } from "../../src/prosemirrorSetup";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
@@ -55,8 +54,8 @@ export const getArrayOfBlockElementTypes = () => {
 
 export const assertDocHtml = (expectedHtml: string) =>
   cy.window().then((win) => {
-    const actualHtml = docToHtml(
-      ((win as unknown) as { view: EditorView }).view.state.doc
-    );
+    const actualHtml = ((win as unknown) as {
+      docToHtml: () => string;
+    }).docToHtml();
     expect(expectedHtml).to.equal(actualHtml);
   });

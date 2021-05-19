@@ -1,6 +1,11 @@
+import { getNodeSpecFromProps } from "./nodeSpec";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
-import type { NestedEditorMap, TEmbed } from "./types/Embed";
+import type {
+  ElementProps,
+  NestedEditorMapFromProps,
+  TEmbed,
+} from "./types/Embed";
 import type { TFields } from "./types/Fields";
 import type { TValidator } from "./types/Validator";
 
@@ -24,14 +29,14 @@ const createUpdater = (): Updater => {
   };
 };
 
-type TRenderer<T> = (
-  consumer: TConsumer<T>,
+export type TRenderer<RendererOutput, Props extends ElementProps> = (
+  consumer: TConsumer<RendererOutput, Props>,
   validate: TValidator,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  nestedEditors: NestedEditorMap,
+  nestedEditors: NestedEditorMapFromProps<Props>,
   updateState: (fields: TFields) => void,
   fields: TFields,
   commands: TCommands,
@@ -40,21 +45,32 @@ type TRenderer<T> = (
   ) => void
 ) => void;
 
-export const mount = <RenderReturn>(render: TRenderer<RenderReturn>) => (
-  consumer: TConsumer<RenderReturn>,
+export const mount = <
+  RenderOutput,
+  Props extends ElementProps,
+  Name extends string
+>(
+  name: Name,
+  props: Props,
+  render: TRenderer<RenderOutput, Props>,
+  consumer: TConsumer<RenderOutput, Props>,
   validate: TValidator,
   defaultState: TFields
-): TEmbed => (dom, nestedEditors, updateState, fields, commands) => {
-  const updater = createUpdater();
-  render(
-    consumer,
-    validate,
-    dom,
-    nestedEditors,
-    (fields) => updateState(fields, !!validate(fields)),
-    Object.assign({}, defaultState, fields),
-    commands,
-    updater.subscribe
-  );
-  return updater.update;
-};
+): TEmbed<Props, Name> => ({
+  name,
+  nodeSpec: getNodeSpecFromProps(name, props),
+  createEmbed: (dom, nestedEditors, updateState, fields, commands) => {
+    const updater = createUpdater();
+    render(
+      consumer,
+      validate,
+      dom,
+      nestedEditors,
+      (fields) => updateState(fields, !!validate(fields)),
+      Object.assign({}, defaultState, fields),
+      commands,
+      updater.subscribe
+    );
+    return updater.update;
+  },
+});

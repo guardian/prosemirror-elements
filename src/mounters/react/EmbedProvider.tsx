@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
-import type { NestedEditorMap } from "../../types/Embed";
+import type { ElementProps, NestedEditorMapFromProps } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import type { TFields } from "../../types/Fields";
 import type { TValidator } from "../../types/Validator";
@@ -17,14 +17,14 @@ const fieldErrors = (fields: TFields, errors: TErrors | null) =>
     {}
   );
 
-type IProps = {
+type IProps<Props extends ElementProps> = {
   subscribe: (fn: (fields: TFields, commands: TCommands) => void) => void;
   commands: TCommands;
   fields: TFields;
   onStateChange: (fields: TFields) => void;
   validate: TValidator;
-  consumer: TConsumer<ReactElement>;
-  nestedEditors: NestedEditorMap;
+  consumer: TConsumer<ReactElement, Props>;
+  nestedEditors: NestedEditorMapFromProps<Props>;
 };
 
 type IState = {
@@ -32,8 +32,11 @@ type IState = {
   fields: TFields;
 };
 
-export class EmbedProvider extends Component<IProps, IState> {
-  constructor(props: IProps) {
+export class EmbedProvider<Props extends ElementProps> extends Component<
+  IProps<Props>,
+  IState
+> {
+  constructor(props: IProps<Props>) {
     super(props);
 
     this.updateFields = this.updateFields.bind(this);
