@@ -1,42 +1,22 @@
-import type { NodeSpec } from "prosemirror-model";
 import React from "react";
-import { createReactEmbed } from "../../mounters/react/mount";
-import type { TEmbed } from "../../types/Embed";
+import { createReactEmbedRenderer } from "../../mounters/react/mount";
 import { ImageEmbed } from "./ImageEmbed";
 
-export const imageSchemaSpec: NodeSpec = {
-  caption: {
-    group: "block",
-    content: "paragraph",
-    toDOM() {
-      return ["div", { class: "imageNative-caption" }, 0];
-    },
-    parseDOM: [{ tag: "div" }],
+export const imageProps = [
+  {
+    type: "richText",
+    name: "caption",
   },
-  altText: {
-    group: "block",
-    content: "paragraph",
-    toDOM() {
-      return ["div", { class: "imageNative-altText" }, 0];
-    },
-    parseDOM: [{ tag: "div" }],
+  {
+    type: "richText",
+    name: "altText",
   },
-  imageEmbed: {
-    group: "caption altText",
-    attrs: {
-      type: {},
-      fields: {
-        default: {},
-      },
-      hasErrors: {
-        default: false,
-      },
-    },
-  },
-};
+] as const;
 
-export const createImageEmbed = (): TEmbed =>
-  createReactEmbed(
+export const createImageEmbed = <Name extends string>(name: Name) =>
+  createReactEmbedRenderer(
+    name,
+    imageProps,
     (fields, errors, updateFields, nestedEditors) => {
       return (
         <ImageEmbed
