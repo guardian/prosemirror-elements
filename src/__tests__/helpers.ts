@@ -1,5 +1,14 @@
+import type OrderedMap from "orderedmap";
+import { exampleSetup } from "prosemirror-example-setup";
+import type { NodeSpec } from "prosemirror-model";
+import { Schema } from "prosemirror-model";
+import { schema as basicSchema } from "prosemirror-schema-basic";
+import { EditorState } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
+import { buildEmbedPlugin } from "../embed";
 import { mount } from "../mount";
-import type { FieldSpec } from "../types/Embed";
+import { createParsers } from "../prosemirrorSetup";
+import type { FieldSpec, TEmbed } from "../types/Embed";
 
 /**
  * Create an embed which renders nothing. Useful when testing schema output.
@@ -19,3 +28,38 @@ export const createNoopEmbed = <
     () => null,
     {}
   );
+
+export const createEditorWithEmbeds = <
+  FSpec extends FieldSpec<string>,
+  Name extends string
+>(
+  embeds: Array<TEmbed<FSpec, Name>>,
+  initialHTML = ""
+) => {
+  const { plugin, insertEmbed, nodeSpec } = buildEmbedPlugin(embeds);
+  const editorElement = document.createElement("div");
+  const docElement = document.createElement("div");
+  docElement.innerHTML = initialHTML;
+  const schema = new Schema({
+    nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
+    marks: basicSchema.spec.marks,
+  });
+  const { serializer, parser } = createParsers(schema);
+  const view = new EditorView(editorElement, {
+    state: EditorState.create({
+      doc: parser.parse(docElement),
+      schema,
+      plugins: [...exampleSetup({ schema }), plugin],
+    }),
+  });
+
+  const getEmbedAsHTML = () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- YOLO test energy
+    const actual = serializer.serializeNode(view.state.doc.content.firstChild!);
+    const element = document.createElement("div");
+    element.appendChild(actual);
+    return element.innerHTML;
+  };
+
+  return { view, insertEmbed, getEmbedAsHTML };
+};
