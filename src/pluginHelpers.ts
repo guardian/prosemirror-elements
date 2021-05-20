@@ -6,7 +6,7 @@ import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
 import { RTENodeView } from "./nodeViews/RTENodeView";
 import type { Field } from "./types/Embed";
 
-const temporaryHardcodedSchema = new Schema({
+export const temporaryHardcodedSchema = new Schema({
   nodes: schema.spec.nodes,
   marks: schema.spec.marks,
 });
@@ -34,8 +34,12 @@ export const getEmbedNodeViewFromType = (
         innerDecos
       );
     case "checkbox":
-      return new CheckboxNodeView(node, view, getPos, offset, {
-        value: prop.defaultValue,
-      });
+      return new CheckboxNodeView(
+        node,
+        view,
+        getPos,
+        offset,
+        prop.defaultValue ?? CheckboxNodeView.defaultValue
+      );
   }
 };

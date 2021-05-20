@@ -25,7 +25,10 @@ export const buildEmbedPlugin = <
     return acc;
   }, {});
 
-  const insertEmbed = (type: Name, fieldValues: FieldNameToValueMap<FSpec>) => (
+  const insertEmbed = (
+    type: Name,
+    fieldValues: Partial<FieldNameToValueMap<FSpec>> = {}
+  ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
@@ -56,7 +59,6 @@ export const buildEmbedPlugin = <
       },
       nodes
     );
-
     if (maybeNewNode) {
       dispatch(state.tr.replaceSelectionWith(maybeNewNode));
     } else {

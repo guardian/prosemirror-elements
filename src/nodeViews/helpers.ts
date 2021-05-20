@@ -1,9 +1,15 @@
 import type { FieldSpec } from "../types/Embed";
-import type { CheckboxFields, CheckboxNodeView } from "./CheckboxNodeView";
-import type { RTENodeView } from "./RTENodeView";
+import { CheckboxNodeView } from "./CheckboxNodeView";
+import type { CheckboxFields } from "./CheckboxNodeView";
+import { RTENodeView } from "./RTENodeView";
+
+export const fieldTypeToViewMap = {
+  [RTENodeView.propName]: RTENodeView,
+  [CheckboxNodeView.propName]: CheckboxNodeView,
+};
 
 /**
- * A map from all NodeView types to the values they create at runtime.
+ * A map from all NodeView types to the serialised values they create at runtime.
  */
 export type FieldTypeToValueMap = {
   [CheckboxNodeView.propName]: CheckboxFields;

@@ -1,6 +1,7 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import type { EmbedNodeView } from "./EmbedNodeView";
+import { FieldType } from "./EmbedNodeView";
 
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
@@ -9,6 +10,7 @@ import type { EmbedNodeView } from "./EmbedNodeView";
 export abstract class FieldNodeView<Fields extends unknown>
   implements EmbedNodeView<Fields> {
   public static propName: string;
+  public static fieldType = FieldType.ATTRIBUTES;
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public nodeViewElement = document.createElement("div");
@@ -27,7 +29,13 @@ export abstract class FieldNodeView<Fields extends unknown>
     this.createInnerView(node.attrs.fields || defaultFields);
   }
 
-  public abstract getNodeValue(node: Node): Fields;
+  public getNodeValue(node: Node): Fields {
+    return node.attrs.fields as Fields;
+  }
+
+  public getNodeFromValue(fields: Fields): Node {
+    return this.node.type.create({ fields });
+  }
 
   protected abstract createInnerView(fields: Fields): void;
 
@@ -58,7 +66,6 @@ export abstract class FieldNodeView<Fields extends unknown>
     //  - getPos() returns the position directly before the parent node (+1)
     const contentOffset = 1;
     const nodePos = this.getPos() + this.offset + contentOffset;
-
     outerTr.setNodeMarkup(nodePos, undefined, {
       fields,
     });
