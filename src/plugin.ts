@@ -1,14 +1,13 @@
-import type { Node } from "prosemirror-model";
-import { Schema } from "prosemirror-model";
-import { schema } from "prosemirror-schema-basic";
+import type { Node, Schema } from "prosemirror-model";
 import { Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
-import { RTENodeView } from "./nodeViews/RTENode";
+import { getEmbedNodeViewFromType } from "./pluginHelpers";
 import type {
   ElementProps,
-  NestedEditorMapFromProps,
+  NodeViewProp,
+  NodeViewPropMapFromProps,
   TEmbed,
 } from "./types/Embed";
 
@@ -77,33 +76,37 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const nestedEditors = {} as NestedEditorMapFromProps<Props>;
-  const temporaryHardcodedSchema = new Schema({
-    nodes: schema.spec.nodes,
-    marks: schema.spec.marks,
-  });
+  const nodeViewPropMap = {} as NodeViewPropMapFromProps<Props>;
 
   initNode.forEach((node, offset) => {
-    const typeName = node.type.name as keyof NestedEditorMapFromProps<Props>;
+    const typeName = node.type.name as keyof NodeViewPropMapFromProps<Props>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (nestedEditors[typeName]) {
-      console.error(
-        `[prosemirror-embeds]: Attempted to instantiate a nested editor with type ${typeName}, but another instance with that name has already been created.`
+    if (nodeViewPropMap[typeName]) {
+      throw new Error(
+        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but another instance with that name has already been created.`
       );
     }
-    nestedEditors[typeName] = new RTENodeView(
-      node,
-      view,
-      getPos,
-      offset,
-      temporaryHardcodedSchema,
-      innerDecos
-    );
+    const prop = embed.props.find((prop) => prop.name === typeName);
+    if (!prop) {
+      throw new Error(
+        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${typeName}, but could not find the associate prop`
+      );
+    }
+    nodeViewPropMap[typeName] = {
+      prop,
+      nodeView: getEmbedNodeViewFromType(prop, {
+        node,
+        view,
+        getPos,
+        offset,
+        innerDecos,
+      }),
+    };
   });
 
-  const update = embed.createEmbed(
+  const update = embed.createUpdator(
     dom,
-    nestedEditors,
+    nodeViewPropMap,
     (fields, hasErrors) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
@@ -127,9 +130,9 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
         update(node.attrs.fields, commands(getPos, view));
         node.forEach((node, offset) => {
           const typeName = node.type
-            .name as keyof NestedEditorMapFromProps<Props>;
-          const nestedEditor = nestedEditors[typeName];
-          nestedEditor.update(node, innerDecos, offset);
+            .name as keyof NodeViewPropMapFromProps<Props>;
+          const nestedEditor = nodeViewPropMap[typeName];
+          nestedEditor.nodeView.update(node, offset, innerDecos);
         });
         return true;
       }
@@ -137,8 +140,8 @@ const createNodeView = <Props extends ElementProps, Name extends string>(
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(nestedEditors).map((editor) =>
-        (editor as RTENodeView<Schema>).close()
+      Object.values(nodeViewPropMap).map((editor) =>
+        (editor as NodeViewProp).nodeView.destroy()
       );
     },
     ignoreMutation: () => true,

@@ -1,35 +1,23 @@
 import React from "react";
-import { NestedEditorView } from "../../mounters/react/NestedEditorView";
-import type { NestedEditorMapFromProps } from "../../types/Embed";
-import type { TFields } from "../../types/Fields";
+import { PropView } from "../../mounters/react/PropView";
+import type { NodeViewPropMapFromProps } from "../../types/Embed";
 import type { imageProps } from "./embed";
 
 type Props = {
-  fields: TFields;
   errors: Record<string, string[]>;
-  updateFields: (fields: TFields) => void;
-  nestedEditors: NestedEditorMapFromProps<typeof imageProps>;
+  nodeViewPropMap: NodeViewPropMapFromProps<typeof imageProps>;
 };
 
 export const ImageEmbedTestId = "ImageEmbed";
 
 export const ImageEmbed: React.FunctionComponent<Props> = ({
-  fields: { src, alt },
-  nestedEditors,
+  nodeViewPropMap,
 }) => {
   return (
     <div data-cy={ImageEmbedTestId}>
-      <img style={{ width: "250px", height: "auto" }} src={src} alt={alt} />
-      <NestedEditorView
-        key={"altText"}
-        name={"altText"}
-        editor={nestedEditors.altText}
-      />
-      <NestedEditorView
-        key={"caption"}
-        name={"caption"}
-        editor={nestedEditors.caption}
-      />
+      <PropView nodeViewProp={nodeViewPropMap.altText} />
+      <PropView nodeViewProp={nodeViewPropMap.caption} />
+      <PropView nodeViewProp={nodeViewPropMap.useSrc} />
     </div>
   );
 };

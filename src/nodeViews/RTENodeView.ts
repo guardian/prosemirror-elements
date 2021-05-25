@@ -7,12 +7,13 @@ import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
+import type { EmbedNodeView } from "./EmbedNodeView";
 
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) that represents a
  * nested rich text editor interface.
  */
-export class RTENodeView<LocalSchema extends Schema> {
+export class RTENodeView<LocalSchema extends Schema> implements EmbedNodeView {
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public nodeViewElement = document.createElement("div");
@@ -39,7 +40,7 @@ export class RTENodeView<LocalSchema extends Schema> {
     this.innerEditorView = this.createInnerEditorView(schema);
   }
 
-  public close() {
+  private close() {
     if (!this.innerEditorView) {
       return;
     }
@@ -50,8 +51,8 @@ export class RTENodeView<LocalSchema extends Schema> {
 
   public update(
     node: Node,
-    decorations: DecorationSet | Decoration[],
-    elementOffset: number
+    elementOffset: number,
+    decorations: DecorationSet | Decoration[]
   ) {
     if (!node.sameMarkup(this.node)) {
       return false;

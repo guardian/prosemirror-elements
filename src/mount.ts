@@ -3,7 +3,7 @@ import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
 import type {
   ElementProps,
-  NestedEditorMapFromProps,
+  NodeViewPropMapFromProps,
   TEmbed,
 } from "./types/Embed";
 import type { TFields } from "./types/Fields";
@@ -36,7 +36,7 @@ export type TRenderer<RendererOutput, Props extends ElementProps> = (
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  nestedEditors: NestedEditorMapFromProps<Props>,
+  nodeViewPropMap: NodeViewPropMapFromProps<Props>,
   updateState: (fields: TFields) => void,
   fields: TFields,
   commands: TCommands,
@@ -58,8 +58,9 @@ export const mount = <
   defaultState: TFields
 ): TEmbed<Props, Name> => ({
   name,
+  props,
   nodeSpec: getNodeSpecFromProps(name, props),
-  createEmbed: (dom, nestedEditors, updateState, fields, commands) => {
+  createUpdator: (dom, nestedEditors, updateState, fields, commands) => {
     const updater = createUpdater();
     render(
       consumer,

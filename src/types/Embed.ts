@@ -1,12 +1,7 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
-import type { RTENodeView } from "../nodeViews/RTENode";
+import type { EmbedNodeView } from "../nodeViews/EmbedNodeView";
 import type { TCommandCreator } from "./Commands";
 import type { TFields } from "./Fields";
-
-export type NestedEditorMap<LocalSchema extends Schema = Schema> = Record<
-  string,
-  RTENodeView<LocalSchema>
->;
 
 /**
  * A property of an embed, to be modelled as a Node in Prosemirror.
@@ -18,6 +13,12 @@ interface Prop {
   name: string;
 }
 
+interface CheckboxProp extends Prop {
+  type: "checkbox";
+  name: string;
+  defaultValue: boolean;
+}
+
 interface RTEProp
   extends Prop,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
@@ -25,7 +26,7 @@ interface RTEProp
   name: string;
 }
 
-export type ElementProp = RTEProp;
+export type ElementProp = RTEProp | CheckboxProp;
 
 export type ElementProps = Readonly<ElementProp[]>;
 
@@ -33,16 +34,22 @@ export type SchemaFromProps<Props extends ElementProps> = Schema<
   Props[number]["name"]
 >;
 
-export type NestedEditorMapFromProps<Props extends ElementProps> = {
-  [name in Props[number]["name"]]: RTENodeView<SchemaFromProps<Props>>;
+export type NodeViewProp = {
+  nodeView: EmbedNodeView;
+  prop: ElementProp;
+};
+
+export type NodeViewPropMapFromProps<Props extends ElementProps> = {
+  [name in Props[number]["name"]]: NodeViewProp;
 };
 
 export type TEmbed<Props extends ElementProps, Name extends string> = {
   name: Name;
+  props: Props;
   nodeSpec: NodeSpec;
-  createEmbed: (
+  createUpdator: (
     dom: HTMLElement,
-    nestedEditors: NestedEditorMapFromProps<Props>,
+    nestedEditors: NodeViewPropMapFromProps<Props>,
     updateState: (fields: TFields, hasErrors: boolean) => void,
     initFields: TFields,
     commands: ReturnType<TCommandCreator>

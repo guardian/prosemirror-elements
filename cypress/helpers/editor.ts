@@ -1,6 +1,5 @@
-import type { EditorView } from "prosemirror-view";
 import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
-import { getNestedViewTestId } from "../../src/mounters/react/NestedEditorView";
+import { getPropViewTestId } from "../../src/mounters/react/PropView";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
@@ -21,25 +20,28 @@ export const addEmbed = () => cy.get("#embed").click();
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
+export const getEmbedRichTextField = (fieldName: string) =>
+  cy.get(`div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror`);
+
 export const getEmbedField = (fieldName: string) =>
-  cy.get(`div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror`);
+  cy.get(`div${selectDataCy(getPropViewTestId(fieldName))}`);
 
 export const getEmbedMenu = (fieldName: string) =>
   cy.get(
-    `div${selectDataCy(getNestedViewTestId(fieldName))} .ProseMirror-menubar`
+    `div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror-menubar`
   );
 
 export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
   cy.get(
     `div${selectDataCy(
-      getNestedViewTestId(fieldName)
+      getPropViewTestId(fieldName)
     )} .ProseMirror-menubar [title="${buttonTitle}"]`
   );
 
 // If we don't focus the nested RTE we're typing into before type() is called,
 // Cypress tends to type into the parent RTE instead.
 export const typeIntoEmbedField = (fieldName: string, content: string) =>
-  getEmbedField(fieldName).focus().type(content);
+  getEmbedRichTextField(fieldName).focus().type(content);
 
 export const getArrayOfBlockElementTypes = () => {
   // eslint-disable-next-line prefer-const -- it is reassigned.

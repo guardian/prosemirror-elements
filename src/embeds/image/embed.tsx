@@ -11,21 +11,15 @@ export const imageProps = [
     type: "richText",
     name: "altText",
   },
+  { type: "checkbox", name: "useSrc", defaultValue: false },
 ] as const;
 
 export const createImageEmbed = <Name extends string>(name: Name) =>
   createReactEmbedRenderer(
     name,
     imageProps,
-    (fields, errors, updateFields, nestedEditors) => {
-      return (
-        <ImageEmbed
-          fields={fields}
-          errors={errors}
-          updateFields={updateFields}
-          nestedEditors={nestedEditors}
-        />
-      );
+    (_, errors, __, nodeViewPropMap) => {
+      return <ImageEmbed errors={errors} nodeViewPropMap={nodeViewPropMap} />;
     },
     ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
     { caption: "", src: "", alt: "" }

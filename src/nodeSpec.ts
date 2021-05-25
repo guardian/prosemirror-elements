@@ -29,7 +29,7 @@ const getNodeSpecForEmbed = (
     },
     draggable: false,
     toDOM: (node: Node) => [
-      "embed-attrs",
+      embedName,
       {
         type: node.attrs.type as string,
         fields: JSON.stringify(node.attrs.fields),
@@ -39,7 +39,7 @@ const getNodeSpecForEmbed = (
     ],
     parseDOM: [
       {
-        tag: "embed-attrs",
+        tag: embedName,
         getAttrs: (dom: Element) => {
           if (typeof dom === "string") {
             return;
@@ -63,12 +63,64 @@ const getNodeSpecForProp = (embedName: string, prop: ElementProp): NodeSpec => {
       return {
         [prop.name]: {
           content: prop.content ?? "paragraph",
-          toDOM: prop.toDOM ?? getDefaultToDOM(embedName, prop.name),
+          toDOM:
+            prop.toDOM ?? getDefaultToDOMForContentNode(embedName, prop.name),
           parseDOM: prop.parseDOM ?? [{ tag: "div" }],
+        },
+      };
+    case "checkbox":
+      return {
+        [prop.name]: {
+          atom: true,
+          toDOM: getDefaultToDOMForLeafNode(embedName, prop.name),
+          parseDOM: getDefaultParseDOMForLeafNode(embedName, prop.name),
+          attrs: {
+            fields: {
+              default: { value: prop.defaultValue },
+            },
+          },
         },
       };
   }
 };
 
-const getDefaultToDOM = (embedName: string, propName: string) => () =>
-  ["div", { class: `ProsemirrorEmbed__${embedName}-${propName}` }, 0] as const;
+const getDefaultToDOMForContentNode = (
+  embedName: string,
+  propName: string
+) => () => ["div", { class: getClassForNode(embedName, propName) }, 0] as const;
+
+const getDefaultToDOMForLeafNode = (embedName: string, propName: string) => (
+  node: Node
+) => [
+  getTagForNode(embedName, propName),
+  {
+    class: getClassForNode(embedName, propName),
+    type: node.attrs.type as string,
+    fields: JSON.stringify(node.attrs.fields),
+    "has-errors": JSON.stringify(node.attrs.hasErrors),
+  },
+];
+
+const getDefaultParseDOMForLeafNode = (embedName: string, propName: string) => [
+  {
+    tag: getTagForNode(embedName, propName),
+    getAttrs: (dom: Element) => {
+      if (typeof dom === "string") {
+        return;
+      }
+      const hasErrorAttr = dom.getAttribute("has-errors");
+
+      return {
+        type: dom.getAttribute("type"),
+        fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
+        hasErrors: hasErrorAttr && hasErrorAttr !== "false",
+      };
+    },
+  },
+];
+
+const getClassForNode = (embedName: string, propName: string) =>
+  `ProsemirrorEmbed__${embedName}-${propName}`;
+
+const getTagForNode = (embedName: string, propName: string) =>
+  `embed-${embedName}-${propName}`;
