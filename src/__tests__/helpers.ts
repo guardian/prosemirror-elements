@@ -1,13 +1,19 @@
 import { mount } from "../mount";
-import type { ElementProps } from "../types/Embed";
+import type { FieldSpec } from "../types/Embed";
 
 /**
  * Create an embed which renders nothing. Useful when testing schema output.
  */
-export const createNoopEmbed = (name: string, props: ElementProps) =>
+export const createNoopEmbed = <
+  Name extends string,
+  FSpec extends FieldSpec<string>
+>(
+  name: Name,
+  fieldSpec: FSpec
+) =>
   mount(
     name,
-    props,
+    fieldSpec,
     () => () => null,
     () => null,
     () => null,

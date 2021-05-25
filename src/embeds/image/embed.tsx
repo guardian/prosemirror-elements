@@ -2,25 +2,33 @@ import React from "react";
 import { createReactEmbedRenderer } from "../../mounters/react/mount";
 import { ImageEmbed } from "./ImageEmbed";
 
-export const imageProps = [
-  {
+export const imageProps = {
+  caption: {
     type: "richText",
-    name: "caption",
   },
-  {
+  altText: {
     type: "richText",
-    name: "altText",
   },
-  { type: "checkbox", name: "useSrc", defaultValue: false },
-] as const;
+  useSrc: { type: "checkbox", defaultValue: false },
+} as const;
 
 export const createImageEmbed = <Name extends string>(name: Name) =>
   createReactEmbedRenderer(
     name,
     imageProps,
-    (_, errors, __, nodeViewPropMap) => {
-      return <ImageEmbed errors={errors} nodeViewPropMap={nodeViewPropMap} />;
+    (fields, errors, __, nodeViewPropMap) => {
+      return (
+        <ImageEmbed
+          fields={fields}
+          errors={errors}
+          nodeViewPropMap={nodeViewPropMap}
+        />
+      );
     },
-    ({ alt }) => (alt ? null : { alt: ["Alt tag must be set"] }),
-    { caption: "", src: "", alt: "" }
+    ({ altText }) => {
+      const el = document.createElement("div");
+      el.innerHTML = altText;
+      return el.innerText ? null : { altText: ["Alt tag must be set"] };
+    },
+    { caption: "", useSrc: { value: true }, altText: "" }
   );

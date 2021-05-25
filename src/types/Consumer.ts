@@ -1,10 +1,10 @@
-import type { ElementProps, NodeViewPropMapFromProps } from "./Embed";
+import type { FieldNameToValueMap } from "../nodeViews/helpers";
+import type { FieldNameToNodeViewSpec, FieldSpec } from "./Embed";
 import type { TErrors } from "./Errors";
-import type { TFields } from "./Fields";
 
-export type TConsumer<ConsumerResult, Props extends ElementProps> = (
-  fields: TFields,
+export type TConsumer<ConsumerResult, FSpec extends FieldSpec<string>> = (
+  fields: FieldNameToValueMap<FSpec>,
   errors: TErrors,
-  updateFields: (fields: TFields) => void,
-  nestedEditors: NodeViewPropMapFromProps<Props>
+  updateFields: (fields: FieldNameToValueMap<FSpec>) => void,
+  nestedEditors: FieldNameToNodeViewSpec<FSpec>
 ) => ConsumerResult;

@@ -1,26 +1,21 @@
-import { getNodeSpecFromProps } from "./nodeSpec";
+import { getNodeSpecFromFieldSpec } from "./nodeSpec";
+import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
-import type {
-  ElementProps,
-  NodeViewPropMapFromProps,
-  TEmbed,
-} from "./types/Embed";
-import type { TFields } from "./types/Fields";
-import type { TValidator } from "./types/Validator";
+import type { FieldNameToNodeViewSpec, FieldSpec, TEmbed } from "./types/Embed";
 
-type Subscriber = (
-  fields: TFields,
+type Subscriber<FSpec extends FieldSpec<string>> = (
+  fields: FieldNameToValueMap<FSpec>,
   commands: ReturnType<TCommandCreator>
 ) => void;
 
-type Updater = {
-  update: Subscriber;
-  subscribe: (s: Subscriber) => void;
+type Updater<FSpec extends FieldSpec<string>> = {
+  update: Subscriber<FSpec>;
+  subscribe: (s: Subscriber<FSpec>) => void;
 };
 
-const createUpdater = (): Updater => {
-  let sub: Subscriber = () => undefined;
+const createUpdater = <FSpec extends FieldSpec<string>>(): Updater<FSpec> => {
+  let sub: Subscriber<FSpec> = () => undefined;
   return {
     subscribe: (fn) => {
       sub = fn;
@@ -29,39 +24,46 @@ const createUpdater = (): Updater => {
   };
 };
 
-export type TRenderer<RendererOutput, Props extends ElementProps> = (
-  consumer: TConsumer<RendererOutput, Props>,
-  validate: TValidator,
+export type Validator<FSpec extends FieldSpec<string>> = (
+  fields: FieldNameToValueMap<FSpec>
+) => null | Record<string, string[]>;
+
+export type TRenderer<RendererOutput, FSpec extends FieldSpec<string>> = (
+  consumer: TConsumer<RendererOutput, FSpec>,
+  validate: Validator<FSpec>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  nodeViewPropMap: NodeViewPropMapFromProps<Props>,
-  updateState: (fields: TFields) => void,
-  fields: TFields,
+  nodeViewPropMap: FieldNameToNodeViewSpec<FSpec>,
+  updateState: (fields: FieldNameToValueMap<FSpec>) => void,
+  fields: FieldNameToValueMap<FSpec>,
   commands: TCommands,
   subscribe: (
-    fn: (fields: TFields, commands: ReturnType<TCommandCreator>) => void
+    fn: (
+      fields: FieldNameToValueMap<FSpec>,
+      commands: ReturnType<TCommandCreator>
+    ) => void
   ) => void
 ) => void;
 
 export const mount = <
   RenderOutput,
-  Props extends ElementProps,
+  FSpec extends FieldSpec<string>,
   Name extends string
 >(
   name: Name,
-  props: Props,
-  render: TRenderer<RenderOutput, Props>,
-  consumer: TConsumer<RenderOutput, Props>,
-  validate: TValidator,
-  defaultState: TFields
-): TEmbed<Props, Name> => ({
+  fieldSpec: FSpec,
+  render: TRenderer<RenderOutput, FSpec>,
+  consumer: TConsumer<RenderOutput, FSpec>,
+  validate: Validator<FSpec>,
+  defaultState: Partial<FieldNameToValueMap<FSpec>>
+): TEmbed<FSpec, Name> => ({
   name,
-  props,
-  nodeSpec: getNodeSpecFromProps(name, props),
+  fieldSpec,
+  nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),
   createUpdator: (dom, nestedEditors, updateState, fields, commands) => {
-    const updater = createUpdater();
+    const updater = createUpdater<FSpec>();
     render(
       consumer,
       validate,

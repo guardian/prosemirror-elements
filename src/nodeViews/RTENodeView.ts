@@ -2,6 +2,7 @@ import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
+import { DOMSerializer } from "prosemirror-model";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
@@ -13,7 +14,9 @@ import type { EmbedNodeView } from "./EmbedNodeView";
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) that represents a
  * nested rich text editor interface.
  */
-export class RTENodeView<LocalSchema extends Schema> implements EmbedNodeView {
+export class RTENodeView<LocalSchema extends Schema = Schema>
+  implements EmbedNodeView<string> {
+  public static propName = "richText" as const;
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public nodeViewElement = document.createElement("div");
@@ -21,6 +24,8 @@ export class RTENodeView<LocalSchema extends Schema> implements EmbedNodeView {
   private innerEditorView: EditorView | undefined;
   // The decorations that apply to this NodeView.
   private decorations = new DecorationSet();
+  // The serialiser for the Node.
+  private serialiser: DOMSerializer;
 
   constructor(
     // The node that this NodeView is responsible for rendering.
@@ -38,15 +43,14 @@ export class RTENodeView<LocalSchema extends Schema> implements EmbedNodeView {
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.innerEditorView = this.createInnerEditorView(schema);
+    this.serialiser = DOMSerializer.fromSchema(schema);
   }
 
-  private close() {
-    if (!this.innerEditorView) {
-      return;
-    }
-    this.innerEditorView.destroy();
-    this.innerEditorView = undefined;
-    this.nodeViewElement.textContent = "";
+  public getNodeValue(node: Node) {
+    const dom = this.serialiser.serializeFragment(node.content);
+    const e = document.createElement("div");
+    e.appendChild(dom);
+    return e.innerHTML;
   }
 
   public update(
@@ -227,5 +231,14 @@ export class RTENodeView<LocalSchema extends Schema> implements EmbedNodeView {
     const localOffset = -1;
     const offsetMap = new Mapping([StepMap.offset(-this.offset + localOffset)]);
     this.decorations = localDecoSet.map(offsetMap, this.node);
+  }
+
+  private close() {
+    if (!this.innerEditorView) {
+      return;
+    }
+    this.innerEditorView.destroy();
+    this.innerEditorView = undefined;
+    this.nodeViewElement.textContent = "";
   }
 }
