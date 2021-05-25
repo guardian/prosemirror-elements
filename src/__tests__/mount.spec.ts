@@ -50,6 +50,10 @@ describe("mount", () => {
         prop1: {
           type: "richText",
         },
+        prop2: {
+          type: "checkbox",
+          defaultValue: true,
+        },
       } as const;
       mount(
         "testEmbed",
@@ -58,6 +62,8 @@ describe("mount", () => {
         (fields) => {
           // Prop1 is derived from the fieldSpec, and is a string b/c it's a richText field
           fields.prop1.toString();
+          // Prop2 is a boolean b/c it's a checkbox field
+          fields.prop2.value.valueOf();
         },
         () => null,
         { prop1: "text" }
@@ -117,22 +123,50 @@ describe("mount", () => {
       expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph" });
     });
 
-    it("should allow the user to specify custom toDOM and parseDOM properties on richText props", () => {
-      const fieldSpec = {
-        prop1: {
-          type: "richText" as const,
-          content: "text",
-          toDOM: () => "div",
-          parseDOM: [{ tag: "header" }],
-        },
-      };
+    describe("fields", () => {
+      describe("richText", () => {
+        it("should allow the user to specify custom toDOM and parseDOM properties on richText props", () => {
+          const fieldSpec = {
+            prop1: {
+              type: "richText" as const,
+              content: "text",
+              toDOM: () => "div",
+              parseDOM: [{ tag: "header" }],
+            },
+          };
 
-      const testEmbed1 = createNoopEmbed("testEmbed1", fieldSpec);
-      const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
-      expect(nodeSpec.get("prop1")).toEqual({
-        content: fieldSpec.prop1.content,
-        toDOM: fieldSpec.prop1.toDOM,
-        parseDOM: fieldSpec.prop1.parseDOM,
+          const testEmbed1 = createNoopEmbed("testEmbed1", fieldSpec);
+          const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
+          expect(nodeSpec.get("prop1")).toEqual({
+            content: fieldSpec.prop1.content,
+            toDOM: fieldSpec.prop1.toDOM,
+            parseDOM: fieldSpec.prop1.parseDOM,
+          });
+        });
+      });
+
+      describe("checkbox", () => {
+        it("should specify the appropriate fields on checkbox props", () => {
+          const fieldSpec = {
+            prop1: {
+              type: "checkbox" as const,
+              defaultValue: true,
+            },
+          };
+
+          const testEmbed1 = createNoopEmbed("testEmbed1", fieldSpec);
+          const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
+          expect(nodeSpec.get("prop1")).toMatchObject({
+            atom: true,
+            attrs: {
+              fields: {
+                default: {
+                  value: true,
+                },
+              },
+            },
+          });
+        });
       });
     });
   });
