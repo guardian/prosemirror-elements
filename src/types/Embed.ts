@@ -7,18 +7,18 @@ import type { TCommandCreator } from "./Commands";
 /**
  * The specification for an embed field, to be modelled as a Node in Prosemirror.
  */
-interface BaseFieldSpec {
+interface BaseFieldSpec<DefaultValue extends unknown> {
   // The data type of the field.
   type: string;
+  defaultValue?: DefaultValue;
 }
 
-interface CheckboxField extends BaseFieldSpec {
+interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
   type: typeof CheckboxNodeView.propName;
-  defaultValue: boolean;
 }
 
 interface RTEField
-  extends BaseFieldSpec,
+  extends BaseFieldSpec<string>,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: typeof RTENodeView.propName;
 }
@@ -43,8 +43,11 @@ export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec;
 };
 
-export type TEmbed<FSpec extends FieldSpec<string>, Name extends string> = {
-  name: Name;
+export type TEmbed<
+  FSpec extends FieldSpec<string>,
+  EmbedName extends string
+> = {
+  name: EmbedName;
   fieldSpec: FSpec;
   nodeSpec: NodeSpec;
   createUpdator: (

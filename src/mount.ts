@@ -50,15 +50,15 @@ export type TRenderer<RendererOutput, FSpec extends FieldSpec<string>> = (
 export const mount = <
   RenderOutput,
   FSpec extends FieldSpec<string>,
-  Name extends string
+  EmbedName extends string
 >(
-  name: Name,
+  name: EmbedName,
   fieldSpec: FSpec,
   render: TRenderer<RenderOutput, FSpec>,
   consumer: TConsumer<RenderOutput, FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
-): TEmbed<FSpec, Name> => ({
+): TEmbed<FSpec, EmbedName> => ({
   name,
   fieldSpec,
   nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),

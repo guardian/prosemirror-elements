@@ -2,13 +2,14 @@ import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
-import { DOMSerializer } from "prosemirror-model";
+import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import type { EmbedNodeView } from "./EmbedNodeView";
+import { FieldType } from "./EmbedNodeView";
 
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) that represents a
@@ -17,6 +18,9 @@ import type { EmbedNodeView } from "./EmbedNodeView";
 export class RTENodeView<LocalSchema extends Schema = Schema>
   implements EmbedNodeView<string> {
   public static propName = "richText" as const;
+  public static fieldType = FieldType.CONTENT;
+  public static defaultValue = "";
+
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public nodeViewElement = document.createElement("div");
@@ -26,6 +30,8 @@ export class RTENodeView<LocalSchema extends Schema = Schema>
   private decorations = new DecorationSet();
   // The serialiser for the Node.
   private serialiser: DOMSerializer;
+  // The parser for the Node.
+  private parser: DOMParser;
 
   constructor(
     // The node that this NodeView is responsible for rendering.
@@ -37,13 +43,14 @@ export class RTENodeView<LocalSchema extends Schema = Schema>
     // The offset of this node relative to its parent NodeView.
     private offset: number,
     // The schema that the internal editor should use.
-    schema: Schema,
+    schema: LocalSchema,
     // The initial decorations for the NodeView.
     decorations: DecorationSet | Decoration[]
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.innerEditorView = this.createInnerEditorView(schema);
     this.serialiser = DOMSerializer.fromSchema(schema);
+    this.parser = DOMParser.fromSchema(schema);
   }
 
   public getNodeValue(node: Node) {
@@ -51,6 +58,13 @@ export class RTENodeView<LocalSchema extends Schema = Schema>
     const e = document.createElement("div");
     e.appendChild(dom);
     return e.innerHTML;
+  }
+
+  public getNodeFromValue(htmlContent: string) {
+    const element = document.createElement("div");
+    element.innerHTML = htmlContent;
+    const content = this.parser.parse(element);
+    return this.node.type.create({ type: RTENodeView.propName }, content);
   }
 
   public update(
@@ -198,10 +212,11 @@ export class RTENodeView<LocalSchema extends Schema = Schema>
     if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
   }
 
-  private createInnerEditorView(schema: Schema) {
+  private createInnerEditorView(schema: LocalSchema) {
     return new EditorView<LocalSchema>(this.nodeViewElement, {
       state: EditorState.create<LocalSchema>({
         doc: this.node,
+        schema,
         plugins: [
           keymap({
             "Mod-z": () => undo(this.outerView.state, this.outerView.dispatch),

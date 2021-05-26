@@ -9,7 +9,7 @@ export const imageProps = {
   altText: {
     type: "richText",
   },
-  useSrc: { type: "checkbox", defaultValue: false },
+  useSrc: { type: "checkbox", defaultValue: { value: false } },
 } as const;
 
 export const createImageEmbed = <Name extends string>(name: Name) =>

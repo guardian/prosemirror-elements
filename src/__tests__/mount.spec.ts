@@ -52,7 +52,7 @@ describe("mount", () => {
         },
         prop2: {
           type: "checkbox",
-          defaultValue: true,
+          defaultValue: { value: true },
         },
       } as const;
       mount(
@@ -150,7 +150,7 @@ describe("mount", () => {
           const fieldSpec = {
             prop1: {
               type: "checkbox" as const,
-              defaultValue: true,
+              defaultValue: { value: true },
             },
           };
 
@@ -161,7 +161,9 @@ describe("mount", () => {
             attrs: {
               fields: {
                 default: {
-                  value: true,
+                  value: {
+                    value: true,
+                  },
                 },
               },
             },

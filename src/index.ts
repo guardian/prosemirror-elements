@@ -66,10 +66,11 @@ const embedButton = document.createElement("button");
 embedButton.innerHTML = "Embed";
 embedButton.id = "embed";
 embedButton.addEventListener("click", () =>
-  insertEmbed("imageEmbed", { altText: "", caption: "" })(
-    view.state,
-    view.dispatch
-  )
+  insertEmbed("imageEmbed", {
+    altText: "",
+    caption: "",
+    useSrc: { value: false },
+  })(view.state, view.dispatch)
 );
 document.body.appendChild(embedButton);
 

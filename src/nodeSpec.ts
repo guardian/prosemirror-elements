@@ -1,5 +1,8 @@
 import OrderedMap from "orderedmap";
-import type { Node, NodeSpec } from "prosemirror-model";
+import type { Node, NodeSpec, Schema } from "prosemirror-model";
+import { DOMParser, Fragment } from "prosemirror-model";
+import type { FieldNameToValueMap } from "./nodeViews/helpers";
+import { fieldTypeToViewMap } from "./nodeViews/helpers";
 import type { Field, FieldSpec } from "./types/Embed";
 
 export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
@@ -21,7 +24,7 @@ const getNodeSpecForEmbed = (
 ): NodeSpec => ({
   [embedName]: {
     group: "block",
-    content: Object.keys(fieldSpec).join(" "),
+    content: getDeterministicFieldOrder(Object.keys(fieldSpec)).join(" "),
     attrs: {
       type: embedName,
       hasErrors: {
@@ -129,3 +132,56 @@ const getClassForNode = (embedName: string, propName: string) =>
 
 const getTagForNode = (embedName: string, propName: string) =>
   `embed-${embedName}-${propName}`;
+
+export const createNodesForFieldValues = <
+  S extends Schema,
+  FSpec extends FieldSpec<Name>,
+  Name extends string
+>(
+  schema: S,
+  fieldSpec: FSpec,
+  fieldValues: Partial<FieldNameToValueMap<FSpec>>
+): Node[] => {
+  const orderedFieldNames = getDeterministicFieldOrder(
+    Object.keys(fieldSpec) as Array<Extract<keyof FSpec, Name>>
+  );
+
+  return orderedFieldNames.map((fieldName) => {
+    const field = fieldSpec[fieldName];
+    const fieldNodeView = fieldTypeToViewMap[field.type];
+    const nodeType = schema.nodes[fieldName];
+    const fieldValue =
+      fieldValues[fieldName] ?? // The value supplied when the embed is insert
+      fieldSpec[fieldName].defaultValue ?? // The default value supplied by the embed field spec
+      fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
+
+    if (fieldNodeView.fieldType === "CONTENT") {
+      const content = createContentForFieldValue(schema, fieldValue as string);
+      return nodeType.create(
+        { type: field.type },
+        content.firstChild ?? Fragment.empty
+      );
+    } else {
+      return nodeType.create({ type: field.type, fields: fieldValue });
+    }
+  });
+};
+
+const createContentForFieldValue = <S extends Schema>(
+  schema: S,
+  fieldValue: string
+) => {
+  const parser = DOMParser.fromSchema(schema);
+  const element = document.createElement("div");
+  element.innerHTML = fieldValue;
+  return parser.parse(element);
+};
+
+/**
+ * It doesn't really matter which order we add our fields to our NodeSpec –
+ * but it does matter that we reliably match the order we create them to the
+ * order that they're added to the schema. This function gives us a fixed order.
+ */
+export const getDeterministicFieldOrder = <Name extends string>(
+  fieldNames: Name[]
+): Name[] => fieldNames.slice().sort();

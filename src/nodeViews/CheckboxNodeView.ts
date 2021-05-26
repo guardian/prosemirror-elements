@@ -5,6 +5,7 @@ export type CheckboxFields = { value: boolean };
 
 export class CheckboxNodeView extends FieldNodeView<CheckboxFields> {
   public static propName = "checkbox" as const;
+  public static defaultValue = { value: false };
   private checkboxElement: HTMLInputElement | undefined = undefined;
 
   public getNodeValue(node: Node): CheckboxFields {
