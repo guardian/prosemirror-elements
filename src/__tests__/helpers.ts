@@ -8,7 +8,7 @@ import { EditorView } from "prosemirror-view";
 import { buildEmbedPlugin } from "../embed";
 import { createEmbedSpec } from "../embedSpec";
 import { createParsers } from "../prosemirrorSetup";
-import type { FieldSpec, EmbedSpec } from "../types/Embed";
+import type { EmbedSpec, FieldSpec } from "../types/Embed";
 
 /**
  * Create an embed which renders nothing. Useful when testing schema output.

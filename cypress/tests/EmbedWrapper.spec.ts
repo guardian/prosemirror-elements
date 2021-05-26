@@ -5,7 +5,7 @@ import {
   moveTopTestId,
   moveUpTestId,
   removeTestId,
-} from "../../src/mounters/react/EmbedWrapper";
+} from "../../src/renderers/react/EmbedWrapper";
 import {
   addEmbed,
   getArrayOfBlockElementTypes,

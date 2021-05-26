@@ -3,9 +3,9 @@ import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
 import type {
+  EmbedSpec,
   FieldNameToNodeViewSpec,
   FieldSpec,
-  EmbedSpec,
 } from "./types/Embed";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
@@ -66,15 +66,15 @@ export const createEmbedSpec = <
   name,
   fieldSpec,
   nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),
-  createUpdator: (dom, nestedEditors, updateState, fields, commands) => {
+  createUpdator: (dom, fields, updateState, fieldValues, commands) => {
     const updater = createUpdater<FSpec>();
     render(
       consumer,
       validate,
       dom,
-      nestedEditors,
+      fields,
       (fields) => updateState(fields, !!validate(fields)),
-      Object.assign({}, defaultState, fields),
+      Object.assign({}, defaultState, fieldValues),
       commands,
       updater.subscribe
     );

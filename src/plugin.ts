@@ -5,7 +5,11 @@ import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import { getEmbedNodeViewFromType } from "./pluginHelpers";
-import type { FieldNameToNodeViewSpec, FieldSpec, EmbedSpec } from "./types/Embed";
+import type {
+  EmbedSpec,
+  FieldNameToNodeViewSpec,
+  FieldSpec,
+} from "./types/Embed";
 
 const decorations = createDecorations("imageEmbed");
 

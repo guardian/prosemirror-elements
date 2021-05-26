@@ -52,7 +52,7 @@ export type EmbedSpec<
   nodeSpec: NodeSpec;
   createUpdator: (
     dom: HTMLElement,
-    nestedEditors: FieldNameToNodeViewSpec<FSpec>,
+    fields: FieldNameToNodeViewSpec<FSpec>,
     updateState: (
       fields: FieldNameToValueMap<FSpec>,
       hasErrors: boolean

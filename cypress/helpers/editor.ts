@@ -1,5 +1,5 @@
-import { embedWrapperTestId } from "../../src/mounters/react/EmbedWrapper";
-import { getPropViewTestId } from "../../src/mounters/react/PropView";
+import { embedWrapperTestId } from "../../src/renderers/react/EmbedWrapper";
+import { getPropViewTestId } from "../../src/renderers/react/PropView";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 

@@ -5,7 +5,7 @@ import { buildCommands, defaultPredicate } from "./helpers";
 import { createNodesForFieldValues } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import { createPlugin } from "./plugin";
-import type { FieldSpec, EmbedSpec } from "./types/Embed";
+import type { EmbedSpec, FieldSpec } from "./types/Embed";
 
 /**
  * Build an embed plugin with the given embed specs, along with the schema required

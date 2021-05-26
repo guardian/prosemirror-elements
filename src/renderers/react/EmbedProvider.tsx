@@ -25,11 +25,11 @@ type IProps<FSpec extends FieldSpec<string>> = {
     fn: (fields: FieldNameToValueMap<FSpec>, commands: TCommands) => void
   ) => void;
   commands: TCommands;
-  fields: FieldNameToValueMap<FSpec>;
+  fieldValues: FieldNameToValueMap<FSpec>;
   onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
   validate: Validator<FSpec>;
   consumer: TConsumer<ReactElement, FSpec>;
-  nestedEditors: FieldNameToNodeViewSpec<FSpec>;
+  fields: FieldNameToNodeViewSpec<FSpec>;
 };
 
 type IState<FSpec extends FieldSpec<string>> = {
@@ -101,7 +101,7 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
           this.state.fields,
           errors,
           this.updateFields,
-          this.props.nestedEditors
+          this.props.fields
         )}
       </EmbedWrapper>
     );

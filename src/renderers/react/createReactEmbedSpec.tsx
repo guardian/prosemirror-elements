@@ -22,9 +22,9 @@ export const createReactEmbedSpec = <
     consumer,
     validate,
     dom,
-    nestedEditors,
-    updateState,
     fields,
+    updateState,
+    fieldValues,
     commands,
     subscribe
   ) =>
@@ -36,7 +36,7 @@ export const createReactEmbedSpec = <
         validate={validate}
         commands={commands}
         consumer={consumer}
-        nestedEditors={nestedEditors}
+        fields={fields}
       />,
       dom
     );
