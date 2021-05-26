@@ -1,6 +1,6 @@
-# @guardian/prosemirror-embeds
+# @guardian/prosemirror-elements
 
-This Prosemirror plugin adds the ability to add embed nodes to a document.
+This Prosemirror plugin adds the ability to add element nodes to a document.
 
 ## Setup
 

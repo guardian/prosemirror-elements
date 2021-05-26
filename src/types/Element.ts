@@ -5,7 +5,7 @@ import type { RTENodeView } from "../nodeViews/RTENodeView";
 import type { CommandCreator } from "./Commands";
 
 /**
- * The specification for an embed field, to be modelled as a Node in Prosemirror.
+ * The specification for an element field, to be modelled as a Node in Prosemirror.
  */
 interface BaseFieldSpec<DefaultValue extends unknown> {
   // The data type of the field.
@@ -27,7 +27,7 @@ export type Field = RTEField | CheckboxField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
-export type SchemaFromEmbedFieldSpec<FSpec extends FieldSpec<string>> = Schema<
+export type SchemaFromElementFieldSpec<FSpec extends FieldSpec<string>> = Schema<
   Extract<keyof FSpec, string>
 >;
 
@@ -43,11 +43,11 @@ export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec;
 };
 
-export type EmbedSpec<
+export type ElementSpec<
   FSpec extends FieldSpec<string>,
-  EmbedName extends string
+  ElementName extends string
 > = {
-  name: EmbedName;
+  name: ElementName;
   fieldSpec: FSpec;
   nodeSpec: NodeSpec;
   createUpdator: (

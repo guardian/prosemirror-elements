@@ -4,31 +4,31 @@ import type { EditorProps } from "prosemirror-view";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
-import { getEmbedNodeViewFromType } from "./pluginHelpers";
+import { getElementNodeViewFromType } from "./pluginHelpers";
 import type {
-  EmbedSpec,
+  ElementSpec,
   FieldNameToNodeViewSpec,
   FieldSpec,
-} from "./types/Embed";
+} from "./types/Element";
 
-const decorations = createDecorations("imageEmbed");
+const decorations = createDecorations("imageElement");
 
 export type PluginState = { hasErrors: boolean };
 
 export const createPlugin = <
-  EmbedNames extends string,
+  ElementNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  embedsSpec: Array<EmbedSpec<FSpec, EmbedNames>>,
+  elementsSpec: Array<ElementSpec<FSpec, ElementNames>>,
   commands: Commands
 ): Plugin<PluginState, Schema> => {
-  type EmbedNode = Node<Schema>;
+  type ElementNode = Node<Schema>;
 
   const hasErrors = (doc: Node) => {
     let foundError = false;
-    doc.descendants((node: EmbedNode) => {
+    doc.descendants((node: ElementNode) => {
       if (!foundError) {
-        if (node.type.name === "embed") {
+        if (node.type.name === "element") {
           foundError = node.attrs.hasErrors as boolean;
         }
       } else {
@@ -49,7 +49,7 @@ export const createPlugin = <
     },
     props: {
       decorations,
-      nodeViews: createNodeViews(embedsSpec, commands),
+      nodeViews: createNodeViews(elementsSpec, commands),
     },
   });
 };
@@ -57,15 +57,15 @@ export const createPlugin = <
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
 const createNodeViews = <
-  EmbedNames extends string,
+  ElementNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  embedsSpec: Array<EmbedSpec<FSpec, EmbedNames>>,
+  elementsSpec: Array<ElementSpec<FSpec, ElementNames>>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
-  for (const embed of embedsSpec) {
-    nodeViews[embed.name] = createNodeView(embed.name, embed, commands);
+  for (const element of elementsSpec) {
+    nodeViews[element.name] = createNodeView(element.name, element, commands);
   }
 
   return nodeViews;
@@ -75,10 +75,10 @@ type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
 const createNodeView = <
   FSpec extends FieldSpec<string>,
-  EmbedName extends string
+  ElementName extends string
 >(
-  embedName: EmbedName,
-  embed: EmbedSpec<FSpec, EmbedName>,
+  elementName: ElementName,
+  element: ElementSpec<FSpec, ElementName>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
@@ -92,20 +92,20 @@ const createNodeView = <
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
     if (nodeViewPropMap[name]) {
       throw new Error(
-        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${name}, but another instance with that name has already been created.`
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but another instance with that name has already been created.`
       );
     }
-    const fieldSpec = embed.fieldSpec[name];
+    const fieldSpec = element.fieldSpec[name];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldSpec) {
       throw new Error(
-        `[prosemirror-embeds]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate prop`
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate prop`
       );
     }
     nodeViewPropMap[name] = {
       fieldSpec,
       name,
-      nodeView: getEmbedNodeViewFromType(fieldSpec, {
+      nodeView: getElementNodeViewFromType(fieldSpec, {
         node,
         view,
         getPos,
@@ -115,7 +115,7 @@ const createNodeView = <
     };
   });
 
-  const update = embed.createUpdator(
+  const update = element.createUpdator(
     dom,
     nodeViewPropMap,
     (fields, hasErrors) => {
@@ -135,13 +135,13 @@ const createNodeView = <
     dom,
     update: (node, _, innerDecos) => {
       if (
-        node.type.name === embedName &&
+        node.type.name === elementName &&
         node.attrs.type === initNode.attrs.type
       ) {
         // We gather the values from each child as we iterate over the
         // node, to update the renderer. It's difficult to be typesafe here,
         // as the Node's name value is loosely typed as `string`, and so we
-        // cannot index into the embed `fieldSpec` to discover the appropriate type.
+        // cannot index into the element `fieldSpec` to discover the appropriate type.
         const propValues: Record<string, unknown> = {};
         node.forEach((node, offset) => {
           const typeName = node.type

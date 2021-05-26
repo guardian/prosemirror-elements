@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import type { FieldNodeViewSpec } from "../../types/Embed";
+import type { FieldNodeViewSpec } from "../../types/Element";
 
 type Props = {
   nodeViewProp: FieldNodeViewSpec;

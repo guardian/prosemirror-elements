@@ -1,14 +1,14 @@
 import type { ReactElement } from "react";
 import React from "react";
 import { render } from "react-dom";
-import { createEmbedSpec } from "../../embedSpec";
-import type { Renderer, Validator } from "../../embedSpec";
+import { createElementSpec } from "../../elementSpec";
+import type { Renderer, Validator } from "../../elementSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { Consumer } from "../../types/Consumer";
-import type { FieldSpec } from "../../types/Embed";
-import { EmbedProvider } from "./EmbedProvider";
+import type { FieldSpec } from "../../types/Element";
+import { ElementProvider } from "./ElementProvider";
 
-export const createReactEmbedSpec = <
+export const createReactElementSpec = <
   FSpec extends FieldSpec<string>,
   Name extends string
 >(
@@ -28,7 +28,7 @@ export const createReactEmbedSpec = <
     subscribe
   ) =>
     render(
-      <EmbedProvider<FSpec>
+      <ElementProvider<FSpec>
         subscribe={subscribe}
         onStateChange={updateState}
         fields={fields}
@@ -40,5 +40,5 @@ export const createReactEmbedSpec = <
       dom
     );
 
-  return createEmbedSpec(name, fieldSpec, renderer, validate, defaultState);
+  return createElementSpec(name, fieldSpec, renderer, validate, defaultState);
 };

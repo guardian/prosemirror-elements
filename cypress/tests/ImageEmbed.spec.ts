@@ -1,14 +1,14 @@
 import {
-  addEmbed,
+  addElement,
   assertDocHtml,
-  getEmbedField,
-  getEmbedMenuButton,
-  getEmbedRichTextField,
-  typeIntoEmbedField,
+  getElementField,
+  getElementMenuButton,
+  getElementRichTextField,
+  typeIntoElementField,
   typeIntoProsemirror,
 } from "../helpers/editor";
 
-describe("ImageEmbed", () => {
+describe("ImageElement", () => {
   beforeEach(() => cy.visit("/"));
 
   const rteFields = ["caption", "altText"];
@@ -25,48 +25,48 @@ describe("ImageEmbed", () => {
 
     describe("Rich text field", () => {
       rteFields.forEach((field) => {
-        it(`${field} – should accept input in an embed`, () => {
-          addEmbed();
+        it(`${field} – should accept input in an element`, () => {
+          addElement();
           const text = `${field} text`;
-          typeIntoEmbedField(field, text);
-          getEmbedRichTextField(field).should("have.text", text);
+          typeIntoElementField(field, text);
+          getElementRichTextField(field).should("have.text", text);
         });
 
         it(`${field} – should render decorations passed from the parent editor`, () => {
-          addEmbed();
+          addElement();
           const text = `${field} deco `;
-          typeIntoEmbedField(field, text);
-          getEmbedRichTextField(field)
+          typeIntoElementField(field, text);
+          getElementRichTextField(field)
             .find(".TestDecoration")
             .should("have.text", "deco");
         });
 
         it(`${field} – should map decorations passed from the parent editor correctly when they move`, () => {
-          addEmbed();
+          addElement();
           const text = `${field} deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more text`;
-          typeIntoEmbedField(field, text);
-          getEmbedRichTextField(field)
+          typeIntoElementField(field, text);
+          getElementRichTextField(field)
             .find(".TestDecoration")
             .should("have.text", "deco");
         });
 
         rteFieldStyles.forEach((style) => {
-          it(`${field} – should toggle style of an input in an embed`, () => {
-            addEmbed();
-            getEmbedMenuButton(field, `Toggle ${style.title}`).click();
-            typeIntoEmbedField(field, "Example text");
-            getEmbedRichTextField(field)
+          it(`${field} – should toggle style of an input in an element`, () => {
+            addElement();
+            getElementMenuButton(field, `Toggle ${style.title}`).click();
+            typeIntoElementField(field, "Example text");
+            getElementRichTextField(field)
               .find(style.tag)
               .should("have.text", "Example text");
           });
         });
 
         it("should serialise content as HTML within the appropriate nodes in the document", () => {
-          addEmbed();
-          typeIntoEmbedField("caption", "Caption text");
-          typeIntoEmbedField("altText", "Alt text");
+          addElement();
+          typeIntoElementField("caption", "Caption text");
+          typeIntoElementField("altText", "Alt text");
           assertDocHtml(
-            `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-altText"><p>Alt text</p></div><div class="ProsemirrorEmbed__imageEmbed-caption"><p>Caption text</p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{&quot;value&quot;:false}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
+            `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p>Alt text</p></div><div class="ProsemirrorElement__imageElement-caption"><p>Caption text</p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
           );
         });
       });
@@ -74,32 +74,32 @@ describe("ImageEmbed", () => {
 
     describe("Checkbox field", () => {
       it(`should be clickable`, () => {
-        addEmbed();
-        getEmbedField("useSrc").find("input").click();
-        getEmbedField("useSrc").find("input").should("be.checked");
+        addElement();
+        getElementField("useSrc").find("input").click();
+        getElementField("useSrc").find("input").should("be.checked");
       });
 
       it(`should have a default value when instantiated`, () => {
-        addEmbed();
+        addElement();
         assertDocHtml(
-          `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-altText"><p></p></div><div class="ProsemirrorEmbed__imageEmbed-caption"><p></p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{&quot;value&quot;:false}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
         );
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - checked`, () => {
-        addEmbed();
-        getEmbedField("useSrc").find("input").click();
+        addElement();
+        getElementField("useSrc").find("input").click();
         assertDocHtml(
-          `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-altText"><p></p></div><div class="ProsemirrorEmbed__imageEmbed-caption"><p></p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{&quot;value&quot;:true}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:true}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
         );
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - unchecked`, () => {
-        addEmbed();
-        getEmbedField("useSrc").find("input").click();
-        getEmbedField("useSrc").find("input").click();
+        addElement();
+        getElementField("useSrc").find("input").click();
+        getElementField("useSrc").find("input").click();
         assertDocHtml(
-          `<imageembed type="imageEmbed" has-errors="false"><div class="ProsemirrorEmbed__imageEmbed-altText"><p></p></div><div class="ProsemirrorEmbed__imageEmbed-caption"><p></p></div><embed-imageembed-usesrc class="ProsemirrorEmbed__imageEmbed-useSrc" fields="{&quot;value&quot;:false}"></embed-imageembed-usesrc></imageembed><p>First paragraph</p><p>Second paragraph</p>`
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
         );
       });
     });

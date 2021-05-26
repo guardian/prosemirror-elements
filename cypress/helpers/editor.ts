@@ -1,4 +1,4 @@
-import { embedWrapperTestId } from "../../src/renderers/react/EmbedWrapper";
+import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
 import { getPropViewTestId } from "../../src/renderers/react/PropView";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
@@ -9,29 +9,29 @@ export const getElementType = (element: JQuery) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it's not always truthy.
-  if (element.find(selectDataCy(embedWrapperTestId))[0]) {
-    return "embed";
+  if (element.find(selectDataCy(elementWrapperTestId))[0]) {
+    return "element";
   }
   return "unknown";
 };
 
-export const addEmbed = () => cy.get("#embed").click();
+export const addElement = () => cy.get("#element").click();
 
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
-export const getEmbedRichTextField = (fieldName: string) =>
+export const getElementRichTextField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror`);
 
-export const getEmbedField = (fieldName: string) =>
+export const getElementField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getPropViewTestId(fieldName))}`);
 
-export const getEmbedMenu = (fieldName: string) =>
+export const getElementMenu = (fieldName: string) =>
   cy.get(
     `div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror-menubar`
   );
 
-export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
+export const getElementMenuButton = (fieldName: string, buttonTitle: string) =>
   cy.get(
     `div${selectDataCy(
       getPropViewTestId(fieldName)
@@ -40,8 +40,8 @@ export const getEmbedMenuButton = (fieldName: string, buttonTitle: string) =>
 
 // If we don't focus the nested RTE we're typing into before type() is called,
 // Cypress tends to type into the parent RTE instead.
-export const typeIntoEmbedField = (fieldName: string, content: string) =>
-  getEmbedRichTextField(fieldName).focus().type(content);
+export const typeIntoElementField = (fieldName: string, content: string) =>
+  getElementRichTextField(fieldName).focus().type(content);
 
 export const getArrayOfBlockElementTypes = () => {
   // eslint-disable-next-line prefer-const -- it is reassigned.

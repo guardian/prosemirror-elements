@@ -6,17 +6,17 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { buildEmbedPlugin } from "./embed";
-import { createImageEmbed } from "./embeds/image/embed";
+import { buildElementPlugin } from "./element";
+import { createImageElement } from "./elements/image/element";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
 
 const {
-  plugin: embedPlugin,
-  insertEmbed,
+  plugin: elementPlugin,
+  insertElement,
   hasErrors,
   nodeSpec,
-} = buildEmbedPlugin([createImageEmbed("imageEmbed")]);
+} = buildElementPlugin([createImageElement("imageElement")]);
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
@@ -50,7 +50,7 @@ const set = (doc: Node) =>
 const view = new EditorView(editorElement, {
   state: EditorState.create({
     doc: get(),
-    plugins: [...exampleSetup({ schema }), embedPlugin, testDecorationPlugin],
+    plugins: [...exampleSetup({ schema }), elementPlugin, testDecorationPlugin],
   }),
   dispatchTransaction: (tr: Transaction) => {
     const state = view.state.apply(tr);
@@ -62,17 +62,17 @@ const view = new EditorView(editorElement, {
 
 highlightErrors(view.state);
 
-const embedButton = document.createElement("button");
-embedButton.innerHTML = "Embed";
-embedButton.id = "embed";
-embedButton.addEventListener("click", () =>
-  insertEmbed("imageEmbed", {
+const elementButton = document.createElement("button");
+elementButton.innerHTML = "Element";
+elementButton.id = "element";
+elementButton.addEventListener("click", () =>
+  insertElement("imageElement", {
     altText: "",
     caption: "",
     useSrc: { value: false },
   })(view.state, view.dispatch)
 );
-document.body.appendChild(embedButton);
+document.body.appendChild(elementButton);
 
 // Handy debugging tools
 

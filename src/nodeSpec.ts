@@ -3,37 +3,37 @@ import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import { DOMParser, Fragment } from "prosemirror-model";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import { fieldTypeToViewMap } from "./nodeViews/helpers";
-import type { Field, FieldSpec } from "./types/Embed";
+import type { Field, FieldSpec } from "./types/Element";
 
 export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
-  embedName: string,
+  elementName: string,
   fieldSpec: FSpec
 ): OrderedMap<NodeSpec> => {
   const propSpecs = Object.entries(fieldSpec).reduce(
     (acc, [propName, propSpec]) =>
-      acc.append(getNodeSpecForProp(embedName, propName, propSpec)),
+      acc.append(getNodeSpecForProp(elementName, propName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
-  return propSpecs.append(getNodeSpecForEmbed(embedName, fieldSpec));
+  return propSpecs.append(getNodeSpecForElement(elementName, fieldSpec));
 };
 
-const getNodeSpecForEmbed = (
-  embedName: string,
+const getNodeSpecForElement = (
+  elementName: string,
   fieldSpec: FieldSpec<string>
 ): NodeSpec => ({
-  [embedName]: {
+  [elementName]: {
     group: "block",
     content: getDeterministicFieldOrder(Object.keys(fieldSpec)).join(" "),
     attrs: {
-      type: embedName,
+      type: elementName,
       hasErrors: {
         default: false,
       },
     },
     draggable: false,
     toDOM: (node: Node) => [
-      embedName,
+      elementName,
       {
         type: node.attrs.type as string,
         fields: JSON.stringify(node.attrs.fields),
@@ -43,7 +43,7 @@ const getNodeSpecForEmbed = (
     ],
     parseDOM: [
       {
-        tag: embedName,
+        tag: elementName,
         getAttrs: (dom: Element) => {
           if (typeof dom === "string") {
             return;
@@ -62,7 +62,7 @@ const getNodeSpecForEmbed = (
 });
 
 const getNodeSpecForProp = (
-  embedName: string,
+  elementName: string,
   propName: string,
   prop: Field
 ): NodeSpec => {
@@ -72,7 +72,7 @@ const getNodeSpecForProp = (
         [propName]: {
           content: prop.content ?? "paragraph",
           toDOM:
-            prop.toDOM ?? getDefaultToDOMForContentNode(embedName, propName),
+            prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
           parseDOM: prop.parseDOM ?? [{ tag: "div" }],
         },
       };
@@ -80,8 +80,8 @@ const getNodeSpecForProp = (
       return {
         [propName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(embedName, propName),
-          parseDOM: getDefaultParseDOMForLeafNode(embedName, propName),
+          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
           attrs: {
             fields: {
               default: { value: prop.defaultValue },
@@ -93,25 +93,25 @@ const getNodeSpecForProp = (
 };
 
 const getDefaultToDOMForContentNode = (
-  embedName: string,
+  elementName: string,
   propName: string
-) => () => ["div", { class: getClassForNode(embedName, propName) }, 0] as const;
+) => () => ["div", { class: getClassForNode(elementName, propName) }, 0] as const;
 
-const getDefaultToDOMForLeafNode = (embedName: string, propName: string) => (
+const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
   node: Node
 ) => [
-  getTagForNode(embedName, propName),
+  getTagForNode(elementName, propName),
   {
-    class: getClassForNode(embedName, propName),
+    class: getClassForNode(elementName, propName),
     type: node.attrs.type as string,
     fields: JSON.stringify(node.attrs.fields),
     "has-errors": JSON.stringify(node.attrs.hasErrors),
   },
 ];
 
-const getDefaultParseDOMForLeafNode = (embedName: string, propName: string) => [
+const getDefaultParseDOMForLeafNode = (elementName: string, propName: string) => [
   {
-    tag: getTagForNode(embedName, propName),
+    tag: getTagForNode(elementName, propName),
     getAttrs: (dom: Element) => {
       if (typeof dom === "string") {
         return;
@@ -127,11 +127,11 @@ const getDefaultParseDOMForLeafNode = (embedName: string, propName: string) => [
   },
 ];
 
-const getClassForNode = (embedName: string, propName: string) =>
-  `ProsemirrorEmbed__${embedName}-${propName}`;
+const getClassForNode = (elementName: string, propName: string) =>
+  `ProsemirrorElement__${elementName}-${propName}`;
 
-const getTagForNode = (embedName: string, propName: string) =>
-  `embed-${embedName}-${propName}`;
+const getTagForNode = (elementName: string, propName: string) =>
+  `element-${elementName}-${propName}`;
 
 export const createNodesForFieldValues = <
   S extends Schema,
@@ -151,8 +151,8 @@ export const createNodesForFieldValues = <
     const fieldNodeView = fieldTypeToViewMap[field.type];
     const nodeType = schema.nodes[fieldName];
     const fieldValue =
-      fieldValues[fieldName] ?? // The value supplied when the embed is insert
-      fieldSpec[fieldName].defaultValue ?? // The default value supplied by the embed field spec
+      fieldValues[fieldName] ?? // The value supplied when the element is insert
+      fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
     if (fieldNodeView.fieldType === "CONTENT") {

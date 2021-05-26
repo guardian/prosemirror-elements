@@ -1,14 +1,14 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import type { EmbedNodeView } from "./EmbedNodeView";
-import { FieldType } from "./EmbedNodeView";
+import type { ElementNodeView } from "./ElementNodeView";
+import { FieldType } from "./ElementNodeView";
 
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
  * node that contains fields that are updated atomically.
  */
 export abstract class FieldNodeView<Fields extends unknown>
-  implements EmbedNodeView<Fields> {
+  implements ElementNodeView<Fields> {
   public static propName: string;
   public static fieldType = FieldType.ATTRIBUTES;
   // The parent DOM element for this view. Public
