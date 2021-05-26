@@ -8,7 +8,7 @@ import type { TConsumer } from "../../types/Consumer";
 import type { FieldSpec } from "../../types/Embed";
 import { EmbedProvider } from "./EmbedProvider";
 
-export const createReactEmbedRenderer = <
+export const createReactEmbedSpec = <
   FSpec extends FieldSpec<string>,
   Name extends string
 >(
@@ -41,5 +41,12 @@ export const createReactEmbedRenderer = <
       dom
     );
 
-  return createEmbedSpec(name, fieldSpec, renderer, consumer, validate, defaultState);
+  return createEmbedSpec(
+    name,
+    fieldSpec,
+    renderer,
+    consumer,
+    validate,
+    defaultState
+  );
 };

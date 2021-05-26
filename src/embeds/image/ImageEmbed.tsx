@@ -1,5 +1,5 @@
 import React from "react";
-import { PropView } from "../../mounters/react/PropView";
+import { PropView } from "../../renderers/react/PropView";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { FieldNameToNodeViewSpec } from "../../types/Embed";
 import type { imageProps } from "./embed";

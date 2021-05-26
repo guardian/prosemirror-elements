@@ -1,5 +1,5 @@
 import React from "react";
-import { createReactEmbedRenderer } from "../../mounters/react/mount";
+import { createReactEmbedSpec } from "../../renderers/react/createReactEmbedSpec";
 import { ImageEmbed } from "./ImageEmbed";
 
 export const imageProps = {
@@ -13,7 +13,7 @@ export const imageProps = {
 } as const;
 
 export const createImageEmbed = <Name extends string>(name: Name) =>
-  createReactEmbedRenderer(
+  createReactEmbedSpec(
     name,
     imageProps,
     (fields, errors, __, nodeViewPropMap) => {
