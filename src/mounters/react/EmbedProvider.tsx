@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
-import type { Validator } from "../../mount";
+import type { Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";

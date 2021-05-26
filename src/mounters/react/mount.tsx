@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import React from "react";
 import { render } from "react-dom";
-import { mount } from "../../mount";
-import type { TRenderer, Validator } from "../../mount";
+import { createEmbedSpec } from "../../embedSpec";
+import type { TRenderer, Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TConsumer } from "../../types/Consumer";
 import type { FieldSpec } from "../../types/Embed";
@@ -41,5 +41,5 @@ export const createReactEmbedRenderer = <
       dom
     );
 
-  return mount(name, fieldSpec, renderer, consumer, validate, defaultState);
+  return createEmbedSpec(name, fieldSpec, renderer, consumer, validate, defaultState);
 };

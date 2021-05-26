@@ -2,7 +2,11 @@ import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
-import type { FieldNameToNodeViewSpec, FieldSpec, EmbedSpec } from "./types/Embed";
+import type {
+  FieldNameToNodeViewSpec,
+  FieldSpec,
+  EmbedSpec,
+} from "./types/Embed";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>,
@@ -47,7 +51,7 @@ export type TRenderer<RendererOutput, FSpec extends FieldSpec<string>> = (
   ) => void
 ) => void;
 
-export const mount = <
+export const createEmbedSpec = <
   RenderOutput,
   FSpec extends FieldSpec<string>,
   EmbedName extends string
