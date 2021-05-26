@@ -5,7 +5,7 @@ import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import { getEmbedNodeViewFromType } from "./pluginHelpers";
-import type { FieldNameToNodeViewSpec, FieldSpec, TEmbed } from "./types/Embed";
+import type { FieldNameToNodeViewSpec, FieldSpec, EmbedSpec } from "./types/Embed";
 
 const decorations = createDecorations("imageEmbed");
 
@@ -15,7 +15,7 @@ export const createPlugin = <
   EmbedNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  embedsSpec: Array<TEmbed<FSpec, EmbedNames>>,
+  embedsSpec: Array<EmbedSpec<FSpec, EmbedNames>>,
   commands: Commands
 ): Plugin<PluginState, Schema> => {
   type EmbedNode = Node<Schema>;
@@ -56,7 +56,7 @@ const createNodeViews = <
   EmbedNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  embedsSpec: Array<TEmbed<FSpec, EmbedNames>>,
+  embedsSpec: Array<EmbedSpec<FSpec, EmbedNames>>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
@@ -74,7 +74,7 @@ const createNodeView = <
   EmbedName extends string
 >(
   embedName: EmbedName,
-  embed: TEmbed<FSpec, EmbedName>,
+  embed: EmbedSpec<FSpec, EmbedName>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");

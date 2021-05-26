@@ -2,7 +2,7 @@ import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
-import type { FieldNameToNodeViewSpec, FieldSpec, TEmbed } from "./types/Embed";
+import type { FieldNameToNodeViewSpec, FieldSpec, EmbedSpec } from "./types/Embed";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>,
@@ -58,7 +58,7 @@ export const mount = <
   consumer: TConsumer<RenderOutput, FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
-): TEmbed<FSpec, EmbedName> => ({
+): EmbedSpec<FSpec, EmbedName> => ({
   name,
   fieldSpec,
   nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),

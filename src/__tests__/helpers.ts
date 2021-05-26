@@ -8,7 +8,7 @@ import { EditorView } from "prosemirror-view";
 import { buildEmbedPlugin } from "../embed";
 import { mount } from "../mount";
 import { createParsers } from "../prosemirrorSetup";
-import type { FieldSpec, TEmbed } from "../types/Embed";
+import type { FieldSpec, EmbedSpec } from "../types/Embed";
 
 /**
  * Create an embed which renders nothing. Useful when testing schema output.
@@ -33,7 +33,7 @@ export const createEditorWithEmbeds = <
   FSpec extends FieldSpec<string>,
   EmbedNames extends string
 >(
-  embeds: Array<TEmbed<FSpec, EmbedNames>>,
+  embeds: Array<EmbedSpec<FSpec, EmbedNames>>,
   initialHTML = ""
 ) => {
   const { plugin, insertEmbed, nodeSpec } = buildEmbedPlugin(embeds);

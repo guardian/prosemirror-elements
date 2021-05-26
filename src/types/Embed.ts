@@ -43,7 +43,7 @@ export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec;
 };
 
-export type TEmbed<
+export type EmbedSpec<
   FSpec extends FieldSpec<string>,
   EmbedName extends string
 > = {
