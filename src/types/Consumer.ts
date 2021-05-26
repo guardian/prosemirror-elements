@@ -3,8 +3,8 @@ import type { FieldNameToNodeViewSpec, FieldSpec } from "./Embed";
 import type { TErrors } from "./Errors";
 
 export type TConsumer<ConsumerResult, FSpec extends FieldSpec<string>> = (
-  fields: FieldNameToValueMap<FSpec>,
+  fieldValues: FieldNameToValueMap<FSpec>,
   errors: TErrors,
-  updateFields: (fields: FieldNameToValueMap<FSpec>) => void,
+  updateFields: (fieldValues: FieldNameToValueMap<FSpec>) => void,
   fields: FieldNameToNodeViewSpec<FSpec>
 ) => ConsumerResult;

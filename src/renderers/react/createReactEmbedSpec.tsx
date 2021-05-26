@@ -36,7 +36,7 @@ export const createReactEmbedSpec = <
         validate={validate}
         commands={commands}
         consumer={consumer}
-        fields={fields}
+        fieldValues={fieldValues}
       />,
       dom
     );
