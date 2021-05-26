@@ -45,7 +45,7 @@ describe("buildEmbedPlugin", () => {
         prop1: { value: true },
       });
       insertEmbed("testEmbed", {
-        // @ts-expect-error -- we should not be able to insert a non-existent field
+        // @ts-expect-error -- we should not be able to insert a field of the wrong type
         prop1: "This shouldn't typecheck",
       });
     });
