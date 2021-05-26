@@ -13,20 +13,20 @@ import type { FieldSpec, TEmbed } from "./types/Embed";
  */
 export const buildEmbedPlugin = <
   FSpec extends FieldSpec<string>,
-  Name extends string
+  EmbedNames extends string
 >(
-  embedSpecs: Array<TEmbed<FSpec, Name>>,
+  embedSpecs: Array<TEmbed<FSpec, EmbedNames>>,
   predicate = defaultPredicate
 ) => {
   const embedTypeMap = embedSpecs.reduce<
-    Partial<{ [name in Name]: TEmbed<FSpec, Name> }>
+    Partial<{ [embedName in EmbedNames]: TEmbed<FSpec, embedName> }>
   >((acc, spec) => {
     acc[spec.name] = spec;
     return acc;
   }, {});
 
   const insertEmbed = (
-    type: Name,
+    type: EmbedNames,
     fieldValues: Partial<FieldNameToValueMap<FSpec>> = {}
   ) => (
     state: EditorState,

@@ -31,9 +31,9 @@ export const createNoopEmbed = <
 
 export const createEditorWithEmbeds = <
   FSpec extends FieldSpec<string>,
-  Name extends string
+  EmbedNames extends string
 >(
-  embeds: Array<TEmbed<FSpec, Name>>,
+  embeds: Array<TEmbed<FSpec, EmbedNames>>,
   initialHTML = ""
 ) => {
   const { plugin, insertEmbed, nodeSpec } = buildEmbedPlugin(embeds);

@@ -12,10 +12,10 @@ const decorations = createDecorations("imageEmbed");
 export type PluginState = { hasErrors: boolean };
 
 export const createPlugin = <
-  Name extends string,
+  EmbedNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  embedsSpec: Array<TEmbed<FSpec, Name>>,
+  embedsSpec: Array<TEmbed<FSpec, EmbedNames>>,
   commands: Commands
 ): Plugin<PluginState, Schema> => {
   type EmbedNode = Node<Schema>;
@@ -52,8 +52,11 @@ export const createPlugin = <
 
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
-const createNodeViews = <Name extends string, FSpec extends FieldSpec<string>>(
-  embedsSpec: Array<TEmbed<FSpec, Name>>,
+const createNodeViews = <
+  EmbedNames extends string,
+  FSpec extends FieldSpec<string>
+>(
+  embedsSpec: Array<TEmbed<FSpec, EmbedNames>>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
@@ -66,9 +69,12 @@ const createNodeViews = <Name extends string, FSpec extends FieldSpec<string>>(
 
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
-const createNodeView = <FSpec extends FieldSpec<string>, Name extends string>(
-  embedName: Name,
-  embed: TEmbed<FSpec, Name>,
+const createNodeView = <
+  FSpec extends FieldSpec<string>,
+  EmbedName extends string
+>(
+  embedName: EmbedName,
+  embed: TEmbed<FSpec, EmbedName>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
