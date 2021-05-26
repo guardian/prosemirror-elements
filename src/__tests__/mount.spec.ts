@@ -13,8 +13,7 @@ describe("mount", () => {
       createEmbedSpec(
         "testEmbed",
         fieldSpec,
-        () => () => null,
-        (_, __, ___, fieldNodeViews) => {
+        (_, __, fieldNodeViews) => {
           // Prop1 is derived from the fieldSpec
           fieldNodeViews.prop1;
         },
@@ -32,8 +31,7 @@ describe("mount", () => {
       createEmbedSpec(
         "testEmbed",
         fieldSpec,
-        () => () => null,
-        (_, __, ___, fieldNodeViews) => {
+        (_, __, fieldNodeViews) => {
           // @ts-expect-error – prop1 is not available on this object,
           // as it is not defined in `fieldSpec` passed into `mount`
           fieldNodeViews.prop1;
@@ -44,8 +42,8 @@ describe("mount", () => {
     });
   });
 
-  describe("field typesafety", () => {
-    it("should provide typesafe fields to its consumer", () => {
+  describe("validator typesafety", () => {
+    it("should provide typesafe fields to its validator", () => {
       const fieldSpec = {
         prop1: {
           type: "richText",
@@ -58,14 +56,14 @@ describe("mount", () => {
       createEmbedSpec(
         "testEmbed",
         fieldSpec,
-        () => () => null,
+        () => () => undefined,
         (fields) => {
           // Prop1 is derived from the fieldSpec, and is a string b/c it's a richText field
           fields.prop1.toString();
           // Prop2 is a boolean b/c it's a checkbox field
           fields.prop2.value.valueOf();
+          return null;
         },
-        () => null,
         { prop1: "text" }
       );
     });
@@ -79,13 +77,13 @@ describe("mount", () => {
       createEmbedSpec(
         "testEmbed",
         fieldSpec,
-        () => () => null,
+        () => () => undefined,
         (fields) => {
           // @ts-expect-error – prop1 is not available on this object,
           // as it is not defined in `fieldSpec` passed into `mount`
           fields.doesNotExist;
+          return null;
         },
-        () => null,
         { notProp1: "text" }
       );
     });
