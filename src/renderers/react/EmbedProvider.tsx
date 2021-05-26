@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import type { Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TCommands } from "../../types/Commands";
-import type { TConsumer } from "../../types/Consumer";
+import type { Consumer } from "../../types/Consumer";
 import type { FieldNameToNodeViewSpec, FieldSpec } from "../../types/Embed";
 import type { TErrors } from "../../types/Errors";
 import { EmbedWrapper } from "./EmbedWrapper";
@@ -28,7 +28,7 @@ type IProps<FSpec extends FieldSpec<string>> = {
   fieldValues: FieldNameToValueMap<FSpec>;
   onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
   validate: Validator<FSpec>;
-  consumer: TConsumer<ReactElement, FSpec>;
+  consumer: Consumer<ReactElement, FSpec>;
   fields: FieldNameToNodeViewSpec<FSpec>;
 };
 
