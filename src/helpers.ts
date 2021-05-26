@@ -5,7 +5,7 @@ import { AllSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 
-type TNodesBetweenArgs = [Node, number, Node, number];
+type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
 
 const nodesBetween = (state: EditorState, _from: number, _to: number) => {
@@ -14,7 +14,7 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   range.sort((a, b) => a - b);
   const [from, to] = range;
 
-  const arr: TNodesBetweenArgs[] = [];
+  const arr: NodesBetweenArgs[] = [];
   state.doc.nodesBetween(
     from,
     to,
@@ -27,24 +27,24 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   return arr;
 };
 
-type TPredicate = (
+type Predicate = (
   node: Node,
   pos: number,
   parent: Node,
   index?: number
 ) => boolean;
-type TDirection = "up" | "down" | "top" | "bottom";
+type CommandDirection = "up" | "down" | "top" | "bottom";
 
-const defaultPredicate: TPredicate = (node: Node, pos: number, parent: Node) =>
+const defaultPredicate: Predicate = (node: Node, pos: number, parent: Node) =>
   parent.type.name === "doc" &&
   (node.type.name === "embed" || !!node.textContent);
 
-const findPredicate = (consumerPredicate: TPredicate, currentPos: number) => ([
+const findPredicate = (consumerPredicate: Predicate, currentPos: number) => ([
   candidateNode,
   candidatePos,
   candidateParent,
   candidateIndex,
-]: TNodesBetweenArgs) =>
+]: NodesBetweenArgs) =>
   candidatePos !== currentPos &&
   consumerPredicate(
     candidateNode,
@@ -53,10 +53,10 @@ const findPredicate = (consumerPredicate: TPredicate, currentPos: number) => ([
     candidateIndex
   );
 
-const nextPosFinder = (consumerPredicate: TPredicate) => (
+const nextPosFinder = (consumerPredicate: Predicate) => (
   pos: number,
   state: EditorState,
-  dir: TDirection
+  dir: CommandDirection
 ): number | null => {
   const all = new AllSelection(state.doc);
   const predicate = findPredicate(consumerPredicate, pos);
@@ -84,11 +84,11 @@ const nextPosFinder = (consumerPredicate: TPredicate) => (
   }
 };
 
-const moveNode = (consumerPredicate: TPredicate) => (
+const moveNode = (consumerPredicate: Predicate) => (
   getPos: () => number | undefined,
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false,
-  dir: TDirection
+  dir: CommandDirection
 ) => {
   const pos = getPos();
   if (pos === undefined) {
@@ -126,27 +126,27 @@ const moveNode = (consumerPredicate: TPredicate) => (
   return true;
 };
 
-const moveNodeUp = (predicate: TPredicate) => (
+const moveNodeUp = (predicate: Predicate) => (
   getPos: () => number | undefined
 ) => (view: EditorView, run = true) =>
   moveNode(predicate)(getPos, view.state, run && view.dispatch, "up");
 
-const moveNodeDown = (predicate: TPredicate) => (
+const moveNodeDown = (predicate: Predicate) => (
   getPos: () => number | undefined
 ) => (view: EditorView, run = true) =>
   moveNode(predicate)(getPos, view.state, run && view.dispatch, "down");
 
-const moveNodeTop = (predicate: TPredicate) => (
+const moveNodeTop = (predicate: Predicate) => (
   getPos: () => number | undefined
 ) => (view: EditorView, run = true) =>
   moveNode(predicate)(getPos, view.state, run && view.dispatch, "top");
 
-const moveNodeBottom = (predicate: TPredicate) => (
+const moveNodeBottom = (predicate: Predicate) => (
   getPos: () => number | undefined
 ) => (view: EditorView, run = true) =>
   moveNode(predicate)(getPos, view.state, run && view.dispatch, "bottom");
 
-const buildMoveCommands = (predicate: TPredicate) => (
+const buildMoveCommands = (predicate: Predicate) => (
   getPos: () => number | undefined,
   view: EditorView
 ) => ({
@@ -173,7 +173,7 @@ const removeNode = (getPos: () => number | undefined) => (
   dispatch(state.tr.deleteRange(pos, to));
 };
 
-const buildCommands = (predicate: TPredicate) => (
+const buildCommands = (predicate: Predicate) => (
   getPos: () => number | undefined,
   view: EditorView
 ) => ({

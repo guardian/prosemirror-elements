@@ -1,6 +1,6 @@
 import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
-import type { TCommandCreator, TCommands } from "./types/Commands";
+import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   EmbedSpec,
   FieldNameToNodeViewSpec,
@@ -9,7 +9,7 @@ import type {
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>,
-  commands: ReturnType<TCommandCreator>
+  commands: ReturnType<CommandCreator>
 ) => void;
 
 type Updater<FSpec extends FieldSpec<string>> = {
@@ -40,11 +40,11 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   nodeViewPropMap: FieldNameToNodeViewSpec<FSpec>,
   updateState: (fields: FieldNameToValueMap<FSpec>) => void,
   fields: FieldNameToValueMap<FSpec>,
-  commands: TCommands,
+  commands: Commands,
   subscribe: (
     fn: (
       fields: FieldNameToValueMap<FSpec>,
-      commands: ReturnType<TCommandCreator>
+      commands: ReturnType<CommandCreator>
     ) => void
   ) => void
 ) => void;

@@ -2,15 +2,15 @@ import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
-import type { TCommands } from "../../types/Commands";
+import type { Commands } from "../../types/Commands";
 import type { Consumer } from "../../types/Consumer";
 import type { FieldNameToNodeViewSpec, FieldSpec } from "../../types/Embed";
-import type { TErrors } from "../../types/Errors";
+import type { Errors } from "../../types/Errors";
 import { EmbedWrapper } from "./EmbedWrapper";
 
 const fieldErrors = <FSpec extends FieldSpec<string>>(
   fields: FieldNameToValueMap<FSpec>,
-  errors: TErrors | null
+  errors: Errors | null
 ) =>
   Object.keys(fields).reduce(
     (acc, key) => ({
@@ -22,9 +22,9 @@ const fieldErrors = <FSpec extends FieldSpec<string>>(
 
 type IProps<FSpec extends FieldSpec<string>> = {
   subscribe: (
-    fn: (fields: FieldNameToValueMap<FSpec>, commands: TCommands) => void
+    fn: (fields: FieldNameToValueMap<FSpec>, commands: Commands) => void
   ) => void;
-  commands: TCommands;
+  commands: Commands;
   fieldValues: FieldNameToValueMap<FSpec>;
   onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
   validate: Validator<FSpec>;
@@ -33,7 +33,7 @@ type IProps<FSpec extends FieldSpec<string>> = {
 };
 
 type IState<FSpec extends FieldSpec<string>> = {
-  commands: TCommands;
+  commands: Commands;
   fieldValues: FieldNameToValueMap<FSpec>;
 };
 

@@ -1,1 +1,1 @@
-export type TErrors = Record<string, string[]>;
+export type Errors = Record<string, string[]>;
