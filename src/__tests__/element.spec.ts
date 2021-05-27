@@ -57,9 +57,11 @@ describe("buildElementPlugin", () => {
         prop1: { type: "checkbox", defaultValue: { value: false } },
         prop2: { type: "richText", defaultValue: "<p>Content</p>" },
       });
-      const { view, insertElement, getElementAsHTML } = createEditorWithElements([
-        testElement,
-      ]);
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements([testElement]);
 
       insertElement("testElement")(view.state, view.dispatch);
 
@@ -72,9 +74,11 @@ describe("buildElementPlugin", () => {
       const testElement = createNoopElement("testElement", {
         prop1: { type: "checkbox", defaultValue: { value: false } },
       });
-      const { view, insertElement, getElementAsHTML } = createEditorWithElements([
-        testElement,
-      ]);
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements([testElement]);
 
       insertElement("testElement", { prop1: { value: true } })(
         view.state,
@@ -90,9 +94,11 @@ describe("buildElementPlugin", () => {
       const testElement = createNoopElement("testElement", {
         prop1: { type: "richText" },
       });
-      const { view, insertElement, getElementAsHTML } = createEditorWithElements([
-        testElement,
-      ]);
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements([testElement]);
 
       insertElement("testElement", { prop1: "<p>Content</p>" })(
         view.state,
@@ -109,9 +115,11 @@ describe("buildElementPlugin", () => {
         prop1: { type: "richText" },
         prop2: { type: "richText", defaultValue: "<p>Default</p>" },
       });
-      const { view, insertElement, getElementAsHTML } = createEditorWithElements([
-        testElement,
-      ]);
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements([testElement]);
 
       insertElement("testElement", { prop1: "<p>Content</p>" })(
         view.state,
@@ -128,9 +136,11 @@ describe("buildElementPlugin", () => {
         prop1: { type: "richText" },
         prop2: { type: "richText" },
       });
-      const { view, insertElement, getElementAsHTML } = createEditorWithElements([
-        testElement,
-      ]);
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements([testElement]);
 
       insertElement("testElement", {
         prop1: "<p>Content for prop1</p>",

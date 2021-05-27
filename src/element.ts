@@ -62,7 +62,9 @@ export const buildElementPlugin = <
     if (maybeNewNode) {
       dispatch(state.tr.replaceSelectionWith(maybeNewNode));
     } else {
-      console.warn(`[prosemirror-elements]: Could not create a node for ${type}`);
+      console.warn(
+        `[prosemirror-elements]: Could not create a node for ${type}`
+      );
     }
   };
 

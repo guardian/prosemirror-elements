@@ -27,9 +27,9 @@ export type Field = RTEField | CheckboxField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
-export type SchemaFromElementFieldSpec<FSpec extends FieldSpec<string>> = Schema<
-  Extract<keyof FSpec, string>
->;
+export type SchemaFromElementFieldSpec<
+  FSpec extends FieldSpec<string>
+> = Schema<Extract<keyof FSpec, string>>;
 
 export type FieldNodeViews = RTENodeView | CheckboxNodeView;
 

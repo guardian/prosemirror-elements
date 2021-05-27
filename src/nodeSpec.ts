@@ -95,7 +95,8 @@ const getNodeSpecForProp = (
 const getDefaultToDOMForContentNode = (
   elementName: string,
   propName: string
-) => () => ["div", { class: getClassForNode(elementName, propName) }, 0] as const;
+) => () =>
+  ["div", { class: getClassForNode(elementName, propName) }, 0] as const;
 
 const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
   node: Node
@@ -109,7 +110,10 @@ const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
   },
 ];
 
-const getDefaultParseDOMForLeafNode = (elementName: string, propName: string) => [
+const getDefaultParseDOMForLeafNode = (
+  elementName: string,
+  propName: string
+) => [
   {
     tag: getTagForNode(elementName, propName),
     getAttrs: (dom: Element) => {
