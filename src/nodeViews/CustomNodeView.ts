@@ -9,9 +9,9 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
  * node that contains fields that are updated atomically.
  */
-export abstract class BaseSubscriberNodeView<Fields extends unknown>
+export abstract class CustomNodeView<Fields = unknown>
   implements ElementNodeView<Fields> {
-  public static propName = "subscriber";
+  public static propName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
   private subscribers: Array<Subscriber<Fields>> = [];
 

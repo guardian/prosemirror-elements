@@ -1,5 +1,6 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { CheckboxNodeView } from "../nodeViews/CheckboxNodeView";
+import type { CustomNodeView } from "../nodeViews/CustomNodeView";
 import type {
   FieldNameToValueMap,
   FieldTypeToViewMap,
@@ -31,7 +32,11 @@ export interface ImageField extends BaseFieldSpec<ImageFields> {
   type: typeof ImageNodeView.propName;
 }
 
-export type Field = RTEField | CheckboxField | ImageField;
+export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
+  type: typeof CustomNodeView.propName;
+}
+
+export type Field = RTEField | CheckboxField | ImageField | CustomField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
