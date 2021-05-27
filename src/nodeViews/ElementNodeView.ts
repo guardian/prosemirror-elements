@@ -15,7 +15,7 @@ export abstract class ElementNodeView<NodeValue> {
   public static propName: string;
   public static fieldType: FieldType;
   // The HTML element this nodeView renders content into.
-  public abstract nodeViewElement: HTMLElement;
+  public abstract nodeViewElement?: HTMLElement;
 
   /**
    * Called when the nodeView is updated.

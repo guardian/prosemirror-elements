@@ -3,17 +3,17 @@ import type { EditorView } from "prosemirror-view";
 import type { ElementNodeView } from "./ElementNodeView";
 import { FieldType } from "./ElementNodeView";
 
+type Subscriber<Fields extends unknown> = (fields: Fields) => void;
+
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
  * node that contains fields that are updated atomically.
  */
-export abstract class FieldNodeView<Fields extends unknown>
+export abstract class BaseSubscriberNodeView<Fields extends unknown>
   implements ElementNodeView<Fields> {
-  public static propName: string;
+  public static propName = "subscriber";
   public static fieldType = FieldType.ATTRIBUTES;
-  // The parent DOM element for this view. Public
-  // so it can be mounted by consuming elements.
-  public nodeViewElement = document.createElement("div");
+  private subscribers: Array<Subscriber<Fields>> = [];
 
   constructor(
     // The node that this NodeView is responsible for rendering.
@@ -23,11 +23,8 @@ export abstract class FieldNodeView<Fields extends unknown>
     // Returns the current position of the parent Nodeview in the document.
     protected getPos: () => number,
     // The offset of this node relative to its parent NodeView.
-    protected offset: number,
-    defaultFields: Fields
-  ) {
-    this.createInnerView(node.attrs.fields || defaultFields);
-  }
+    protected offset: number
+  ) {}
 
   public getNodeValue(node: Node): Fields {
     return node.attrs.fields as Fields;
@@ -37,24 +34,46 @@ export abstract class FieldNodeView<Fields extends unknown>
     return this.node.type.create({ fields });
   }
 
-  protected abstract createInnerView(fields: Fields): void;
+  /**
+   * @returns A function that can be called to update the node fields.
+   */
+  public subscribe(subscriber: Subscriber<Fields>) {
+    this.subscribers.push(subscriber);
+    subscriber(this.node.attrs.fields as Fields);
+    return (fields: Fields) => this.updateOuterEditor(fields);
+  }
 
-  protected abstract updateInnerView(fields: Fields): void;
+  public unsubscribe(subscriber: Subscriber<Fields>) {
+    const subscriberIndex = this.subscribers.indexOf(subscriber);
+    if (subscriberIndex === -1) {
+      console.error(
+        `[prosemirror-elements]: Attempted to unsubscribe from a SubscriberNodeView, but couldn't find the subscriber`
+      );
+      return;
+    }
+    this.subscribers.splice(subscriberIndex, 1);
+  }
 
   public update(node: Node, elementOffset: number) {
-    if (!node.sameMarkup(this.node)) {
+    if (node.type !== this.node.type) {
       return false;
     }
 
     this.offset = elementOffset;
 
-    this.updateInnerView(node.attrs as Fields);
+    this.updateSubscribers(node.attrs.fields as Fields);
 
     return true;
   }
 
   public destroy() {
-    // Nothing to do – the DOM element is garbage collected.
+    this.subscribers = [];
+  }
+
+  private updateSubscribers(fields: Fields) {
+    this.subscribers.forEach((subscriber) => {
+      subscriber(fields);
+    });
   }
 
   /**

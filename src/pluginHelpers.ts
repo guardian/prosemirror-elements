@@ -2,7 +2,10 @@ import type { Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { CheckboxFields } from "./nodeViews/CheckboxNodeView";
 import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
+import type { FieldTypeToViewMap } from "./nodeViews/helpers";
+import { ImageNodeView } from "./nodeViews/ImageNodeView";
 import { RTENodeView } from "./nodeViews/RTENodeView";
 import type { Field } from "./types/Element";
 
@@ -19,10 +22,10 @@ type Options = {
   innerDecos: Decoration[] | DecorationSet;
 };
 
-export const getElementNodeViewFromType = (
-  prop: Field,
+export const getElementNodeViewFromType = <LocalField extends Field>(
+  prop: LocalField,
   { node, view, getPos, offset, innerDecos }: Options
-) => {
+): FieldTypeToViewMap[LocalField["type"]] => {
   switch (prop.type) {
     case "richText":
       return new RTENodeView(
@@ -32,14 +35,21 @@ export const getElementNodeViewFromType = (
         offset,
         temporaryHardcodedSchema,
         innerDecos
-      );
+      ) as FieldTypeToViewMap[LocalField["type"]];
     case "checkbox":
       return new CheckboxNodeView(
         node,
         view,
         getPos,
         offset,
-        prop.defaultValue ?? CheckboxNodeView.defaultValue
-      );
+        prop.defaultValue as CheckboxFields
+      ) as FieldTypeToViewMap[LocalField["type"]];
+    case "image":
+      return new ImageNodeView(
+        node,
+        view,
+        getPos,
+        offset
+      ) as FieldTypeToViewMap[LocalField["type"]];
   }
 };

@@ -102,6 +102,7 @@ const createNodeView = <
         `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate prop`
       );
     }
+
     nodeViewPropMap[name] = {
       fieldSpec,
       name,

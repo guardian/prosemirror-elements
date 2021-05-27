@@ -1,11 +1,20 @@
 import type { FieldSpec } from "../types/Element";
 import { CheckboxNodeView } from "./CheckboxNodeView";
 import type { CheckboxFields } from "./CheckboxNodeView";
+import type { ImageFields } from "./ImageNodeView";
+import { ImageNodeView } from "./ImageNodeView";
 import { RTENodeView } from "./RTENodeView";
 
 export const fieldTypeToViewMap = {
   [RTENodeView.propName]: RTENodeView,
   [CheckboxNodeView.propName]: CheckboxNodeView,
+  [ImageNodeView.propName]: ImageNodeView,
+};
+
+export type FieldTypeToViewMap = {
+  [RTENodeView.propName]: RTENodeView;
+  [CheckboxNodeView.propName]: CheckboxNodeView;
+  [ImageNodeView.propName]: ImageNodeView;
 };
 
 /**
@@ -14,6 +23,7 @@ export const fieldTypeToViewMap = {
 export type FieldTypeToValueMap = {
   [CheckboxNodeView.propName]: CheckboxFields;
   [RTENodeView.propName]: string;
+  [ImageNodeView.propName]: ImageFields;
 };
 
 /**

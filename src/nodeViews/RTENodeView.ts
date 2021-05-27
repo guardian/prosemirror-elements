@@ -35,13 +35,13 @@ export class RTENodeView<LocalSchema extends Schema = Schema>
 
   constructor(
     // The node that this NodeView is responsible for rendering.
-    private node: Node,
+    protected node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
-    private outerView: EditorView,
+    protected outerView: EditorView,
     // Returns the current position of the parent Nodeview in the document.
-    private getPos: () => number,
+    protected getPos: () => number,
     // The offset of this node relative to its parent NodeView.
-    private offset: number,
+    protected offset: number,
     // The schema that the internal editor should use.
     schema: LocalSchema,
     // The initial decorations for the NodeView.
@@ -176,7 +176,7 @@ export class RTENodeView<LocalSchema extends Schema = Schema>
     );
   }
 
-  private updateOuterEditor(
+  protected updateOuterEditor(
     innerTr: Transaction,
     innerState: EditorState,
     transactions: Transaction[]

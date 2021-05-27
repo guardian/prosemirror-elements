@@ -1,6 +1,10 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { CheckboxNodeView } from "../nodeViews/CheckboxNodeView";
-import type { FieldNameToValueMap } from "../nodeViews/helpers";
+import type {
+  FieldNameToValueMap,
+  FieldTypeToViewMap,
+} from "../nodeViews/helpers";
+import type { ImageFields, ImageNodeView } from "../nodeViews/ImageNodeView";
 import type { RTENodeView } from "../nodeViews/RTENodeView";
 import type { CommandCreator } from "./Commands";
 
@@ -23,7 +27,11 @@ interface RTEField
   type: typeof RTENodeView.propName;
 }
 
-export type Field = RTEField | CheckboxField;
+export interface ImageField extends BaseFieldSpec<ImageFields> {
+  type: typeof ImageNodeView.propName;
+}
+
+export type Field = RTEField | CheckboxField | ImageField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
@@ -31,16 +39,18 @@ export type SchemaFromElementFieldSpec<
   FSpec extends FieldSpec<string>
 > = Schema<Extract<keyof FSpec, string>>;
 
-export type FieldNodeViews = RTENodeView | CheckboxNodeView;
+export type FieldNodeViews = RTENodeView | CheckboxNodeView | ImageNodeView;
 
-export type FieldNodeViewSpec = {
-  nodeView: FieldNodeViews;
+export type FieldNodeViewSpec<FieldNodeView extends FieldNodeViews> = {
+  nodeView: FieldNodeView;
   fieldSpec: Field;
   name: string;
 };
 
 export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
-  [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec;
+  [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec<
+    FieldTypeToViewMap[FSpec[name]["type"]]
+  >;
 };
 
 export type ElementSpec<

@@ -89,6 +89,19 @@ const getNodeSpecForProp = (
           },
         },
       };
+    case "image":
+      return {
+        [propName]: {
+          atom: true,
+          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
+          attrs: {
+            fields: {
+              default: { value: prop.defaultValue },
+            },
+          },
+        },
+      };
   }
 };
 

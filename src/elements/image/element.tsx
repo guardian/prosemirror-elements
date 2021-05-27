@@ -9,6 +9,9 @@ export const imageProps = {
   altText: {
     type: "richText",
   },
+  mainImage: {
+    type: "image",
+  },
   useSrc: { type: "checkbox", defaultValue: { value: false } },
 } as const;
 
@@ -30,5 +33,10 @@ export const createImageElement = <Name extends string>(name: Name) =>
       el.innerHTML = altText;
       return el.innerText ? null : { altText: ["Alt tag must be set"] };
     },
-    { caption: "", useSrc: { value: true }, altText: "" }
+    {
+      caption: "",
+      useSrc: { value: true },
+      altText: "",
+      mainImage: { src: "" },
+    }
   );
