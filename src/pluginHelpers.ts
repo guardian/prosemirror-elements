@@ -4,10 +4,10 @@ import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { CheckboxFields } from "./nodeViews/CheckboxNodeView";
 import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
+import { CustomNodeView } from "./nodeViews/CustomNodeView";
 import type { FieldTypeToViewMap } from "./nodeViews/helpers";
-import { ImageNodeView } from "./nodeViews/ImageNodeView";
 import { RTENodeView } from "./nodeViews/RTENodeView";
-import type { Field } from "./types/Element";
+import type { FieldSpec } from "./types/Element";
 
 export const temporaryHardcodedSchema = new Schema({
   nodes: schema.spec.nodes,
@@ -22,10 +22,13 @@ type Options = {
   innerDecos: Decoration[] | DecorationSet;
 };
 
-export const getElementNodeViewFromType = <LocalField extends Field>(
-  prop: LocalField,
+export const getElementNodeViewFromType = <
+  FSpec extends FieldSpec<string>,
+  Name extends string
+>(
+  prop: FSpec[Name],
   { node, view, getPos, offset, innerDecos }: Options
-): FieldTypeToViewMap[LocalField["type"]] => {
+) => {
   switch (prop.type) {
     case "richText":
       return new RTENodeView(
@@ -35,7 +38,7 @@ export const getElementNodeViewFromType = <LocalField extends Field>(
         offset,
         temporaryHardcodedSchema,
         innerDecos
-      ) as FieldTypeToViewMap[LocalField["type"]];
+      ) as FieldTypeToViewMap<FSpec, Name>[typeof prop["type"]];
     case "checkbox":
       return new CheckboxNodeView(
         node,
@@ -43,13 +46,14 @@ export const getElementNodeViewFromType = <LocalField extends Field>(
         getPos,
         offset,
         prop.defaultValue as CheckboxFields
-      ) as FieldTypeToViewMap[LocalField["type"]];
-    case "image":
-      return new ImageNodeView(
+      ) as FieldTypeToViewMap<FSpec, Name>[typeof prop["type"]];
+    case "custom":
+      return new CustomNodeView(
         node,
         view,
         getPos,
-        offset
-      ) as FieldTypeToViewMap[LocalField["type"]];
+        offset,
+        prop.defaultValue
+      ) as FieldTypeToViewMap<FSpec, Name>[typeof prop["type"]];
   }
 };

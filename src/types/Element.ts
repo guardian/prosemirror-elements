@@ -5,7 +5,6 @@ import type {
   FieldNameToValueMap,
   FieldTypeToViewMap,
 } from "../nodeViews/helpers";
-import type { ImageFields, ImageNodeView } from "../nodeViews/ImageNodeView";
 import type { RTENodeView } from "../nodeViews/RTENodeView";
 import type { CommandCreator } from "./Commands";
 
@@ -27,16 +26,11 @@ interface RTEField
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: typeof RTENodeView.propName;
 }
-
-export interface ImageField extends BaseFieldSpec<ImageFields> {
-  type: typeof ImageNodeView.propName;
-}
-
 export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
   type: typeof CustomNodeView.propName;
 }
 
-export type Field = RTEField | CheckboxField | ImageField | CustomField;
+export type Field = RTEField | CheckboxField | CustomField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
@@ -44,7 +38,7 @@ export type SchemaFromElementFieldSpec<
   FSpec extends FieldSpec<string>
 > = Schema<Extract<keyof FSpec, string>>;
 
-export type FieldNodeViews = RTENodeView | CheckboxNodeView | ImageNodeView;
+export type FieldNodeViews = RTENodeView | CheckboxNodeView | CustomNodeView;
 
 export type FieldNodeViewSpec<FieldNodeView extends FieldNodeViews> = {
   nodeView: FieldNodeView;
@@ -54,7 +48,7 @@ export type FieldNodeViewSpec<FieldNodeView extends FieldNodeViews> = {
 
 export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec<
-    FieldTypeToViewMap[FSpec[name]["type"]]
+    FieldTypeToViewMap<FSpec, name>[FSpec[name]["type"]]
   >;
 };
 

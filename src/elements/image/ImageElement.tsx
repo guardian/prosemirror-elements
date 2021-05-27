@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { CustomNodeView } from "../../nodeViews/CustomNodeView";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
-import type { ImageFields } from "../../nodeViews/ImageNodeView";
-import { ImageNodeView } from "../../nodeViews/ImageNodeView";
 import { PropView } from "../../renderers/react/PropView";
 import type {
   FieldNameToNodeViewSpec,
@@ -41,7 +40,11 @@ export const ImageElement: React.FunctionComponent<Props> = ({
 const ImageView = ({
   nodeViewProp,
 }: {
-  nodeViewProp: FieldNodeViewSpec<ImageNodeView>;
+  nodeViewProp: FieldNodeViewSpec<
+    CustomNodeView<{
+      src: string;
+    }>
+  >;
 }) => {
   const [imageFields, setImageFields] = useSubscriberNodeView(nodeViewProp);
   console.log({ imageFields, setImageFields });

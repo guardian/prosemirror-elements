@@ -9,7 +9,7 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
  * node that contains fields that are updated atomically.
  */
-export abstract class CustomNodeView<Fields = unknown>
+export class CustomNodeView<Fields = unknown>
   implements ElementNodeView<Fields> {
   public static propName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
@@ -23,7 +23,8 @@ export abstract class CustomNodeView<Fields = unknown>
     // Returns the current position of the parent Nodeview in the document.
     protected getPos: () => number,
     // The offset of this node relative to its parent NodeView.
-    protected offset: number
+    protected offset: number,
+    protected defaultValue: Fields
   ) {}
 
   public getNodeValue(node: Node): Fields {

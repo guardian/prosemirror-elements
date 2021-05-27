@@ -2,22 +2,23 @@ import type { CustomField, FieldSpec } from "../types/Element";
 import { CheckboxNodeView } from "./CheckboxNodeView";
 import type { CheckboxFields } from "./CheckboxNodeView";
 import { CustomNodeView } from "./CustomNodeView";
-import type { ImageFields } from "./ImageNodeView";
-import { ImageNodeView } from "./ImageNodeView";
 import { RTENodeView } from "./RTENodeView";
 
 export const fieldTypeToViewMap = {
   [RTENodeView.propName]: RTENodeView,
   [CheckboxNodeView.propName]: CheckboxNodeView,
-  [ImageNodeView.propName]: ImageNodeView,
   [CustomNodeView.propName]: CustomNodeView,
 };
 
-export type FieldTypeToViewMap = {
+export type FieldTypeToViewMap<
+  FSpec extends FieldSpec<string>,
+  Name extends keyof FSpec
+> = {
   [RTENodeView.propName]: RTENodeView;
   [CheckboxNodeView.propName]: CheckboxNodeView;
-  [ImageNodeView.propName]: ImageNodeView;
-  [CustomNodeView.propName]: CustomNodeView;
+  [CustomNodeView.propName]: FSpec[Name] extends CustomField<infer Data>
+    ? CustomNodeView<Data>
+    : never;
 };
 
 /**
@@ -29,7 +30,6 @@ export type FieldTypeToValueMap<
 > = {
   [CheckboxNodeView.propName]: CheckboxFields;
   [RTENodeView.propName]: string;
-  [ImageNodeView.propName]: ImageFields;
   [CustomNodeView.propName]: FSpec[Name] extends CustomField<infer Data>
     ? Data
     : never;

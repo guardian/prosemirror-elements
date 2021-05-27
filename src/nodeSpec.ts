@@ -89,7 +89,7 @@ const getNodeSpecForProp = (
           },
         },
       };
-    case "image":
+    case "custom":
       return {
         [propName]: {
           atom: true,
