@@ -66,7 +66,7 @@ describe("ImageElement", () => {
           typeIntoElementField("caption", "Caption text");
           typeIntoElementField("altText", "Alt text");
           assertDocHtml(
-            `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p>Alt text</p></div><div class="ProsemirrorElement__imageElement-caption"><p>Caption text</p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+            `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p>Alt text</p></div><div class="ProsemirrorElement__imageElement-caption"><p>Caption text</p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
           );
         });
       });
@@ -82,7 +82,7 @@ describe("ImageElement", () => {
       it(`should have a default value when instantiated`, () => {
         addElement();
         assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
         );
       });
 
@@ -90,7 +90,7 @@ describe("ImageElement", () => {
         addElement();
         getElementField("useSrc").find("input").click();
         assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:true}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:true}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
         );
       });
 
@@ -99,7 +99,7 @@ describe("ImageElement", () => {
         getElementField("useSrc").find("input").click();
         getElementField("useSrc").find("input").click();
         assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
         );
       });
     });
