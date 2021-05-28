@@ -49,7 +49,7 @@ export class CustomNodeView<Fields = unknown>
     const subscriberIndex = this.subscribers.indexOf(subscriber);
     if (subscriberIndex === -1) {
       console.error(
-        `[prosemirror-elements]: Attempted to unsubscribe from a SubscriberNodeView, but couldn't find the subscriber`
+        `[prosemirror-elements]: Attempted to unsubscribe from a CustomNodeView, but couldn't find the subscriber`
       );
       return;
     }

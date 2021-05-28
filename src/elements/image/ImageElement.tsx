@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { CustomNodeView } from "../../nodeViews/CustomNodeView";
+import React from "react";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import { PropView } from "../../renderers/react/PropView";
+import { useCustomNodeViewState } from "../../renderers/react/useCustomNodeViewState";
 import type {
   CustomNodeViewSpec,
   FieldNameToNodeViewSpec,
@@ -37,14 +37,14 @@ export const ImageElement: React.FunctionComponent<Props> = ({
   );
 };
 
-const ImageView = ({
-  nodeViewProp,
-}: {
+type ImageViewProps = {
   nodeViewProp: CustomNodeViewSpec<{
     src: string;
   }>;
-}) => {
-  const [imageFields, setImageFields] = useCustomNodeView(nodeViewProp);
+};
+
+const ImageView = ({ nodeViewProp }: ImageViewProps) => {
+  const [imageFields, setImageFields] = useCustomNodeViewState(nodeViewProp);
   return (
     <div>
       <input
@@ -54,27 +54,4 @@ const ImageView = ({
       {JSON.stringify(imageFields)}
     </div>
   );
-};
-
-const useCustomNodeView = <Data extends unknown>({
-  fieldSpec,
-  nodeView,
-}: CustomNodeViewSpec<Data>): [Data, ((fields: Data) => void) | undefined] => {
-  const [imageFields, setImageFields] = useState(fieldSpec.defaultValue);
-
-  const updateRef = useRef<(fields: Data) => void | undefined>();
-
-  useEffect(() => {
-    if (!(nodeView instanceof CustomNodeView)) {
-      console.error(
-        `[prosemirror-elements]: An CustomNodeView component was passed a nodeView that wasn't a CustomNodeView. Instead it got a ${typeof nodeView}`
-      );
-      return;
-    }
-    updateRef.current = nodeView.subscribe(setImageFields);
-
-    return () => nodeView.unsubscribe(setImageFields);
-  }, []);
-
-  return [imageFields, updateRef.current];
 };
