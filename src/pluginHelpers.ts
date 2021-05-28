@@ -41,7 +41,7 @@ export const getElementNodeViewFromType = (
         view,
         getPos,
         offset,
-        prop.defaultValue as CheckboxFields
+        prop.defaultValue ?? CheckboxNodeView.defaultValue
       );
     case "custom":
       return new CustomNodeView(node, view, getPos, offset);
