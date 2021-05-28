@@ -7,7 +7,12 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
 
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
- * node that contains fields that are updated atomically.
+ * node that contains arbitrary fields that are updated atomically.
+ *
+ * Instead of rendering into a DOM node that's mounted by the consumer, this NodeView
+ * instead provides a `subscribe` method that allows consuming code to listen for
+ * state changes. In this way, consuming code can manage state and UI changes itself,
+ * perhaps in its own renderer format.
  */
 export class CustomNodeView<Fields = unknown>
   implements ElementNodeView<Fields> {
