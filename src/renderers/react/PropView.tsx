@@ -1,4 +1,3 @@
-import type { ReactElement } from "react";
 import React, { useEffect, useRef } from "react";
 import type { CheckboxNodeView } from "../../nodeViews/CheckboxNodeView";
 import type { RTENodeView } from "../../nodeViews/RTENodeView";
@@ -10,7 +9,7 @@ type Props = {
 
 export const getPropViewTestId = (name: string) => `PropField-${name}`;
 
-export const PropView = ({ nodeViewProp }: Props): ReactElement => {
+export const PropView: React.FunctionComponent<Props> = ({ nodeViewProp }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!editorRef.current) {
