@@ -1,5 +1,6 @@
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
+import type { CustomField } from "../types/Element";
 import { createNoopElement } from "./helpers";
 
 describe("mount", () => {
@@ -161,6 +162,32 @@ describe("mount", () => {
                 default: {
                   value: {
                     value: true,
+                  },
+                },
+              },
+            },
+          });
+        });
+      });
+
+      describe("custom", () => {
+        it("should specify the appropriate fields for custom props", () => {
+          const fieldSpec = {
+            prop1: {
+              type: "custom",
+              defaultValue: { arbitraryField: "hai" },
+            } as CustomField<{ arbitraryField: string }>,
+          };
+
+          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const { nodeSpec } = buildElementPlugin([testElement1]);
+          expect(nodeSpec.get("prop1")).toMatchObject({
+            atom: true,
+            attrs: {
+              fields: {
+                default: {
+                  value: {
+                    arbitraryField: "hai",
                   },
                 },
               },

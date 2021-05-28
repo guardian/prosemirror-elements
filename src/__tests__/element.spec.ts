@@ -1,4 +1,5 @@
 import { buildElementPlugin } from "../element";
+import type { CustomField } from "../types/Element";
 import { createEditorWithElements, createNoopElement } from "./helpers";
 
 describe("buildElementPlugin", () => {
@@ -25,6 +26,21 @@ describe("buildElementPlugin", () => {
       insertElement("testElement", { prop1: "<p>Example initial state</p>" });
     });
 
+    it("should allow consumers to instantiate custom elements", () => {
+      const testElement = createNoopElement("testElement", {
+        prop1: { type: "richText" },
+        prop2: {
+          type: "custom",
+          defaultValue: { arbitraryValue: "hai" },
+        } as CustomField<{ arbitraryValue: string }>,
+      });
+      const { insertElement } = buildElementPlugin([testElement]);
+      insertElement("testElement", {
+        prop1: "<p>Example initial state</p>",
+        prop2: { arbitraryValue: "hai" },
+      });
+    });
+
     it("should not allow consumers to instantiate elements with fields that do not exist", () => {
       const testElement = createNoopElement("testElement", {
         prop1: { type: "richText" },
@@ -47,6 +63,20 @@ describe("buildElementPlugin", () => {
       insertElement("testElement", {
         // @ts-expect-error -- we should not be able to insert a field of the wrong type
         prop1: "This shouldn't typecheck",
+      });
+    });
+
+    it("should not allow consumers to instantiate custom elements with an incorrect type", () => {
+      const testElement = createNoopElement("testElement", {
+        prop1: {
+          type: "custom",
+          defaultValue: { arbitraryValue: "hai" },
+        } as CustomField<{ arbitraryValue: string }>,
+      });
+      const { insertElement } = buildElementPlugin([testElement]);
+      insertElement("testElement", {
+        // @ts-expect-error -- we should not be able to insert a custom field of the wrong type
+        prop1: { doesNotExist: "hai" },
       });
     });
   });
@@ -149,6 +179,29 @@ describe("buildElementPlugin", () => {
 
       const expected =
         '<testelement type="testElement" has-errors="false"><div class="ProsemirrorElement__testElement-prop1"><p>Content for prop1</p></div><div class="ProsemirrorElement__testElement-prop2"><p>Content for prop2</p></div></testelement>';
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should fill out fields in custom nodes", () => {
+      const testElement = createNoopElement("testElement", {
+        prop1: {
+          type: "custom",
+          defaultValue: { arbitraryValue: "hai" },
+        } as CustomField<{ arbitraryValue: string }>,
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements([testElement]);
+
+      insertElement("testElement", { prop1: { arbitraryValue: "hai" } })(
+        view.state,
+        view.dispatch
+      );
+
+      const expected =
+        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></element-testelement-prop1></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
   });
