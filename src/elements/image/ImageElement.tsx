@@ -1,6 +1,6 @@
 import React from "react";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
-import { PropView } from "../../renderers/react/PropView";
+import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
 import { useCustomNodeViewState } from "../../renderers/react/useCustomNodeViewState";
 import type {
   CustomNodeViewSpec,
@@ -44,12 +44,12 @@ type ImageViewProps = {
 };
 
 const ImageView = ({ nodeViewProp }: ImageViewProps) => {
-  const [imageFields, setImageFields] = useCustomNodeViewState(nodeViewProp);
+  const [imageFields, setImageFieldsRef] = useCustomNodeViewState(nodeViewProp);
   return (
-    <div>
+    <div data-cy={getPropViewTestId(nodeViewProp.name)}>
       <input
         value={imageFields.src || ""}
-        onChange={(e) => setImageFields?.({ src: e.target.value })}
+        onChange={(e) => setImageFieldsRef.current?.({ src: e.target.value })}
       ></input>
       {JSON.stringify(imageFields)}
     </div>

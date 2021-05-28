@@ -103,5 +103,15 @@ describe("ImageElement", () => {
         );
       });
     });
+
+    describe("Custom element – image src", () => {
+      it(`should serialise state as field attributes on the appropriate node in the document`, () => {
+        addElement();
+        getElementField("mainImage").find("input").type("http://an-image.png");
+        assertDocHtml(
+          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;http://an-image.png&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+        );
+      });
+    });
   });
 });

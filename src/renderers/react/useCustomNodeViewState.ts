@@ -1,3 +1,4 @@
+import type { MutableRefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 import { CustomNodeView } from "../../nodeViews/CustomNodeView";
 import type { CustomNodeViewSpec } from "../../types/Element";
@@ -5,10 +6,13 @@ import type { CustomNodeViewSpec } from "../../types/Element";
 export const useCustomNodeViewState = <Data extends unknown>({
   fieldSpec,
   nodeView,
-}: CustomNodeViewSpec<Data>): [Data, ((fields: Data) => void) | undefined] => {
+}: CustomNodeViewSpec<Data>): [
+  Data,
+  MutableRefObject<((fields: Data) => void) | undefined>
+] => {
   const [imageFields, setImageFields] = useState(fieldSpec.defaultValue);
 
-  const updateRef = useRef<(fields: Data) => void | undefined>();
+  const updateRef = useRef<(fields: Data) => void>();
 
   useEffect(() => {
     if (!(nodeView instanceof CustomNodeView)) {
@@ -22,5 +26,5 @@ export const useCustomNodeViewState = <Data extends unknown>({
     return () => nodeView.unsubscribe(setImageFields);
   }, []);
 
-  return [imageFields, updateRef.current];
+  return [imageFields, updateRef];
 };
