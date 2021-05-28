@@ -28,6 +28,7 @@ interface RTEField
 }
 export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
   type: typeof CustomNodeView.propName;
+  defaultValue: Data;
 }
 
 export type Field = RTEField | CheckboxField | CustomField;
@@ -46,10 +47,18 @@ export type FieldNodeViewSpec<FieldNodeView extends FieldNodeViews> = {
   name: string;
 };
 
+export type CustomNodeViewSpec<Data = unknown> = {
+  nodeView: CustomNodeView<Data>;
+  fieldSpec: CustomField<Data>;
+  name: string;
+};
+
 export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
-  [name in Extract<keyof FSpec, string>]: FieldNodeViewSpec<
-    FieldTypeToViewMap<FSpec, name>[FSpec[name]["type"]]
-  >;
+  [name in Extract<keyof FSpec, string>]: FSpec[name] extends CustomField<
+    infer Data
+  >
+    ? CustomNodeViewSpec<Data>
+    : FieldNodeViewSpec<FieldTypeToViewMap<FSpec[name]>[FSpec[name]["type"]]>;
 };
 
 export type ElementSpec<

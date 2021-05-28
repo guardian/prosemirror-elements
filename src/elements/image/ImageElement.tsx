@@ -3,8 +3,8 @@ import { CustomNodeView } from "../../nodeViews/CustomNodeView";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import { PropView } from "../../renderers/react/PropView";
 import type {
+  CustomNodeViewSpec,
   FieldNameToNodeViewSpec,
-  FieldNodeViewSpec,
 } from "../../types/Element";
 import type { imageProps } from "./element";
 
@@ -40,14 +40,11 @@ export const ImageElement: React.FunctionComponent<Props> = ({
 const ImageView = ({
   nodeViewProp,
 }: {
-  nodeViewProp: FieldNodeViewSpec<
-    CustomNodeView<{
-      src: string;
-    }>
-  >;
+  nodeViewProp: CustomNodeViewSpec<{
+    src: string;
+  }>;
 }) => {
-  const [imageFields, setImageFields] = useSubscriberNodeView(nodeViewProp);
-  console.log({ imageFields, setImageFields });
+  const [imageFields, setImageFields] = useCustomNodeView(nodeViewProp);
   return (
     <div>
       <input
@@ -59,24 +56,18 @@ const ImageView = ({
   );
 };
 
-const useSubscriberNodeView = ({
+const useCustomNodeView = <Data extends unknown>({
   fieldSpec,
   nodeView,
-}: FieldNodeViewSpec<ImageNodeView>): [
-  ImageFields,
-  ((fields: ImageFields) => void) | undefined
-] => {
-  const [imageFields, setImageFields] = useState(
-    (fieldSpec.defaultValue as ImageFields | undefined) ??
-      ImageNodeView.defaultValue
-  );
+}: CustomNodeViewSpec<Data>): [Data, ((fields: Data) => void) | undefined] => {
+  const [imageFields, setImageFields] = useState(fieldSpec.defaultValue);
 
-  const updateRef = useRef<(fields: ImageFields) => void | undefined>();
+  const updateRef = useRef<(fields: Data) => void | undefined>();
 
   useEffect(() => {
-    if (!(nodeView instanceof ImageNodeView)) {
+    if (!(nodeView instanceof CustomNodeView)) {
       console.error(
-        `[prosemirror-elements]: An ImageView component was passed a nodeView that wasn't an ImageNodeView. Instead it got a ${typeof nodeView}`
+        `[prosemirror-elements]: An CustomNodeView component was passed a nodeView that wasn't a CustomNodeView. Instead it got a ${typeof nodeView}`
       );
       return;
     }

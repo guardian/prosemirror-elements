@@ -13,6 +13,8 @@ export class CustomNodeView<Fields = unknown>
   implements ElementNodeView<Fields> {
   public static propName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
+  public static defaultValue = undefined;
+
   private subscribers: Array<Subscriber<Fields>> = [];
 
   constructor(
@@ -23,8 +25,7 @@ export class CustomNodeView<Fields = unknown>
     // Returns the current position of the parent Nodeview in the document.
     protected getPos: () => number,
     // The offset of this node relative to its parent NodeView.
-    protected offset: number,
-    protected defaultValue: Fields
+    protected offset: number
   ) {}
 
   public getNodeValue(node: Node): Fields {

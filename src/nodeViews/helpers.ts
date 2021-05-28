@@ -10,13 +10,10 @@ export const fieldTypeToViewMap = {
   [CustomNodeView.propName]: CustomNodeView,
 };
 
-export type FieldTypeToViewMap<
-  FSpec extends FieldSpec<string>,
-  Name extends keyof FSpec
-> = {
+export type FieldTypeToViewMap<Field> = {
   [RTENodeView.propName]: RTENodeView;
   [CheckboxNodeView.propName]: CheckboxNodeView;
-  [CustomNodeView.propName]: FSpec[Name] extends CustomField<infer Data>
+  [CustomNodeView.propName]: Field extends CustomField<infer Data>
     ? CustomNodeView<Data>
     : never;
 };

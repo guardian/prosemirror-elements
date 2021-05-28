@@ -103,7 +103,7 @@ const createNodeView = <
       );
     }
 
-    nodeViewPropMap[name] = {
+    nodeViewPropMap[name] = ({
       fieldSpec,
       name,
       nodeView: getElementNodeViewFromType(fieldSpec, {
@@ -113,7 +113,11 @@ const createNodeView = <
         offset,
         innerDecos,
       }),
-    };
+      // We coerce types here: it's difficult to prove we've the right shape here
+      // to the compiler, and we're already beholden to runtime behaviour as there's
+      // no guarantee that the node's `name` matches our spec. The errors above should
+      // help to defend when something's wrong.
+    } as unknown) as FieldNameToNodeViewSpec<FSpec>[typeof name];
   });
 
   const update = element.createUpdator(

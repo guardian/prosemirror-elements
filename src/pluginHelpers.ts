@@ -5,9 +5,8 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { CheckboxFields } from "./nodeViews/CheckboxNodeView";
 import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
 import { CustomNodeView } from "./nodeViews/CustomNodeView";
-import type { FieldTypeToViewMap } from "./nodeViews/helpers";
 import { RTENodeView } from "./nodeViews/RTENodeView";
-import type { FieldSpec } from "./types/Element";
+import type { Field } from "./types/Element";
 
 export const temporaryHardcodedSchema = new Schema({
   nodes: schema.spec.nodes,
@@ -22,11 +21,8 @@ type Options = {
   innerDecos: Decoration[] | DecorationSet;
 };
 
-export const getElementNodeViewFromType = <
-  FSpec extends FieldSpec<string>,
-  Name extends string
->(
-  prop: FSpec[Name],
+export const getElementNodeViewFromType = (
+  prop: Field,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
   switch (prop.type) {
@@ -38,7 +34,7 @@ export const getElementNodeViewFromType = <
         offset,
         temporaryHardcodedSchema,
         innerDecos
-      ) as FieldTypeToViewMap<FSpec, Name>[typeof prop["type"]];
+      );
     case "checkbox":
       return new CheckboxNodeView(
         node,
@@ -46,14 +42,8 @@ export const getElementNodeViewFromType = <
         getPos,
         offset,
         prop.defaultValue as CheckboxFields
-      ) as FieldTypeToViewMap<FSpec, Name>[typeof prop["type"]];
+      );
     case "custom":
-      return new CustomNodeView(
-        node,
-        view,
-        getPos,
-        offset,
-        prop.defaultValue
-      ) as FieldTypeToViewMap<FSpec, Name>[typeof prop["type"]];
+      return new CustomNodeView(node, view, getPos, offset);
   }
 };

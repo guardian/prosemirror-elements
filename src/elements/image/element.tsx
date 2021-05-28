@@ -12,6 +12,7 @@ export const imageProps = {
   },
   mainImage: {
     type: "custom",
+    defaultValue: { src: "" },
   } as CustomField<{ src: string }>,
   useSrc: { type: "checkbox", defaultValue: { value: false } },
 } as const;
