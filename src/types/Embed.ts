@@ -2,7 +2,7 @@ import type { NodeSpec, Schema } from "prosemirror-model";
 import type { CheckboxNodeView } from "../nodeViews/CheckboxNodeView";
 import type { FieldNameToValueMap } from "../nodeViews/helpers";
 import type { RTENodeView } from "../nodeViews/RTENodeView";
-import type { TCommandCreator } from "./Commands";
+import type { CommandCreator } from "./Commands";
 
 /**
  * The specification for an embed field, to be modelled as a Node in Prosemirror.
@@ -58,9 +58,9 @@ export type EmbedSpec<
       hasErrors: boolean
     ) => void,
     initFields: FieldNameToValueMap<FSpec>,
-    commands: ReturnType<TCommandCreator>
+    commands: ReturnType<CommandCreator>
   ) => (
     fields: FieldNameToValueMap<FSpec>,
-    commands: ReturnType<TCommandCreator>
+    commands: ReturnType<CommandCreator>
   ) => void;
 };

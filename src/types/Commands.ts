@@ -1,6 +1,6 @@
 import type { EditorState, Transaction } from "prosemirror-state";
 
-export type TCommandCreator = (
+export type CommandCreator = (
   pos: number,
   state: EditorState,
   dispatch: (tr: Transaction) => void
@@ -12,4 +12,4 @@ export type TCommandCreator = (
   moveBottom: (run?: boolean) => boolean | void;
 };
 
-export type TCommands = ReturnType<TCommandCreator>;
+export type Commands = ReturnType<CommandCreator>;

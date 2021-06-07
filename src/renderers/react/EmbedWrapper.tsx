@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import type { ReactElement } from "react";
 import React from "react";
-import type { TCommandCreator } from "../../types/Commands";
+import type { CommandCreator } from "../../types/Commands";
 
 const Container = styled("div")`
   background: #eee;
@@ -66,7 +66,7 @@ const Button = styled("button")`
 type Props = {
   name: string;
   children?: ReactElement;
-} & ReturnType<TCommandCreator>;
+} & ReturnType<CommandCreator>;
 
 export const embedWrapperTestId = "EmbedWrapper";
 export const moveTopTestId = "EmbedWrapper__moveTop";
