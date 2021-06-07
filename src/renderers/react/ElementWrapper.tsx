@@ -68,14 +68,14 @@ type Props = {
   children?: ReactElement;
 } & ReturnType<CommandCreator>;
 
-export const embedWrapperTestId = "EmbedWrapper";
-export const moveTopTestId = "EmbedWrapper__moveTop";
-export const moveBottomTestId = "EmbedWrapper__moveBottom";
-export const moveUpTestId = "EmbedWrapper__moveUp";
-export const moveDownTestId = "EmbedWrapper__moveDown";
-export const removeTestId = "EmbedWrapper__remove";
+export const elementWrapperTestId = "ElementWrapper";
+export const moveTopTestId = "ElementWrapper__moveTop";
+export const moveBottomTestId = "ElementWrapper__moveBottom";
+export const moveUpTestId = "ElementWrapper__moveUp";
+export const moveDownTestId = "ElementWrapper__moveDown";
+export const removeTestId = "ElementWrapper__remove";
 
-export const EmbedWrapper: React.FunctionComponent<Props> = ({
+export const ElementWrapper: React.FunctionComponent<Props> = ({
   name,
   moveUp,
   moveDown,
@@ -84,7 +84,7 @@ export const EmbedWrapper: React.FunctionComponent<Props> = ({
   remove,
   children,
 }) => (
-  <Container data-cy={embedWrapperTestId}>
+  <Container data-cy={elementWrapperTestId}>
     <Header>
       <Title>{name}</Title>
     </Header>

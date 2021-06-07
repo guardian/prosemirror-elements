@@ -1,6 +1,6 @@
 import React from "react";
-import { createReactEmbedSpec } from "../../renderers/react/createReactEmbedSpec";
-import { ImageEmbed } from "./ImageEmbed";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { ImageElement } from "./ImageElement";
 
 export const imageProps = {
   caption: {
@@ -12,13 +12,13 @@ export const imageProps = {
   useSrc: { type: "checkbox", defaultValue: { value: false } },
 } as const;
 
-export const createImageEmbed = <Name extends string>(name: Name) =>
-  createReactEmbedSpec(
+export const createImageElement = <Name extends string>(name: Name) =>
+  createReactElementSpec(
     name,
     imageProps,
     (fields, errors, __, nodeViewPropMap) => {
       return (
-        <ImageEmbed
+        <ImageElement
           fields={fields}
           errors={errors}
           nodeViewPropMap={nodeViewPropMap}

@@ -1,12 +1,12 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
-import type { Validator } from "../../embedSpec";
+import type { Validator } from "../../elementSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { Commands } from "../../types/Commands";
 import type { Consumer } from "../../types/Consumer";
-import type { FieldNameToNodeViewSpec, FieldSpec } from "../../types/Embed";
+import type { FieldNameToNodeViewSpec, FieldSpec } from "../../types/Element";
 import type { Errors } from "../../types/Errors";
-import { EmbedWrapper } from "./EmbedWrapper";
+import { ElementWrapper } from "./ElementWrapper";
 
 const fieldErrors = <FSpec extends FieldSpec<string>>(
   fields: FieldNameToValueMap<FSpec>,
@@ -37,7 +37,7 @@ type IState<FSpec extends FieldSpec<string>> = {
   fieldValues: FieldNameToValueMap<FSpec>;
 };
 
-export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
+export class ElementProvider<FSpec extends FieldSpec<string>> extends Component<
   IProps<FSpec>,
   IState<FSpec>
 > {
@@ -96,14 +96,14 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
       this.props.validate(this.state.fieldValues)
     );
     return (
-      <EmbedWrapper name="Image" {...this.state.commands}>
+      <ElementWrapper name="Image" {...this.state.commands}>
         {this.props.consumer(
           this.state.fieldValues,
           errors,
           this.updateFields,
           this.props.fields
         )}
-      </EmbedWrapper>
+      </ElementWrapper>
     );
   }
 }

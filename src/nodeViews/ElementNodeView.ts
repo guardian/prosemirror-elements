@@ -9,9 +9,9 @@ export enum FieldType {
 }
 
 /**
- * Represents a prosemirror-embed view of a Prosemirror Node.
+ * Represents a prosemirror-element view of a Prosemirror Node.
  */
-export abstract class EmbedNodeView<NodeValue> {
+export abstract class ElementNodeView<NodeValue> {
   public static propName: string;
   public static fieldType: FieldType;
   // The HTML element this nodeView renders content into.

@@ -1,5 +1,5 @@
 {
-  "name": "prosemirror-embeds",
+  "name": "prosemirror-elements",
   "version": "1.0.0",
   "main": "index.ts",
   "engines": {

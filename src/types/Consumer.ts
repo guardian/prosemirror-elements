@@ -1,5 +1,5 @@
 import type { FieldNameToValueMap } from "../nodeViews/helpers";
-import type { FieldNameToNodeViewSpec, FieldSpec } from "./Embed";
+import type { FieldNameToNodeViewSpec, FieldSpec } from "./Element";
 import type { Errors } from "./Errors";
 
 export type Consumer<ConsumerResult, FSpec extends FieldSpec<string>> = (

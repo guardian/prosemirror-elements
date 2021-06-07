@@ -5,22 +5,22 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { buildEmbedPlugin } from "../embed";
-import { createEmbedSpec } from "../embedSpec";
+import { buildElementPlugin } from "../element";
+import { createElementSpec } from "../elementSpec";
 import { createParsers } from "../prosemirrorSetup";
-import type { EmbedSpec, FieldSpec } from "../types/Embed";
+import type { ElementSpec, FieldSpec } from "../types/Element";
 
 /**
- * Create an embed which renders nothing. Useful when testing schema output.
+ * Create an element which renders nothing. Useful when testing schema output.
  */
-export const createNoopEmbed = <
+export const createNoopElement = <
   Name extends string,
   FSpec extends FieldSpec<string>
 >(
   name: Name,
   fieldSpec: FSpec
 ) =>
-  createEmbedSpec(
+  createElementSpec(
     name,
     fieldSpec,
     () => null,
@@ -28,14 +28,14 @@ export const createNoopEmbed = <
     {}
   );
 
-export const createEditorWithEmbeds = <
+export const createEditorWithElements = <
   FSpec extends FieldSpec<string>,
-  EmbedNames extends string
+  ElementNames extends string
 >(
-  embeds: Array<EmbedSpec<FSpec, EmbedNames>>,
+  elements: Array<ElementSpec<FSpec, ElementNames>>,
   initialHTML = ""
 ) => {
-  const { plugin, insertEmbed, nodeSpec } = buildEmbedPlugin(embeds);
+  const { plugin, insertElement, nodeSpec } = buildElementPlugin(elements);
   const editorElement = document.createElement("div");
   const docElement = document.createElement("div");
   docElement.innerHTML = initialHTML;
@@ -52,7 +52,7 @@ export const createEditorWithEmbeds = <
     }),
   });
 
-  const getEmbedAsHTML = () => {
+  const getElementAsHTML = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- YOLO test energy
     const actual = serializer.serializeNode(view.state.doc.content.firstChild!);
     const element = document.createElement("div");
@@ -60,5 +60,5 @@ export const createEditorWithEmbeds = <
     return element.innerHTML;
   };
 
-  return { view, insertEmbed, getEmbedAsHTML };
+  return { view, insertElement, getElementAsHTML };
 };

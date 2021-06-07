@@ -2,10 +2,10 @@ import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
-  EmbedSpec,
+  ElementSpec,
   FieldNameToNodeViewSpec,
   FieldSpec,
-} from "./types/Embed";
+} from "./types/Element";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>,
@@ -49,16 +49,16 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   ) => void
 ) => void;
 
-export const createEmbedSpec = <
+export const createElementSpec = <
   FSpec extends FieldSpec<string>,
-  EmbedName extends string
+  ElementName extends string
 >(
-  name: EmbedName,
+  name: ElementName,
   fieldSpec: FSpec,
   render: Renderer<FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
-): EmbedSpec<FSpec, EmbedName> => ({
+): ElementSpec<FSpec, ElementName> => ({
   name,
   fieldSpec,
   nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),

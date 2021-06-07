@@ -1,62 +1,62 @@
-import { ImageEmbedTestId } from "../../src/embeds/image/ImageEmbed";
+import { ImageElementTestId } from "../../src/elements/image/ImageElement";
 import {
   moveBottomTestId,
   moveDownTestId,
   moveTopTestId,
   moveUpTestId,
   removeTestId,
-} from "../../src/renderers/react/EmbedWrapper";
+} from "../../src/renderers/react/ElementWrapper";
 import {
-  addEmbed,
+  addElement,
   getArrayOfBlockElementTypes,
   selectDataCy,
 } from "../helpers/editor";
 
-describe("EmbedWrapper", () => {
+describe("ElementWrapper", () => {
   beforeEach(() => cy.visit("/"));
 
-  describe("Embed creation", () => {
+  describe("Element creation", () => {
     it("should create an element given its DOM specification", () => {
-      addEmbed();
-      cy.get(selectDataCy(ImageEmbedTestId));
+      addElement();
+      cy.get(selectDataCy(ImageElementTestId));
     });
   });
 
-  describe("Embed movement", () => {
+  describe("Element movement", () => {
     it("should move an element down", async () => {
-      addEmbed();
+      addElement();
       cy.get(selectDataCy(moveDownTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
-      expect(elementTypes).to.deep.equal(["paragraph", "embed", "paragraph"]);
+      expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
     });
 
     it("should move an element to the bottom", async () => {
-      addEmbed();
+      addElement();
       cy.get(selectDataCy(moveBottomTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
-      expect(elementTypes).to.deep.equal(["paragraph", "paragraph", "embed"]);
+      expect(elementTypes).to.deep.equal(["paragraph", "paragraph", "element"]);
     });
 
     it("should move an element up", async () => {
-      addEmbed();
+      addElement();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveUpTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
-      expect(elementTypes).to.deep.equal(["paragraph", "embed", "paragraph"]);
+      expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
     });
 
     it("should move an element to the top", async () => {
-      addEmbed();
+      addElement();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveTopTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
-      expect(elementTypes).to.deep.equal(["embed", "paragraph", "paragraph"]);
+      expect(elementTypes).to.deep.equal(["element", "paragraph", "paragraph"]);
     });
 
     it("should remove an element", async () => {
-      addEmbed();
+      addElement();
       cy.get(selectDataCy(removeTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph"]);

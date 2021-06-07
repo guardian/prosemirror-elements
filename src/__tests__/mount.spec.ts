@@ -1,6 +1,6 @@
-import { buildEmbedPlugin } from "../embed";
-import { createEmbedSpec } from "../embedSpec";
-import { createNoopEmbed } from "./helpers";
+import { buildElementPlugin } from "../element";
+import { createElementSpec } from "../elementSpec";
+import { createNoopElement } from "./helpers";
 
 describe("mount", () => {
   describe("nodeView typesafety", () => {
@@ -10,8 +10,8 @@ describe("mount", () => {
           type: "richText",
         },
       } as const;
-      createEmbedSpec(
-        "testEmbed",
+      createElementSpec(
+        "testElement",
         fieldSpec,
         (_, __, fieldNodeViews) => {
           // Prop1 is derived from the fieldSpec
@@ -28,8 +28,8 @@ describe("mount", () => {
           type: "richText",
         },
       } as const;
-      createEmbedSpec(
-        "testEmbed",
+      createElementSpec(
+        "testElement",
         fieldSpec,
         (_, __, fieldNodeViews) => {
           // @ts-expect-error – prop1 is not available on this object,
@@ -53,8 +53,8 @@ describe("mount", () => {
           defaultValue: { value: true },
         },
       } as const;
-      createEmbedSpec(
-        "testEmbed",
+      createElementSpec(
+        "testElement",
         fieldSpec,
         () => () => undefined,
         (fields) => {
@@ -74,8 +74,8 @@ describe("mount", () => {
           type: "richText",
         },
       } as const;
-      createEmbedSpec(
-        "testEmbed",
+      createElementSpec(
+        "testElement",
         fieldSpec,
         () => () => undefined,
         (fields) => {
@@ -91,21 +91,21 @@ describe("mount", () => {
 
   describe("nodeSpec generation", () => {
     it("should create an nodeSpec with no nodes when the spec is empty", () => {
-      const { nodeSpec } = buildEmbedPlugin([]);
+      const { nodeSpec } = buildElementPlugin([]);
       expect(nodeSpec.size).toBe(0);
     });
 
-    it("should create an nodeSpec with a parent node for each embed", () => {
-      const testEmbed1 = createNoopEmbed("testEmbed1", {});
-      const testEmbed2 = createNoopEmbed("testEmbed2", {});
-      const { nodeSpec } = buildEmbedPlugin([testEmbed1, testEmbed2]);
+    it("should create an nodeSpec with a parent node for each element", () => {
+      const testElement1 = createNoopElement("testElement1", {});
+      const testElement2 = createNoopElement("testElement2", {});
+      const { nodeSpec } = buildElementPlugin([testElement1, testElement2]);
       expect(nodeSpec.size).toBe(2);
-      expect(nodeSpec.get("testEmbed1")).toMatchObject({ content: "" });
-      expect(nodeSpec.get("testEmbed2")).toMatchObject({ content: "" });
+      expect(nodeSpec.get("testElement1")).toMatchObject({ content: "" });
+      expect(nodeSpec.get("testElement2")).toMatchObject({ content: "" });
     });
 
-    it("should create child nodes for each embed prop, and the parent node should include them in its content expression", () => {
-      const testEmbed1 = createNoopEmbed("testEmbed1", {
+    it("should create child nodes for each element prop, and the parent node should include them in its content expression", () => {
+      const testElement1 = createNoopElement("testElement1", {
         prop1: {
           type: "richText",
         },
@@ -113,8 +113,8 @@ describe("mount", () => {
           type: "richText",
         },
       });
-      const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
-      expect(nodeSpec.get("testEmbed1")).toMatchObject({
+      const { nodeSpec } = buildElementPlugin([testElement1]);
+      expect(nodeSpec.get("testElement1")).toMatchObject({
         content: "prop1 prop2",
       });
       expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph" });
@@ -133,8 +133,8 @@ describe("mount", () => {
             },
           };
 
-          const testEmbed1 = createNoopEmbed("testEmbed1", fieldSpec);
-          const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
+          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const { nodeSpec } = buildElementPlugin([testElement1]);
           expect(nodeSpec.get("prop1")).toEqual({
             content: fieldSpec.prop1.content,
             toDOM: fieldSpec.prop1.toDOM,
@@ -152,8 +152,8 @@ describe("mount", () => {
             },
           };
 
-          const testEmbed1 = createNoopEmbed("testEmbed1", fieldSpec);
-          const { nodeSpec } = buildEmbedPlugin([testEmbed1]);
+          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const { nodeSpec } = buildElementPlugin([testElement1]);
           expect(nodeSpec.get("prop1")).toMatchObject({
             atom: true,
             attrs: {

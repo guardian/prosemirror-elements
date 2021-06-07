@@ -1,4 +1,4 @@
-import type { FieldSpec } from "../types/Embed";
+import type { FieldSpec } from "../types/Element";
 import { CheckboxNodeView } from "./CheckboxNodeView";
 import type { CheckboxFields } from "./CheckboxNodeView";
 import { RTENodeView } from "./RTENodeView";

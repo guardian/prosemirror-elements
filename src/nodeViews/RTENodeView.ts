@@ -8,15 +8,15 @@ import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
-import type { EmbedNodeView } from "./EmbedNodeView";
-import { FieldType } from "./EmbedNodeView";
+import type { ElementNodeView } from "./ElementNodeView";
+import { FieldType } from "./ElementNodeView";
 
 /**
  * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) that represents a
  * nested rich text editor interface.
  */
 export class RTENodeView<LocalSchema extends Schema = Schema>
-  implements EmbedNodeView<string> {
+  implements ElementNodeView<string> {
   public static propName = "richText" as const;
   public static fieldType = FieldType.CONTENT;
   public static defaultValue = "";
