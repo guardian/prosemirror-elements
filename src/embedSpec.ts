@@ -1,7 +1,6 @@
 import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { TCommandCreator, TCommands } from "./types/Commands";
-import type { TConsumer } from "./types/Consumer";
 import type {
   EmbedSpec,
   FieldNameToNodeViewSpec,
@@ -32,8 +31,7 @@ export type Validator<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>
 ) => null | Record<string, string[]>;
 
-export type TRenderer<RendererOutput, FSpec extends FieldSpec<string>> = (
-  consumer: TConsumer<RendererOutput, FSpec>,
+export type Renderer<FSpec extends FieldSpec<string>> = (
   validate: Validator<FSpec>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
@@ -52,14 +50,12 @@ export type TRenderer<RendererOutput, FSpec extends FieldSpec<string>> = (
 ) => void;
 
 export const createEmbedSpec = <
-  RenderOutput,
   FSpec extends FieldSpec<string>,
   EmbedName extends string
 >(
   name: EmbedName,
   fieldSpec: FSpec,
-  render: TRenderer<RenderOutput, FSpec>,
-  consumer: TConsumer<RenderOutput, FSpec>,
+  render: Renderer<FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
 ): EmbedSpec<FSpec, EmbedName> => ({
@@ -69,7 +65,6 @@ export const createEmbedSpec = <
   createUpdator: (dom, fields, updateState, fieldValues, commands) => {
     const updater = createUpdater<FSpec>();
     render(
-      consumer,
       validate,
       dom,
       fields,

@@ -2,9 +2,9 @@ import type { ReactElement } from "react";
 import React from "react";
 import { render } from "react-dom";
 import { createEmbedSpec } from "../../embedSpec";
-import type { TRenderer, Validator } from "../../embedSpec";
+import type { Renderer, Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
-import type { TConsumer } from "../../types/Consumer";
+import type { Consumer } from "../../types/Consumer";
 import type { FieldSpec } from "../../types/Embed";
 import { EmbedProvider } from "./EmbedProvider";
 
@@ -14,12 +14,11 @@ export const createReactEmbedSpec = <
 >(
   name: Name,
   fieldSpec: FSpec,
-  consumer: TConsumer<ReactElement, FSpec>,
+  consumer: Consumer<ReactElement, FSpec>,
   validate: Validator<FSpec>,
   defaultState: FieldNameToValueMap<FSpec>
 ) => {
-  const renderer: TRenderer<ReactElement, FSpec> = (
-    consumer,
+  const renderer: Renderer<FSpec> = (
     validate,
     dom,
     fields,
@@ -41,12 +40,5 @@ export const createReactEmbedSpec = <
       dom
     );
 
-  return createEmbedSpec(
-    name,
-    fieldSpec,
-    renderer,
-    consumer,
-    validate,
-    defaultState
-  );
+  return createEmbedSpec(name, fieldSpec, renderer, validate, defaultState);
 };

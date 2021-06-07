@@ -23,7 +23,6 @@ export const createNoopEmbed = <
   createEmbedSpec(
     name,
     fieldSpec,
-    () => () => null,
     () => null,
     () => null,
     {}
