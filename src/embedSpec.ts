@@ -2,7 +2,11 @@ import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import type { TCommandCreator, TCommands } from "./types/Commands";
 import type { TConsumer } from "./types/Consumer";
-import type { FieldNameToNodeViewSpec, FieldSpec, TEmbed } from "./types/Embed";
+import type {
+  EmbedSpec,
+  FieldNameToNodeViewSpec,
+  FieldSpec,
+} from "./types/Embed";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>,
@@ -47,7 +51,7 @@ export type TRenderer<RendererOutput, FSpec extends FieldSpec<string>> = (
   ) => void
 ) => void;
 
-export const mount = <
+export const createEmbedSpec = <
   RenderOutput,
   FSpec extends FieldSpec<string>,
   EmbedName extends string
@@ -58,19 +62,19 @@ export const mount = <
   consumer: TConsumer<RenderOutput, FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
-): TEmbed<FSpec, EmbedName> => ({
+): EmbedSpec<FSpec, EmbedName> => ({
   name,
   fieldSpec,
   nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),
-  createUpdator: (dom, nestedEditors, updateState, fields, commands) => {
+  createUpdator: (dom, fields, updateState, fieldValues, commands) => {
     const updater = createUpdater<FSpec>();
     render(
       consumer,
       validate,
       dom,
-      nestedEditors,
+      fields,
       (fields) => updateState(fields, !!validate(fields)),
-      Object.assign({}, defaultState, fields),
+      Object.assign({}, defaultState, fieldValues),
       commands,
       updater.subscribe
     );

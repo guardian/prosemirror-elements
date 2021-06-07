@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
-import type { Validator } from "../../mount";
+import type { Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TCommands } from "../../types/Commands";
 import type { TConsumer } from "../../types/Consumer";
@@ -25,16 +25,16 @@ type IProps<FSpec extends FieldSpec<string>> = {
     fn: (fields: FieldNameToValueMap<FSpec>, commands: TCommands) => void
   ) => void;
   commands: TCommands;
-  fields: FieldNameToValueMap<FSpec>;
+  fieldValues: FieldNameToValueMap<FSpec>;
   onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
   validate: Validator<FSpec>;
   consumer: TConsumer<ReactElement, FSpec>;
-  nestedEditors: FieldNameToNodeViewSpec<FSpec>;
+  fields: FieldNameToNodeViewSpec<FSpec>;
 };
 
 type IState<FSpec extends FieldSpec<string>> = {
   commands: TCommands;
-  fields: FieldNameToValueMap<FSpec>;
+  fieldValues: FieldNameToValueMap<FSpec>;
 };
 
 export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
@@ -48,7 +48,7 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
 
     this.state = {
       commands: this.props.commands,
-      fields: this.props.fields,
+      fieldValues: this.props.fieldValues,
     };
   }
 
@@ -57,8 +57,8 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
       this.updateState(
         {
           commands,
-          fields: {
-            ...this.state.fields,
+          fieldValues: {
+            ...this.state.fieldValues,
             ...fields,
           },
         },
@@ -68,7 +68,7 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
   }
 
   onStateChange(): void {
-    this.props.onStateChange(this.state.fields);
+    this.props.onStateChange(this.state.fieldValues);
   }
 
   updateState(state: Partial<IState<FSpec>>, notifyListeners: boolean): void {
@@ -78,12 +78,12 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
     );
   }
 
-  updateFields(fields = {}): void {
+  updateFields(fieldValues = {}): void {
     this.updateState(
       {
-        fields: {
-          ...this.state.fields,
-          ...fields,
+        fieldValues: {
+          ...this.state.fieldValues,
+          ...fieldValues,
         },
       },
       true
@@ -92,16 +92,16 @@ export class EmbedProvider<FSpec extends FieldSpec<string>> extends Component<
 
   render() {
     const errors = fieldErrors(
-      this.state.fields,
-      this.props.validate(this.state.fields)
+      this.state.fieldValues,
+      this.props.validate(this.state.fieldValues)
     );
     return (
       <EmbedWrapper name="Image" {...this.state.commands}>
         {this.props.consumer(
-          this.state.fields,
+          this.state.fieldValues,
           errors,
           this.updateFields,
-          this.props.nestedEditors
+          this.props.fields
         )}
       </EmbedWrapper>
     );

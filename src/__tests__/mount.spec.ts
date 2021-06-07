@@ -1,5 +1,5 @@
 import { buildEmbedPlugin } from "../embed";
-import { mount } from "../mount";
+import { createEmbedSpec } from "../embedSpec";
 import { createNoopEmbed } from "./helpers";
 
 describe("mount", () => {
@@ -10,7 +10,7 @@ describe("mount", () => {
           type: "richText",
         },
       } as const;
-      mount(
+      createEmbedSpec(
         "testEmbed",
         fieldSpec,
         () => () => null,
@@ -29,7 +29,7 @@ describe("mount", () => {
           type: "richText",
         },
       } as const;
-      mount(
+      createEmbedSpec(
         "testEmbed",
         fieldSpec,
         () => () => null,
@@ -55,7 +55,7 @@ describe("mount", () => {
           defaultValue: { value: true },
         },
       } as const;
-      mount(
+      createEmbedSpec(
         "testEmbed",
         fieldSpec,
         () => () => null,
@@ -76,7 +76,7 @@ describe("mount", () => {
           type: "richText",
         },
       } as const;
-      mount(
+      createEmbedSpec(
         "testEmbed",
         fieldSpec,
         () => () => null,

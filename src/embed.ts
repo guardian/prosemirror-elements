@@ -5,7 +5,7 @@ import { buildCommands, defaultPredicate } from "./helpers";
 import { createNodesForFieldValues } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./nodeViews/helpers";
 import { createPlugin } from "./plugin";
-import type { FieldSpec, TEmbed } from "./types/Embed";
+import type { EmbedSpec, FieldSpec } from "./types/Embed";
 
 /**
  * Build an embed plugin with the given embed specs, along with the schema required
@@ -15,11 +15,11 @@ export const buildEmbedPlugin = <
   FSpec extends FieldSpec<string>,
   EmbedNames extends string
 >(
-  embedSpecs: Array<TEmbed<FSpec, EmbedNames>>,
+  embedSpecs: Array<EmbedSpec<FSpec, EmbedNames>>,
   predicate = defaultPredicate
 ) => {
   const embedTypeMap = embedSpecs.reduce<
-    Partial<{ [embedName in EmbedNames]: TEmbed<FSpec, embedName> }>
+    Partial<{ [embedName in EmbedNames]: EmbedSpec<FSpec, embedName> }>
   >((acc, spec) => {
     acc[spec.name] = spec;
     return acc;

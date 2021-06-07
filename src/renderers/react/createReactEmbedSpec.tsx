@@ -1,14 +1,14 @@
 import type { ReactElement } from "react";
 import React from "react";
 import { render } from "react-dom";
-import { mount } from "../../mount";
-import type { TRenderer, Validator } from "../../mount";
+import { createEmbedSpec } from "../../embedSpec";
+import type { TRenderer, Validator } from "../../embedSpec";
 import type { FieldNameToValueMap } from "../../nodeViews/helpers";
 import type { TConsumer } from "../../types/Consumer";
 import type { FieldSpec } from "../../types/Embed";
 import { EmbedProvider } from "./EmbedProvider";
 
-export const createReactEmbedRenderer = <
+export const createReactEmbedSpec = <
   FSpec extends FieldSpec<string>,
   Name extends string
 >(
@@ -22,9 +22,9 @@ export const createReactEmbedRenderer = <
     consumer,
     validate,
     dom,
-    nestedEditors,
-    updateState,
     fields,
+    updateState,
+    fieldValues,
     commands,
     subscribe
   ) =>
@@ -36,10 +36,17 @@ export const createReactEmbedRenderer = <
         validate={validate}
         commands={commands}
         consumer={consumer}
-        nestedEditors={nestedEditors}
+        fieldValues={fieldValues}
       />,
       dom
     );
 
-  return mount(name, fieldSpec, renderer, consumer, validate, defaultState);
+  return createEmbedSpec(
+    name,
+    fieldSpec,
+    renderer,
+    consumer,
+    validate,
+    defaultState
+  );
 };

@@ -6,9 +6,9 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildEmbedPlugin } from "../embed";
-import { mount } from "../mount";
+import { createEmbedSpec } from "../embedSpec";
 import { createParsers } from "../prosemirrorSetup";
-import type { FieldSpec, TEmbed } from "../types/Embed";
+import type { EmbedSpec, FieldSpec } from "../types/Embed";
 
 /**
  * Create an embed which renders nothing. Useful when testing schema output.
@@ -20,7 +20,7 @@ export const createNoopEmbed = <
   name: Name,
   fieldSpec: FSpec
 ) =>
-  mount(
+  createEmbedSpec(
     name,
     fieldSpec,
     () => () => null,
@@ -33,7 +33,7 @@ export const createEditorWithEmbeds = <
   FSpec extends FieldSpec<string>,
   EmbedNames extends string
 >(
-  embeds: Array<TEmbed<FSpec, EmbedNames>>,
+  embeds: Array<EmbedSpec<FSpec, EmbedNames>>,
   initialHTML = ""
 ) => {
   const { plugin, insertEmbed, nodeSpec } = buildEmbedPlugin(embeds);
