@@ -2,7 +2,6 @@ import type { Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import type { CheckboxFields } from "./nodeViews/CheckboxNodeView";
 import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
 import { CustomNodeView } from "./nodeViews/CustomNodeView";
 import { RTENodeView } from "./nodeViews/RTENodeView";
