@@ -89,6 +89,19 @@ const getNodeSpecForProp = (
           },
         },
       };
+    case "custom":
+      return {
+        [propName]: {
+          atom: true,
+          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
+          attrs: {
+            fields: {
+              default: { value: prop.defaultValue },
+            },
+          },
+        },
+      };
   }
 };
 
@@ -155,7 +168,7 @@ export const createNodesForFieldValues = <
     const fieldNodeView = fieldTypeToViewMap[field.type];
     const nodeType = schema.nodes[fieldName];
     const fieldValue =
-      fieldValues[fieldName] ?? // The value supplied when the element is insert
+      fieldValues[fieldName] ?? // The value supplied when the element is inserted
       fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 

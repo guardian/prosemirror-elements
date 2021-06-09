@@ -1,5 +1,6 @@
 import React from "react";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
 
 export const imageProps = {
@@ -9,7 +10,14 @@ export const imageProps = {
   altText: {
     type: "richText",
   },
-  useSrc: { type: "checkbox", defaultValue: { value: false } },
+  mainImage: {
+    type: "custom",
+    defaultValue: { src: "" },
+  } as CustomField<{ src: string }>,
+  useSrc: {
+    type: "checkbox",
+    defaultValue: { value: false },
+  },
 } as const;
 
 export const createImageElement = <Name extends string>(name: Name) =>
@@ -30,5 +38,10 @@ export const createImageElement = <Name extends string>(name: Name) =>
       el.innerHTML = altText;
       return el.innerText ? null : { altText: ["Alt tag must be set"] };
     },
-    { caption: "", useSrc: { value: true }, altText: "" }
+    {
+      caption: "",
+      useSrc: { value: true },
+      altText: "",
+      mainImage: { src: "" },
+    }
   );

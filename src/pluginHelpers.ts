@@ -3,6 +3,7 @@ import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
+import { CustomNodeView } from "./nodeViews/CustomNodeView";
 import { RTENodeView } from "./nodeViews/RTENodeView";
 import type { Field } from "./types/Element";
 
@@ -41,5 +42,7 @@ export const getElementNodeViewFromType = (
         offset,
         prop.defaultValue ?? CheckboxNodeView.defaultValue
       );
+    case "custom":
+      return new CustomNodeView(node, view, getPos, offset);
   }
 };
