@@ -10,7 +10,7 @@ export const useCustomNodeViewState = <Data extends unknown>({
   Data,
   MutableRefObject<((fields: Data) => void) | undefined>
 ] => {
-  const [imageFields, setImageFields] = useState(fieldSpec.defaultValue);
+  const [fieldValue, setFieldValue] = useState(fieldSpec.defaultValue);
 
   const updateRef = useRef<(fields: Data) => void>();
 
@@ -21,10 +21,10 @@ export const useCustomNodeViewState = <Data extends unknown>({
       );
       return;
     }
-    updateRef.current = nodeView.subscribe(setImageFields);
+    updateRef.current = nodeView.subscribe(setFieldValue);
 
-    return () => nodeView.unsubscribe(setImageFields);
+    return () => nodeView.unsubscribe(setFieldValue);
   }, []);
 
-  return [imageFields, updateRef];
+  return [fieldValue, updateRef];
 };
