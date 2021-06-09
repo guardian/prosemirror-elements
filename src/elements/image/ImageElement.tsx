@@ -1,17 +1,17 @@
 import React from "react";
-import type { FieldNameToValueMap } from "../../nodeViews/helpers";
+import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
-import { useCustomNodeViewState } from "../../renderers/react/useCustomNodeViewState";
+import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type {
-  CustomNodeViewSpec,
-  FieldNameToNodeViewSpec,
+  CustomFieldViewSpec,
+  FieldNameToFieldViewSpec,
 } from "../../types/Element";
 import type { imageProps } from "./element";
 
 type Props = {
   fields: FieldNameToValueMap<typeof imageProps>;
   errors: Record<string, string[]>;
-  nodeViewPropMap: FieldNameToNodeViewSpec<typeof imageProps>;
+  fieldViewPropMap: FieldNameToFieldViewSpec<typeof imageProps>;
 };
 
 export const ImageElementTestId = "ImageElement";
@@ -19,14 +19,14 @@ export const ImageElementTestId = "ImageElement";
 export const ImageElement: React.FunctionComponent<Props> = ({
   fields,
   errors,
-  nodeViewPropMap,
+  fieldViewPropMap,
 }) => {
   return (
     <div data-cy={ImageElementTestId}>
-      <PropView nodeViewProp={nodeViewPropMap.altText} />
-      <PropView nodeViewProp={nodeViewPropMap.caption} />
-      <PropView nodeViewProp={nodeViewPropMap.useSrc} />
-      <ImageView nodeViewProp={nodeViewPropMap.mainImage} />
+      <PropView fieldViewProp={fieldViewPropMap.altText} />
+      <PropView fieldViewProp={fieldViewPropMap.caption} />
+      <PropView fieldViewProp={fieldViewPropMap.useSrc} />
+      <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
       <hr />
       <h4>Element errors</h4>
       <pre>{JSON.stringify(errors)}</pre>
@@ -38,15 +38,15 @@ export const ImageElement: React.FunctionComponent<Props> = ({
 };
 
 type ImageViewProps = {
-  nodeViewProp: CustomNodeViewSpec<{
+  fieldViewProp: CustomFieldViewSpec<{
     src: string;
   }>;
 };
 
-const ImageView = ({ nodeViewProp }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomNodeViewState(nodeViewProp);
+const ImageView = ({ fieldViewProp }: ImageViewProps) => {
+  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(fieldViewProp);
   return (
-    <div data-cy={getPropViewTestId(nodeViewProp.name)}>
+    <div data-cy={getPropViewTestId(fieldViewProp.name)}>
       <input
         value={imageFields.src || ""}
         onChange={(e) => setImageFieldsRef.current?.({ src: e.target.value })}

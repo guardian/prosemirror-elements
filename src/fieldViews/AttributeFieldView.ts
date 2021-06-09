@@ -1,28 +1,27 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import type { ElementNodeView } from "./ElementNodeView";
-import { FieldType } from "./ElementNodeView";
+import type { FieldView } from "./FieldView";
+import { FieldType } from "./FieldView";
 
 /**
- * A NodeView (https://prosemirror.net/docs/ref/#view.NodeView) representing a
- * node that contains fields that are updated atomically.
+ * A FieldView representing a node that contains fields that are updated atomically.
  */
-export abstract class FieldNodeView<Fields extends unknown>
-  implements ElementNodeView<Fields> {
+export abstract class AttributeFieldView<Fields extends unknown>
+  implements FieldView<Fields> {
   public static propName: string;
   public static fieldType = FieldType.ATTRIBUTES;
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
-  public nodeViewElement = document.createElement("div");
+  public fieldViewElement = document.createElement("div");
 
   constructor(
-    // The node that this NodeView is responsible for rendering.
+    // The node that this FieldView is responsible for rendering.
     private node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
-    // Returns the current position of the parent Nodeview in the document.
+    // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
-    // The offset of this node relative to its parent NodeView.
+    // The offset of this node relative to its parent FieldView.
     private offset: number,
     defaultFields: Fields
   ) {

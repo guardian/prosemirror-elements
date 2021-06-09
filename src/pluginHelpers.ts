@@ -2,9 +2,9 @@ import type { Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import { CheckboxNodeView } from "./nodeViews/CheckboxNodeView";
-import { CustomNodeView } from "./nodeViews/CustomNodeView";
-import { RTENodeView } from "./nodeViews/RTENodeView";
+import { CheckboxFieldView } from "./fieldViews/CheckboxFieldView";
+import { CustomFieldView } from "./fieldViews/CustomFieldView";
+import { RichTextFieldView } from "./fieldViews/RichTextFieldView";
 import type { Field } from "./types/Element";
 
 export const temporaryHardcodedSchema = new Schema({
@@ -20,13 +20,13 @@ type Options = {
   innerDecos: Decoration[] | DecorationSet;
 };
 
-export const getElementNodeViewFromType = (
+export const getElementFieldViewFromType = (
   prop: Field,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
   switch (prop.type) {
     case "richText":
-      return new RTENodeView(
+      return new RichTextFieldView(
         node,
         view,
         getPos,
@@ -35,14 +35,14 @@ export const getElementNodeViewFromType = (
         innerDecos
       );
     case "checkbox":
-      return new CheckboxNodeView(
+      return new CheckboxFieldView(
         node,
         view,
         getPos,
         offset,
-        prop.defaultValue ?? CheckboxNodeView.defaultValue
+        prop.defaultValue ?? CheckboxFieldView.defaultValue
       );
     case "custom":
-      return new CustomNodeView(node, view, getPos, offset);
+      return new CustomFieldView(node, view, getPos, offset);
   }
 };

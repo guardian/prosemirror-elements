@@ -1,11 +1,11 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
-import type { CheckboxNodeView } from "../nodeViews/CheckboxNodeView";
-import type { CustomNodeView } from "../nodeViews/CustomNodeView";
+import type { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
+import type { CustomFieldView } from "../fieldViews/CustomFieldView";
 import type {
   FieldNameToValueMap,
   FieldTypeToViewMap,
-} from "../nodeViews/helpers";
-import type { RTENodeView } from "../nodeViews/RTENodeView";
+} from "../fieldViews/helpers";
+import type { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import type { CommandCreator } from "./Commands";
 
 /**
@@ -18,20 +18,20 @@ interface BaseFieldSpec<DefaultValue extends unknown> {
 }
 
 interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
-  type: typeof CheckboxNodeView.propName;
+  type: typeof CheckboxFieldView.propName;
 }
 
-interface RTEField
+interface RichTextField
   extends BaseFieldSpec<string>,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
-  type: typeof RTENodeView.propName;
+  type: typeof RichTextFieldView.propName;
 }
 export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
-  type: typeof CustomNodeView.propName;
+  type: typeof CustomFieldView.propName;
   defaultValue: Data;
 }
 
-export type Field = RTEField | CheckboxField | CustomField;
+export type Field = RichTextField | CheckboxField | CustomField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
@@ -39,26 +39,26 @@ export type SchemaFromElementFieldSpec<
   FSpec extends FieldSpec<string>
 > = Schema<Extract<keyof FSpec, string>>;
 
-export type FieldNodeViews = RTENodeView | CheckboxNodeView | CustomNodeView;
+export type FieldViews = RichTextFieldView | CheckboxFieldView | CustomFieldView;
 
-export type FieldNodeViewSpec<FieldNodeView extends FieldNodeViews> = {
-  nodeView: FieldNodeView;
+export type FieldViewSpec<FieldView extends FieldViews> = {
+  fieldView: FieldView;
   fieldSpec: Field;
   name: string;
 };
 
-export type CustomNodeViewSpec<Data = unknown> = {
-  nodeView: CustomNodeView<Data>;
+export type CustomFieldViewSpec<Data = unknown> = {
+  fieldView: CustomFieldView<Data>;
   fieldSpec: CustomField<Data>;
   name: string;
 };
 
-export type FieldNameToNodeViewSpec<FSpec extends FieldSpec<string>> = {
+export type FieldNameToFieldViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FSpec[name] extends CustomField<
     infer Data
   >
-    ? CustomNodeViewSpec<Data>
-    : FieldNodeViewSpec<FieldTypeToViewMap<FSpec[name]>[FSpec[name]["type"]]>;
+    ? CustomFieldViewSpec<Data>
+    : FieldViewSpec<FieldTypeToViewMap<FSpec[name]>[FSpec[name]["type"]]>;
 };
 
 export type ElementSpec<
@@ -70,7 +70,7 @@ export type ElementSpec<
   nodeSpec: NodeSpec;
   createUpdator: (
     dom: HTMLElement,
-    fields: FieldNameToNodeViewSpec<FSpec>,
+    fields: FieldNameToFieldViewSpec<FSpec>,
     updateState: (
       fields: FieldNameToValueMap<FSpec>,
       hasErrors: boolean

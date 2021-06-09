@@ -3,7 +3,7 @@ import React from "react";
 import { render } from "react-dom";
 import { createElementSpec } from "../../elementSpec";
 import type { Renderer, Validator } from "../../elementSpec";
-import type { FieldNameToValueMap } from "../../nodeViews/helpers";
+import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import type { Consumer } from "../../types/Consumer";
 import type { FieldSpec } from "../../types/Element";
 import { ElementProvider } from "./ElementProvider";

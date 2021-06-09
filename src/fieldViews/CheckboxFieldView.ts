@@ -1,9 +1,9 @@
 import type { Node } from "prosemirror-model";
-import { FieldNodeView } from "./FieldNodeView";
+import { AttributeFieldView } from "./AttributeFieldView";
 
 export type CheckboxFields = { value: boolean };
 
-export class CheckboxNodeView extends FieldNodeView<CheckboxFields> {
+export class CheckboxFieldView extends AttributeFieldView<CheckboxFields> {
   public static propName = "checkbox" as const;
   public static defaultValue = { value: false };
   private checkboxElement: HTMLInputElement | undefined = undefined;
@@ -21,7 +21,7 @@ export class CheckboxNodeView extends FieldNodeView<CheckboxFields> {
         value: Boolean((event.target as HTMLInputElement).checked),
       })
     );
-    this.nodeViewElement.appendChild(this.checkboxElement);
+    this.fieldViewElement.appendChild(this.checkboxElement);
   }
   protected updateInnerView({ value }: CheckboxFields): void {
     if (this.checkboxElement) {

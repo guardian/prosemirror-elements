@@ -1,8 +1,8 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import { DOMParser, Fragment } from "prosemirror-model";
-import type { FieldNameToValueMap } from "./nodeViews/helpers";
-import { fieldTypeToViewMap } from "./nodeViews/helpers";
+import type { FieldNameToValueMap } from "./fieldViews/helpers";
+import { fieldTypeToViewMap } from "./fieldViews/helpers";
 import type { Field, FieldSpec } from "./types/Element";
 
 export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
@@ -165,14 +165,14 @@ export const createNodesForFieldValues = <
 
   return orderedFieldNames.map((fieldName) => {
     const field = fieldSpec[fieldName];
-    const fieldNodeView = fieldTypeToViewMap[field.type];
+    const fieldView = fieldTypeToViewMap[field.type];
     const nodeType = schema.nodes[fieldName];
     const fieldValue =
       fieldValues[fieldName] ?? // The value supplied when the element is inserted
       fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
-    if (fieldNodeView.fieldType === "CONTENT") {
+    if (fieldView.fieldType === "CONTENT") {
       const content = createContentForFieldValue(schema, fieldValue as string);
       return nodeType.create(
         { type: field.type },

@@ -1,9 +1,9 @@
 import { getNodeSpecFromFieldSpec } from "./nodeSpec";
-import type { FieldNameToValueMap } from "./nodeViews/helpers";
+import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
-  FieldNameToNodeViewSpec,
+  FieldNameToFieldViewSpec,
   FieldSpec,
 } from "./types/Element";
 
@@ -37,7 +37,7 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  nodeViewPropMap: FieldNameToNodeViewSpec<FSpec>,
+  fieldViewPropMap: FieldNameToFieldViewSpec<FSpec>,
   updateState: (fields: FieldNameToValueMap<FSpec>) => void,
   fields: FieldNameToValueMap<FSpec>,
   commands: Commands,

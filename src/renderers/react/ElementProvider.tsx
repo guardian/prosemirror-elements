@@ -1,10 +1,10 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { Validator } from "../../elementSpec";
-import type { FieldNameToValueMap } from "../../nodeViews/helpers";
+import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import type { Commands } from "../../types/Commands";
 import type { Consumer } from "../../types/Consumer";
-import type { FieldNameToNodeViewSpec, FieldSpec } from "../../types/Element";
+import type { FieldNameToFieldViewSpec, FieldSpec } from "../../types/Element";
 import type { Errors } from "../../types/Errors";
 import { ElementWrapper } from "./ElementWrapper";
 
@@ -29,7 +29,7 @@ type IProps<FSpec extends FieldSpec<string>> = {
   onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
   validate: Validator<FSpec>;
   consumer: Consumer<ReactElement, FSpec>;
-  fields: FieldNameToNodeViewSpec<FSpec>;
+  fields: FieldNameToFieldViewSpec<FSpec>;
 };
 
 type IState<FSpec extends FieldSpec<string>> = {
