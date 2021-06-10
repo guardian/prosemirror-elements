@@ -21,8 +21,10 @@ export class TextFieldView extends ProseMirrorFieldView {
   ) {
     const textSchema = new Schema({
       nodes: {
-        doc: nodes.doc,
-        paragraph: nodes.paragraph,
+        doc: {
+          content: "text*",
+          toDOM: () => ["div", 0],
+        },
         text: nodes.text,
       },
     });
