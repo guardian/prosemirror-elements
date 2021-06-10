@@ -1,3 +1,6 @@
+import { exampleSetup } from "prosemirror-example-setup";
+import { redo, undo } from "prosemirror-history";
+import { keymap } from "prosemirror-keymap";
 import type { Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { nodes, schema } from "prosemirror-schema-basic";
@@ -35,7 +38,14 @@ export class TextFieldView extends ProseMirrorFieldView {
       offset,
       textSchema,
       decorations,
-      TextFieldView.propName
+      TextFieldView.propName,
+      [
+        keymap({
+          "Mod-z": () => undo(outerView.state, outerView.dispatch),
+          "Mod-y": () => redo(outerView.state, outerView.dispatch),
+        }),
+        ...exampleSetup({ schema, menuBar: false }),
+      ]
     );
   }
 }

@@ -1,3 +1,6 @@
+import { exampleSetup } from "prosemirror-example-setup";
+import { redo, undo } from "prosemirror-history";
+import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
@@ -28,7 +31,14 @@ export class RichTextFieldView<
       offset,
       schema,
       decorations,
-      RichTextFieldView.propName
+      RichTextFieldView.propName,
+      [
+        keymap({
+          "Mod-z": () => undo(outerView.state, outerView.dispatch),
+          "Mod-y": () => redo(outerView.state, outerView.dispatch),
+        }),
+        ...exampleSetup({ schema }),
+      ]
     );
   }
 }
