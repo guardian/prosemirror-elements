@@ -3,14 +3,17 @@ import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxFields } from "./CheckboxFieldView";
 import { CustomFieldView } from "./CustomFieldView";
 import { RichTextFieldView } from "./RichTextFieldView";
+import { TextFieldView } from "./TextFieldView";
 
 export const fieldTypeToViewMap = {
+  [TextFieldView.propName]: TextFieldView,
   [RichTextFieldView.propName]: RichTextFieldView,
   [CheckboxFieldView.propName]: CheckboxFieldView,
   [CustomFieldView.propName]: CustomFieldView,
 };
 
 export type FieldTypeToViewMap<Field> = {
+  [TextFieldView.propName]: TextFieldView,
   [RichTextFieldView.propName]: RichTextFieldView;
   [CheckboxFieldView.propName]: CheckboxFieldView;
   [CustomFieldView.propName]: Field extends CustomField<infer Data>
@@ -27,6 +30,7 @@ export type FieldTypeToValueMap<
 > = {
   [CheckboxFieldView.propName]: CheckboxFields;
   [RichTextFieldView.propName]: string;
+  [TextFieldView.propName]: string,
   [CustomFieldView.propName]: FSpec[Name] extends CustomField<infer Data>
     ? Data
     : never;

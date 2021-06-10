@@ -67,6 +67,15 @@ const getNodeSpecForProp = (
   prop: Field
 ): NodeSpec => {
   switch (prop.type) {
+    case "text":
+      return {
+        [propName]: {
+          content: prop.content ?? "paragraph",
+          toDOM:
+            prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
+          parseDOM: prop.parseDOM ?? [{ tag: "div" }],
+        },
+      };
     case "richText":
       return {
         [propName]: {

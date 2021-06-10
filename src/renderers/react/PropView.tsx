@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import type { CheckboxFieldView } from "../../fieldViews/CheckboxFieldView";
 import type { RichTextFieldView } from "../../fieldViews/RichTextFieldView";
+import { TextFieldView } from "../../fieldViews/TextFieldView";
 import type { FieldViewSpec } from "../../types/Element";
 
 type Props = {
-  fieldViewProp: FieldViewSpec<RichTextFieldView | CheckboxFieldView>;
+  fieldViewProp: FieldViewSpec<TextFieldView | RichTextFieldView | CheckboxFieldView>;
 };
 
 export const getPropViewTestId = (name: string) => `PropField-${name}`;
