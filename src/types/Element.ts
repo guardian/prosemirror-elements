@@ -6,6 +6,7 @@ import type {
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type { RichTextFieldView } from "../fieldViews/RichTextFieldView";
+import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { CommandCreator } from "./Commands";
 
 /**
@@ -26,12 +27,19 @@ interface RichTextField
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: typeof RichTextFieldView.propName;
 }
+
+interface TextField
+  extends BaseFieldSpec<string>,
+    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
+  type: typeof TextFieldView.propName;
+}
+
 export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
   type: typeof CustomFieldView.propName;
   defaultValue: Data;
 }
 
-export type Field = RichTextField | CheckboxField | CustomField;
+export type Field = TextField | RichTextField | CheckboxField | CustomField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
@@ -39,7 +47,7 @@ export type SchemaFromElementFieldSpec<
   FSpec extends FieldSpec<string>
 > = Schema<Extract<keyof FSpec, string>>;
 
-export type FieldViews = RichTextFieldView | CheckboxFieldView | CustomFieldView;
+export type FieldViews = TextFieldView | RichTextFieldView | CheckboxFieldView | CustomFieldView;
 
 export type FieldViewSpec<FieldView extends FieldViews> = {
   fieldView: FieldView;

@@ -25,6 +25,7 @@ export const ImageElement: React.FunctionComponent<Props> = ({
     <div data-cy={ImageElementTestId}>
       <PropView fieldViewProp={fieldViewPropMap.altText} />
       <PropView fieldViewProp={fieldViewPropMap.caption} />
+      <PropView fieldViewProp={fieldViewPropMap.src} />
       <PropView fieldViewProp={fieldViewPropMap.useSrc} />
       <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
       <hr />
