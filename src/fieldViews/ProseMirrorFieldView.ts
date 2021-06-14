@@ -1,6 +1,3 @@
-import { exampleSetup } from "prosemirror-example-setup";
-import { redo, undo } from "prosemirror-history";
-import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
