@@ -4,8 +4,8 @@ import type { CustomField } from "../types/Element";
 import { createNoopElement } from "./helpers";
 
 describe("mount", () => {
-  describe("nodeView typesafety", () => {
-    it("should provide typesafe nodeView to its consumer", () => {
+  describe("fieldView typesafety", () => {
+    it("should provide typesafe fieldView to its consumer", () => {
       const fieldSpec = {
         prop1: {
           type: "richText",
@@ -14,9 +14,9 @@ describe("mount", () => {
       createElementSpec(
         "testElement",
         fieldSpec,
-        (_, __, fieldNodeViews) => {
+        (_, __, fieldViews) => {
           // Prop1 is derived from the fieldSpec
-          fieldNodeViews.prop1;
+          fieldViews.prop1;
         },
         () => null,
         { prop1: "text" }
@@ -32,10 +32,10 @@ describe("mount", () => {
       createElementSpec(
         "testElement",
         fieldSpec,
-        (_, __, fieldNodeViews) => {
+        (_, __, fieldViews) => {
           // @ts-expect-error – prop1 is not available on this object,
           // as it is not defined in `fieldSpec` passed into `mount`
-          fieldNodeViews.prop1;
+          fieldViews.prop1;
         },
         () => null,
         { notProp1: "text" }

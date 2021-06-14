@@ -3,7 +3,7 @@ import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import { buildCommands, defaultPredicate } from "./helpers";
 import { createNodesForFieldValues } from "./nodeSpec";
-import type { FieldNameToValueMap } from "./nodeViews/helpers";
+import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { createPlugin } from "./plugin";
 import type { ElementSpec, FieldSpec } from "./types/Element";
 

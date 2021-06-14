@@ -1,27 +1,27 @@
 import React, { useEffect, useRef } from "react";
-import type { CheckboxNodeView } from "../../nodeViews/CheckboxNodeView";
-import type { RTENodeView } from "../../nodeViews/RTENodeView";
-import type { FieldNodeViewSpec } from "../../types/Element";
+import type { CheckboxFieldView } from "../../fieldViews/CheckboxFieldView";
+import type { RichTextFieldView } from "../../fieldViews/RichTextFieldView";
+import type { FieldViewSpec } from "../../types/Element";
 
 type Props = {
-  nodeViewProp: FieldNodeViewSpec<RTENodeView | CheckboxNodeView>;
+  fieldViewProp: FieldViewSpec<RichTextFieldView | CheckboxFieldView>;
 };
 
 export const getPropViewTestId = (name: string) => `PropField-${name}`;
 
-export const PropView: React.FunctionComponent<Props> = ({ nodeViewProp }) => {
+export const PropView: React.FunctionComponent<Props> = ({ fieldViewProp }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!editorRef.current) {
       return;
     }
-    editorRef.current.appendChild(nodeViewProp.nodeView.nodeViewElement);
+    editorRef.current.appendChild(fieldViewProp.fieldView.fieldViewElement);
   }, []);
 
   return (
-    <div data-cy={getPropViewTestId(nodeViewProp.name)}>
+    <div data-cy={getPropViewTestId(fieldViewProp.name)}>
       <label>
-        <strong>{nodeViewProp.name}</strong>
+        <strong>{fieldViewProp.name}</strong>
       </label>
       <div ref={editorRef}></div>
     </div>

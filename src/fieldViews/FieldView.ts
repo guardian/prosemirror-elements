@@ -11,14 +11,14 @@ export enum FieldType {
 /**
  * Represents a prosemirror-element view of a Prosemirror Node.
  */
-export abstract class ElementNodeView<NodeValue> {
+export abstract class FieldView<NodeValue> {
   public static propName: string;
   public static fieldType: FieldType;
-  // The HTML element this nodeView renders content into.
-  public abstract nodeViewElement?: HTMLElement;
+  // The HTML element this fieldView renders content into.
+  public abstract fieldViewElement?: HTMLElement;
 
   /**
-   * Called when the nodeView is updated.
+   * Called when the fieldView is updated.
    */
   public abstract update(
     node: Node,
@@ -27,17 +27,17 @@ export abstract class ElementNodeView<NodeValue> {
   ): boolean;
 
   /**
-   * Called when the nodeView is destroyed.
+   * Called when the fieldView is destroyed.
    */
   public abstract destroy(): void;
 
   /**
-   * Get the value from a given node that's represented by this NodeView.
+   * Get the value from a given node that's represented by this fieldView.
    */
   public abstract getNodeValue(node: Node): NodeValue;
 
   /**
-   * Create a node for this NodeView with the given data.
+   * Create a node for this fieldView with the given data.
    */
   public abstract getNodeFromValue(data: NodeValue): Node;
 }

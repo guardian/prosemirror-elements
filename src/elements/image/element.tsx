@@ -24,12 +24,12 @@ export const createImageElement = <Name extends string>(name: Name) =>
   createReactElementSpec(
     name,
     imageProps,
-    (fields, errors, __, nodeViewPropMap) => {
+    (fields, errors, __, fieldViewPropMap) => {
       return (
         <ImageElement
           fields={fields}
           errors={errors}
-          nodeViewPropMap={nodeViewPropMap}
+          fieldViewPropMap={fieldViewPropMap}
         />
       );
     },
