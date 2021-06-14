@@ -1,6 +1,6 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
-import { DOMParser, Fragment } from "prosemirror-model";
+import { DOMParser } from "prosemirror-model";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
 import type { Field, FieldSpec } from "./types/Element";

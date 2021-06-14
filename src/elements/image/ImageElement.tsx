@@ -45,7 +45,9 @@ type ImageViewProps = {
 };
 
 const ImageView = ({ fieldViewProp }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(fieldViewProp);
+  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
+    fieldViewProp
+  );
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
       <input

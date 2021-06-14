@@ -30,7 +30,7 @@ export type FieldTypeToValueMap<
 > = {
   [CheckboxFieldView.propName]: CheckboxFields;
   [RichTextFieldView.propName]: string;
-  [TextFieldView.propName]: string,
+  [TextFieldView.propName]: string;
   [CustomFieldView.propName]: FSpec[Name] extends CustomField<infer Data>
     ? Data
     : never;
