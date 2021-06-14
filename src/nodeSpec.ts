@@ -78,7 +78,7 @@ const getNodeSpecForProp = (
     case "richText":
       return {
         [propName]: {
-          content: prop.content ?? "paragraph*",
+          content: prop.content ?? "paragraph+",
           toDOM:
             prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
           parseDOM: prop.parseDOM ?? [{ tag: "div" }],
@@ -181,11 +181,8 @@ export const createNodesForFieldValues = <
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
     if (fieldView.fieldType === "CONTENT") {
-      const content = createContentForFieldValue(schema, fieldValue as string);
-      return nodeType.create(
-        { type: field.type },
-        content.firstChild ?? Fragment.empty
-      );
+      const node = nodeType.create({ type: field.type });
+      return createContentForFieldValue(schema, fieldValue as string, node);
     } else {
       return nodeType.create({ type: field.type, fields: fieldValue });
     }
@@ -194,12 +191,13 @@ export const createNodesForFieldValues = <
 
 const createContentForFieldValue = <S extends Schema>(
   schema: S,
-  fieldValue: string
+  fieldValue: string,
+  topNode: Node
 ) => {
   const parser = DOMParser.fromSchema(schema);
   const element = document.createElement("div");
   element.innerHTML = fieldValue;
-  return parser.parse(element);
+  return parser.parse(element, { topNode });
 };
 
 /**
