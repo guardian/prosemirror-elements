@@ -6,7 +6,7 @@ import type {
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type { RichTextFieldView } from "../fieldViews/RichTextFieldView";
-import { TextFieldView } from "../fieldViews/TextFieldView";
+import type { TextFieldView } from "../fieldViews/TextFieldView";
 import type { CommandCreator } from "./Commands";
 
 /**
@@ -45,7 +45,11 @@ export type SchemaFromElementFieldSpec<
   FSpec extends FieldSpec<string>
 > = Schema<Extract<keyof FSpec, string>>;
 
-export type FieldViews = TextFieldView | RichTextFieldView | CheckboxFieldView | CustomFieldView;
+export type FieldViews =
+  | TextFieldView
+  | RichTextFieldView
+  | CheckboxFieldView
+  | CustomFieldView;
 
 export type FieldViewSpec<FieldView extends FieldViews> = {
   fieldView: FieldView;

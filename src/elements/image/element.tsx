@@ -46,6 +46,6 @@ export const createImageElement = <Name extends string>(name: Name) =>
       useSrc: { value: true },
       altText: "",
       mainImage: { src: "" },
-      src: ""
+      src: "",
     }
   );
