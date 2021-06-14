@@ -13,7 +13,7 @@ export const fieldTypeToViewMap = {
 };
 
 export type FieldTypeToViewMap<Field> = {
-  [TextFieldView.propName]: TextFieldView,
+  [TextFieldView.propName]: TextFieldView;
   [RichTextFieldView.propName]: RichTextFieldView;
   [CheckboxFieldView.propName]: CheckboxFieldView;
   [CustomFieldView.propName]: Field extends CustomField<infer Data>
