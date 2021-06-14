@@ -28,9 +28,7 @@ interface RichTextField
   type: typeof RichTextFieldView.propName;
 }
 
-interface TextField
-  extends BaseFieldSpec<string>,
-    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
+interface TextField extends BaseFieldSpec<string> {
   type: typeof TextFieldView.propName;
 }
 
