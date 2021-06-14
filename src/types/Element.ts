@@ -6,7 +6,7 @@ import type {
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type { RichTextFieldView } from "../fieldViews/RichTextFieldView";
-import { TextFieldView } from "../fieldViews/TextFieldView";
+import type { TextFieldView } from "../fieldViews/TextFieldView";
 import type { CommandCreator } from "./Commands";
 
 /**
