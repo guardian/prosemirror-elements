@@ -4,6 +4,7 @@ import {
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
+  getSerialisedHtml,
   typeIntoElementField,
   typeIntoProsemirror,
 } from "../helpers/editor";
@@ -66,9 +67,24 @@ describe("ImageElement", () => {
           typeIntoElementField("caption", "Caption text");
           typeIntoElementField("altText", "Alt text");
           assertDocHtml(
-            `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p>Alt text</p></div><div class="ProsemirrorElement__imageElement-caption"><p>Caption text</p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+            `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p>Alt text</p></div><div class="ProsemirrorElement__imageElement-caption"><p>Caption text</p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><div class="ProsemirrorElement__imageElement-src"></div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
           );
         });
+      });
+    });
+
+    describe("Text field", () => {
+      it(`src – should accept input in an element`, () => {
+        addElement();
+        const text = `Src text`;
+        typeIntoElementField("src", text);
+        getElementRichTextField("src").should("have.text", text);
+      });
+
+      it("should serialise content as HTML within the appropriate nodes in the document", () => {
+        addElement();
+        typeIntoElementField("src", "Src text");
+        assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
       });
     });
 
@@ -81,26 +97,20 @@ describe("ImageElement", () => {
 
       it(`should have a default value when instantiated`, () => {
         addElement();
-        assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
-        );
+        assertDocHtml(getSerialisedHtml({}));
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - checked`, () => {
         addElement();
         getElementField("useSrc").find("input").click();
-        assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:true}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
-        );
+        assertDocHtml(getSerialisedHtml({ useSrcValue: "true" }));
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - unchecked`, () => {
         addElement();
         getElementField("useSrc").find("input").click();
         getElementField("useSrc").find("input").click();
-        assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
-        );
+        assertDocHtml(getSerialisedHtml({ useSrcValue: "false" }));
       });
     });
 
@@ -109,7 +119,7 @@ describe("ImageElement", () => {
         addElement();
         getElementField("mainImage").find("input").type("http://an-image.png");
         assertDocHtml(
-          `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText"><p></p></div><div class="ProsemirrorElement__imageElement-caption"><p></p></div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;http://an-image.png&quot;}"></element-imageelement-mainimage><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`
+          getSerialisedHtml({ mainImageValue: "http://an-image.png" })
         );
       });
     });
