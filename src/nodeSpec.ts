@@ -99,6 +99,19 @@ const getNodeSpecForProp = (
           },
         },
       };
+    case "dropdown":
+      return {
+        [propName]: {
+          atom: true,
+          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
+          attrs: {
+            fields: {
+              default: { value: prop.defaultValue },
+            },
+          },
+        },
+      };
     case "custom":
       return {
         [propName]: {
