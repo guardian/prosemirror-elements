@@ -1,6 +1,7 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldView } from "../fieldViews/CustomFieldView";
+import type { DropdownFieldView } from "../fieldViews/DropdownFieldView";
 import type {
   FieldNameToValueMap,
   FieldTypeToViewMap,
@@ -22,6 +23,17 @@ interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
   type: typeof CheckboxFieldView.propName;
 }
 
+interface DropdownField
+  extends BaseFieldSpec<{
+    value: Array<{
+      text: string;
+      value: string;
+      isSelected: boolean;
+    }>;
+  }> {
+  type: typeof DropdownFieldView.propName;
+}
+
 interface RichTextField
   extends BaseFieldSpec<string>,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
@@ -37,7 +49,12 @@ export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
   defaultValue: Data;
 }
 
-export type Field = TextField | RichTextField | CheckboxField | CustomField;
+export type Field =
+  | TextField
+  | RichTextField
+  | CheckboxField
+  | CustomField
+  | DropdownField;
 
 export type FieldSpec<Names extends string> = Record<Names, Field>;
 
@@ -49,7 +66,8 @@ export type FieldViews =
   | TextFieldView
   | RichTextFieldView
   | CheckboxFieldView
-  | CustomFieldView;
+  | CustomFieldView
+  | DropdownFieldView;
 
 export type FieldViewSpec<FieldView extends FieldViews> = {
   fieldView: FieldView;

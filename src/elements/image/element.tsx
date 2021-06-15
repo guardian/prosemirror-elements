@@ -1,4 +1,5 @@
 import React from "react";
+import type { DropdownFields } from "../../fieldViews/DropdownFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
@@ -20,6 +21,16 @@ export const imageProps = {
   useSrc: {
     type: "checkbox",
     defaultValue: { value: false },
+  },
+  options: {
+    type: "dropdown",
+    defaultValue: {
+      value: [
+        { text: "Option 1", value: "opt1", isSelected: true },
+        { text: "Option 2", value: "opt2", isSelected: false },
+        { text: "Option 3", value: "opt3", isSelected: false },
+      ],
+    } as DropdownFields,
   },
 } as const;
 
@@ -47,5 +58,6 @@ export const createImageElement = <Name extends string>(name: Name) =>
       altText: "",
       mainImage: { src: "" },
       src: "",
+      options: { value: [{ text: "", value: "", isSelected: false }] },
     }
   );
