@@ -62,3 +62,5 @@ export const createEditorWithElements = <
 
   return { view, insertElement, getElementAsHTML };
 };
+
+export const trimHtml = (html: string) => html.replace(/>\s+</g, "><").trim();
