@@ -19,7 +19,8 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
   protected createInnerView(fields: DropdownFields): void {
     const options = fields.value;
     this.dropdownElement = document.createElement("select");
-    // Add an option for each field
+
+    // Add a child option for each option in the array
     for (const option of options) {
       const thisOption = document.createElement("option");
       thisOption.setAttribute("value", option.value);
@@ -28,21 +29,21 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
       thisOption.appendChild(optionText);
       this.dropdownElement.appendChild(thisOption);
     }
-    // Add a listener that will return the state of the dropdown on change
-    this.dropdownElement.addEventListener("input", () => {
-      if (this.dropdownElement) {
-        const options2 = Array.from(this.dropdownElement.options);
 
-        this.updateOuterEditor({
-          value: options2.map((option2) => {
-            return {
-              text: option2.text,
-              value: option2.value,
-              isSelected: option2.selected,
-            };
-          }),
-        });
-      }
+    // Add a listener that will return the state of the dropdown on change
+    this.dropdownElement.addEventListener("change", (e) => {
+      const dropdown = e.target as HTMLSelectElement;
+
+      const options = Array.from(dropdown.options);
+      this.updateOuterEditor({
+        value: options.map((option) => {
+          return {
+            text: option.text,
+            value: option.value,
+            isSelected: option.selected,
+          };
+        }),
+      });
     });
 
     this.fieldViewElement.appendChild(this.dropdownElement);
