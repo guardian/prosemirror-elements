@@ -1,5 +1,6 @@
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
 import { getPropViewTestId } from "../../src/renderers/react/PropView";
+import { trimHtml } from "../../src/testHelpers";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
@@ -59,7 +60,7 @@ export const assertDocHtml = (expectedHtml: string) =>
     const actualHtml = ((win as unknown) as {
       docToHtml: () => string;
     }).docToHtml();
-    expect(expectedHtml).to.equal(actualHtml);
+    expect(trimHtml(expectedHtml)).to.equal(actualHtml);
   });
 
 export const getSerialisedHtml = ({
@@ -75,4 +76,10 @@ export const getSerialisedHtml = ({
   useSrcValue?: string;
   mainImageValue?: string;
 }): string =>
-  `<imageelement type="imageElement" has-errors="false"><element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext><element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;${mainImageValue}&quot;}"></element-imageelement-mainimage><element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`;
+  trimHtml(`<imageelement type="imageElement" has-errors="false">
+    <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
+    <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
+    <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;${mainImageValue}&quot;}"></element-imageelement-mainimage>
+    <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
+    <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
+  </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
