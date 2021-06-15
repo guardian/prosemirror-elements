@@ -5,11 +5,13 @@ export type DropdownFields = {
   value: OptionsArray;
 };
 
-type OptionsArray = Array<{
+type OptionsArray = Option[];
+
+type Option = {
   text: string;
   value: string;
   isSelected: boolean;
-}>;
+};
 
 export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
   public static propName = "dropdown" as const;
@@ -17,16 +19,12 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
   private dropdownElement: HTMLSelectElement | undefined = undefined;
 
   protected createInnerView(fields: DropdownFields): void {
-    const options = fields.value;
     this.dropdownElement = document.createElement("select");
 
     // Add a child option for each option in the array
+    const options = fields.value;
     for (const option of options) {
-      const thisOption = document.createElement("option");
-      thisOption.setAttribute("value", option.value);
-      thisOption.selected = option.isSelected;
-      const optionText = document.createTextNode(option.text);
-      thisOption.appendChild(optionText);
+      const thisOption = this.optionToDOMnode(option);
       this.dropdownElement.appendChild(thisOption);
     }
 
@@ -59,15 +57,19 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
       }
       // Add an option for each updated field
       const options = fields.value;
-      options.forEach((option) => {
-        const thisOption = document.createElement("option");
-        thisOption.setAttribute("value", option.value);
-        thisOption.selected = option.isSelected;
-        const optionText = document.createTextNode(option.text);
-        thisOption.appendChild(optionText);
-        const dropdown = this.dropdownElement as HTMLSelectElement;
-        dropdown.appendChild(document.createElement("option"));
-      });
+      for (const option of options) {
+        const thisOption = this.optionToDOMnode(option);
+        this.dropdownElement.appendChild(thisOption);
+      }
     }
+  }
+
+  private optionToDOMnode(option: Option): HTMLOptionElement {
+    const domOption = document.createElement("option");
+    domOption.setAttribute("value", option.value);
+    domOption.selected = option.isSelected;
+    const optionText = document.createTextNode(option.text);
+    domOption.appendChild(optionText);
+    return domOption;
   }
 }
