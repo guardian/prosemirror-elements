@@ -24,13 +24,13 @@ interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
 }
 
 interface DropdownField
-  extends BaseFieldSpec<{
-    value: Array<{
+  extends BaseFieldSpec<
+    Array<{
       text: string;
       value: string;
       isSelected: boolean;
-    }>;
-  }> {
+    }>
+  > {
   type: typeof DropdownFieldView.propName;
 }
 

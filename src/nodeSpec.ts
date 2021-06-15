@@ -105,7 +105,7 @@ const getNodeSpecForProp = (
           parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
           attrs: {
             fields: {
-              default: { value: prop.defaultValue },
+              default: prop.defaultValue,
             },
           },
         },

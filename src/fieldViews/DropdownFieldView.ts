@@ -1,11 +1,7 @@
 import type { Node } from "prosemirror-model";
 import { AttributeFieldView } from "./AttributeFieldView";
 
-export type DropdownFields = {
-  value: OptionsArray;
-};
-
-type OptionsArray = Option[];
+export type DropdownFields = Option[];
 
 type Option = {
   text: string;
@@ -15,14 +11,14 @@ type Option = {
 
 export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
   public static propName = "dropdown" as const;
-  public static defaultValue = { value: [] };
+  public static defaultValue = [];
   private dropdownElement: HTMLSelectElement | undefined = undefined;
 
   protected createInnerView(fields: DropdownFields): void {
     this.dropdownElement = document.createElement("select");
 
     // Add a child option for each option in the array
-    const options = fields.value;
+    const options = fields;
     for (const option of options) {
       const thisOption = this.optionToDOMnode(option);
       this.dropdownElement.appendChild(thisOption);
@@ -33,15 +29,15 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
       const dropdown = e.target as HTMLSelectElement;
 
       const options = Array.from(dropdown.options);
-      this.updateOuterEditor({
-        value: options.map((option) => {
+      this.updateOuterEditor(
+        options.map((option) => {
           return {
             text: option.text,
             value: option.value,
             isSelected: option.selected,
           };
-        }),
-      });
+        })
+      );
     });
 
     this.fieldViewElement.appendChild(this.dropdownElement);
@@ -56,7 +52,7 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
         lastChild = this.dropdownElement.lastElementChild;
       }
       // Add an option for each updated field
-      const options = fields.value;
+      const options = fields;
       for (const option of options) {
         const thisOption = this.optionToDOMnode(option);
         this.dropdownElement.appendChild(thisOption);
