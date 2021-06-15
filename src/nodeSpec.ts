@@ -150,7 +150,7 @@ const getDefaultParseDOMForLeafNode = (
       const attrs = {
         fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
       };
-      console.log(getTagForNode(elementName, propName), attrs);
+
       return attrs;
     },
   },

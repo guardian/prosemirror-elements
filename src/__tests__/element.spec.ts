@@ -210,7 +210,7 @@ describe("buildElementPlugin", () => {
     });
   });
 
-  describe.only("Element parsing", () => {
+  describe("Element parsing", () => {
     it("should parse fields of all types, respecting values against defaults", () => {
       const elementHTML = `
         <testelement type="testElement" has-errors="false">
@@ -234,7 +234,7 @@ describe("buildElementPlugin", () => {
       expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
     });
 
-    it("should parse fields of all types, ignoring empty values", () => {
+    it("should parse fields of all types, handling empty content values correctly", () => {
       const elementHTML = `
         <testelement type="testElement" has-errors="false">
         <element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p></p></element-testelement-prop1>
