@@ -27,7 +27,7 @@ export const ImageElement: React.FunctionComponent<Props> = ({
       <PropView fieldViewProp={fieldViewPropMap.caption} />
       <PropView fieldViewProp={fieldViewPropMap.src} />
       <PropView fieldViewProp={fieldViewPropMap.useSrc} />
-      <PropView fieldViewProp={fieldViewPropMap.options} />
+      <PropView fieldViewProp={fieldViewPropMap.optionDropdown} />
       <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
       <hr />
       <h4>Element errors</h4>

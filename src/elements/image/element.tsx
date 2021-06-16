@@ -22,13 +22,14 @@ export const imageProps = {
     type: "checkbox",
     defaultValue: { value: false },
   },
-  options: {
+  optionDropdown: {
     type: "dropdown",
-    defaultValue: [
-      { text: "Option 1", value: "opt1", isSelected: true },
-      { text: "Option 2", value: "opt2", isSelected: false },
-      { text: "Option 3", value: "opt3", isSelected: false },
-    ] as DropdownFields,
+    options: [
+      { text: "Option 1", value: "opt1" },
+      { text: "Option 2", value: "opt2" },
+      { text: "Option 3", value: "opt3" },
+    ],
+    defaultValue: "opt1",
   },
 } as const;
 
@@ -56,6 +57,6 @@ export const createImageElement = <Name extends string>(name: Name) =>
       altText: "",
       mainImage: { src: "" },
       src: "",
-      options: [{ text: "", value: "", isSelected: false }],
+      optionDropdown: "opt1",
     }
   );
