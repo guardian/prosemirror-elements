@@ -23,15 +23,14 @@ interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
   type: typeof CheckboxFieldView.propName;
 }
 
-interface DropdownField
-  extends BaseFieldSpec<
-    Array<{
-      text: string;
-      value: string;
-      isSelected: boolean;
-    }>
-  > {
+export type Option<Value> = {
+  text: string;
+  value: Value;
+};
+
+interface DropdownField<Data = unknown> extends BaseFieldSpec<Data> {
   type: typeof DropdownFieldView.propName;
+  options: ReadonlyArray<Option<Data>>;
 }
 
 interface RichTextField

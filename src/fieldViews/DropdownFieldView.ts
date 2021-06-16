@@ -1,25 +1,39 @@
 import type { Node } from "prosemirror-model";
+import type { EditorView } from "prosemirror-view";
+import type { Option } from "../types/Element";
 import { AttributeFieldView } from "./AttributeFieldView";
 
-export type DropdownFields = Option[];
+export type DropdownFields = string;
 
-type Option = {
-  text: string;
-  value: string;
-  isSelected: boolean;
-};
-
-export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
+export class DropdownFieldView<
+  Data = unknown
+> extends AttributeFieldView<Data> {
+  private dropdownElement: HTMLSelectElement | undefined = undefined;
   public static propName = "dropdown" as const;
   public static defaultValue = [];
-  private dropdownElement: HTMLSelectElement | undefined = undefined;
 
-  protected createInnerView(fields: DropdownFields): void {
+  constructor(
+    // The node that this FieldView is responsible for rendering.
+    node: Node,
+    // The outer editor instance. Updated from within this class when the inner state changes.
+    outerView: EditorView,
+    // Returns the current position of the parent FieldView in the document.
+    getPos: () => number,
+    // The offset of this node relative to its parent FieldView.
+    offset: number,
+    defaultFields: Data,
+    private options: ReadonlyArray<Option<Data>>
+  ) {
+    super(node, outerView, getPos, offset, defaultFields);
+  }
+
+  protected createInnerView(fields: Data): void {
+    console.log(fields);
     this.dropdownElement = document.createElement("select");
 
     // Add a child option for each option in the array
-    const options = fields;
-    for (const option of options) {
+    console.log(this.options);
+    for (const option of this.options) {
       const thisOption = this.optionToDOMnode(option);
       this.dropdownElement.appendChild(thisOption);
     }
@@ -28,22 +42,16 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
     this.dropdownElement.addEventListener("change", (e) => {
       const dropdown = e.target as HTMLSelectElement;
 
-      const options = Array.from(dropdown.options);
+      const domOptions = Array.from(dropdown.options);
       this.updateOuterEditor(
-        options.map((option) => {
-          return {
-            text: option.text,
-            value: option.value,
-            isSelected: option.selected,
-          };
-        })
+        (domOptions.find((option) => option.selected)?.value ?? fields) as Data
       );
     });
 
     this.fieldViewElement.appendChild(this.dropdownElement);
   }
 
-  protected updateInnerView(fields: DropdownFields): void {
+  protected updateInnerView(fields: Data): void {
     if (this.dropdownElement) {
       // Remove existing child options
       let lastChild = this.dropdownElement.lastElementChild;
@@ -53,17 +61,17 @@ export class DropdownFieldView extends AttributeFieldView<DropdownFields> {
       }
       // Add an option for each updated field
       const options = fields;
-      for (const option of options) {
-        const thisOption = this.optionToDOMnode(option);
-        this.dropdownElement.appendChild(thisOption);
-      }
+      // for (const option of options) {
+      //   const thisOption = this.optionToDOMnode(option);
+      //   this.dropdownElement.appendChild(thisOption);
+      // }
     }
   }
 
-  private optionToDOMnode(option: Option): HTMLOptionElement {
+  private optionToDOMnode(option: Option<Data>): HTMLOptionElement {
     const domOption = document.createElement("option");
-    domOption.setAttribute("value", option.value);
-    domOption.selected = option.isSelected;
+    // domOption.setAttribute("value", option.value);
+    // domOption.selected = option.isSelected;
     const optionText = document.createTextNode(option.text);
     domOption.appendChild(optionText);
     return domOption;
