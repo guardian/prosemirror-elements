@@ -1,5 +1,4 @@
 import React from "react";
-import type { DropdownFields } from "../../fieldViews/DropdownFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
