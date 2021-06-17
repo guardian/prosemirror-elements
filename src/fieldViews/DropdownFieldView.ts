@@ -10,7 +10,7 @@ export class DropdownFieldView<
 > extends AttributeFieldView<Data> {
   private dropdownElement: HTMLSelectElement | undefined = undefined;
   public static propName = "dropdown" as const;
-  public static defaultValue = [];
+  public static defaultValue = undefined;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -24,54 +24,49 @@ export class DropdownFieldView<
     defaultFields: Data,
     private options: ReadonlyArray<Option<Data>>
   ) {
-    super(node, outerView, getPos, offset, defaultFields);
+    super(node, outerView, getPos, offset);
+    this.createInnerView(node.attrs.fields || defaultFields);
   }
 
-  protected createInnerView(fields: Data): void {
-    console.log(fields);
+  protected createInnerView(chosenOption: Data): void {
     this.dropdownElement = document.createElement("select");
 
     // Add a child option for each option in the array
-    console.log(this.options);
     for (const option of this.options) {
-      const thisOption = this.optionToDOMnode(option);
-      this.dropdownElement.appendChild(thisOption);
+      const domOption = this.optionToDOMnode(option, chosenOption);
+      this.dropdownElement.appendChild(domOption);
     }
 
     // Add a listener that will return the state of the dropdown on change
     this.dropdownElement.addEventListener("change", (e) => {
-      const dropdown = e.target as HTMLSelectElement;
-
-      const domOptions = Array.from(dropdown.options);
+      const dropdownNode = e.target as HTMLSelectElement;
+      const domOptions = Array.from(dropdownNode.options);
+      const selectedOption = domOptions.find((option) => option.selected);
       this.updateOuterEditor(
-        (domOptions.find((option) => option.selected)?.value ?? fields) as Data
+        selectedOption ? JSON.parse(selectedOption.value) : chosenOption
       );
     });
 
     this.fieldViewElement.appendChild(this.dropdownElement);
   }
 
-  protected updateInnerView(fields: Data): void {
+  protected updateInnerView(chosenOption: Data): void {
     if (this.dropdownElement) {
-      // Remove existing child options
-      let lastChild = this.dropdownElement.lastElementChild;
-      while (lastChild) {
-        this.dropdownElement.removeChild(lastChild);
-        lastChild = this.dropdownElement.lastElementChild;
-      }
-      // Add an option for each updated field
-      const options = fields;
-      // for (const option of options) {
-      //   const thisOption = this.optionToDOMnode(option);
-      //   this.dropdownElement.appendChild(thisOption);
-      // }
+      const domOptions = Array.from(this.dropdownElement.options);
+      domOptions.forEach(
+        (domOption) =>
+          (domOption.selected = JSON.parse(domOption.value) === chosenOption)
+      );
     }
   }
 
-  private optionToDOMnode(option: Option<Data>): HTMLOptionElement {
+  private optionToDOMnode(
+    option: Option<Data>,
+    chosenOption: Data
+  ): HTMLOptionElement {
     const domOption = document.createElement("option");
-    // domOption.setAttribute("value", option.value);
-    // domOption.selected = option.isSelected;
+    domOption.setAttribute("value", JSON.stringify(option.value));
+    domOption.selected = option.value === chosenOption;
     const optionText = document.createTextNode(option.text);
     domOption.appendChild(optionText);
     return domOption;
