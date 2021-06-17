@@ -22,11 +22,8 @@ export abstract class AttributeFieldView<Fields extends unknown>
     // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
-    private offset: number,
-    defaultFields: Fields
-  ) {
-    this.createInnerView(node.attrs.fields || defaultFields);
-  }
+    private offset: number
+  ) {}
 
   public getNodeValue(node: Node): Fields {
     return node.attrs.fields as Fields;
@@ -47,7 +44,8 @@ export abstract class AttributeFieldView<Fields extends unknown>
 
     this.offset = elementOffset;
 
-    this.updateInnerView(node.attrs as Fields);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    this.updateInnerView(node.attrs.fields as Fields);
 
     return true;
   }
