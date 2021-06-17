@@ -26,6 +26,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       nodes: {
         doc: {
           content: "text*",
+          marks: "",
           toDOM: () => ["div", 0],
         },
         text: nodes.text,
