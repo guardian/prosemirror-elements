@@ -25,6 +25,7 @@ export const ImageElement: React.FunctionComponent<Props> = ({
     <div data-cy={ImageElementTestId}>
       <PropView fieldViewProp={fieldViewPropMap.altText} />
       <PropView fieldViewProp={fieldViewPropMap.caption} />
+      <PropView fieldViewProp={fieldViewPropMap.src} />
       <PropView fieldViewProp={fieldViewPropMap.useSrc} />
       <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
       <hr />
@@ -44,7 +45,9 @@ type ImageViewProps = {
 };
 
 const ImageView = ({ fieldViewProp }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(fieldViewProp);
+  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
+    fieldViewProp
+  );
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
       <input

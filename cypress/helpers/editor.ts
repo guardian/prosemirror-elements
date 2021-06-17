@@ -61,3 +61,18 @@ export const assertDocHtml = (expectedHtml: string) =>
     }).docToHtml();
     expect(expectedHtml).to.equal(actualHtml);
   });
+
+export const getSerialisedHtml = ({
+  altTextValue = "<p></p>",
+  captionValue = "<p></p>",
+  srcValue = "",
+  useSrcValue = "false",
+  mainImageValue = "",
+}: {
+  altTextValue?: string;
+  captionValue?: string;
+  srcValue?: string;
+  useSrcValue?: string;
+  mainImageValue?: string;
+}): string =>
+  `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText">${altTextValue}</div><div class="ProsemirrorElement__imageElement-caption">${captionValue}</div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;${mainImageValue}&quot;}"></element-imageelement-mainimage><div class="ProsemirrorElement__imageElement-src">${srcValue}</div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`;

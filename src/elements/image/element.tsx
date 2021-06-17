@@ -10,6 +10,9 @@ export const imageProps = {
   altText: {
     type: "richText",
   },
+  src: {
+    type: "text",
+  },
   mainImage: {
     type: "custom",
     defaultValue: { src: "" },
@@ -43,5 +46,6 @@ export const createImageElement = <Name extends string>(name: Name) =>
       useSrc: { value: true },
       altText: "",
       mainImage: { src: "" },
+      src: "",
     }
   );
