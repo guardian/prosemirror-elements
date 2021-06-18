@@ -27,3 +27,5 @@ export const testDecorationPlugin = new Plugin({
     },
   },
 });
+
+export const trimHtml = (html: string) => html.replace(/>\s+</g, "><").trim();
