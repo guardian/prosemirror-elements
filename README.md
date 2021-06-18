@@ -13,6 +13,5 @@ This Prosemirror plugin adds the ability to add element nodes to a document.
 
 ## Testing
 
-Run the integration tests via Cypress with `yarn test:integration`.
-
-Run the unit tests via Jest with `yarn test:unit`.
+- Run the integration tests via Cypress with `yarn test:integration`.
+- Run the unit tests via Jest with `yarn test:unit`.
