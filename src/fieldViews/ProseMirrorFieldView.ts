@@ -45,10 +45,10 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     // The ProseMirror node type name
     private readonly propName: string,
     // Plugins that the editor should use
-    private plugins?: Plugin[]
+    plugins?: Plugin[]
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
-    this.innerEditorView = this.createInnerEditorView(schema);
+    this.innerEditorView = this.createInnerEditorView(schema, plugins);
     this.serialiser = DOMSerializer.fromSchema(schema);
     this.parser = DOMParser.fromSchema(schema);
   }
@@ -212,12 +212,12 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
   }
 
-  private createInnerEditorView(schema: LocalSchema) {
+  private createInnerEditorView(schema: LocalSchema, plugins?: Plugin[]) {
     return new EditorView<LocalSchema>(this.fieldViewElement, {
       state: EditorState.create<LocalSchema>({
         doc: this.node,
         schema,
-        plugins: this.plugins,
+        plugins,
       }),
       // The EditorView defers state management to this class rather than handling changes itself.
       // This lets us propagate changes to the outer EditorView when needed.
