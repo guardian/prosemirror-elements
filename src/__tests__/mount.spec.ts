@@ -118,8 +118,8 @@ describe("mount", () => {
       expect(nodeSpec.get("testElement1")).toMatchObject({
         content: "prop1 prop2",
       });
-      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph*" });
-      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph*" });
+      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph+" });
+      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph+" });
     });
 
     describe("fields", () => {
