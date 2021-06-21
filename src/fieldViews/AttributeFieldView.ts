@@ -41,7 +41,7 @@ export abstract class AttributeFieldView<Fields extends unknown>
   protected abstract updateInnerView(fields: Fields): void;
 
   public update(node: Node, elementOffset: number) {
-    if (node.attrs.type !== this.node.attrs.type) {
+    if (node.type !== this.node.type) {
       return false;
     }
 

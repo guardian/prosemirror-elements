@@ -1,4 +1,4 @@
-import type { Node } from "prosemirror-model";
+import type { Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { createEditorWithElements } from "../../__tests__/helpers";
@@ -31,10 +31,10 @@ const testSchema = new Schema({
   nodes: {
     doc: schema.nodes.doc,
     text: schema.nodes.text,
-    ...getNodeSpecForProp("doc", "testField", {
+    ...(getNodeSpecForProp("doc", "testField", {
       type: "checkbox",
       defaultValue: { value: false },
-    }),
+    }) as { testField: NodeSpec }),
   },
 });
 
@@ -44,7 +44,7 @@ describe("AttributeFieldView", () => {
     updateInnerView.mockReset();
   });
 
-  it("will pass the correct value to its inheritors on createInnerView", () => {
+  it("should pass the correct value to its inheritors on createInnerView", () => {
     const { view } = createEditorWithElements([]);
     const node = testSchema.nodes.testField.create({
       type: "checkbox",
@@ -55,7 +55,7 @@ describe("AttributeFieldView", () => {
     expect(createInnerView.mock.calls[0]).toEqual([{ value: true }]);
   });
 
-  it("will pass the correct value to its inheritors on updateInnerView", () => {
+  it("should pass the correct value to its inheritors on updateInnerView", () => {
     const { view } = createEditorWithElements([]);
     const node = testSchema.nodes.testField.create({
       type: "checkbox",
