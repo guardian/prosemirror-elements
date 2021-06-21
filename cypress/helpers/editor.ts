@@ -76,6 +76,7 @@ export const getSerialisedHtml = ({
   useSrcValue?: string;
   mainImageValue?: string;
 }): string =>
+<<<<<<< HEAD
   trimHtml(`<imageelement type="imageElement" has-errors="false">
     <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
     <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
@@ -83,3 +84,6 @@ export const getSerialisedHtml = ({
     <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
     <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
   </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
+=======
+  `<imageelement type="imageElement" has-errors="false"><div class="ProsemirrorElement__imageElement-altText">${altTextValue}</div><div class="ProsemirrorElement__imageElement-caption">${captionValue}</div><element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;${mainImageValue}&quot;}"></element-imageelement-mainimage><element-imageelement-options class="ProsemirrorElement__imageElement-options" fields="[{&quot;text&quot;:&quot;Option 1&quot;,&quot;value&quot;:&quot;opt1&quot;,&quot;isSelected&quot;:true},{&quot;text&quot;:&quot;Option 2&quot;,&quot;value&quot;:&quot;opt2&quot;,&quot;isSelected&quot;:false},{&quot;text&quot;:&quot;Option 3&quot;,&quot;value&quot;:&quot;opt3&quot;,&quot;isSelected&quot;:false}]"></element-imageelement-options><div class="ProsemirrorElement__imageElement-src">${srcValue}</div><element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc></imageelement><p>First paragraph</p><p>Second paragraph</p>`;
+>>>>>>> 2a555b2... Fix existing integration tests
