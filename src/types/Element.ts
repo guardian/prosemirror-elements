@@ -6,7 +6,11 @@ import type {
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type { RichTextFieldView } from "../fieldViews/RichTextFieldView";
+<<<<<<< HEAD
 import type { TextFieldView } from "../fieldViews/TextFieldView";
+=======
+import { TextFieldView } from "../fieldViews/TextFieldView";
+>>>>>>> f5dadbd... Adds TextFieldView
 import type { CommandCreator } from "./Commands";
 
 /**
@@ -28,7 +32,13 @@ interface RichTextField
   type: typeof RichTextFieldView.propName;
 }
 
+<<<<<<< HEAD
 interface TextField extends BaseFieldSpec<string> {
+=======
+interface TextField
+  extends BaseFieldSpec<string>,
+    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
+>>>>>>> f5dadbd... Adds TextFieldView
   type: typeof TextFieldView.propName;
 }
 
@@ -45,11 +55,15 @@ export type SchemaFromElementFieldSpec<
   FSpec extends FieldSpec<string>
 > = Schema<Extract<keyof FSpec, string>>;
 
+<<<<<<< HEAD
 export type FieldViews =
   | TextFieldView
   | RichTextFieldView
   | CheckboxFieldView
   | CustomFieldView;
+=======
+export type FieldViews = TextFieldView | RichTextFieldView | CheckboxFieldView | CustomFieldView;
+>>>>>>> f5dadbd... Adds TextFieldView
 
 export type FieldViewSpec<FieldView extends FieldViews> = {
   fieldView: FieldView;
