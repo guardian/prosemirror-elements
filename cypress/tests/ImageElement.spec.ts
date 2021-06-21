@@ -123,6 +123,33 @@ describe("ImageElement", () => {
       });
     });
 
+    describe("Dropdown field", () => {
+      it(`should change the option selected in the document when a user selects a new option`, () => {
+        addElement();
+        getElementField("optionDropdown")
+          .find("select")
+          .select(JSON.stringify("opt2"));
+        getElementField("optionDropdown")
+          .find("select")
+          .children("option:selected")
+          .should("have.value", JSON.stringify("opt2"));
+      });
+
+      it(`should have a default value when instantiated`, () => {
+        addElement();
+        assertDocHtml(getSerialisedHtml({}));
+        assertDocHtml(getSerialisedHtml({ optionValue: "opt1" }));
+      });
+
+      it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
+        addElement();
+        getElementField("optionDropdown")
+          .find("select")
+          .select(JSON.stringify("opt2"));
+        assertDocHtml(getSerialisedHtml({ optionValue: "opt2" }));
+      });
+    });
+
     describe("Custom element – image src", () => {
       it(`should serialise state as field attributes on the appropriate node in the document`, () => {
         addElement();
