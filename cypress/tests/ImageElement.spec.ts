@@ -71,6 +71,7 @@ describe("ImageElement", () => {
               <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText"><p>Alt text</p></element-imageelement-alttext>
               <element-imageelement-caption class="ProsemirrorElement__imageElement-caption"><p>Caption text</p></element-imageelement-caption>
               <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;&quot;}"></element-imageelement-mainimage>
+              <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;opt1&quot;"></element-imageelement-optiondropdown>
               <element-imageelement-src class="ProsemirrorElement__imageElement-src"></element-imageelement-src>
               <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:false}"></element-imageelement-usesrc>
             </imageelement>
