@@ -70,7 +70,7 @@ const getNodeSpecForProp = (
     case "text":
       return {
         [propName]: {
-          content: prop.content ?? "paragraph",
+          content: prop.content ?? "text*",
           toDOM:
             prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
           parseDOM: prop.parseDOM ?? [{ tag: "div" }],
@@ -79,7 +79,7 @@ const getNodeSpecForProp = (
     case "richText":
       return {
         [propName]: {
-          content: prop.content ?? "paragraph+",
+          content: prop.content ?? "paragraph*",
           toDOM:
             prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
           parseDOM: prop.parseDOM ?? [
