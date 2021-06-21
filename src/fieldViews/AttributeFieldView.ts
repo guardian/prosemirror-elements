@@ -44,7 +44,6 @@ export abstract class AttributeFieldView<Fields extends unknown>
 
     this.offset = elementOffset;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     this.updateInnerView(node.attrs.fields as Fields);
 
     return true;
