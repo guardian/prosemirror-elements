@@ -41,13 +41,12 @@ export abstract class AttributeFieldView<Fields extends unknown>
   protected abstract updateInnerView(fields: Fields): void;
 
   public update(node: Node, elementOffset: number) {
-    if (!node.sameMarkup(this.node)) {
+    if (node.attrs.type !== this.node.attrs.type) {
       return false;
     }
 
     this.offset = elementOffset;
-
-    this.updateInnerView(node.attrs as Fields);
+    this.updateInnerView(node.attrs.fields as Fields);
 
     return true;
   }
