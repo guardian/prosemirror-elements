@@ -118,8 +118,8 @@ describe("mount", () => {
       expect(nodeSpec.get("testElement1")).toMatchObject({
         content: "prop1 prop2",
       });
-      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph+" });
-      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph+" });
+      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph*" });
+      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph*" });
     });
 
     describe("fields", () => {
@@ -156,9 +156,7 @@ describe("mount", () => {
           const { nodeSpec } = buildElementPlugin([testElement1]);
           const prop1NodeSpec = nodeSpec.get("prop1");
           expect(prop1NodeSpec).toHaveProperty("content", "text*");
-          expect(prop1NodeSpec).toHaveProperty("parseDOM", [
-            { tag: "element-testelement1-prop1" },
-          ]);
+          expect(prop1NodeSpec).toHaveProperty("parseDOM", [{ tag: "div" }]);
         });
       });
 
