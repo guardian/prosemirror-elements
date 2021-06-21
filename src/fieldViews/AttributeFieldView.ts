@@ -33,6 +33,8 @@ export abstract class AttributeFieldView<Fields extends unknown>
     return this.node.type.create({ fields });
   }
 
+  // Classes extending AttributeFieldView should call e.g. this.createInnerView(node.attrs.fields || defaultFields)
+  // in their constructor
   protected abstract createInnerView(fields: Fields): void;
 
   protected abstract updateInnerView(fields: Fields): void;
