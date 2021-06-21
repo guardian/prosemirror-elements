@@ -156,7 +156,9 @@ describe("mount", () => {
           const { nodeSpec } = buildElementPlugin([testElement1]);
           const prop1NodeSpec = nodeSpec.get("prop1");
           expect(prop1NodeSpec).toHaveProperty("content", "text*");
-          expect(prop1NodeSpec).toHaveProperty("parseDOM", [{ tag: "div" }]);
+          expect(prop1NodeSpec).toHaveProperty("parseDOM", [
+            { tag: "element-testelement1-prop1" },
+          ]);
         });
       });
 
