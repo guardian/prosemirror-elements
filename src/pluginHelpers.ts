@@ -5,6 +5,7 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "./fieldViews/CheckboxFieldView";
 import { CustomFieldView } from "./fieldViews/CustomFieldView";
 import { RichTextFieldView } from "./fieldViews/RichTextFieldView";
+import { TextFieldView } from "./fieldViews/TextFieldView";
 import type { Field } from "./types/Element";
 
 export const temporaryHardcodedSchema = new Schema({
@@ -25,6 +26,8 @@ export const getElementFieldViewFromType = (
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
   switch (prop.type) {
+    case "text":
+      return new TextFieldView(node, view, getPos, offset, innerDecos);
     case "richText":
       return new RichTextFieldView(
         node,

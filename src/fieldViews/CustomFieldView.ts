@@ -14,8 +14,7 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * state changes. In this way, consuming code can manage state and UI changes itself,
  * perhaps in its own renderer format.
  */
-export class CustomFieldView<Fields = unknown>
-  implements FieldView<Fields> {
+export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
   public static propName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
   public static defaultValue = undefined;

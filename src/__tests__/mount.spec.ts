@@ -118,8 +118,8 @@ describe("mount", () => {
       expect(nodeSpec.get("testElement1")).toMatchObject({
         content: "prop1 prop2",
       });
-      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph" });
-      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph" });
+      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph+" });
+      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph+" });
     });
 
     describe("fields", () => {
@@ -129,7 +129,7 @@ describe("mount", () => {
             prop1: {
               type: "richText" as const,
               content: "text",
-              toDOM: () => "div",
+              toDOM: () => "element-testelement1-prop1",
               parseDOM: [{ tag: "header" }],
             },
           };
@@ -141,6 +141,24 @@ describe("mount", () => {
             toDOM: fieldSpec.prop1.toDOM,
             parseDOM: fieldSpec.prop1.parseDOM,
           });
+        });
+      });
+
+      describe("text", () => {
+        it("should provide a default inline node spec", () => {
+          const fieldSpec = {
+            prop1: {
+              type: "text" as const,
+            },
+          };
+
+          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const { nodeSpec } = buildElementPlugin([testElement1]);
+          const prop1NodeSpec = nodeSpec.get("prop1");
+          expect(prop1NodeSpec).toHaveProperty("content", "text*");
+          expect(prop1NodeSpec).toHaveProperty("parseDOM", [
+            { tag: "element-testelement1-prop1" },
+          ]);
         });
       });
 
@@ -160,9 +178,7 @@ describe("mount", () => {
             attrs: {
               fields: {
                 default: {
-                  value: {
-                    value: true,
-                  },
+                  value: true,
                 },
               },
             },

@@ -1,5 +1,5 @@
-import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
+import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,

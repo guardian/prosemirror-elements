@@ -1,6 +1,6 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
-import { DOMParser, Fragment } from "prosemirror-model";
+import { DOMParser } from "prosemirror-model";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
 import type { Field, FieldSpec } from "./types/Element";
@@ -67,13 +67,23 @@ const getNodeSpecForProp = (
   prop: Field
 ): NodeSpec => {
   switch (prop.type) {
+    case "text":
+      return {
+        [propName]: {
+          content: "text*",
+          toDOM: getDefaultToDOMForContentNode(elementName, propName),
+          parseDOM: [{ tag: getTagForNode(elementName, propName) }],
+        },
+      };
     case "richText":
       return {
         [propName]: {
-          content: prop.content ?? "paragraph",
+          content: prop.content ?? "paragraph+",
           toDOM:
             prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
-          parseDOM: prop.parseDOM ?? [{ tag: "div" }],
+          parseDOM: prop.parseDOM ?? [
+            { tag: getTagForNode(elementName, propName) },
+          ],
         },
       };
     case "checkbox":
@@ -84,7 +94,7 @@ const getNodeSpecForProp = (
           parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
           attrs: {
             fields: {
-              default: { value: prop.defaultValue },
+              default: prop.defaultValue,
             },
           },
         },
@@ -109,7 +119,11 @@ const getDefaultToDOMForContentNode = (
   elementName: string,
   propName: string
 ) => () =>
-  ["div", { class: getClassForNode(elementName, propName) }, 0] as const;
+  [
+    getTagForNode(elementName, propName),
+    { class: getClassForNode(elementName, propName) },
+    0,
+  ] as const;
 
 const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
   node: Node
@@ -133,13 +147,11 @@ const getDefaultParseDOMForLeafNode = (
       if (typeof dom === "string") {
         return;
       }
-      const hasErrorAttr = dom.getAttribute("has-errors");
-
-      return {
-        type: dom.getAttribute("type"),
+      const attrs = {
         fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
-        hasErrors: hasErrorAttr && hasErrorAttr !== "false",
       };
+
+      return attrs;
     },
   },
 ];
@@ -148,7 +160,7 @@ const getClassForNode = (elementName: string, propName: string) =>
   `ProsemirrorElement__${elementName}-${propName}`;
 
 const getTagForNode = (elementName: string, propName: string) =>
-  `element-${elementName}-${propName}`;
+  `element-${elementName}-${propName}`.toLowerCase();
 
 export const createNodesForFieldValues = <
   S extends Schema,
@@ -173,11 +185,8 @@ export const createNodesForFieldValues = <
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
     if (fieldView.fieldType === "CONTENT") {
-      const content = createContentForFieldValue(schema, fieldValue as string);
-      return nodeType.create(
-        { type: field.type },
-        content.firstChild ?? Fragment.empty
-      );
+      const node = nodeType.create({ type: field.type });
+      return createContentForFieldValue(schema, fieldValue as string, node);
     } else {
       return nodeType.create({ type: field.type, fields: fieldValue });
     }
@@ -186,12 +195,13 @@ export const createNodesForFieldValues = <
 
 const createContentForFieldValue = <S extends Schema>(
   schema: S,
-  fieldValue: string
+  fieldValue: string,
+  topNode: Node
 ) => {
   const parser = DOMParser.fromSchema(schema);
   const element = document.createElement("div");
   element.innerHTML = fieldValue;
-  return parser.parse(element);
+  return parser.parse(element, { topNode });
 };
 
 /**

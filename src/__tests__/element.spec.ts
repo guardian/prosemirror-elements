@@ -1,4 +1,5 @@
 import { buildElementPlugin } from "../element";
+import { trimHtml } from "../testHelpers";
 import type { CustomField } from "../types/Element";
 import { createEditorWithElements, createNoopElement } from "./helpers";
 
@@ -81,7 +82,7 @@ describe("buildElementPlugin", () => {
     });
   });
 
-  describe("Element creation", () => {
+  describe("Element creation and serialisation", () => {
     it("should create an element with default content when no fields are supplied", () => {
       const testElement = createNoopElement("testElement", {
         prop1: { type: "checkbox", defaultValue: { value: false } },
@@ -96,7 +97,7 @@ describe("buildElementPlugin", () => {
       insertElement("testElement")(view.state, view.dispatch);
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;value&quot;:false}"></element-testelement-prop1><div class="ProsemirrorElement__testElement-prop2"><p>Content</p></div></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;value&quot;:false}"></element-testelement-prop1><element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"><p>Content</p></element-testelement-prop2></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -136,7 +137,7 @@ describe("buildElementPlugin", () => {
       );
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><div class="ProsemirrorElement__testElement-prop1"><p>Content</p></div></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content</p></element-testelement-prop1></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -157,7 +158,7 @@ describe("buildElementPlugin", () => {
       );
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><div class="ProsemirrorElement__testElement-prop1"><p>Content</p></div><div class="ProsemirrorElement__testElement-prop2"><p>Default</p></div></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content</p></element-testelement-prop1><element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"><p>Default</p></element-testelement-prop2></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -178,7 +179,7 @@ describe("buildElementPlugin", () => {
       })(view.state, view.dispatch);
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><div class="ProsemirrorElement__testElement-prop1"><p>Content for prop1</p></div><div class="ProsemirrorElement__testElement-prop2"><p>Content for prop2</p></div></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content for prop1</p></element-testelement-prop1><element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"><p>Content for prop2</p></element-testelement-prop2></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -203,6 +204,54 @@ describe("buildElementPlugin", () => {
       const expected =
         '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></element-testelement-prop1></testelement>';
       expect(getElementAsHTML()).toBe(expected);
+    });
+  });
+
+  describe("Element parsing", () => {
+    it("should parse fields of all types, respecting values against defaults", () => {
+      const elementHTML = `
+        <testelement type="testElement" has-errors="false">
+        <element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content</p></element-testelement-prop1>
+        <element-testelement-prop2 class="ProsemirrorElement__testElement-prop2">Content</element-testelement-prop2>
+        <element-testelement-prop3 class="ProsemirrorElement__testElement-prop3" fields="{&quot;value&quot;:true}"></element-testelement-prop3>
+        </testelement>
+      `;
+
+      const testElement = createNoopElement("testElement", {
+        prop1: { type: "richText", defaultValue: "<p>Default</p>" },
+        prop2: { type: "text", defaultValue: "Default" },
+        prop3: { type: "checkbox", defaultValue: { value: false } },
+      });
+
+      const { getElementAsHTML } = createEditorWithElements(
+        [testElement],
+        elementHTML
+      );
+
+      expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
+    });
+
+    it("should parse fields of all types, handling empty content values correctly", () => {
+      const elementHTML = `
+        <testelement type="testElement" has-errors="false">
+        <element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p></p></element-testelement-prop1>
+        <element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"></element-testelement-prop2>
+        <element-testelement-prop3 class="ProsemirrorElement__testElement-prop3" fields="{&quot;value&quot;:true}"></element-testelement-prop3>
+        </testelement>
+      `;
+
+      const testElement = createNoopElement("testElement", {
+        prop1: { type: "richText", defaultValue: "<p>Default</p>" },
+        prop2: { type: "text", defaultValue: "Default" },
+        prop3: { type: "checkbox", defaultValue: { value: false } },
+      });
+
+      const { getElementAsHTML } = createEditorWithElements(
+        [testElement],
+        elementHTML
+      );
+
+      expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
     });
   });
 });
