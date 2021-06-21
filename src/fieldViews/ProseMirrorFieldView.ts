@@ -1,6 +1,9 @@
+import { exampleSetup } from "prosemirror-example-setup";
+import { redo, undo } from "prosemirror-history";
+import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
-import type { Plugin, Transaction } from "prosemirror-state";
+import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
@@ -43,12 +46,10 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
     // The ProseMirror node type name
-    private readonly propName: string,
-    // Plugins that the editor should use
-    plugins?: Plugin[]
+    private readonly propName: string
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
-    this.innerEditorView = this.createInnerEditorView(schema, plugins);
+    this.innerEditorView = this.createInnerEditorView(schema);
     this.serialiser = DOMSerializer.fromSchema(schema);
     this.parser = DOMParser.fromSchema(schema);
   }
@@ -212,12 +213,18 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
   }
 
-  private createInnerEditorView(schema: LocalSchema, plugins?: Plugin[]) {
+  private createInnerEditorView(schema: LocalSchema) {
     return new EditorView<LocalSchema>(this.fieldViewElement, {
       state: EditorState.create<LocalSchema>({
         doc: this.node,
         schema,
-        plugins,
+        plugins: [
+          keymap({
+            "Mod-z": () => undo(this.outerView.state, this.outerView.dispatch),
+            "Mod-y": () => redo(this.outerView.state, this.outerView.dispatch),
+          }),
+          ...exampleSetup({ schema }),
+        ],
       }),
       // The EditorView defers state management to this class rather than handling changes itself.
       // This lets us propagate changes to the outer EditorView when needed.
