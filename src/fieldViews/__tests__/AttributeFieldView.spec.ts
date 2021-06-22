@@ -5,8 +5,8 @@ import { createEditorWithElements } from "../../__tests__/helpers";
 import { getNodeSpecForProp } from "../../nodeSpec";
 import { AttributeFieldView } from "../AttributeFieldView";
 
-const createInnerView = jest.fn();
-const updateInnerView = jest.fn();
+const createInnerViewSpy = jest.fn();
+const updateInnerViewSpy = jest.fn();
 
 type TestAttributeFields = { value: boolean };
 
@@ -19,11 +19,11 @@ class TestAttributeFieldView extends AttributeFieldView<TestAttributeFields> {
   }
 
   protected createInnerView(fields: TestAttributeFields) {
-    createInnerView(fields);
+    createInnerViewSpy(fields);
   }
 
   protected updateInnerView(fields: TestAttributeFields) {
-    updateInnerView(fields);
+    updateInnerViewSpy(fields);
   }
 }
 
@@ -40,8 +40,8 @@ const testSchema = new Schema({
 
 describe("AttributeFieldView", () => {
   beforeEach(() => {
-    createInnerView.mockReset();
-    updateInnerView.mockReset();
+    createInnerViewSpy.mockReset();
+    updateInnerViewSpy.mockReset();
   });
 
   it("should pass the correct value to its inheritors on createInnerView", () => {
@@ -52,7 +52,7 @@ describe("AttributeFieldView", () => {
     });
     new TestAttributeFieldView(node, view, () => 0, 0, { value: false });
 
-    expect(createInnerView.mock.calls[0]).toEqual([{ value: true }]);
+    expect(createInnerViewSpy.mock.calls[0]).toEqual([{ value: true }]);
   });
 
   it("should pass the correct value to its inheritors on updateInnerView", () => {
@@ -72,6 +72,6 @@ describe("AttributeFieldView", () => {
 
     fieldView.update(newNode, 0);
 
-    expect(updateInnerView.mock.calls[0]).toEqual([{ value: true }]);
+    expect(updateInnerViewSpy.mock.calls[0]).toEqual([{ value: true }]);
   });
 });
