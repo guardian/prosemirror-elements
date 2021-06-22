@@ -120,6 +120,21 @@ describe("ImageElement", () => {
         getElementField("useSrc").find("input").click();
         assertDocHtml(getSerialisedHtml({ useSrcValue: "false" }));
       });
+
+      it(`should track the field offset, and update correctly after fields above have changed`, () => {
+        addElement();
+
+        getElementField("useSrc").find("input").click();
+        typeIntoElementField("altText", "Example text");
+        getElementField("useSrc").find("input").click();
+
+        assertDocHtml(
+          getSerialisedHtml({
+            altTextValue: "<p>Example text</p>",
+            useSrcValue: "false",
+          })
+        );
+      });
     });
 
     describe("Custom element – image src", () => {

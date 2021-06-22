@@ -61,7 +61,7 @@ const getNodeSpecForElement = (
   },
 });
 
-const getNodeSpecForProp = (
+export const getNodeSpecForProp = (
   elementName: string,
   propName: string,
   prop: Field

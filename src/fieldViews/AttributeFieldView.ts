@@ -1,4 +1,4 @@
-import type { Node } from "prosemirror-model";
+import type { Node, NodeType } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import type { FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
@@ -13,10 +13,11 @@ export abstract class AttributeFieldView<Fields extends unknown>
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public fieldViewElement = document.createElement("div");
+  private nodeType: NodeType;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    private node: Node,
+    node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
@@ -25,6 +26,7 @@ export abstract class AttributeFieldView<Fields extends unknown>
     private offset: number,
     defaultFields: Fields
   ) {
+    this.nodeType = node.type;
     this.createInnerView(node.attrs.fields || defaultFields);
   }
 
@@ -33,7 +35,7 @@ export abstract class AttributeFieldView<Fields extends unknown>
   }
 
   public getNodeFromValue(fields: Fields): Node {
-    return this.node.type.create({ fields });
+    return this.nodeType.create({ fields });
   }
 
   protected abstract createInnerView(fields: Fields): void;
@@ -41,13 +43,12 @@ export abstract class AttributeFieldView<Fields extends unknown>
   protected abstract updateInnerView(fields: Fields): void;
 
   public update(node: Node, elementOffset: number) {
-    if (!node.sameMarkup(this.node)) {
+    if (node.type !== this.nodeType) {
       return false;
     }
 
     this.offset = elementOffset;
-
-    this.updateInnerView(node.attrs as Fields);
+    this.updateInnerView(node.attrs.fields as Fields);
 
     return true;
   }
