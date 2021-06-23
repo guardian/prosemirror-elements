@@ -2,7 +2,7 @@ import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer, Slice } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
-import type { Step } from "prosemirror-transform";
+import { Step } from "prosemirror-transform";
 import {
   Mapping,
   ReplaceAroundStep,
@@ -211,8 +211,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
       for (let j = 0; j < steps.length; j++) {
         const mappedStep = steps[j].map(offsetMap);
         if (mappedStep) {
-          this.applyOuterSliceToInnerStep(mappedStep);
-          outerTr.step(mappedStep);
+          outerTr.step(this.applyOuterSliceToInnerStep(mappedStep));
         }
       }
     }
@@ -282,13 +281,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
    * Transform an incoming node from the outer editor into
    * a node that matches the schema of the inner editor.
    */
-  private applyOuterSliceToInnerStep(step: Step) {
-    if (step instanceof ReplaceStep || step instanceof ReplaceAroundStep) {
-      const slice = (step as any).slice as Slice;
-      const content = this.outerParser.parseSlice(
-        this.outerSerialiser.serializeFragment(slice.content)
-      ).content;
-      (step as any).slice = new Slice(content, slice.openStart, slice.openEnd);
-    }
+  private applyOuterSliceToInnerStep(step: Step): Step {
+    return Step.fromJSON(this.outerView.state.schema, step.toJSON())
   }
 }
