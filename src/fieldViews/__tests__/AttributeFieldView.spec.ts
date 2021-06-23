@@ -43,18 +43,6 @@ describe("AttributeFieldView", () => {
     createInnerViewSpy.mockReset();
     updateInnerViewSpy.mockReset();
   });
-
-  it("should pass the correct value to its inheritors on createInnerView", () => {
-    const { view } = createEditorWithElements([]);
-    const node = testSchema.nodes.testField.create({
-      type: "checkbox",
-      fields: { value: true },
-    });
-    new TestAttributeFieldView(node, view, () => 0, 0, { value: false });
-
-    expect(createInnerViewSpy.mock.calls[0]).toEqual([{ value: true }]);
-  });
-
   it("should pass the correct value to its inheritors on updateInnerView", () => {
     const { view } = createEditorWithElements([]);
     const node = testSchema.nodes.testField.create({
@@ -62,9 +50,7 @@ describe("AttributeFieldView", () => {
       fields: { value: false },
     });
 
-    const fieldView = new TestAttributeFieldView(node, view, () => 0, 0, {
-      value: false,
-    });
+    const fieldView = new TestAttributeFieldView(node, view, () => 0, 0);
 
     const newNode = testSchema.nodes.testField.create({
       fields: { value: true },

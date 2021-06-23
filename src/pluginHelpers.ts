@@ -4,6 +4,7 @@ import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "./fieldViews/CheckboxFieldView";
 import { CustomFieldView } from "./fieldViews/CustomFieldView";
+import { DropdownFieldView } from "./fieldViews/DropdownFieldView";
 import { RichTextFieldView } from "./fieldViews/RichTextFieldView";
 import { TextFieldView } from "./fieldViews/TextFieldView";
 import type { Field } from "./types/Element";
@@ -47,5 +48,14 @@ export const getElementFieldViewFromType = (
       );
     case "custom":
       return new CustomFieldView(node, view, getPos, offset);
+    case "dropdown":
+      return new DropdownFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        prop.defaultValue ?? DropdownFieldView.defaultValue,
+        prop.options
+      );
   }
 };

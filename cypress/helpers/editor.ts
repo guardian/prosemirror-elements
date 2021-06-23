@@ -69,17 +69,20 @@ export const getSerialisedHtml = ({
   srcValue = "",
   useSrcValue = "false",
   mainImageValue = "",
+  optionValue = "opt1",
 }: {
   altTextValue?: string;
   captionValue?: string;
   srcValue?: string;
   useSrcValue?: string;
   mainImageValue?: string;
+  optionValue?: string;
 }): string =>
   trimHtml(`<imageelement type="imageElement" has-errors="false">
     <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
     <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
     <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;${mainImageValue}&quot;}"></element-imageelement-mainimage>
+    <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
     <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
     <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
   </imageelement><p>First paragraph</p><p>Second paragraph</p>`);

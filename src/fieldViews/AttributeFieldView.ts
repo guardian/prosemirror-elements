@@ -23,11 +23,9 @@ export abstract class AttributeFieldView<Fields extends unknown>
     // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
-    private offset: number,
-    defaultFields: Fields
+    private offset: number
   ) {
     this.nodeType = node.type;
-    this.createInnerView(node.attrs.fields || defaultFields);
   }
 
   public getNodeValue(node: Node): Fields {
@@ -38,6 +36,8 @@ export abstract class AttributeFieldView<Fields extends unknown>
     return this.nodeType.create({ fields });
   }
 
+  // Classes extending AttributeFieldView should call e.g. this.createInnerView(node.attrs.fields || defaultFields)
+  // in their constructor
   protected abstract createInnerView(fields: Fields): void;
 
   protected abstract updateInnerView(fields: Fields): void;
