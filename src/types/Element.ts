@@ -43,9 +43,11 @@ interface TextField extends BaseFieldSpec<string> {
   type: typeof TextFieldView.propName;
 }
 
-export interface CustomField<Data = unknown> extends BaseFieldSpec<Data> {
+export interface CustomField<Data = unknown, Props = unknown>
+  extends BaseFieldSpec<Data> {
   type: typeof CustomFieldView.propName;
   defaultValue: Data;
+  props: Props;
 }
 
 export type Field =
@@ -74,17 +76,18 @@ export type FieldViewSpec<FieldView extends FieldViews> = {
   name: string;
 };
 
-export type CustomFieldViewSpec<Data = unknown> = {
+export type CustomFieldViewSpec<Data = unknown, Props = unknown> = {
   fieldView: CustomFieldView<Data>;
-  fieldSpec: CustomField<Data>;
+  fieldSpec: CustomField<Data, Props>;
   name: string;
 };
 
 export type FieldNameToFieldViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FSpec[name] extends CustomField<
-    infer Data
+    infer Data,
+    infer Props
   >
-    ? CustomFieldViewSpec<Data>
+    ? CustomFieldViewSpec<Data, Props>
     : FieldViewSpec<FieldTypeToViewMap<FSpec[name]>[FSpec[name]["type"]]>;
 };
 

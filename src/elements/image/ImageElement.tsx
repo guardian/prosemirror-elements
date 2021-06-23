@@ -1,3 +1,4 @@
+import _ from "cypress/types/lodash";
 import React from "react";
 import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
@@ -6,7 +7,7 @@ import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../types/Element";
-import type { imageProps } from "./element";
+import type { imageProps, SetSrc } from "./element";
 
 type Props = {
   fields: FieldNameToValueMap<typeof imageProps>;
@@ -35,26 +36,48 @@ export const ImageElement: React.FunctionComponent<Props> = ({
       <hr />
       <h4>Element values</h4>
       <pre>{JSON.stringify(fields)}</pre>
+      <img src={fields.mainImage.src}></img>
     </div>
   );
 };
 
+
 type ImageViewProps = {
-  fieldViewProp: CustomFieldViewSpec<{
-    src: string;
-  }>;
+  fieldViewProp: CustomFieldViewSpec<
+    {
+      src: string;
+    },
+    {
+      onSelect: (setSrc: SetSrc) => void;
+      onCrop: (src: string, setSrc: SetSrc) => void;
+    }
+  >;
 };
 
 const ImageView = ({ fieldViewProp }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
     fieldViewProp
   );
+
+  const setSrc = (src: string) => {
+    if (setImageFieldsRef.current) {
+      setImageFieldsRef.current({ src });
+    }
+  };
+
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <input
-        value={imageFields.src || ""}
-        onChange={(e) => setImageFieldsRef.current?.({ src: e.target.value })}
-      ></input>
+      <button onClick={() => fieldViewProp.fieldSpec.props.onSelect(setSrc)}>
+        Choose Image
+      </button>
+      <button
+        onClick={() =>
+          fieldViewProp.fieldSpec.props.onCrop(imageFields.src, setSrc)
+        }
+      >
+        Crop Image
+      </button>
+      <button onClick={() => setSrc("")}>Remove Image</button>
       {JSON.stringify(imageFields)}
     </div>
   );

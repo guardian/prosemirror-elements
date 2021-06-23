@@ -3,6 +3,8 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
 
+export type SetSrc = (src: string) => void;
+
 export const imageProps = {
   caption: {
     type: "richText",
@@ -16,7 +18,27 @@ export const imageProps = {
   mainImage: {
     type: "custom",
     defaultValue: { src: "" },
-  } as CustomField<{ src: string }>,
+    props: {
+      onSelect: (setSrc: (src: string) => void) => {
+        const r = confirm("Select an image?");
+        if (r) {
+          setSrc(
+            "https://upload.wikimedia.org/wikipedia/commons/9/90/Hooded_Visorbearer_Augastes_lumachella_%28cropped%29.jpg"
+          );
+        }
+      },
+      onCrop: (src: string, setSrc: SetSrc) => {
+        alert("Crops " + src);
+        setSrc(src + "123");
+      },
+    },
+  } as CustomField<
+    { src: string },
+    {
+      onSelect: (setSrc: SetSrc) => void;
+      onCrop: (src: string, setSrc: SetSrc) => void;
+    }
+  >,
   useSrc: {
     type: "checkbox",
     defaultValue: { value: false },
