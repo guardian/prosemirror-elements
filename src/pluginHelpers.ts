@@ -31,6 +31,7 @@ export const getElementFieldViewFromType = (
       return new TextFieldView(node, view, getPos, offset, innerDecos);
     case "richText":
       return new RichTextFieldView(
+        prop,
         node,
         view,
         getPos,
