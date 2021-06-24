@@ -92,6 +92,7 @@ export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
     const contentOffset = 1;
     const nodePos = this.getPos() + this.offset + contentOffset;
     outerTr.setNodeMarkup(nodePos, undefined, {
+      ...this.node.attrs,
       fields,
     });
 

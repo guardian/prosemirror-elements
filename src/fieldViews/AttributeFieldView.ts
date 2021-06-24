@@ -63,7 +63,9 @@ export abstract class AttributeFieldView<Fields extends unknown>
     //  - getPos() returns the position directly before the parent node (+1)
     const contentOffset = 1;
     const nodePos = this.getPos() + this.offset + contentOffset;
+
     outerTr.setNodeMarkup(nodePos, undefined, {
+      ...this.node.attrs,
       fields,
     });
 
