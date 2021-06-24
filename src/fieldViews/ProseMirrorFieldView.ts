@@ -52,7 +52,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     this.applyDecorationsFromOuterEditor(decorations);
     this.serialiser = DOMSerializer.fromSchema(schema);
     this.parser = DOMParser.fromSchema(schema);
-    this.node = this.getInnerNodeFromOuter(node);
+    this.node = this.getInnerNodeFromOuter(schema, node);
     this.innerEditorView = this.createInnerEditorView(schema, plugins);
   }
 
@@ -114,7 +114,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.offset = elementOffset;
-    this.node = this.getInnerNodeFromOuter(outerNode);
+    this.node = this.getInnerNodeFromOuter(this.node.type.schema, outerNode);
 
     if (!this.innerEditorView) {
       return;
@@ -257,10 +257,8 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
    * Transform an incoming node from the outer editor into
    * a node that matches the schema of the inner editor.
    */
-  private getInnerNodeFromOuter(outerNode: Node) {
-    return this.parser.parse(
-      this.serialiser.serializeFragment(outerNode.content)
-    );
+  private getInnerNodeFromOuter(innerSchema: Schema, outerNode: Node) {
+    return innerSchema.nodeFromJSON(outerNode.toJSON());
   }
 
   /**
