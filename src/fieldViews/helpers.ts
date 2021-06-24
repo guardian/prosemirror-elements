@@ -1,4 +1,8 @@
-import type { CustomField, FieldSpec } from "../types/Element";
+import type OrderedMap from "orderedmap";
+import type { NodeSpec } from "prosemirror-model";
+import { Schema } from "prosemirror-model";
+import { getNodeSpecForProp } from "../nodeSpec";
+import type { CustomField, Field, FieldSpec } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxFields } from "./CheckboxFieldView";
 import { CustomFieldView } from "./CustomFieldView";
@@ -54,3 +58,10 @@ export type FieldTypeToValueMap<
 export type FieldNameToValueMap<FSpec extends FieldSpec<string>> = {
   [Name in keyof FSpec]: FieldTypeToValueMap<FSpec, Name>[FSpec[Name]["type"]];
 };
+
+export const addRootNodeToSchema = (schema: Schema, propName: string) =>
+  new Schema({
+    nodes: schema.spec.nodes,
+    marks: schema.spec.marks,
+    topNode: propName,
+  });
