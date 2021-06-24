@@ -217,7 +217,9 @@ const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     data.crop.data.specification.uri,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    [data.crop.data.master.secureUrl]
+    (data.crop.data.assets as Array<{ secureUrl: string }>).map(
+      (_) => _.secureUrl
+    )
   );
 };
 
@@ -235,9 +237,11 @@ const onSelectImage = (setMedia: SetMedia) => {
     once: true,
   });
 
-  document.querySelector(".modal__dismiss")?.addEventListener("click", () => {
-    window.removeEventListener("message", listner);
-    modal.style.display = "None";
+  document.querySelector(".modal__dismiss")?.addEventListener(
+    "click",
+    () => {
+      window.removeEventListener("message", listner);
+      modal.style.display = "None";
     },
     { once: false }
   );
@@ -262,9 +266,15 @@ const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
     () => {
       window.removeEventListener("message", listner);
       modal.style.display = "None";
-  },
+    },
     { once: false }
   );
 };
 
-export { buildCommands, defaultPredicate, createDecorations, onSelectImage, onCropImage };
+export {
+  buildCommands,
+  defaultPredicate,
+  createDecorations,
+  onSelectImage,
+  onCropImage,
+};
