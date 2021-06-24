@@ -53,19 +53,13 @@ export const buildElementPlugin = <
       fieldValues
     );
 
-    const maybeNewNode = (state.schema as Schema).nodes[type].createAndFill(
+    const node = (state.schema as Schema).nodes[type].create(
       {
         type,
       },
       nodes
     );
-    if (maybeNewNode) {
-      dispatch(state.tr.replaceSelectionWith(maybeNewNode));
-    } else {
-      console.warn(
-        `[prosemirror-elements]: Could not create a node for ${type}`
-      );
-    }
+    dispatch(state.tr.replaceSelectionWith(node));
   };
 
   const plugin = createPlugin(elementSpecs, buildCommands(predicate));
