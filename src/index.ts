@@ -7,6 +7,7 @@ import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "./element";
+import type { SetSrc } from "./elements/image/element";
 import { createImageElement } from "./elements/image/element";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
@@ -16,7 +17,23 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-} = buildElementPlugin([createImageElement("imageElement")]);
+} = buildElementPlugin([
+  createImageElement(
+    "imageElement",
+    (setSrc: (src: string) => void) => {
+      const r = confirm("Select an image?");
+      if (r) {
+        setSrc(
+          "https://upload.wikimedia.org/wikipedia/commons/9/90/Hooded_Visorbearer_Augastes_lumachella_%28cropped%29.jpg"
+        );
+      }
+    },
+    (src: string, setSrc: SetSrc) => {
+      alert("Crops " + src);
+      setSrc(src + "123");
+    }
+  ),
+]);
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),

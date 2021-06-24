@@ -5,59 +5,58 @@ import { ImageElement } from "./ImageElement";
 
 export type SetSrc = (src: string) => void;
 
-export const imageProps = {
-  caption: {
-    type: "richText",
-  },
-  altText: {
-    type: "richText",
-  },
-  src: {
-    type: "text",
-  },
-  mainImage: {
-    type: "custom",
-    defaultValue: { src: "" },
-    props: {
-      onSelect: (setSrc: (src: string) => void) => {
-        const r = confirm("Select an image?");
-        if (r) {
-          setSrc(
-            "https://upload.wikimedia.org/wikipedia/commons/9/90/Hooded_Visorbearer_Augastes_lumachella_%28cropped%29.jpg"
-          );
-        }
-      },
-      onCrop: (src: string, setSrc: SetSrc) => {
-        alert("Crops " + src);
-        setSrc(src + "123");
-      },
+export const imageProps = (
+  onSelect: (setSrc: SetSrc) => void,
+  onCrop: (src: string, setSrc: SetSrc) => void
+) => {
+  return {
+    caption: {
+      type: "richText",
     },
-  } as CustomField<
-    { src: string },
-    {
-      onSelect: (setSrc: SetSrc) => void;
-      onCrop: (src: string, setSrc: SetSrc) => void;
-    }
-  >,
-  useSrc: {
-    type: "checkbox",
-    defaultValue: { value: false },
-  },
-  optionDropdown: {
-    type: "dropdown",
-    options: [
-      { text: "Option 1", value: "opt1" },
-      { text: "Option 2", value: "opt2" },
-      { text: "Option 3", value: "opt3" },
-    ],
-    defaultValue: "opt1",
-  },
-} as const;
+    altText: {
+      type: "richText",
+    },
+    src: {
+      type: "text",
+    },
+    mainImage: {
+      type: "custom",
+      defaultValue: { src: "" },
+      props: {
+        onSelect,
+        onCrop,
+      },
+    } as CustomField<
+      { src: string },
+      {
+        onSelect: (setSrc: SetSrc) => void;
+        onCrop: (src: string, setSrc: SetSrc) => void;
+      }
+    >,
+    useSrc: {
+      type: "checkbox",
+      defaultValue: { value: false },
+    },
+    optionDropdown: {
+      type: "dropdown",
+      options: [
+        { text: "Option 1", value: "opt1" },
+        { text: "Option 2", value: "opt2" },
+        { text: "Option 3", value: "opt3" },
+      ],
+      defaultValue: "opt1",
+    },
+  } as const;
+};
 
-export const createImageElement = <Name extends string>(name: Name) =>
+export const createImageElement = <Name extends string>(
+  name: Name,
+  onSelect: (setSrc: SetSrc) => void,
+  onCrop: (src: string, setSrc: SetSrc) => void
+) =>
   createReactElementSpec(
     name,
-    imageProps,
+    imageProps(onSelect, onCrop),
     (fields, errors, __, fieldViewPropMap) => {
       return (
         <ImageElement

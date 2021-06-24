@@ -10,9 +10,9 @@ import type {
 import type { imageProps, SetSrc } from "./element";
 
 type Props = {
-  fields: FieldNameToValueMap<typeof imageProps>;
+  fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
   errors: Record<string, string[]>;
-  fieldViewPropMap: FieldNameToFieldViewSpec<typeof imageProps>;
+  fieldViewPropMap: FieldNameToFieldViewSpec<ReturnType<typeof imageProps>>;
 };
 
 export const ImageElementTestId = "ImageElement";
@@ -40,7 +40,6 @@ export const ImageElement: React.FunctionComponent<Props> = ({
     </div>
   );
 };
-
 
 type ImageViewProps = {
   fieldViewProp: CustomFieldViewSpec<
