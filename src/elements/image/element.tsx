@@ -3,7 +3,11 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
 
-export type SetMedia = (mediaId: string, mediaApiUri: string) => void;
+export type SetMedia = (
+  mediaId: string,
+  mediaApiUri: string,
+  assets: string[]
+) => void;
 
 export const imageProps = (
   onSelectImage: (setSrc: SetMedia) => void,
@@ -21,13 +25,13 @@ export const imageProps = (
     },
     mainImage: {
       type: "custom",
-      defaultValue: { mediaId: "", mediaApiUri: "" },
+      defaultValue: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       props: {
         onSelectImage,
         onCropImage,
       },
     } as CustomField<
-      { mediaId?: string; mediaApiUri?: string },
+      { mediaId?: string; mediaApiUri?: string; assets: string[] },
       {
         onSelectImage: (setSrc: SetMedia) => void;
         onCropImage: (mediaId: string | undefined, setSrc: SetMedia) => void;
@@ -75,7 +79,7 @@ export const createImageElement = <Name extends string>(
       caption: "",
       useSrc: { value: true },
       altText: "",
-      mainImage: { mediaId: undefined, mediaApiUri: undefined },
+      mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       src: "",
       optionDropdown: "opt1",
     }
