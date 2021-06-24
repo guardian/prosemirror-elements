@@ -140,6 +140,11 @@ describe("mount", () => {
             content: fieldSpec.prop1.content,
             toDOM: fieldSpec.prop1.toDOM,
             parseDOM: fieldSpec.prop1.parseDOM,
+            attrs: {
+              uuid: {
+                default: "new-node",
+              },
+            },
           });
         });
       });
@@ -156,9 +161,10 @@ describe("mount", () => {
           const { nodeSpec } = buildElementPlugin([testElement1]);
           const prop1NodeSpec = nodeSpec.get("prop1");
           expect(prop1NodeSpec).toHaveProperty("content", "text*");
-          expect(prop1NodeSpec).toHaveProperty("parseDOM", [
-            { tag: "element-testelement1-prop1" },
-          ]);
+          expect(prop1NodeSpec).toHaveProperty(
+            "parseDOM.0.tag",
+            "element-testelement1-prop1"
+          );
         });
       });
 

@@ -101,6 +101,24 @@ describe("buildElementPlugin", () => {
       expect(getElementAsHTML()).toBe(expected);
     });
 
+    it("should give both ATTRIBUTE and CONTENT nodes uuids", () => {
+      const testElement = createNoopElement("testElement", {
+        prop1: { type: "checkbox", defaultValue: { value: false } },
+        prop2: { type: "richText", defaultValue: "<p>Content</p>" },
+      });
+      const { view, insertElement } = createEditorWithElements([testElement]);
+
+      insertElement("testElement")(view.state, view.dispatch);
+
+      const fieldNames = Object.keys(testElement.fieldSpec);
+      expect.assertions(2);
+      view.state.doc.descendants((node) => {
+        if (fieldNames.includes(node.type.name)) {
+          expect(node.attrs.uuid).toBeTruthy();
+        }
+      });
+    });
+
     it("should fill out fields in ATTRIBUTE nodes", () => {
       const testElement = createNoopElement("testElement", {
         prop1: { type: "checkbox", defaultValue: { value: false } },
@@ -252,6 +270,32 @@ describe("buildElementPlugin", () => {
       );
 
       expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
+    });
+
+    it("should give all fields uuids", () => {
+      const elementHTML = `
+        <testelement type="testElement" has-errors="false">
+        <element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p></p></element-testelement-prop1>
+        <element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"></element-testelement-prop2>
+        <element-testelement-prop3 class="ProsemirrorElement__testElement-prop3" fields="{&quot;value&quot;:true}"></element-testelement-prop3>
+        </testelement>
+      `;
+
+      const testElement = createNoopElement("testElement", {
+        prop1: { type: "richText", defaultValue: "<p>Default</p>" },
+        prop2: { type: "text", defaultValue: "Default" },
+        prop3: { type: "checkbox", defaultValue: { value: false } },
+      });
+
+      const { view } = createEditorWithElements([testElement], elementHTML);
+
+      const fieldNames = Object.keys(testElement.fieldSpec);
+      expect.assertions(3);
+      view.state.doc.descendants((node) => {
+        if (fieldNames.includes(node.type.name)) {
+          expect(node.attrs.uuid).toBeTruthy();
+        }
+      });
     });
   });
 });

@@ -1,6 +1,7 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
+import { v4 } from "uuid";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
 import type { Field, FieldSpec } from "./types/Element";
@@ -61,6 +62,12 @@ const getNodeSpecForElement = (
   },
 });
 
+const defaultAttrs = {
+  uuid: {
+    default: "new-node",
+  },
+};
+
 export const getNodeSpecForProp = (
   elementName: string,
   propName: string,
@@ -72,7 +79,8 @@ export const getNodeSpecForProp = (
         [propName]: {
           content: "text*",
           toDOM: getDefaultToDOMForContentNode(elementName, propName),
-          parseDOM: [{ tag: getTagForNode(elementName, propName) }],
+          parseDOM: getDefaultParseDOMForContentNode(elementName, propName),
+          attrs: defaultAttrs,
         },
       };
     case "richText":
@@ -81,9 +89,10 @@ export const getNodeSpecForProp = (
           content: prop.content ?? "paragraph+",
           toDOM:
             prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
-          parseDOM: prop.parseDOM ?? [
-            { tag: getTagForNode(elementName, propName) },
-          ],
+          parseDOM:
+            prop.parseDOM ??
+            getDefaultParseDOMForContentNode(elementName, propName),
+          attrs: defaultAttrs,
         },
       };
     case "checkbox":
@@ -93,6 +102,7 @@ export const getNodeSpecForProp = (
           toDOM: getDefaultToDOMForLeafNode(elementName, propName),
           parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
           attrs: {
+            ...defaultAttrs,
             fields: {
               default: prop.defaultValue,
             },
@@ -106,6 +116,7 @@ export const getNodeSpecForProp = (
           toDOM: getDefaultToDOMForLeafNode(elementName, propName),
           parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
           attrs: {
+            ...defaultAttrs,
             fields: {
               default: prop.defaultValue,
             },
@@ -119,6 +130,7 @@ export const getNodeSpecForProp = (
           toDOM: getDefaultToDOMForLeafNode(elementName, propName),
           parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
           attrs: {
+            ...defaultAttrs,
             fields: {
               default: { value: prop.defaultValue },
             },
@@ -137,6 +149,20 @@ const getDefaultToDOMForContentNode = (
     { class: getClassForNode(elementName, propName) },
     0,
   ] as const;
+
+const getDefaultParseDOMForContentNode = (
+  elementName: string,
+  propName: string
+) => {
+  return [
+    {
+      tag: getTagForNode(elementName, propName),
+      getAttrs: () => ({
+        uuid: v4(),
+      }),
+    },
+  ];
+};
 
 const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
   node: Node
@@ -161,6 +187,7 @@ const getDefaultParseDOMForLeafNode = (
         return;
       }
       const attrs = {
+        uuid: v4(),
         fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
       };
 
@@ -196,12 +223,13 @@ export const createNodesForFieldValues = <
       fieldValues[fieldName] ?? // The value supplied when the element is inserted
       fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
+    const uuid = v4();
 
     if (fieldView.fieldType === "CONTENT") {
-      const node = nodeType.create({ type: field.type });
+      const node = nodeType.create({ type: field.type, uuid });
       return createContentForFieldValue(schema, fieldValue as string, node);
     } else {
-      return nodeType.create({ type: field.type, fields: fieldValue });
+      return nodeType.create({ type: field.type, fields: fieldValue, uuid });
     }
   });
 };
