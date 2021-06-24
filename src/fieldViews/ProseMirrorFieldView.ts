@@ -75,7 +75,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
   ) {
-    if (node.type.name !== this.node.type.name) {
+    if (node.attrs.uuid !== this.node.attrs.uuid) {
       return false;
     }
 

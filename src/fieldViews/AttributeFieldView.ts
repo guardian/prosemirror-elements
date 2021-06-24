@@ -13,27 +13,24 @@ export abstract class AttributeFieldView<Fields extends unknown>
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public fieldViewElement = document.createElement("div");
-  private nodeType: NodeType;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    node: Node,
+    private node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     private offset: number
-  ) {
-    this.nodeType = node.type;
-  }
+  ) {}
 
   public getNodeValue(node: Node): Fields {
     return node.attrs.fields as Fields;
   }
 
   public getNodeFromValue(fields: Fields): Node {
-    return this.nodeType.create({ fields });
+    return this.node.type.create({ fields });
   }
 
   // Classes extending AttributeFieldView should call e.g. this.createInnerView(node.attrs.fields || defaultFields)
@@ -43,7 +40,7 @@ export abstract class AttributeFieldView<Fields extends unknown>
   protected abstract updateInnerView(fields: Fields): void;
 
   public update(node: Node, elementOffset: number) {
-    if (node.type !== this.nodeType) {
+    if (node.attrs.uuid !== this.node.attrs.uuid) {
       return false;
     }
 

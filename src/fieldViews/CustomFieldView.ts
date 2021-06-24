@@ -61,7 +61,7 @@ export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
   }
 
   public update(node: Node, elementOffset: number) {
-    if (node.type !== this.node.type) {
+    if (node.attrs.uuid !== this.node.attrs.uuid) {
       return false;
     }
 
