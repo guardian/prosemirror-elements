@@ -7,28 +7,46 @@ import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "./element";
-import type { SetSrc } from "./elements/image/element";
+import type { SetMedia } from "./elements/image/element";
 import { createImageElement } from "./elements/image/element";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
 
-const onImageSelect = (setSrc: (src: string) => void) => {
-  const modal = document.querySelector(".modal") as HTMLElement;
-  modal.style.display = "Inherit";
-  window.addEventListener(
-    "message",
-    (message) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      setSrc(message.data.crop.data.master.secureUrl);
-      modal.style.display = "None";
-    },
-    false
+const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
+  data,
+}: {
+  data: any;
+}) => {
+  setMedia(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    data.image.data.id,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    data.crop.data.specification.uri
   );
+  modal.style.display = "None";
+  window.removeEventListener("message", onGridMessgae(setMedia, modal));
 };
 
-const onCrop = (src: string, setSrc: SetSrc) => {
-  alert("Crops " + src);
-  setSrc(src + "123");
+const onSelectImage = (setMedia: SetMedia) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+  modal.style.display = "Inherit";
+
+  (document.querySelector(
+    ".modal__body iframe"
+  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/`;
+
+  window.addEventListener("message", onGridMessgae(setMedia, modal), false);
+};
+
+const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+  modal.style.display = "Inherit";
+
+  (document.querySelector(
+    ".modal__body iframe"
+  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
+
+  window.addEventListener("message", onGridMessgae(setMedia, modal), false);
 };
 
 const {
@@ -37,7 +55,7 @@ const {
   hasErrors,
   nodeSpec,
 } = buildElementPlugin([
-  createImageElement("imageElement", onImageSelect, onCrop),
+  createImageElement("imageElement", onSelectImage, onCropImage),
 ]);
 
 const schema = new Schema({

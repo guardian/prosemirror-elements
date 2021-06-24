@@ -7,7 +7,7 @@ import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../types/Element";
-import type { imageProps, SetSrc } from "./element";
+import type { imageProps, SetMedia } from "./element";
 
 type Props = {
   fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
@@ -43,11 +43,12 @@ export const ImageElement: React.FunctionComponent<Props> = ({
 type ImageViewProps = {
   fieldViewProp: CustomFieldViewSpec<
     {
-      src: string;
+      mediaId?: string;
+      mediaApiUri?: string;
     },
     {
-      onSelect: (setSrc: SetSrc) => void;
-      onCrop: (src: string, setSrc: SetSrc) => void;
+      onSelectImage: (setMedia: SetMedia) => void;
+      onCropImage: (mediaId: string | undefined, setMedia: SetMedia) => void;
     }
   >;
 };
@@ -57,26 +58,35 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
     fieldViewProp
   );
 
-  const setSrc = (src: string) => {
+  const setMedia = (mediaId: string, mediaApiUri: string) => {
     if (setImageFieldsRef.current) {
-      setImageFieldsRef.current({ src });
+      setImageFieldsRef.current({ mediaId, mediaApiUri });
     }
   };
 
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <img style={{ width: "25%" }} src={imageFields.src}></img>
-      <button onClick={() => fieldViewProp.fieldSpec.props.onSelect(setSrc)}>
-        Choose Image
-      </button>
-      <button
-        onClick={() =>
-          fieldViewProp.fieldSpec.props.onCrop(imageFields.src, setSrc)
-        }
-      >
-        Crop Image
-      </button>
-      <button onClick={() => setSrc("")}>Remove Image</button>
+      <img style={{ width: "25%" }} src={imageFields.mediaApiUri}></img>
+
+      {imageFields.mediaId ? (
+        <button
+          onClick={() =>
+            fieldViewProp.fieldSpec.props.onCropImage(
+              imageFields.mediaId,
+              setMedia
+            )
+          }
+        >
+          Crop Image
+        </button>
+      ) : (
+        <button
+          onClick={() => fieldViewProp.fieldSpec.props.onSelectImage(setMedia)}
+        >
+          Choose Image
+        </button>
+      )}
+
       {JSON.stringify(imageFields)}
     </div>
   );
