@@ -33,6 +33,15 @@ describe("ImageElement", () => {
           getElementRichTextField(field).should("have.text", text);
         });
 
+        it(`${field} – should create hard breaks on shift-enter`, () => {
+          addElement();
+          const text = `${field}{shift+enter}text`;
+          typeIntoElementField(field, text);
+          getElementRichTextField(field).should(($div) =>
+            expect($div.html()).to.equal(`<p>${field}<br>text</p>`)
+          );
+        });
+
         it(`${field} – should render decorations passed from the parent editor`, () => {
           addElement();
           const text = `${field} deco `;
