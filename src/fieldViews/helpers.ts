@@ -1,7 +1,3 @@
-import type { Node, Schema } from "prosemirror-model";
-import { DOMParser, DOMSerializer, Slice } from "prosemirror-model";
-import type { Step } from "prosemirror-transform";
-import { ReplaceAroundStep, ReplaceStep } from "prosemirror-transform";
 import type { CustomField, FieldSpec } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxFields } from "./CheckboxFieldView";
