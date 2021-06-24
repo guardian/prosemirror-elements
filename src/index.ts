@@ -7,52 +7,10 @@ import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "./element";
-import type { SetMedia } from "./elements/image/element";
 import { createImageElement } from "./elements/image/element";
+import { onCropImage, onSelectImage } from "./helpers";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
-
-const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
-  data,
-}: {
-  data: any;
-}) => {
-  modal.style.display = "None";
-  setMedia(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    data.image.data.id,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    data.crop.data.specification.uri,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    [data.crop.data.master.secureUrl]
-  );
-};
-
-const onSelectImage = (setMedia: SetMedia) => {
-  const modal = document.querySelector(".modal") as HTMLElement;
-  modal.style.display = "Inherit";
-
-  (document.querySelector(
-    ".modal__body iframe"
-  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/`;
-
-  window.addEventListener("message", onGridMessgae(setMedia, modal), {
-    once: true,
-  });
-};
-
-const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
-  const modal = document.querySelector(".modal") as HTMLElement;
-  modal.style.display = "Inherit";
-
-  (document.querySelector(
-    ".modal__body iframe"
-  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
-
-  window.addEventListener("message", onGridMessgae(setMedia, modal), {
-    once: true,
-  });
-};
 
 const {
   plugin: elementPlugin,
