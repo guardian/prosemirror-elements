@@ -36,7 +36,6 @@ export const ImageElement: React.FunctionComponent<Props> = ({
       <hr />
       <h4>Element values</h4>
       <pre>{JSON.stringify(fields)}</pre>
-      <img src={fields.mainImage.src}></img>
     </div>
   );
 };
@@ -66,6 +65,7 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
 
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
+      <img style={{ width: "25%" }} src={imageFields.src}></img>
       <button onClick={() => fieldViewProp.fieldSpec.props.onSelect(setSrc)}>
         Choose Image
       </button>

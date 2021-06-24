@@ -12,27 +12,32 @@ import { createImageElement } from "./elements/image/element";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
 
+const onImageSelect = (setSrc: (src: string) => void) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+  modal.style.display = "Inherit";
+  window.addEventListener(
+    "message",
+    (message) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      setSrc(message.data.crop.data.master.secureUrl);
+      modal.style.display = "None";
+    },
+    false
+  );
+};
+
+const onCrop = (src: string, setSrc: SetSrc) => {
+  alert("Crops " + src);
+  setSrc(src + "123");
+};
+
 const {
   plugin: elementPlugin,
   insertElement,
   hasErrors,
   nodeSpec,
 } = buildElementPlugin([
-  createImageElement(
-    "imageElement",
-    (setSrc: (src: string) => void) => {
-      const r = confirm("Select an image?");
-      if (r) {
-        setSrc(
-          "https://upload.wikimedia.org/wikipedia/commons/9/90/Hooded_Visorbearer_Augastes_lumachella_%28cropped%29.jpg"
-        );
-      }
-    },
-    (src: string, setSrc: SetSrc) => {
-      alert("Crops " + src);
-      setSrc(src + "123");
-    }
-  ),
+  createImageElement("imageElement", onImageSelect, onCrop),
 ]);
 
 const schema = new Schema({
