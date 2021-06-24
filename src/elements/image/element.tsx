@@ -3,11 +3,11 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
 
-export type SetSrc = (src: string) => void;
+export type SetMedia = (mediaId: string, mediaApiUri: string) => void;
 
 export const imageProps = (
-  onSelect: (setSrc: SetSrc) => void,
-  onCrop: (src: string, setSrc: SetSrc) => void
+  onSelectImage: (setSrc: SetMedia) => void,
+  onCropImage: (mediaId: string | undefined, setMedia: SetMedia) => void
 ) => {
   return {
     caption: {
@@ -21,16 +21,16 @@ export const imageProps = (
     },
     mainImage: {
       type: "custom",
-      defaultValue: { src: "" },
+      defaultValue: { mediaId: "", mediaApiUri: "" },
       props: {
-        onSelect,
-        onCrop,
+        onSelectImage,
+        onCropImage,
       },
     } as CustomField<
-      { src: string },
+      { mediaId?: string; mediaApiUri?: string },
       {
-        onSelect: (setSrc: SetSrc) => void;
-        onCrop: (src: string, setSrc: SetSrc) => void;
+        onSelectImage: (setSrc: SetMedia) => void;
+        onCropImage: (mediaId: string | undefined, setSrc: SetMedia) => void;
       }
     >,
     useSrc: {
@@ -51,8 +51,8 @@ export const imageProps = (
 
 export const createImageElement = <Name extends string>(
   name: Name,
-  onSelect: (setSrc: SetSrc) => void,
-  onCrop: (src: string, setSrc: SetSrc) => void
+  onSelect: (setSrc: SetMedia) => void,
+  onCrop: (mediaId: string | undefined, setSrc: SetMedia) => void
 ) =>
   createReactElementSpec(
     name,
@@ -75,7 +75,7 @@ export const createImageElement = <Name extends string>(
       caption: "",
       useSrc: { value: true },
       altText: "",
-      mainImage: { src: "" },
+      mainImage: { mediaId: undefined, mediaApiUri: undefined },
       src: "",
       optionDropdown: "opt1",
     }
