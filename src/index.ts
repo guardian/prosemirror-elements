@@ -17,14 +17,15 @@ const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
 }: {
   data: any;
 }) => {
+  modal.style.display = "None";
   setMedia(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     data.image.data.id,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    data.crop.data.specification.uri
+    data.crop.data.specification.uri,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    [data.crop.data.master.secureUrl]
   );
-  modal.style.display = "None";
-  window.removeEventListener("message", onGridMessgae(setMedia, modal));
 };
 
 const onSelectImage = (setMedia: SetMedia) => {
@@ -35,7 +36,9 @@ const onSelectImage = (setMedia: SetMedia) => {
     ".modal__body iframe"
   ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/`;
 
-  window.addEventListener("message", onGridMessgae(setMedia, modal), false);
+  window.addEventListener("message", onGridMessgae(setMedia, modal), {
+    once: true,
+  });
 };
 
 const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
@@ -46,7 +49,9 @@ const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
     ".modal__body iframe"
   ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
 
-  window.addEventListener("message", onGridMessgae(setMedia, modal), false);
+  window.addEventListener("message", onGridMessgae(setMedia, modal), {
+    once: true,
+  });
 };
 
 const {

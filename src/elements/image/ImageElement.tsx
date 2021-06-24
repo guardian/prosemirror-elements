@@ -45,6 +45,7 @@ type ImageViewProps = {
     {
       mediaId?: string;
       mediaApiUri?: string;
+      assets: string[];
     },
     {
       onSelectImage: (setMedia: SetMedia) => void;
@@ -58,15 +59,19 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
     fieldViewProp
   );
 
-  const setMedia = (mediaId: string, mediaApiUri: string) => {
+  const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
     if (setImageFieldsRef.current) {
-      setImageFieldsRef.current({ mediaId, mediaApiUri });
+      setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
     }
   };
 
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <img style={{ width: "25%" }} src={imageFields.mediaApiUri}></img>
+      {imageFields.assets.length > 0 ? (
+        <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
+      ) : (
+        ""
+      )}
 
       {imageFields.mediaId ? (
         <button
