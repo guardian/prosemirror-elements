@@ -3,6 +3,7 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { AllSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
+import { SetMedia } from "./elements/image/element";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -204,4 +205,66 @@ const createDecorations = (name: string) => (state: EditorState) => {
   return DecorationSet.create(state.doc, decorations);
 };
 
-export { buildCommands, defaultPredicate, createDecorations };
+const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
+  data,
+}: {
+  data: any;
+}) => {
+  modal.style.display = "None";
+  setMedia(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    data.image.data.id,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    data.crop.data.specification.uri,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    [data.crop.data.master.secureUrl]
+  );
+};
+
+const onSelectImage = (setMedia: SetMedia) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+  modal.style.display = "Inherit";
+
+  (document.querySelector(
+    ".modal__body iframe"
+  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/`;
+
+  const listner = onGridMessgae(setMedia, modal);
+
+  window.addEventListener("message", listner, {
+    once: true,
+  });
+
+  document.querySelector(".modal__dismiss")?.addEventListener("click", () => {
+    window.removeEventListener("message", listner);
+    modal.style.display = "None";
+    },
+    { once: false }
+  );
+};
+
+const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+  modal.style.display = "Inherit";
+
+  (document.querySelector(
+    ".modal__body iframe"
+  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
+
+  const listner = onGridMessgae(setMedia, modal);
+
+  window.addEventListener("message", listner, {
+    once: true,
+  });
+
+  document.querySelector(".modal__dismiss")?.addEventListener(
+    "click",
+    () => {
+      window.removeEventListener("message", listner);
+      modal.style.display = "None";
+  },
+    { once: false }
+  );
+};
+
+export { buildCommands, defaultPredicate, createDecorations, onSelectImage, onCropImage };
