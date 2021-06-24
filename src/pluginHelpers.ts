@@ -28,15 +28,21 @@ export const getElementFieldViewFromType = (
 ) => {
   switch (prop.type) {
     case "text":
-      return new TextFieldView(node, view, getPos, offset, innerDecos);
-    case "richText":
-      return new RichTextFieldView(
-        prop,
+      return new TextFieldView(
         node,
         view,
         getPos,
         offset,
-        temporaryHardcodedSchema,
+        view.state.schema,
+        innerDecos
+      );
+    case "richText":
+      return new RichTextFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        view.state.schema,
         innerDecos
       );
     case "checkbox":

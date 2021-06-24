@@ -1,7 +1,6 @@
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { Node } from "prosemirror-model";
-import { Schema } from "prosemirror-model";
+import type { Node, Schema } from "prosemirror-model";
 import { nodes } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
@@ -18,25 +17,16 @@ export class TextFieldView extends ProseMirrorFieldView {
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
+    schema: Schema,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[]
   ) {
-    const textSchema = new Schema({
-      nodes: {
-        doc: {
-          content: "text*",
-          marks: "",
-          toDOM: () => ["div", 0],
-        },
-        text: nodes.text,
-      },
-    });
     super(
       node,
       outerView,
       getPos,
       offset,
-      textSchema,
+      schema,
       decorations,
       TextFieldView.propName,
       [
