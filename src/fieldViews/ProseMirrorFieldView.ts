@@ -69,7 +69,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
   ) {
-    if (node.type.name !== this.node.type.name) {
+    if (!node.hasMarkup(this.node.type)) {
       return false;
     }
 
