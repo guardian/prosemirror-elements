@@ -17,7 +17,6 @@ export class TextFieldView extends ProseMirrorFieldView {
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
-    schema: Schema,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[]
   ) {
@@ -26,7 +25,6 @@ export class TextFieldView extends ProseMirrorFieldView {
       outerView,
       getPos,
       offset,
-      schema,
       decorations,
       TextFieldView.propName,
       [

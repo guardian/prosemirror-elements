@@ -58,10 +58,3 @@ export type FieldTypeToValueMap<
 export type FieldNameToValueMap<FSpec extends FieldSpec<string>> = {
   [Name in keyof FSpec]: FieldTypeToValueMap<FSpec, Name>[FSpec[Name]["type"]];
 };
-
-export const addRootNodeToSchema = (schema: Schema, propName: string) =>
-  new Schema({
-    nodes: schema.spec.nodes,
-    marks: schema.spec.marks,
-    topNode: propName,
-  });

@@ -1,8 +1,8 @@
-import type { Node, Schema } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
-import { Mapping, Step, StepMap } from "prosemirror-transform";
+import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldView } from "./FieldView";
@@ -12,16 +12,13 @@ import { FieldType } from "./FieldView";
  * A FieldView that represents a
  * nested rich text editor interface.
  */
-export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
-  implements FieldView<string> {
+export abstract class ProseMirrorFieldView implements FieldView<string> {
   public static fieldType = FieldType.CONTENT;
   public static defaultValue = "";
 
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public fieldViewElement = document.createElement("div");
-  // The node this fieldView represents.
-  private node: Node;
   // The editor view for this FieldView.
   private innerEditorView: EditorView | undefined;
   // The decorations that apply to this FieldView.
@@ -33,15 +30,13 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    node: Node,
+    private node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     private offset: number,
-    // The schema that the internal editor should use.
-    schema: LocalSchema,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
     // The ProseMirror node type name
@@ -50,10 +45,9 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     plugins?: Plugin[]
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
-    this.serialiser = DOMSerializer.fromSchema(schema);
-    this.parser = DOMParser.fromSchema(schema);
-    this.node = this.getInnerNodeFromOuter(schema, node);
-    this.innerEditorView = this.createInnerEditorView(schema, plugins);
+    this.serialiser = DOMSerializer.fromSchema(node.type.schema);
+    this.parser = DOMParser.fromSchema(node.type.schema);
+    this.innerEditorView = this.createInnerEditorView(plugins);
   }
 
   public getNodeValue(node: Node) {
@@ -108,13 +102,13 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
   }
 
   private updateInnerEditor(
-    outerNode: Node,
+    node: Node,
     decorations: DecorationSet | Decoration[],
     elementOffset: number
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.offset = elementOffset;
-    this.node = this.getInnerNodeFromOuter(this.node.type.schema, outerNode);
+    this.node = node;
 
     if (!this.innerEditorView) {
       return;
@@ -125,13 +119,13 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     // Figure out the smallest change to the node content we need to make
     // to successfully update the inner editor, and apply it.
 
-    const diffStart = this.node.content.findDiffStart(state.doc.content);
+    const diffStart = node.content.findDiffStart(state.doc.content);
 
     if (diffStart === null || diffStart === undefined) {
       return;
     }
 
-    const diffEnd = this.node.content.findDiffEnd(state.doc.content);
+    const diffEnd = node.content.findDiffEnd(state.doc.content);
     if (!diffEnd) {
       // There's no difference between these nodes – return.
       return;
@@ -173,7 +167,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
         .replace(
           diffStart,
           endOfInnerDiff,
-          this.node.slice(diffStart, endOfOuterDiff)
+          node.slice(diffStart, endOfOuterDiff)
         )
         .setMeta("fromOutside", true)
     );
@@ -197,7 +191,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
       for (let j = 0; j < steps.length; j++) {
         const mappedStep = steps[j].map(offsetMap);
         if (mappedStep) {
-          outerTr.step(this.applyOuterSliceToInnerStep(mappedStep));
+          outerTr.step(mappedStep);
         }
       }
     }
@@ -214,11 +208,10 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
   }
 
-  private createInnerEditorView(schema: Schema, plugins?: Plugin[]) {
+  private createInnerEditorView(plugins?: Plugin[]) {
     return new EditorView(this.fieldViewElement, {
       state: EditorState.create({
         doc: this.node,
-        schema,
         plugins,
       }),
       // The EditorView defers state management to this class rather than handling changes itself.
@@ -251,21 +244,5 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     this.innerEditorView.destroy();
     this.innerEditorView = undefined;
     this.fieldViewElement.textContent = "";
-  }
-
-  /**
-   * Transform an incoming node from the outer editor into
-   * a node that matches the schema of the inner editor.
-   */
-  private getInnerNodeFromOuter(innerSchema: Schema, outerNode: Node) {
-    return innerSchema.nodeFromJSON(outerNode.toJSON());
-  }
-
-  /**
-   * Transform an incoming node from the outer editor into
-   * a node that matches the schema of the inner editor.
-   */
-  private applyOuterSliceToInnerStep(step: Step): Step {
-    return Step.fromJSON(this.outerView.state.schema, step.toJSON());
   }
 }
