@@ -1,4 +1,4 @@
-import type { Node, Schema } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
@@ -12,8 +12,7 @@ import { FieldType } from "./FieldView";
  * A FieldView that represents a
  * nested rich text editor interface.
  */
-export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
-  implements FieldView<string> {
+export abstract class ProseMirrorFieldView implements FieldView<string> {
   public static fieldType = FieldType.CONTENT;
   public static defaultValue = "";
 
@@ -38,8 +37,6 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     private offset: number,
-    // The schema that the internal editor should use.
-    schema: LocalSchema,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
     // The ProseMirror node type name
@@ -48,9 +45,9 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     plugins?: Plugin[]
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
-    this.innerEditorView = this.createInnerEditorView(schema, plugins);
-    this.serialiser = DOMSerializer.fromSchema(schema);
-    this.parser = DOMParser.fromSchema(schema);
+    this.serialiser = DOMSerializer.fromSchema(node.type.schema);
+    this.parser = DOMParser.fromSchema(node.type.schema);
+    this.innerEditorView = this.createInnerEditorView(plugins);
   }
 
   public getNodeValue(node: Node) {
@@ -72,7 +69,7 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
   ) {
-    if (!node.sameMarkup(this.node)) {
+    if (!node.hasMarkup(this.node.type)) {
       return false;
     }
 
@@ -109,9 +106,9 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     decorations: DecorationSet | Decoration[],
     elementOffset: number
   ) {
+    this.applyDecorationsFromOuterEditor(decorations);
     this.offset = elementOffset;
     this.node = node;
-    this.applyDecorationsFromOuterEditor(decorations);
 
     if (!this.innerEditorView) {
       return;
@@ -208,15 +205,13 @@ export abstract class ProseMirrorFieldView<LocalSchema extends Schema = Schema>
     }
 
     const shouldUpdateOuter = innerTr.docChanged || selectionHasChanged;
-
     if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
   }
 
-  private createInnerEditorView(schema: LocalSchema, plugins?: Plugin[]) {
-    return new EditorView<LocalSchema>(this.fieldViewElement, {
-      state: EditorState.create<LocalSchema>({
+  private createInnerEditorView(plugins?: Plugin[]) {
+    return new EditorView(this.fieldViewElement, {
+      state: EditorState.create({
         doc: this.node,
-        schema,
         plugins,
       }),
       // The EditorView defers state management to this class rather than handling changes itself.

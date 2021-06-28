@@ -5,9 +5,7 @@ import type { Node, Schema } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export class RichTextFieldView<
-  LocalSchema extends Schema = Schema
-> extends ProseMirrorFieldView<LocalSchema> {
+export class RichTextFieldView extends ProseMirrorFieldView {
   public static propName = "richText" as const;
 
   constructor(
@@ -19,8 +17,6 @@ export class RichTextFieldView<
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
-    // The schema that the internal editor should use.
-    schema: LocalSchema,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[]
   ) {
@@ -29,7 +25,6 @@ export class RichTextFieldView<
       outerView,
       getPos,
       offset,
-      schema,
       decorations,
       RichTextFieldView.propName,
       [
@@ -37,7 +32,7 @@ export class RichTextFieldView<
           "Mod-z": () => undo(outerView.state, outerView.dispatch),
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
         }),
-        ...exampleSetup({ schema }),
+        ...exampleSetup({ schema: node.type.schema as Schema }),
       ]
     );
   }

@@ -1,7 +1,6 @@
 import type { Node } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import { AllSelection } from "prosemirror-state";
-// import { canJoin } from 'prosemirror-transform';
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 

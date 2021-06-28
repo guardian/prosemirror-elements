@@ -1,6 +1,4 @@
 import type { Node } from "prosemirror-model";
-import { Schema } from "prosemirror-model";
-import { schema } from "prosemirror-schema-basic";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "./fieldViews/CheckboxFieldView";
 import { CustomFieldView } from "./fieldViews/CustomFieldView";
@@ -8,11 +6,6 @@ import { DropdownFieldView } from "./fieldViews/DropdownFieldView";
 import { RichTextFieldView } from "./fieldViews/RichTextFieldView";
 import { TextFieldView } from "./fieldViews/TextFieldView";
 import type { Field } from "./types/Element";
-
-export const temporaryHardcodedSchema = new Schema({
-  nodes: schema.spec.nodes,
-  marks: schema.spec.marks,
-});
 
 type Options = {
   node: Node;
@@ -30,14 +23,7 @@ export const getElementFieldViewFromType = (
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos);
     case "richText":
-      return new RichTextFieldView(
-        node,
-        view,
-        getPos,
-        offset,
-        temporaryHardcodedSchema,
-        innerDecos
-      );
+      return new RichTextFieldView(node, view, getPos, offset, innerDecos);
     case "checkbox":
       return new CheckboxFieldView(
         node,
