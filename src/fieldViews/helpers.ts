@@ -1,8 +1,4 @@
-import type OrderedMap from "orderedmap";
-import type { NodeSpec } from "prosemirror-model";
-import { Schema } from "prosemirror-model";
-import { getNodeSpecForProp } from "../nodeSpec";
-import type { CustomField, Field, FieldSpec } from "../types/Element";
+import type { CustomField, FieldSpec } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxFields } from "./CheckboxFieldView";
 import { CustomFieldView } from "./CustomFieldView";
