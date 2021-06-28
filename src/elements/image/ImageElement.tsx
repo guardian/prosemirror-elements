@@ -91,8 +91,6 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
           Choose Image
         </button>
       )}
-
-      {JSON.stringify(imageFields)}
     </div>
   );
 };
