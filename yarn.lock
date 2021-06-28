@@ -483,6 +483,11 @@
     "@emotion/weak-memoize" "^0.2.5"
     stylis "^4.0.3"
 
+"@emotion/core@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@emotion/core/-/core-11.0.0.tgz#d075867e07864119de7cfd5268c15012bd2d6290"
+  integrity sha512-w4sE3AmHmyG6RDKf6mIbtHpgJUSJ2uGvPQb8VXFL7hFjMPibE8IiehG8cMX3Ztm4svfCQV6KqusQbeIOkurBcA==
+
 "@emotion/hash@^0.6.2", "@emotion/hash@^0.6.6":
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.6.6.tgz#62266c5f0eac6941fece302abad69f2ee7e25e44"
@@ -616,6 +621,11 @@
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-0.5.0.tgz#ece14ec90b372932c7bf01992fc6d8ce58f7f26e"
   integrity sha512-THJn0wg7i9YjSVM9ofobsJgS+WH9ybrZH1+0CXLAebp0T53RGtgZUkek82mDg1h3DidsM+f7HSZqoQyrCbPzPw==
+
+"@guardian/src-foundations@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.7.0.tgz#f5f3a3c6d20c72d257447d1a8d97d1ffb613da0d"
+  integrity sha512-YLbr1D8VCoSg2nngMlMuq25zTcgngw01VZaqiyY4j9tC8IxFDliLbIf7mvQigKq9qn8RAlfM7HkMGzxSxVHtDg==
 
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
