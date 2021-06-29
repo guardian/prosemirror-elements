@@ -627,6 +627,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.7.0.tgz#f5f3a3c6d20c72d257447d1a8d97d1ffb613da0d"
   integrity sha512-YLbr1D8VCoSg2nngMlMuq25zTcgngw01VZaqiyY4j9tC8IxFDliLbIf7mvQigKq9qn8RAlfM7HkMGzxSxVHtDg==
 
+"@guardian/src-icons@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-3.7.0.tgz#580688167d00d9eed601044867d67dcd48b210c6"
+  integrity sha512-5tm8YlQpVGpuBN5hJ2Fi9xWkgCAvfX1IrzpLtLg4pLa6UmP1CIvwjlQocDBWRx2BItifU5UKtEpqiEvJdusK1g==
+
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
