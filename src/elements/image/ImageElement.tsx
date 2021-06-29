@@ -1,5 +1,6 @@
 import React from "react";
-import { fieldHeading } from "../../editorial-source-components/fieldHeading";
+import { Label } from "../../editorial-source-components/Label";
+import { TextInput } from "../../editorial-source-components/TextInput";
 import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
@@ -30,10 +31,10 @@ export const ImageElement: React.FunctionComponent<Props> = ({
     <PropView fieldViewProp={fieldViewPropMap.optionDropdown} />
     <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
     <hr />
-    <h4 css={fieldHeading}>Element errors</h4>
+    <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>
     <hr />
-    <h4 css={fieldHeading}>Element values</h4>
+    <Label>Element values</Label>
     <pre>{JSON.stringify(fields)}</pre>
   </div>
 );
@@ -50,10 +51,12 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
   );
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <input
+      <Label>{fieldViewProp.name}</Label>
+      <TextInput
+        label={fieldViewProp.name}
         value={imageFields.src || ""}
         onChange={(e) => setImageFieldsRef.current?.({ src: e.target.value })}
-      ></input>
+      ></TextInput>
       {JSON.stringify(imageFields)}
     </div>
   );

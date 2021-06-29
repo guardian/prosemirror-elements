@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { editor } from "../../editorial-source-components/editor";
-import { fieldHeading } from "../../editorial-source-components/fieldHeading";
+import { Label } from "../../editorial-source-components/Label";
 import type { CheckboxFieldView } from "../../fieldViews/CheckboxFieldView";
 import type { DropdownFieldView } from "../../fieldViews/DropdownFieldView";
 import type { RichTextFieldView } from "../../fieldViews/RichTextFieldView";
@@ -26,9 +26,7 @@ export const PropView: React.FunctionComponent<Props> = ({ fieldViewProp }) => {
 
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <label css={fieldHeading}>
-        <strong>{fieldViewProp.name}</strong>
-      </label>
+      <Label>{fieldViewProp.name}</Label>
       <div css={editor} ref={editorRef}></div>
     </div>
   );
