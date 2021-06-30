@@ -1,4 +1,3 @@
-import _ from "cypress/types/lodash";
 import React from "react";
 import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
@@ -49,7 +48,7 @@ type ImageViewProps = {
     },
     {
       onSelectImage: (setMedia: SetMedia) => void;
-      onCropImage: (mediaId: string | undefined, setMedia: SetMedia) => void;
+      onCropImage: (mediaId: string, setMedia: SetMedia) => void;
     }
   >;
 };
@@ -75,12 +74,16 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
 
       {imageFields.mediaId ? (
         <button
-          onClick={() =>
-            fieldViewProp.fieldSpec.props.onCropImage(
-              imageFields.mediaId,
-              setMedia
-            )
-          }
+          onClick={() => {
+            if (imageFields.mediaId) {
+              fieldViewProp.fieldSpec.props.onCropImage(
+                imageFields.mediaId,
+                setMedia
+              );
+            } else {
+              fieldViewProp.fieldSpec.props.onSelectImage(setMedia);
+            }
+          }}
         >
           Crop Image
         </button>

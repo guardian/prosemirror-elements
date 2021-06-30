@@ -11,7 +11,7 @@ export type SetMedia = (
 
 export const imageProps = (
   onSelectImage: (setSrc: SetMedia) => void,
-  onCropImage: (mediaId: string | undefined, setMedia: SetMedia) => void
+  onCropImage: (mediaId: string, setMedia: SetMedia) => void
 ) => {
   return {
     caption: {
@@ -34,7 +34,7 @@ export const imageProps = (
       { mediaId?: string; mediaApiUri?: string; assets: string[] },
       {
         onSelectImage: (setSrc: SetMedia) => void;
-        onCropImage: (mediaId: string | undefined, setSrc: SetMedia) => void;
+        onCropImage: (mediaId: string, setSrc: SetMedia) => void;
       }
     >,
     useSrc: {
@@ -56,7 +56,7 @@ export const imageProps = (
 export const createImageElement = <Name extends string>(
   name: Name,
   onSelect: (setSrc: SetMedia) => void,
-  onCrop: (mediaId: string | undefined, setSrc: SetMedia) => void
+  onCrop: (mediaId: string, setSrc: SetMedia) => void
 ) =>
   createReactElementSpec(
     name,
