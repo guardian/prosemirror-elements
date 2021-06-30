@@ -57,7 +57,6 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
         value={imageFields.src || ""}
         onChange={(e) => setImageFieldsRef.current?.({ src: e.target.value })}
       ></TextInput>
-      {JSON.stringify(imageFields)}
     </div>
   );
 };

@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
-import { neutral, opinion } from "@guardian/src-foundations/palette";
+import { focusHalo } from "@guardian/src-foundations/accessibility";
+import { neutral } from "@guardian/src-foundations/palette";
 import { textSans } from "@guardian/src-foundations/typography";
 import {
   SvgArrowDownStraight,
@@ -14,9 +15,7 @@ import React from "react";
 import type { CommandCreator } from "../../types/Commands";
 
 const Container = styled("div")`
-  background: ${neutral[97]};
-  border-top: 1px solid ${neutral[60]};
-  margin: ${space[4]} 0;
+  margin: ${space[3]}px 0;
 `;
 
 const Header = styled("div")`
@@ -31,9 +30,20 @@ const Title = styled("h2")`
 
 const Body = styled("div")`
   display: flex;
+  :hover {
+    .actions {
+      opacity: 1;
+    }
+  }
+  :focus-within {
+    .actions {
+      opacity: 1;
+    }
+  }
 `;
 
 const Panel = styled("div")`
+  background: ${neutral[97]};
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
@@ -42,13 +52,15 @@ const Panel = styled("div")`
 const Actions = styled("div")`
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.2s;
 `;
 
 const Button = styled("button")`
   appearance: none;
-  background: ${opinion[500]};
+  background: ${neutral[93]};
   border: none;
-  border-top: 1px solid ${neutral[97]};
+  border-top: 1px solid ${neutral[100]};
   color: ${neutral[100]};
   cursor: pointer;
   flex-grow: ${({ expanded }: { expanded?: boolean }) =>
@@ -56,28 +68,36 @@ const Button = styled("button")`
   font-size: 16px;
   line-height: 1;
   padding: ${space[1]}px;
-  min-width: ${space[6]}px;
+  min-width: 32px;
+  transition: background-color 0.1s;
+  :focus {
+    ${focusHalo}
+    z-index: 1;
+  }
 
   :first-child {
     border: none;
   }
 
   :hover {
-    background: ${opinion[400]};
+    background: ${neutral[46]};
+    svg {
+      fill: ${neutral[100]};
+    }
   }
 
   :disabled {
-    background: ${neutral[93]};
-    color: ${neutral[86]};
-    cursor: auto;
+    background: ${neutral[86]};
+    color: ${neutral[60]};
+    cursor: not-allowed;
+    svg {
+      fill: ${neutral[60]};
+    }
   }
 
   svg {
-    fill: ${neutral[100]};
-  }
-
-  :disabled svg {
-    fill: ${neutral[60]};
+    fill: ${neutral[20]};
+    transition: fill 0.1s;
   }
 `;
 
@@ -103,12 +123,14 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   children,
 }) => (
   <Container data-cy={elementWrapperTestId}>
-    <Header>
-      <Title>{name}</Title>
-    </Header>
     <Body>
-      <Panel>{children}</Panel>
-      <Actions>
+      <Panel>
+        <Header>
+          <Title>{name}</Title>
+        </Header>
+        {children}
+      </Panel>
+      <Actions className="actions">
         <Button
           data-cy={moveTopTestId}
           disabled={!moveTop(false)}
