@@ -3,7 +3,7 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { AllSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
-import { SetMedia } from "./elements/image/element";
+import type { SetMedia } from "./elements/image/element";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -208,18 +208,27 @@ const createDecorations = (name: string) => (state: EditorState) => {
 const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
   data,
 }: {
-  data: any;
+  data: {
+    image: {
+      data: {
+        id: string;
+      };
+    };
+    crop: {
+      data: {
+        specification: {
+          uri: string;
+        };
+        assets: Array<{ secureUrl: string }>;
+      };
+    };
+  };
 }) => {
   modal.style.display = "None";
   setMedia(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     data.image.data.id,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     data.crop.data.specification.uri,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    (data.crop.data.assets as Array<{ secureUrl: string }>).map(
-      (_) => _.secureUrl
-    )
+    data.crop.data.assets.map((_) => _.secureUrl)
   );
 };
 
@@ -247,7 +256,7 @@ const onSelectImage = (setMedia: SetMedia) => {
   );
 };
 
-const onCropImage = (mediaId: string | undefined, setMedia: SetMedia) => {
+const onCropImage = (mediaId: string, setMedia: SetMedia) => {
   const modal = document.querySelector(".modal") as HTMLElement;
   modal.style.display = "Inherit";
 
