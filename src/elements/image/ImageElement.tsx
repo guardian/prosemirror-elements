@@ -68,9 +68,7 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
       {imageFields.assets.length > 0 ? (
         <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
-      ) : (
-        ""
-      )}
+      ) : null}
 
       {imageFields.mediaId ? (
         <button
