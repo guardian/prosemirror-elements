@@ -205,7 +205,7 @@ const createDecorations = (name: string) => (state: EditorState) => {
   return DecorationSet.create(state.doc, decorations);
 };
 
-const onGridMessgae = (setMedia: SetMedia, modal: HTMLElement) => ({
+const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   data,
 }: {
   data: {
@@ -240,16 +240,16 @@ const onSelectImage = (setMedia: SetMedia) => {
     ".modal__body iframe"
   ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/`;
 
-  const listner = onGridMessgae(setMedia, modal);
+  const listener = onGridMessage(setMedia, modal);
 
-  window.addEventListener("message", listner, {
+  window.addEventListener("message", listener, {
     once: true,
   });
 
   document.querySelector(".modal__dismiss")?.addEventListener(
     "click",
     () => {
-      window.removeEventListener("message", listner);
+      window.removeEventListener("message", listener);
       modal.style.display = "None";
     },
     { once: false }
@@ -264,16 +264,16 @@ const onCropImage = (mediaId: string, setMedia: SetMedia) => {
     ".modal__body iframe"
   ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
 
-  const listner = onGridMessgae(setMedia, modal);
+  const listener = onGridMessage(setMedia, modal);
 
-  window.addEventListener("message", listner, {
+  window.addEventListener("message", listener, {
     once: true,
   });
 
   document.querySelector(".modal__dismiss")?.addEventListener(
     "click",
     () => {
-      window.removeEventListener("message", listner);
+      window.removeEventListener("message", listener);
       modal.style.display = "None";
     },
     { once: false }
