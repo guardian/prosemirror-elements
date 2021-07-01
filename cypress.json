@@ -1,4 +1,4 @@
 {
   "integrationFolder": "cypress/tests",
-  "baseUrl": "https://prosemirror-elements.local.dev-gutools.co.uk"
+  "baseUrl": "http://localhost:7890"
 }
