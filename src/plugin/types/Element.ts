@@ -38,7 +38,7 @@ interface RichTextField
   extends BaseFieldSpec<string>,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: typeof RichTextFieldView.fieldName;
-  plugins?: Plugin[];
+  createPlugins?: (schema: Schema) => Plugin[];
 }
 
 interface TextField extends BaseFieldSpec<string> {
