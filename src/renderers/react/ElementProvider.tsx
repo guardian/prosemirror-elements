@@ -1,11 +1,14 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
-import type { Validator } from "../../elementSpec";
-import type { FieldNameToValueMap } from "../../fieldViews/helpers";
-import type { Commands } from "../../types/Commands";
-import type { Consumer } from "../../types/Consumer";
-import type { FieldNameToFieldViewSpec, FieldSpec } from "../../types/Element";
-import type { Errors } from "../../types/Errors";
+import type { Validator } from "../../plugin/elementSpec";
+import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { Commands } from "../../plugin/types/Commands";
+import type { Consumer } from "../../plugin/types/Consumer";
+import type {
+  FieldNameToFieldViewSpec,
+  FieldSpec,
+} from "../../plugin/types/Element";
+import type { Errors } from "../../plugin/types/Errors";
 import { ElementWrapper } from "./ElementWrapper";
 
 const fieldErrors = <FSpec extends FieldSpec<string>>(

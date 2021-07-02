@@ -4,12 +4,12 @@ import type { EditorProps } from "prosemirror-view";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import type { Commands } from "./helpers";
 import { createDecorations } from "./helpers";
-import { getElementFieldViewFromType } from "./pluginHelpers";
 import type {
   ElementSpec,
   FieldNameToFieldViewSpec,
   FieldSpec,
-} from "./types/Element";
+} from "./plugin/types/Element";
+import { getElementFieldViewFromType } from "./pluginHelpers";
 
 const decorations = createDecorations("imageElement");
 

@@ -1,6 +1,6 @@
 import React from "react";
+import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import type { CustomField } from "../../types/Element";
 import { ImageElement } from "./ImageElement";
 
 export type SetMedia = (

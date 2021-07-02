@@ -12,7 +12,7 @@ import {
 } from "@guardian/src-icons";
 import type { ReactElement } from "react";
 import React from "react";
-import type { CommandCreator } from "../../types/Commands";
+import type { CommandCreator } from "../../plugin/types/Commands";
 
 const Container = styled("div")`
   margin: ${space[3]}px 0;

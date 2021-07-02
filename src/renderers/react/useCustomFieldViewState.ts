@@ -1,7 +1,7 @@
 import type { MutableRefObject } from "react";
 import { useEffect, useRef, useState } from "react";
-import { CustomFieldView } from "../../fieldViews/CustomFieldView";
-import type { CustomFieldViewSpec } from "../../types/Element";
+import { CustomFieldView } from "../../plugin/fieldViews/CustomFieldView";
+import type { CustomFieldViewSpec } from "../../plugin/types/Element";
 
 export const useCustomFieldViewState = <Data extends unknown>({
   fieldSpec,

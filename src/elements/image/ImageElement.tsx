@@ -1,12 +1,12 @@
 import React from "react";
 import { Label } from "../../editorial-source-components/Label";
-import type { FieldNameToValueMap } from "../../fieldViews/helpers";
-import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
+import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
-} from "../../types/Element";
+} from "../../plugin/types/Element";
+import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
+import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type { imageProps, SetMedia } from "./element";
 
 type Props = {

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { editor } from "../../editorial-source-components/editor";
 import { Label } from "../../editorial-source-components/Label";
-import type { CheckboxFieldView } from "../../fieldViews/CheckboxFieldView";
-import type { DropdownFieldView } from "../../fieldViews/DropdownFieldView";
-import type { RichTextFieldView } from "../../fieldViews/RichTextFieldView";
-import type { TextFieldView } from "../../fieldViews/TextFieldView";
-import type { FieldViewSpec } from "../../types/Element";
+import type { CheckboxFieldView } from "../../plugin/fieldViews/CheckboxFieldView";
+import type { DropdownFieldView } from "../../plugin/fieldViews/DropdownFieldView";
+import type { RichTextFieldView } from "../../plugin/fieldViews/RichTextFieldView";
+import type { TextFieldView } from "../../plugin/fieldViews/TextFieldView";
+import type { FieldViewSpec } from "../../plugin/types/Element";
 
 type Props = {
   fieldViewProp: FieldViewSpec<
