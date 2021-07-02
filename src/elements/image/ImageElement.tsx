@@ -1,6 +1,5 @@
 import React from "react";
 import { Label } from "../../editorial-source-components/Label";
-import { TextInput } from "../../editorial-source-components/TextInput";
 import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
@@ -8,12 +7,12 @@ import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../types/Element";
-import type { imageProps } from "./element";
+import type { imageProps, SetMedia } from "./element";
 
 type Props = {
-  fields: FieldNameToValueMap<typeof imageProps>;
+  fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
   errors: Record<string, string[]>;
-  fieldViewPropMap: FieldNameToFieldViewSpec<typeof imageProps>;
+  fieldViewPropMap: FieldNameToFieldViewSpec<ReturnType<typeof imageProps>>;
 };
 
 export const ImageElementTestId = "ImageElement";
@@ -40,23 +39,58 @@ export const ImageElement: React.FunctionComponent<Props> = ({
 );
 
 type ImageViewProps = {
-  fieldViewProp: CustomFieldViewSpec<{
-    src: string;
-  }>;
+  fieldViewProp: CustomFieldViewSpec<
+    {
+      mediaId?: string;
+      mediaApiUri?: string;
+      assets: string[];
+    },
+    {
+      onSelectImage: (setMedia: SetMedia) => void;
+      onCropImage: (mediaId: string, setMedia: SetMedia) => void;
+    }
+  >;
 };
 
 const ImageView = ({ fieldViewProp }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
     fieldViewProp
   );
+
+  const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
+    if (setImageFieldsRef.current) {
+      setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
+    }
+  };
+
   return (
     <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <Label>{fieldViewProp.name}</Label>
-      <TextInput
-        label={fieldViewProp.name}
-        value={imageFields.src || ""}
-        onChange={(e) => setImageFieldsRef.current?.({ src: e.target.value })}
-      ></TextInput>
+      {imageFields.assets.length > 0 ? (
+        <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
+      ) : null}
+
+      {imageFields.mediaId ? (
+        <button
+          onClick={() => {
+            if (imageFields.mediaId) {
+              fieldViewProp.fieldSpec.props.onCropImage(
+                imageFields.mediaId,
+                setMedia
+              );
+            } else {
+              fieldViewProp.fieldSpec.props.onSelectImage(setMedia);
+            }
+          }}
+        >
+          Crop Image
+        </button>
+      ) : (
+        <button
+          onClick={() => fieldViewProp.fieldSpec.props.onSelectImage(setMedia)}
+        >
+          Choose Image
+        </button>
+      )}
     </div>
   );
 };

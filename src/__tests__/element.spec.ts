@@ -42,6 +42,39 @@ describe("buildElementPlugin", () => {
       });
     });
 
+    it("should allow consumers to instantiate custom elements with custom props", () => {
+      const noop = () => {
+        return;
+      };
+
+      const createFieldSpec = (callback: () => void) => {
+        return {
+          prop1: { type: "richText" },
+          prop2: {
+            type: "custom",
+            defaultValue: { arbitraryValue: "hai" },
+            props: {
+              callback,
+            },
+          } as CustomField<
+            { arbitraryValue: string },
+            { callback: () => void }
+          >,
+        } as const;
+      };
+
+      const testElement = createNoopElement(
+        "testElement",
+        createFieldSpec(noop)
+      );
+
+      const { insertElement } = buildElementPlugin([testElement]);
+      insertElement("testElement", {
+        prop1: "<p>Example initial state</p>",
+        prop2: { arbitraryValue: "hai" },
+      });
+    });
+
     it("should not allow consumers to instantiate elements with fields that do not exist", () => {
       const testElement = createNoopElement("testElement", {
         prop1: { type: "richText" },

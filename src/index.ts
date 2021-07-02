@@ -8,6 +8,7 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "./element";
 import { createImageElement } from "./elements/image/element";
+import { onCropImage, onSelectImage } from "./helpers";
 import { createParsers, docToHtml, htmlToDoc } from "./prosemirrorSetup";
 import { testDecorationPlugin } from "./testHelpers";
 
@@ -16,7 +17,9 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-} = buildElementPlugin([createImageElement("imageElement")]);
+} = buildElementPlugin([
+  createImageElement("imageElement", onSelectImage, onCropImage),
+]);
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),

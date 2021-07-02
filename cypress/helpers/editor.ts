@@ -68,21 +68,38 @@ export const getSerialisedHtml = ({
   captionValue = "<p></p>",
   srcValue = "",
   useSrcValue = "false",
-  mainImageValue = "",
   optionValue = "opt1",
+  mainImageValue = {
+    assets: "[]",
+    mediaId: undefined,
+    mediaApiUri: undefined,
+  },
 }: {
   altTextValue?: string;
   captionValue?: string;
   srcValue?: string;
   useSrcValue?: string;
-  mainImageValue?: string;
   optionValue?: string;
-}): string =>
-  trimHtml(`<imageelement type="imageElement" has-errors="false">
+  mainImageValue?: {
+    assets: string;
+    mediaId?: string;
+    mediaApiUri?: string;
+  };
+}): string => {
+  const mainImageFields =
+    mainImageValue.mediaId || mainImageValue.mediaApiUri
+      ? `&quot;mediaId&quot;:&quot;${
+          mainImageValue.mediaId ?? "undefined"
+        }&quot;&quot;mediaApiUri&quot;:&quot;${
+          mainImageValue.mediaApiUri ?? "undefined"
+        }&quot;,&quot;assets&quot;${mainImageValue.assets}`
+      : `&quot;assets&quot;:[]`;
+  return trimHtml(`<imageelement type="imageElement" has-errors="false">
     <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
     <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
-    <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{&quot;src&quot;:&quot;${mainImageValue}&quot;}"></element-imageelement-mainimage>
+    <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{${mainImageFields}}"></element-imageelement-mainimage>
     <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
     <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
     <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
   </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
+};
