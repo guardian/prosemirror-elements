@@ -483,6 +483,11 @@
     "@emotion/weak-memoize" "^0.2.5"
     stylis "^4.0.3"
 
+"@emotion/core@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@emotion/core/-/core-11.0.0.tgz#d075867e07864119de7cfd5268c15012bd2d6290"
+  integrity sha512-w4sE3AmHmyG6RDKf6mIbtHpgJUSJ2uGvPQb8VXFL7hFjMPibE8IiehG8cMX3Ztm4svfCQV6KqusQbeIOkurBcA==
+
 "@emotion/hash@^0.6.2", "@emotion/hash@^0.6.6":
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.6.6.tgz#62266c5f0eac6941fece302abad69f2ee7e25e44"
@@ -616,6 +621,48 @@
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-0.5.0.tgz#ece14ec90b372932c7bf01992fc6d8ce58f7f26e"
   integrity sha512-THJn0wg7i9YjSVM9ofobsJgS+WH9ybrZH1+0CXLAebp0T53RGtgZUkek82mDg1h3DidsM+f7HSZqoQyrCbPzPw==
+
+"@guardian/src-foundations@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.7.0.tgz#f5f3a3c6d20c72d257447d1a8d97d1ffb613da0d"
+  integrity sha512-YLbr1D8VCoSg2nngMlMuq25zTcgngw01VZaqiyY4j9tC8IxFDliLbIf7mvQigKq9qn8RAlfM7HkMGzxSxVHtDg==
+
+"@guardian/src-helpers@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-3.7.0.tgz#58f7a8fe19370cf6a74a5a5cd4581a77d56c4018"
+  integrity sha512-JvFd1EAjf/IHBsyDIAvObcrqChu6OERaE+TlploALBeVvGaZWonyPFNu83f/O9De3/rCq6xuS23NWhjDEuaMxA==
+  dependencies:
+    "@guardian/src-foundations" "^3.7.0"
+    mini-svg-data-uri "^1.2.3"
+
+"@guardian/src-icons@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-3.7.0.tgz#580688167d00d9eed601044867d67dcd48b210c6"
+  integrity sha512-5tm8YlQpVGpuBN5hJ2Fi9xWkgCAvfX1IrzpLtLg4pLa6UmP1CIvwjlQocDBWRx2BItifU5UKtEpqiEvJdusK1g==
+
+"@guardian/src-label@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-label/-/src-label-3.7.0.tgz#83dfb902058d004d0f44bfb7ad49a5ab0786973e"
+  integrity sha512-GOEZiMPjKE4vLPK8ggcfKjQzdWB0IoA8L74GHq4TmVsolT669HF/UR262gMhTKKD5aqulSrDnEEFTGR1p2BSVw==
+  dependencies:
+    "@guardian/src-helpers" "^3.7.0"
+
+"@guardian/src-text-input@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-text-input/-/src-text-input-3.7.0.tgz#f73cf92f07faa5c25ccf14ae7581f633f4342f2c"
+  integrity sha512-7MO2Kmhc/naqjA9NVHgQIwO7MRtb9nGoiRAfi4AokQf8DOZCekMXPBVnmrdfPOikytp+p0V6CjUVqC49kY7wdQ==
+  dependencies:
+    "@guardian/src-helpers" "^3.7.0"
+    "@guardian/src-label" "^3.7.0"
+    "@guardian/src-user-feedback" "^3.7.0"
+
+"@guardian/src-user-feedback@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-user-feedback/-/src-user-feedback-3.7.0.tgz#80f832cef2f69e870570869a4e069ce7e4d3a204"
+  integrity sha512-jJazzCeei3RI2ydZUzcTJCsPktPNpscmcZTZ8v/+H2EGcfBv1pcqyKunJh5O1VINPDoo+W42bRJ62hRrNEs5FA==
+  dependencies:
+    "@guardian/src-helpers" "^3.7.0"
+    "@guardian/src-icons" "^3.7.0"
 
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
@@ -5160,6 +5207,11 @@ mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
+
+mini-svg-data-uri@^1.2.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.3.3.tgz#91d2c09f45e056e5e1043340b8b37ba7b50f4fac"
+  integrity sha512-+fA2oRcR1dJI/7ITmeQJDrYWks0wodlOz0pAEhKYJ2IVc1z0AnwJUsKY2fzFmPAM3Jo9J0rBx8JAA9QQSJ5PuA==
 
 minimalistic-assert@^1.0.0:
   version "1.0.1"

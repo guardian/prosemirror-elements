@@ -1,4 +1,5 @@
 import React from "react";
+import { Label } from "../../editorial-source-components/Label";
 import type { FieldNameToValueMap } from "../../fieldViews/helpers";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
@@ -20,24 +21,22 @@ export const ImageElement: React.FunctionComponent<Props> = ({
   fields,
   errors,
   fieldViewPropMap,
-}) => {
-  return (
-    <div data-cy={ImageElementTestId}>
-      <PropView fieldViewProp={fieldViewPropMap.altText} />
-      <PropView fieldViewProp={fieldViewPropMap.caption} />
-      <PropView fieldViewProp={fieldViewPropMap.src} />
-      <PropView fieldViewProp={fieldViewPropMap.useSrc} />
-      <PropView fieldViewProp={fieldViewPropMap.optionDropdown} />
-      <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
-      <hr />
-      <h4>Element errors</h4>
-      <pre>{JSON.stringify(errors)}</pre>
-      <hr />
-      <h4>Element values</h4>
-      <pre>{JSON.stringify(fields)}</pre>
-    </div>
-  );
-};
+}) => (
+  <div data-cy={ImageElementTestId}>
+    <PropView fieldViewProp={fieldViewPropMap.altText} />
+    <PropView fieldViewProp={fieldViewPropMap.caption} />
+    <PropView fieldViewProp={fieldViewPropMap.src} />
+    <PropView fieldViewProp={fieldViewPropMap.useSrc} />
+    <PropView fieldViewProp={fieldViewPropMap.optionDropdown} />
+    <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
+    <hr />
+    <Label>Element errors</Label>
+    <pre>{JSON.stringify(errors)}</pre>
+    <hr />
+    <Label>Element values</Label>
+    <pre>{JSON.stringify(fields)}</pre>
+  </div>
+);
 
 type ImageViewProps = {
   fieldViewProp: CustomFieldViewSpec<

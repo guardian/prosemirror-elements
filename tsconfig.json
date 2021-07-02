@@ -7,9 +7,11 @@
     "types": ["jest"],
     "sourceMap": true,
     "strict": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "declarations"]
+  "include": ["src/**/*", "declarations"],
+  
 }
