@@ -29,7 +29,7 @@ export const getElementFieldViewFromType = (
         getPos,
         offset,
         innerDecos,
-        prop.plugins ?? []
+        field.plugins ?? []
       );
     case "checkbox":
       return new CheckboxFieldView(
