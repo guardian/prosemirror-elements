@@ -1,11 +1,11 @@
 import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import { CheckboxFieldView } from "./fieldViews/CheckboxFieldView";
-import { CustomFieldView } from "./fieldViews/CustomFieldView";
-import { DropdownFieldView } from "./fieldViews/DropdownFieldView";
-import { RichTextFieldView } from "./fieldViews/RichTextFieldView";
-import { TextFieldView } from "./fieldViews/TextFieldView";
-import type { Field } from "./types/Element";
+import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
+import { CustomFieldView } from "../fieldViews/CustomFieldView";
+import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
+import { TextFieldView } from "../fieldViews/TextFieldView";
+import type { Field } from "../types/Element";
 
 type Options = {
   node: Node;

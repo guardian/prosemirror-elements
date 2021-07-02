@@ -7,9 +7,9 @@ import type {
   FieldSpec,
 } from "../plugin/types/Element";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
-import type { Commands } from "./helpers";
-import { createDecorations } from "./helpers";
-import { getElementFieldViewFromType } from "./pluginHelpers";
+import { getElementFieldViewFromType } from "./helpers/plugin";
+import type { Commands } from "./helpers/prosemirror";
+import { createDecorations } from "./helpers/prosemirror";
 
 const decorations = createDecorations("imageElement");
 

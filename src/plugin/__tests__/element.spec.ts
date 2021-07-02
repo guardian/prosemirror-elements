@@ -1,7 +1,10 @@
 import { buildElementPlugin } from "../element";
-import { trimHtml } from "../testHelpers";
+import {
+  createEditorWithElements,
+  createNoopElement,
+  trimHtml,
+} from "../helpers/test";
 import type { CustomField } from "../types/Element";
-import { createEditorWithElements, createNoopElement } from "./helpers";
 
 describe("buildElementPlugin", () => {
   describe("Typesafety", () => {

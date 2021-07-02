@@ -1,7 +1,7 @@
 import type { Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
-import { createEditorWithElements } from "../../__tests__/helpers";
+import { createEditorWithElements } from "../../helpers/test";
 import { getNodeSpecForProp } from "../../nodeSpec";
 import { AttributeFieldView } from "../AttributeFieldView";
 

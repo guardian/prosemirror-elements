@@ -1,4 +1,4 @@
-import { trimHtml } from "../../src/plugin/testHelpers";
+import { trimHtml } from "../../src/plugin/helpers/test";
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
 import { getPropViewTestId } from "../../src/renderers/react/PropView";
 

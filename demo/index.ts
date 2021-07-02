@@ -8,13 +8,13 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { createImageElement } from "../src/elements/image/imageElement";
 import { buildElementPlugin } from "../src/plugin/element";
-import { onCropImage, onSelectImage } from "../src/plugin/helpers";
 import {
   createParsers,
   docToHtml,
   htmlToDoc,
-} from "../src/plugin/prosemirrorSetup";
-import { testDecorationPlugin } from "../src/plugin/testHelpers";
+} from "../src/plugin/helpers/prosemirror";
+import { testDecorationPlugin } from "../src/plugin/helpers/test";
+import { onCropImage, onSelectImage } from "./helpers";
 
 const {
   plugin: elementPlugin,
