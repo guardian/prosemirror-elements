@@ -1,9 +1,9 @@
-import React from "react";
-import { Plugin } from "prosemirror-state";
 import { exampleSetup } from "prosemirror-example-setup";
 import { schema } from "prosemirror-schema-basic";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import type { Plugin } from "prosemirror-state";
+import React from "react";
 import type { CustomField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 
 export type SetMedia = (
