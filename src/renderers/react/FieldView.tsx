@@ -8,25 +8,27 @@ import type { TextFieldView } from "../../plugin/fieldViews/TextFieldView";
 import type { FieldViewSpec } from "../../plugin/types/Element";
 
 type Props = {
-  fieldViewProp: FieldViewSpec<
+  fieldViewSpec: FieldViewSpec<
     TextFieldView | RichTextFieldView | CheckboxFieldView | DropdownFieldView
   >;
 };
 
-export const getPropViewTestId = (name: string) => `PropField-${name}`;
+export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 
-export const PropView: React.FunctionComponent<Props> = ({ fieldViewProp }) => {
+export const FieldView: React.FunctionComponent<Props> = ({
+  fieldViewSpec,
+}) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!editorRef.current) {
       return;
     }
-    editorRef.current.appendChild(fieldViewProp.fieldView.fieldViewElement);
+    editorRef.current.appendChild(fieldViewSpec.fieldView.fieldViewElement);
   }, []);
 
   return (
-    <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      <Label>{fieldViewProp.name}</Label>
+    <div data-cy={getFieldViewTestId(fieldViewSpec.name)}>
+      <Label>{fieldViewSpec.name}</Label>
       <div css={editor} ref={editorRef}></div>
     </div>
   );

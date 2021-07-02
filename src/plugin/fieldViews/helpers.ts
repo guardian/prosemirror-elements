@@ -8,19 +8,19 @@ import { RichTextFieldView } from "./RichTextFieldView";
 import { TextFieldView } from "./TextFieldView";
 
 export const fieldTypeToViewMap = {
-  [TextFieldView.propName]: TextFieldView,
-  [RichTextFieldView.propName]: RichTextFieldView,
-  [CheckboxFieldView.propName]: CheckboxFieldView,
-  [DropdownFieldView.propName]: DropdownFieldView,
-  [CustomFieldView.propName]: CustomFieldView,
+  [TextFieldView.fieldName]: TextFieldView,
+  [RichTextFieldView.fieldName]: RichTextFieldView,
+  [CheckboxFieldView.fieldName]: CheckboxFieldView,
+  [DropdownFieldView.fieldName]: DropdownFieldView,
+  [CustomFieldView.fieldName]: CustomFieldView,
 };
 
 export type FieldTypeToViewMap<Field> = {
-  [TextFieldView.propName]: TextFieldView;
-  [RichTextFieldView.propName]: RichTextFieldView;
-  [CheckboxFieldView.propName]: CheckboxFieldView;
-  [DropdownFieldView.propName]: DropdownFieldView;
-  [CustomFieldView.propName]: Field extends CustomField<infer Data>
+  [TextFieldView.fieldName]: TextFieldView;
+  [RichTextFieldView.fieldName]: RichTextFieldView;
+  [CheckboxFieldView.fieldName]: CheckboxFieldView;
+  [DropdownFieldView.fieldName]: DropdownFieldView;
+  [CustomFieldView.fieldName]: Field extends CustomField<infer Data>
     ? CustomFieldView<Data>
     : never;
 };
@@ -32,11 +32,11 @@ export type FieldTypeToValueMap<
   FSpec extends FieldSpec<string>,
   Name extends keyof FSpec
 > = {
-  [TextFieldView.propName]: string;
-  [RichTextFieldView.propName]: string;
-  [CheckboxFieldView.propName]: CheckboxFields;
-  [DropdownFieldView.propName]: DropdownFields;
-  [CustomFieldView.propName]: FSpec[Name] extends CustomField<infer Data>
+  [TextFieldView.fieldName]: string;
+  [RichTextFieldView.fieldName]: string;
+  [CheckboxFieldView.fieldName]: CheckboxFields;
+  [DropdownFieldView.fieldName]: DropdownFields;
+  [CustomFieldView.fieldName]: FSpec[Name] extends CustomField<infer Data>
     ? Data
     : never;
 };

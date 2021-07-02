@@ -85,12 +85,12 @@ const createNodeView = <
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const fieldViewPropMap = {} as FieldNameToFieldViewSpec<FSpec>;
+  const fieldViewSpecs = {} as FieldNameToFieldViewSpec<FSpec>;
 
   initNode.forEach((node, offset) => {
     const name = node.type.name as keyof FieldNameToFieldViewSpec<FSpec>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (fieldViewPropMap[name]) {
+    if (fieldViewSpecs[name]) {
       throw new Error(
         `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but another instance with that name has already been created.`
       );
@@ -99,11 +99,11 @@ const createNodeView = <
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldSpec) {
       throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate prop`
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate field`
       );
     }
 
-    fieldViewPropMap[name] = ({
+    fieldViewSpecs[name] = ({
       fieldSpec,
       name,
       fieldView: getElementFieldViewFromType(fieldSpec, {
@@ -122,7 +122,7 @@ const createNodeView = <
 
   const update = element.createUpdator(
     dom,
-    fieldViewPropMap,
+    fieldViewSpecs,
     (fields, hasErrors) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
@@ -147,17 +147,17 @@ const createNodeView = <
         // node, to update the renderer. It's difficult to be typesafe here,
         // as the Node's name value is loosely typed as `string`, and so we
         // cannot index into the element `fieldSpec` to discover the appropriate type.
-        const propValues: Record<string, unknown> = {};
+        const fieldValues: Record<string, unknown> = {};
         node.forEach((node, offset) => {
           const typeName = node.type
             .name as keyof FieldNameToFieldViewSpec<FSpec>;
-          const nestedEditor = fieldViewPropMap[typeName];
+          const nestedEditor = fieldViewSpecs[typeName];
           nestedEditor.fieldView.update(node, offset, innerDecos);
-          propValues[typeName] = nestedEditor.fieldView.getNodeValue(node);
+          fieldValues[typeName] = nestedEditor.fieldView.getNodeValue(node);
         });
 
         update(
-          propValues as FieldNameToValueMap<FSpec>,
+          fieldValues as FieldNameToValueMap<FSpec>,
           commands(getPos, view)
         );
 
@@ -167,9 +167,7 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fieldViewPropMap).map((editor) =>
-        editor.fieldView.destroy()
-      );
+      Object.values(fieldViewSpecs).map((editor) => editor.fieldView.destroy());
     },
     ignoreMutation: () => true,
   };

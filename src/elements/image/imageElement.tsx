@@ -61,12 +61,12 @@ export const createImageElement = <Name extends string>(
   createReactElementSpec(
     name,
     imageProps(onSelect, onCrop),
-    (fields, errors, __, fieldViewPropMap) => {
+    (fields, errors, __, fieldViewSpecs) => {
       return (
         <ImageElementForm
           fields={fields}
           errors={errors}
-          fieldViewPropMap={fieldViewPropMap}
+          fieldViewSpecMap={fieldViewSpecs}
         />
       );
     },

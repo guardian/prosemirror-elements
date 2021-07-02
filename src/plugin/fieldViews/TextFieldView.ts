@@ -5,7 +5,7 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
 export class TextFieldView extends ProseMirrorFieldView {
-  public static propName = "text" as const;
+  public static fieldName = "text" as const;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -25,7 +25,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      TextFieldView.propName,
+      TextFieldView.fieldName,
       [
         keymap({
           "Mod-z": () => undo(outerView.state, outerView.dispatch),

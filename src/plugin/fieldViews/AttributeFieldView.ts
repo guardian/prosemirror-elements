@@ -8,7 +8,7 @@ import { FieldType } from "./FieldView";
  */
 export abstract class AttributeFieldView<Fields extends unknown>
   implements FieldView<Fields> {
-  public static propName: string;
+  public static fieldName: string;
   public static fieldType = FieldType.ATTRIBUTES;
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.

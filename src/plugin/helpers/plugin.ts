@@ -16,10 +16,10 @@ type Options = {
 };
 
 export const getElementFieldViewFromType = (
-  prop: Field,
+  field: Field,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
-  switch (prop.type) {
+  switch (field.type) {
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos);
     case "richText":
@@ -30,7 +30,7 @@ export const getElementFieldViewFromType = (
         view,
         getPos,
         offset,
-        prop.defaultValue ?? CheckboxFieldView.defaultValue
+        field.defaultValue ?? CheckboxFieldView.defaultValue
       );
     case "custom":
       return new CustomFieldView(node, view, getPos, offset);
@@ -40,8 +40,8 @@ export const getElementFieldViewFromType = (
         view,
         getPos,
         offset,
-        prop.defaultValue ?? DropdownFieldView.defaultValue,
-        prop.options
+        field.defaultValue ?? DropdownFieldView.defaultValue,
+        field.options
       );
   }
 };

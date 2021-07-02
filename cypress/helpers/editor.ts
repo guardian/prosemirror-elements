@@ -1,6 +1,6 @@
 import { trimHtml } from "../../src/plugin/helpers/test";
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
-import { getPropViewTestId } from "../../src/renderers/react/PropView";
+import { getFieldViewTestId } from "../../src/renderers/react/FieldView";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
@@ -22,20 +22,20 @@ export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
 export const getElementRichTextField = (fieldName: string) =>
-  cy.get(`div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror`);
+  cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))} .ProseMirror`);
 
 export const getElementField = (fieldName: string) =>
-  cy.get(`div${selectDataCy(getPropViewTestId(fieldName))}`);
+  cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))}`);
 
 export const getElementMenu = (fieldName: string) =>
   cy.get(
-    `div${selectDataCy(getPropViewTestId(fieldName))} .ProseMirror-menubar`
+    `div${selectDataCy(getFieldViewTestId(fieldName))} .ProseMirror-menubar`
   );
 
 export const getElementMenuButton = (fieldName: string, buttonTitle: string) =>
   cy.get(
     `div${selectDataCy(
-      getPropViewTestId(fieldName)
+      getFieldViewTestId(fieldName)
     )} .ProseMirror-menubar [title="${buttonTitle}"]`
   );
 

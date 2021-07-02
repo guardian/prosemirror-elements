@@ -12,7 +12,7 @@ export enum FieldType {
  * Represents a prosemirror-element view of a Prosemirror Node.
  */
 export abstract class FieldView<NodeValue> {
-  public static propName: string;
+  public static fieldName: string;
   public static fieldType: FieldType;
   // The HTML element this fieldView renders content into.
   public abstract fieldViewElement?: HTMLElement;

@@ -9,7 +9,7 @@ export class DropdownFieldView<
   Data = unknown
 > extends AttributeFieldView<Data> {
   private dropdownElement: HTMLSelectElement | undefined = undefined;
-  public static propName = "dropdown" as const;
+  public static fieldName = "dropdown" as const;
   public static defaultValue = undefined;
 
   constructor(

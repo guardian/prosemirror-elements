@@ -40,7 +40,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
     // The ProseMirror node type name
-    private readonly propName: string,
+    private readonly fieldName: string,
     // Plugins that the editor should use
     plugins?: Plugin[]
   ) {
@@ -61,7 +61,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const element = document.createElement("div");
     element.innerHTML = htmlContent;
     const content = this.parser.parse(element);
-    return this.node.type.create({ type: this.propName }, content);
+    return this.node.type.create({ type: this.fieldName }, content);
   }
 
   public update(

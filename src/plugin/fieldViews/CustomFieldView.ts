@@ -15,7 +15,7 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * perhaps in its own renderer format.
  */
 export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
-  public static propName = "custom" as const;
+  public static fieldName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
   public static defaultValue = undefined;
 

@@ -37,7 +37,7 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  fieldViewPropMap: FieldNameToFieldViewSpec<FSpec>,
+  fieldViewSpecs: FieldNameToFieldViewSpec<FSpec>,
   updateState: (fields: FieldNameToValueMap<FSpec>) => void,
   fields: FieldNameToValueMap<FSpec>,
   commands: Commands,

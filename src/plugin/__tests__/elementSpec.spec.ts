@@ -7,7 +7,7 @@ describe("mount", () => {
   describe("fieldView typesafety", () => {
     it("should provide typesafe fieldView to its consumer", () => {
       const fieldSpec = {
-        prop1: {
+        field1: {
           type: "richText",
         },
       } as const;
@@ -15,17 +15,17 @@ describe("mount", () => {
         "testElement",
         fieldSpec,
         (_, __, fieldViews) => {
-          // Prop1 is derived from the fieldSpec
-          fieldViews.prop1;
+          // field1 is derived from the fieldSpec
+          fieldViews.field1;
         },
         () => null,
-        { prop1: "text" }
+        { field1: "text" }
       );
     });
 
-    it("should not typecheck when props are not provided", () => {
+    it("should not typecheck when fields are not provided", () => {
       const fieldSpec = {
-        notProp1: {
+        notField1: {
           type: "richText",
         },
       } as const;
@@ -33,12 +33,12 @@ describe("mount", () => {
         "testElement",
         fieldSpec,
         (_, __, fieldViews) => {
-          // @ts-expect-error – prop1 is not available on this object,
+          // @ts-expect-error – field1 is not available on this object,
           // as it is not defined in `fieldSpec` passed into `mount`
-          fieldViews.prop1;
+          fieldViews.field1;
         },
         () => null,
-        { notProp1: "text" }
+        { notField1: "text" }
       );
     });
   });
@@ -46,10 +46,10 @@ describe("mount", () => {
   describe("validator typesafety", () => {
     it("should provide typesafe fields to its validator", () => {
       const fieldSpec = {
-        prop1: {
+        field1: {
           type: "richText",
         },
-        prop2: {
+        field2: {
           type: "checkbox",
           defaultValue: { value: true },
         },
@@ -59,19 +59,19 @@ describe("mount", () => {
         fieldSpec,
         () => () => undefined,
         (fields) => {
-          // Prop1 is derived from the fieldSpec, and is a string b/c it's a richText field
-          fields.prop1.toString();
-          // Prop2 is a boolean b/c it's a checkbox field
-          fields.prop2.value.valueOf();
+          // field1 is derived from the fieldSpec, and is a string b/c it's a richText field
+          fields.field1.toString();
+          // field2 is a boolean b/c it's a checkbox field
+          fields.field2.value.valueOf();
           return null;
         },
-        { prop1: "text" }
+        { field1: "text" }
       );
     });
 
-    it("should not typecheck when props are not provided", () => {
+    it("should not typecheck when fields are not provided", () => {
       const fieldSpec = {
-        notProp1: {
+        notField1: {
           type: "richText",
         },
       } as const;
@@ -80,12 +80,12 @@ describe("mount", () => {
         fieldSpec,
         () => () => undefined,
         (fields) => {
-          // @ts-expect-error – prop1 is not available on this object,
+          // @ts-expect-error – field1 is not available on this object,
           // as it is not defined in `fieldSpec` passed into `mount`
           fields.doesNotExist;
           return null;
         },
-        { notProp1: "text" }
+        { notField1: "text" }
       );
     });
   });
@@ -105,41 +105,41 @@ describe("mount", () => {
       expect(nodeSpec.get("testElement2")).toMatchObject({ content: "" });
     });
 
-    it("should create child nodes for each element prop, and the parent node should include them in its content expression", () => {
+    it("should create child nodes for each element field, and the parent node should include them in its content expression", () => {
       const testElement1 = createNoopElement("testElement1", {
-        prop1: {
+        field1: {
           type: "richText",
         },
-        prop2: {
+        field2: {
           type: "richText",
         },
       });
       const { nodeSpec } = buildElementPlugin([testElement1]);
       expect(nodeSpec.get("testElement1")).toMatchObject({
-        content: "prop1 prop2",
+        content: "field1 field2",
       });
-      expect(nodeSpec.get("prop1")).toMatchObject({ content: "paragraph+" });
-      expect(nodeSpec.get("prop2")).toMatchObject({ content: "paragraph+" });
+      expect(nodeSpec.get("field1")).toMatchObject({ content: "paragraph+" });
+      expect(nodeSpec.get("field2")).toMatchObject({ content: "paragraph+" });
     });
 
     describe("fields", () => {
       describe("richText", () => {
-        it("should allow the user to specify custom toDOM and parseDOM properties on richText props", () => {
+        it("should allow the user to specify custom toDOM and parseDOM properties on richText fields", () => {
           const fieldSpec = {
-            prop1: {
+            field1: {
               type: "richText" as const,
               content: "text",
-              toDOM: () => "element-testelement1-prop1",
+              toDOM: () => "element-testelement1-field1",
               parseDOM: [{ tag: "header" }],
             },
           };
 
           const testElement1 = createNoopElement("testElement1", fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
-          expect(nodeSpec.get("prop1")).toEqual({
-            content: fieldSpec.prop1.content,
-            toDOM: fieldSpec.prop1.toDOM,
-            parseDOM: fieldSpec.prop1.parseDOM,
+          expect(nodeSpec.get("field1")).toEqual({
+            content: fieldSpec.field1.content,
+            toDOM: fieldSpec.field1.toDOM,
+            parseDOM: fieldSpec.field1.parseDOM,
           });
         });
       });
@@ -147,25 +147,25 @@ describe("mount", () => {
       describe("text", () => {
         it("should provide a default inline node spec", () => {
           const fieldSpec = {
-            prop1: {
+            field1: {
               type: "text" as const,
             },
           };
 
           const testElement1 = createNoopElement("testElement1", fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
-          const prop1NodeSpec = nodeSpec.get("prop1");
-          expect(prop1NodeSpec).toHaveProperty("content", "text*");
-          expect(prop1NodeSpec).toHaveProperty("parseDOM", [
-            { tag: "element-testelement1-prop1" },
+          const field1NodeSpec = nodeSpec.get("field1");
+          expect(field1NodeSpec).toHaveProperty("content", "text*");
+          expect(field1NodeSpec).toHaveProperty("parseDOM", [
+            { tag: "element-testelement1-field1" },
           ]);
         });
       });
 
       describe("checkbox", () => {
-        it("should specify the appropriate fields on checkbox props", () => {
+        it("should specify the appropriate fields on checkbox fields", () => {
           const fieldSpec = {
-            prop1: {
+            field1: {
               type: "checkbox" as const,
               defaultValue: { value: true },
             },
@@ -173,7 +173,7 @@ describe("mount", () => {
 
           const testElement1 = createNoopElement("testElement1", fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
-          expect(nodeSpec.get("prop1")).toMatchObject({
+          expect(nodeSpec.get("field1")).toMatchObject({
             atom: true,
             attrs: {
               fields: {
@@ -187,9 +187,9 @@ describe("mount", () => {
       });
 
       describe("custom", () => {
-        it("should specify the appropriate fields for custom props", () => {
+        it("should specify the appropriate fields for custom fields", () => {
           const fieldSpec = {
-            prop1: {
+            field1: {
               type: "custom",
               defaultValue: { arbitraryField: "hai" },
             } as CustomField<{ arbitraryField: string }>,
@@ -197,7 +197,7 @@ describe("mount", () => {
 
           const testElement1 = createNoopElement("testElement1", fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
-          expect(nodeSpec.get("prop1")).toMatchObject({
+          expect(nodeSpec.get("field1")).toMatchObject({
             atom: true,
             attrs: {
               fields: {
