@@ -12,7 +12,7 @@ export type SetMedia = (
   assets: string[]
 ) => void;
 
-const examplePlugins: Plugin[] = exampleSetup({ schema, menuBar: false });
+const examplePlugins: Plugin[] = exampleSetup({ schema });
 
 export const imageProps = (
   onSelectImage: (setSrc: SetMedia) => void,
