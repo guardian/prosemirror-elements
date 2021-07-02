@@ -1,6 +1,6 @@
+import { trimHtml } from "../../src/plugin/testHelpers";
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
 import { getPropViewTestId } from "../../src/renderers/react/PropView";
-import { trimHtml } from "../../src/testHelpers";
 
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 

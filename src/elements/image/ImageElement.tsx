@@ -1,96 +1,86 @@
 import React from "react";
-import { Label } from "../../editorial-source-components/Label";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type {
-  CustomFieldViewSpec,
-  FieldNameToFieldViewSpec,
-} from "../../plugin/types/Element";
-import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { imageProps, SetMedia } from "./element";
+import type { CustomField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { ImageElementForm } from "./ImageElementForm";
 
-type Props = {
-  fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
-  errors: Record<string, string[]>;
-  fieldViewPropMap: FieldNameToFieldViewSpec<ReturnType<typeof imageProps>>;
+export type SetMedia = (
+  mediaId: string,
+  mediaApiUri: string,
+  assets: string[]
+) => void;
+
+export const imageProps = (
+  onSelectImage: (setSrc: SetMedia) => void,
+  onCropImage: (mediaId: string, setMedia: SetMedia) => void
+) => {
+  return {
+    caption: {
+      type: "richText",
+    },
+    altText: {
+      type: "richText",
+    },
+    src: {
+      type: "text",
+    },
+    mainImage: {
+      type: "custom",
+      defaultValue: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
+      props: {
+        onSelectImage,
+        onCropImage,
+      },
+    } as CustomField<
+      { mediaId?: string; mediaApiUri?: string; assets: string[] },
+      {
+        onSelectImage: (setSrc: SetMedia) => void;
+        onCropImage: (mediaId: string, setSrc: SetMedia) => void;
+      }
+    >,
+    useSrc: {
+      type: "checkbox",
+      defaultValue: { value: false },
+    },
+    optionDropdown: {
+      type: "dropdown",
+      options: [
+        { text: "Option 1", value: "opt1" },
+        { text: "Option 2", value: "opt2" },
+        { text: "Option 3", value: "opt3" },
+      ],
+      defaultValue: "opt1",
+    },
+  } as const;
 };
 
-export const ImageElementTestId = "ImageElement";
-
-export const ImageElement: React.FunctionComponent<Props> = ({
-  fields,
-  errors,
-  fieldViewPropMap,
-}) => (
-  <div data-cy={ImageElementTestId}>
-    <PropView fieldViewProp={fieldViewPropMap.altText} />
-    <PropView fieldViewProp={fieldViewPropMap.caption} />
-    <PropView fieldViewProp={fieldViewPropMap.src} />
-    <PropView fieldViewProp={fieldViewPropMap.useSrc} />
-    <PropView fieldViewProp={fieldViewPropMap.optionDropdown} />
-    <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
-    <hr />
-    <Label>Element errors</Label>
-    <pre>{JSON.stringify(errors)}</pre>
-    <hr />
-    <Label>Element values</Label>
-    <pre>{JSON.stringify(fields)}</pre>
-  </div>
-);
-
-type ImageViewProps = {
-  fieldViewProp: CustomFieldViewSpec<
-    {
-      mediaId?: string;
-      mediaApiUri?: string;
-      assets: string[];
+export const createImageElement = <Name extends string>(
+  name: Name,
+  onSelect: (setSrc: SetMedia) => void,
+  onCrop: (mediaId: string, setSrc: SetMedia) => void
+) =>
+  createReactElementSpec(
+    name,
+    imageProps(onSelect, onCrop),
+    (fields, errors, __, fieldViewPropMap) => {
+      return (
+        <ImageElementForm
+          fields={fields}
+          errors={errors}
+          fieldViewPropMap={fieldViewPropMap}
+        />
+      );
+    },
+    ({ altText }) => {
+      const el = document.createElement("div");
+      el.innerHTML = altText;
+      return el.innerText ? null : { altText: ["Alt tag must be set"] };
     },
     {
-      onSelectImage: (setMedia: SetMedia) => void;
-      onCropImage: (mediaId: string, setMedia: SetMedia) => void;
+      caption: "",
+      useSrc: { value: true },
+      altText: "",
+      mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
+      src: "",
+      optionDropdown: "opt1",
     }
-  >;
-};
-
-const ImageView = ({ fieldViewProp }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
-    fieldViewProp
   );
-
-  const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
-    if (setImageFieldsRef.current) {
-      setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
-    }
-  };
-
-  return (
-    <div data-cy={getPropViewTestId(fieldViewProp.name)}>
-      {imageFields.assets.length > 0 ? (
-        <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
-      ) : null}
-
-      {imageFields.mediaId ? (
-        <button
-          onClick={() => {
-            if (imageFields.mediaId) {
-              fieldViewProp.fieldSpec.props.onCropImage(
-                imageFields.mediaId,
-                setMedia
-              );
-            } else {
-              fieldViewProp.fieldSpec.props.onSelectImage(setMedia);
-            }
-          }}
-        >
-          Crop Image
-        </button>
-      ) : (
-        <button
-          onClick={() => fieldViewProp.fieldSpec.props.onSelectImage(setMedia)}
-        >
-          Choose Image
-        </button>
-      )}
-    </div>
-  );
-};

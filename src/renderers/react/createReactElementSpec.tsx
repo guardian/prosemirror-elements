@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import React from "react";
 import { render } from "react-dom";
-import { createElementSpec } from "../../elementSpec";
-import type { Renderer, Validator } from "../../elementSpec";
+import { createElementSpec } from "../../plugin/elementSpec";
+import type { Renderer, Validator } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { Consumer } from "../../plugin/types/Consumer";
 import type { FieldSpec } from "../../plugin/types/Element";

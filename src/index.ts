@@ -6,7 +6,7 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "./elements/image/element";
+import { createImageElement } from "./elements/image/imageElement";
 import { buildElementPlugin } from "./plugin/element";
 import { onCropImage, onSelectImage } from "./plugin/helpers";
 import { createParsers, docToHtml, htmlToDoc } from "./plugin/prosemirrorSetup";

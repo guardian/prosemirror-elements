@@ -3,7 +3,7 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { AllSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
-import type { SetMedia } from "./elements/image/element";
+import type { SetMedia } from "../elements/image/imageElement";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
