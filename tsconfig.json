@@ -12,5 +12,5 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "declarations"],
+  "include": ["src/**/*", "demo/**/*", "declarations"],
 }

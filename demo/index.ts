@@ -6,11 +6,14 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-
 import { createImageElement } from "../src/elements/image/imageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import { onCropImage, onSelectImage } from "../src/plugin/helpers";
-import { createParsers, docToHtml, htmlToDoc } from "../src/plugin/prosemirrorSetup";
+import {
+  createParsers,
+  docToHtml,
+  htmlToDoc,
+} from "../src/plugin/prosemirrorSetup";
 import { testDecorationPlugin } from "../src/plugin/testHelpers";
 
 const {

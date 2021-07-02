@@ -7,7 +7,7 @@ import type {
 } from "../../plugin/types/Element";
 import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { imageProps, SetMedia } from "./ImageElement";
+import type { imageProps, SetMedia } from "./imageElement";
 
 type Props = {
   fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
