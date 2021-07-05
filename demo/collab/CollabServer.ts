@@ -127,7 +127,6 @@ export class EditorConnection {
         })
       );
       tr.setMeta(COLLAB_ACTION, actionSelectionsChanged(selectionSpecs));
-      console.log({ tr, selectionSpecs });
       this.dispatchTransaction(tr);
     }, 500);
   }

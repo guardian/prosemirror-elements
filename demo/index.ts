@@ -60,77 +60,95 @@ const get = () => {
 const set = (doc: Node) =>
   window.localStorage.setItem("pm", docToHtml(serializer, doc));
 
-const initialVersion = 0;
+let editorNo = 0;
+// We use this as a source of truth when instantiating new editors.
+let firstCollabPlugin: ReturnType<typeof collab> | undefined;
+let firstEditor: EditorView | undefined;
 
-const createEditors = (noOfEditors: number, server: CollabServer) =>
-  Array(noOfEditors)
-    .fill(undefined)
-    .map((_, index) => {
-      const editorNo = index + 1;
+const createEditor = (server: CollabServer) => {
+  // Add the editor nodes to the DOM
+  const isFirstEditor = !firstEditor;
+  const editorElement = document.createElement("div");
+  editorElement.id = `editor-${editorNo}`;
+  editorElement.classList.add("Editor");
+  editorsContainer.appendChild(editorElement);
 
-      // Add the editor nodes to the DOM
-      const editorElement = document.createElement("div");
-      editorElement.id = `editor-${editorNo}`;
-      editorElement.classList.add("Editor");
-      editorsContainer.appendChild(editorElement);
+  const contentElement = document.getElementById(`content-${editorNo}`);
+  if (contentElement?.parentElement) {
+    contentElement.parentElement.removeChild(contentElement);
+  }
 
-      const contentElement = document.getElementById(`content-${editorNo}`);
-      if (contentElement?.parentElement) {
-        contentElement.parentElement.removeChild(contentElement);
+  // Create the editor
+  const clientID = editorNo.toString();
+  const currentVersion =
+    firstEditor && firstCollabPlugin
+      ? (firstCollabPlugin.getState(firstEditor.state) as number)
+      : 0;
+  const collabPlugin = collab({ version: currentVersion, clientID });
+  const view = new EditorView(editorElement, {
+    state: EditorState.create({
+      doc: get(),
+      plugins: [
+        ...exampleSetup({ schema }),
+        elementPlugin,
+        testDecorationPlugin,
+        collabPlugin,
+        createSelectionCollabPlugin(clientID),
+      ],
+    }),
+    dispatchTransaction: (tr: Transaction) => {
+      const state = view.state.apply(tr);
+      view.updateState(state);
+      highlightErrors(state);
+      if (isFirstEditor) {
+        set(state.doc);
       }
+    },
+  });
 
-      // Create the editor
-      const clientID = index.toString();
-      const collabPlugin = collab({ version: initialVersion, clientID });
+  if (!isFirstEditor) {
+    firstEditor = view;
+  }
 
-      const view = new EditorView(editorElement, {
-        state: EditorState.create({
-          doc: get(),
-          plugins: [
-            ...exampleSetup({ schema }),
-            elementPlugin,
-            testDecorationPlugin,
-            collabPlugin,
-            createSelectionCollabPlugin(clientID),
-          ],
-        }),
-        dispatchTransaction: (tr: Transaction) => {
-          const state = view.state.apply(tr);
-          view.updateState(state);
-          highlightErrors(state);
-          set(state.doc);
-        },
-      });
+  highlightErrors(view.state);
 
-      highlightErrors(view.state);
+  const elementButton = document.createElement("button");
+  elementButton.innerHTML = "Element";
+  elementButton.id = "element";
+  elementButton.addEventListener("click", () =>
+    insertElement("imageElement", {
+      altText: "",
+      caption: "",
+      useSrc: { value: false },
+    })(view.state, view.dispatch)
+  );
+  editorElement.appendChild(elementButton);
 
-      const elementButton = document.createElement("button");
-      elementButton.innerHTML = "Element";
-      elementButton.id = "element";
-      elementButton.addEventListener("click", () =>
-        insertElement("imageElement", {
-          altText: "",
-          caption: "",
-          useSrc: { value: false },
-        })(view.state, view.dispatch)
-      );
-      document.body.appendChild(elementButton);
+  new EditorConnection(view, server, clientID, `User ${clientID}`);
 
-      new EditorConnection(view, server, clientID, `User ${clientID}`);
+  editorNo++;
 
-      return view;
-    });
+  return view;
+};
 
 const server = new CollabServer();
-const editors = createEditors(2, server);
-const debugView = editors[0];
-const doc = debugView.state.doc;
+firstEditor = createEditor(server);
+const doc = firstEditor.state.doc;
 server.init(doc);
+
+// Add more editors
+const addEditorButton = document.createElement("button");
+addEditorButton.innerHTML = "Add another editor";
+addEditorButton.id = "add-editor";
+addEditorButton.addEventListener("click", () => createEditor(server));
+document.body.appendChild(addEditorButton);
 
 // Handy debugging tools
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- debug
-(window as any).ProseMirrorDevTools.applyDevTools(debugView, { EditorState });
-((window as unknown) as { view: EditorView }).view = debugView;
+(window as any).ProseMirrorDevTools.applyDevTools(firstEditor, {
+  EditorState,
+});
+((window as unknown) as { view: EditorView }).view = firstEditor;
 ((window as unknown) as { docToHtml: () => string }).docToHtml = () =>
-  docToHtml(serializer, debugView.state.doc);
+  firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "";
