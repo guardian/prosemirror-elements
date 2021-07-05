@@ -1,91 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
   <link rel="stylesheet" href="https://prosemirror.net/css/editor.css">
   <script src="https://unpkg.com/prosemirror-dev-tools@1.4.0/dist/umd/prosemirror-dev-tools.min.js"></script>
-  <title>Document</title>
-  <style>html,
-  body {
-    font-family: 'TE31 Text Egyptian'
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 400;
-    font-family: 'DE5 Display Egyptian SemiBold'
-  }
-
-  .TestDecoration {
-    background-color: peachpuff;
-  }
-  @font-face {
-    font-family: "Guardian Agate Sans";
-    src: url("fonts/GuardianAgateSans1Web-Regular.woff2") format("woff2"),
-         url("fonts/GuardianAgateSans1Web-Regular.woff") format("woff"),
-         url("fonts/GuardianAgateSans1Web-Regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-  }
-
-  @font-face {
-    font-family: "Guardian Agate Sans";
-    src: url("fonts/GuardianAgateSans1Web-Bold.woff2") format("woff2"),
-      url("fonts/GuardianAgateSans1Web-Bold.woff") format("woff"),
-      url("fonts/GuardianAgateSans1Web-Bold.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
-    font-stretch: normal;
-  }
-
-  @font-face {
-    font-family: "Guardian Agate Sans";
-    src: url("fonts/GuardianAgateSans1Web-RegularItalic.woff2") format("woff2"),
-      url("fonts/GuardianAgateSans1Web-RegularItalic.woff") format("woff"),
-      url("fonts/GuardianAgateSans1Web-RegularItalic.ttf") format("truetype");
-    font-weight: 400;
-    font-style: Italic;
-    font-stretch: normal;
-  }
-
-  @font-face {
-    font-family: "Guardian Agate Sans";
-    src: url("fonts/GuardianAgateSans1Web-BoldItalic.woff2") format("woff2"),
-      url("fonts/GuardianAgateSans1Web-BoldItalic.woff") format("woff"),
-      url("fonts/GuardianAgateSans1Web-BoldItalic.ttf") format("truetype");
-    font-weight: 700;
-    font-style: italic;
-    font-stretch: normal;
-  }
-  </style>
-</head>
-
-<body>
-
-</body>
-
-</html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="editor"></div>
-  <div id="content" style="display: none;">
+  <div id="editor-container"></div>
+  <div id="content-template" style="display: none;">
     <p>First paragraph</p>
     <p>Second paragraph</p>
   </div>
