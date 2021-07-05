@@ -1,8 +1,8 @@
 import type { Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
-import { createEditorWithElements } from "../../__tests__/helpers";
-import { getNodeSpecForProp } from "../../nodeSpec";
+import { createEditorWithElements } from "../../helpers/test";
+import { getNodeSpecForField } from "../../nodeSpec";
 import { AttributeFieldView } from "../AttributeFieldView";
 
 const createInnerViewSpy = jest.fn();
@@ -31,7 +31,7 @@ const testSchema = new Schema({
   nodes: {
     doc: schema.nodes.doc,
     text: schema.nodes.text,
-    ...(getNodeSpecForProp("doc", "testField", {
+    ...(getNodeSpecForField("doc", "testField", {
       type: "checkbox",
       defaultValue: { value: false },
     }) as { testField: NodeSpec }),

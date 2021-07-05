@@ -1,7 +1,10 @@
 import { buildElementPlugin } from "../element";
-import { trimHtml } from "../testHelpers";
+import {
+  createEditorWithElements,
+  createNoopElement,
+  trimHtml,
+} from "../helpers/test";
 import type { CustomField } from "../types/Element";
-import { createEditorWithElements, createNoopElement } from "./helpers";
 
 describe("buildElementPlugin", () => {
   describe("Typesafety", () => {
@@ -20,25 +23,25 @@ describe("buildElementPlugin", () => {
 
     it("should allow consumers to instantiate elements with a partial set of initial fields", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText" },
-        prop2: { type: "richText" },
+        field1: { type: "richText" },
+        field2: { type: "richText" },
       });
       const { insertElement } = buildElementPlugin([testElement]);
-      insertElement("testElement", { prop1: "<p>Example initial state</p>" });
+      insertElement("testElement", { field1: "<p>Example initial state</p>" });
     });
 
     it("should allow consumers to instantiate custom elements", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText" },
-        prop2: {
+        field1: { type: "richText" },
+        field2: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
         } as CustomField<{ arbitraryValue: string }>,
       });
       const { insertElement } = buildElementPlugin([testElement]);
       insertElement("testElement", {
-        prop1: "<p>Example initial state</p>",
-        prop2: { arbitraryValue: "hai" },
+        field1: "<p>Example initial state</p>",
+        field2: { arbitraryValue: "hai" },
       });
     });
 
@@ -49,8 +52,8 @@ describe("buildElementPlugin", () => {
 
       const createFieldSpec = (callback: () => void) => {
         return {
-          prop1: { type: "richText" },
-          prop2: {
+          field1: { type: "richText" },
+          field2: {
             type: "custom",
             defaultValue: { arbitraryValue: "hai" },
             props: {
@@ -70,14 +73,14 @@ describe("buildElementPlugin", () => {
 
       const { insertElement } = buildElementPlugin([testElement]);
       insertElement("testElement", {
-        prop1: "<p>Example initial state</p>",
-        prop2: { arbitraryValue: "hai" },
+        field1: "<p>Example initial state</p>",
+        field2: { arbitraryValue: "hai" },
       });
     });
 
     it("should not allow consumers to instantiate elements with fields that do not exist", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText" },
+        field1: { type: "richText" },
       });
       const { insertElement } = buildElementPlugin([testElement]);
       insertElement("testElement", {
@@ -88,21 +91,21 @@ describe("buildElementPlugin", () => {
 
     it("should not allow fields to be instantiated with an incorrect type", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: { value: false } },
       });
       const { insertElement } = buildElementPlugin([testElement]);
       insertElement("testElement", {
-        prop1: { value: true },
+        field1: { value: true },
       });
       insertElement("testElement", {
         // @ts-expect-error -- we should not be able to insert a field of the wrong type
-        prop1: "This shouldn't typecheck",
+        field1: "This shouldn't typecheck",
       });
     });
 
     it("should not allow consumers to instantiate custom elements with an incorrect type", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: {
+        field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
         } as CustomField<{ arbitraryValue: string }>,
@@ -110,7 +113,7 @@ describe("buildElementPlugin", () => {
       const { insertElement } = buildElementPlugin([testElement]);
       insertElement("testElement", {
         // @ts-expect-error -- we should not be able to insert a custom field of the wrong type
-        prop1: { doesNotExist: "hai" },
+        field1: { doesNotExist: "hai" },
       });
     });
   });
@@ -118,8 +121,8 @@ describe("buildElementPlugin", () => {
   describe("Element creation and serialisation", () => {
     it("should create an element with default content when no fields are supplied", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "checkbox", defaultValue: { value: false } },
-        prop2: { type: "richText", defaultValue: "<p>Content</p>" },
+        field1: { type: "checkbox", defaultValue: { value: false } },
+        field2: { type: "richText", defaultValue: "<p>Content</p>" },
       });
       const {
         view,
@@ -130,13 +133,13 @@ describe("buildElementPlugin", () => {
       insertElement("testElement")(view.state, view.dispatch);
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;value&quot;:false}"></element-testelement-prop1><element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"><p>Content</p></element-testelement-prop2></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:false}"></element-testelement-field1><element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content</p></element-testelement-field2></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
     it("should fill out fields in ATTRIBUTE nodes", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: { value: false } },
       });
       const {
         view,
@@ -144,19 +147,19 @@ describe("buildElementPlugin", () => {
         getElementAsHTML,
       } = createEditorWithElements([testElement]);
 
-      insertElement("testElement", { prop1: { value: true } })(
+      insertElement("testElement", { field1: { value: true } })(
         view.state,
         view.dispatch
       );
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;value&quot;:true}"></element-testelement-prop1></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:true}"></element-testelement-field1></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
     it("should fill out content in CONTENT nodes", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText" },
+        field1: { type: "richText" },
       });
       const {
         view,
@@ -164,20 +167,20 @@ describe("buildElementPlugin", () => {
         getElementAsHTML,
       } = createEditorWithElements([testElement]);
 
-      insertElement("testElement", { prop1: "<p>Content</p>" })(
+      insertElement("testElement", { field1: "<p>Content</p>" })(
         view.state,
         view.dispatch
       );
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content</p></element-testelement-prop1></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
     it("should allow partial fields", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText" },
-        prop2: { type: "richText", defaultValue: "<p>Default</p>" },
+        field1: { type: "richText" },
+        field2: { type: "richText", defaultValue: "<p>Default</p>" },
       });
       const {
         view,
@@ -185,20 +188,20 @@ describe("buildElementPlugin", () => {
         getElementAsHTML,
       } = createEditorWithElements([testElement]);
 
-      insertElement("testElement", { prop1: "<p>Content</p>" })(
+      insertElement("testElement", { field1: "<p>Content</p>" })(
         view.state,
         view.dispatch
       );
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content</p></element-testelement-prop1><element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"><p>Default</p></element-testelement-prop2></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1><element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Default</p></element-testelement-field2></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
     it("should fill out all fields", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText" },
-        prop2: { type: "richText" },
+        field1: { type: "richText" },
+        field2: { type: "richText" },
       });
       const {
         view,
@@ -207,18 +210,18 @@ describe("buildElementPlugin", () => {
       } = createEditorWithElements([testElement]);
 
       insertElement("testElement", {
-        prop1: "<p>Content for prop1</p>",
-        prop2: "<p>Content for prop2</p>",
+        field1: "<p>Content for field1</p>",
+        field2: "<p>Content for field2</p>",
       })(view.state, view.dispatch);
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content for prop1</p></element-testelement-prop1><element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"><p>Content for prop2</p></element-testelement-prop2></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content for field1</p></element-testelement-field1><element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content for field2</p></element-testelement-field2></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
 
     it("should fill out fields in custom nodes", () => {
       const testElement = createNoopElement("testElement", {
-        prop1: {
+        field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
         } as CustomField<{ arbitraryValue: string }>,
@@ -229,13 +232,13 @@ describe("buildElementPlugin", () => {
         getElementAsHTML,
       } = createEditorWithElements([testElement]);
 
-      insertElement("testElement", { prop1: { arbitraryValue: "hai" } })(
+      insertElement("testElement", { field1: { arbitraryValue: "hai" } })(
         view.state,
         view.dispatch
       );
 
       const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-prop1 class="ProsemirrorElement__testElement-prop1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></element-testelement-prop1></testelement>';
+        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></element-testelement-field1></testelement>';
       expect(getElementAsHTML()).toBe(expected);
     });
   });
@@ -244,16 +247,16 @@ describe("buildElementPlugin", () => {
     it("should parse fields of all types, respecting values against defaults", () => {
       const elementHTML = `
         <testelement type="testElement" has-errors="false">
-        <element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p>Content</p></element-testelement-prop1>
-        <element-testelement-prop2 class="ProsemirrorElement__testElement-prop2">Content</element-testelement-prop2>
-        <element-testelement-prop3 class="ProsemirrorElement__testElement-prop3" fields="{&quot;value&quot;:true}"></element-testelement-prop3>
+        <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1>
+        <element-testelement-field2 class="ProsemirrorElement__testElement-field2">Content</element-testelement-field2>
+        <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
         </testelement>
       `;
 
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText", defaultValue: "<p>Default</p>" },
-        prop2: { type: "text", defaultValue: "Default" },
-        prop3: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "richText", defaultValue: "<p>Default</p>" },
+        field2: { type: "text", defaultValue: "Default" },
+        field3: { type: "checkbox", defaultValue: { value: false } },
       });
 
       const { getElementAsHTML } = createEditorWithElements(
@@ -267,16 +270,16 @@ describe("buildElementPlugin", () => {
     it("should parse fields of all types, handling empty content values correctly", () => {
       const elementHTML = `
         <testelement type="testElement" has-errors="false">
-        <element-testelement-prop1 class="ProsemirrorElement__testElement-prop1"><p></p></element-testelement-prop1>
-        <element-testelement-prop2 class="ProsemirrorElement__testElement-prop2"></element-testelement-prop2>
-        <element-testelement-prop3 class="ProsemirrorElement__testElement-prop3" fields="{&quot;value&quot;:true}"></element-testelement-prop3>
+        <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p></p></element-testelement-field1>
+        <element-testelement-field2 class="ProsemirrorElement__testElement-field2"></element-testelement-field2>
+        <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
         </testelement>
       `;
 
       const testElement = createNoopElement("testElement", {
-        prop1: { type: "richText", defaultValue: "<p>Default</p>" },
-        prop2: { type: "text", defaultValue: "Default" },
-        prop3: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "richText", defaultValue: "<p>Default</p>" },
+        field2: { type: "text", defaultValue: "Default" },
+        field3: { type: "checkbox", defaultValue: { value: false } },
       });
 
       const { getElementAsHTML } = createEditorWithElements(

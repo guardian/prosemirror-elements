@@ -1,34 +1,34 @@
 import React from "react";
 import { Label } from "../../editorial-source-components/Label";
-import type { FieldNameToValueMap } from "../../fieldViews/helpers";
-import { getPropViewTestId, PropView } from "../../renderers/react/PropView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
+import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
-} from "../../types/Element";
-import type { imageProps, SetMedia } from "./element";
+} from "../../plugin/types/Element";
+import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
+import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
+import type { imageProps, SetMedia } from "./imageElement";
 
 type Props = {
   fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
   errors: Record<string, string[]>;
-  fieldViewPropMap: FieldNameToFieldViewSpec<ReturnType<typeof imageProps>>;
+  fieldViewSpecMap: FieldNameToFieldViewSpec<ReturnType<typeof imageProps>>;
 };
 
 export const ImageElementTestId = "ImageElement";
 
-export const ImageElement: React.FunctionComponent<Props> = ({
+export const ImageElementForm: React.FunctionComponent<Props> = ({
   fields,
   errors,
-  fieldViewPropMap,
+  fieldViewSpecMap: fieldViewSpecs,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <PropView fieldViewProp={fieldViewPropMap.altText} />
-    <PropView fieldViewProp={fieldViewPropMap.caption} />
-    <PropView fieldViewProp={fieldViewPropMap.src} />
-    <PropView fieldViewProp={fieldViewPropMap.useSrc} />
-    <PropView fieldViewProp={fieldViewPropMap.optionDropdown} />
-    <ImageView fieldViewProp={fieldViewPropMap.mainImage} />
+    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
+    <FieldView fieldViewSpec={fieldViewSpecs.caption} />
+    <FieldView fieldViewSpec={fieldViewSpecs.src} />
+    <FieldView fieldViewSpec={fieldViewSpecs.useSrc} />
+    <FieldView fieldViewSpec={fieldViewSpecs.optionDropdown} />
+    <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>
@@ -39,7 +39,7 @@ export const ImageElement: React.FunctionComponent<Props> = ({
 );
 
 type ImageViewProps = {
-  fieldViewProp: CustomFieldViewSpec<
+  fieldViewSpec: CustomFieldViewSpec<
     {
       mediaId?: string;
       mediaApiUri?: string;
@@ -52,9 +52,9 @@ type ImageViewProps = {
   >;
 };
 
-const ImageView = ({ fieldViewProp }: ImageViewProps) => {
+const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
-    fieldViewProp
+    fieldViewSpec
   );
 
   const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
@@ -64,7 +64,7 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
   };
 
   return (
-    <div data-cy={getPropViewTestId(fieldViewProp.name)}>
+    <div data-cy={getFieldViewTestId(fieldViewSpec.name)}>
       {imageFields.assets.length > 0 ? (
         <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
       ) : null}
@@ -73,12 +73,12 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
         <button
           onClick={() => {
             if (imageFields.mediaId) {
-              fieldViewProp.fieldSpec.props.onCropImage(
+              fieldViewSpec.fieldSpec.props.onCropImage(
                 imageFields.mediaId,
                 setMedia
               );
             } else {
-              fieldViewProp.fieldSpec.props.onSelectImage(setMedia);
+              fieldViewSpec.fieldSpec.props.onSelectImage(setMedia);
             }
           }}
         >
@@ -86,7 +86,7 @@ const ImageView = ({ fieldViewProp }: ImageViewProps) => {
         </button>
       ) : (
         <button
-          onClick={() => fieldViewProp.fieldSpec.props.onSelectImage(setMedia)}
+          onClick={() => fieldViewSpec.fieldSpec.props.onSelectImage(setMedia)}
         >
           Choose Image
         </button>

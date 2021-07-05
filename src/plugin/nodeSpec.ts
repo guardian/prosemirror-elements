@@ -10,8 +10,8 @@ export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec
 ): OrderedMap<NodeSpec> => {
   const propSpecs = Object.entries(fieldSpec).reduce(
-    (acc, [propName, propSpec]) =>
-      acc.append(getNodeSpecForProp(elementName, propName, propSpec)),
+    (acc, [fieldName, propSpec]) =>
+      acc.append(getNodeSpecForField(elementName, fieldName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
@@ -61,66 +61,67 @@ const getNodeSpecForElement = (
   },
 });
 
-export const getNodeSpecForProp = (
+export const getNodeSpecForField = (
   elementName: string,
-  propName: string,
-  prop: Field
+  fieldName: string,
+  field: Field
 ): NodeSpec => {
-  switch (prop.type) {
+  switch (field.type) {
     case "text":
       return {
-        [propName]: {
+        [fieldName]: {
           content: "text*",
-          toDOM: getDefaultToDOMForContentNode(elementName, propName),
-          parseDOM: [{ tag: getTagForNode(elementName, propName) }],
+          toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
+          parseDOM: [{ tag: getTagForNode(elementName, fieldName) }],
         },
       };
     case "richText":
       return {
-        [propName]: {
-          content: prop.content ?? "paragraph+",
+        [fieldName]: {
+          content: field.content ?? "paragraph+",
           toDOM:
-            prop.toDOM ?? getDefaultToDOMForContentNode(elementName, propName),
-          parseDOM: prop.parseDOM ?? [
-            { tag: getTagForNode(elementName, propName) },
+            field.toDOM ??
+            getDefaultToDOMForContentNode(elementName, fieldName),
+          parseDOM: field.parseDOM ?? [
+            { tag: getTagForNode(elementName, fieldName) },
           ],
         },
       };
     case "checkbox":
       return {
-        [propName]: {
+        [fieldName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
+          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
           attrs: {
             fields: {
-              default: prop.defaultValue,
+              default: field.defaultValue,
             },
           },
         },
       };
     case "dropdown":
       return {
-        [propName]: {
+        [fieldName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
+          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
           attrs: {
             fields: {
-              default: prop.defaultValue,
+              default: field.defaultValue,
             },
           },
         },
       };
     case "custom":
       return {
-        [propName]: {
+        [fieldName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, propName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, propName),
+          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
+          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
           attrs: {
             fields: {
-              default: { value: prop.defaultValue },
+              default: { value: field.defaultValue },
             },
           },
         },
@@ -130,20 +131,20 @@ export const getNodeSpecForProp = (
 
 const getDefaultToDOMForContentNode = (
   elementName: string,
-  propName: string
+  fieldName: string
 ) => () =>
   [
-    getTagForNode(elementName, propName),
-    { class: getClassForNode(elementName, propName) },
+    getTagForNode(elementName, fieldName),
+    { class: getClassForNode(elementName, fieldName) },
     0,
   ] as const;
 
-const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
+const getDefaultToDOMForLeafNode = (elementName: string, fieldName: string) => (
   node: Node
 ) => [
-  getTagForNode(elementName, propName),
+  getTagForNode(elementName, fieldName),
   {
-    class: getClassForNode(elementName, propName),
+    class: getClassForNode(elementName, fieldName),
     type: node.attrs.type as string,
     fields: JSON.stringify(node.attrs.fields),
     "has-errors": JSON.stringify(node.attrs.hasErrors),
@@ -152,10 +153,10 @@ const getDefaultToDOMForLeafNode = (elementName: string, propName: string) => (
 
 const getDefaultParseDOMForLeafNode = (
   elementName: string,
-  propName: string
+  fieldName: string
 ) => [
   {
-    tag: getTagForNode(elementName, propName),
+    tag: getTagForNode(elementName, fieldName),
     getAttrs: (dom: Element) => {
       if (typeof dom === "string") {
         return;
@@ -169,11 +170,11 @@ const getDefaultParseDOMForLeafNode = (
   },
 ];
 
-const getClassForNode = (elementName: string, propName: string) =>
-  `ProsemirrorElement__${elementName}-${propName}`;
+const getClassForNode = (elementName: string, fieldName: string) =>
+  `ProsemirrorElement__${elementName}-${fieldName}`;
 
-const getTagForNode = (elementName: string, propName: string) =>
-  `element-${elementName}-${propName}`.toLowerCase();
+const getTagForNode = (elementName: string, fieldName: string) =>
+  `element-${elementName}-${fieldName}`.toLowerCase();
 
 export const createNodesForFieldValues = <
   S extends Schema,

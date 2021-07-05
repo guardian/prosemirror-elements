@@ -1,7 +1,7 @@
 import React from "react";
+import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import type { CustomField } from "../../types/Element";
-import { ImageElement } from "./ImageElement";
+import { ImageElementForm } from "./ImageElementForm";
 
 export type SetMedia = (
   mediaId: string,
@@ -61,12 +61,12 @@ export const createImageElement = <Name extends string>(
   createReactElementSpec(
     name,
     imageProps(onSelect, onCrop),
-    (fields, errors, __, fieldViewPropMap) => {
+    (fields, errors, __, fieldViewSpecs) => {
       return (
-        <ImageElement
+        <ImageElementForm
           fields={fields}
           errors={errors}
-          fieldViewPropMap={fieldViewPropMap}
+          fieldViewSpecMap={fieldViewSpecs}
         />
       );
     },

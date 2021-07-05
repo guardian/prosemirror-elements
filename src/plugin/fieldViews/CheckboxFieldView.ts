@@ -5,7 +5,7 @@ import { AttributeFieldView } from "./AttributeFieldView";
 export type CheckboxFields = { value: boolean };
 
 export class CheckboxFieldView extends AttributeFieldView<CheckboxFields> {
-  public static propName = "checkbox" as const;
+  public static fieldName = "checkbox" as const;
   public static defaultValue = { value: false };
   private checkboxElement: HTMLInputElement | undefined = undefined;
 

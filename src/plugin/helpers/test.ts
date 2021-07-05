@@ -3,12 +3,41 @@ import { exampleSetup } from "prosemirror-example-setup";
 import type { NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
-import { EditorState } from "prosemirror-state";
-import { EditorView } from "prosemirror-view";
+import { EditorState, Plugin } from "prosemirror-state";
+import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import { createParsers } from "../prosemirrorSetup";
 import type { ElementSpec, FieldSpec } from "../types/Element";
+import { createParsers } from "./prosemirror";
+
+export const testDecorationPlugin = new Plugin({
+  props: {
+    decorations: (state) => {
+      const decorateThisPhrase = "deco";
+      const ranges = [] as Array<[number, number]>;
+      state.doc.descendants((node, offset) => {
+        if (node.isLeaf && node.textContent) {
+          const indexOfDeco = node.textContent.indexOf(decorateThisPhrase);
+          if (indexOfDeco !== -1) {
+            ranges.push([
+              indexOfDeco + offset,
+              indexOfDeco + offset + decorateThisPhrase.length,
+            ]);
+          }
+        }
+      });
+
+      return DecorationSet.create(
+        state.doc,
+        ranges.map(([from, to]) =>
+          Decoration.inline(from, to, { class: "TestDecoration" })
+        )
+      );
+    },
+  },
+});
+
+export const trimHtml = (html: string) => html.replace(/>\s+</g, "><").trim();
 
 /**
  * Create an element which renders nothing. Useful when testing schema output.

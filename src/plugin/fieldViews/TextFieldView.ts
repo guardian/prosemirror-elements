@@ -1,12 +1,11 @@
-import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { Node, Schema } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export class RichTextFieldView extends ProseMirrorFieldView {
-  public static propName = "richText" as const;
+export class TextFieldView extends ProseMirrorFieldView {
+  public static fieldName = "text" as const;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -26,13 +25,12 @@ export class RichTextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      RichTextFieldView.propName,
+      TextFieldView.fieldName,
       [
         keymap({
           "Mod-z": () => undo(outerView.state, outerView.dispatch),
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
         }),
-        ...exampleSetup({ schema: node.type.schema as Schema }),
       ]
     );
   }

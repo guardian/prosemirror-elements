@@ -20,7 +20,7 @@ interface BaseFieldSpec<DefaultValue extends unknown> {
 }
 
 interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
-  type: typeof CheckboxFieldView.propName;
+  type: typeof CheckboxFieldView.fieldName;
 }
 
 export type Option<Value> = {
@@ -29,23 +29,23 @@ export type Option<Value> = {
 };
 
 interface DropdownField<Data = unknown> extends BaseFieldSpec<Data> {
-  type: typeof DropdownFieldView.propName;
+  type: typeof DropdownFieldView.fieldName;
   options: ReadonlyArray<Option<Data>>;
 }
 
 interface RichTextField
   extends BaseFieldSpec<string>,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
-  type: typeof RichTextFieldView.propName;
+  type: typeof RichTextFieldView.fieldName;
 }
 
 interface TextField extends BaseFieldSpec<string> {
-  type: typeof TextFieldView.propName;
+  type: typeof TextFieldView.fieldName;
 }
 
 export interface CustomField<Data = unknown, Props = unknown>
   extends BaseFieldSpec<Data> {
-  type: typeof CustomFieldView.propName;
+  type: typeof CustomFieldView.fieldName;
   defaultValue: Data;
   props: Props;
 }
