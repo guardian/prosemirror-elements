@@ -100,7 +100,7 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
 type SelectViewProps = {
   fieldViewSpec: CustomFieldViewSpec<
     { options: Option[]; selected: string },
-    string
+    undefined
   >;
 };
 

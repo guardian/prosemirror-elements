@@ -60,8 +60,8 @@ export const imageProps = (
         ],
         selected: "opt1",
       },
-      props: "opt1",
-    } as CustomField<{ options: Option[]; selected: string }, string>,
+      props: undefined,
+    } as CustomField<{ options: Option[]; selected: string }, undefined>,
   } as const;
 };
 
