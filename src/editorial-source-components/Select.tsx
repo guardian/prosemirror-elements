@@ -8,10 +8,11 @@ type OptionValue = {
 export const createSelect = (
   options: OptionValue[],
   selected: string,
+  label: string,
   changeHandler: (event: React.ChangeEvent<HTMLSelectElement>) => void
 ) => {
   return (
-    <Select label="Placeholder" onChange={changeHandler}>
+    <Select label={label} onChange={changeHandler}>
       {options.map((option) => (
         <Option value={option.value} selected={selected === option.value}>
           {option.text}

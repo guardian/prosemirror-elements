@@ -98,10 +98,7 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
 };
 
 type SelectViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<
-    { options: Option[]; selected: string },
-    undefined
-  >;
+  fieldViewSpec: CustomFieldViewSpec<string, Option[]>;
 };
 
 type Option = {
@@ -110,15 +107,17 @@ type Option = {
 };
 
 const SelectView = ({ fieldViewSpec }: SelectViewProps) => {
-  const [selectFields, setSelectFieldsRef] = useCustomFieldViewState(
+  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(
     fieldViewSpec
   );
-  return createSelect(selectFields.options, selectFields.selected, (event) => {
-    if (setSelectFieldsRef.current) {
-      setSelectFieldsRef.current({
-        options: selectFields.options,
-        selected: event.target.value,
-      });
-    }
-  });
+  return createSelect(
+    fieldViewSpec.fieldSpec.props,
+    selectedElement,
+    fieldViewSpec.name
+    (event) => {
+      if (setSelectFieldsRef.current) {
+        setSelectFieldsRef.current(event.target.value);
+      }
+    },  
+  );
 };
