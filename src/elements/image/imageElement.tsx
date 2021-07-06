@@ -50,7 +50,24 @@ export const imageProps = (
       ],
       defaultValue: "opt1",
     },
+    select: {
+      type: "custom",
+      defaultValue: {
+        options: [
+          { text: "Option 1", value: "opt1" },
+          { text: "Option 2", value: "opt2" },
+          { text: "Option 3", value: "opt3" },
+        ],
+        selected: "opt1",
+      },
+      props: "opt1",
+    } as CustomField<{ options: Option[]; selected: string }, string>,
   } as const;
+};
+
+type Option = {
+  text: string;
+  value: string;
 };
 
 export const createImageElement = <Name extends string>(
@@ -82,5 +99,13 @@ export const createImageElement = <Name extends string>(
       mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       src: "",
       optionDropdown: "opt1",
+      select: {
+        options: [
+          { text: "Option 1", value: "opt1" },
+          { text: "Option 2", value: "opt2" },
+          { text: "Option 3", value: "opt3" },
+        ],
+        selected: "opt1",
+      },
     }
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { Label } from "../../editorial-source-components/Label";
+import { createSelect } from "../../editorial-source-components/Select";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
@@ -29,6 +30,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     <FieldView fieldViewSpec={fieldViewSpecs.useSrc} />
     <FieldView fieldViewSpec={fieldViewSpecs.optionDropdown} />
     <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
+    <SelectView fieldViewSpec={fieldViewSpecs.select} />
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>
@@ -93,4 +95,30 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
       )}
     </div>
   );
+};
+
+type SelectViewProps = {
+  fieldViewSpec: CustomFieldViewSpec<
+    { options: Option[]; selected: string },
+    string
+  >;
+};
+
+type Option = {
+  text: string;
+  value: string;
+};
+
+const SelectView = ({ fieldViewSpec }: SelectViewProps) => {
+  const [selectFields, setSelectFieldsRef] = useCustomFieldViewState(
+    fieldViewSpec
+  );
+  return createSelect(selectFields.options, selectFields.selected, (event) => {
+    if (setSelectFieldsRef.current) {
+      setSelectFieldsRef.current({
+        options: selectFields.options,
+        selected: event.target.value,
+      });
+    }
+  });
 };
