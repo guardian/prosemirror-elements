@@ -1,7 +1,10 @@
-import { exampleSetup } from "prosemirror-example-setup";
-import type { Schema } from "prosemirror-model";
 import React from "react";
-import type { CustomField, Option } from "../../plugin/types/Element";
+import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
+import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
+import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
+import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
+import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
+import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 
@@ -11,61 +14,47 @@ export type SetMedia = (
   assets: string[]
 ) => void;
 
-const createPlugins = (schema: Schema) => exampleSetup({ schema });
+type ImageField = {
+  mediaId?: string | undefined;
+  mediaApiUri?: string | undefined;
+  assets: string[];
+};
+
+type ImageProps = {
+  onSelectImage: (setMedia: SetMedia) => void;
+  onCropImage: (mediaId: string, setMedia: SetMedia) => void;
+};
 
 export const imageProps = (
   onSelectImage: (setSrc: SetMedia) => void,
   onCropImage: (mediaId: string, setMedia: SetMedia) => void
 ) => {
   return {
-    caption: {
-      type: "richText",
-      createPlugins,
-    },
-    altText: {
-      type: "richText",
-      createPlugins,
-    },
-    src: {
-      type: "text",
-    },
-    mainImage: {
-      type: "custom",
-      defaultValue: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
-      props: {
+    caption: createRichTextField(),
+    altText: createRichTextField(),
+    src: createTextField(),
+    mainImage: createCustomField<ImageField, ImageProps>(
+      { mediaId: undefined, mediaApiUri: undefined, assets: [] },
+      {
         onSelectImage,
         onCropImage,
-      },
-    } as CustomField<
-      { mediaId?: string; mediaApiUri?: string; assets: string[] },
-      {
-        onSelectImage: (setSrc: SetMedia) => void;
-        onCropImage: (mediaId: string, setSrc: SetMedia) => void;
       }
-    >,
-    useSrc: {
-      type: "checkbox",
-      defaultValue: { value: false },
-    },
-    optionDropdown: {
-      type: "dropdown",
-      options: [
+    ),
+    useSrc: createCheckBox(false),
+    optionDropdown: createDropDownField(
+      [
         { text: "Option 1", value: "opt1" },
         { text: "Option 2", value: "opt2" },
         { text: "Option 3", value: "opt3" },
       ],
-      defaultValue: "opt1",
-    },
-    customDropdown: {
-      type: "custom",
-      defaultValue: "opt1",
-      props: [
-        { text: "Option 1", value: "opt1" },
-        { text: "Option 2", value: "opt2" },
-        { text: "Option 3", value: "opt3" },
-      ],
-    } as CustomField<string, Array<Option<string>>>,
-  } as const;
+      "opt1"
+    ),
+    customDropdown: createCustomField<string, Array<Option<string>>>("opt1", [
+      { text: "Option 1", value: "opt1" },
+      { text: "Option 2", value: "opt2" },
+      { text: "Option 3", value: "opt3" },
+    ]),
+  };
 };
 
 export const createImageElement = <Name extends string>(
