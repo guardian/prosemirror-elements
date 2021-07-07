@@ -1,4 +1,3 @@
-import type { EditorView } from "prosemirror-view";
 import {
   addElement,
   assertDocHtml,
