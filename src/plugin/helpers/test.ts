@@ -3,25 +3,41 @@ import { exampleSetup } from "prosemirror-example-setup";
 import type { NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
-import { EditorState, Plugin } from "prosemirror-state";
+import { EditorState, Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
 import type { ElementSpec, FieldSpec } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
-export const testDecorationPlugin = new Plugin({
+const initialPhrase = "deco";
+const key = new PluginKey<string>("TEST_DECO_PLUGIN");
+export const ChangeTestDecoStringAction = "CHANGE_TEST_DECO_STRING";
+
+export const testDecorationPlugin = new Plugin<string>({
+  key,
+  state: {
+    init() {
+      return initialPhrase;
+    },
+    apply(tr, oldTestString) {
+      const maybeNewTestString = tr.getMeta(ChangeTestDecoStringAction) as
+        | string
+        | undefined;
+      return maybeNewTestString ?? oldTestString;
+    },
+  },
   props: {
     decorations: (state) => {
-      const decorateThisPhrase = "deco";
+      const testString = key.getState(state) ?? initialPhrase;
       const ranges = [] as Array<[number, number]>;
       state.doc.descendants((node, offset) => {
         if (node.isLeaf && node.textContent) {
-          const indexOfDeco = node.textContent.indexOf(decorateThisPhrase);
+          const indexOfDeco = node.textContent.indexOf(testString);
           if (indexOfDeco !== -1) {
             ranges.push([
               indexOfDeco + offset,
-              indexOfDeco + offset + decorateThisPhrase.length,
+              indexOfDeco + offset + testString.length,
             ]);
           }
         }

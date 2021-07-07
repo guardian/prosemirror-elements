@@ -1,6 +1,8 @@
+import type { EditorView } from "prosemirror-view";
 import {
   addElement,
   assertDocHtml,
+  changeTestDecoString,
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
@@ -58,6 +60,19 @@ describe("ImageElement", () => {
           getElementRichTextField(field)
             .find(".TestDecoration")
             .should("have.text", "deco");
+        });
+
+        it(`${field} – should render new decorations, even if the document state has not changed`, () => {
+          addElement();
+          const newDecoString = "decoChanged";
+          const text = `${field} deco ${newDecoString}`;
+
+          typeIntoElementField(field, text);
+          changeTestDecoString(newDecoString);
+
+          getElementRichTextField(field)
+            .find(".TestDecoration")
+            .should("have.text", newDecoString);
         });
 
         rteFieldStyles.forEach((style) => {
