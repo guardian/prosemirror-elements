@@ -1,7 +1,23 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import type { FieldView } from "./FieldView";
+import type { BaseFieldSpec, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
+
+export interface CustomField<Data = unknown, Props = unknown>
+  extends BaseFieldSpec<Data> {
+  type: typeof CustomFieldView.fieldName;
+  defaultValue: Data;
+  props: Props;
+}
+
+export const createCustomField = <Data, Props>(
+  defaultValue: Data,
+  props: Props
+): CustomField<Data, Props> => ({
+  type: "custom" as const,
+  defaultValue,
+  props,
+});
 
 type Subscriber<Fields extends unknown> = (fields: Fields) => void;
 
