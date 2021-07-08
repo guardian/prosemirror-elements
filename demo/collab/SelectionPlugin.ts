@@ -132,24 +132,17 @@ const getStateForNewUserSelection = (
     )
   );
 
-  if (!selectionChange.selection) {
-    // There's nothing to add.
-    return {
-      ...oldState,
-      decorations: newDecSet,
-      selections: newSels,
-      clientIDs: oldState.clientIDs,
-    };
-  }
-
   const newClientIDs = oldState.clientIDs.add(selectionChange.clientID);
-  const decorations = getDecosForSelection(
-    selectionChange.userName,
-    selectionChange.clientID,
-    selectionChange.selection,
-    newClientIDs
-  );
-  newDecSet = newDecSet.add(doc, decorations);
+
+  if (selectionChange.selection) {
+    const decorations = getDecosForSelection(
+      selectionChange.userName,
+      selectionChange.clientID,
+      selectionChange.selection,
+      newClientIDs
+    );
+    newDecSet = newDecSet.add(doc, decorations);
+  }
 
   return {
     ...oldState,
