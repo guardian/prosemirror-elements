@@ -114,25 +114,25 @@ const shouldApplyIncomingSelection = (clientID: string, state: PluginState) => (
 const getStateForNewUserSelection = (
   doc: Node,
   oldState: PluginState,
-  selection: UserSelectionChange
+  selectionChange: UserSelectionChange
 ): PluginState => {
-  if (!(selection.selection instanceof TextSelection)) {
+  if (!(selectionChange.selection instanceof TextSelection)) {
     console.log(`Selection not yet supported`);
   }
   // Any previous selection by the incoming clientID will now be invalid
   const newSels = new Map(oldState.selections).set(
-    selection.clientID,
-    selection
+    selectionChange.clientID,
+    selectionChange
   );
   let newDecSet = oldState.decorations.remove(
     oldState.decorations.find(
       undefined,
       undefined,
-      (spec) => spec.clientID === selection.clientID
+      (spec) => spec.clientID === selectionChange.clientID
     )
   );
 
-  if (!selection.selection) {
+  if (!selectionChange.selection) {
     // There's nothing to add.
     return {
       ...oldState,
@@ -142,11 +142,11 @@ const getStateForNewUserSelection = (
     };
   }
 
-  const newClientIDs = oldState.clientIDs.add(selection.clientID);
+  const newClientIDs = oldState.clientIDs.add(selectionChange.clientID);
   const decorations = getDecosForSelection(
-    selection.userName,
-    selection.clientID,
-    selection.selection,
+    selectionChange.userName,
+    selectionChange.clientID,
+    selectionChange.selection,
     newClientIDs
   );
   newDecSet = newDecSet.add(doc, decorations);
@@ -166,6 +166,9 @@ const getDecosForSelection = (
   clientIDs: Set<ClientID>
 ): Decoration[] => {
   const clientIDIndex = Array.from(clientIDs).indexOf(clientID);
+  if (clientIDIndex === -1) {
+    return [];
+  }
 
   const cursorColor = selectColor(clientIDIndex);
   const cursorDeco = getCursorDeco(head, clientID, userName, cursorColor);
@@ -239,7 +242,7 @@ const getNewSelectionVersion = (
   // Do not increment a version in response to a change in the
   // remote cursor state – it shouldn't affect anything locally.
   const shouldIgnore = !!tr.getMeta(COLLAB_ACTION);
-  return selectionChanged && !shouldIgnore
-    ? pluginState.version + 1
-    : pluginState.version;
+  return selectionChanged && shouldIgnore
+    ? pluginState.version
+    : pluginState.version + 1;
 };
