@@ -77,6 +77,8 @@ export class EditorConnection {
     private userName: string
   ) {
     this.state = view.state;
+    // Patch `dispatchTransaction` to gather steps from local transactions,
+    // and send them to the server.
     view.setProps({
       dispatchTransaction: this.dispatchTransaction,
     });
@@ -86,10 +88,11 @@ export class EditorConnection {
   private dispatchTransaction = (transaction: Transaction) => {
     this.state = this.state.apply(transaction);
     const steps = sendableSteps(this.state);
+    const selectionHasChanged = this.state.selection !== this.lastSentSelection;
     if (steps) {
       this.addStepsFromEditor(steps);
     }
-    if (this.state.selection !== this.lastSentSelection) {
+    if (selectionHasChanged) {
       this.addSelection(this.state.selection);
     }
     this.view.updateState(this.state);

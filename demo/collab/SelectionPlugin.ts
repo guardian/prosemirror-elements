@@ -80,13 +80,11 @@ export const createSelectionCollabPlugin = (clientID: string) => {
         const specs = action.payload;
         return specs
           .filter(shouldApplyIncomingSelection(clientID, newPluginState))
-          .reduce((localPluginState, spec) => {
-            return getStateForNewUserSelection(
-              newState.doc,
-              localPluginState,
-              spec
-            );
-          }, newPluginState);
+          .reduce(
+            (localPluginState, spec) =>
+              getStateForNewUserSelection(newState.doc, localPluginState, spec),
+            newPluginState
+          );
       },
     },
     props: {
@@ -227,7 +225,7 @@ const notEmpty = <TValue>(
 };
 
 const selectColor = (index: number, isBackground = false) => {
-  const hue = index * 137.508; // use golden angle approximation
+  const hue = index * 137.508; // Use golden angle approximation
   return `hsl(${hue},50%,${isBackground ? 90 : 50}%)`;
 };
 
