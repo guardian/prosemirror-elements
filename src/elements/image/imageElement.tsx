@@ -50,7 +50,7 @@ export const imageProps = (
       ],
       defaultValue: "opt1",
     },
-    select: {
+    customDropdown: {
       type: "custom",
       defaultValue: "opt1",
       props: [
@@ -96,6 +96,6 @@ export const createImageElement = <Name extends string>(
       mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       src: "",
       optionDropdown: "opt1",
-      select: "opt1",
+      customDropdown: "opt1",
     }
   );
