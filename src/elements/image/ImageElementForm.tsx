@@ -1,6 +1,6 @@
 import React from "react";
+import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
 import { Label } from "../../editorial-source-components/Label";
-import { createSelect } from "../../editorial-source-components/Select";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
@@ -30,7 +30,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     <FieldView fieldViewSpec={fieldViewSpecs.useSrc} />
     <FieldView fieldViewSpec={fieldViewSpecs.optionDropdown} />
     <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
-    <SelectView fieldViewSpec={fieldViewSpecs.select} />
+    <CustomDropdownView fieldViewSpec={fieldViewSpecs.select} />
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>
@@ -97,7 +97,7 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
   );
 };
 
-type SelectViewProps = {
+type CustomDropdownViewProps = {
   fieldViewSpec: CustomFieldViewSpec<string, Option[]>;
 };
 
@@ -106,18 +106,20 @@ type Option = {
   value: string;
 };
 
-const SelectView = ({ fieldViewSpec }: SelectViewProps) => {
+const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
   const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(
     fieldViewSpec
   );
-  return createSelect(
-    fieldViewSpec.fieldSpec.props,
-    selectedElement,
-    fieldViewSpec.name
-    (event) => {
-      if (setSelectFieldsRef.current) {
-        setSelectFieldsRef.current(event.target.value);
-      }
-    },  
+  return (
+    <CustomDropdown
+      options={fieldViewSpec.fieldSpec.props}
+      selected={selectedElement}
+      label={fieldViewSpec.name}
+      changeHandler={(event) => {
+        if (setSelectFieldsRef.current) {
+          setSelectFieldsRef.current(event.target.value);
+        }
+      }}
+    />
   );
 };
