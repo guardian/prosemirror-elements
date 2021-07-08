@@ -12,7 +12,7 @@ const parentStyles = css`
   width: initial;
   div {
     display: flex;
-    :first-child {
+    :first-of-type {
       ${labelStyles}
     }
     svg {
