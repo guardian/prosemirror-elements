@@ -111,7 +111,7 @@ const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
       options={fieldViewSpec.fieldSpec.props}
       selected={selectedElement}
       label={fieldViewSpec.name}
-      changeHandler={(event) => {
+      onChange={(event) => {
         if (setSelectFieldsRef.current) {
           setSelectFieldsRef.current(JSON.parse(event.target.value));
         }

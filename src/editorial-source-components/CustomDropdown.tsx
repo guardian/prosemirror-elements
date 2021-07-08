@@ -5,6 +5,9 @@ import type { Option as OptionValue } from "../plugin/types/Element";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
+// These styles allow us to style the div and svg elements in the Source Select Component.
+// However, they rely on it retaining its current structure, which is worth bearing in mind
+// if we decided to bump the version of @guardian/src-select
 const parentStyles = css`
   width: initial;
   div {
@@ -36,7 +39,7 @@ type CustomDropdownProps = {
   options: Array<OptionValue<unknown>>;
   selected: string;
   label: string;
-  changeHandler: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   dataCy: string;
 };
 
@@ -45,7 +48,7 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
     <div css={parentStyles} data-cy={props.dataCy}>
       <Select
         label={props.label}
-        onChange={props.changeHandler}
+        onChange={props.onChange}
         value={props.selected}
         css={selectStyles}
       >
