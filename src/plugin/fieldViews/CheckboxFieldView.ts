@@ -3,9 +3,9 @@ import type { EditorView } from "prosemirror-view";
 import { AttributeFieldView } from "./AttributeFieldView";
 import type { BaseFieldSpec } from "./FieldView";
 
-export type CheckboxFields = { value: boolean };
+export type CheckboxValue = { value: boolean };
 
-export interface CheckboxField extends BaseFieldSpec<CheckboxFields> {
+export interface CheckboxField extends BaseFieldSpec<CheckboxValue> {
   type: typeof CheckboxFieldView.fieldName;
 }
 
@@ -14,7 +14,7 @@ export const createCheckBox = (defaultValue: boolean): CheckboxField => ({
   defaultValue: { value: defaultValue },
 });
 
-export class CheckboxFieldView extends AttributeFieldView<CheckboxFields> {
+export class CheckboxFieldView extends AttributeFieldView<CheckboxValue> {
   public static fieldName = "checkbox" as const;
   public static defaultValue = { value: false };
   private checkboxElement: HTMLInputElement | undefined = undefined;
@@ -28,16 +28,16 @@ export class CheckboxFieldView extends AttributeFieldView<CheckboxFields> {
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
-    defaultFields: CheckboxFields
+    defaultFields: CheckboxValue
   ) {
     super(node, outerView, getPos, offset);
     this.createInnerView(node.attrs.fields || defaultFields);
   }
-  public getNodeValue(node: Node): CheckboxFields {
-    return node.attrs.fields as CheckboxFields;
+  public getNodeValue(node: Node): CheckboxValue {
+    return node.attrs.fields as CheckboxValue;
   }
 
-  protected createInnerView({ value }: CheckboxFields): void {
+  protected createInnerView({ value }: CheckboxValue): void {
     this.checkboxElement = document.createElement("input");
     this.checkboxElement.type = "checkbox";
     this.checkboxElement.checked = value;
@@ -48,7 +48,7 @@ export class CheckboxFieldView extends AttributeFieldView<CheckboxFields> {
     );
     this.fieldViewElement.appendChild(this.checkboxElement);
   }
-  protected updateInnerView({ value }: CheckboxFields): void {
+  protected updateInnerView({ value }: CheckboxValue): void {
     if (this.checkboxElement) {
       this.checkboxElement.checked = value;
     }
