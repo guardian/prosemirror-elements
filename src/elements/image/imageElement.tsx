@@ -28,7 +28,7 @@ type ImageProps = {
   onCropImage: (mediaId: string, setMedia: SetMedia) => void;
 };
 
-export const imageProps = (
+export const createImageFields = (
   onSelectImage: (setSrc: SetMedia) => void,
   onCropImage: (mediaId: string, setMedia: SetMedia) => void
 ) => {
@@ -62,7 +62,7 @@ export const createImageElement = <Name extends string>(
 ) =>
   createReactElementSpec(
     name,
-    imageProps(onSelect, onCrop),
+    createImageFields(onSelect, onCrop),
     (fields, errors, __, fieldViewSpecs) => {
       return (
         <ImageElementForm

@@ -30,12 +30,13 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * state changes. In this way, consuming code can manage state and UI changes itself,
  * perhaps in its own renderer format.
  */
-export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
+export class CustomFieldView<CustomFieldValue = unknown>
+  implements FieldView<CustomFieldValue> {
   public static fieldName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
   public static defaultValue = undefined;
 
-  private subscribers: Array<Subscriber<Fields>> = [];
+  private subscribers: Array<Subscriber<CustomFieldValue>> = [];
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -48,24 +49,24 @@ export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
     protected offset: number
   ) {}
 
-  public getNodeValue(node: Node): Fields {
-    return node.attrs.fields as Fields;
+  public getNodeValue(node: Node): CustomFieldValue {
+    return node.attrs.fields as CustomFieldValue;
   }
 
-  public getNodeFromValue(fields: Fields): Node {
+  public getNodeFromValue(fields: CustomFieldValue): Node {
     return this.node.type.create({ fields });
   }
 
   /**
    * @returns A function that can be called to update the node fields.
    */
-  public subscribe(subscriber: Subscriber<Fields>) {
+  public subscribe(subscriber: Subscriber<CustomFieldValue>) {
     this.subscribers.push(subscriber);
-    subscriber(this.node.attrs.fields as Fields);
-    return (fields: Fields) => this.updateOuterEditor(fields);
+    subscriber(this.node.attrs.fields as CustomFieldValue);
+    return (fields: CustomFieldValue) => this.updateOuterEditor(fields);
   }
 
-  public unsubscribe(subscriber: Subscriber<Fields>) {
+  public unsubscribe(subscriber: Subscriber<CustomFieldValue>) {
     const subscriberIndex = this.subscribers.indexOf(subscriber);
     if (subscriberIndex === -1) {
       console.error(
@@ -83,7 +84,7 @@ export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
 
     this.offset = elementOffset;
 
-    this.updateSubscribers(node.attrs.fields as Fields);
+    this.updateSubscribers(node.attrs.fields as CustomFieldValue);
 
     return true;
   }
@@ -92,7 +93,7 @@ export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
     this.subscribers = [];
   }
 
-  private updateSubscribers(fields: Fields) {
+  private updateSubscribers(fields: CustomFieldValue) {
     this.subscribers.forEach((subscriber) => {
       subscriber(fields);
     });
@@ -101,7 +102,7 @@ export class CustomFieldView<Fields = unknown> implements FieldView<Fields> {
   /**
    * Update the outer editor with a new field state.
    */
-  protected updateOuterEditor(fields: Fields) {
+  protected updateOuterEditor(fields: CustomFieldValue) {
     const outerTr = this.outerView.state.tr;
     // When we insert content, we must offset to account for a few things:
     //  - getPos() returns the position directly before the parent node (+1)

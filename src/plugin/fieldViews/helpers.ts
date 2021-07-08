@@ -1,6 +1,6 @@
 import type { FieldSpec } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
-import type { CheckboxFields } from "./CheckboxFieldView";
+import type { CheckboxValue } from "./CheckboxFieldView";
 import type { CustomField } from "./CustomFieldView";
 import { CustomFieldView } from "./CustomFieldView";
 import type { DropdownFields } from "./DropdownFieldView";
@@ -35,7 +35,7 @@ export type FieldTypeToValueMap<
 > = {
   [TextFieldView.fieldName]: string;
   [RichTextFieldView.fieldName]: string;
-  [CheckboxFieldView.fieldName]: CheckboxFields;
+  [CheckboxFieldView.fieldName]: CheckboxValue;
   [DropdownFieldView.fieldName]: DropdownFields;
   [CustomFieldView.fieldName]: FSpec[Name] extends CustomField<infer Data>
     ? Data
