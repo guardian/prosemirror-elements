@@ -5,6 +5,7 @@ import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
+  Option,
 } from "../../plugin/types/Element";
 import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
@@ -98,12 +99,7 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
 };
 
 type CustomDropdownViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<string, Option[]>;
-};
-
-type Option = {
-  text: string;
-  value: string;
+  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<unknown>>>;
 };
 
 const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {

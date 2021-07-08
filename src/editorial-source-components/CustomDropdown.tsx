@@ -1,13 +1,9 @@
 import { css } from "@emotion/react";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
+import type { Option as OptionValue } from "../plugin/types/Element";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
-
-type OptionValue = {
-  text: string;
-  value: string;
-};
 
 const parentStyles = css`
   width: initial;
@@ -37,7 +33,7 @@ const selectStyles = css`
 `;
 
 type CustomDropdownProps = {
-  options: OptionValue[];
+  options: Array<OptionValue<unknown>>;
   selected: string;
   label: string;
   changeHandler: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -54,7 +50,10 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
         css={selectStyles}
       >
         {props.options.map((option) => (
-          <Option value={JSON.stringify(option.value)} key={option.value}>
+          <Option
+            value={JSON.stringify(option.value)}
+            key={JSON.stringify(option.value)}
+          >
             {option.text}
           </Option>
         ))}

@@ -1,5 +1,4 @@
-import React from "react";
-import type { CustomField } from "../../plugin/types/Element";
+import type { CustomField, Option } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 
@@ -58,13 +57,8 @@ export const imageProps = (
         { text: "Option 2", value: "opt2" },
         { text: "Option 3", value: "opt3" },
       ],
-    } as CustomField<string, Option[]>,
+    } as CustomField<string, Array<Option<unknown>>>,
   } as const;
-};
-
-type Option = {
-  text: string;
-  value: string;
 };
 
 export const createImageElement = <Name extends string>(
