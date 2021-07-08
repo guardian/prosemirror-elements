@@ -99,7 +99,7 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
 };
 
 type CustomDropdownViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<unknown>>>;
+  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<string>>>;
 };
 
 const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
@@ -109,11 +109,11 @@ const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
   return (
     <CustomDropdown
       options={fieldViewSpec.fieldSpec.props}
-      selected={JSON.stringify(selectedElement)}
+      selected={selectedElement}
       label={fieldViewSpec.name}
       onChange={(event) => {
         if (setSelectFieldsRef.current) {
-          setSelectFieldsRef.current(JSON.parse(event.target.value));
+          setSelectFieldsRef.current(event.target.value);
         }
       }}
       dataCy={getFieldViewTestId(fieldViewSpec.name)}

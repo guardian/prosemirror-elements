@@ -64,7 +64,7 @@ export const imageProps = (
         { text: "Option 2", value: "opt2" },
         { text: "Option 3", value: "opt3" },
       ],
-    } as CustomField<string, Array<Option<unknown>>>,
+    } as CustomField<string, Array<Option<string>>>,
   } as const;
 };
 

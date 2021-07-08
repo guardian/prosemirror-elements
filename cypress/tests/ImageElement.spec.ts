@@ -198,9 +198,7 @@ describe("ImageElement", () => {
 
       it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
         addElement();
-        getElementField("customDropdown")
-          .find("select")
-          .select(JSON.stringify("opt2"));
+        getElementField("customDropdown").find("select").select("opt2");
         assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt2" }));
       });
     });

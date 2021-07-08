@@ -36,7 +36,7 @@ const selectStyles = css`
 `;
 
 type CustomDropdownProps = {
-  options: Array<OptionValue<unknown>>;
+  options: Array<OptionValue<string>>;
   selected: string;
   label: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -53,10 +53,7 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
         css={selectStyles}
       >
         {props.options.map((option) => (
-          <Option
-            value={JSON.stringify(option.value)}
-            key={JSON.stringify(option.value)}
-          >
+          <Option value={option.value} key={option.value}>
             {option.text}
           </Option>
         ))}
