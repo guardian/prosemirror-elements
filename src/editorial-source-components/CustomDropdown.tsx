@@ -41,11 +41,12 @@ type CustomDropdownProps = {
   selected: string;
   label: string;
   changeHandler: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  dataCy: string;
 };
 
 export const CustomDropdown = (props: CustomDropdownProps) => {
   return (
-    <div css={parentStyles}>
+    <div css={parentStyles} data-cy={props.dataCy}>
       <Select
         label={props.label}
         onChange={props.changeHandler}
@@ -53,7 +54,7 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
         css={selectStyles}
       >
         {props.options.map((option) => (
-          <Option value={option.value} key={option.value}>
+          <Option value={JSON.stringify(option.value)} key={option.value}>
             {option.text}
           </Option>
         ))}

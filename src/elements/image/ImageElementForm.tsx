@@ -117,9 +117,10 @@ const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
       label={fieldViewSpec.name}
       changeHandler={(event) => {
         if (setSelectFieldsRef.current) {
-          setSelectFieldsRef.current(event.target.value);
+          setSelectFieldsRef.current(JSON.parse(event.target.value));
         }
       }}
+      dataCy={getFieldViewTestId(fieldViewSpec.name)}
     />
   );
 };

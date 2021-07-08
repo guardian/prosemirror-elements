@@ -167,5 +167,21 @@ describe("ImageElement", () => {
         assertDocHtml(getSerialisedHtml({ optionValue: "opt2" }));
       });
     });
+
+    describe("CustomDropdown field", () => {
+      it(`should have a default value when instantiated`, () => {
+        addElement();
+        assertDocHtml(getSerialisedHtml({}));
+        assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt1" }));
+      });
+
+      it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
+        addElement();
+        getElementField("customDropdown")
+          .find("select")
+          .select(JSON.stringify("opt2"));
+        assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt2" }));
+      });
+    });
   });
 });
