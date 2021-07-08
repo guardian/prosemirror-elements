@@ -63,8 +63,9 @@ describe("ImageElement", () => {
 
         it(`${field} – should render new decorations, even if the document state has not changed`, () => {
           addElement();
+          const oldDecoString = "deco";
           const newDecoString = "decoChanged";
-          const text = `${field} deco ${newDecoString}`;
+          const text = `${field} ${oldDecoString} ${newDecoString}`;
 
           typeIntoElementField(field, text);
           changeTestDecoString(newDecoString);
@@ -72,6 +73,12 @@ describe("ImageElement", () => {
           getElementRichTextField(field)
             .find(".TestDecoration")
             .should("have.text", newDecoString);
+
+          changeTestDecoString(oldDecoString);
+
+          getElementRichTextField(field)
+            .find(".TestDecoration")
+            .should("have.text", oldDecoString);
         });
 
         rteFieldStyles.forEach((style) => {
