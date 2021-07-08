@@ -52,7 +52,7 @@ export const getArrayOfBlockElementTypes = () => {
   // eslint-disable-next-line prefer-const -- it is reassigned.
   let elementTypes = [] as string[];
   return new Cypress.Promise((resolve) => {
-    cy.get("#editor > .ProseMirror-menubar-wrapper > .ProseMirror")
+    cy.get(".Editor > .ProseMirror-menubar-wrapper > .ProseMirror")
       .children()
       .each(($el) => elementTypes.push(getElementType($el)))
       .then(() => resolve(elementTypes));
