@@ -23,7 +23,14 @@ export const getElementFieldViewFromType = (
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos);
     case "richText":
-      return new RichTextFieldView(node, view, getPos, offset, innerDecos);
+      return new RichTextFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        innerDecos,
+        field.createPlugins ? field.createPlugins(node.type.schema) : []
+      );
     case "checkbox":
       return new CheckboxFieldView(
         node,

@@ -21,8 +21,17 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
   public fieldViewElement = document.createElement("div");
   // The editor view for this FieldView.
   private innerEditorView: EditorView | undefined;
-  // The decorations that apply to this FieldView.
+  // The decorations that apply to this FieldView, from the perspective
+  // of the inner editor.
   private decorations = new DecorationSet();
+  // The decorations that apply to this FieldView, from the perspective
+  // of the outer editor. We store these to avoid unnecessary updates.
+  private outerDecorations = undefined as
+    | DecorationSet
+    | Decoration[]
+    | undefined;
+  // Do we have a change in our decorations that is yet to be rendered?
+  private decorationsPending = false;
   // The serialiser for the Node.
   private serialiser: DOMSerializer;
   // The parser for the Node.
@@ -99,6 +108,8 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     }
 
     this.innerEditorView.updateState(state);
+
+    this.decorationsPending = false;
   }
 
   private updateInnerEditor(
@@ -122,13 +133,13 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const diffStart = node.content.findDiffStart(state.doc.content);
 
     if (diffStart === null || diffStart === undefined) {
-      return;
+      return this.maybeRerenderDecorations();
     }
 
     const diffEnd = node.content.findDiffEnd(state.doc.content);
     if (!diffEnd) {
-      // There's no difference between these nodes – return.
-      return;
+      // There's no difference between these nodes.
+      return this.maybeRerenderDecorations();
     }
 
     let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
@@ -224,9 +235,11 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
   private applyDecorationsFromOuterEditor(
     decorationSet: DecorationSet | Decoration[]
   ) {
-    if (!this.innerEditorView) {
+    // Do nothing if the decorations have not changed.
+    if (!this.innerEditorView || decorationSet === this.outerDecorations) {
       return;
     }
+    this.outerDecorations = decorationSet;
     const localDecoSet =
       decorationSet instanceof DecorationSet
         ? decorationSet
@@ -235,6 +248,21 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const localOffset = -1;
     const offsetMap = new Mapping([StepMap.offset(-this.offset + localOffset)]);
     this.decorations = localDecoSet.map(offsetMap, this.node);
+    this.decorationsPending = true;
+  }
+
+  /**
+   * If the incoming decorations are different from the current decorations, rerender them.
+   * Useful to force a rerender when the decorations have changed, but there's no diff to
+   * produce a brand new editor state.
+   */
+  private maybeRerenderDecorations() {
+    if (this.decorationsPending && this.innerEditorView) {
+      // This empty transaction forces the editor to rerender its decorations.
+      this.innerEditorView.dispatch(
+        this.innerEditorView.state.tr.setMeta("fromOutside", true)
+      );
+    }
   }
 
   private close() {

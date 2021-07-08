@@ -1,4 +1,8 @@
-import { trimHtml } from "../../src/plugin/helpers/test";
+import type { EditorView } from "prosemirror-view";
+import {
+  ChangeTestDecoStringAction,
+  trimHtml,
+} from "../../src/plugin/helpers/test";
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
 import { getFieldViewTestId } from "../../src/renderers/react/FieldView";
 
@@ -62,6 +66,15 @@ export const assertDocHtml = (expectedHtml: string) =>
     }).docToHtml();
     expect(trimHtml(expectedHtml)).to.equal(actualHtml);
   });
+
+export const changeTestDecoString = (newTestString: string) => {
+  cy.window().then((win) => {
+    const view = ((win as unknown) as { view: EditorView }).view;
+    view.dispatch(
+      view.state.tr.setMeta(ChangeTestDecoStringAction, newTestString)
+    );
+  });
+};
 
 export const getSerialisedHtml = ({
   altTextValue = "<p></p>",

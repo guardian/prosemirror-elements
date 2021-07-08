@@ -1,3 +1,6 @@
+import { exampleSetup } from "prosemirror-example-setup";
+import type { Schema } from "prosemirror-model";
+import React from "react";
 import type { CustomField, Option } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
@@ -8,6 +11,8 @@ export type SetMedia = (
   assets: string[]
 ) => void;
 
+const createPlugins = (schema: Schema) => exampleSetup({ schema });
+
 export const imageProps = (
   onSelectImage: (setSrc: SetMedia) => void,
   onCropImage: (mediaId: string, setMedia: SetMedia) => void
@@ -15,9 +20,11 @@ export const imageProps = (
   return {
     caption: {
       type: "richText",
+      createPlugins,
     },
     altText: {
       type: "richText",
+      createPlugins,
     },
     src: {
       type: "text",
