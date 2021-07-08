@@ -1,4 +1,5 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
+import type { Plugin } from "prosemirror-state";
 import type { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldView } from "../fieldViews/CustomFieldView";
 import type { DropdownFieldView } from "../fieldViews/DropdownFieldView";
@@ -37,6 +38,7 @@ interface RichTextField
   extends BaseFieldSpec<string>,
     Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
   type: typeof RichTextFieldView.fieldName;
+  createPlugins?: (schema: Schema) => Plugin[];
 }
 
 interface TextField extends BaseFieldSpec<string> {
