@@ -31,6 +31,9 @@ const selectStyles = css`
   height: ${space[6]}px;
   width: initial;
   padding-right: 50px !important;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 type CustomDropdownProps = {
