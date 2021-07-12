@@ -82,6 +82,7 @@ export const getSerialisedHtml = ({
   srcValue = "",
   useSrcValue = "false",
   optionValue = "opt1",
+  customDropdownValue = "opt1",
   mainImageValue = {
     assets: "[]",
     mediaId: undefined,
@@ -93,6 +94,7 @@ export const getSerialisedHtml = ({
   srcValue?: string;
   useSrcValue?: string;
   optionValue?: string;
+  customDropdownValue?: string;
   mainImageValue?: {
     assets: string;
     mediaId?: string;
@@ -110,6 +112,7 @@ export const getSerialisedHtml = ({
   return trimHtml(`<imageelement type="imageElement" has-errors="false">
     <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
     <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
+    <element-imageelement-customdropdown class="ProsemirrorElement__imageElement-customDropdown" fields="&quot;${customDropdownValue}&quot;"></element-imageelement-customdropdown>
     <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{${mainImageFields}}"></element-imageelement-mainimage>
     <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
     <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>

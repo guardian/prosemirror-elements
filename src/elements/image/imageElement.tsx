@@ -1,7 +1,7 @@
 import { exampleSetup } from "prosemirror-example-setup";
 import type { Schema } from "prosemirror-model";
 import React from "react";
-import type { CustomField } from "../../plugin/types/Element";
+import type { CustomField, Option } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 
@@ -56,6 +56,15 @@ export const imageProps = (
       ],
       defaultValue: "opt1",
     },
+    customDropdown: {
+      type: "custom",
+      defaultValue: "opt1",
+      props: [
+        { text: "Option 1", value: "opt1" },
+        { text: "Option 2", value: "opt2" },
+        { text: "Option 3", value: "opt3" },
+      ],
+    } as CustomField<string, Array<Option<string>>>,
   } as const;
 };
 
@@ -88,5 +97,6 @@ export const createImageElement = <Name extends string>(
       mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       src: "",
       optionDropdown: "opt1",
+      customDropdown: "opt1",
     }
   );

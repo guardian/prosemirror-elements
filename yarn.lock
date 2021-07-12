@@ -647,6 +647,16 @@
   dependencies:
     "@guardian/src-helpers" "^3.7.0"
 
+"@guardian/src-select@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-select/-/src-select-3.7.0.tgz#e93e5d1d39ed5e1712252b87c8284fd0f4cc4cec"
+  integrity sha512-HbCTY2CP6w79CyWwrwacSK6VWVXJjIXq8pb7nopXfxAZWRywdWQ4ZWLDt1wiZJTOPZKzzOsiy8NJVaDrT5VlGQ==
+  dependencies:
+    "@guardian/src-helpers" "^3.7.0"
+    "@guardian/src-icons" "^3.7.0"
+    "@guardian/src-label" "^3.7.0"
+    "@guardian/src-user-feedback" "^3.7.0"
+
 "@guardian/src-text-input@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-text-input/-/src-text-input-3.7.0.tgz#f73cf92f07faa5c25ccf14ae7581f633f4342f2c"
