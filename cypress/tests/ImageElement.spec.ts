@@ -11,6 +11,7 @@ import {
 
 describe("ImageElement", () => {
   beforeEach(() => cy.visit("/"));
+  afterEach(() => cy.clearLocalStorage());
 
   const rteFields = ["caption", "altText"];
   const rteFieldStyles = [
