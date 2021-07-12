@@ -74,7 +74,8 @@ export class EditorConnection {
     private view: EditorView,
     private server: CollabServer,
     private clientID: string,
-    private userName: string
+    private userName: string,
+    private onStateChange?: (state: EditorState) => void
   ) {
     this.state = view.state;
     // Patch `dispatchTransaction` to gather steps from local transactions,
@@ -96,6 +97,7 @@ export class EditorConnection {
       this.addSelection(this.state.selection);
     }
     this.view.updateState(this.state);
+    this.onStateChange?.(this.state);
   };
 
   private addStepsFromEditor(steps: StepsPayload) {
