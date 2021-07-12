@@ -1073,6 +1073,15 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/prosemirror-collab@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-collab/-/prosemirror-collab-1.1.1.tgz#0465c4dd17ab8e10b76ac40b28ab572eb9f6ec04"
+  integrity sha512-6rdyuycOInGo7wq50K9Wa5McCZ/BEigj83fdjekUrNAkAbIgIGyHtu5+xc4wGlgwUfrDS7cVyjt63Nc8sRJZ9g==
+  dependencies:
+    "@types/prosemirror-model" "*"
+    "@types/prosemirror-state" "*"
+    "@types/prosemirror-transform" "*"
+
 "@types/prosemirror-history@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/prosemirror-history/-/prosemirror-history-1.0.2.tgz#f90a009a0dcd71393faa69ce705593dec76347a1"
@@ -5885,6 +5894,13 @@ prompts@^2.0.1:
   dependencies:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
+
+prosemirror-collab@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/prosemirror-collab/-/prosemirror-collab-1.2.2.tgz#8d2c0e82779cfef5d051154bd0836428bd6d9c4a"
+  integrity sha512-tBnHKMLgy5Qmx9MYVcLfs3pAyjtcqYYDd9kp3y+LSiQzkhMQDfZSV3NXWe4Gsly32adSef173BvObwfoSQL5MA==
+  dependencies:
+    prosemirror-state "^1.0.0"
 
 prosemirror-commands@^1.0.0:
   version "1.1.7"

@@ -1,3 +1,4 @@
+import type { EditorView } from "prosemirror-view";
 import {
   addElement,
   assertDocHtml,
@@ -63,6 +64,7 @@ describe("ImageElement", () => {
 
         it(`${field} – should render new decorations, even if the document state has not changed`, () => {
           addElement();
+
           const oldDecoString = "deco";
           const newDecoString = "decoChanged";
           const text = `${field} ${oldDecoString} ${newDecoString}`;

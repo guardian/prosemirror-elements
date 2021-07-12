@@ -1,35 +1,133 @@
+html,
+body {
+  font-family: 'TE31 Text Egyptian'
+}
+
+html * {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+  font-family: 'DE5 Display Egyptian SemiBold'
+}
+
+.TestDecoration {
+  background-color: peachpuff;
+}
+
+@font-face {
+  font-family: "Guardian Agate Sans";
+  src: url("fonts/GuardianAgateSans1Web-Regular.woff2") format("woff2"),
+        url("fonts/GuardianAgateSans1Web-Regular.woff") format("woff"),
+        url("fonts/GuardianAgateSans1Web-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: "Guardian Agate Sans";
+  src: url("fonts/GuardianAgateSans1Web-Bold.woff2") format("woff2"),
+    url("fonts/GuardianAgateSans1Web-Bold.woff") format("woff"),
+    url("fonts/GuardianAgateSans1Web-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: "Guardian Agate Sans";
+  src: url("fonts/GuardianAgateSans1Web-RegularItalic.woff2") format("woff2"),
+    url("fonts/GuardianAgateSans1Web-RegularItalic.woff") format("woff"),
+    url("fonts/GuardianAgateSans1Web-RegularItalic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: Italic;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: "Guardian Agate Sans";
+  src: url("fonts/GuardianAgateSans1Web-BoldItalic.woff2") format("woff2"),
+    url("fonts/GuardianAgateSans1Web-BoldItalic.woff") format("woff"),
+    url("fonts/GuardianAgateSans1Web-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-stretch: normal;
+}
+
 .modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 20;
-    display: none;
-  }
-  
-  .modal__content {
-    padding: 30px;
-    width: calc(100% - 60px);
-    height: calc(100% - 60px);
-  }
-  
-  .modal__header {
-    height: 30px;
-  }
-  
-  .modal__body {
-    height: calc(100% - 30px);
-    width: 100%;
-  }
-  
-  .modal__body iframe {
-    height: 100%;
-    width: 100%;
-  }
-  
-  .modal__dismiss {
-    float: right;
-    color: #333333;
-    background-color: #DCDCDC;
-  }
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  display: none;
+}
+
+.modal__content {
+  padding: 30px;
+  width: calc(100% - 60px);
+  height: calc(100% - 60px);
+}
+
+.modal__header {
+  height: 30px;
+}
+
+.modal__body {
+  height: calc(100% - 30px);
+  width: 100%;
+}
+
+.modal__body iframe {
+  height: 100%;
+  width: 100%;
+}
+
+.modal__dismiss {
+  float: right;
+  color: #333333;
+  background-color: #DCDCDC;
+}
+
+#editor-container {
+  display: flex;
+  width: 100%;
+}
+
+.Editor {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ProseMirror-menubar-wrapper {
+  width: 100%;
+}
+
+.ProseMirror-menubar {
+  height: 30px;
+}
+
+.SelectionCollab__caret-widget-container {
+  height: calc(1em);
+  display: inline-block;
+  position: relative;
+}
+
+.SelectionCollab__caret-widget-user-name {
+  position: absolute;
+  padding: 2px;
+  bottom: calc(1em);
+  left: -1px;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: white;
+}
