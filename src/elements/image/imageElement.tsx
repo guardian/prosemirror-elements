@@ -3,7 +3,7 @@ import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
-import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
+import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
@@ -30,8 +30,8 @@ export const createImageFields = (
   onCropImage: (mediaId: string, setMedia: SetMedia) => void
 ) => {
   return {
-    caption: createRichTextField(),
-    altText: createRichTextField(),
+    caption: createDefaultRichTextField(),
+    altText: createDefaultRichTextField(),
     src: createTextField(),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },
