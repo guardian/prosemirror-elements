@@ -2,6 +2,7 @@ import { typeIntoProsemirror } from "../helpers/editor";
 
 describe("Core editor behaviour", () => {
   beforeEach(() => cy.visit("/"));
+  afterEach(() => cy.clearLocalStorage());
 
   it("should accept editor input", () => {
     typeIntoProsemirror("{selectall}Text");

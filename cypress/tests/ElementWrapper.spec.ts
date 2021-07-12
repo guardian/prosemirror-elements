@@ -14,6 +14,7 @@ import {
 
 describe("ElementWrapper", () => {
   beforeEach(() => cy.visit("/"));
+  afterEach(() => cy.clearLocalStorage());
 
   describe("Element creation", () => {
     it("should create an element given its DOM specification", () => {
