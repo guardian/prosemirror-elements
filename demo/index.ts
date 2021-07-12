@@ -4,7 +4,6 @@ import { exampleSetup } from "prosemirror-example-setup";
 import type { Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
-import type { Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { createImageElement } from "../src/elements/image/imageElement";

@@ -7,7 +7,6 @@ import {
   getElementRichTextField,
   getSerialisedHtml,
   typeIntoElementField,
-  typeIntoProsemirror,
 } from "../helpers/editor";
 
 describe("ImageElement", () => {
@@ -19,12 +18,7 @@ describe("ImageElement", () => {
     { title: "emphasis", tag: "em" },
   ];
 
-  describe("Accepting input", () => {
-    it("should accept editor input", () => {
-      typeIntoProsemirror("{selectall}Text");
-      cy.get(".ProseMirror > p").should("have.text", "Text");
-    });
-
+  describe("Fields", () => {
     describe("Rich text field", () => {
       rteFields.forEach((field) => {
         it(`${field} – should accept input in an element`, () => {
