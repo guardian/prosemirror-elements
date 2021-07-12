@@ -86,7 +86,7 @@ const createEditor = (server: CollabServer) => {
   const collabPlugin = collab({ version: currentVersion, clientID });
   const view = new EditorView(editorElement, {
     state: EditorState.create({
-      doc: get(),
+      doc: isFirstEditor ? get() : firstEditor?.state.doc,
       plugins: [
         ...exampleSetup({ schema }),
         elementPlugin,
@@ -95,14 +95,6 @@ const createEditor = (server: CollabServer) => {
         createSelectionCollabPlugin(clientID),
       ],
     }),
-    dispatchTransaction: (tr: Transaction) => {
-      const state = view.state.apply(tr);
-      view.updateState(state);
-      highlightErrors(state);
-      if (isFirstEditor) {
-        set(state.doc);
-      }
-    },
   });
 
   if (!isFirstEditor) {
@@ -123,7 +115,12 @@ const createEditor = (server: CollabServer) => {
   );
   editorElement.appendChild(elementButton);
 
-  new EditorConnection(view, server, clientID, `User ${clientID}`);
+  new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
+    highlightErrors(state);
+    if (isFirstEditor) {
+      set(state.doc);
+    }
+  });
 
   editorNo++;
 
