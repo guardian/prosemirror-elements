@@ -1,11 +1,11 @@
 import React from "react";
 import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
 import { Label } from "../../editorial-source-components/Label";
+import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
-  Option,
 } from "../../plugin/types/Element";
 import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
