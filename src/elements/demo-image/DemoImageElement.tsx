@@ -6,7 +6,7 @@ import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { ImageElementForm } from "./ImageElementForm";
+import { ImageElementForm } from "./DemoImageElementForm";
 
 export type SetMedia = (
   mediaId: string,

@@ -9,7 +9,7 @@ import type {
 } from "../../plugin/types/Element";
 import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { createImageFields, SetMedia } from "./imageElement";
+import type { createImageFields, SetMedia } from "./DemoImageElement";
 
 type Props = {
   fields: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
