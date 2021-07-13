@@ -8,11 +8,11 @@ import {
   getElementRichTextField,
   getSerialisedHtml,
   typeIntoElementField,
+  visitRoot,
 } from "../helpers/editor";
 
 describe("ImageElement", () => {
-  beforeEach(() => cy.visit("/"));
-  afterEach(() => cy.clearLocalStorage());
+  beforeEach(visitRoot);
 
   const rteFields = ["caption", "altText"];
   const rteFieldStyles = [
