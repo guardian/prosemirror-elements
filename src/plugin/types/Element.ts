@@ -1,56 +1,26 @@
 import type { NodeSpec, Schema } from "prosemirror-model";
-import type { Plugin } from "prosemirror-state";
-import type { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
-import type { CustomFieldView } from "../fieldViews/CustomFieldView";
-import type { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import type {
+  CheckboxField,
+  CheckboxFieldView,
+} from "../fieldViews/CheckboxFieldView";
+import type {
+  CustomField,
+  CustomFieldView,
+} from "../fieldViews/CustomFieldView";
+import type {
+  DropdownField,
+  DropdownFieldView,
+} from "../fieldViews/DropdownFieldView";
 import type {
   FieldNameToValueMap,
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
-import type { RichTextFieldView } from "../fieldViews/RichTextFieldView";
-import type { TextFieldView } from "../fieldViews/TextFieldView";
+import type {
+  RichTextField,
+  RichTextFieldView,
+} from "../fieldViews/RichTextFieldView";
+import type { TextField, TextFieldView } from "../fieldViews/TextFieldView";
 import type { CommandCreator } from "./Commands";
-
-/**
- * The specification for an element field, to be modelled as a Node in Prosemirror.
- */
-interface BaseFieldSpec<DefaultValue extends unknown> {
-  // The data type of the field.
-  type: string;
-  defaultValue?: DefaultValue;
-}
-
-interface CheckboxField extends BaseFieldSpec<{ value: boolean }> {
-  type: typeof CheckboxFieldView.fieldName;
-}
-
-export type Option<Value> = {
-  text: string;
-  value: Value;
-};
-
-interface DropdownField<Data = unknown> extends BaseFieldSpec<Data> {
-  type: typeof DropdownFieldView.fieldName;
-  options: ReadonlyArray<Option<Data>>;
-}
-
-interface RichTextField
-  extends BaseFieldSpec<string>,
-    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
-  type: typeof RichTextFieldView.fieldName;
-  createPlugins?: (schema: Schema) => Plugin[];
-}
-
-interface TextField extends BaseFieldSpec<string> {
-  type: typeof TextFieldView.fieldName;
-}
-
-export interface CustomField<Data = unknown, Props = unknown>
-  extends BaseFieldSpec<Data> {
-  type: typeof CustomFieldView.fieldName;
-  defaultValue: Data;
-  props: Props;
-}
 
 export type Field =
   | TextField

@@ -1,9 +1,28 @@
+import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { Node } from "prosemirror-model";
+import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { BaseFieldSpec } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
+
+export interface RichTextField
+  extends BaseFieldSpec<string>,
+    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
+  type: typeof RichTextFieldView.fieldName;
+  createPlugins?: (schema: Schema) => Plugin[];
+}
+
+export const createRichTextField = (
+  createPlugins?: (schema: Schema) => Plugin[]
+): RichTextField => ({
+  type: RichTextFieldView.fieldName,
+  createPlugins: createPlugins,
+});
+
+export const createDefaultRichTextField = (): RichTextField =>
+  createRichTextField((schema) => exampleSetup({ schema }));
 
 export class RichTextFieldView extends ProseMirrorFieldView {
   public static fieldName = "richText" as const;

@@ -1,20 +1,22 @@
 import React from "react";
 import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
 import { Label } from "../../editorial-source-components/Label";
+import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
-  Option,
 } from "../../plugin/types/Element";
 import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { imageProps, SetMedia } from "./imageElement";
+import type { createImageFields, SetMedia } from "./imageElement";
 
 type Props = {
-  fields: FieldNameToValueMap<ReturnType<typeof imageProps>>;
+  fields: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: Record<string, string[]>;
-  fieldViewSpecMap: FieldNameToFieldViewSpec<ReturnType<typeof imageProps>>;
+  fieldViewSpecMap: FieldNameToFieldViewSpec<
+    ReturnType<typeof createImageFields>
+  >;
 };
 
 export const ImageElementTestId = "ImageElement";

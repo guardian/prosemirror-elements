@@ -1,10 +1,10 @@
 import { buildElementPlugin } from "../element";
+import type { CustomField } from "../fieldViews/CustomFieldView";
 import {
   createEditorWithElements,
   createNoopElement,
   trimHtml,
 } from "../helpers/test";
-import type { CustomField } from "../types/Element";
 
 describe("buildElementPlugin", () => {
   describe("Typesafety", () => {

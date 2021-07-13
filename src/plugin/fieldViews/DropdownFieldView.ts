@@ -1,7 +1,24 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import type { Option } from "../types/Element";
 import { AttributeFieldView } from "./AttributeFieldView";
+import type { BaseFieldSpec } from "./FieldView";
+
+export type Option<Data> = { text: string; value: Data };
+type Options<Data> = ReadonlyArray<Option<Data>>;
+
+export interface DropdownField<Data = unknown> extends BaseFieldSpec<Data> {
+  type: typeof DropdownFieldView.fieldName;
+  options: ReadonlyArray<Option<Data>>;
+}
+
+export const createDropDownField = <Data>(
+  options: Options<Data>,
+  defaultValue: Data
+): DropdownField<Data> => ({
+  type: DropdownFieldView.fieldName,
+  options,
+  defaultValue,
+});
 
 export type DropdownFields = string;
 

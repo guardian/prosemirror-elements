@@ -2,7 +2,16 @@ import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { BaseFieldSpec } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
+
+export interface TextField extends BaseFieldSpec<string> {
+  type: typeof TextFieldView.fieldName;
+}
+
+export const createTextField = (): TextField => ({
+  type: TextFieldView.fieldName,
+});
 
 export class TextFieldView extends ProseMirrorFieldView {
   public static fieldName = "text" as const;

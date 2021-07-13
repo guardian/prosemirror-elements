@@ -1,7 +1,7 @@
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
+import type { CustomField } from "../fieldViews/CustomFieldView";
 import { createNoopElement } from "../helpers/test";
-import type { CustomField } from "../types/Element";
 
 describe("mount", () => {
   describe("fieldView typesafety", () => {
