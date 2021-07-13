@@ -10,11 +10,11 @@ import {
   addElement,
   getArrayOfBlockElementTypes,
   selectDataCy,
+  visitRoot,
 } from "../helpers/editor";
 
 describe("ElementWrapper", () => {
-  beforeEach(() => cy.visit("/"));
-  afterEach(() => cy.clearLocalStorage());
+  beforeEach(visitRoot);
 
   describe("Element creation", () => {
     it("should create an element given its DOM specification", () => {

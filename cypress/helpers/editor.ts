@@ -6,6 +6,16 @@ import {
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
 import { getFieldViewTestId } from "../../src/renderers/react/FieldView";
 
+export const visitRoot = () =>
+  cy.visit("/", {
+    onBeforeLoad: (win) => {
+      // According to the docs, this shouldn't be necessary, but running specs
+      // without it intermittently leaves localStorage populated, breaking tests.
+      // https://docs.cypress.io/api/commands/clearlocalstorage#Syntax.
+      win.localStorage.clear();
+    },
+  });
+
 export const selectDataCy = (id: string) => `[data-cy=${id}]`;
 
 export const getElementType = (element: JQuery) => {
