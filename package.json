@@ -1,8 +1,9 @@
 {
   "name": "prosemirror-elements",
   "version": "1.0.0",
-  "main": "index.ts",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "engines": {
     "node": "14.15"
   },

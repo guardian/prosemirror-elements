@@ -7,6 +7,7 @@
     "lib": ["dom", "ESNext"],
     "types": ["jest"],
     "sourceMap": true,
+    "declaration": true,
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
