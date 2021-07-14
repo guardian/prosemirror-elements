@@ -1,15 +1,9 @@
-const path = require("path");
+import path from "path";
 
-module.exports = {
-  entry: "./demo/index.ts",
-  mode: "development",
-  devtool: "inline-source-map",
-  devServer: {
-    contentBase: path.join(__dirname, "demo"),
-    compress: true,
-    port: 7890,
-    disableHostCheck: true,
-  },
+const moduleURL = new URL(import.meta.url);
+const __dirname = path.dirname(moduleURL.pathname);
+
+export default {
   module: {
     rules: [
       {
