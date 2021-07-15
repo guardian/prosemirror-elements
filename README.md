@@ -35,3 +35,5 @@ For example, merging a PR named:
 
 - `fix: this one weird bug` to `main` will trigger a release with a patch version bump
 - `feat: an exciting new thing` to `beta` will trigger a release with a `beta` suffix and a minor version bump
+
+A test change for a beta release.
