@@ -1,5 +1,5 @@
 import nodeExternals from "webpack-node-externals";
-import baseConfig from "./webpack.config.base.js";
+import baseConfig, { dirName } from "./webpack.config.base.js";
 import path from "path";
 
 const moduleURL = new URL(import.meta.url);
@@ -16,7 +16,7 @@ const commonJsConfig = {
   ...coreProdConfig,
   output: {
     filename: "index.js",
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(dirName, "../dist"),
     library: {
       type: "commonjs2",
     },
@@ -27,7 +27,7 @@ const moduleConfig = {
   ...coreProdConfig,
   output: {
     filename: "index.mjs",
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(dirName, "../dist"),
     library: {
       type: "module",
     },

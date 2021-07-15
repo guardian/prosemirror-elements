@@ -1,8 +1,5 @@
-import baseConfig from './webpack.config.base.js';
+import baseConfig, { dirName } from './webpack.config.base.js';
 import path from "path";
-
-const moduleURL = new URL(import.meta.url);
-const __dirname = path.dirname(moduleURL.pathname);
 
 export default {
   ...baseConfig,
@@ -10,7 +7,7 @@ export default {
   entry: "./demo/index.ts",
   mode: "development",
   devServer: {
-    contentBase: path.join(__dirname, "../demo"),
+    contentBase: path.join(dirName, "../demo"),
     compress: true,
     port: 7890,
     disableHostCheck: true,

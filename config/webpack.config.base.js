@@ -1,7 +1,7 @@
 import path from "path";
 
 const moduleURL = new URL(import.meta.url);
-const __dirname = path.dirname(moduleURL.pathname);
+export const dirName = path.dirname(moduleURL.pathname);
 
 export default {
   module: {
@@ -18,6 +18,6 @@ export default {
   },
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(dirName, "dist"),
   },
 };
