@@ -7,6 +7,7 @@
   "engines": {
     "node": "14.15"
   },
+  "types": "dist/src/index.d.ts",
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --config config/webpack.config.dev.js --open --open-page https://prosemirror-elements.local.dev-gutools.co.uk",
