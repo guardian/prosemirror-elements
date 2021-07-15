@@ -1,5 +1,5 @@
 {
-  "name": "prosemirror-elements",
+  "name": "@guardian/prosemirror-elements",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
