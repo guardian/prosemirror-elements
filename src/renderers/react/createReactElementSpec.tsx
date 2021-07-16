@@ -15,8 +15,8 @@ export const createReactElementSpec = <
   name: Name,
   fieldSpec: FSpec,
   consumer: Consumer<ReactElement, FSpec>,
-  validate: Validator<FSpec>,
-  defaultState: FieldNameToValueMap<FSpec>
+  validate: Validator<FSpec> = () => undefined,
+  defaultState: Partial<FieldNameToValueMap<FSpec>> = {}
 ) => {
   const renderer: Renderer<FSpec> = (
     validate,

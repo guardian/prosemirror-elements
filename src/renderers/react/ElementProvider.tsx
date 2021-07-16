@@ -13,7 +13,7 @@ import { ElementWrapper } from "./ElementWrapper";
 
 const fieldErrors = <FSpec extends FieldSpec<string>>(
   fields: FieldNameToValueMap<FSpec>,
-  errors: Errors | null
+  errors: Errors | undefined
 ) =>
   Object.keys(fields).reduce(
     (acc, key) => ({

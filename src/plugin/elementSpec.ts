@@ -29,7 +29,7 @@ const createUpdater = <FSpec extends FieldSpec<string>>(): Updater<FSpec> => {
 
 export type Validator<FSpec extends FieldSpec<string>> = (
   fields: FieldNameToValueMap<FSpec>
-) => null | Record<string, string[]>;
+) => undefined | Record<string, string[]>;
 
 export type Renderer<FSpec extends FieldSpec<string>> = (
   validate: Validator<FSpec>,

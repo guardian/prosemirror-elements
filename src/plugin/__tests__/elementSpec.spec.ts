@@ -18,7 +18,7 @@ describe("mount", () => {
           // field1 is derived from the fieldSpec
           fieldViews.field1;
         },
-        () => null,
+        () => undefined,
         { field1: "text" }
       );
     });
@@ -37,7 +37,7 @@ describe("mount", () => {
           // as it is not defined in `fieldSpec` passed into `mount`
           fieldViews.field1;
         },
-        () => null,
+        () => undefined,
         { notField1: "text" }
       );
     });
@@ -63,7 +63,7 @@ describe("mount", () => {
           fields.field1.toString();
           // field2 is a boolean b/c it's a checkbox field
           fields.field2.value.valueOf();
-          return null;
+          return undefined;
         },
         { field1: "text" }
       );
@@ -83,7 +83,7 @@ describe("mount", () => {
           // @ts-expect-error – field1 is not available on this object,
           // as it is not defined in `fieldSpec` passed into `mount`
           fields.doesNotExist;
-          return null;
+          return undefined;
         },
         { notField1: "text" }
       );

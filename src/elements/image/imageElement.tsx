@@ -77,7 +77,7 @@ export const createImageElement = <Name extends string>(
     ({ altText }) => {
       const el = document.createElement("div");
       el.innerHTML = altText;
-      return el.innerText ? null : { altText: ["Alt tag must be set"] };
+      return el.innerText ? undefined : { altText: ["Alt tag must be set"] };
     },
     {
       caption: "",
