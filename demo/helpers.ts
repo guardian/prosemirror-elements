@@ -55,14 +55,16 @@ export const onSelectImage = (setMedia: SetMedia) => {
   );
 };
 
-export const onCropImage = (mediaId: string, setMedia: SetMedia) => {
+export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
   const modal = document.querySelector(".modal") as HTMLElement;
-  modal.style.display = "Inherit";
 
   (document.querySelector(
     ".modal__body iframe"
-  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
+  ) as HTMLIFrameElement).src = mediaId
+    ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
+    : `https://media.test.dev-gutools.co.uk/`;
 
+  modal.style.display = "Inherit";
   const listener = onGridMessage(setMedia, modal);
 
   window.addEventListener("message", listener, {

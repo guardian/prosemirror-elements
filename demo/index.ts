@@ -9,10 +9,11 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
   codeElement,
+  createImageElement as createDemoImageElement,
   createEmbedElement,
-  createImageElement,
   pullquoteElement,
 } from "../src";
+import { createImageElement } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -45,7 +46,7 @@ const {
   hasErrors,
   nodeSpec,
 } = buildElementPlugin({
-  imageElement: createImageElement(onSelectImage, onCropImage),
+  imageElement: createDemoImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
   codeElement,
   pullquoteElement,
