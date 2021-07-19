@@ -1,7 +1,7 @@
 # Challenges
 
 1. Nesting arbitrary content within ProseMirror 
-2. Seamlessly Integrating nested ProseMirror rich-text fields with the parent instance
+2. Seamlessly integrating nested ProseMirror rich-text fields with the parent instance
 3. Providing a way to create any possible custom nested element
 4. Abstracting ProseMirror core functionality and  offering a simple interface
 
@@ -30,8 +30,8 @@ Adding the plugin to a new or existing project should be seamless and quickly sh
 #### KPIs
 
 - Possible to implement into a ProseMirror instance quickly
-- Creating new elements can be 
-- Support different requirements
+- Creating new elements can be done by people unfamiliar to ProseMirror
+- Elements with varying requirements and complexity can be implemented using the plugin
 
 ## Agnostic
 
@@ -56,4 +56,3 @@ While the plugin is agnostic about the elements that use it, it should be easy t
 #### KPIs
 
 - Is it easy to implement new elements that meet our accessibility standard?
-
