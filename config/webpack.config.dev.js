@@ -7,7 +7,7 @@ export default {
   entry: "./demo/index.ts",
   mode: "development",
   devServer: {
-    contentBase: path.join(dirName, "../demo"),
+    contentBase: path.join(dirName, "../src/demo"),
     compress: true,
     port: 7890,
     disableHostCheck: true,

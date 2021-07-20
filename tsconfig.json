@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "ES2015",
+    "module": "es6",
     "moduleResolution": "node",
     "target": "es6",
     "lib": ["dom", "ESNext"],
@@ -12,7 +11,10 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "rootDir": "./src",
+    "outDir": "dist/esm",
+    "declarationDir": "dist/declaration"
   },
-  "include": ["src/**/*", "demo/**/*", "declarations"],
+  "include": ["src/**/*"],
 }

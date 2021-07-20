@@ -6,14 +6,14 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src/elements/image/imageElement";
-import { buildElementPlugin } from "../src/plugin/element";
+import { createImageElement } from "../elements/image/imageElement";
+import { buildElementPlugin } from "../plugin/element";
 import {
   createParsers,
   docToHtml,
   htmlToDoc,
-} from "../src/plugin/helpers/prosemirror";
-import { testDecorationPlugin } from "../src/plugin/helpers/test";
+} from "../plugin/helpers/prosemirror";
+import { testDecorationPlugin } from "../plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import { onCropImage, onSelectImage } from "./helpers";

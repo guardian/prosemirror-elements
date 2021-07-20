@@ -16,25 +16,11 @@ const commonJsConfig = {
   ...coreProdConfig,
   output: {
     filename: "index.js",
-    path: path.resolve(dirName, "../dist"),
+    path: path.resolve(dirName, "../dist/cjs"),
     library: {
       type: "commonjs2",
     },
   },
 };
 
-const moduleConfig = {
-  ...coreProdConfig,
-  output: {
-    filename: "index.mjs",
-    path: path.resolve(dirName, "../dist"),
-    library: {
-      type: "module",
-    },
-  },
-  experiments: {
-    outputModule: true
-  }
-};
-
-export default [commonJsConfig, moduleConfig];
+export default commonJsConfig;

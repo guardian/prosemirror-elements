@@ -1,17 +1,17 @@
 {
-  "name": "prosemirror-elements",
-  "version": "1.0.0",
+  "name": "@guardian/prosemirror-elements",
+  "version": "0.1.0",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/declaration/index.d.ts",
   "engines": {
     "node": "14.15"
   },
-  "types": "dist/src/index.d.ts",
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --config config/webpack.config.dev.js --open --open-page https://prosemirror-elements.local.dev-gutools.co.uk",
-    "build": "webpack --config config/webpack.config.prod.js",
+    "build": "yarn tsc --build ./tsconfig-cjs.json && yarn tsc",
     "test:integration": "cypress open",
     "test:unit": "jest",
     "ci": "yarn lint && yarn test:unit && (webpack serve --config config/webpack.config.dev.js & (wait-on http://localhost:7890 && cypress run))",
@@ -27,7 +27,6 @@
     "@guardian/src-select": "^3.7.0",
     "@guardian/src-text-input": "^3.7.0",
     "@types/prosemirror-collab": "^1.1.1",
-    "cypress": "^7.7.0",
     "emotion": "^9.2.10",
     "orderedmap": "^1.1.1",
     "prosemirror-collab": "^1.2.2",
@@ -38,8 +37,7 @@
     "prosemirror-transform": "^1.3.2",
     "prosemirror-view": "^1.18.7",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "webpack-node-externals": "^3.0.0"
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.6.0",
@@ -55,6 +53,7 @@
     "@types/react-dom": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
+    "cypress": "^7.7.0",
     "cypress-webpack-preprocessor-v5": "^5.0.0-alpha.1",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
@@ -69,6 +68,7 @@
     "wait-on": "^5.3.0",
     "webpack": "^5.24.4",
     "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-node-externals": "^3.0.0"
   }
 }
