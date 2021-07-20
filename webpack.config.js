@@ -20,4 +20,13 @@ export default {
     filename: "bundle.js",
     path: path.resolve(dirName, "dist"),
   },
+  devtool: "inline-source-map",
+  entry: "./src/demo/index.ts",
+  mode: "development",
+  devServer: {
+    contentBase: path.join(dirName, "./src/demo"),
+    compress: true,
+    port: 7890,
+    disableHostCheck: true,
+  },
 };
