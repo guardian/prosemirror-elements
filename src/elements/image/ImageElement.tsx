@@ -10,13 +10,26 @@ import { ImageElementForm } from "./ImageElementForm";
 export type SetMedia = (
   mediaId: string,
   mediaApiUri: string,
-  assets: string[]
+  assets: Asset[],
+  suppliersReference: string
 ) => void;
+
+export type Asset = {
+  assetType: string;
+  mimeType: string;
+  url: string;
+  fields: {
+    width: number;
+    height: number;
+    isMaster: boolean | undefined;
+  };
+};
 
 export type MainImageData = {
   mediaId?: string | undefined;
   mediaApiUri?: string | undefined;
-  assets: string[];
+  assets: Asset[];
+  suppliersReference: string;
 };
 
 export type MainImageProps = {
@@ -29,7 +42,7 @@ export const createImageFields = (
   return {
     altText: createTextField(),
     caption: createDefaultRichTextField(),
-    displayText: createCheckBox(true),
+    displayCreditInformation: createCheckBox(true),
     imageType: createDropDownField(
       [
         { text: "Photograph", value: "Photograph" },
@@ -44,29 +57,28 @@ export const createImageFields = (
         mediaId: undefined,
         mediaApiUri: undefined,
         assets: [],
+        suppliersReference: "",
       },
       { openImageSelector }
     ),
     source: createTextField(),
     weighting: createDropDownField(
       [
-        { text: "inline (default)", value: undefined },
+        { text: "inline (default)", value: "none-selected" },
         { text: "supporting", value: "supporting" },
         { text: "showcase", value: "showcase" },
         { text: "thumbnail", value: "thumbnail" },
         { text: "immersive", value: "immersive" },
       ],
-      undefined
+      "none-selected"
     ),
   };
 };
 
-export const createImageElement = <Name extends string>(
-  name: Name,
+export const createImageElement = (
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
 ) =>
   createReactElementSpec(
-    name,
     createImageFields(openImageSelector),
     (fields, errors, __, fieldViewSpecs) => {
       return <ImageElementForm fieldViewSpecMap={fieldViewSpecs} />;
@@ -74,7 +86,7 @@ export const createImageElement = <Name extends string>(
     () => null,
     {
       caption: "",
-      displayText: { value: true },
+      displayCreditInformation: { value: true },
       altText: "",
       source: "",
       weighting: "supporting",
@@ -84,6 +96,7 @@ export const createImageElement = <Name extends string>(
         mediaId: undefined,
         mediaApiUri: undefined,
         assets: [],
+        suppliersReference: "",
       },
     }
   );

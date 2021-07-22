@@ -13,6 +13,7 @@ import {
   createEmbedElement,
   pullquoteElement,
 } from "../src";
+import type { Asset } from "../src/elements/image/ImageElement";
 import { createImageElement } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -31,12 +32,14 @@ import type { WindowType } from "./types";
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
+const demoImageElementName = "demoImageElement";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 
 type Name =
   | typeof embedElementName
   | typeof imageElementName
+  | typeof demoImageElementName
   | typeof codeElementName
   | typeof pullquoteElementName;
 
@@ -46,7 +49,8 @@ const {
   hasErrors,
   nodeSpec,
 } = buildElementPlugin({
-  imageElement: createDemoImageElement(onSelectImage, onCropImage),
+  demoImageElement: createDemoImageElement(onSelectImage, onCropImage),
+  //imageElement: createImageElement(onCropImage),
   embedElement: createEmbedElement(),
   codeElement,
   pullquoteElement,
@@ -154,12 +158,21 @@ const createEditor = (server: CollabServer) => {
   );
 
   editorElement.appendChild(
-    createElementButton("Add image element", imageElementName, {
+    createElementButton("Add demo image element", imageElementName, {
       altText: "",
       caption: "",
       useSrc: { value: false },
     })
   );
+
+  editorElement.appendChild(
+    createElementButton("Add demo image element", imageElementName, {
+      altText: "",
+      caption: "",
+      useSrc: { value: false },
+    })
+  );
+
   editorElement.appendChild(
     createElementButton("Add pullquote element", pullquoteElementName, {
       pullquote: "",
@@ -174,6 +187,23 @@ const createEditor = (server: CollabServer) => {
       language: "Plain text",
     })
   );
+  // const elementButton = document.createElement("button");
+  // elementButton.innerHTML = "Element";
+  // elementButton.id = "element";
+  // elementButton.addEventListener("click", () => {
+  //   const setMedia = (
+  //     mediaId: string,
+  //     mediaApiUri: string,
+  //     assets: Asset[],
+  //     suppliersReference: string
+  //   ) => {
+  //     insertElement("imageElement", {
+  //       mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+  //     })(view.state, view.dispatch);
+  //   };
+  //   onCropImage(setMedia);
+  // });
+  // editorElement.appendChild(elementButton);
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     highlightErrors(state);

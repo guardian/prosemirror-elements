@@ -1,4 +1,10 @@
-import type { SetMedia } from "../src/elements/demo-image/DemoImageElement";
+import type { Asset, SetMedia } from "../src/elements/image/ImageElement";
+
+type GridAsset = {
+  mimeType: string;
+  dimensions: { width: number; height: number };
+  secureUrl: string;
+};
 
 export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   data,
@@ -8,6 +14,7 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
       data: {
         metadata: {
           description: string;
+          suppliersReference: string;
         };
         id: string;
       };
@@ -17,17 +24,38 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
         specification: {
           uri: string;
         };
-        assets: Array<{ secureUrl: string }>;
+        assets: GridAsset[];
+        master: GridAsset;
       };
     };
   };
 }) => {
   modal.style.display = "None";
+  const gridAssetToAsset = (
+    gridAsset: GridAsset,
+    isMaster: boolean | undefined = undefined
+  ): Asset => {
+    return {
+      url: gridAsset.secureUrl,
+      mimeType: gridAsset.mimeType,
+      fields: {
+        width: gridAsset.dimensions.width,
+        height: gridAsset.dimensions.height,
+        isMaster,
+      },
+      assetType: "image",
+    };
+  };
+
   setMedia(
     data.image.data.id,
     data.crop.data.specification.uri,
-    data.crop.data.assets.map((_) => _.secureUrl),
-    data.image.data.metadata.description
+    // data.crop.data.assets.map((_) => _.secureUrl),
+    // data.image.data.metadata.description
+    data.crop.data.assets
+      .map((asset) => gridAssetToAsset(asset))
+      .concat(gridAssetToAsset(data.crop.data.master, true)),
+    data.image.data.metadata.suppliersReference
   );
 };
 
