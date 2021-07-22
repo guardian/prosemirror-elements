@@ -51,7 +51,7 @@ export abstract class FieldView<NodeValue> {
   public abstract getNodeValue(node: Node): NodeValue;
 
   /**
-   * Create a node for this fieldView with the given data.
+   * Create a node for this fieldView with the given value.
    */
   public abstract getNodeFromValue(data: NodeValue): Node;
 }
