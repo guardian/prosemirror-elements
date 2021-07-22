@@ -1,16 +1,7 @@
 {
+  "extends": "./tsconfig-esm.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "commonjs",
-    "target": "es5",
-    "lib": ["dom", "ESNext"],
-    "types": ["jest"],
-    "sourceMap": true,
-    "strict": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "rootDir": ".",
   },
-  "include": ["src/**/*", "demo/**/*", "declarations"],
+  "include": ["src", "demo"]
 }

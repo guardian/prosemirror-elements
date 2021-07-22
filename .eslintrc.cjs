@@ -4,7 +4,7 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier"],
   overrides: [
     {
-      files: ["src/**/*.{ts,tsx}", "demo/**/*.{ts,tsx}"],
+      files: ["*.ts", "*.tsx"],
       extends: ["@guardian/eslint-config-typescript"],
       rules: {
         "@typescript-eslint/unbound-method": 0,

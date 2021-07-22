@@ -1,5 +1,5 @@
 import type { Node, Schema } from "prosemirror-model";
-import { Plugin } from "prosemirror-state";
+import { Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
@@ -12,6 +12,7 @@ import type { Commands } from "./helpers/prosemirror";
 import { createDecorations } from "./helpers/prosemirror";
 
 const decorations = createDecorations("imageElement");
+const pluginKey = new PluginKey("prosemirror_elements");
 
 export type PluginState = { hasErrors: boolean };
 
@@ -39,6 +40,7 @@ export const createPlugin = <
   };
 
   return new Plugin<PluginState, Schema>({
+    key: pluginKey,
     state: {
       init: (_, state) => ({
         hasErrors: hasErrors(state.doc),

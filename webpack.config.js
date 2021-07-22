@@ -1,15 +1,9 @@
-const path = require("path");
+import path from "path";
 
-module.exports = {
-  entry: "./demo/index.ts",
-  mode: "development",
-  devtool: "inline-source-map",
-  devServer: {
-    contentBase: path.join(__dirname, "demo"),
-    compress: true,
-    port: 7890,
-    disableHostCheck: true,
-  },
+const moduleURL = new URL(import.meta.url);
+export const dirName = path.dirname(moduleURL.pathname);
+
+export default {
   module: {
     rules: [
       {
@@ -24,6 +18,15 @@ module.exports = {
   },
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(dirName, "dist"),
+  },
+  devtool: "inline-source-map",
+  entry: "./demo/index.ts",
+  mode: "development",
+  devServer: {
+    contentBase: path.join(dirName, "./demo"),
+    compress: true,
+    port: 7890,
+    disableHostCheck: true,
   },
 };
