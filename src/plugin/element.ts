@@ -11,6 +11,10 @@ import type {
   UnnamedElementSpec,
 } from "./types/Element";
 
+type ExtractFSpec<UnElSpec> = UnElSpec extends UnnamedElementSpec<infer F>
+  ? F
+  : never;
+
 /**
  * Build an element plugin with the given element specs, along with the schema required
  * by those elements, and a method to insert elements into the document.
@@ -28,22 +32,27 @@ export const buildElementPlugin = <
 ) => {
   const elementSpecs = ({} as unknown) as {
     [Name in keyof UnnamedElementSpecs]: ElementSpec<
-      FSpec,
+      ExtractFSpec<UnnamedElementSpecs[Name]>,
       Extract<Name, string>
     >;
   };
 
   for (const elementName in unnamedElementSpecs) {
-    elementSpecs[elementName] = unnamedElementSpecs[elementName](elementName);
+    elementSpecs[elementName] = (unnamedElementSpecs[elementName](
+      elementName
+    ) as unknown) as ElementSpec<
+      ExtractFSpec<UnnamedElementSpecs[typeof elementName]>,
+      Extract<typeof elementName, string>
+    >;
   }
 
   const insertElement = <Name extends Extract<ElementNames, string>>(
     type: Name,
     fieldValues: Partial<
       FieldNameToValueMap<
-        UnnamedElementSpecs[Name] extends UnnamedElementSpec<infer F>
-          ? F
-          : FSpec
+        UnnamedElementSpecs[Name] extends UnnamedElementSpec<infer FSpec>
+          ? FSpec
+          : never
       >
     > = {}
   ) => (
