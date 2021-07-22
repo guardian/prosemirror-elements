@@ -10,6 +10,8 @@ import { TextInput as OriginalTextInput } from "@guardian/src-text-input";
 import type { InputHTMLAttributes } from "react";
 import { inputBorder } from "./inputBorder";
 
+// Because this interface is not exported by Source, we must define
+// it ourselves to be able to generate Typescript definitions for this file.
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement>, Props {
   id?: string;
   label: string;
