@@ -20,7 +20,9 @@ export const createPlugin = <
   ElementNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  elementsSpec: Array<ElementSpec<FSpec, ElementNames>>,
+  elementsSpec: {
+    [elementName in ElementNames]: ElementSpec<FSpec, elementName>;
+  },
   commands: Commands
 ): Plugin<PluginState, Schema> => {
   type ElementNode = Node<Schema>;
@@ -62,12 +64,18 @@ const createNodeViews = <
   ElementNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  elementsSpec: Array<ElementSpec<FSpec, ElementNames>>,
+  elementsSpec: {
+    [elementName in ElementNames]: ElementSpec<FSpec, elementName>;
+  },
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
-  for (const element of elementsSpec) {
-    nodeViews[element.name] = createNodeView(element.name, element, commands);
+  for (const elementName in elementsSpec) {
+    nodeViews[elementName] = createNodeView(
+      elementName,
+      elementsSpec[elementName],
+      commands
+    );
   }
 
   return nodeViews;

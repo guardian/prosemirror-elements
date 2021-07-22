@@ -8,11 +8,7 @@ import type { Consumer } from "../../plugin/types/Consumer";
 import type { FieldSpec } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
 
-export const createReactElementSpec = <
-  FSpec extends FieldSpec<string>,
-  Name extends string
->(
-  name: Name,
+export const createReactElementSpec = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec,
   consumer: Consumer<ReactElement, FSpec>,
   validate: Validator<FSpec>,
@@ -40,5 +36,5 @@ export const createReactElementSpec = <
       dom
     );
 
-  return createElementSpec(name, fieldSpec, renderer, validate, defaultState);
+  return createElementSpec(fieldSpec, renderer, validate, defaultState);
 };

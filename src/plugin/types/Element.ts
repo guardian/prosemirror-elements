@@ -84,3 +84,9 @@ export type ElementSpec<
     commands: ReturnType<CommandCreator>
   ) => void;
 };
+
+export type UnnamedElementSpec<FSpec extends FieldSpec<string>> = <
+  ElementName extends string
+>(
+  name: ElementName
+) => ElementSpec<FSpec, ElementName>;

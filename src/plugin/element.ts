@@ -1,29 +1,36 @@
 import OrderedMap from "orderedmap";
-import type { NodeSpec, Schema } from "prosemirror-model";
+import type { Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
 import { createNodesForFieldValues } from "./nodeSpec";
 import { createPlugin } from "./plugin";
-import type { ElementSpec, FieldSpec } from "./types/Element";
+import type {
+  ElementSpec,
+  FieldSpec,
+  UnnamedElementSpec,
+} from "./types/Element";
 
 /**
  * Build an element plugin with the given element specs, along with the schema required
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  FSpec extends FieldSpec<string>,
+  X extends string,
+  FSpec extends FieldSpec<X>,
   ElementNames extends string
 >(
-  elementSpecs: Array<ElementSpec<FSpec, ElementNames>>,
+  unnamedElementSpecs: {
+    [elementName in ElementNames]: UnnamedElementSpec<U>;
+  },
   predicate = defaultPredicate
 ) => {
-  const elementTypeMap = elementSpecs.reduce<
-    Partial<{ [elementName in ElementNames]: ElementSpec<FSpec, elementName> }>
-  >((acc, spec) => {
-    acc[spec.name] = spec;
-    return acc;
-  }, {});
+  const elementSpecs = ({} as unknown) as {
+    [elementName in ElementNames]: ElementSpec<FSpec, elementName>;
+  };
+  for (const elementName in unnamedElementSpecs) {
+    elementSpecs[elementName] = unnamedElementSpecs[elementName](elementName);
+  }
 
   const insertElement = (
     type: ElementNames,
@@ -32,11 +39,11 @@ export const buildElementPlugin = <
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
-    const element = elementTypeMap[type];
+    const element = elementSpecs[type];
     if (!element) {
       throw new Error(
         `[prosemirror-elements]: ${type} is not recognised. Only ${Object.keys(
-          elementTypeMap
+          elementSpecs
         ).join(", ")} can be added`
       );
     }
@@ -69,9 +76,10 @@ export const buildElementPlugin = <
   };
 
   const plugin = createPlugin(elementSpecs, buildCommands(predicate));
-  const nodeSpec = elementSpecs
-    .map((element) => element.nodeSpec)
-    .reduce((acc, spec) => acc.append(spec), OrderedMap.from<NodeSpec>({}));
+  let nodeSpec = OrderedMap.from({});
+  for (const elementName in elementSpecs) {
+    nodeSpec = nodeSpec.append(elementSpecs[elementName].nodeSpec);
+  }
 
   return {
     insertElement,

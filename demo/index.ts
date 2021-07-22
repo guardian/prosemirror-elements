@@ -6,7 +6,10 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
+import {
+  createImageElement,
+  createImageElement2,
+} from "../src/elements/demo-image/DemoImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -23,9 +26,10 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-} = buildElementPlugin([
-  createImageElement("imageElement", onSelectImage, onCropImage),
-]);
+} = buildElementPlugin({
+  imageElement: createImageElement(onSelectImage, onCropImage),
+  imageElement2: createImageElement2(),
+});
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),

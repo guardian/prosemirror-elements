@@ -5,6 +5,7 @@ import type {
   ElementSpec,
   FieldNameToFieldViewSpec,
   FieldSpec,
+  UnnamedElementSpec,
 } from "./types/Element";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
@@ -49,15 +50,13 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   ) => void
 ) => void;
 
-export const createElementSpec = <
-  FSpec extends FieldSpec<string>,
-  ElementName extends string
->(
-  name: ElementName,
+export const createElementSpec = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec,
   render: Renderer<FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
+): UnnamedElementSpec<FSpec> => <ElementName extends string>(
+  name: ElementName
 ): ElementSpec<FSpec, ElementName> => ({
   name,
   fieldSpec,
