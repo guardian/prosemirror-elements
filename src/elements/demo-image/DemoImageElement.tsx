@@ -31,7 +31,7 @@ export const createImageFields = (
 ) => {
   return {
     caption: createDefaultRichTextField(),
-    altText: createTextField({ isMultiline: true }),
+    altText: createTextField({ isMultiline: true, rows: 2 }),
     src: createTextField(),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },

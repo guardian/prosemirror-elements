@@ -27,8 +27,8 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   fieldViewSpecMap: fieldViewSpecs,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
     <FieldView fieldViewSpec={fieldViewSpecs.caption} />
+    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
     <FieldView fieldViewSpec={fieldViewSpecs.src} />
     <FieldView fieldViewSpec={fieldViewSpecs.useSrc} />
     <FieldView fieldViewSpec={fieldViewSpecs.optionDropdown} />
