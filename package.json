@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --open --open-page https://prosemirror-elements.local.dev-gutools.co.uk",
-    "build": "yarn tsc --build ./tsconfig-cjs.json && yarn tsc",
+    "build": "yarn tsc --build ./tsconfig-cjs.json && yarn tsc --build ./tsconfig-esm.json",
     "test:integration": "cypress open",
     "test:unit": "jest",
     "ci": "yarn lint && yarn test:unit && (webpack serve & (wait-on http://localhost:7890 && cypress run))",
