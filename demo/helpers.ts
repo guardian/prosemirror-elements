@@ -1,4 +1,4 @@
-import type { SetMedia } from "../src/elements/image/imageElement";
+import type { SetMedia } from "../src/elements/demo-image/DemoImageElement";
 
 export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   data,

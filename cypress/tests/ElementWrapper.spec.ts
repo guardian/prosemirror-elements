@@ -1,4 +1,4 @@
-import { ImageElementTestId } from "../../src/elements/image/ImageElementForm";
+import { ImageElementTestId } from "../../src/elements/demo-image/DemoImageElementForm";
 import {
   moveBottomTestId,
   moveDownTestId,
