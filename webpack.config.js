@@ -8,7 +8,16 @@ export default {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              compilerOptions: {
+                rootDir: "./",
+              }
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
     ],
@@ -21,10 +30,10 @@ export default {
     path: path.resolve(dirName, "dist"),
   },
   devtool: "inline-source-map",
-  entry: "./src/demo/index.ts",
+  entry: "./demo/index.ts",
   mode: "development",
   devServer: {
-    contentBase: path.join(dirName, "./src/demo"),
+    contentBase: path.join(dirName, "./demo"),
     compress: true,
     port: 7890,
     disableHostCheck: true,
