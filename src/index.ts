@@ -1,2 +1,2 @@
 export { buildElementPlugin } from "./plugin/element";
-export { createImageElement } from "./elements/image/imageElement";
+export { createImageElement } from "./elements/demo-image/DemoImageElement";
