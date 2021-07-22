@@ -16,25 +16,36 @@ import type {
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  X extends string,
-  FSpec extends FieldSpec<X>,
-  ElementNames extends string
+  FieldSpecNames extends keyof FSpec,
+  FSpec extends FieldSpec<Extract<FieldSpecNames, string>>,
+  ElementNames extends keyof UnnamedElementSpecs,
+  UnnamedElementSpecs extends {
+    [elementName in ElementNames]: UnnamedElementSpec<FSpec>;
+  }
 >(
-  unnamedElementSpecs: {
-    [elementName in ElementNames]: UnnamedElementSpec<U>;
-  },
+  unnamedElementSpecs: UnnamedElementSpecs,
   predicate = defaultPredicate
 ) => {
   const elementSpecs = ({} as unknown) as {
-    [elementName in ElementNames]: ElementSpec<FSpec, elementName>;
+    [Name in keyof UnnamedElementSpecs]: ElementSpec<
+      FSpec,
+      Extract<Name, string>
+    >;
   };
+
   for (const elementName in unnamedElementSpecs) {
     elementSpecs[elementName] = unnamedElementSpecs[elementName](elementName);
   }
 
-  const insertElement = (
-    type: ElementNames,
-    fieldValues: Partial<FieldNameToValueMap<FSpec>> = {}
+  const insertElement = <Name extends Extract<ElementNames, string>>(
+    type: Name,
+    fieldValues: Partial<
+      FieldNameToValueMap<
+        UnnamedElementSpecs[Name] extends UnnamedElementSpec<infer F>
+          ? F
+          : FSpec
+      >
+    > = {}
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void

@@ -178,8 +178,7 @@ const getTagForNode = (elementName: string, fieldName: string) =>
 
 export const createNodesForFieldValues = <
   S extends Schema,
-  FSpec extends FieldSpec<Name>,
-  Name extends string
+  FSpec extends FieldSpec<string>
 >(
   schema: S,
   fieldSpec: FSpec,
