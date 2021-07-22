@@ -25,6 +25,18 @@ Modelling non-text content in Prosemirror can be tricky. `prosemirror-elements` 
   - You'll need to be running the application via `yarn start` simultaneously for the tests to work – make sure the server is responding on http://localhost:7890 before running the tests.
   - For reasons we're not yet able to determine, Cypress won't run your tests immediately when you select them in the GUI. Hit the 'refresh' button and they should run normally.
 
+## Releasing
+
+This repository uses [semantic-release](https://github.com/semantic-release/semantic-release) to publish new versions of this package when PRs are merged to `main`, and prelease versions when code is pushed to `beta`.
+
+Version numbers are determined by the commit history of main, and so to trigger a release you'll need to use the [commitizen](https://github.com/commitizen-tools/commitizen) format when naming pull requests. Then, when the PR is merged via a merge commit, the name of that commit (which corresponds to the name of the PR) will trigger a release.
+
+For example, merging a PR named:
+
+- `fix: this one weird bug` to `main` will trigger a release with a patch version bump
+- `feat: an exciting new thing` to `beta` will trigger a release with a `beta` suffix and a minor version bump
+
+
 ## Troubleshooting when developing this library
 
 ### Problems with `yarn link`
