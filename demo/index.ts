@@ -6,10 +6,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import {
-  createImageElement,
-  createImageElement2,
-} from "../src/elements/demo-image/DemoImageElement";
+import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -28,7 +25,6 @@ const {
   nodeSpec,
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
-  imageElement2: createImageElement2(),
 });
 
 const schema = new Schema({
@@ -110,30 +106,13 @@ const createEditor = (server: CollabServer) => {
   const elementButton = document.createElement("button");
   elementButton.innerHTML = "Element";
   elementButton.id = "element";
-  elementButton.addEventListener("click", () => {
+  elementButton.addEventListener("click", () =>
     insertElement("imageElement", {
       altText: "",
       caption: "",
       useSrc: { value: false },
-    })(view.state, view.dispatch);
-
-    insertElement("imageElement2", {
-      altText: "",
-      caption: "",
-      useSrc: { value: false },
-    })(view.state, view.dispatch);
-
-    insertElement("imageElement2Nope", {
-      altText: "",
-      caption: "",
-      useSrc: { value: false },
-    })(view.state, view.dispatch);
-    insertElement("imageElement2", {
-      altTedxt: "",
-      cacxzption: "",
-      useSrc: { value: false },
-    })(view.state, view.dispatch);
-  });
+    })(view.state, view.dispatch)
+  );
   editorElement.appendChild(elementButton);
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {

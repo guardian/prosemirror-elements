@@ -1,4 +1,4 @@
-import type { NodeSpec, Schema } from "prosemirror-model";
+import type { Schema } from "prosemirror-model";
 import type {
   CheckboxField,
   CheckboxFieldView,
@@ -64,9 +64,7 @@ export type FieldNameToFieldViewSpec<FSpec extends FieldSpec<string>> = {
 };
 
 export type ElementSpec<FSpec extends FieldSpec<string>> = {
-  name: string;
   fieldSpec: FSpec;
-  nodeSpec: NodeSpec;
   createUpdator: (
     dom: HTMLElement,
     fields: FieldNameToFieldViewSpec<FSpec>,
@@ -82,11 +80,11 @@ export type ElementSpec<FSpec extends FieldSpec<string>> = {
   ) => void;
 };
 
-export type UnnamedElementSpec<FSpec extends FieldSpec<string>> = (
-  name: string
-) => ElementSpec<FSpec>;
-
-export type UnnamedElementSpecMap<
+export type ElementSpecMap<
   FSpec extends FieldSpec<string>,
   ElementNames extends string
-> = Record<ElementNames, UnnamedElementSpec<FSpec>>;
+> = Record<ElementNames, ElementSpec<FSpec>>;
+
+export type ExtractFieldValues<ESpec> = Partial<
+  ESpec extends ElementSpec<infer F> ? FieldNameToValueMap<F> : never
+>;
