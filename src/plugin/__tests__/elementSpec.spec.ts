@@ -12,7 +12,6 @@ describe("mount", () => {
         },
       } as const;
       createElementSpec(
-        "testElement",
         fieldSpec,
         (_, __, fieldViews) => {
           // field1 is derived from the fieldSpec
@@ -30,7 +29,6 @@ describe("mount", () => {
         },
       } as const;
       createElementSpec(
-        "testElement",
         fieldSpec,
         (_, __, fieldViews) => {
           // @ts-expect-error – field1 is not available on this object,
@@ -55,7 +53,6 @@ describe("mount", () => {
         },
       } as const;
       createElementSpec(
-        "testElement",
         fieldSpec,
         () => () => undefined,
         (fields) => {
@@ -76,7 +73,6 @@ describe("mount", () => {
         },
       } as const;
       createElementSpec(
-        "testElement",
         fieldSpec,
         () => () => undefined,
         (fields) => {
@@ -97,16 +93,16 @@ describe("mount", () => {
     });
 
     it("should create an nodeSpec with a parent node for each element", () => {
-      const testElement1 = createNoopElement("testElement1", {});
-      const testElement2 = createNoopElement("testElement2", {});
-      const { nodeSpec } = buildElementPlugin([testElement1, testElement2]);
+      const testElement1 = createNoopElement({});
+      const testElement2 = createNoopElement({});
+      const { nodeSpec } = buildElementPlugin({ testElement1, testElement2 });
       expect(nodeSpec.size).toBe(2);
       expect(nodeSpec.get("testElement1")).toMatchObject({ content: "" });
       expect(nodeSpec.get("testElement2")).toMatchObject({ content: "" });
     });
 
     it("should create child nodes for each element field, and the parent node should include them in its content expression", () => {
-      const testElement1 = createNoopElement("testElement1", {
+      const testElement1 = createNoopElement({
         field1: {
           type: "richText",
         },
@@ -134,7 +130,7 @@ describe("mount", () => {
             },
           };
 
-          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const testElement1 = createNoopElement(fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
           expect(nodeSpec.get("field1")).toEqual({
             content: fieldSpec.field1.content,
@@ -152,7 +148,7 @@ describe("mount", () => {
             },
           };
 
-          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const testElement1 = createNoopElement(fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
           const field1NodeSpec = nodeSpec.get("field1");
           expect(field1NodeSpec).toHaveProperty("content", "text*");
@@ -171,7 +167,7 @@ describe("mount", () => {
             },
           };
 
-          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const testElement1 = createNoopElement(fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
           expect(nodeSpec.get("field1")).toMatchObject({
             atom: true,
@@ -195,7 +191,7 @@ describe("mount", () => {
             } as CustomField<{ arbitraryField: string }>,
           };
 
-          const testElement1 = createNoopElement("testElement1", fieldSpec);
+          const testElement1 = createNoopElement(fieldSpec);
           const { nodeSpec } = buildElementPlugin([testElement1]);
           expect(nodeSpec.get("field1")).toMatchObject({
             atom: true,

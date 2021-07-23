@@ -1,5 +1,5 @@
 import OrderedMap from "orderedmap";
-import type { Schema } from "prosemirror-model";
+import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
@@ -11,55 +11,74 @@ import type {
   UnnamedElementSpec,
 } from "./types/Element";
 
-type ExtractFSpec<UnElSpec> = UnElSpec extends UnnamedElementSpec<infer F>
-  ? F
+type UnnamedElementSpecMap<
+  FSpec extends FieldSpec<string>,
+  ElementNames extends string
+> = Record<ElementNames, UnnamedElementSpec<FSpec>>;
+
+type ExtractFieldValues<UESpec> = Partial<
+  UESpec extends UnnamedElementSpec<infer F> ? FieldNameToValueMap<F> : never
+>;
+
+type ExtractESpecMap<UESpecMap> = UESpecMap extends UnnamedElementSpecMap<
+  FieldSpec<string>,
+  keyof UESpecMap
+>
+  ? {
+      [Name in keyof UESpecMap]: ExtractESpec<UESpecMap[Name], Name>;
+    }
   : never;
+
+type ExtractESpec<
+  UESpec,
+  Name extends string
+> = UESpec extends UnnamedElementSpec<infer F> ? ElementSpec<F, Name> : never;
+
+const getElementSpecMap = <
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof UESpecs,
+  UESpecs extends UnnamedElementSpecMap<FSpec, ElementNames>
+>(
+  unnamedElementSpecMap: UESpecs
+) => {
+  const elementSpecMap = {} as ExtractESpecMap<UESpecs>;
+
+  for (const elementName in unnamedElementSpecMap) {
+    // Typescript is unable to tell that `elementName` shares an index type between
+    // `elementSpecMap` and `unnamedElementSpecMap`. This may be a bug. Issue here:
+    //
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment -- as above
+    // @ts-ignore
+    elementSpecMap[elementName] = unnamedElementSpecMap[elementName](
+      elementName
+    );
+  }
+
+  return elementSpecMap;
+};
 
 /**
  * Build an element plugin with the given element specs, along with the schema required
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  FieldSpecNames extends keyof FSpec,
-  FSpec extends FieldSpec<Extract<FieldSpecNames, string>>,
-  ElementNames extends keyof UnnamedElementSpecs,
-  UnnamedElementSpecs extends {
-    [elementName in ElementNames]: UnnamedElementSpec<FSpec>;
-  }
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof UESpecs,
+  UESpecs extends UnnamedElementSpecMap<FSpec, ElementNames>
 >(
-  unnamedElementSpecs: UnnamedElementSpecs,
+  unnamedElementSpecs: UESpecs,
   predicate = defaultPredicate
 ) => {
-  const elementSpecs = ({} as unknown) as {
-    [Name in keyof UnnamedElementSpecs]: ElementSpec<
-      ExtractFSpec<UnnamedElementSpecs[Name]>,
-      Extract<Name, string>
-    >;
-  };
-
-  for (const elementName in unnamedElementSpecs) {
-    elementSpecs[elementName] = (unnamedElementSpecs[elementName](
-      elementName
-    ) as unknown) as ElementSpec<
-      ExtractFSpec<UnnamedElementSpecs[typeof elementName]>,
-      Extract<typeof elementName, string>
-    >;
-  }
-
-  const insertElement = <Name extends Extract<ElementNames, string>>(
-    type: Name,
-    fieldValues: Partial<
-      FieldNameToValueMap<
-        UnnamedElementSpecs[Name] extends UnnamedElementSpec<infer FSpec>
-          ? FSpec
-          : never
-      >
-    > = {}
+  const elementSpecs = getElementSpecMap(unnamedElementSpecs);
+  const insertElement = <Name extends ElementNames>(
+    type: Extract<Name, string>,
+    fieldValues: ExtractFieldValues<UESpecs[Name]> = {}
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
     const element = elementSpecs[type];
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Typescript trusts our consumers to pass a correct element type, but we don't :)
     if (!element) {
       throw new Error(
         `[prosemirror-elements]: ${type} is not recognised. Only ${Object.keys(
@@ -96,7 +115,7 @@ export const buildElementPlugin = <
   };
 
   const plugin = createPlugin(elementSpecs, buildCommands(predicate));
-  let nodeSpec = OrderedMap.from({});
+  let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});
   for (const elementName in elementSpecs) {
     nodeSpec = nodeSpec.append(elementSpecs[elementName].nodeSpec);
   }

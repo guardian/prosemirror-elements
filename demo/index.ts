@@ -110,13 +110,30 @@ const createEditor = (server: CollabServer) => {
   const elementButton = document.createElement("button");
   elementButton.innerHTML = "Element";
   elementButton.id = "element";
-  elementButton.addEventListener("click", () =>
+  elementButton.addEventListener("click", () => {
     insertElement("imageElement", {
       altText: "",
       caption: "",
       useSrc: { value: false },
-    })(view.state, view.dispatch)
-  );
+    })(view.state, view.dispatch);
+
+    insertElement("imageElement2", {
+      altText: "",
+      caption: "",
+      useSrc: { value: false },
+    })(view.state, view.dispatch);
+
+    insertElement("imageElement2Nope", {
+      altText: "",
+      caption: "",
+      useSrc: { value: false },
+    })(view.state, view.dispatch);
+    insertElement("imageElement2", {
+      altTedxt: "",
+      cacxzption: "",
+      useSrc: { value: false },
+    })(view.state, view.dispatch);
+  });
   editorElement.appendChild(elementButton);
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
