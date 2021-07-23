@@ -184,9 +184,7 @@ export const createNodesForFieldValues = <
   fieldSpec: FSpec,
   fieldValues: Partial<FieldNameToValueMap<FSpec>>
 ): Node[] => {
-  const orderedFieldNames = getDeterministicFieldOrder(
-    Object.keys(fieldSpec) as Array<Extract<keyof FSpec, string>>
-  );
+  const orderedFieldNames = getDeterministicFieldOrder(Object.keys(fieldSpec));
 
   return orderedFieldNames.map((fieldName) => {
     const field = fieldSpec[fieldName];

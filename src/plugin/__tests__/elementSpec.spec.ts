@@ -110,7 +110,7 @@ describe("mount", () => {
           type: "richText",
         },
       });
-      const { nodeSpec } = buildElementPlugin([testElement1]);
+      const { nodeSpec } = buildElementPlugin({ testElement1 });
       expect(nodeSpec.get("testElement1")).toMatchObject({
         content: "field1 field2",
       });
@@ -149,7 +149,7 @@ describe("mount", () => {
           };
 
           const testElement1 = createNoopElement(fieldSpec);
-          const { nodeSpec } = buildElementPlugin([testElement1]);
+          const { nodeSpec } = buildElementPlugin({ testElement1 });
           const field1NodeSpec = nodeSpec.get("field1");
           expect(field1NodeSpec).toHaveProperty("content", "text*");
           expect(field1NodeSpec).toHaveProperty("parseDOM", [

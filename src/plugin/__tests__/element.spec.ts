@@ -14,9 +14,24 @@ describe("buildElementPlugin", () => {
       insertElement("testElement", {});
     });
 
+    it("should allow consumers to instantiate multiple elements", () => {
+      const testElement = createNoopElement({});
+      const testElement2 = createNoopElement({});
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
+      insertElement("testElement", {});
+      insertElement("testElement2", {});
+    });
+
     it("should not allow consumers to instantiate elements that do not exist", () => {
       const testElement = createNoopElement({});
-      const { insertElement } = buildElementPlugin({ testElement });
+      const testElement2 = createNoopElement({});
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
       // @ts-expect-error -- we should not be able to insert a non-existent element
       insertElement("testElementThatDoesNotExist", {});
     });
@@ -28,6 +43,20 @@ describe("buildElementPlugin", () => {
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", { field1: "<p>Example initial state</p>" });
+    });
+
+    it("should allow consumers to instantiate elements with a partial set of initial fields -- multiple elements", () => {
+      const testElement = createNoopElement({
+        field1: { type: "richText" },
+      });
+      const testElement2 = createNoopElement({
+        field2: { type: "richText" },
+      });
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
+      insertElement("testElement2", { field2: "<p>Example initial state</p>" });
     });
 
     it("should allow consumers to instantiate custom elements", () => {
@@ -81,6 +110,23 @@ describe("buildElementPlugin", () => {
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {
+        // @ts-expect-error -- we should not be able to insert a non-existent field
+        propDoesNotExist: "<p>Example initial state</p>",
+      });
+    });
+
+    it("should not allow consumers to instantiate elements with fields that do not exist -- multiple elements", () => {
+      const testElement = createNoopElement({
+        field1: { type: "richText" },
+      });
+      const testElement2 = createNoopElement({
+        field2: { type: "richText" },
+      });
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
+      insertElement("testElement2", {
         // @ts-expect-error -- we should not be able to insert a non-existent field
         propDoesNotExist: "<p>Example initial state</p>",
       });

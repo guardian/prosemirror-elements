@@ -19,15 +19,15 @@ import type {
  */
 export const buildElementPlugin = <
   FSpec extends FieldSpec<keyof FSpec>,
-  ElementNames extends keyof UESpecs,
-  UESpecs extends ElementSpecMap<FSpec, ElementNames>
+  ElementNames extends keyof ESpecMap,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
-  elementSpecs: UESpecs,
+  elementSpecs: ESpecMap,
   predicate = defaultPredicate
 ) => {
   const insertElement = <Name extends ElementNames>(
     type: Extract<Name, string>,
-    fieldValues: ExtractFieldValues<UESpecs[Name]> = {}
+    fieldValues: ExtractFieldValues<ESpecMap[Name]> = {}
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void

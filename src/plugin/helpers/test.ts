@@ -70,10 +70,10 @@ export const createNoopElement = <FSpec extends FieldSpec<string>>(
 
 export const createEditorWithElements = <
   FSpec extends FieldSpec<keyof FSpec>,
-  ElementNames extends keyof UESpecs,
-  UESpecs extends ElementSpecMap<FSpec, ElementNames>
+  ElementNames extends keyof ESpecMap,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
-  elements: UESpecs,
+  elements: ESpecMap,
   initialHTML = ""
 ) => {
   const { plugin, insertElement, nodeSpec } = buildElementPlugin(elements);
