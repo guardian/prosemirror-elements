@@ -63,11 +63,8 @@ export type FieldNameToFieldViewSpec<FSpec extends FieldSpec<string>> = {
     : FieldViewSpec<FieldTypeToViewMap<FSpec[name]>[FSpec[name]["type"]]>;
 };
 
-export type ElementSpec<
-  FSpec extends FieldSpec<string>,
-  ElementName extends string
-> = {
-  name: ElementName;
+export type ElementSpec<FSpec extends FieldSpec<string>> = {
+  name: string;
   fieldSpec: FSpec;
   nodeSpec: NodeSpec;
   createUpdator: (
@@ -85,8 +82,11 @@ export type ElementSpec<
   ) => void;
 };
 
-export type UnnamedElementSpec<FSpec extends FieldSpec<string>> = <
-  ElementName extends string
->(
-  name: ElementName
-) => ElementSpec<FSpec, ElementName>;
+export type UnnamedElementSpec<FSpec extends FieldSpec<string>> = (
+  name: string
+) => ElementSpec<FSpec>;
+
+export type UnnamedElementSpecMap<
+  FSpec extends FieldSpec<string>,
+  ElementNames extends string
+> = Record<ElementNames, UnnamedElementSpec<FSpec>>;

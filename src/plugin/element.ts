@@ -9,12 +9,8 @@ import type {
   ElementSpec,
   FieldSpec,
   UnnamedElementSpec,
+  UnnamedElementSpecMap,
 } from "./types/Element";
-
-type UnnamedElementSpecMap<
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
-> = Record<ElementNames, UnnamedElementSpec<FSpec>>;
 
 type ExtractFieldValues<UESpec> = Partial<
   UESpec extends UnnamedElementSpec<infer F> ? FieldNameToValueMap<F> : never
@@ -32,7 +28,7 @@ type ExtractESpecMap<UESpecMap> = UESpecMap extends UnnamedElementSpecMap<
 type ExtractESpec<
   UESpec,
   Name extends string
-> = UESpec extends UnnamedElementSpec<infer F> ? ElementSpec<F, Name> : never;
+> = UESpec extends UnnamedElementSpec<infer F> ? ElementSpec<F> : never;
 
 const getElementSpecMap = <
   FSpec extends FieldSpec<keyof FSpec>,

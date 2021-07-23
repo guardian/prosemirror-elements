@@ -7,7 +7,7 @@ import { EditorState, Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import type { ElementSpec, FieldSpec } from "../types/Element";
+import type { FieldSpec, UnnamedElementSpecMap } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
 const initialPhrase = "deco";
@@ -69,10 +69,11 @@ export const createNoopElement = <FSpec extends FieldSpec<string>>(
   );
 
 export const createEditorWithElements = <
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof UESpecs,
+  UESpecs extends UnnamedElementSpecMap<FSpec, ElementNames>
 >(
-  elements: Array<ElementSpec<FSpec, ElementNames>>,
+  elements: UESpecs,
   initialHTML = ""
 ) => {
   const { plugin, insertElement, nodeSpec } = buildElementPlugin(elements);

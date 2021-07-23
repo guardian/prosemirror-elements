@@ -57,7 +57,7 @@ export const createElementSpec = <FSpec extends FieldSpec<string>>(
   defaultState: Partial<FieldNameToValueMap<FSpec>>
 ): UnnamedElementSpec<FSpec> => <ElementName extends string>(
   name: ElementName
-): ElementSpec<FSpec, ElementName> => ({
+): ElementSpec<FSpec> => ({
   name,
   fieldSpec,
   nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),

@@ -21,7 +21,7 @@ export const createPlugin = <
   FSpec extends FieldSpec<string>
 >(
   elementsSpec: {
-    [elementName in ElementNames]: ElementSpec<FSpec, elementName>;
+    [elementName in ElementNames]: ElementSpec<FSpec>;
   },
   commands: Commands
 ): Plugin<PluginState, Schema> => {
@@ -65,7 +65,7 @@ const createNodeViews = <
   FSpec extends FieldSpec<string>
 >(
   elementsSpec: {
-    [elementName in ElementNames]: ElementSpec<FSpec, elementName>;
+    [elementName in ElementNames]: ElementSpec<FSpec>;
   },
   commands: Commands
 ): NodeViewSpec => {
@@ -88,7 +88,7 @@ const createNodeView = <
   ElementName extends string
 >(
   elementName: ElementName,
-  element: ElementSpec<FSpec, ElementName>,
+  element: ElementSpec<FSpec>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
