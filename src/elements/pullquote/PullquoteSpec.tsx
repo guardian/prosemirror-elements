@@ -1,5 +1,5 @@
 import React from "react";
-import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
+import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { PullquoteElementForm } from "./PullquoteForm";
@@ -8,14 +8,11 @@ export const createPullquoteFields = () => {
   return {
     pullquote: createTextField(),
     attribution: createTextField(),
-    weighting: createDropDownField(
-      [
-        { text: "supporting (default)", value: "supporting" },
-        { text: "inline", value: "inline" },
-        { text: "showcase", value: "showcase" },
-      ],
-      "supporting"
-    ),
+    weighting: createCustomField("supporting", [
+      { text: "supporting (default)", value: "supporting" },
+      { text: "inline", value: "inline" },
+      { text: "showcase", value: "showcase" },
+    ]),
   };
 };
 
