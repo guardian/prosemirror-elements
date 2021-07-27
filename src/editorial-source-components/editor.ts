@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { background } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
 import { body } from "@guardian/src-foundations/typography";
 import { inputBorder } from "./inputBorder";
@@ -6,10 +7,13 @@ import { inputBorder } from "./inputBorder";
 export const editor = css`
   ${body.small()}
   .ProseMirror {
-    background-color: #fff;
+    background-color: ${background.primary};
     ${inputBorder}
-  }
-  .ProseMirror-focused {
-    ${focusHalo}
+    &:active {
+      border: 1px solid ${background.inputChecked};
+    }
+    &:focus {
+      ${focusHalo}
+    }
   }
 `;
