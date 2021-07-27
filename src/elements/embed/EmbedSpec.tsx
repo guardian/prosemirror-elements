@@ -1,12 +1,19 @@
 import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
+import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { EmbedElementForm } from "./EmbedForm";
 
 export const createEmbedFields = () => {
   return {
-    weighting: createTextField(),
+    weighting: createCustomField("inline", [
+      { text: "inline (default)", value: "inline" },
+      { text: "supporting", value: "supporting" },
+      { text: "showcase", value: "showcase" },
+      { text: "thumbnail", value: "thumbnail" },
+      { text: "immersive", value: "immersive" },
+    ]),
     sourceUrl: createTextField(),
     embedCode: createTextField(),
     caption: createTextField(),
@@ -34,7 +41,7 @@ export const createEmbedElement = <Name extends string>(name: Name) =>
       return el.innerText ? null : { altText: ["Alt tag must be set"] };
     },
     {
-      weighting: "",
+      weighting: "inline (default)",
       sourceUrl: "",
       embedCode: "",
       caption: "",
