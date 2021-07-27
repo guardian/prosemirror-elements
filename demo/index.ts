@@ -7,7 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
+import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -17,7 +17,6 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onSelectImage } from "./helpers";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -28,9 +27,7 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-} = buildElementPlugin([
-  createImageElement("imageElement", onSelectImage, onCropImage),
-]);
+} = buildElementPlugin([createEmbedElement("embedElement")]);
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
@@ -112,10 +109,13 @@ const createEditor = (server: CollabServer) => {
   elementButton.innerHTML = "Element";
   elementButton.id = "element";
   elementButton.addEventListener("click", () =>
-    insertElement("imageElement", {
-      altText: "",
+    insertElement("embedElement", {
+      weighting: "",
+      sourceUrl: "",
+      embedCode: "",
       caption: "",
-      useSrc: { value: false },
+      altText: "",
+      required: { value: false },
     })(view.state, view.dispatch)
   );
   editorElement.appendChild(elementButton);
