@@ -1,8 +1,14 @@
 import React from "react";
+import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
 import { Label } from "../../editorial-source-components/Label";
+import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
-import { FieldView } from "../../renderers/react/FieldView";
+import type {
+  CustomFieldViewSpec,
+  FieldNameToFieldViewSpec,
+} from "../../plugin/types/Element";
+import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
+import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -21,7 +27,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   fieldViewSpecMap: fieldViewSpecs,
 }) => (
   <div data-cy={EmbedElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.weighting} />
+    <CustomDropdownView fieldViewSpec={fieldViewSpecs.weighting} />
     <FieldView fieldViewSpec={fieldViewSpecs.sourceUrl} />
     <FieldView fieldViewSpec={fieldViewSpecs.embedCode} />
     <FieldView fieldViewSpec={fieldViewSpecs.caption} />
@@ -36,3 +42,26 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
     <pre>{JSON.stringify(fields)}</pre>
   </div>
 );
+
+type CustomDropdownViewProps = {
+  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<string>>>;
+};
+
+const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
+  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(
+    fieldViewSpec
+  );
+  return (
+    <CustomDropdown
+      options={fieldViewSpec.fieldSpec.props}
+      selected={selectedElement}
+      label={fieldViewSpec.name}
+      onChange={(event) => {
+        if (setSelectFieldsRef.current) {
+          setSelectFieldsRef.current(event.target.value);
+        }
+      }}
+      dataCy={getFieldViewTestId(fieldViewSpec.name)}
+    />
+  );
+};
