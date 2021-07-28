@@ -1,3 +1,4 @@
+import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
@@ -17,6 +18,10 @@ import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import { onCropImage, onSelectImage } from "./helpers";
+
+// Only show focus when the user is keyboard navigating, not when
+// they click a text field.
+FocusStyleManager.onlyShowFocusOnTabs();
 
 const {
   plugin: elementPlugin,
