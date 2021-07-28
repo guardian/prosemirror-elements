@@ -6,7 +6,7 @@ import { PullquoteElementForm } from "./PullquoteForm";
 
 export const createPullquoteFields = () => {
   return {
-    pullquote: createTextField(),
+    pullquote: createTextField({ isMultiline: true, rows: 4 }),
     attribution: createTextField(),
     weighting: createCustomField("supporting", [
       { text: "supporting (default)", value: "supporting" },
