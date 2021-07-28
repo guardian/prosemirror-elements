@@ -260,6 +260,7 @@ describe("buildElementPlugin", () => {
           defaultValue: "Default",
           isMultiline: false,
           rows: 1,
+          isCode: false,
         },
         field3: { type: "checkbox", defaultValue: { value: false } },
       });
@@ -288,6 +289,7 @@ describe("buildElementPlugin", () => {
           defaultValue: "Default",
           isMultiline: false,
           rows: 1,
+          isCode: false,
         },
         field3: { type: "checkbox", defaultValue: { value: false } },
       });

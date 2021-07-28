@@ -151,6 +151,7 @@ describe("mount", () => {
               type: "text" as const,
               isMultiline: false,
               rows: 1,
+              isCode: false,
             },
           };
 

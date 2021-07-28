@@ -15,9 +15,9 @@ export const createEmbedFields = () => {
       { text: "immersive", value: "immersive" },
     ]),
     sourceUrl: createTextField(),
-    embedCode: createTextField(),
+    embedCode: createTextField({ isMultiline: true, rows: 2 }, true),
     caption: createTextField(),
-    altText: createTextField(),
+    altText: createTextField({ isMultiline: true, rows: 2 }),
     required: createCheckBox(false),
   };
 };
