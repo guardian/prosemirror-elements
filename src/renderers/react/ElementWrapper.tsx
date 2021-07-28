@@ -68,7 +68,7 @@ const Button = styled("button")`
   font-size: 16px;
   line-height: 1;
   padding: ${space[1]}px;
-  min-width: 32px;
+  width: 32px;
   transition: background-color 0.1s;
   :focus {
     ${focusHalo}
