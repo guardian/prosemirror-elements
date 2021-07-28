@@ -1,6 +1,7 @@
 import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
+import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { EmbedElementForm } from "./EmbedForm";
@@ -16,7 +17,7 @@ export const createEmbedFields = () => {
     ]),
     sourceUrl: createTextField(),
     embedCode: createTextField({ isMultiline: true, rows: 2 }, true),
-    caption: createTextField(),
+    caption: createDefaultRichTextField(),
     altText: createTextField({ isMultiline: true, rows: 2 }),
     required: createCheckBox(false),
   };
