@@ -15,19 +15,25 @@ export interface TextField extends BaseFieldSpec<string> {
   // The minimum number of rows this input should occupy.
   // Analogous to the <textarea> `rows` attribute.
   rows: number;
+  // The text field is used to display code
+  isCode: boolean;
 }
 
-type TextFieldOptions = {
+type MultilineOptions = {
   isMultiline: boolean;
   rows?: number;
 };
-
 export const createTextField = (
-  { isMultiline, rows = 1 }: TextFieldOptions = { isMultiline: false, rows: 1 }
+  { isMultiline = false, rows = 1 }: MultilineOptions = {
+    isMultiline: false,
+    rows: 1,
+  },
+  isCode = false
 ): TextField => ({
   type: TextFieldView.fieldName,
   isMultiline,
   rows,
+  isCode,
 });
 
 export class TextFieldView extends ProseMirrorFieldView {
@@ -44,7 +50,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    { isMultiline, rows }: TextField
+    { isMultiline, rows, isCode }: TextField
   ) {
     const keymapping: Record<string, Command> = {
       "Mod-z": () => undo(outerView.state, outerView.dispatch),
@@ -73,19 +79,25 @@ export class TextFieldView extends ProseMirrorFieldView {
       [keymap(keymapping)]
     );
 
-    if (enableMultiline) {
+    if (enableMultiline || isCode) {
       // We wait to ensure that the browser has applied the appropriate styles.
       setTimeout(() => {
         if (!this.innerEditorView) {
           return;
         }
-        const { lineHeight, paddingTop } = window.getComputedStyle(
-          this.innerEditorView.dom
-        );
+        if (enableMultiline) {
+          const { lineHeight, paddingTop } = window.getComputedStyle(
+            this.innerEditorView.dom
+          );
 
-        (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
-          parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
-        }px`;
+          (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
+            parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
+          }px`;
+        }
+        if (isCode) {
+          (this.innerEditorView.dom as HTMLDivElement).style.fontFamily =
+            "monospace";
+        }
       });
     }
   }
