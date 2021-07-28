@@ -149,6 +149,8 @@ describe("mount", () => {
           const fieldSpec = {
             field1: {
               type: "text" as const,
+              isMultiline: false,
+              rows: 1,
             },
           };
 

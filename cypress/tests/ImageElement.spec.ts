@@ -13,7 +13,6 @@ import {
 describe("ImageElement", () => {
   beforeEach(visitRoot);
 
-  const rteFields = ["caption", "altText"];
   const rteFieldStyles = [
     { title: "strong style", tag: "strong" },
     { title: "emphasis", tag: "em" },
@@ -21,93 +20,111 @@ describe("ImageElement", () => {
 
   describe("Fields", () => {
     describe("Rich text field", () => {
-      rteFields.forEach((field) => {
-        it(`${field} – should accept input in an element`, () => {
+      it(`caption – should accept input in an element`, () => {
+        addElement();
+        const text = `caption text`;
+        typeIntoElementField("caption", text);
+        getElementRichTextField("caption").should("have.text", text);
+      });
+
+      it(`caption – should create hard breaks on shift-enter`, () => {
+        addElement();
+        const text = `caption{shift+enter}text`;
+        typeIntoElementField("caption", text);
+        getElementRichTextField("caption").should(($div) =>
+          expect($div.html()).to.equal(`<p>caption<br>text</p>`)
+        );
+      });
+
+      it(`caption – should render decorations passed from the parent editor`, () => {
+        addElement();
+        const text = `caption deco `;
+        typeIntoElementField("caption", text);
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should map decorations passed from the parent editor correctly when they move`, () => {
+        addElement();
+        const text = `caption deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more text`;
+        typeIntoElementField("caption", text);
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should render new decorations, even if the document state has not changed`, () => {
+        addElement();
+
+        const oldDecoString = "deco";
+        const newDecoString = "decoChanged";
+        const text = `caption ${oldDecoString} ${newDecoString}`;
+
+        typeIntoElementField("caption", text);
+        changeTestDecoString(newDecoString);
+
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", newDecoString);
+
+        changeTestDecoString(oldDecoString);
+
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", oldDecoString);
+      });
+
+      rteFieldStyles.forEach((style) => {
+        it(`caption – should toggle style of an input in an element`, () => {
           addElement();
-          const text = `${field} text`;
-          typeIntoElementField(field, text);
-          getElementRichTextField(field).should("have.text", text);
+          getElementMenuButton("caption", `Toggle ${style.title}`).click();
+          typeIntoElementField("caption", "Example text");
+          getElementRichTextField("caption")
+            .find(style.tag)
+            .should("have.text", "Example text");
         });
+      });
 
-        it(`${field} – should create hard breaks on shift-enter`, () => {
-          addElement();
-          const text = `${field}{shift+enter}text`;
-          typeIntoElementField(field, text);
-          getElementRichTextField(field).should(($div) =>
-            expect($div.html()).to.equal(`<p>${field}<br>text</p>`)
-          );
-        });
-
-        it(`${field} – should render decorations passed from the parent editor`, () => {
-          addElement();
-          const text = `${field} deco `;
-          typeIntoElementField(field, text);
-          getElementRichTextField(field)
-            .find(".TestDecoration")
-            .should("have.text", "deco");
-        });
-
-        it(`${field} – should map decorations passed from the parent editor correctly when they move`, () => {
-          addElement();
-          const text = `${field} deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more text`;
-          typeIntoElementField(field, text);
-          getElementRichTextField(field)
-            .find(".TestDecoration")
-            .should("have.text", "deco");
-        });
-
-        it(`${field} – should render new decorations, even if the document state has not changed`, () => {
-          addElement();
-
-          const oldDecoString = "deco";
-          const newDecoString = "decoChanged";
-          const text = `${field} ${oldDecoString} ${newDecoString}`;
-
-          typeIntoElementField(field, text);
-          changeTestDecoString(newDecoString);
-
-          getElementRichTextField(field)
-            .find(".TestDecoration")
-            .should("have.text", newDecoString);
-
-          changeTestDecoString(oldDecoString);
-
-          getElementRichTextField(field)
-            .find(".TestDecoration")
-            .should("have.text", oldDecoString);
-        });
-
-        rteFieldStyles.forEach((style) => {
-          it(`${field} – should toggle style of an input in an element`, () => {
-            addElement();
-            getElementMenuButton(field, `Toggle ${style.title}`).click();
-            typeIntoElementField(field, "Example text");
-            getElementRichTextField(field)
-              .find(style.tag)
-              .should("have.text", "Example text");
-          });
-        });
-
-        it("should serialise content as HTML within the appropriate nodes in the document", () => {
-          addElement();
-          typeIntoElementField("caption", "Caption text");
-          typeIntoElementField("altText", "Alt text");
-          assertDocHtml(
-            getSerialisedHtml({
-              altTextValue: "<p>Alt text</p>",
-              captionValue: "<p>Caption text</p>",
-            })
-          );
-        });
+      it("should serialise content as HTML within the appropriate nodes in the document", () => {
+        addElement();
+        typeIntoElementField("caption", "Caption text");
+        typeIntoElementField("altText", "Alt text");
+        assertDocHtml(
+          getSerialisedHtml({
+            altTextValue: "Alt text",
+            captionValue: "<p>Caption text</p>",
+          })
+        );
       });
     });
 
     describe("Text field", () => {
-      it(`src – should accept input in an element`, () => {
+      it(`should accept input in an element`, () => {
         addElement();
         const text = `Src text`;
         typeIntoElementField("src", text);
         getElementRichTextField("src").should("have.text", text);
+      });
+
+      it("should serialise content as HTML within the appropriate nodes in the document", () => {
+        addElement();
+        typeIntoElementField("src", "Src text");
+        assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
+      });
+
+      it(`should not create line breaks when isMultiline is not set`, () => {
+        addElement();
+        const text = `Src {enter}text`;
+        typeIntoElementField("src", text);
+        assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
+      });
+
+      it(`should create line breaks when isMultiline is set`, () => {
+        addElement();
+        const text = `Alttext {enter}text`;
+        typeIntoElementField("altText", text);
+        assertDocHtml(getSerialisedHtml({ altTextValue: "Alttext <br>text" }));
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
@@ -151,7 +168,7 @@ describe("ImageElement", () => {
 
         assertDocHtml(
           getSerialisedHtml({
-            altTextValue: "<p>Example text</p>",
+            altTextValue: "Example text",
             useSrcValue: "false",
           })
         );

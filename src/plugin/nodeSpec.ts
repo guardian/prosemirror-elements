@@ -70,7 +70,7 @@ export const getNodeSpecForField = (
     case "text":
       return {
         [fieldName]: {
-          content: "text*",
+          content: field.isMultiline ? "(text|hard_break)*" : "text*",
           toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
           parseDOM: [{ tag: getTagForNode(elementName, fieldName) }],
         },

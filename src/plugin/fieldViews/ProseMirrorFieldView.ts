@@ -20,7 +20,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
   // so it can be mounted by consuming elements.
   public fieldViewElement = document.createElement("div");
   // The editor view for this FieldView.
-  private innerEditorView: EditorView | undefined;
+  protected innerEditorView: EditorView | undefined;
   // The decorations that apply to this FieldView, from the perspective
   // of the inner editor.
   private decorations = new DecorationSet();

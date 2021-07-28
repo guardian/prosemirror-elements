@@ -255,7 +255,12 @@ describe("buildElementPlugin", () => {
 
       const testElement = createNoopElement("testElement", {
         field1: { type: "richText", defaultValue: "<p>Default</p>" },
-        field2: { type: "text", defaultValue: "Default" },
+        field2: {
+          type: "text",
+          defaultValue: "Default",
+          isMultiline: false,
+          rows: 1,
+        },
         field3: { type: "checkbox", defaultValue: { value: false } },
       });
 
@@ -278,7 +283,12 @@ describe("buildElementPlugin", () => {
 
       const testElement = createNoopElement("testElement", {
         field1: { type: "richText", defaultValue: "<p>Default</p>" },
-        field2: { type: "text", defaultValue: "Default" },
+        field2: {
+          type: "text",
+          defaultValue: "Default",
+          isMultiline: false,
+          rows: 1,
+        },
         field3: { type: "checkbox", defaultValue: { value: false } },
       });
 

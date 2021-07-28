@@ -87,7 +87,7 @@ export const changeTestDecoString = (newTestString: string) => {
 };
 
 export const getSerialisedHtml = ({
-  altTextValue = "<p></p>",
+  altTextValue = "",
   captionValue = "<p></p>",
   srcValue = "",
   useSrcValue = "false",
