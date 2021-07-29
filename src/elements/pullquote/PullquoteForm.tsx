@@ -34,6 +34,13 @@ const column = css`
 const primaryColumn = css`
   width: 67%;
   padding-right: ${space[3]}px;
+  display: flex;
+  flex-direction: column;
+  div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const PullquoteElementTestId = "PullquoteElement";
