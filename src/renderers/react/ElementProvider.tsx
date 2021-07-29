@@ -99,7 +99,7 @@ export class ElementProvider<FSpec extends FieldSpec<string>> extends Component<
       this.props.validate(this.state.fieldValues)
     );
     return (
-      <ElementWrapper name="Embed" {...this.state.commands}>
+      <ElementWrapper name="Code" {...this.state.commands}>
         {this.props.consumer(
           this.state.fieldValues,
           errors,

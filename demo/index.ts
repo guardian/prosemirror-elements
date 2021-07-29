@@ -7,7 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
+import { createCodeElement } from "../src/elements/code/CodeSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -27,7 +27,7 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-} = buildElementPlugin([createEmbedElement("embedElement")]);
+} = buildElementPlugin([createCodeElement("codeElement")]);
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
@@ -109,13 +109,9 @@ const createEditor = (server: CollabServer) => {
   elementButton.innerHTML = "Element";
   elementButton.id = "element";
   elementButton.addEventListener("click", () =>
-    insertElement("embedElement", {
-      weighting: "",
-      sourceUrl: "",
-      embedCode: "",
-      caption: "",
-      altText: "",
-      required: false,
+    insertElement("codeElement", {
+      code: "",
+      language: "Plain text",
     })(view.state, view.dispatch)
   );
   editorElement.appendChild(elementButton);
