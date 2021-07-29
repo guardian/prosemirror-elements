@@ -630,10 +630,24 @@
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-0.5.0.tgz#ece14ec90b372932c7bf01992fc6d8ce58f7f26e"
   integrity sha512-THJn0wg7i9YjSVM9ofobsJgS+WH9ybrZH1+0CXLAebp0T53RGtgZUkek82mDg1h3DidsM+f7HSZqoQyrCbPzPw==
 
+"@guardian/src-checkbox@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-checkbox/-/src-checkbox-3.8.0.tgz#d2fb3340f08bcbbe10339868bded3205473427e9"
+  integrity sha512-g5k7kIzk5z0bENTee8t2bOxBn4QYCO1o2y4cwUZG6fvvtzn82iIWssfa7uemewNWpVd8tNW9e/jQZoasu+YfGw==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
+    "@guardian/src-label" "^3.8.0"
+    "@guardian/src-user-feedback" "^3.8.0"
+
 "@guardian/src-foundations@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.7.0.tgz#f5f3a3c6d20c72d257447d1a8d97d1ffb613da0d"
   integrity sha512-YLbr1D8VCoSg2nngMlMuq25zTcgngw01VZaqiyY4j9tC8IxFDliLbIf7mvQigKq9qn8RAlfM7HkMGzxSxVHtDg==
+
+"@guardian/src-foundations@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.8.0.tgz#2a17748cced540ea137618feddc85d2b12c16023"
+  integrity sha512-FrlWLKEkqzBWXD3r7fJ0/qka/k5kbvjqrQRypQnkxkv2Y8SBb/OXzPm8jYVqb6PJ1UX4T0l6/58uqoi3zoWyHA==
 
 "@guardian/src-helpers@^3.7.0":
   version "3.7.0"
@@ -643,10 +657,23 @@
     "@guardian/src-foundations" "^3.7.0"
     mini-svg-data-uri "^1.2.3"
 
+"@guardian/src-helpers@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-3.8.0.tgz#bf58361dd5f446bee606360235b7126353963f16"
+  integrity sha512-1ErX+pip3StqVfSp3kOv64E9rEvW6jOm0g20f7PQy8GQYl7xiv4EIhGLfANAPfEREApAT/vs6VMaEFN7IuubcQ==
+  dependencies:
+    "@guardian/src-foundations" "^3.8.0"
+    mini-svg-data-uri "^1.3.3"
+
 "@guardian/src-icons@^3.7.0":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-3.7.0.tgz#580688167d00d9eed601044867d67dcd48b210c6"
   integrity sha512-5tm8YlQpVGpuBN5hJ2Fi9xWkgCAvfX1IrzpLtLg4pLa6UmP1CIvwjlQocDBWRx2BItifU5UKtEpqiEvJdusK1g==
+
+"@guardian/src-icons@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-3.8.0.tgz#11f1bbfbbbbe04f63afeb614cfb1513ee97d1477"
+  integrity sha512-46Q/5YuLE+Z9wJSCD3wn9Nhlzvu7cyyzmNzcQI7iWUgYY5GCxm3pgI+xkqwAyKi49JBqZu1mgxp/eBFh5KLkdw==
 
 "@guardian/src-label@^3.7.0":
   version "3.7.0"
@@ -654,6 +681,13 @@
   integrity sha512-GOEZiMPjKE4vLPK8ggcfKjQzdWB0IoA8L74GHq4TmVsolT669HF/UR262gMhTKKD5aqulSrDnEEFTGR1p2BSVw==
   dependencies:
     "@guardian/src-helpers" "^3.7.0"
+
+"@guardian/src-label@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-label/-/src-label-3.8.0.tgz#9ef9665c309bff7714a7a27a4bdea21cc5d0ff82"
+  integrity sha512-C7PVKgfazXlx9d99HjsTOCpWMTE8JISMdEgxE6PK0Q8KCOr2ygcJGIG8LRkA0Cea3gUESvHYRxeTcYaJwwydQg==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
 
 "@guardian/src-select@^3.7.0":
   version "3.7.0"
@@ -681,6 +715,14 @@
   dependencies:
     "@guardian/src-helpers" "^3.7.0"
     "@guardian/src-icons" "^3.7.0"
+
+"@guardian/src-user-feedback@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-user-feedback/-/src-user-feedback-3.8.0.tgz#311dafadfc5b4a221f939043d7c052e1f62edb41"
+  integrity sha512-lL8XPEnGhsPzg3mvTZd5YeTEjrWZx3aOOiIabrp4exfyl3wJQJ5lPxUsyHL0zVPMoqyejc6xouUnifmzHCEYwg==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
+    "@guardian/src-icons" "^3.8.0"
 
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
@@ -5134,7 +5176,7 @@ mimic-fn@^2.1.0:
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
 
-mini-svg-data-uri@^1.2.3:
+mini-svg-data-uri@^1.2.3, mini-svg-data-uri@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.3.3.tgz#91d2c09f45e056e5e1043340b8b37ba7b50f4fac"
   integrity sha512-+fA2oRcR1dJI/7ITmeQJDrYWks0wodlOz0pAEhKYJ2IVc1z0AnwJUsKY2fzFmPAM3Jo9J0rBx8JAA9QQSJ5PuA==
