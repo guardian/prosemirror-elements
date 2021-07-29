@@ -110,7 +110,7 @@ const createEditor = (server: CollabServer) => {
   elementButton.id = "element";
   elementButton.addEventListener("click", () =>
     insertElement("codeElement", {
-      code: "",
+      codeText: "",
       language: "Plain text",
     })(view.state, view.dispatch)
   );
