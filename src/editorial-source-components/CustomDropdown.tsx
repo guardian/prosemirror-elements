@@ -9,6 +9,7 @@ import { labelStyles } from "./Label";
 // However, they rely on it retaining its current structure, which is worth bearing in mind
 // if we decided to bump the version of @guardian/src-select
 const parentStyles = css`
+  white-space: nowrap;
   width: initial;
   div {
     display: flex;

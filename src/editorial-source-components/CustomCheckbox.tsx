@@ -6,8 +6,13 @@ import { labelStyles } from "./Label";
 // However, they rely on it retaining its current structure, which is worth bearing in mind
 // if we decided to bump the version of @guardian/src-checkbox
 const parentStyles = css`
+  white-space: nowrap;
   div {
     ${labelStyles}
+  }
+  label {
+    margin-top: -6px;
+    margin-bottom: -12px;
   }
 `;
 
@@ -17,6 +22,11 @@ const checkboxGroupStyles = css`
   ${labelStyles}
   span {
     transform: scale(${scaleFactor}) rotate(45deg);
+  }
+  div {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: 1;
   }
 `;
 const checkboxStyles = css`
