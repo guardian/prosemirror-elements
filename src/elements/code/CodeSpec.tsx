@@ -6,7 +6,7 @@ import { CodeElementForm } from "./CodeElement";
 
 export const createCodeFields = () => {
   return {
-    code: createTextField({ isMultiline: true, rows: 2 }, true),
+    code: createTextField({ isMultiline: true, rows: 4 }, true),
     language: createCustomField("Plain text", [
       { text: "Plain text", value: "Plain text" },
       { text: "HTML", value: "HTML" },
