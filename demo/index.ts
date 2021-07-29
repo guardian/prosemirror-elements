@@ -115,7 +115,7 @@ const createEditor = (server: CollabServer) => {
       embedCode: "",
       caption: "",
       altText: "",
-      required: { value: false },
+      required: false,
     })(view.state, view.dispatch)
   );
   editorElement.appendChild(elementButton);
