@@ -4,7 +4,7 @@ import { labelStyles } from "./Label";
 
 // These styles allow us to style the div elements in the Source Checkbox Component.
 // However, they rely on it retaining its current structure, which is worth bearing in mind
-// if we decided to bump the version of @guardian/src-select
+// if we decided to bump the version of @guardian/src-checkbox
 const parentStyles = css`
   div {
     ${labelStyles}
