@@ -9,7 +9,7 @@ import type {
 } from "../../plugin/types/Element";
 import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { createCodeFields } from "./CodeSpec";
+import type { createCodeFields } from "./CodeElementSpec";
 
 type Props = {
   fields: FieldNameToValueMap<ReturnType<typeof createCodeFields>>;

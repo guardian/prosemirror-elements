@@ -7,7 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createCodeElement } from "../src/elements/code/CodeSpec";
+import { createCodeElement } from "../src/elements/code/CodeElementSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
