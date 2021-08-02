@@ -57,13 +57,11 @@ export const createImageFields = (
   };
 };
 
-export const createImageElement = <Name extends string>(
-  name: Name,
+export const createImageElement = (
   onSelect: (setSrc: SetMedia) => void,
   onCrop: (mediaId: string, setSrc: SetMedia) => void
 ) =>
   createReactElementSpec(
-    name,
     createImageFields(onSelect, onCrop),
     (fields, errors, __, fieldViewSpecs) => {
       return (

@@ -7,7 +7,7 @@ import { EditorState, Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import type { ElementSpec, FieldSpec } from "../types/Element";
+import type { ElementSpecMap, FieldSpec } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
 const initialPhrase = "deco";
@@ -58,15 +58,10 @@ export const trimHtml = (html: string) => html.replace(/>\s+</g, "><").trim();
 /**
  * Create an element which renders nothing. Useful when testing schema output.
  */
-export const createNoopElement = <
-  Name extends string,
-  FSpec extends FieldSpec<string>
->(
-  name: Name,
+export const createNoopElement = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec
 ) =>
   createElementSpec(
-    name,
     fieldSpec,
     () => null,
     () => null,
@@ -74,10 +69,11 @@ export const createNoopElement = <
   );
 
 export const createEditorWithElements = <
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof ESpecMap,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
-  elements: Array<ElementSpec<FSpec, ElementNames>>,
+  elements: ESpecMap,
   initialHTML = ""
 ) => {
   const { plugin, insertElement, nodeSpec } = buildElementPlugin(elements);

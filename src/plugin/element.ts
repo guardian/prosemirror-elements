@@ -1,42 +1,43 @@
 import OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
-import { createNodesForFieldValues } from "./nodeSpec";
+import {
+  createNodesForFieldValues,
+  getNodeSpecFromFieldSpec,
+} from "./nodeSpec";
 import { createPlugin } from "./plugin";
-import type { ElementSpec, FieldSpec } from "./types/Element";
+import type {
+  ElementSpecMap,
+  ExtractFieldValues,
+  FieldSpec,
+} from "./types/Element";
 
 /**
  * Build an element plugin with the given element specs, along with the schema required
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof ESpecMap,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
-  elementSpecs: Array<ElementSpec<FSpec, ElementNames>>,
+  elementSpecs: ESpecMap,
   predicate = defaultPredicate
 ) => {
-  const elementTypeMap = elementSpecs.reduce<
-    Partial<{ [elementName in ElementNames]: ElementSpec<FSpec, elementName> }>
-  >((acc, spec) => {
-    acc[spec.name] = spec;
-    return acc;
-  }, {});
-
-  const insertElement = (
-    type: ElementNames,
-    fieldValues: Partial<FieldNameToValueMap<FSpec>> = {}
+  const insertElement = <Name extends ElementNames>(
+    type: Extract<Name, string>,
+    fieldValues: ExtractFieldValues<ESpecMap[Name]> = {}
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
-    const element = elementTypeMap[type];
+    const element = elementSpecs[type];
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Typescript trusts our consumers to pass a correct element type, but we don't :)
     if (!element) {
       throw new Error(
         `[prosemirror-elements]: ${type} is not recognised. Only ${Object.keys(
-          elementTypeMap
+          elementSpecs
         ).join(", ")} can be added`
       );
     }
@@ -69,9 +70,12 @@ export const buildElementPlugin = <
   };
 
   const plugin = createPlugin(elementSpecs, buildCommands(predicate));
-  const nodeSpec = elementSpecs
-    .map((element) => element.nodeSpec)
-    .reduce((acc, spec) => acc.append(spec), OrderedMap.from<NodeSpec>({}));
+  let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});
+  for (const elementName in elementSpecs) {
+    nodeSpec = nodeSpec.append(
+      getNodeSpecFromFieldSpec(elementName, elementSpecs[elementName].fieldSpec)
+    );
+  }
 
   return {
     insertElement,

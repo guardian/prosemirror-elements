@@ -9,36 +9,65 @@ import {
 describe("buildElementPlugin", () => {
   describe("Typesafety", () => {
     it("should allow consumers to instantiate elements", () => {
-      const testElement = createNoopElement("testElement", {});
-      const { insertElement } = buildElementPlugin([testElement]);
+      const testElement = createNoopElement({});
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {});
     });
 
+    it("should allow consumers to instantiate multiple elements", () => {
+      const testElement = createNoopElement({});
+      const testElement2 = createNoopElement({});
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
+      insertElement("testElement", {});
+      insertElement("testElement2", {});
+    });
+
     it("should not allow consumers to instantiate elements that do not exist", () => {
-      const testElement = createNoopElement("testElement", {});
-      const { insertElement } = buildElementPlugin([testElement]);
+      const testElement = createNoopElement({});
+      const testElement2 = createNoopElement({});
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
       // @ts-expect-error -- we should not be able to insert a non-existent element
       insertElement("testElementThatDoesNotExist", {});
     });
 
     it("should allow consumers to instantiate elements with a partial set of initial fields", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText" },
         field2: { type: "richText" },
       });
-      const { insertElement } = buildElementPlugin([testElement]);
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", { field1: "<p>Example initial state</p>" });
     });
 
+    it("should allow consumers to instantiate elements with a partial set of initial fields -- multiple elements", () => {
+      const testElement = createNoopElement({
+        field1: { type: "richText" },
+      });
+      const testElement2 = createNoopElement({
+        field2: { type: "richText" },
+      });
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
+      insertElement("testElement2", { field2: "<p>Example initial state</p>" });
+    });
+
     it("should allow consumers to instantiate custom elements", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText" },
         field2: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
         } as CustomField<{ arbitraryValue: string }>,
       });
-      const { insertElement } = buildElementPlugin([testElement]);
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {
         field1: "<p>Example initial state</p>",
         field2: { arbitraryValue: "hai" },
@@ -66,12 +95,9 @@ describe("buildElementPlugin", () => {
         } as const;
       };
 
-      const testElement = createNoopElement(
-        "testElement",
-        createFieldSpec(noop)
-      );
+      const testElement = createNoopElement(createFieldSpec(noop));
 
-      const { insertElement } = buildElementPlugin([testElement]);
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {
         field1: "<p>Example initial state</p>",
         field2: { arbitraryValue: "hai" },
@@ -79,21 +105,38 @@ describe("buildElementPlugin", () => {
     });
 
     it("should not allow consumers to instantiate elements with fields that do not exist", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText" },
       });
-      const { insertElement } = buildElementPlugin([testElement]);
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {
         // @ts-expect-error -- we should not be able to insert a non-existent field
         propDoesNotExist: "<p>Example initial state</p>",
       });
     });
 
+    it("should not allow consumers to instantiate elements with fields that do not exist -- multiple elements", () => {
+      const testElement = createNoopElement({
+        field1: { type: "richText" },
+      });
+      const testElement2 = createNoopElement({
+        field2: { type: "richText" },
+      });
+      const { insertElement } = buildElementPlugin({
+        testElement,
+        testElement2,
+      });
+      insertElement("testElement2", {
+        // @ts-expect-error -- we should not be able to insert a non-existent field
+        propDoesNotExist: "<p>Example initial state</p>",
+      });
+    });
+
     it("should not allow fields to be instantiated with an incorrect type", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "checkbox", defaultValue: { value: false } },
       });
-      const { insertElement } = buildElementPlugin([testElement]);
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {
         field1: { value: true },
       });
@@ -104,13 +147,13 @@ describe("buildElementPlugin", () => {
     });
 
     it("should not allow consumers to instantiate custom elements with an incorrect type", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
         } as CustomField<{ arbitraryValue: string }>,
       });
-      const { insertElement } = buildElementPlugin([testElement]);
+      const { insertElement } = buildElementPlugin({ testElement });
       insertElement("testElement", {
         // @ts-expect-error -- we should not be able to insert a custom field of the wrong type
         field1: { doesNotExist: "hai" },
@@ -120,7 +163,7 @@ describe("buildElementPlugin", () => {
 
   describe("Element creation and serialisation", () => {
     it("should create an element with default content when no fields are supplied", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "checkbox", defaultValue: { value: false } },
         field2: { type: "richText", defaultValue: "<p>Content</p>" },
       });
@@ -128,7 +171,7 @@ describe("buildElementPlugin", () => {
         view,
         insertElement,
         getElementAsHTML,
-      } = createEditorWithElements([testElement]);
+      } = createEditorWithElements({ testElement });
 
       insertElement("testElement")(view.state, view.dispatch);
 
@@ -138,14 +181,14 @@ describe("buildElementPlugin", () => {
     });
 
     it("should fill out fields in ATTRIBUTE nodes", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "checkbox", defaultValue: { value: false } },
       });
       const {
         view,
         insertElement,
         getElementAsHTML,
-      } = createEditorWithElements([testElement]);
+      } = createEditorWithElements({ testElement });
 
       insertElement("testElement", { field1: { value: true } })(
         view.state,
@@ -158,14 +201,14 @@ describe("buildElementPlugin", () => {
     });
 
     it("should fill out content in CONTENT nodes", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText" },
       });
       const {
         view,
         insertElement,
         getElementAsHTML,
-      } = createEditorWithElements([testElement]);
+      } = createEditorWithElements({ testElement });
 
       insertElement("testElement", { field1: "<p>Content</p>" })(
         view.state,
@@ -178,7 +221,7 @@ describe("buildElementPlugin", () => {
     });
 
     it("should allow partial fields", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText" },
         field2: { type: "richText", defaultValue: "<p>Default</p>" },
       });
@@ -186,7 +229,7 @@ describe("buildElementPlugin", () => {
         view,
         insertElement,
         getElementAsHTML,
-      } = createEditorWithElements([testElement]);
+      } = createEditorWithElements({ testElement });
 
       insertElement("testElement", { field1: "<p>Content</p>" })(
         view.state,
@@ -199,7 +242,7 @@ describe("buildElementPlugin", () => {
     });
 
     it("should fill out all fields", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText" },
         field2: { type: "richText" },
       });
@@ -207,7 +250,7 @@ describe("buildElementPlugin", () => {
         view,
         insertElement,
         getElementAsHTML,
-      } = createEditorWithElements([testElement]);
+      } = createEditorWithElements({ testElement });
 
       insertElement("testElement", {
         field1: "<p>Content for field1</p>",
@@ -220,7 +263,7 @@ describe("buildElementPlugin", () => {
     });
 
     it("should fill out fields in custom nodes", () => {
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
@@ -230,7 +273,7 @@ describe("buildElementPlugin", () => {
         view,
         insertElement,
         getElementAsHTML,
-      } = createEditorWithElements([testElement]);
+      } = createEditorWithElements({ testElement });
 
       insertElement("testElement", { field1: { arbitraryValue: "hai" } })(
         view.state,
@@ -253,7 +296,7 @@ describe("buildElementPlugin", () => {
         </testelement>
       `;
 
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText", defaultValue: "<p>Default</p>" },
         field2: {
           type: "text",
@@ -265,7 +308,7 @@ describe("buildElementPlugin", () => {
       });
 
       const { getElementAsHTML } = createEditorWithElements(
-        [testElement],
+        { testElement },
         elementHTML
       );
 
@@ -281,7 +324,7 @@ describe("buildElementPlugin", () => {
         </testelement>
       `;
 
-      const testElement = createNoopElement("testElement", {
+      const testElement = createNoopElement({
         field1: { type: "richText", defaultValue: "<p>Default</p>" },
         field2: {
           type: "text",
@@ -293,7 +336,7 @@ describe("buildElementPlugin", () => {
       });
 
       const { getElementAsHTML } = createEditorWithElements(
-        [testElement],
+        { testElement },
         elementHTML
       );
 

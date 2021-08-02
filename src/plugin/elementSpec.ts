@@ -1,5 +1,4 @@
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
-import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
@@ -49,19 +48,13 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   ) => void
 ) => void;
 
-export const createElementSpec = <
-  FSpec extends FieldSpec<string>,
-  ElementName extends string
->(
-  name: ElementName,
+export const createElementSpec = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec,
   render: Renderer<FSpec>,
   validate: Validator<FSpec>,
   defaultState: Partial<FieldNameToValueMap<FSpec>>
-): ElementSpec<FSpec, ElementName> => ({
-  name,
+): ElementSpec<FSpec> => ({
   fieldSpec,
-  nodeSpec: getNodeSpecFromFieldSpec(name, fieldSpec),
   createUpdator: (dom, fields, updateState, fieldValues, commands) => {
     const updater = createUpdater<FSpec>();
     render(

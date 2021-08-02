@@ -178,16 +178,13 @@ const getTagForNode = (elementName: string, fieldName: string) =>
 
 export const createNodesForFieldValues = <
   S extends Schema,
-  FSpec extends FieldSpec<Name>,
-  Name extends string
+  FSpec extends FieldSpec<string>
 >(
   schema: S,
   fieldSpec: FSpec,
   fieldValues: Partial<FieldNameToValueMap<FSpec>>
 ): Node[] => {
-  const orderedFieldNames = getDeterministicFieldOrder(
-    Object.keys(fieldSpec) as Array<Extract<keyof FSpec, Name>>
-  );
+  const orderedFieldNames = getDeterministicFieldOrder(Object.keys(fieldSpec));
 
   return orderedFieldNames.map((fieldName) => {
     const field = fieldSpec[fieldName];

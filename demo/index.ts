@@ -28,9 +28,9 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-} = buildElementPlugin([
-  createImageElement("imageElement", onSelectImage, onCropImage),
-]);
+} = buildElementPlugin({
+  imageElement: createImageElement(onSelectImage, onCropImage),
+});
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
