@@ -8,6 +8,7 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
+import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -30,6 +31,7 @@ const {
   nodeSpec,
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
+  embedElement: createEmbedElement("embedElement"),
 });
 
 const schema = new Schema({
@@ -112,10 +114,13 @@ const createEditor = (server: CollabServer) => {
   elementButton.innerHTML = "Element";
   elementButton.id = "element";
   elementButton.addEventListener("click", () =>
-    insertElement("imageElement", {
-      altText: "",
+    insertElement("embedElement", {
+      weighting: "",
+      sourceUrl: "",
+      embedCode: "",
       caption: "",
-      useSrc: { value: false },
+      altText: "",
+      required: { value: false },
     })(view.state, view.dispatch)
   );
   editorElement.appendChild(elementButton);
