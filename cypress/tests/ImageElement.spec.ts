@@ -1,5 +1,5 @@
 import {
-  addElement,
+  addImageElement,
   assertDocHtml,
   changeTestDecoString,
   getElementField,
@@ -21,14 +21,14 @@ describe("ImageElement", () => {
   describe("Fields", () => {
     describe("Rich text field", () => {
       it(`caption – should accept input in an element`, () => {
-        addElement();
+        addImageElement();
         const text = `caption text`;
         typeIntoElementField("caption", text);
         getElementRichTextField("caption").should("have.text", text);
       });
 
       it(`caption – should create hard breaks on shift-enter`, () => {
-        addElement();
+        addImageElement();
         const text = `caption{shift+enter}text`;
         typeIntoElementField("caption", text);
         getElementRichTextField("caption").should(($div) =>
@@ -37,7 +37,7 @@ describe("ImageElement", () => {
       });
 
       it(`caption – should render decorations passed from the parent editor`, () => {
-        addElement();
+        addImageElement();
         const text = `caption deco `;
         typeIntoElementField("caption", text);
         getElementRichTextField("caption")
@@ -46,7 +46,7 @@ describe("ImageElement", () => {
       });
 
       it(`caption – should map decorations passed from the parent editor correctly when they move`, () => {
-        addElement();
+        addImageElement();
         const text = `caption deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more text`;
         typeIntoElementField("caption", text);
         getElementRichTextField("caption")
@@ -55,7 +55,7 @@ describe("ImageElement", () => {
       });
 
       it(`caption – should render new decorations, even if the document state has not changed`, () => {
-        addElement();
+        addImageElement();
 
         const oldDecoString = "deco";
         const newDecoString = "decoChanged";
@@ -77,7 +77,7 @@ describe("ImageElement", () => {
 
       rteFieldStyles.forEach((style) => {
         it(`caption – should toggle style of an input in an element`, () => {
-          addElement();
+          addImageElement();
           getElementMenuButton("caption", `Toggle ${style.title}`).click();
           typeIntoElementField("caption", "Example text");
           getElementRichTextField("caption")
@@ -87,7 +87,7 @@ describe("ImageElement", () => {
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
-        addElement();
+        addImageElement();
         typeIntoElementField("caption", "Caption text");
         typeIntoElementField("altText", "Alt text");
         assertDocHtml(
@@ -101,34 +101,34 @@ describe("ImageElement", () => {
 
     describe("Text field", () => {
       it(`should accept input in an element`, () => {
-        addElement();
+        addImageElement();
         const text = `Src text`;
         typeIntoElementField("src", text);
         getElementRichTextField("src").should("have.text", text);
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
-        addElement();
+        addImageElement();
         typeIntoElementField("src", "Src text");
         assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
       });
 
       it(`should not create line breaks when isMultiline is not set`, () => {
-        addElement();
+        addImageElement();
         const text = `Src {enter}text`;
         typeIntoElementField("src", text);
         assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
       });
 
       it(`should create line breaks when isMultiline is set`, () => {
-        addElement();
+        addImageElement();
         const text = `Alttext {enter}text`;
         typeIntoElementField("altText", text);
         assertDocHtml(getSerialisedHtml({ altTextValue: "Alttext <br>text" }));
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
-        addElement();
+        addImageElement();
         typeIntoElementField("src", "Src text");
         assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
       });
@@ -136,31 +136,31 @@ describe("ImageElement", () => {
 
     describe("Checkbox field", () => {
       it(`should be clickable`, () => {
-        addElement();
+        addImageElement();
         getElementField("useSrc").find("input").click();
         getElementField("useSrc").find("input").should("be.checked");
       });
 
       it(`should have a default value when instantiated`, () => {
-        addElement();
+        addImageElement();
         assertDocHtml(getSerialisedHtml({}));
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - checked`, () => {
-        addElement();
+        addImageElement();
         getElementField("useSrc").find("input").click();
         assertDocHtml(getSerialisedHtml({ useSrcValue: "true" }));
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document - unchecked`, () => {
-        addElement();
+        addImageElement();
         getElementField("useSrc").find("input").click();
         getElementField("useSrc").find("input").click();
         assertDocHtml(getSerialisedHtml({ useSrcValue: "false" }));
       });
 
       it(`should track the field offset, and update correctly after fields above have changed`, () => {
-        addElement();
+        addImageElement();
 
         getElementField("useSrc").find("input").click();
         typeIntoElementField("altText", "Example text");
@@ -177,7 +177,7 @@ describe("ImageElement", () => {
 
     describe("Dropdown field", () => {
       it(`should change the option selected in the document when a user selects a new option`, () => {
-        addElement();
+        addImageElement();
         getElementField("optionDropdown")
           .find("select")
           .select(JSON.stringify("opt2"));
@@ -188,13 +188,13 @@ describe("ImageElement", () => {
       });
 
       it(`should have a default value when instantiated`, () => {
-        addElement();
+        addImageElement();
         assertDocHtml(getSerialisedHtml({}));
         assertDocHtml(getSerialisedHtml({ optionValue: "opt1" }));
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
-        addElement();
+        addImageElement();
         getElementField("optionDropdown")
           .find("select")
           .select(JSON.stringify("opt2"));
@@ -204,13 +204,13 @@ describe("ImageElement", () => {
 
     describe("CustomDropdown field", () => {
       it(`should have a default value when instantiated`, () => {
-        addElement();
+        addImageElement();
         assertDocHtml(getSerialisedHtml({}));
         assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt1" }));
       });
 
       it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
-        addElement();
+        addImageElement();
         getElementField("customDropdown").find("select").select("opt2");
         assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt2" }));
       });
