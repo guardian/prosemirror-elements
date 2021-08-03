@@ -1,14 +1,10 @@
 import React from "react";
-import { CustomCheckbox } from "../../editorial-source-components/CustomCheckbox";
 import { Label } from "../../editorial-source-components/Label";
+import { CustomCheckboxView } from "../../plugin/fieldViews/CustomCheckboxView";
 import { CustomDropdownView } from "../../plugin/fieldViews/CustomDropdownView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type {
-  CustomFieldViewSpec,
-  FieldNameToFieldViewSpec,
-} from "../../plugin/types/Element";
-import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
+import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
+import { FieldView } from "../../renderers/react/FieldView";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -42,23 +38,3 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
     <pre>{JSON.stringify(fields)}</pre>
   </div>
 );
-
-type CustomCheckboxViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<boolean, boolean>;
-};
-
-const CustomCheckboxView = ({ fieldViewSpec }: CustomCheckboxViewProps) => {
-  const [boolean, setBoolean] = useCustomFieldViewState(fieldViewSpec);
-  return (
-    <CustomCheckbox
-      checked={boolean}
-      text={fieldViewSpec.name}
-      onChange={() => {
-        if (setBoolean.current) {
-          setBoolean.current(!boolean);
-        }
-      }}
-      dataCy={getFieldViewTestId(fieldViewSpec.name)}
-    />
-  );
-};
