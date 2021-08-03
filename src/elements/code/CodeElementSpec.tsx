@@ -20,9 +20,8 @@ export const createCodeFields = () => {
   };
 };
 
-export const createCodeElement = <Name extends string>(name: Name) =>
+export const createCodeElement = () =>
   createReactElementSpec(
-    name,
     createCodeFields(),
     (fields, errors, __, fieldViewSpecs) => {
       return (

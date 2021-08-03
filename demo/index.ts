@@ -7,9 +7,9 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
+import { createCodeElement } from "../src/elements/code/CodeElementSpec";
 import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
-import { createCodeElement } from "../src/elements/code/CodeElementSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -19,14 +19,19 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
+import { onCropImage, onSelectImage } from "./helpers";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
+const codeElementName = "codeElement";
 
-type Name = typeof embedElementName | typeof imageElementName;
+type Name =
+  | typeof embedElementName
+  | typeof imageElementName
+  | typeof codeElementName;
 
 const {
   plugin: elementPlugin,
@@ -36,7 +41,7 @@ const {
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
-  codeElement: buildElementPlugin(createCodeElement("codeElement"))
+  codeElement: createCodeElement(),
 });
 
 const schema = new Schema({
@@ -146,10 +151,10 @@ const createEditor = (server: CollabServer) => {
       caption: "",
       useSrc: { value: false },
     })
-
+  );
   editorElement.appendChild(
     createElementButton("Add code element", codeElementName, {
-      code: "",
+      codeText: "",
       language: "Plain text",
     })
   );
