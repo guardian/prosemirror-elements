@@ -2,6 +2,7 @@ import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
 import type { CustomField } from "../fieldViews/CustomFieldView";
 import { createNoopElement } from "../helpers/test";
+import { getNodeNameFromField } from "../nodeSpec";
 
 describe("mount", () => {
   describe("fieldView typesafety", () => {
@@ -112,10 +113,14 @@ describe("mount", () => {
       });
       const { nodeSpec } = buildElementPlugin({ testElement1 });
       expect(nodeSpec.get("testElement1")).toMatchObject({
-        content: "field1 field2",
+        content: "testElement1_field1 testElement1_field2",
       });
-      expect(nodeSpec.get("field1")).toMatchObject({ content: "paragraph+" });
-      expect(nodeSpec.get("field2")).toMatchObject({ content: "paragraph+" });
+      expect(nodeSpec.get("testElement1_field1")).toMatchObject({
+        content: "paragraph+",
+      });
+      expect(nodeSpec.get("testElement1_field2")).toMatchObject({
+        content: "paragraph+",
+      });
     });
 
     describe("fields", () => {
@@ -131,8 +136,11 @@ describe("mount", () => {
           };
 
           const testElement1 = createNoopElement(fieldSpec);
-          const { nodeSpec } = buildElementPlugin([testElement1]);
-          expect(nodeSpec.get("field1")).toEqual({
+          const { nodeSpec } = buildElementPlugin({ testElement1 });
+
+          expect(
+            nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
+          ).toEqual({
             content: fieldSpec.field1.content,
             toDOM: fieldSpec.field1.toDOM,
             parseDOM: fieldSpec.field1.parseDOM,
@@ -152,7 +160,9 @@ describe("mount", () => {
 
           const testElement1 = createNoopElement(fieldSpec);
           const { nodeSpec } = buildElementPlugin({ testElement1 });
-          const field1NodeSpec = nodeSpec.get("field1");
+          const field1NodeSpec = nodeSpec.get(
+            getNodeNameFromField("field1", "testElement1")
+          );
           expect(field1NodeSpec).toHaveProperty("content", "text*");
           expect(field1NodeSpec).toHaveProperty("parseDOM", [
             { tag: "element-testelement1-field1" },
@@ -170,8 +180,10 @@ describe("mount", () => {
           };
 
           const testElement1 = createNoopElement(fieldSpec);
-          const { nodeSpec } = buildElementPlugin([testElement1]);
-          expect(nodeSpec.get("field1")).toMatchObject({
+          const { nodeSpec } = buildElementPlugin({ testElement1 });
+          expect(
+            nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
+          ).toMatchObject({
             atom: true,
             attrs: {
               fields: {
@@ -194,8 +206,10 @@ describe("mount", () => {
           };
 
           const testElement1 = createNoopElement(fieldSpec);
-          const { nodeSpec } = buildElementPlugin([testElement1]);
-          expect(nodeSpec.get("field1")).toMatchObject({
+          const { nodeSpec } = buildElementPlugin({ testElement1 });
+          expect(
+            nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
+          ).toMatchObject({
             atom: true,
             attrs: {
               fields: {
