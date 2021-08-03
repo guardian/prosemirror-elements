@@ -32,7 +32,6 @@ export const createReactElementSpec = <FSpec extends FieldSpec<string>>(
         commands={commands}
         consumer={consumer}
         fieldValues={fieldValues}
-        name={name}
       />,
       dom
     );
