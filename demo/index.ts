@@ -9,7 +9,7 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
-import { createCodeElement } from "../src/elements/code/CodeSpec";
+import { createCodeElement } from "../src/elements/code/CodeElementSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
