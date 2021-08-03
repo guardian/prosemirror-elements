@@ -7,11 +7,8 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-<<<<<<< HEAD
 import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
-=======
->>>>>>> 29db66b... removes commented imports
 import { createPullquoteElement } from "../src/elements/pullquote/PullquoteSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -22,6 +19,7 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
+import { onCropImage, onSelectImage } from "./helpers";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -36,15 +34,11 @@ const {
   insertElement,
   hasErrors,
   nodeSpec,
-<<<<<<< HEAD
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
   pullquoteElement: createPullquoteElement(),
 });
-=======
-} = buildElementPlugin([createPullquoteElement("pullquoteElement")]);
->>>>>>> 29db66b... removes commented imports
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),

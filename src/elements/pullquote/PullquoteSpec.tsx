@@ -16,9 +16,8 @@ export const createPullquoteFields = () => {
   };
 };
 
-export const createPullquoteElement = <Name extends string>(name: Name) =>
+export const createPullquoteElement = () =>
   createReactElementSpec(
-    name,
     createPullquoteFields(),
     (fields, errors, __, fieldViewSpecs) => {
       return (
