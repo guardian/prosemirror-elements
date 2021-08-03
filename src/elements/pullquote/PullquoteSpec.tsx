@@ -2,6 +2,7 @@ import React from "react";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { PullquoteElementForm } from "./PullquoteForm";
 
 export const createPullquoteFields = () => {
   return {
@@ -24,12 +25,11 @@ export const createPullquoteElement = <Name extends string>(name: Name) =>
     createPullquoteFields(),
     (fields, errors, __, fieldViewSpecs) => {
       return (
-        <></>
-        // <PullquoteElementForm
-        //   fields={fields}
-        //   errors={errors}
-        //   fieldViewSpecMap={fieldViewSpecs}
-        // />
+        <PullquoteElementForm
+          fields={fields}
+          errors={errors}
+          fieldViewSpecMap={fieldViewSpecs}
+        />
       );
     },
     (fields) => {

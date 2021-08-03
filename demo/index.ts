@@ -20,7 +20,7 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onSelectImage } from "./helpers";
+// import { onCropImage, onSelectImage } from "./helpers";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -152,6 +152,13 @@ const createEditor = (server: CollabServer) => {
       altText: "",
       caption: "",
       useSrc: { value: false },
+    })
+  );
+  editorElement.appendChild(
+    createElementButton("Add pullquote element", imageElementName, {
+      pullquote: "",
+      attribution: "",
+      weighting: "supporting",
     })
   );
 
