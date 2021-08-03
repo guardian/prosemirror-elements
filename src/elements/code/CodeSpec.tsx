@@ -6,7 +6,7 @@ import { CodeElementForm } from "./CodeElement";
 
 export const createCodeFields = () => {
   return {
-    code: createTextField({ isMultiline: true, rows: 4 }, true),
+    codeText: createTextField({ isMultiline: true, rows: 4 }, true),
     language: createCustomField("Plain text", [
       { text: "Plain text", value: "Plain text" },
       { text: "HTML", value: "HTML" },
@@ -33,13 +33,13 @@ export const createCodeElement = <Name extends string>(name: Name) =>
         />
       );
     },
-    ({ code }) => {
+    ({ codeText }) => {
       const el = document.createElement("div");
-      el.innerHTML = code;
+      el.innerHTML = codeText;
       return el.innerText ? null : { altText: ["Alt tag must be set"] };
     },
     {
-      code: "",
+      codeText: "",
       language: "Plain text",
     }
   );

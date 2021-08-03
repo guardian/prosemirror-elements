@@ -27,7 +27,7 @@ export const CodeElementForm: React.FunctionComponent<Props> = ({
   fieldViewSpecMap: fieldViewSpecs,
 }) => (
   <div data-cy={CodeElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.code} />
+    <FieldView fieldViewSpec={fieldViewSpecs.codeText} />
     <CustomDropdownView fieldViewSpec={fieldViewSpecs.language} />
 
     <hr />

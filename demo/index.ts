@@ -146,12 +146,12 @@ const createEditor = (server: CollabServer) => {
       caption: "",
       useSrc: { value: false },
     })
+
   editorElement.appendChild(
     createElementButton("Add code element", codeElementName, {
       code: "",
       language: "Plain text",
     })
-
   );
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
