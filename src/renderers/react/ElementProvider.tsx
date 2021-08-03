@@ -33,6 +33,7 @@ type IProps<FSpec extends FieldSpec<string>> = {
   validate: Validator<FSpec>;
   consumer: Consumer<ReactElement, FSpec>;
   fields: FieldNameToFieldViewSpec<FSpec>;
+  name: string;
 };
 
 type IState<FSpec extends FieldSpec<string>> = {
