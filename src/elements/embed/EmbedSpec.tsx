@@ -22,9 +22,8 @@ export const createEmbedFields = () => {
   };
 };
 
-export const createEmbedElement = <Name extends string>(name: Name) =>
+export const createEmbedElement = () =>
   createReactElementSpec(
-    name,
     createEmbedFields(),
     (fields, errors, __, fieldViewSpecs) => {
       return (
