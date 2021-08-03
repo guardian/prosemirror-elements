@@ -35,7 +35,7 @@ const {
   nodeSpec,
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
-  embedElement: createEmbedElement("embedElement"),
+  embedElement: createEmbedElement(),
 });
 
 const schema = new Schema({
