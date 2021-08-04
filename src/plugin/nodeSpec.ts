@@ -24,7 +24,11 @@ const getNodeSpecForElement = (
 ): NodeSpec => ({
   [elementName]: {
     group: "block",
-    content: getDeterministicFieldOrder(Object.keys(fieldSpec)).join(" "),
+    content: getDeterministicFieldOrder(
+      Object.keys(fieldSpec).map((fieldName) =>
+        getNodeNameFromField(fieldName, elementName)
+      )
+    ).join(" "),
     attrs: {
       type: elementName,
       hasErrors: {
@@ -69,7 +73,7 @@ export const getNodeSpecForField = (
   switch (field.type) {
     case "text":
       return {
-        [fieldName]: {
+        [getNodeNameFromField(fieldName, elementName)]: {
           content: field.isMultiline ? "(text|hard_break)*" : "text*",
           toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
           parseDOM: [{ tag: getTagForNode(elementName, fieldName) }],
@@ -77,7 +81,7 @@ export const getNodeSpecForField = (
       };
     case "richText":
       return {
-        [fieldName]: {
+        [getNodeNameFromField(fieldName, elementName)]: {
           content: field.content ?? "paragraph+",
           toDOM:
             field.toDOM ??
@@ -89,7 +93,7 @@ export const getNodeSpecForField = (
       };
     case "checkbox":
       return {
-        [fieldName]: {
+        [getNodeNameFromField(fieldName, elementName)]: {
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
           parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
@@ -102,7 +106,7 @@ export const getNodeSpecForField = (
       };
     case "dropdown":
       return {
-        [fieldName]: {
+        [getNodeNameFromField(fieldName, elementName)]: {
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
           parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
@@ -115,7 +119,7 @@ export const getNodeSpecForField = (
       };
     case "custom":
       return {
-        [fieldName]: {
+        [getNodeNameFromField(fieldName, elementName)]: {
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
           parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
@@ -182,14 +186,15 @@ export const createNodesForFieldValues = <
 >(
   schema: S,
   fieldSpec: FSpec,
-  fieldValues: Partial<FieldNameToValueMap<FSpec>>
+  fieldValues: Partial<FieldNameToValueMap<FSpec>>,
+  elementName: string
 ): Node[] => {
   const orderedFieldNames = getDeterministicFieldOrder(Object.keys(fieldSpec));
 
   return orderedFieldNames.map((fieldName) => {
     const field = fieldSpec[fieldName];
     const fieldView = fieldTypeToViewMap[field.type];
-    const nodeType = schema.nodes[fieldName];
+    const nodeType = schema.nodes[getNodeNameFromField(fieldName, elementName)];
     const fieldValue =
       fieldValues[fieldName] ?? // The value supplied when the element is inserted
       fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
@@ -220,6 +225,11 @@ const createContentForFieldValue = <S extends Schema>(
  * but it does matter that we reliably match the order we create them to the
  * order that they're added to the schema. This function gives us a fixed order.
  */
-export const getDeterministicFieldOrder = <Name extends string>(
-  fieldNames: Name[]
-): Name[] => fieldNames.slice().sort();
+export const getDeterministicFieldOrder = (fieldNames: string[]): string[] =>
+  fieldNames.slice().sort();
+
+export const getNodeNameFromField = (fieldName: string, elementName: string) =>
+  `${elementName}_${fieldName}`;
+
+export const getFieldNameFromNode = (node: Node) =>
+  node.type.name.split("_")[1];

@@ -2,7 +2,7 @@ import type { Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { createEditorWithElements } from "../../helpers/test";
-import { getNodeSpecForField } from "../../nodeSpec";
+import { getNodeNameFromField, getNodeSpecForField } from "../../nodeSpec";
 import { AttributeFieldView } from "../AttributeFieldView";
 
 const createInnerViewSpy = jest.fn();
@@ -45,14 +45,15 @@ describe("AttributeFieldView", () => {
   });
   it("should pass the correct value to its inheritors on updateInnerView", () => {
     const { view } = createEditorWithElements([]);
-    const node = testSchema.nodes.testField.create({
+    const nodeName = getNodeNameFromField("testField", "doc");
+    const node = testSchema.nodes[nodeName].create({
       type: "checkbox",
       fields: { value: false },
     });
 
     const fieldView = new TestAttributeFieldView(node, view, () => 0, 0);
 
-    const newNode = testSchema.nodes.testField.create({
+    const newNode = testSchema.nodes[nodeName].create({
       fields: { value: true },
     });
 

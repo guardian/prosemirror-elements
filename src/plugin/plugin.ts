@@ -10,6 +10,7 @@ import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { getElementFieldViewFromType } from "./helpers/plugin";
 import type { Commands } from "./helpers/prosemirror";
 import { createDecorations } from "./helpers/prosemirror";
+import { getFieldNameFromNode } from "./nodeSpec";
 
 const decorations = createDecorations("imageElement");
 const pluginKey = new PluginKey("prosemirror_elements");
@@ -98,7 +99,9 @@ const createNodeView = <
   const fieldViewSpecs = {} as FieldNameToFieldViewSpec<FSpec>;
 
   initNode.forEach((node, offset) => {
-    const name = node.type.name as keyof FieldNameToFieldViewSpec<FSpec>;
+    const name = getFieldNameFromNode(
+      node
+    ) as keyof FieldNameToFieldViewSpec<FSpec>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
     if (fieldViewSpecs[name]) {
       throw new Error(
@@ -159,11 +162,12 @@ const createNodeView = <
         // cannot index into the element `fieldSpec` to discover the appropriate type.
         const fieldValues: Record<string, unknown> = {};
         node.forEach((node, offset) => {
-          const typeName = node.type
-            .name as keyof FieldNameToFieldViewSpec<FSpec>;
-          const nestedEditor = fieldViewSpecs[typeName];
+          const fieldName = getFieldNameFromNode(
+            node
+          ) as keyof FieldNameToFieldViewSpec<FSpec>;
+          const nestedEditor = fieldViewSpecs[fieldName];
           nestedEditor.fieldView.update(node, offset, innerDecos);
-          fieldValues[typeName] = nestedEditor.fieldView.getNodeValue(node);
+          fieldValues[fieldName] = nestedEditor.fieldView.getNodeValue(node);
         });
 
         update(
