@@ -1,7 +1,7 @@
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import type { FieldSpec } from "../types/Element";
 
-type Validator = (fieldValue: string) => string[];
+type Validator = (fieldValue: unknown) => string[];
 
 export const buildValidator = (
   fieldValidationMap: Record<string, Validator[]>
@@ -13,15 +13,16 @@ export const buildValidator = (
   for (const fieldName in fieldValidationMap) {
     const validators = fieldValidationMap[fieldName];
     const value = fieldValues[fieldName];
-    // We've got a field name, and a list of validators
-    // Let's append any errors these validators produce to the errors object
     const fieldErrors = validators.flatMap((validator) => validator(value));
     errors[fieldName] = fieldErrors;
   }
   return errors;
 };
 
-export const maxLength = (maxLength: number): Validator => (value) => {
+export const htmlMaxLength = (maxLength: number): Validator => (value) => {
+  if (typeof value !== "string") {
+    throw new Error(`[htmlMaxLength]: value is not of type string`);
+  }
   const el = document.createElement("div");
   el.innerHTML = value;
   if (el.innerText.length > maxLength) {
@@ -30,7 +31,20 @@ export const maxLength = (maxLength: number): Validator => (value) => {
   return [];
 };
 
-export const required = (): Validator => (value) => {
+export const maxLength = (maxLength: number): Validator => (value) => {
+  if (typeof value !== "string") {
+    throw new Error(`[maxLength]: value is not of type string`);
+  }
+  if (value.length > maxLength) {
+    return [`Too long: ${value.length}/${maxLength}`];
+  }
+  return [];
+};
+
+export const htmlRequired = (): Validator => (value) => {
+  if (typeof value !== "string") {
+    throw new Error(`[maxLength]: value is not of type string`);
+  }
   const el = document.createElement("div");
   el.innerHTML = value;
   if (!el.innerText.length) {
@@ -39,8 +53,12 @@ export const required = (): Validator => (value) => {
   return [];
 };
 
-// What happens when we're dealing with different element types, for example, RichText vs Text
-// need a different treatment for their data types. Can we pass in the Field declaration to have
-// them do the right thing, contextually.
-
-// We've got a typeerror! Can we fix it?
+export const required = (): Validator => (value) => {
+  if (typeof value !== "string") {
+    throw new Error(`[maxLength]: value is not of type string`);
+  }
+  if (!value.length) {
+    return ["Required"];
+  }
+  return [];
+};
