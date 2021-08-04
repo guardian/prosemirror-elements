@@ -5,6 +5,7 @@ import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { buildValidator, maxLength, required } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./DemoImageElementForm";
 
@@ -57,6 +58,11 @@ export const createImageFields = (
   };
 };
 
+const validator = buildValidator({
+  altText: [maxLength(1), required()],
+  caption: [required()],
+});
+
 export const createImageElement = (
   onSelect: (setSrc: SetMedia) => void,
   onCrop: (mediaId: string, setSrc: SetMedia) => void
@@ -72,11 +78,7 @@ export const createImageElement = (
         />
       );
     },
-    ({ altText }) => {
-      const el = document.createElement("div");
-      el.innerHTML = altText;
-      return el.innerText ? null : { altText: ["Alt tag must be set"] };
-    },
+    validator,
     {
       caption: "",
       useSrc: { value: true },
