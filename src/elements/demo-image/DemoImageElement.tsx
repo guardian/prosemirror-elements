@@ -5,7 +5,11 @@ import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { buildValidator, maxLength, required } from "../../plugin/helpers/validation";
+import {
+  buildValidator,
+  htmlMaxLength,
+  htmlRequired,
+} from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./DemoImageElementForm";
 
@@ -58,11 +62,6 @@ export const createImageFields = (
   };
 };
 
-const validator = buildValidator({
-  altText: [maxLength(1), required()],
-  caption: [required()],
-});
-
 export const createImageElement = (
   onSelect: (setSrc: SetMedia) => void,
   onCrop: (mediaId: string, setSrc: SetMedia) => void
@@ -78,7 +77,10 @@ export const createImageElement = (
         />
       );
     },
-    validator,
+    buildValidator({
+      altText: [htmlMaxLength(100), htmlRequired()],
+      caption: [htmlRequired()],
+    }),
     {
       caption: "",
       useSrc: { value: true },
