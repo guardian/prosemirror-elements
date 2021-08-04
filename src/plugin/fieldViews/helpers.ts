@@ -52,6 +52,6 @@ export type FieldTypeToValueMap<
  *
  * `{ altText: string }, { isVisible: { value: boolean }}`
  */
-export type FieldNameToValueMap<FSpec extends FieldSpec<string>> = {
+export type FieldNameToValueMap<FSpec extends FieldSpec<keyof FSpec>> = {
   [Name in keyof FSpec]: FieldTypeToValueMap<FSpec, Name>[FSpec[Name]["type"]];
 };

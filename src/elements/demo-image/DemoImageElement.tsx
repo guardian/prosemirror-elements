@@ -73,7 +73,7 @@ export const createImageElement = (
         <ImageElementForm
           fields={fields}
           errors={errors}
-          fieldViewSpecMap={fieldViewSpecs}
+          fieldViewSpecs={fieldViewSpecs}
         />
       );
     },

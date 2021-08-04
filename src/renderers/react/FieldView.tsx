@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { editor } from "../../editorial-source-components/editor";
-import { Label } from "../../editorial-source-components/Label";
+import { Editor } from "../../editorial-source-components/Editor";
 import type { CheckboxFieldView } from "../../plugin/fieldViews/CheckboxFieldView";
 import type { DropdownFieldView } from "../../plugin/fieldViews/DropdownFieldView";
 import type { RichTextFieldView } from "../../plugin/fieldViews/RichTextFieldView";
@@ -11,12 +10,14 @@ type Props = {
   fieldViewSpec: FieldViewSpec<
     TextFieldView | RichTextFieldView | CheckboxFieldView | DropdownFieldView
   >;
+  hasErrors?: boolean;
 };
 
 export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 
 export const FieldView: React.FunctionComponent<Props> = ({
   fieldViewSpec,
+  hasErrors = false,
 }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -27,9 +28,10 @@ export const FieldView: React.FunctionComponent<Props> = ({
   }, []);
 
   return (
-    <div data-cy={getFieldViewTestId(fieldViewSpec.name)}>
-      <Label>{fieldViewSpec.name}</Label>
-      <div css={editor} ref={editorRef}></div>
-    </div>
+    <Editor
+      hasErrors={hasErrors}
+      data-cy={getFieldViewTestId(fieldViewSpec.name)}
+      ref={editorRef}
+    ></Editor>
   );
 };

@@ -42,6 +42,12 @@ export type FieldViews =
   | CustomFieldView
   | DropdownFieldView;
 
+export type NonCustomFieldViews =
+  | TextFieldView
+  | RichTextFieldView
+  | CheckboxFieldView
+  | DropdownFieldView;
+
 export type FieldViewSpec<FieldView extends FieldViews> = {
   fieldView: FieldView;
   fieldSpec: Field;
