@@ -38,6 +38,9 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.altText}
       errors={errors.altText}
     />
+    <button onClick={() => fieldViewSpecs.altText.update("")}>
+      Clear alt text
+    </button>
     <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
     <Field
       label="Use image source?"
