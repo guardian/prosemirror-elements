@@ -47,7 +47,7 @@ export const getElementFieldViewFromType = (
         view,
         getPos,
         offset,
-        field.defaultValue ?? DropdownFieldView.defaultValue,
+        field.defaultValue ?? DropdownFieldView.defaultValue ?? "",
         field.options
       );
   }
