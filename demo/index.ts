@@ -152,6 +152,7 @@ const createEditor = (server: CollabServer) => {
       useSrc: { value: false },
     })
   );
+
   editorElement.appendChild(
     createElementButton("Add code element", codeElementName, {
       codeText: "",
