@@ -5,6 +5,11 @@ import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import {
+  createValidator,
+  htmlMaxLength,
+  htmlRequired,
+} from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./DemoImageElementForm";
 
@@ -72,11 +77,10 @@ export const createImageElement = (
         />
       );
     },
-    ({ altText }) => {
-      const el = document.createElement("div");
-      el.innerHTML = altText;
-      return el.innerText ? null : { altText: ["Alt tag must be set"] };
-    },
+    createValidator({
+      altText: [htmlMaxLength(100), htmlRequired()],
+      caption: [htmlRequired()],
+    }),
     {
       caption: "",
       useSrc: { value: true },
