@@ -1,27 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Editor } from "../../editorial-source-components/Editor";
-import type { CheckboxFieldView } from "../../plugin/fieldViews/CheckboxFieldView";
-import type { DropdownFieldView } from "../../plugin/fieldViews/DropdownFieldView";
-import type { RichTextFieldView } from "../../plugin/fieldViews/RichTextFieldView";
-import type { TextFieldView } from "../../plugin/fieldViews/TextFieldView";
+import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
 import type { FieldViewSpec } from "../../plugin/types/Element";
 
-type Props = {
-  fieldViewSpec: FieldViewSpec<
-    TextFieldView | RichTextFieldView | CheckboxFieldView | DropdownFieldView
-  >;
+type Props<F extends FieldViewSpec<unknown>> = {
+  fieldViewSpec: F;
   hasErrors?: boolean;
 };
 
 export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 
-export const FieldView: React.FunctionComponent<Props> = ({
+export const FieldView = <F extends FieldViewSpec<TFieldView<unknown>>>({
   fieldViewSpec,
   hasErrors = false,
-}) => {
+}: Props<F>) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    if (!editorRef.current) {
+    if (!editorRef.current || !fieldViewSpec.fieldView.fieldViewElement) {
       return;
     }
     editorRef.current.appendChild(fieldViewSpec.fieldView.fieldViewElement);

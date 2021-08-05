@@ -49,7 +49,13 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.optionDropdown}
       errors={errors.optionDropdown}
     />
-    <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
+    <ImageView
+      fieldViewSpec={fieldViewSpecs.mainImage}
+      onChange={(_, __, ___, description) => {
+        fieldViewSpecs.altText.update(description);
+        fieldViewSpecs.caption.update(description);
+      }}
+    />
     <CustomDropdownView fieldViewSpec={fieldViewSpecs.customDropdown} />
     <hr />
     <Label>Element errors</Label>
@@ -61,6 +67,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
 );
 
 type ImageViewProps = {
+  onChange: SetMedia;
   fieldViewSpec: CustomFieldViewSpec<
     {
       mediaId?: string;
@@ -74,15 +81,21 @@ type ImageViewProps = {
   >;
 };
 
-const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
+const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
     fieldViewSpec
   );
 
-  const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
+  const setMedia = (
+    mediaId: string,
+    mediaApiUri: string,
+    assets: string[],
+    description: string
+  ) => {
     if (setImageFieldsRef.current) {
       setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
     }
+    onChange(mediaId, mediaApiUri, assets, description);
   };
 
   return (

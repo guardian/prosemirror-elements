@@ -42,7 +42,7 @@ export abstract class AttributeFieldView<Fields extends unknown>
 
   protected abstract updateInnerView(fields: Fields): void;
 
-  public update(node: Node, elementOffset: number) {
+  public onUpdate(node: Node, elementOffset: number) {
     if (node.type !== this.nodeType) {
       return false;
     }
@@ -51,6 +51,10 @@ export abstract class AttributeFieldView<Fields extends unknown>
     this.updateInnerView(node.attrs.fields as Fields);
 
     return true;
+  }
+
+  public update(value: Fields) {
+    this.updateOuterEditor(value);
   }
 
   public destroy() {

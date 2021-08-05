@@ -116,20 +116,24 @@ const createNodeView = <
       );
     }
 
+    const fieldView = getElementFieldViewFromType(fieldSpec, {
+      node,
+      view,
+      getPos,
+      offset,
+      innerDecos,
+    });
+
     fieldViewSpecs[name] = ({
       fieldSpec,
       name,
-      fieldView: getElementFieldViewFromType(fieldSpec, {
-        node,
-        view,
-        getPos,
-        offset,
-        innerDecos,
-      }),
+      fieldView,
       // We coerce types here: it's difficult to prove we've the right shape here
       // to the compiler, and we're already beholden to runtime behaviour as there's
       // no guarantee that the node's `name` matches our spec. The errors above should
       // help to defend when something's wrong.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- as above
+      update: (value: unknown) => fieldView.update(value as any),
     } as unknown) as FieldNameToFieldViewSpec<FSpec>[typeof name];
   });
 
@@ -165,9 +169,9 @@ const createNodeView = <
           const fieldName = getFieldNameFromNode(
             node
           ) as keyof FieldNameToFieldViewSpec<FSpec>;
-          const nestedEditor = fieldViewSpecs[fieldName];
-          nestedEditor.fieldView.update(node, offset, innerDecos);
-          fieldValues[fieldName] = nestedEditor.fieldView.getNodeValue(node);
+          const fieldViewSpec = fieldViewSpecs[fieldName];
+          fieldViewSpec.fieldView.onUpdate(node, offset, innerDecos);
+          fieldValues[fieldName] = fieldViewSpec.fieldView.getNodeValue(node);
         });
 
         update(
@@ -181,7 +185,9 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fieldViewSpecs).map((editor) => editor.fieldView.destroy());
+      Object.values(fieldViewSpecs).map((fieldViewSpec) =>
+        fieldViewSpec.fieldView.destroy()
+      );
     },
     ignoreMutation: () => true,
   };

@@ -77,7 +77,7 @@ export class CustomFieldView<CustomFieldValue = unknown>
     this.subscribers.splice(subscriberIndex, 1);
   }
 
-  public update(node: Node, elementOffset: number) {
+  public onUpdate(node: Node, elementOffset: number) {
     if (node.type !== this.node.type) {
       return false;
     }
@@ -87,6 +87,10 @@ export class CustomFieldView<CustomFieldValue = unknown>
     this.updateSubscribers(node.attrs.fields as CustomFieldValue);
 
     return true;
+  }
+
+  public update(value: CustomFieldValue) {
+    this.updateOuterEditor(value);
   }
 
   public destroy() {

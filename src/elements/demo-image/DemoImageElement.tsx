@@ -16,7 +16,8 @@ import { ImageElementForm } from "./DemoImageElementForm";
 export type SetMedia = (
   mediaId: string,
   mediaApiUri: string,
-  assets: string[]
+  assets: string[],
+  caption: string
 ) => void;
 
 type ImageField = {

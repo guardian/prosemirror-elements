@@ -11,6 +11,7 @@ import type {
   DropdownField,
   DropdownFieldView,
 } from "../fieldViews/DropdownFieldView";
+import type { FieldView } from "../fieldViews/FieldView";
 import type {
   FieldNameToValueMap,
   FieldTypeToViewMap,
@@ -45,20 +46,19 @@ export type FieldViews =
 export type NonCustomFieldViews =
   | TextFieldView
   | RichTextFieldView
-  | CheckboxFieldView
-  | DropdownFieldView;
+  | CheckboxFieldView;
 
-export type FieldViewSpec<FieldView extends FieldViews> = {
-  fieldView: FieldView;
+export interface FieldViewSpec<F> {
+  fieldView: F;
   fieldSpec: Field;
   name: string;
-};
+  update: (value: F extends FieldView<infer Value> ? Value : never) => void;
+}
 
-export type CustomFieldViewSpec<Data = unknown, Props = unknown> = {
-  fieldView: CustomFieldView<Data>;
+export interface CustomFieldViewSpec<Data = unknown, Props = unknown>
+  extends FieldViewSpec<CustomFieldView<Data>> {
   fieldSpec: CustomField<Data, Props>;
-  name: string;
-};
+}
 
 export type FieldNameToFieldViewSpec<FSpec extends FieldSpec<string>> = {
   [name in Extract<keyof FSpec, string>]: FSpec[name] extends CustomField<
