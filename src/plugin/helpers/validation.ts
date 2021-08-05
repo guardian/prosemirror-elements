@@ -3,7 +3,7 @@ import type { FieldSpec } from "../types/Element";
 
 type Validator = (fieldValue: unknown) => string[];
 
-export const buildValidator = (
+export const createValidator = (
   fieldValidationMap: Record<string, Validator[]>
 ) => <FSpec extends FieldSpec<string>>(
   fieldValues: FieldNameToValueMap<FSpec>
