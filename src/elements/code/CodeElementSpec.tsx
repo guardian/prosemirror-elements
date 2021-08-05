@@ -23,13 +23,9 @@ export const createCodeFields = () => {
 export const createCodeElement = () =>
   createReactElementSpec(
     createCodeFields(),
-    (fields, errors, __, fieldViewSpecs) => {
+    (_, errors, __, fieldViewSpecs) => {
       return (
-        <CodeElementForm
-          fields={fields}
-          errors={errors}
-          fieldViewSpecMap={fieldViewSpecs}
-        />
+        <CodeElementForm errors={errors} fieldViewSpecs={fieldViewSpecs} />
       );
     },
     ({ codeText }) => {
