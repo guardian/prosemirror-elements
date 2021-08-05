@@ -1,8 +1,8 @@
-import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
-import { getFieldViewTestId } from "../../renderers/react/FieldView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { CustomFieldViewSpec } from "../types/Element";
-import type { Option } from "./DropdownFieldView";
+import { CustomDropdown } from "../../../editorial-source-components/CustomDropdown";
+import type { Option } from "../../../plugin/fieldViews/DropdownFieldView";
+import type { CustomFieldViewSpec } from "../../../plugin/types/Element";
+import { getFieldViewTestId } from "../FieldView";
+import { useCustomFieldViewState } from "../useCustomFieldViewState";
 
 type CustomDropdownViewProps = {
   fieldViewSpec: CustomFieldViewSpec<string, Array<Option<string>>>;

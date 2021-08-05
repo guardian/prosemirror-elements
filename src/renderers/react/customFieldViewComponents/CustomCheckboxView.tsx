@@ -1,7 +1,7 @@
-import { CustomCheckbox } from "../../editorial-source-components/CustomCheckbox";
-import { getFieldViewTestId } from "../../renderers/react/FieldView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { CustomFieldViewSpec } from "../types/Element";
+import { CustomCheckbox } from "../../../editorial-source-components/CustomCheckbox";
+import type { CustomFieldViewSpec } from "../../../plugin/types/Element";
+import { getFieldViewTestId } from "../FieldView";
+import { useCustomFieldViewState } from "../useCustomFieldViewState";
 
 type CustomCheckboxViewProps = {
   fieldViewSpec: CustomFieldViewSpec<boolean, boolean>;

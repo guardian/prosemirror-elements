@@ -1,9 +1,9 @@
 import React from "react";
 import { Label } from "../../editorial-source-components/Label";
-import { CustomCheckboxView } from "../../plugin/fieldViews/CustomCheckboxView";
-import { CustomDropdownView } from "../../plugin/fieldViews/CustomDropdownView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
+import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
+import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { FieldView } from "../../renderers/react/FieldView";
 import type { createEmbedFields } from "./EmbedSpec";
 
