@@ -1,12 +1,12 @@
 import React from "react";
 import { Field } from "../../editorial-source-components/Field";
 import { Label } from "../../editorial-source-components/Label";
-import { CustomDropdownView } from "../../plugin/fieldViews/CustomDropdownView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../plugin/types/Element";
+import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type { createImageFields, SetMedia } from "./DemoImageElement";
