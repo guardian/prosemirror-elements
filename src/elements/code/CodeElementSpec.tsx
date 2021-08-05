@@ -8,14 +8,14 @@ import { CodeElementForm } from "./CodeElementForm";
 export const codeFields = {
   codeText: createTextField({ isMultiline: true, rows: 11 }, true),
   language: createCustomField("Plain text", [
-    { text: "Plain text", value: "Plain text" },
-    { text: "HTML", value: "HTML" },
-    { text: "CSS", value: "CSS" },
-    { text: "JavaScript", value: "JavaScript" },
-    { text: "Java", value: "Java" },
-    { text: "Ruby", value: "Ruby" },
-    { text: "Scala", value: "Scala" },
-    { text: "YAML", value: "YAML" },
+    { text: "Plain text", value: "text" },
+    { text: "HTML", value: "html" },
+    { text: "CSS", value: "css" },
+    { text: "JavaScript", value: "javascript" },
+    { text: "Java", value: "java" },
+    { text: "Ruby", value: "ruby" },
+    { text: "Scala", value: "scala" },
+    { text: "YAML", value: "yaml" },
   ]),
 };
 
