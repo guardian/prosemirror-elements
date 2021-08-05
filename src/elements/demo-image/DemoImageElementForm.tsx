@@ -21,6 +21,7 @@ type Props = {
 };
 
 export const ImageElementTestId = "ImageElement";
+export const UpdateAltTextButtonId = "UpdateAltTextButton";
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   fields,
@@ -38,8 +39,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.altText}
       errors={errors.altText}
     />
-    <button onClick={() => fieldViewSpecs.altText.update("")}>
-      Clear alt text
+    <button
+      data-cy={UpdateAltTextButtonId}
+      onClick={() => fieldViewSpecs.altText.update("Default alt text")}
+    >
+      Programmatically update alt text
     </button>
     <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
     <Field
