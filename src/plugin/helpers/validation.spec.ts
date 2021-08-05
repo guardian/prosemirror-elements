@@ -1,9 +1,9 @@
-import { buildValidator, maxLength, required } from "./validation";
+import { createValidator, maxLength, required } from "./validation";
 
 describe("Validation helpers", () => {
   describe("buildValidator", () => {
     it("should receive a validation map, and return the results of validators", () => {
-      const validator = buildValidator({
+      const validator = createValidator({
         field1: [maxLength(5)],
         field2: [maxLength(5)],
       });
@@ -19,7 +19,7 @@ describe("Validation helpers", () => {
     });
 
     it("should receive a validation map, and return the results of multiple validators per field", () => {
-      const validator = buildValidator({
+      const validator = createValidator({
         field1: [required(), maxLength(5)],
       });
 

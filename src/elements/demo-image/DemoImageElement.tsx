@@ -6,7 +6,7 @@ import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
-  buildValidator,
+  createValidator,
   htmlMaxLength,
   htmlRequired,
 } from "../../plugin/helpers/validation";
@@ -77,7 +77,7 @@ export const createImageElement = (
         />
       );
     },
-    buildValidator({
+    createValidator({
       altText: [htmlMaxLength(100), htmlRequired()],
       caption: [htmlRequired()],
     }),
