@@ -1,4 +1,5 @@
 import React from "react";
+import { Field } from "../../editorial-source-components/Field";
 import { Label } from "../../editorial-source-components/Label";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
@@ -6,14 +7,14 @@ import type {
   FieldNameToFieldViewSpec,
 } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
+import { getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type { createImageFields, SetMedia } from "./DemoImageElement";
 
 type Props = {
   fields: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: Record<string, string[]>;
-  fieldViewSpecMap: FieldNameToFieldViewSpec<
+  fieldViewSpecs: FieldNameToFieldViewSpec<
     ReturnType<typeof createImageFields>
   >;
 };
@@ -23,14 +24,30 @@ export const ImageElementTestId = "ImageElement";
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   fields,
   errors,
-  fieldViewSpecMap: fieldViewSpecs,
+  fieldViewSpecs,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.caption} />
-    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
-    <FieldView fieldViewSpec={fieldViewSpecs.src} />
-    <FieldView fieldViewSpec={fieldViewSpecs.useSrc} />
-    <FieldView fieldViewSpec={fieldViewSpecs.optionDropdown} />
+    <Field
+      label="Caption"
+      fieldViewSpec={fieldViewSpecs.caption}
+      errors={errors.caption}
+    />
+    <Field
+      label="Alt text"
+      fieldViewSpec={fieldViewSpecs.altText}
+      errors={errors.altText}
+    />
+    <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
+    <Field
+      label="Use image source?"
+      fieldViewSpec={fieldViewSpecs.useSrc}
+      errors={errors.useSrc}
+    />
+    <Field
+      label="Options"
+      fieldViewSpec={fieldViewSpecs.optionDropdown}
+      errors={errors.optionDropdown}
+    />
     <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
     <CustomDropdownView fieldViewSpec={fieldViewSpecs.customDropdown} />
     <hr />

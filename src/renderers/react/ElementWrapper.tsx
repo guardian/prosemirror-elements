@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
 import { neutral } from "@guardian/src-foundations/palette";
-import { textSans } from "@guardian/src-foundations/typography";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
@@ -16,16 +15,6 @@ import type { CommandCreator } from "../../plugin/types/Commands";
 
 const Container = styled("div")`
   margin: ${space[3]}px 0;
-`;
-
-const Header = styled("div")`
-  border-bottom: 1px solid ${neutral[86]};
-  padding-left: ${space[3]}px;
-  margin-top: ${space[3]}px;
-`;
-
-const Title = styled("h2")`
-  ${textSans.large({ fontWeight: "bold" })}
 `;
 
 const Body = styled("div")`
@@ -46,7 +35,8 @@ const Panel = styled("div")`
   background: ${neutral[97]};
   flex-grow: 1;
   overflow: hidden;
-  padding: ${space[3]}px;
+  padding-left: ${space[3]}px;
+  padding-right: ${space[3]}px;
 `;
 
 const Actions = styled("div")`
@@ -102,7 +92,6 @@ const Button = styled("button")`
 `;
 
 type Props = {
-  name: string;
   children?: ReactElement;
 } & ReturnType<CommandCreator>;
 
@@ -114,7 +103,6 @@ export const moveDownTestId = "ElementWrapper__moveDown";
 export const removeTestId = "ElementWrapper__remove";
 
 export const ElementWrapper: React.FunctionComponent<Props> = ({
-  name,
   moveUp,
   moveDown,
   moveTop,
@@ -124,12 +112,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
 }) => (
   <Container data-cy={elementWrapperTestId}>
     <Body>
-      <Panel>
-        <Header>
-          <Title>{name}</Title>
-        </Header>
-        {children}
-      </Panel>
+      <Panel>{children}</Panel>
       <Actions className="actions">
         <Button
           data-cy={moveTopTestId}
