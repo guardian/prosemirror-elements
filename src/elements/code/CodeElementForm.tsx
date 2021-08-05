@@ -21,6 +21,9 @@ export const CodeElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.codeText}
       errors={errors.codeText}
     />
-    <CustomDropdownView fieldViewSpec={fieldViewSpecs.language} />
+    <CustomDropdownView
+      label="Language"
+      fieldViewSpec={fieldViewSpecs.language}
+    />
   </div>
 );
