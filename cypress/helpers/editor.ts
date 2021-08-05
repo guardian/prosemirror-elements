@@ -30,7 +30,7 @@ export const getElementType = (element: JQuery) => {
   return "unknown";
 };
 
-export const addElement = () => cy.get("#element").click();
+export const addImageElement = () => cy.get("#imageElement").click();
 
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);

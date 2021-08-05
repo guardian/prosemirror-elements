@@ -23,6 +23,10 @@ import { onCropImage, onSelectImage } from "./helpers";
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
+const embedElementName = "embedElement";
+const imageElementName = "imageElement";
+
+type Name = typeof embedElementName | typeof imageElementName;
 
 const {
   plugin: elementPlugin,
@@ -110,20 +114,38 @@ const createEditor = (server: CollabServer) => {
 
   highlightErrors(view.state);
 
-  const elementButton = document.createElement("button");
-  elementButton.innerHTML = "Element";
-  elementButton.id = "element";
-  elementButton.addEventListener("click", () =>
-    insertElement("embedElement", {
+  const createElementButton = (
+    buttonText: string,
+    elementId: Name,
+    elementArgs: Record<string, unknown>
+  ) => {
+    const elementButton = document.createElement("button");
+    elementButton.innerHTML = buttonText;
+    elementButton.id = elementId;
+    elementButton.addEventListener("click", () =>
+      insertElement(elementId, elementArgs)(view.state, view.dispatch)
+    );
+    return elementButton;
+  };
+
+  editorElement.appendChild(
+    createElementButton("Add embed element", embedElementName, {
       weighting: "",
       sourceUrl: "",
       embedCode: "",
       caption: "",
       altText: "",
       required: false,
-    })(view.state, view.dispatch)
+    })
   );
-  editorElement.appendChild(elementButton);
+
+  editorElement.appendChild(
+    createElementButton("Add image element", imageElementName, {
+      altText: "",
+      caption: "",
+      useSrc: { value: false },
+    })
+  );
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     highlightErrors(state);
