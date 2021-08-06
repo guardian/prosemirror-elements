@@ -10,6 +10,7 @@ import { EditorView } from "prosemirror-view";
 import { createImageElement } from "../src";
 import { codeElement } from "../src/elements/code/CodeElementSpec";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
+import { createPullquoteElement } from "../src/elements/pullquote/PullquoteSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -42,6 +43,7 @@ const {
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
   codeElement: codeElement,
+  pullquoteElement: createPullquoteElement(),
 });
 
 const schema = new Schema({
