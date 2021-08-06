@@ -1,6 +1,5 @@
 import OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
-import { DOMSerializer } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import {
   createGetElementFromNode,

@@ -1,31 +1,27 @@
 import type { DOMSerializer, Node, Schema } from "prosemirror-model";
-import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import { fieldTypeToViewMap } from "../fieldViews/helpers";
-import { createNodesForFieldValues } from "../nodeSpec";
+import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
-  ElementSpec,
+  ElementSpecMap,
+  ExtractFieldValues,
   FieldNameToFieldViewSpec,
   FieldSpec,
 } from "../types/Element";
 
 export const createGetNodeFromElement = <
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof ESpecMap,
+  ElementName extends ElementNames,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
-  elementTypeMap: Partial<{ [elementName in ElementNames]: ElementSpec<FSpec> }>
+  elementTypeMap: ESpecMap
 ) => (
-  elementName: ElementNames,
-  fieldValues: Partial<FieldNameToValueMap<FSpec>> = {},
+  elementName: ElementName,
+  fieldValues: ExtractFieldValues<ESpecMap[ElementName]> = {},
   schema: Schema
 ) => {
   const element = elementTypeMap[elementName];
-  if (!element) {
-    throw new Error(
-      `[prosemirror-elements]: ${elementName} is not recognised. Only ${Object.keys(
-        elementTypeMap
-      ).join(", ")} can be added`
-    );
-  }
+
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we cannot be sure the schema has been amended
   if (!schema.nodes[elementName]) {
     throw new Error(
@@ -49,17 +45,14 @@ export const createGetNodeFromElement = <
 };
 
 export const createGetElementFromNode = <
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
+  FSpec extends FieldSpec<keyof FSpec>,
+  ElementNames extends keyof ESpecMap,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
-  elementTypeMap: Partial<{ [elementName in ElementNames]: ElementSpec<FSpec> }>
+  elementTypeMap: ESpecMap
 ) => (node: Node, serializer: DOMSerializer) => {
   const nodeType = node.attrs.type as ElementNames;
   const elementSpec = elementTypeMap[nodeType];
-
-  if (!elementSpec) {
-    return undefined;
-  }
 
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -67,7 +60,9 @@ export const createGetElementFromNode = <
   // cannot index into the element `fieldSpec` to discover the appropriate type.
   const fieldValues: Record<string, unknown> = {};
   node.forEach((node) => {
-    const fieldName = node.type.name as keyof FieldNameToFieldViewSpec<FSpec>;
+    const fieldName = getFieldNameFromNode(
+      node
+    ) as keyof FieldNameToFieldViewSpec<FSpec>;
     const fieldSpec = elementSpec.fieldSpec[fieldName];
     const fieldType = fieldTypeToViewMap[fieldSpec.type].fieldType;
 
@@ -77,7 +72,7 @@ export const createGetElementFromNode = <
         : getValuesFromContentNode(node, serializer);
   });
 
-  return fieldValues as FieldNameToValueMap<FSpec>;
+  return fieldValues as ExtractFieldValues<ESpecMap[ElementNames]>;
 };
 
 const getValuesFromAttributeNode = (node: Node) => node.attrs.fields as unknown;

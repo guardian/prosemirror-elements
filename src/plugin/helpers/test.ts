@@ -76,7 +76,13 @@ export const createEditorWithElements = <
   elements: ESpecMap,
   initialHTML = ""
 ) => {
-  const { plugin, insertElement, nodeSpec } = buildElementPlugin(elements);
+  const {
+    plugin,
+    insertElement,
+    nodeSpec,
+    getNodeFromElement,
+    getElementFromNode,
+  } = buildElementPlugin(elements);
   const editorElement = document.createElement("div");
   const docElement = document.createElement("div");
   docElement.innerHTML = initialHTML;
@@ -101,5 +107,12 @@ export const createEditorWithElements = <
     return element.innerHTML;
   };
 
-  return { view, insertElement, getElementAsHTML };
+  return {
+    view,
+    insertElement,
+    getElementAsHTML,
+    getNodeFromElement,
+    getElementFromNode,
+    serializer,
+  };
 };
