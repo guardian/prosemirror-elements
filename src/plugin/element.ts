@@ -10,7 +10,7 @@ import { getNodeSpecFromFieldSpec } from "./nodeSpec";
 import { createPlugin } from "./plugin";
 import type {
   ElementSpecMap,
-  ExtractFieldValues,
+  ExtractPartialDataTypeFromElementSpec,
   FieldSpec,
 } from "./types/Element";
 
@@ -29,24 +29,19 @@ export const buildElementPlugin = <
   const getNodeFromElementData = createGetNodeFromElementData(elementSpecs);
   const getElementDataFromNode = createGetElementDataFromNode(elementSpecs);
 
-  const insertElement = <Name extends ElementNames>(
-    elementName: Extract<Name, string>,
-    fieldValues: ExtractFieldValues<ESpecMap[Name]> = {}
+  const insertElement = (
+    elementData: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>
   ) => (
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
-    const maybeNode = getNodeFromElementData(
-      elementName,
-      fieldValues,
-      state.schema
-    );
+    const maybeNode = getNodeFromElementData(elementData, state.schema);
 
     if (maybeNode) {
       dispatch(state.tr.replaceSelectionWith(maybeNode));
     } else {
       console.warn(
-        `[prosemirror-elements]: Could not create a node for ${elementName}`
+        `[prosemirror-elements]: Could not create a node for ${elementData.elementName}`
       );
     }
   };

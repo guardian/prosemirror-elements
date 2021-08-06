@@ -122,14 +122,14 @@ const createEditor = (server: CollabServer) => {
 
   const createElementButton = (
     buttonText: string,
-    elementId: Name,
-    elementArgs: Record<string, unknown>
+    elementName: Name,
+    values: Record<string, unknown>
   ) => {
     const elementButton = document.createElement("button");
     elementButton.innerHTML = buttonText;
-    elementButton.id = elementId;
+    elementButton.id = elementName;
     elementButton.addEventListener("click", () =>
-      insertElement(elementId, elementArgs)(view.state, view.dispatch)
+      insertElement({ elementName, values })(view.state, view.dispatch)
     );
     return elementButton;
   };

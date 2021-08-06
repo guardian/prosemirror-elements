@@ -3,7 +3,8 @@ import { fieldTypeToViewMap } from "../fieldViews/helpers";
 import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
   ElementSpecMap,
-  ExtractFieldValues,
+  ExtractDataTypeFromElementSpec,
+  ExtractPartialDataTypeFromElementSpec,
   FieldNameToFieldViewSpec,
   FieldSpec,
 } from "../types/Element";
@@ -11,13 +12,14 @@ import type {
 export const createGetNodeFromElementData = <
   FSpec extends FieldSpec<keyof FSpec>,
   ElementNames extends keyof ESpecMap,
-  ElementName extends ElementNames,
   ESpecMap extends ElementSpecMap<FSpec, ElementNames>
 >(
   elementTypeMap: ESpecMap
 ) => (
-  elementName: ElementName,
-  fieldValues: ExtractFieldValues<ESpecMap[ElementName]> = {},
+  {
+    elementName,
+    values,
+  }: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>,
   schema: Schema
 ) => {
   const element = elementTypeMap[elementName];
@@ -32,7 +34,7 @@ export const createGetNodeFromElementData = <
   const nodes = createNodesForFieldValues(
     schema,
     element.fieldSpec,
-    fieldValues,
+    values,
     elementName
   );
 
@@ -51,14 +53,14 @@ export const createGetElementDataFromNode = <
 >(
   elementTypeMap: ESpecMap
 ) => (node: Node, serializer: DOMSerializer) => {
-  const nodeType = node.attrs.type as ElementNames;
-  const elementSpec = elementTypeMap[nodeType];
+  const elementName = node.attrs.type as ElementNames;
+  const elementSpec = elementTypeMap[elementName];
 
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
   // as the Node's name value is loosely typed as `string`, and so we
   // cannot index into the element `fieldSpec` to discover the appropriate type.
-  const fieldValues: Record<string, unknown> = {};
+  const values: Record<string, unknown> = {};
   node.forEach((node) => {
     const fieldName = getFieldNameFromNode(
       node
@@ -66,13 +68,16 @@ export const createGetElementDataFromNode = <
     const fieldSpec = elementSpec.fieldSpec[fieldName];
     const fieldType = fieldTypeToViewMap[fieldSpec.type].fieldType;
 
-    fieldValues[fieldName] =
+    values[fieldName] =
       fieldType === "ATTRIBUTES"
         ? getValuesFromAttributeNode(node)
         : getValuesFromContentNode(node, serializer);
   });
 
-  return fieldValues as ExtractFieldValues<ESpecMap[ElementNames]>;
+  return ({
+    elementName,
+    values: values,
+  } as unknown) as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
 };
 
 const getValuesFromAttributeNode = (node: Node) => node.attrs.fields as unknown;
