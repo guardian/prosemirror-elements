@@ -47,7 +47,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // The offset of this node relative to its parent FieldView.
     private offset: number,
     // The initial decorations for the FieldView.
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSet,
     // The ProseMirror node type name
     private readonly fieldName: string,
     // Plugins that the editor should use
@@ -73,11 +73,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     return this.node.type.create({ type: this.fieldName }, content);
   }
 
-  public update(
-    node: Node,
-    elementOffset: number,
-    decorations: DecorationSet | Decoration[]
-  ) {
+  public update(node: Node, elementOffset: number, decorations: DecorationSet) {
     if (!node.hasMarkup(this.node.type)) {
       return false;
     }
@@ -114,7 +110,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
 
   private updateInnerEditor(
     node: Node,
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSet,
     elementOffset: number
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
@@ -232,22 +228,16 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     });
   }
 
-  private applyDecorationsFromOuterEditor(
-    decorationSet: DecorationSet | Decoration[]
-  ) {
+  private applyDecorationsFromOuterEditor(decorationSource: DecorationSet) {
     // Do nothing if the decorations have not changed.
-    if (!this.innerEditorView || decorationSet === this.outerDecorations) {
+    if (!this.innerEditorView || decorationSource === this.outerDecorations) {
       return;
     }
-    this.outerDecorations = decorationSet;
-    const localDecoSet =
-      decorationSet instanceof DecorationSet
-        ? decorationSet
-        : DecorationSet.create(this.node, decorationSet);
+    this.outerDecorations = decorationSource;
     // Offset because the node we are displaying these decorations in is a child of its parent (-1)
     const localOffset = -1;
     const offsetMap = new Mapping([StepMap.offset(-this.offset + localOffset)]);
-    this.decorations = localDecoSet.map(offsetMap, this.node);
+    this.decorations = decorationSource.map(offsetMap, this.node);
     this.decorationsPending = true;
   }
 

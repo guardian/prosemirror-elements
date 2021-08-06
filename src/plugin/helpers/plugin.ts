@@ -1,5 +1,5 @@
 import type { Node } from "prosemirror-model";
-import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
@@ -12,7 +12,7 @@ type Options = {
   view: EditorView;
   getPos: () => number;
   offset: number;
-  innerDecos: Decoration[] | DecorationSet;
+  innerDecos: DecorationSet;
 };
 
 export const getElementFieldViewFromType = (

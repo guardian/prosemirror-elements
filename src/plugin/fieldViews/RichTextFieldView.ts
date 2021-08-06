@@ -3,7 +3,7 @@ import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
-import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { DecorationSet, EditorView } from "prosemirror-view";
 import type { BaseFieldSpec } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -37,7 +37,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
     // The offset of this node relative to its parent FieldView.
     offset: number,
     // The initial decorations for the FieldView.
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSet,
     // The plugins passed by the consumer into the FieldView, if any.
     plugins: Plugin[]
   ) {

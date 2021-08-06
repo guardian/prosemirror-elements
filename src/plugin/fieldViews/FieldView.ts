@@ -1,5 +1,5 @@
 import type { Node } from "prosemirror-model";
-import type { Decoration, DecorationSet } from "prosemirror-view";
+import type { DecorationSet } from "prosemirror-view";
 
 /**
  * The specification for an element field, to be modelled as a Node in Prosemirror.
@@ -32,7 +32,7 @@ export abstract class FieldView<NodeValue> {
   public abstract update(
     node: Node,
     elementOffset: number,
-    decorations: DecorationSet | Decoration[]
+    decorations: DecorationSet
   ): boolean;
 
   /**

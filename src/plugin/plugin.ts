@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
 import { Plugin, PluginKey } from "prosemirror-state";
-import type { EditorProps } from "prosemirror-view";
+import type { DecorationSet, EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
   FieldNameToFieldViewSpec,
@@ -124,7 +124,7 @@ const createNodeView = <
         view,
         getPos,
         offset,
-        innerDecos,
+        innerDecos: innerDecos as DecorationSet,
       }),
       // We coerce types here: it's difficult to prove we've the right shape here
       // to the compiler, and we're already beholden to runtime behaviour as there's
@@ -166,7 +166,14 @@ const createNodeView = <
             node
           ) as keyof FieldNameToFieldViewSpec<FSpec>;
           const nestedEditor = fieldViewSpecs[fieldName];
-          nestedEditor.fieldView.update(node, offset, innerDecos);
+          nestedEditor.fieldView.update(
+            node,
+            offset,
+            // Temporary cast to get around the absence of a `DecorationSource` type,
+            // `DecorationSource` is introduced in https://github.com/ProseMirror/prosemirror-view/pull/87,
+            // but not yet available in the corresponding types.
+            innerDecos as DecorationSet
+          );
           fieldValues[fieldName] = nestedEditor.fieldView.getNodeValue(node);
         });
 
