@@ -287,158 +287,174 @@ describe("buildElementPlugin", () => {
     });
   });
 
-  describe("Element parsing", () => {
-    it("should parse fields of all types, respecting values against defaults", () => {
-      const elementHTML = `
-        <testelement type="testElement" has-errors="false">
-        <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1>
-        <element-testelement-field2 class="ProsemirrorElement__testElement-field2">Content</element-testelement-field2>
-        <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
-        </testelement>
-      `;
-
-      const testElement = createNoopElement({
-        field1: { type: "richText", defaultValue: "<p>Default</p>" },
-        field2: {
-          type: "text",
-          defaultValue: "Default",
-          isMultiline: false,
-          rows: 1,
-          isCode: false,
-        },
-        field3: { type: "checkbox", defaultValue: { value: false } },
-      });
-
-      const { getElementAsHTML } = createEditorWithElements(
-        { testElement },
-        elementHTML
-      );
-
-      expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
-    });
-
-    it("should parse fields of all types, handling empty content values correctly", () => {
-      const elementHTML = `
-        <testelement type="testElement" has-errors="false">
-        <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p></p></element-testelement-field1>
-        <element-testelement-field2 class="ProsemirrorElement__testElement-field2"></element-testelement-field2>
-        <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
-        </testelement>
-      `;
-
-      const testElement = createNoopElement({
-        field1: { type: "richText", defaultValue: "<p>Default</p>" },
-        field2: {
-          type: "text",
-          defaultValue: "Default",
-          isMultiline: false,
-          rows: 1,
-          isCode: false,
-        },
-        field3: { type: "checkbox", defaultValue: { value: false } },
-      });
-
-      const { getElementAsHTML } = createEditorWithElements(
-        { testElement },
-        elementHTML
-      );
-
-      expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
-    });
-  });
-
-  describe("Conversion between data and Prosemirror node", () => {
-    const elementHTML = `
+  describe("Serialisation/deserialisation", () => {
+    const testElementHTML = `
           <testelement type="testElement" has-errors="false">
           <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p></p></element-testelement-field1>
           <element-testelement-field2 class="ProsemirrorElement__testElement-field2"></element-testelement-field2>
           <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
           </testelement>
         `;
+    const testElement2HTML = `
+        <testelement2 type="testElement2" has-errors="false">
+        <element-testelement-field4 class="ProsemirrorElement__testElement-field4"><p></p></element-testelement-field4>
+        <element-testelement-field5 class="ProsemirrorElement__testElement-field5"></element-testelement-field5>
+        </testelement2>
+      `;
     const testElement = createNoopElement({
       field1: { type: "richText" },
       field2: {
         type: "text",
         isMultiline: false,
         rows: 1,
+        isCode: false,
       },
       field3: { type: "checkbox" },
+    });
+    const testElement2 = createNoopElement({
+      field4: { type: "richText" },
+      field5: {
+        type: "text",
+        isMultiline: false,
+        rows: 1,
+        isCode: false,
+      },
     });
     const testElementValues = {
       field1: "<p></p>",
       field2: "",
       field3: { value: true },
     };
+    const testElement2Values = {
+      field4: "<p></p>",
+      field5: "",
+    };
 
-    describe("Conversion from data to node", () => {
-      it("should produce an element node, given element data", () => {
-        const { getNodeFromElement, view } = createEditorWithElements(
+    describe("Element parsing", () => {
+      it("should parse fields of all types, respecting values against defaults", () => {
+        const elementHTML = `
+          <testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1>
+          <element-testelement-field2 class="ProsemirrorElement__testElement-field2">Content</element-testelement-field2>
+          <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
+          </testelement>
+        `;
+
+        const { getElementAsHTML } = createEditorWithElements(
           { testElement },
           elementHTML
         );
 
-        const node = getNodeFromElement(
-          "testElement",
-          testElementValues,
-          view.state.schema
-        );
-
-        // We expect the node we've just manually created to match the node
-        // that's been serialised from the defaults
-        expect(node?.eq(view.state.doc.firstChild as Node)).toBe(true);
+        expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
       });
 
-      it("should not permit data that does not match an element", () => {
-        const { getNodeFromElement, view } = createEditorWithElements(
+      it("should parse fields of all types, handling empty content values correctly", () => {
+        const elementHTML = `
+          <testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p></p></element-testelement-field1>
+          <element-testelement-field2 class="ProsemirrorElement__testElement-field2"></element-testelement-field2>
+          <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
+          </testelement>
+        `;
+
+        const { getElementAsHTML } = createEditorWithElements(
           { testElement },
           elementHTML
         );
 
-        getNodeFromElement(
-          "testElement",
-          // @ts-expect-error -- we should not be able to instantiate elements with non-element types
-          { notAThing: "This doesn't look like an element" },
-          view.state.schema
-        );
+        expect(getElementAsHTML()).toBe(trimHtml(elementHTML));
       });
     });
 
-    describe("Conversion from node to data", () => {
-      it("should produce element data, given an element node", () => {
-        const {
-          getElementFromNode,
-          view,
-          serializer,
-        } = createEditorWithElements({ testElement }, elementHTML);
+    describe("Conversion between data and Prosemirror node", () => {
+      describe("Conversion from data to node", () => {
+        it("should produce an element node, given element data", () => {
+          const { getNodeFromElement, view } = createEditorWithElements(
+            { testElement, testElement2 },
+            testElementHTML
+          );
 
-        const element = getElementFromNode(
-          view.state.doc.firstChild as Node,
-          serializer
-        );
+          const node = getNodeFromElement(
+            "testElement",
+            testElementValues,
+            view.state.schema
+          );
 
-        // We expect the node we've just manually created to match the node
-        // that's been serialised from the defaults
-        expect(element).toEqual(testElementValues);
+          // We expect the node we've just manually created to match the node
+          // that's been serialised from the defaults
+          expect(node?.eq(view.state.doc.firstChild as Node)).toBe(true);
+        });
+
+        it("should not permit data that does not match an element", () => {
+          const { getNodeFromElement, view } = createEditorWithElements(
+            { testElement, testElement2 },
+            testElementHTML
+          );
+
+          getNodeFromElement(
+            "testElement",
+            // @ts-expect-error -- we should not be able to instantiate elements with non-element types
+            { notAThing: "This doesn't look like an element" },
+            view.state.schema
+          );
+        });
       });
 
-      it("should not produce data that does not match the element", () => {
-        const {
-          getElementFromNode,
-          view,
-          serializer,
-        } = createEditorWithElements({ testElement }, elementHTML);
+      describe("Conversion from node to data", () => {
+        it("should produce element data, given an element node", () => {
+          const {
+            getElementFromNode,
+            view,
+            serializer,
+          } = createEditorWithElements({ testElement }, testElementHTML);
 
-        const element = getElementFromNode(
-          view.state.doc.firstChild as Node,
-          serializer
-        );
+          const element = getElementFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
 
-        element.field1;
-        element.field2;
-        element.field3;
+          // We expect the node we've just manually created to match the node
+          // that's been serialised from the defaults
+          expect(element).toEqual(testElementValues);
+        });
 
-        // @ts-expect-error -- we should not be able to access non-element properties
-        element.notAField;
+        it("should produce element data, given an element node, with multiple elements", () => {
+          const {
+            getElementFromNode,
+            view,
+            serializer,
+          } = createEditorWithElements(
+            { testElement, testElement2 },
+            testElement2HTML
+          );
+
+          const element = getElementFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          expect(element).toEqual(testElement2Values);
+        });
+
+        it("should not produce data that does not match the element", () => {
+          const {
+            getElementFromNode,
+            view,
+            serializer,
+          } = createEditorWithElements({ testElement }, testElementHTML);
+
+          const element = getElementFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          element.field1;
+          element.field2;
+          element.field3;
+
+          // @ts-expect-error -- we should not be able to access non-element properties
+          element.notAField;
+        });
       });
     });
   });
