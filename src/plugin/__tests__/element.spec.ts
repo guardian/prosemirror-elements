@@ -369,12 +369,12 @@ describe("buildElementPlugin", () => {
     describe("Conversion between data and Prosemirror node", () => {
       describe("Conversion from data to node", () => {
         it("should produce an element node, given element data", () => {
-          const { getNodeFromElement, view } = createEditorWithElements(
+          const { getNodeFromElementData, view } = createEditorWithElements(
             { testElement, testElement2 },
             testElementHTML
           );
 
-          const node = getNodeFromElement(
+          const node = getNodeFromElementData(
             "testElement",
             testElementValues,
             view.state.schema
@@ -386,12 +386,12 @@ describe("buildElementPlugin", () => {
         });
 
         it("should not permit data that does not match an element", () => {
-          const { getNodeFromElement, view } = createEditorWithElements(
+          const { getNodeFromElementData, view } = createEditorWithElements(
             { testElement, testElement2 },
             testElementHTML
           );
 
-          getNodeFromElement(
+          getNodeFromElementData(
             "testElement",
             // @ts-expect-error -- we should not be able to instantiate elements with non-element types
             { notAThing: "This doesn't look like an element" },
@@ -403,12 +403,12 @@ describe("buildElementPlugin", () => {
       describe("Conversion from node to data", () => {
         it("should produce element data, given an element node", () => {
           const {
-            getElementFromNode,
+            getElementDataFromNode,
             view,
             serializer,
           } = createEditorWithElements({ testElement }, testElementHTML);
 
-          const element = getElementFromNode(
+          const element = getElementDataFromNode(
             view.state.doc.firstChild as Node,
             serializer
           );
@@ -420,7 +420,7 @@ describe("buildElementPlugin", () => {
 
         it("should produce element data, given an element node, with multiple elements", () => {
           const {
-            getElementFromNode,
+            getElementDataFromNode,
             view,
             serializer,
           } = createEditorWithElements(
@@ -428,7 +428,7 @@ describe("buildElementPlugin", () => {
             testElement2HTML
           );
 
-          const element = getElementFromNode(
+          const element = getElementDataFromNode(
             view.state.doc.firstChild as Node,
             serializer
           );
@@ -438,12 +438,12 @@ describe("buildElementPlugin", () => {
 
         it("should not produce data that does not match the element", () => {
           const {
-            getElementFromNode,
+            getElementDataFromNode,
             view,
             serializer,
           } = createEditorWithElements({ testElement }, testElementHTML);
 
-          const element = getElementFromNode(
+          const element = getElementDataFromNode(
             view.state.doc.firstChild as Node,
             serializer
           );

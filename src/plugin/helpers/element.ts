@@ -8,7 +8,7 @@ import type {
   FieldSpec,
 } from "../types/Element";
 
-export const createGetNodeFromElement = <
+export const createGetNodeFromElementData = <
   FSpec extends FieldSpec<keyof FSpec>,
   ElementNames extends keyof ESpecMap,
   ElementName extends ElementNames,
@@ -44,7 +44,7 @@ export const createGetNodeFromElement = <
   );
 };
 
-export const createGetElementFromNode = <
+export const createGetElementDataFromNode = <
   FSpec extends FieldSpec<keyof FSpec>,
   ElementNames extends keyof ESpecMap,
   ESpecMap extends ElementSpecMap<FSpec, ElementNames>

@@ -2,8 +2,8 @@ import OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import {
-  createGetElementFromNode,
-  createGetNodeFromElement,
+  createGetElementDataFromNode,
+  createGetNodeFromElementData,
 } from "./helpers/element";
 import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
 import { getNodeSpecFromFieldSpec } from "./nodeSpec";
@@ -26,8 +26,8 @@ export const buildElementPlugin = <
   elementSpecs: ESpecMap,
   predicate = defaultPredicate
 ) => {
-  const getNodeFromElement = createGetNodeFromElement(elementSpecs);
-  const getElementFromNode = createGetElementFromNode(elementSpecs);
+  const getNodeFromElementData = createGetNodeFromElementData(elementSpecs);
+  const getElementDataFromNode = createGetElementDataFromNode(elementSpecs);
 
   const insertElement = <Name extends ElementNames>(
     elementName: Extract<Name, string>,
@@ -36,7 +36,7 @@ export const buildElementPlugin = <
     state: EditorState,
     dispatch: (tr: Transaction<Schema>) => void
   ): void => {
-    const maybeNode = getNodeFromElement(
+    const maybeNode = getNodeFromElementData(
       elementName,
       fieldValues,
       state.schema
@@ -64,7 +64,7 @@ export const buildElementPlugin = <
     hasErrors: (state: EditorState) => plugin.getState(state).hasErrors,
     plugin,
     nodeSpec,
-    getElementFromNode,
-    getNodeFromElement,
+    getElementDataFromNode,
+    getNodeFromElementData,
   };
 };
