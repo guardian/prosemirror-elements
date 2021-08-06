@@ -28,7 +28,7 @@ FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
 const codeElementName = "codeElement";
-const pullquoteElementName  = "pullquoteElement"
+const pullquoteElementName = "pullquoteElement";
 
 type Name =
   | typeof embedElementName
