@@ -1,20 +1,13 @@
 import { css } from "@emotion/react";
 import { space } from "@guardian/src-foundations";
 import React from "react";
+import { Field } from "../../editorial-source-components/Field";
 import { Label } from "../../editorial-source-components/Label";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { FieldView } from "../../renderers/react/FieldView";
-import type { createPullquoteFields } from "./PullquoteSpec";
-
-type Props = {
-  fields: FieldNameToValueMap<ReturnType<typeof createPullquoteFields>>;
-  errors: Record<string, string[]>;
-  fieldViewSpecMap: FieldNameToFieldViewSpec<
-    ReturnType<typeof createPullquoteFields>
-  >;
-};
+import type { pullquoteFields } from "./PullquoteSpec";
 
 const wrapper = css`
   display: flex;
@@ -38,20 +31,33 @@ const primaryColumn = css`
   }
 `;
 
+type Props = {
+  errors: Record<string, string[]>;
+  fieldViewSpecs: FieldNameToFieldViewSpec<typeof pullquoteFields>;
+};
+
 export const PullquoteElementTestId = "PullquoteElement";
 
 export const PullquoteElementForm: React.FunctionComponent<Props> = ({
   errors,
-  fieldViewSpecMap: fieldViewSpecs,
+  fieldViewSpecs,
 }) => (
   <div data-cy={PullquoteElementTestId}>
     <div css={wrapper}>
       <div css={[column, primaryColumn]}>
-        <FieldView fieldViewSpec={fieldViewSpecs.pullquote} />
+        <Field
+      label="Pullquote"
+      fieldViewSpec={fieldViewSpecs.pullquote}
+      errors={errors.pullquote}
+    />
       </div>
       <div css={column}>
-        <FieldView fieldViewSpec={fieldViewSpecs.attribution} />
-        <CustomDropdownView fieldViewSpec={fieldViewSpecs.weighting} />
+      <Field
+      label="Attribution"
+      fieldViewSpec={fieldViewSpecs.attribution}
+      errors={errors.attribution}
+    />
+        <CustomDropdownView label="Weighting" fieldViewSpec={fieldViewSpecs.weighting} />
       </div>
     </div>
     <hr />
