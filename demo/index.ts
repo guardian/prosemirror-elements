@@ -7,8 +7,8 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src";
 import { codeElement } from "../src/elements/code/CodeElementSpec";
+import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
 import { createPullquoteElement } from "../src/elements/pullquote/PullquoteSpec";
 import { buildElementPlugin } from "../src/plugin/element";
@@ -20,7 +20,6 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-// import { onCropImage, onSelectImage } from "./helpers";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
