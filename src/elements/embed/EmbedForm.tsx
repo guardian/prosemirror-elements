@@ -1,10 +1,9 @@
 import React from "react";
-import { Label } from "../../editorial-source-components/Label";
+import { Field } from "../../editorial-source-components/Field";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { FieldView } from "../../renderers/react/FieldView";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -18,7 +17,6 @@ type Props = {
 export const EmbedElementTestId = "EmbedElement";
 
 export const EmbedElementForm: React.FunctionComponent<Props> = ({
-  fields,
   errors,
   fieldViewSpecMap: fieldViewSpecs,
 }) => (
@@ -28,17 +26,30 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       label="Weighting"
       errors={errors.weighting}
     />
-    <FieldView fieldViewSpec={fieldViewSpecs.sourceUrl} />
-    <FieldView fieldViewSpec={fieldViewSpecs.embedCode} />
-    <FieldView fieldViewSpec={fieldViewSpecs.caption} />
-    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
-    <CustomCheckboxView fieldViewSpec={fieldViewSpecs.required} />
-
-    <hr />
-    <Label>Element errors</Label>
-    <pre>{JSON.stringify(errors)}</pre>
-    <hr />
-    <Label>Element values</Label>
-    <pre>{JSON.stringify(fields)}</pre>
+    <Field
+      fieldViewSpec={fieldViewSpecs.sourceUrl}
+      errors={errors.sourceUrl}
+      label="Source URL"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.embedCode}
+      errors={errors.embedCode}
+      label="Embed code"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.caption}
+      errors={errors.caption}
+      label="Caption"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.altText}
+      errors={errors.altText}
+      label="Alt text"
+    />
+    <CustomCheckboxView
+      fieldViewSpec={fieldViewSpecs.required}
+      errors={errors.required}
+      label="This element is required for publication"
+    />
   </div>
 );
