@@ -11,26 +11,24 @@ import {
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { EmbedElementForm } from "./EmbedForm";
 
-export const createEmbedFields = () => {
-  return {
-    weighting: createCustomField("inline", [
-      { text: "inline (default)", value: "inline" },
-      { text: "supporting", value: "supporting" },
-      { text: "showcase", value: "showcase" },
-      { text: "thumbnail", value: "thumbnail" },
-      { text: "immersive", value: "immersive" },
-    ]),
-    sourceUrl: createTextField(),
-    embedCode: createTextField({ isMultiline: true, rows: 2 }, true),
-    caption: createDefaultRichTextField(),
-    altText: createTextField({ isMultiline: true, rows: 2 }),
-    required: createCustomField(true, true),
-  };
+export const embedFields = {
+  weighting: createCustomField("inline", [
+    { text: "inline (default)", value: "inline" },
+    { text: "supporting", value: "supporting" },
+    { text: "showcase", value: "showcase" },
+    { text: "thumbnail", value: "thumbnail" },
+    { text: "immersive", value: "immersive" },
+  ]),
+  sourceUrl: createTextField(),
+  embedCode: createTextField({ isMultiline: true, rows: 2 }, true),
+  caption: createDefaultRichTextField(),
+  altText: createTextField({ isMultiline: true, rows: 2 }),
+  required: createCustomField(true, true),
 };
 
 export const createEmbedElement = () =>
   createReactElementSpec(
-    createEmbedFields(),
+    embedFields,
     (fields, errors, __, fieldViewSpecs) => {
       return (
         <EmbedElementForm

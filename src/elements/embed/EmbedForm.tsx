@@ -4,14 +4,12 @@ import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { createEmbedFields } from "./EmbedSpec";
+import type { embedFields } from "./EmbedSpec";
 
 type Props = {
-  fields: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
+  fields: FieldNameToValueMap<typeof embedFields>;
   errors: Record<string, string[]>;
-  fieldViewSpecMap: FieldNameToFieldViewSpec<
-    ReturnType<typeof createEmbedFields>
-  >;
+  fieldViewSpecMap: FieldNameToFieldViewSpec<typeof embedFields>;
 };
 
 export const EmbedElementTestId = "EmbedElement";
