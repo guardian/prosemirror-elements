@@ -79,25 +79,24 @@ export class TextFieldView extends ProseMirrorFieldView {
       [keymap(keymapping)]
     );
 
-    if (enableMultiline || isCode) {
+    if (isCode && this.innerEditorView) {
+      (this.innerEditorView.dom as HTMLDivElement).style.fontFamily =
+        "monospace";
+    }
+
+    if (enableMultiline) {
       // We wait to ensure that the browser has applied the appropriate styles.
       setTimeout(() => {
         if (!this.innerEditorView) {
           return;
         }
-        if (enableMultiline) {
-          const { lineHeight, paddingTop } = window.getComputedStyle(
-            this.innerEditorView.dom
-          );
+        const { lineHeight, paddingTop } = window.getComputedStyle(
+          this.innerEditorView.dom
+        );
 
-          (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
-            parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
-          }px`;
-        }
-        if (isCode) {
-          (this.innerEditorView.dom as HTMLDivElement).style.fontFamily =
-            "monospace";
-        }
+        (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
+          parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
+        }px`;
       });
     }
   }
