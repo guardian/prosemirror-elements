@@ -127,6 +127,13 @@ describe("ImageElement", () => {
         assertDocHtml(getSerialisedHtml({ altTextValue: "Alttext <br>text" }));
       });
 
+      it(`should create newlines and preserve whitespace when isMultiline and isCode are set`, () => {
+        addImageElement();
+        const text = `Code {enter} text`;
+        typeIntoElementField("code", text);
+        assertDocHtml(getSerialisedHtml({ codeValue: "Code \n text" }));
+      });
+
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
         addImageElement();
         typeIntoElementField("src", "Src text");
