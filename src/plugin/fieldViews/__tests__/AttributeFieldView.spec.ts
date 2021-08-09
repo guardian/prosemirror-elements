@@ -57,7 +57,7 @@ describe("AttributeFieldView", () => {
       fields: { value: true },
     });
 
-    fieldView.update(newNode, 0);
+    fieldView.onUpdate(newNode, 0);
 
     expect(updateInnerViewSpy.mock.calls[0]).toEqual([{ value: true }]);
   });

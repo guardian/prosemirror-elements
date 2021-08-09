@@ -29,11 +29,16 @@ export abstract class FieldView<NodeValue> {
   /**
    * Called when the fieldView is updated.
    */
-  public abstract update(
+  public abstract onUpdate(
     node: Node,
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
   ): boolean;
+
+  /**
+   * Programmatically update this fieldView with the given value.
+   */
+  public abstract update(value: NodeValue): void;
 
   /**
    * Called when the fieldView is destroyed.

@@ -6,6 +6,9 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   data: {
     image: {
       data: {
+        metadata: {
+          description: string;
+        };
         id: string;
       };
     };
@@ -23,7 +26,8 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   setMedia(
     data.image.data.id,
     data.crop.data.specification.uri,
-    data.crop.data.assets.map((_) => _.secureUrl)
+    data.crop.data.assets.map((_) => _.secureUrl),
+    data.image.data.metadata.description
   );
 };
 

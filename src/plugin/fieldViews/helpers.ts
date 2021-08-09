@@ -3,7 +3,6 @@ import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxValue } from "./CheckboxFieldView";
 import type { CustomField } from "./CustomFieldView";
 import { CustomFieldView } from "./CustomFieldView";
-import type { DropdownFields } from "./DropdownFieldView";
 import { DropdownFieldView } from "./DropdownFieldView";
 import { RichTextFieldView } from "./RichTextFieldView";
 import { TextFieldView } from "./TextFieldView";
@@ -36,7 +35,7 @@ export type FieldTypeToValueMap<
   [TextFieldView.fieldName]: string;
   [RichTextFieldView.fieldName]: string;
   [CheckboxFieldView.fieldName]: CheckboxValue;
-  [DropdownFieldView.fieldName]: DropdownFields;
+  [DropdownFieldView.fieldName]: string;
   [CustomFieldView.fieldName]: FSpec[Name] extends CustomField<infer Data>
     ? Data
     : never;
