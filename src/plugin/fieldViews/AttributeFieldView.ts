@@ -6,8 +6,8 @@ import { FieldType } from "./FieldView";
 /**
  * A FieldView representing a node that contains fields that are updated atomically.
  */
-export abstract class AttributeFieldView<Fields extends unknown>
-  implements FieldView<Fields> {
+export abstract class AttributeFieldView<Value extends unknown>
+  implements FieldView<Value> {
   public static fieldName: string;
   public static fieldType = FieldType.ATTRIBUTES;
   // The parent DOM element for this view. Public
@@ -28,19 +28,19 @@ export abstract class AttributeFieldView<Fields extends unknown>
     this.nodeType = node.type;
   }
 
-  public getNodeValue(node: Node): Fields {
-    return node.attrs.fields as Fields;
+  public getNodeValue(node: Node): Value {
+    return node.attrs.fields as Value;
   }
 
-  public getNodeFromValue(fields: Fields): Node {
+  public getNodeFromValue(fields: Value): Node {
     return this.nodeType.create({ fields });
   }
 
   // Classes extending AttributeFieldView should call e.g. this.createInnerView(node.attrs.fields || defaultFields)
   // in their constructor
-  protected abstract createInnerView(fields: Fields): void;
+  protected abstract createInnerView(fields: Value): void;
 
-  protected abstract updateInnerView(fields: Fields): void;
+  protected abstract updateInnerView(fields: Value): void;
 
   public onUpdate(node: Node, elementOffset: number) {
     if (node.type !== this.nodeType) {
@@ -48,12 +48,12 @@ export abstract class AttributeFieldView<Fields extends unknown>
     }
 
     this.offset = elementOffset;
-    this.updateInnerView(node.attrs.fields as Fields);
+    this.updateInnerView(node.attrs.fields as Value);
 
     return true;
   }
 
-  public update(value: Fields) {
+  public update(value: Value) {
     this.updateOuterEditor(value);
   }
 
@@ -64,7 +64,7 @@ export abstract class AttributeFieldView<Fields extends unknown>
   /**
    * Update the outer editor with a new field state.
    */
-  protected updateOuterEditor(fields: Fields) {
+  protected updateOuterEditor(fields: Value) {
     const outerTr = this.outerView.state.tr;
     // When we insert content, we must offset to account for a few things:
     //  - getPos() returns the position directly before the parent node (+1)
