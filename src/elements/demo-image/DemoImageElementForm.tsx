@@ -39,6 +39,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     />
     <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
     <Field
+      label="Code"
+      fieldViewSpec={fieldViewSpecs.code}
+      errors={errors.code}
+    />
+    <Field
       label="Use image source?"
       fieldViewSpec={fieldViewSpecs.useSrc}
       errors={errors.useSrc}

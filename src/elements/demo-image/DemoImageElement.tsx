@@ -38,6 +38,7 @@ export const createImageFields = (
     caption: createDefaultRichTextField(),
     altText: createTextField({ isMultiline: true, rows: 2 }),
     src: createTextField(),
+    code: createTextField({ isMultiline: true, rows: 4 }, true),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       {
@@ -87,6 +88,7 @@ export const createImageElement = (
       altText: "",
       mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       src: "",
+      code: "",
       optionDropdown: "opt1",
       customDropdown: "opt1",
     }
