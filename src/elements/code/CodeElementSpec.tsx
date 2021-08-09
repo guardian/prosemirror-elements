@@ -7,7 +7,7 @@ import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
   codeText: createTextField({ isMultiline: true, rows: 11 }, true),
-  language: createCustomField("Plain text", [
+  language: createCustomField("text", [
     { text: "Plain text", value: "text" },
     { text: "HTML", value: "html" },
     { text: "CSS", value: "css" },
@@ -27,6 +27,6 @@ export const codeElement = createReactElementSpec(
   createValidator({ codeText: [required()] }),
   {
     codeText: "",
-    language: "Plain text",
+    language: "text",
   }
 );
