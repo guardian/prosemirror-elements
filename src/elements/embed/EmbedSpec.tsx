@@ -2,6 +2,12 @@ import React from "react";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import {
+  createValidator,
+  htmlMaxLength,
+  htmlRequired,
+  maxLength,
+} from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { EmbedElementForm } from "./EmbedForm";
 
@@ -34,11 +40,11 @@ export const createEmbedElement = () =>
         />
       );
     },
-    ({ altText }) => {
-      const el = document.createElement("div");
-      el.innerHTML = altText;
-      return el.innerText ? null : { altText: ["Alt tag must be set"] };
-    },
+    createValidator({
+      altText: [htmlMaxLength(1000), htmlRequired()],
+      embedCode: [htmlRequired()],
+      caption: [maxLength(1000)],
+    }),
     {
       weighting: "inline (default)",
       sourceUrl: "",
