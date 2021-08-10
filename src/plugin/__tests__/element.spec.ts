@@ -26,7 +26,7 @@ describe("buildElementPlugin", () => {
       insertElement({ elementName: "testElement2", values: {} });
     });
 
-    it("should not allow consumers to instantiate elements t}hat do not exist", () => {
+    it("should not allow consumers to instantiate elements that do not exist", () => {
       const testElement = createNoopElement({});
       const testElement2 = createNoopElement({});
       const { insertElement } = buildElementPlugin({
@@ -66,7 +66,7 @@ describe("buildElementPlugin", () => {
       });
     });
 
-    it("should allow consumers to instantiate custom element}s", () => {
+    it("should allow consumers to instantiate custom elements", () => {
       const testElement = createNoopElement({
         field1: { type: "richText" },
         field2: {
