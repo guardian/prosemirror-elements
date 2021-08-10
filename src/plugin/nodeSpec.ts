@@ -79,7 +79,7 @@ export const getNodeSpecForField = (
           parseDOM: [
             {
               tag: getTagForNode(elementName, fieldName),
-              preserveWhitespace: field.isCode ? true : "full",
+              preserveWhitespace: field.isCode ? "full" : false,
             },
           ],
           code: field.isCode,

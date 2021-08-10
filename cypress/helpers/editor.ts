@@ -1,4 +1,4 @@
-import type { EditorView } from "prosemirror-view";
+import type { WindowType } from "../../demo/types";
 import {
   ChangeTestDecoStringAction,
   trimHtml,
@@ -29,8 +29,6 @@ export const getElementType = (element: JQuery) => {
   }
   return "unknown";
 };
-
-export const addImageElement = () => cy.get("#imageElement").click();
 
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
@@ -70,19 +68,24 @@ export const getArrayOfBlockElementTypes = () => {
 };
 
 export const assertDocHtml = (expectedHtml: string) =>
-  cy.window().then((win) => {
-    const actualHtml = ((win as unknown) as {
-      docToHtml: () => string;
-    }).docToHtml();
+  cy.window().then((win: WindowType) => {
+    const actualHtml = win.PM_ELEMENTS.docToHtml();
     expect(trimHtml(expectedHtml)).to.equal(actualHtml);
   });
 
 export const changeTestDecoString = (newTestString: string) => {
-  cy.window().then((win) => {
-    const view = ((win as unknown) as { view: EditorView }).view;
+  cy.window().then((win: WindowType) => {
+    const view = win.PM_ELEMENTS.view;
     view.dispatch(
       view.state.tr.setMeta(ChangeTestDecoStringAction, newTestString)
     );
+  });
+};
+
+export const addImageElement = (fieldValues: Record<string, unknown> = {}) => {
+  cy.window().then((win: WindowType) => {
+    const { view, insertElement } = win.PM_ELEMENTS;
+    insertElement("imageElement", fieldValues)(view.state, view.dispatch);
   });
 };
 
