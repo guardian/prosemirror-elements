@@ -1,13 +1,12 @@
 import React from "react";
-import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
 import { Field } from "../../editorial-source-components/Field";
 import { Label } from "../../editorial-source-components/Label";
-import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../plugin/types/Element";
+import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type { createImageFields, SetMedia } from "./DemoImageElement";
@@ -63,7 +62,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
         fieldViewSpecs.caption.update(description);
       }}
     />
-    <CustomDropdownView fieldViewSpec={fieldViewSpecs.customDropdown} />
+    <CustomDropdownView
+      label="Options"
+      fieldViewSpec={fieldViewSpecs.customDropdown}
+    />
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>
@@ -134,28 +136,5 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
         </button>
       )}
     </div>
-  );
-};
-
-type CustomDropdownViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<string>>>;
-};
-
-const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
-  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(
-    fieldViewSpec
-  );
-  return (
-    <CustomDropdown
-      options={fieldViewSpec.fieldSpec.props}
-      selected={selectedElement}
-      label={fieldViewSpec.name}
-      onChange={(event) => {
-        if (setSelectFieldsRef.current) {
-          setSelectFieldsRef.current(event.target.value);
-        }
-      }}
-      dataCy={getFieldViewTestId(fieldViewSpec.name)}
-    />
   );
 };

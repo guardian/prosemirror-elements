@@ -5,10 +5,11 @@ import type { Option as OptionValue } from "../plugin/fieldViews/DropdownFieldVi
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
-// These styles allow us to style the div and svg elements in the Source Select Component.
+// These styles allow us to style the div, svg, and span elements in the Source Select Component.
 // However, they rely on it retaining its current structure, which is worth bearing in mind
 // if we decided to bump the version of @guardian/src-select
 const parentStyles = css`
+  white-space: nowrap;
   width: initial;
   div {
     display: flex;
@@ -20,6 +21,16 @@ const parentStyles = css`
       top: 3px;
       position: relative;
       right: 30px;
+    }
+  }
+  span {
+    font-family: "Guardian Agate Sans";
+    font-size: 1rem;
+    svg {
+      width: ${space[6]}px;
+      height: ${space[6]}px;
+      margin-top: 1px;
+      margin-left: 1px;
     }
   }
 `;
@@ -38,15 +49,17 @@ const selectStyles = css`
 type CustomDropdownProps = {
   options: Array<OptionValue<string>>;
   selected: string;
-  label: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  label: string;
   dataCy: string;
+  error: string;
 };
 
 export const CustomDropdown = (props: CustomDropdownProps) => {
   return (
     <div css={parentStyles} data-cy={props.dataCy}>
       <Select
+        error={props.error}
         label={props.label}
         onChange={props.onChange}
         value={props.selected}
