@@ -552,7 +552,21 @@
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-0.5.0.tgz#ece14ec90b372932c7bf01992fc6d8ce58f7f26e"
   integrity sha512-THJn0wg7i9YjSVM9ofobsJgS+WH9ybrZH1+0CXLAebp0T53RGtgZUkek82mDg1h3DidsM+f7HSZqoQyrCbPzPw==
 
-"@guardian/src-foundations@^3.7.0", "@guardian/src-foundations@^3.8.0":
+"@guardian/src-checkbox@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-checkbox/-/src-checkbox-3.8.0.tgz#d2fb3340f08bcbbe10339868bded3205473427e9"
+  integrity sha512-g5k7kIzk5z0bENTee8t2bOxBn4QYCO1o2y4cwUZG6fvvtzn82iIWssfa7uemewNWpVd8tNW9e/jQZoasu+YfGw==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
+    "@guardian/src-label" "^3.8.0"
+    "@guardian/src-user-feedback" "^3.8.0"
+
+"@guardian/src-foundations@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.7.0.tgz#f5f3a3c6d20c72d257447d1a8d97d1ffb613da0d"
+  integrity sha512-YLbr1D8VCoSg2nngMlMuq25zTcgngw01VZaqiyY4j9tC8IxFDliLbIf7mvQigKq9qn8RAlfM7HkMGzxSxVHtDg==
+
+"@guardian/src-foundations@^3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.8.0.tgz#2a17748cced540ea137618feddc85d2b12c16023"
   integrity sha512-FrlWLKEkqzBWXD3r7fJ0/qka/k5kbvjqrQRypQnkxkv2Y8SBb/OXzPm8jYVqb6PJ1UX4T0l6/58uqoi3zoWyHA==
@@ -565,7 +579,12 @@
     "@guardian/src-foundations" "^3.8.0"
     mini-svg-data-uri "^1.3.3"
 
-"@guardian/src-icons@^3.7.0", "@guardian/src-icons@^3.8.0":
+"@guardian/src-icons@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-3.7.0.tgz#580688167d00d9eed601044867d67dcd48b210c6"
+  integrity sha512-5tm8YlQpVGpuBN5hJ2Fi9xWkgCAvfX1IrzpLtLg4pLa6UmP1CIvwjlQocDBWRx2BItifU5UKtEpqiEvJdusK1g==
+
+"@guardian/src-icons@^3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-3.8.0.tgz#11f1bbfbbbbe04f63afeb614cfb1513ee97d1477"
   integrity sha512-46Q/5YuLE+Z9wJSCD3wn9Nhlzvu7cyyzmNzcQI7iWUgYY5GCxm3pgI+xkqwAyKi49JBqZu1mgxp/eBFh5KLkdw==
