@@ -7,7 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
+import { codeElement, createImageElement } from "../src";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -19,14 +19,19 @@ import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import { onCropImage, onSelectImage } from "./helpers";
+import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
+const codeElementName = "codeElement";
 
-type Name = typeof embedElementName | typeof imageElementName;
+type Name =
+  | typeof embedElementName
+  | typeof imageElementName
+  | typeof codeElementName;
 
 const {
   plugin: elementPlugin,
@@ -36,6 +41,7 @@ const {
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
+  codeElement,
 });
 
 const schema = new Schema({
@@ -147,6 +153,13 @@ const createEditor = (server: CollabServer) => {
     })
   );
 
+  editorElement.appendChild(
+    createElementButton("Add code element", codeElementName, {
+      codeText: "",
+      language: "Plain text",
+    })
+  );
+
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     highlightErrors(state);
     if (isFirstEditor) {
@@ -171,12 +184,21 @@ addEditorButton.id = "add-editor";
 addEditorButton.addEventListener("click", () => createEditor(server));
 document.body.appendChild(addEditorButton);
 
-// Handy debugging tools
+// Handy debugging tools. We assign a few things to window for our integration tests,
+// and to facilitate debugging.
+export { insertElement }; // Necessary to ensure the type is available in the global namespace
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
+  interface Window extends WindowType {}
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- debug
-(window as any).ProseMirrorDevTools.applyDevTools(firstEditor, {
+window.ProseMirrorDevTools.applyDevTools(firstEditor, {
   EditorState,
 });
-((window as unknown) as { view: EditorView }).view = firstEditor;
-((window as unknown) as { docToHtml: () => string }).docToHtml = () =>
-  firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "";
+
+window.PM_ELEMENTS = {
+  view: firstEditor,
+  insertElement: insertElement,
+  docToHtml: () =>
+    firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "",
+};

@@ -166,7 +166,7 @@ describe("mount", () => {
           );
           expect(field1NodeSpec).toHaveProperty("content", "text*");
           expect(field1NodeSpec).toHaveProperty("parseDOM", [
-            { tag: "element-testelement1-field1" },
+            { tag: "element-testelement1-field1", preserveWhitespace: false },
           ]);
         });
       });
