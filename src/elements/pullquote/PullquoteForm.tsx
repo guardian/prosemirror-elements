@@ -1,7 +1,6 @@
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { Field } from "../../editorial-source-components/Field";
-import { Label } from "../../editorial-source-components/Label";
 import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { pullquoteFields } from "./PullquoteSpec";
@@ -38,9 +37,5 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
         />
       </Column>
     </Columns>
-    <hr />
-    <Label>Element errors</Label>
-    <pre>{JSON.stringify(errors)}</pre>
-    <hr />
   </div>
 );
