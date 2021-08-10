@@ -20,6 +20,7 @@ type Props = {
 };
 
 export const ImageElementTestId = "ImageElement";
+export const UpdateAltTextButtonId = "UpdateAltTextButton";
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   fields,
@@ -37,7 +38,18 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.altText}
       errors={errors.altText}
     />
+    <button
+      data-cy={UpdateAltTextButtonId}
+      onClick={() => fieldViewSpecs.altText.update("Default alt text")}
+    >
+      Programmatically update alt text
+    </button>
     <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
+    <Field
+      label="Code"
+      fieldViewSpec={fieldViewSpecs.code}
+      errors={errors.code}
+    />
     <Field
       label="Use image source?"
       fieldViewSpec={fieldViewSpecs.useSrc}
@@ -48,7 +60,13 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.optionDropdown}
       errors={errors.optionDropdown}
     />
-    <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
+    <ImageView
+      fieldViewSpec={fieldViewSpecs.mainImage}
+      onChange={(_, __, ___, description) => {
+        fieldViewSpecs.altText.update(description);
+        fieldViewSpecs.caption.update(description);
+      }}
+    />
     <CustomDropdownView
       label="Options"
       fieldViewSpec={fieldViewSpecs.customDropdown}
@@ -63,6 +81,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
 );
 
 type ImageViewProps = {
+  onChange: SetMedia;
   fieldViewSpec: CustomFieldViewSpec<
     {
       mediaId?: string;
@@ -76,15 +95,21 @@ type ImageViewProps = {
   >;
 };
 
-const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
+const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
     fieldViewSpec
   );
 
-  const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
+  const setMedia = (
+    mediaId: string,
+    mediaApiUri: string,
+    assets: string[],
+    description: string
+  ) => {
     if (setImageFieldsRef.current) {
       setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
     }
+    onChange(mediaId, mediaApiUri, assets, description);
   };
 
   return (

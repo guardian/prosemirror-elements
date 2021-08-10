@@ -1,8 +1,9 @@
 import type { Command } from "prosemirror-commands";
-import { chainCommands } from "prosemirror-commands";
+import { newlineInCode } from "prosemirror-commands";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
+import type { EditorState, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { BaseFieldSpec } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
@@ -62,13 +63,16 @@ export class TextFieldView extends ProseMirrorFieldView {
     const enableMultiline = !!br && isMultiline;
 
     if (enableMultiline) {
-      const cmd = chainCommands((state, dispatch) => {
-        dispatch?.(state.tr.replaceSelectionWith(br.create()).scrollIntoView());
-        return true;
-      });
-      keymapping["Enter"] = cmd;
+      const newLineCommand = isCode
+        ? newlineInCode
+        : (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+            dispatch?.(
+              state.tr.replaceSelectionWith(br.create()).scrollIntoView()
+            );
+            return true;
+          };
+      keymapping["Enter"] = newLineCommand;
     }
-
     super(
       node,
       outerView,
@@ -79,25 +83,25 @@ export class TextFieldView extends ProseMirrorFieldView {
       [keymap(keymapping)]
     );
 
-    if (enableMultiline || isCode) {
+    if (isCode && this.innerEditorView) {
+      const dom = this.innerEditorView.dom as HTMLDivElement;
+      dom.style.fontFamily = "monospace";
+      dom.style.whiteSpace = "pre";
+    }
+
+    if (enableMultiline) {
       // We wait to ensure that the browser has applied the appropriate styles.
       setTimeout(() => {
         if (!this.innerEditorView) {
           return;
         }
-        if (enableMultiline) {
-          const { lineHeight, paddingTop } = window.getComputedStyle(
-            this.innerEditorView.dom
-          );
+        const { lineHeight, paddingTop } = window.getComputedStyle(
+          this.innerEditorView.dom
+        );
 
-          (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
-            parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
-          }px`;
-        }
-        if (isCode) {
-          (this.innerEditorView.dom as HTMLDivElement).style.fontFamily =
-            "monospace";
-        }
+        (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
+          parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
+        }px`;
       });
     }
   }

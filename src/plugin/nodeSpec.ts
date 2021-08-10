@@ -74,9 +74,16 @@ export const getNodeSpecForField = (
     case "text":
       return {
         [getNodeNameFromField(fieldName, elementName)]: {
-          content: field.isMultiline ? "(text|hard_break)*" : "text*",
+          content:
+            field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
           toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
-          parseDOM: [{ tag: getTagForNode(elementName, fieldName) }],
+          parseDOM: [
+            {
+              tag: getTagForNode(elementName, fieldName),
+              preserveWhitespace: field.isCode ? "full" : false,
+            },
+          ],
+          code: field.isCode,
         },
       };
     case "richText":
@@ -202,7 +209,12 @@ export const createNodesForFieldValues = <
 
     if (fieldView.fieldType === "CONTENT") {
       const node = nodeType.create({ type: field.type });
-      return createContentForFieldValue(schema, fieldValue as string, node);
+      return createContentForFieldValue(
+        schema,
+        fieldValue as string,
+        node,
+        field.type === "text"
+      );
     } else {
       return nodeType.create({ type: field.type, fields: fieldValue });
     }
@@ -212,12 +224,16 @@ export const createNodesForFieldValues = <
 const createContentForFieldValue = <S extends Schema>(
   schema: S,
   fieldValue: string,
-  topNode: Node
+  topNode: Node,
+  isText: boolean
 ) => {
   const parser = DOMParser.fromSchema(schema);
   const element = document.createElement("div");
   element.innerHTML = fieldValue;
-  return parser.parse(element, { topNode });
+  return parser.parse(element, {
+    topNode,
+    preserveWhitespace: isText ? "full" : false,
+  });
 };
 
 /**

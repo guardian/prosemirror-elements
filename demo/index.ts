@@ -7,10 +7,12 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { codeElement } from "../src/elements/code/CodeElementSpec";
-import { createImageElement } from "../src/elements/demo-image/DemoImageElement";
-import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
-import { pullquoteElement } from "../src/elements/pullquote/PullquoteSpec";
+import {
+  codeElement,
+  createEmbedElement,
+  createImageElement,
+  pullquoteElement,
+} from "../src";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -21,6 +23,7 @@ import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import { onCropImage, onSelectImage } from "./helpers";
+import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -44,8 +47,8 @@ const {
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
-  codeElement: codeElement,
-  pullquoteElement: pullquoteElement,
+  codeElement,
+  pullquoteElement,
 });
 
 const schema = new Schema({
@@ -195,12 +198,21 @@ addEditorButton.id = "add-editor";
 addEditorButton.addEventListener("click", () => createEditor(server));
 document.body.appendChild(addEditorButton);
 
-// Handy debugging tools
+// Handy debugging tools. We assign a few things to window for our integration tests,
+// and to facilitate debugging.
+export { insertElement }; // Necessary to ensure the type is available in the global namespace
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
+  interface Window extends WindowType {}
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- debug
-(window as any).ProseMirrorDevTools.applyDevTools(firstEditor, {
+window.ProseMirrorDevTools.applyDevTools(firstEditor, {
   EditorState,
 });
-((window as unknown) as { view: EditorView }).view = firstEditor;
-((window as unknown) as { docToHtml: () => string }).docToHtml = () =>
-  firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "";
+
+window.PM_ELEMENTS = {
+  view: firstEditor,
+  insertElement: insertElement,
+  docToHtml: () =>
+    firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "",
+};

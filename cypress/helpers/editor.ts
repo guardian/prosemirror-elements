@@ -1,4 +1,4 @@
-import type { EditorView } from "prosemirror-view";
+import type { WindowType } from "../../demo/types";
 import {
   ChangeTestDecoStringAction,
   trimHtml,
@@ -29,8 +29,6 @@ export const getElementType = (element: JQuery) => {
   }
   return "unknown";
 };
-
-export const addImageElement = () => cy.get("#imageElement").click();
 
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
@@ -70,19 +68,24 @@ export const getArrayOfBlockElementTypes = () => {
 };
 
 export const assertDocHtml = (expectedHtml: string) =>
-  cy.window().then((win) => {
-    const actualHtml = ((win as unknown) as {
-      docToHtml: () => string;
-    }).docToHtml();
+  cy.window().then((win: WindowType) => {
+    const actualHtml = win.PM_ELEMENTS.docToHtml();
     expect(trimHtml(expectedHtml)).to.equal(actualHtml);
   });
 
 export const changeTestDecoString = (newTestString: string) => {
-  cy.window().then((win) => {
-    const view = ((win as unknown) as { view: EditorView }).view;
+  cy.window().then((win: WindowType) => {
+    const view = win.PM_ELEMENTS.view;
     view.dispatch(
       view.state.tr.setMeta(ChangeTestDecoStringAction, newTestString)
     );
+  });
+};
+
+export const addImageElement = (fieldValues: Record<string, unknown> = {}) => {
+  cy.window().then((win: WindowType) => {
+    const { view, insertElement } = win.PM_ELEMENTS;
+    insertElement("imageElement", fieldValues)(view.state, view.dispatch);
   });
 };
 
@@ -90,6 +93,7 @@ export const getSerialisedHtml = ({
   altTextValue = "",
   captionValue = "<p></p>",
   srcValue = "",
+  codeValue = "",
   useSrcValue = "false",
   optionValue = "opt1",
   customDropdownValue = "opt1",
@@ -102,6 +106,7 @@ export const getSerialisedHtml = ({
   altTextValue?: string;
   captionValue?: string;
   srcValue?: string;
+  codeValue?: string;
   useSrcValue?: string;
   optionValue?: string;
   customDropdownValue?: string;
@@ -122,6 +127,7 @@ export const getSerialisedHtml = ({
   return trimHtml(`<imageelement type="imageElement" has-errors="false">
     <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
     <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
+    <element-imageelement-code class="ProsemirrorElement__imageElement-code">${codeValue}</element-imageelement-code>
     <element-imageelement-customdropdown class="ProsemirrorElement__imageElement-customDropdown" fields="&quot;${customDropdownValue}&quot;"></element-imageelement-customdropdown>
     <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{${mainImageFields}}"></element-imageelement-mainimage>
     <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>

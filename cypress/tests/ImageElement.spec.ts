@@ -1,3 +1,4 @@
+import { UpdateAltTextButtonId } from "../../src/elements/demo-image/DemoImageElementForm";
 import {
   addImageElement,
   assertDocHtml,
@@ -6,6 +7,7 @@ import {
   getElementMenuButton,
   getElementRichTextField,
   getSerialisedHtml,
+  selectDataCy,
   typeIntoElementField,
   visitRoot,
 } from "../helpers/editor";
@@ -127,6 +129,18 @@ describe("ImageElement", () => {
         assertDocHtml(getSerialisedHtml({ altTextValue: "Alttext <br>text" }));
       });
 
+      it(`should create newlines and preserve whitespace when isMultiline and isCode are set`, () => {
+        addImageElement();
+        const text = `Code {enter} text`;
+        typeIntoElementField("code", text);
+        assertDocHtml(getSerialisedHtml({ codeValue: "Code \n text" }));
+      });
+
+      it(`should create newlines and preserve whitespace when isMultiline and isCode are set`, () => {
+        addImageElement({ code: "Code \n text" });
+        assertDocHtml(getSerialisedHtml({ codeValue: "Code \n text" }));
+      });
+
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
         addImageElement();
         typeIntoElementField("src", "Src text");
@@ -213,6 +227,17 @@ describe("ImageElement", () => {
         addImageElement();
         getElementField("customDropdown").find("select").select("opt2");
         assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt2" }));
+      });
+    });
+
+    describe("Programmatically update fields", () => {
+      it("should revert the alt text to 'Default alt text' when the button is clicked", () => {
+        addImageElement();
+        cy.get(`button${selectDataCy(UpdateAltTextButtonId)}`).click();
+        getElementRichTextField("altText").should(
+          "have.text",
+          "Default alt text"
+        );
       });
     });
   });
