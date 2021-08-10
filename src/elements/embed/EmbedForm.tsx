@@ -23,7 +23,11 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   fieldViewSpecMap: fieldViewSpecs,
 }) => (
   <div data-cy={EmbedElementTestId}>
-    <CustomDropdownView fieldViewSpec={fieldViewSpecs.weighting} />
+    <CustomDropdownView
+      fieldViewSpec={fieldViewSpecs.weighting}
+      label="Weighting"
+      errors={errors.weighting}
+    />
     <FieldView fieldViewSpec={fieldViewSpecs.sourceUrl} />
     <FieldView fieldViewSpec={fieldViewSpecs.embedCode} />
     <FieldView fieldViewSpec={fieldViewSpecs.caption} />
