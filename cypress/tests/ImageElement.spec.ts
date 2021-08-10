@@ -135,7 +135,7 @@ describe("ImageElement", () => {
       });
 
       it(`should create newlines and preserve whitespace when isMultiline and isCode are set`, () => {
-        addImageElement({ code: "Code \n\n text" });
+        addImageElement({ code: "Code \n text" });
         assertDocHtml(getSerialisedHtml({ codeValue: "Code \n text" }));
       });
 
