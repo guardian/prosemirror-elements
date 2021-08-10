@@ -55,7 +55,6 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       fieldViewSpec={fieldViewSpecs.optionDropdown}
       errors={errors.optionDropdown}
     />
-<<<<<<< HEAD
     <ImageView
       fieldViewSpec={fieldViewSpecs.mainImage}
       onChange={(_, __, ___, description) => {
@@ -63,14 +62,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
         fieldViewSpecs.caption.update(description);
       }}
     />
-    <CustomDropdownView fieldViewSpec={fieldViewSpecs.customDropdown} />
-=======
-    <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
     <CustomDropdownView
       label="Options"
       fieldViewSpec={fieldViewSpecs.customDropdown}
     />
->>>>>>> 64ceb4b... Add validation + styling options for CustomDropdown
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>

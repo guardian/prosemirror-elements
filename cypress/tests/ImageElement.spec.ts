@@ -220,7 +220,7 @@ describe("ImageElement", () => {
 
     describe("Programmatically update fields", () => {
       it("should revert the alt text to 'Default alt text' when the button is clicked", () => {
-        addElement();
+        addImageElement();
         cy.get(`button${selectDataCy(UpdateAltTextButtonId)}`).click();
         getElementRichTextField("altText").should(
           "have.text",
