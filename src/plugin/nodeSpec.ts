@@ -74,7 +74,8 @@ export const getNodeSpecForField = (
     case "text":
       return {
         [getNodeNameFromField(fieldName, elementName)]: {
-          content: "text*",
+          content:
+            field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
           toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
           parseDOM: [
             {

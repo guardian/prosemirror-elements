@@ -51,7 +51,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // The ProseMirror node type name
     private readonly fieldName: string,
     // Plugins that the editor should use
-    plugins?: Plugin[]
+    private plugins?: Plugin[]
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
@@ -73,7 +73,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     return this.node.type.create({ type: this.fieldName }, content);
   }
 
-  public update(
+  public onUpdate(
     node: Node,
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
@@ -85,6 +85,17 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     this.updateInnerEditor(node, decorations, elementOffset);
 
     return true;
+  }
+
+  public update(value: string) {
+    if (!this.innerEditorView) {
+      return;
+    }
+
+    const node = this.getNodeFromValue(value);
+    const tr = this.innerEditorView.state.tr;
+    tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
+    this.onInnerStateChange(tr);
   }
 
   public destroy() {

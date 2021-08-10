@@ -7,8 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src";
-import { codeElement } from "../src/elements/code/CodeElementSpec";
+import { codeElement, createImageElement } from "../src";
 import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -42,7 +41,7 @@ const {
 } = buildElementPlugin({
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
-  codeElement: codeElement,
+  codeElement,
 });
 
 const schema = new Schema({
