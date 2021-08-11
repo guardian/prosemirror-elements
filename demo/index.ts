@@ -24,7 +24,7 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onDemoCropImage, onSelectImage } from "./helpers";
+import { onCropImage, onDemoCropImage, onSelectImage } from "./helpers";
 import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
@@ -38,7 +38,7 @@ const pullquoteElementName = "pullquoteElement";
 
 type Name =
   | typeof embedElementName
-  //| typeof imageElementName
+  | typeof imageElementName
   | typeof demoImageElementName
   | typeof codeElementName
   | typeof pullquoteElementName;
@@ -50,7 +50,7 @@ const {
   nodeSpec,
 } = buildElementPlugin({
   demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
-  //imageElement: createImageElement(onCropImage),
+  imageElement: createImageElement(onCropImage),
   embedElement: createEmbedElement(),
   codeElement,
   pullquoteElement,
@@ -165,13 +165,26 @@ const createEditor = (server: CollabServer) => {
     })
   );
 
-  // editorElement.appendChild(
-  //   createElementButton("Add image element", imageElementName, {
-  //     altText: "",
-  //     caption: "",
-  //     useSrc: { value: false },
-  //   })
-  // );
+  const imageElementButton = document.createElement("button");
+  imageElementButton.innerHTML = "Add image element";
+  imageElementButton.id = imageElementName;
+  imageElementButton.addEventListener("click", () => {
+    const setMedia = (
+      mediaId: string,
+      mediaApiUri: string,
+      assets: Asset[],
+      suppliersReference: string
+    ) => {
+      insertElement({
+        elementName: imageElementName,
+        values: {
+          mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+        },
+      })(view.state, view.dispatch);
+    };
+    onCropImage(setMedia);
+  });
+  editorElement.appendChild(imageElementButton);
 
   editorElement.appendChild(
     createElementButton("Add pullquote element", pullquoteElementName, {
@@ -187,23 +200,6 @@ const createEditor = (server: CollabServer) => {
       language: "Plain text",
     })
   );
-  // const elementButton = document.createElement("button");
-  // elementButton.innerHTML = "Element";
-  // elementButton.id = "element";
-  // elementButton.addEventListener("click", () => {
-  //   const setMedia = (
-  //     mediaId: string,
-  //     mediaApiUri: string,
-  //     assets: Asset[],
-  //     suppliersReference: string
-  //   ) => {
-  //     insertElement("imageElement", {
-  //       mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
-  //     })(view.state, view.dispatch);
-  //   };
-  //   onCropImage(setMedia);
-  // });
-  // editorElement.appendChild(elementButton);
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     highlightErrors(state);
