@@ -51,8 +51,7 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
 export const createElementSpec = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec,
   render: Renderer<FSpec>,
-  validate: Validator<FSpec>,
-  defaultState: Partial<FieldNameToValueMap<FSpec>>
+  validate: Validator<FSpec>
 ): ElementSpec<FSpec> => ({
   fieldSpec,
   createUpdator: (dom, fields, updateState, fieldValues, commands) => {
@@ -62,7 +61,7 @@ export const createElementSpec = <FSpec extends FieldSpec<string>>(
       dom,
       fields,
       (fields) => updateState(fields, !!validate(fields)),
-      Object.assign({}, defaultState, fieldValues),
+      fieldValues,
       commands,
       updater.subscribe
     );

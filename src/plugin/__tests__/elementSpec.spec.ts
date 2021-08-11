@@ -18,8 +18,7 @@ describe("mount", () => {
           // field1 is derived from the fieldSpec
           fieldViews.field1;
         },
-        () => null,
-        { field1: "text" }
+        () => null
       );
     });
 
@@ -36,8 +35,7 @@ describe("mount", () => {
           // as it is not defined in `fieldSpec` passed into `mount`
           fieldViews.field1;
         },
-        () => null,
-        { notField1: "text" }
+        () => null
       );
     });
   });
@@ -62,8 +60,7 @@ describe("mount", () => {
           // field2 is a boolean b/c it's a checkbox field
           fields.field2.value.valueOf();
           return null;
-        },
-        { field1: "text" }
+        }
       );
     });
 
@@ -81,8 +78,7 @@ describe("mount", () => {
           // as it is not defined in `fieldSpec` passed into `mount`
           fields.doesNotExist;
           return null;
-        },
-        { notField1: "text" }
+        }
       );
     });
   });

@@ -206,8 +206,11 @@ describe("buildElementPlugin", () => {
         view.dispatch
       );
 
-      const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:false}"></element-testelement-field1><element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content</p></element-testelement-field2></testelement>';
+      const expected = trimHtml(`
+        <testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:false}"></element-testelement-field1>
+          <element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content</p></element-testelement-field2>
+        </testelement>`);
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -226,8 +229,11 @@ describe("buildElementPlugin", () => {
         values: { field1: { value: true } },
       })(view.state, view.dispatch);
 
-      const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:true}"></element-testelement-field1></testelement>';
+      const expected = trimHtml(
+        `<testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:true}"></element-testelement-field1>
+        </testelement>`
+      );
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -246,8 +252,11 @@ describe("buildElementPlugin", () => {
         values: { field1: "<p>Content</p>" },
       })(view.state, view.dispatch);
 
-      const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1></testelement>';
+      const expected = trimHtml(
+        `<testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content</p></element-testelement-field1>
+        </testelement>`
+      );
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -270,8 +279,11 @@ describe("buildElementPlugin", () => {
         },
       })(view.state, view.dispatch);
 
-      const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content for field1</p></element-testelement-field1><element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content for field2</p></element-testelement-field2></testelement>';
+      const expected = trimHtml(`
+        <testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p>Content for field1</p></element-testelement-field1>
+          <element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content for field2</p></element-testelement-field2>
+        </testelement>`);
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -293,8 +305,10 @@ describe("buildElementPlugin", () => {
         values: { field1: { arbitraryValue: "hai" } },
       })(view.state, view.dispatch);
 
-      const expected =
-        '<testelement type="testElement" has-errors="false"><element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></element-testelement-field1></testelement>';
+      const expected = trimHtml(`
+        <testelement type="testElement" has-errors="false">
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></element-testelement-field1>
+        </testelement>`);
       expect(getElementAsHTML()).toBe(expected);
     });
   });

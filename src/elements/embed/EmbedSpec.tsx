@@ -42,13 +42,5 @@ export const createEmbedElement = () =>
       altText: [htmlMaxLength(1000), htmlRequired()],
       embedCode: [htmlRequired()],
       caption: [maxLength(1000)],
-    }),
-    {
-      weighting: "inline (default)",
-      sourceUrl: "",
-      embedCode: "",
-      caption: "",
-      altText: "",
-      required: true,
-    }
+    })
   );

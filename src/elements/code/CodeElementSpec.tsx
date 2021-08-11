@@ -24,9 +24,5 @@ export const codeElement = createReactElementSpec(
   (_, errors, __, fieldViewSpecs) => {
     return <CodeElementForm errors={errors} fieldViewSpecs={fieldViewSpecs} />;
   },
-  createValidator({ codeText: [required()] }),
-  {
-    codeText: "",
-    language: "text",
-  }
+  createValidator({ codeText: [required()] })
 );
