@@ -110,6 +110,16 @@ describe("ImageElement", () => {
         );
       });
 
+      it(`restrictedTextField – creates br tags, not new paragraphs`, () => {
+        addImageElement();
+        typeIntoElementField("restrictedTextField", "Example {Enter}text");
+        assertDocHtml(
+          getSerialisedHtml({
+            restrictedTextValue: "Example <br>text",
+          })
+        );
+      });
+
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
         addImageElement();
         typeIntoElementField("caption", "Caption text");

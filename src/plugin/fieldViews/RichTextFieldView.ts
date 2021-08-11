@@ -59,7 +59,7 @@ export const createFlatRichTextField = ({
       };
 
       const plugin = keymap(keymapping);
-      return (createPlugins?.(schema) ?? []).concat(plugin);
+      return [plugin, ...(createPlugins?.(schema) ?? [])];
     },
     nodeSpec: {
       ...nodeSpec,
