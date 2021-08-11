@@ -7,8 +7,12 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { codeElement, createImageElement } from "../src";
-import { createEmbedElement } from "../src/elements/embed/EmbedSpec";
+import {
+  codeElement,
+  createEmbedElement,
+  createImageElement,
+  pullquoteElement,
+} from "../src";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -27,11 +31,13 @@ FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
 const codeElementName = "codeElement";
+const pullquoteElementName = "pullquoteElement";
 
 type Name =
   | typeof embedElementName
   | typeof imageElementName
-  | typeof codeElementName;
+  | typeof codeElementName
+  | typeof pullquoteElementName;
 
 const {
   plugin: elementPlugin,
@@ -42,6 +48,7 @@ const {
   imageElement: createImageElement(onSelectImage, onCropImage),
   embedElement: createEmbedElement(),
   codeElement,
+  pullquoteElement,
 });
 
 const schema = new Schema({
@@ -150,6 +157,13 @@ const createEditor = (server: CollabServer) => {
       altText: "",
       caption: "",
       useSrc: { value: false },
+    })
+  );
+  editorElement.appendChild(
+    createElementButton("Add pullquote element", pullquoteElementName, {
+      pullquote: "",
+      attribution: "",
+      weighting: "supporting",
     })
   );
 

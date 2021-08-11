@@ -596,6 +596,13 @@
   dependencies:
     "@guardian/src-helpers" "^3.8.0"
 
+"@guardian/src-layout@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-layout/-/src-layout-3.8.0.tgz#ef7c536006f79507c9cde1fd48f38ae4c7af47d4"
+  integrity sha512-O4cfoZndrVvbuAkGJK9O96FTuKh4C71iJ7KtNDFiISjWBAd0IdEBWi4Z56V8pMqZPKbLgim01D7rgM0vgeHW4w==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
+
 "@guardian/src-select@^3.7.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-select/-/src-select-3.8.0.tgz#34f38ea24b20c2b298976f670a5442ff561484df"
