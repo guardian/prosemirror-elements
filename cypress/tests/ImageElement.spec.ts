@@ -88,6 +88,28 @@ describe("ImageElement", () => {
         });
       });
 
+      it(`restrictedTextField – can toggle italic style of an input in an element`, () => {
+        addImageElement();
+        getElementMenuButton("restrictedTextField", "Toggle emphasis").click();
+        typeIntoElementField("restrictedTextField", "Example text");
+        getElementRichTextField("restrictedTextField")
+          .find("em")
+          .should("have.text", "Example text");
+      });
+
+      it(`restrictedTextField – can't toggle strong style of an input in an element`, () => {
+        addImageElement();
+        getElementMenuButton(
+          "restrictedTextField",
+          "Toggle strong style"
+        ).click();
+        typeIntoElementField("restrictedTextField", "Example text");
+        getElementRichTextField("restrictedTextField").should(
+          "not.contain.html",
+          "<strong>"
+        );
+      });
+
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
         addImageElement();
         typeIntoElementField("caption", "Caption text");
