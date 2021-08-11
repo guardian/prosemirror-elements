@@ -1,9 +1,13 @@
+import { exampleSetup } from "prosemirror-example-setup";
 import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
-import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
+import {
+  createDefaultRichTextField,
+  createRichTextField,
+} from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
   createValidator,
@@ -37,6 +41,13 @@ export const createImageFields = (
 ) => {
   return {
     caption: createDefaultRichTextField(),
+    restrictedTextField: createRichTextField({
+      createPlugins: (schema) => exampleSetup({ schema }),
+      nodeSpec: {
+        content: "(text|hard_break)*",
+        marks: "em",
+      },
+    }),
     altText: createTextField({ isMultiline: true, rows: 2 }),
     src: createTextField(),
     code: createTextField({ isMultiline: true, rows: 4 }, true),
