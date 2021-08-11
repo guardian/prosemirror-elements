@@ -82,10 +82,13 @@ export const changeTestDecoString = (newTestString: string) => {
   });
 };
 
-export const addImageElement = (fieldValues: Record<string, unknown> = {}) => {
+export const addImageElement = (values: Record<string, unknown> = {}) => {
   cy.window().then((win: WindowType) => {
     const { view, insertElement } = win.PM_ELEMENTS;
-    insertElement("imageElement", fieldValues)(view.state, view.dispatch);
+    insertElement({ elementName: "imageElement", values })(
+      view.state,
+      view.dispatch
+    );
   });
 };
 

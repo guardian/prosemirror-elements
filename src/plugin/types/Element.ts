@@ -91,6 +91,21 @@ export type ElementSpecMap<
   ElementNames extends string
 > = Record<ElementNames, ElementSpec<FSpec>>;
 
-export type ExtractFieldValues<ESpec> = Partial<
-  ESpec extends ElementSpec<infer F> ? FieldNameToValueMap<F> : never
->;
+export type ExtractFieldValues<ESpec> = ESpec extends ElementSpec<infer F>
+  ? FieldNameToValueMap<F>
+  : never;
+
+// Construct a union of the possible element data values from an ElementSpec.
+export type ExtractDataTypeFromElementSpec<T, U> = U extends keyof T
+  ? {
+      elementName: U;
+      values: ExtractFieldValues<T[U]>;
+    }
+  : never;
+
+export type ExtractPartialDataTypeFromElementSpec<T, U> = U extends keyof T
+  ? {
+      elementName: U;
+      values: Partial<ExtractFieldValues<T[U]>>;
+    }
+  : never;
