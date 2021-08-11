@@ -24,7 +24,7 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onSelectImage } from "./helpers";
+import { onDemoCropImage, onSelectImage } from "./helpers";
 import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
@@ -38,7 +38,7 @@ const pullquoteElementName = "pullquoteElement";
 
 type Name =
   | typeof embedElementName
-  | typeof imageElementName
+  //| typeof imageElementName
   | typeof demoImageElementName
   | typeof codeElementName
   | typeof pullquoteElementName;
@@ -49,7 +49,7 @@ const {
   hasErrors,
   nodeSpec,
 } = buildElementPlugin({
-  demoImageElement: createDemoImageElement(onSelectImage, onCropImage),
+  demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
   //imageElement: createImageElement(onCropImage),
   embedElement: createEmbedElement(),
   codeElement,
@@ -158,20 +158,20 @@ const createEditor = (server: CollabServer) => {
   );
 
   editorElement.appendChild(
-    createElementButton("Add demo image element", imageElementName, {
+    createElementButton("Add demo image element", demoImageElementName, {
       altText: "",
       caption: "",
       useSrc: { value: false },
     })
   );
 
-  editorElement.appendChild(
-    createElementButton("Add demo image element", imageElementName, {
-      altText: "",
-      caption: "",
-      useSrc: { value: false },
-    })
-  );
+  // editorElement.appendChild(
+  //   createElementButton("Add image element", imageElementName, {
+  //     altText: "",
+  //     caption: "",
+  //     useSrc: { value: false },
+  //   })
+  // );
 
   editorElement.appendChild(
     createElementButton("Add pullquote element", pullquoteElementName, {

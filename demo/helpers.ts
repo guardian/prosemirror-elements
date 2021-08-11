@@ -1,3 +1,4 @@
+import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
 import type { Asset, SetMedia } from "../src/elements/image/ImageElement";
 
 type GridAsset = {
@@ -6,9 +7,7 @@ type GridAsset = {
   secureUrl: string;
 };
 
-export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
-  data,
-}: {
+type GridResponse = {
   data: {
     image: {
       data: {
@@ -29,7 +28,11 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
       };
     };
   };
-}) => {
+};
+
+export const onGridMessage = (setMedia: DemoSetMedia, modal: HTMLElement) => ({
+  data,
+}: GridResponse) => {
   modal.style.display = "None";
   const gridAssetToAsset = (
     gridAsset: GridAsset,
@@ -50,16 +53,16 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   setMedia(
     data.image.data.id,
     data.crop.data.specification.uri,
-    // data.crop.data.assets.map((_) => _.secureUrl),
-    // data.image.data.metadata.description
-    data.crop.data.assets
-      .map((asset) => gridAssetToAsset(asset))
-      .concat(gridAssetToAsset(data.crop.data.master, true)),
-    data.image.data.metadata.suppliersReference
+    data.crop.data.assets.map((_) => _.secureUrl),
+    data.image.data.metadata.description
+    // data.crop.data.assets
+    //   .map((asset) => gridAssetToAsset(asset))
+    //   .concat(gridAssetToAsset(data.crop.data.master, true)),
+    // data.image.data.metadata.suppliersReference
   );
 };
 
-export const onSelectImage = (setMedia: SetMedia) => {
+export const onSelectImage = (setMedia: DemoSetMedia) => {
   const modal = document.querySelector(".modal") as HTMLElement;
   modal.style.display = "Inherit";
 
@@ -83,7 +86,7 @@ export const onSelectImage = (setMedia: SetMedia) => {
   );
 };
 
-export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
+export const onDemoCropImage = (mediaId: string, setMedia: DemoSetMedia) => {
   const modal = document.querySelector(".modal") as HTMLElement;
 
   (document.querySelector(
@@ -108,3 +111,29 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
     { once: false }
   );
 };
+
+// export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
+//   const modal = document.querySelector(".modal") as HTMLElement;
+
+//   (document.querySelector(
+//     ".modal__body iframe"
+//   ) as HTMLIFrameElement).src = mediaId
+//     ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
+//     : `https://media.test.dev-gutools.co.uk/`;
+
+//   modal.style.display = "Inherit";
+//   const listener = onGridMessage(setMedia, modal);
+
+//   window.addEventListener("message", listener, {
+//     once: true,
+//   });
+
+//   document.querySelector(".modal__dismiss")?.addEventListener(
+//     "click",
+//     () => {
+//       window.removeEventListener("message", listener);
+//       modal.style.display = "None";
+//     },
+//     { once: false }
+//   );
+// };

@@ -17,7 +17,7 @@ import {
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./DemoImageElementForm";
 
-export type SetMedia = (
+export type DemoSetMedia = (
   mediaId: string,
   mediaApiUri: string,
   assets: string[],
@@ -31,13 +31,13 @@ type ImageField = {
 };
 
 type ImageProps = {
-  onSelectImage: (setMedia: SetMedia) => void;
-  onCropImage: (mediaId: string, setMedia: SetMedia) => void;
+  onSelectImage: (setMedia: DemoSetMedia) => void;
+  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void;
 };
 
 export const createImageFields = (
-  onSelectImage: (setSrc: SetMedia) => void, // once selected image
-  onCropImage: (mediaId: string, setMedia: SetMedia) => void //have an image choosing which
+  onSelectImage: (setSrc: DemoSetMedia) => void, // once selected image
+  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void //have an image choosing which
 ) => {
   return {
     caption: createDefaultRichTextField(),
@@ -75,8 +75,8 @@ export const createImageFields = (
 };
 
 export const createImageElement = (
-  onSelect: (setSrc: SetMedia) => void,
-  onCrop: (mediaId: string, setSrc: SetMedia) => void
+  onSelect: (setSrc: DemoSetMedia) => void,
+  onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
 ) =>
   createReactElementSpec(
     createImageFields(onSelect, onCrop),
