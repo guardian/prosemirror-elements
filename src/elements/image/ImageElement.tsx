@@ -7,12 +7,17 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 
-export type SetMedia = (
-  mediaId: string,
-  mediaApiUri: string,
-  assets: Asset[],
-  suppliersReference: string
-) => void;
+export type MediaPayload = {
+  mediaId: string;
+  mediaApiUri: string;
+  assets: Asset[];
+  suppliersReference: string;
+  caption: string;
+  photographer: string;
+  source: string;
+};
+
+export type SetMedia = (mediaPayload: MediaPayload) => void;
 
 export type Asset = {
   assetType: string;

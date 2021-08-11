@@ -6,10 +6,11 @@ import type {
 import { FieldView } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type {
-  Asset,
   createImageFields,
   MainImageData,
   MainImageProps,
+  MediaPayload,
+  SetMedia,
 } from "./ImageElement";
 
 type Props = {
@@ -19,6 +20,7 @@ type Props = {
 };
 
 type ImageViewProps = {
+  onChange: SetMedia;
   fieldViewSpec: CustomFieldViewSpec<MainImageData, MainImageProps>;
 };
 
@@ -34,20 +36,23 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     <FieldView fieldViewSpec={fieldViewSpecs.weighting} />
     <FieldView fieldViewSpec={fieldViewSpecs.imageType} />
     <FieldView fieldViewSpec={fieldViewSpecs.displayCreditInformation} />
-    <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
+    <ImageView
+      fieldViewSpec={fieldViewSpecs.mainImage}
+      onChange={({ caption, source, photographer }) => {
+        fieldViewSpecs.altText.update(caption);
+        fieldViewSpecs.source.update(source);
+        fieldViewSpecs.photographer.update(photographer);
+      }}
+    />
   </div>
 );
 
-const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
+const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
     fieldViewSpec
   );
-  const setMedia = (
-    mediaId: string,
-    mediaApiUri: string,
-    assets: Asset[],
-    suppliersReference: string
-  ) => {
+  const setMedia = (mediaPayload: MediaPayload) => {
+    const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
     if (setImageFieldsRef.current) {
       setImageFieldsRef.current({
         mediaId,
@@ -56,6 +61,7 @@ const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
         suppliersReference,
       });
     }
+    onChange(mediaPayload);
   };
   return (
     <>

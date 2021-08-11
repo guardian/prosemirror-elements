@@ -13,7 +13,7 @@ import {
   createEmbedElement,
   pullquoteElement,
 } from "../src";
-import type { Asset } from "../src/elements/image/ImageElement";
+import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { createImageElement } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -169,12 +169,8 @@ const createEditor = (server: CollabServer) => {
   imageElementButton.innerHTML = "Add image element";
   imageElementButton.id = imageElementName;
   imageElementButton.addEventListener("click", () => {
-    const setMedia = (
-      mediaId: string,
-      mediaApiUri: string,
-      assets: Asset[],
-      suppliersReference: string
-    ) => {
+    const setMedia = (mediaPayload: MediaPayload) => {
+      const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
       insertElement({
         elementName: imageElementName,
         values: {

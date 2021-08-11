@@ -14,6 +14,8 @@ type GridResponse = {
         metadata: {
           description: string;
           suppliersReference: string;
+          source: string;
+          byline: string;
         };
         id: string;
       };
@@ -66,14 +68,17 @@ const handleGridResponse = (setMedia: SetMedia) => ({ data }: GridResponse) => {
     };
   };
 
-  setMedia(
-    data.image.data.id,
-    data.crop.data.specification.uri,
-    data.crop.data.assets
+  setMedia({
+    mediaId: data.image.data.id,
+    mediaApiUri: data.crop.data.specification.uri,
+    assets: data.crop.data.assets
       .map((asset) => gridAssetToAsset(asset))
       .concat(gridAssetToAsset(data.crop.data.master, true)),
-    data.image.data.metadata.suppliersReference
-  );
+    suppliersReference: data.image.data.metadata.suppliersReference,
+    caption: data.image.data.metadata.description,
+    photographer: data.image.data.metadata.byline,
+    source: data.image.data.metadata.source,
+  });
 };
 
 export const onSelectImage = (setMedia: DemoSetMedia) => {
