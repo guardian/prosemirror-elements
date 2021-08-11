@@ -6,7 +6,7 @@ import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import {
   createDefaultRichTextField,
-  createRichTextField,
+  createFlatRichTextField,
 } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
@@ -41,10 +41,9 @@ export const createImageFields = (
 ) => {
   return {
     caption: createDefaultRichTextField(),
-    restrictedTextField: createRichTextField({
+    restrictedTextField: createFlatRichTextField({
       createPlugins: (schema) => exampleSetup({ schema }),
       nodeSpec: {
-        content: "(text|hard_break)*",
         marks: "em",
       },
     }),

@@ -73,6 +73,7 @@ export class TextFieldView extends ProseMirrorFieldView {
           };
       keymapping["Enter"] = newLineCommand;
     }
+
     super(
       node,
       outerView,

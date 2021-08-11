@@ -2,7 +2,7 @@ import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
-import type { Plugin } from "prosemirror-state";
+import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { BaseFieldSpec } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
@@ -27,6 +27,50 @@ export const createRichTextField = ({
   nodeSpec,
 });
 
+type FlatRichTextOptions = RichTextOptions & {
+  nodeSpec?: Partial<Omit<NodeSpec, "content">>;
+};
+
+/**
+ * Create a rich text field that contains only text (no p tag). Lines
+ * are separated by line breaks (`<br>` tags).
+ */
+export const createFlatRichTextField = ({
+  createPlugins,
+  nodeSpec,
+}: FlatRichTextOptions): RichTextField =>
+  createRichTextField({
+    createPlugins: (schema) => {
+      const br = schema.nodes.hard_break;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- there's no guarantee this is present in the Schema.
+      if (!br) {
+        throw new Error(
+          "[prosemirror-elements]: Attempted to add a FlatRichTextField, but there was no hard_break node in the schema. You must supply one to use this field."
+        );
+      }
+
+      const keymapping = {
+        Enter: (state: EditorState, dispatch?: (tr: Transaction) => void) => {
+          dispatch?.(
+            state.tr.replaceSelectionWith(br.create()).scrollIntoView()
+          );
+          return true;
+        },
+      };
+
+      const plugin = keymap(keymapping);
+      return (createPlugins?.(schema) ?? []).concat(plugin);
+    },
+    nodeSpec: {
+      ...nodeSpec,
+      content: "(text|hard_break)*",
+    },
+  });
+
+/**
+ * Create a rich text field with a default setup. Largely for demonstrative
+ * purposes, as library users are likely to want different defaults.
+ */
 export const createDefaultRichTextField = (): RichTextField =>
   createRichTextField({ createPlugins: (schema) => exampleSetup({ schema }) });
 
