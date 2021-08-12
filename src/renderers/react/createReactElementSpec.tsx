@@ -3,7 +3,6 @@ import React from "react";
 import { render } from "react-dom";
 import { createElementSpec } from "../../plugin/elementSpec";
 import type { Renderer, Validator } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { Consumer } from "../../plugin/types/Consumer";
 import type { FieldSpec } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
@@ -11,8 +10,7 @@ import { ElementProvider } from "./ElementProvider";
 export const createReactElementSpec = <FSpec extends FieldSpec<string>>(
   fieldSpec: FSpec,
   consumer: Consumer<ReactElement, FSpec>,
-  validate: Validator<FSpec>,
-  defaultState: FieldNameToValueMap<FSpec>
+  validate: Validator<FSpec>
 ) => {
   const renderer: Renderer<FSpec> = (
     validate,
@@ -36,5 +34,5 @@ export const createReactElementSpec = <FSpec extends FieldSpec<string>>(
       dom
     );
 
-  return createElementSpec(fieldSpec, renderer, validate, defaultState);
+  return createElementSpec(fieldSpec, renderer, validate);
 };

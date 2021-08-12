@@ -82,15 +82,5 @@ export const createImageElement = (
     createValidator({
       altText: [htmlMaxLength(100), htmlRequired()],
       caption: [htmlRequired()],
-    }),
-    {
-      caption: "",
-      useSrc: { value: true },
-      altText: "",
-      mainImage: { mediaId: undefined, mediaApiUri: undefined, assets: [] },
-      src: "",
-      code: "",
-      optionDropdown: "opt1",
-      customDropdown: "opt1",
-    }
+    })
   );

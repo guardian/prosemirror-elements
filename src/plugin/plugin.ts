@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
 import { Plugin, PluginKey } from "prosemirror-state";
-import type { EditorProps } from "prosemirror-view";
+import type { Decoration, DecorationSet, EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
   FieldNameToFieldViewSpec,
@@ -137,6 +137,27 @@ const createNodeView = <
     } as unknown) as FieldNameToFieldViewSpec<FSpec>[typeof name];
   });
 
+  const getValuesFromNode = (
+    node: Node,
+    decos: Decoration[] | DecorationSet
+  ) => {
+    // We gather the values from each child as we iterate over the
+    // node, to update the renderer. It's difficult to be typesafe here,
+    // as the Node's name value is loosely typed as `string`, and so we
+    // cannot index into the element `fieldSpec` to discover the appropriate type.
+    const fieldValues: Record<string, unknown> = {};
+    node.forEach((node, offset) => {
+      const fieldName = getFieldNameFromNode(
+        node
+      ) as keyof FieldNameToFieldViewSpec<FSpec>;
+      const fieldViewSpec = fieldViewSpecs[fieldName];
+      fieldViewSpec.fieldView.onUpdate(node, offset, decos);
+      fieldValues[fieldName] = fieldViewSpec.fieldView.getNodeValue(node);
+    });
+
+    return fieldValues as FieldNameToValueMap<FSpec>;
+  };
+
   const update = element.createUpdator(
     dom,
     fieldViewSpecs,
@@ -149,7 +170,7 @@ const createNodeView = <
         })
       );
     },
-    initNode.attrs.fields,
+    getValuesFromNode(initNode, innerDecos),
     commands(getPos, view)
   );
 
@@ -160,24 +181,8 @@ const createNodeView = <
         node.type.name === elementName &&
         node.attrs.type === initNode.attrs.type
       ) {
-        // We gather the values from each child as we iterate over the
-        // node, to update the renderer. It's difficult to be typesafe here,
-        // as the Node's name value is loosely typed as `string`, and so we
-        // cannot index into the element `fieldSpec` to discover the appropriate type.
-        const fieldValues: Record<string, unknown> = {};
-        node.forEach((node, offset) => {
-          const fieldName = getFieldNameFromNode(
-            node
-          ) as keyof FieldNameToFieldViewSpec<FSpec>;
-          const fieldViewSpec = fieldViewSpecs[fieldName];
-          fieldViewSpec.fieldView.onUpdate(node, offset, innerDecos);
-          fieldValues[fieldName] = fieldViewSpec.fieldView.getNodeValue(node);
-        });
-
-        update(
-          fieldValues as FieldNameToValueMap<FSpec>,
-          commands(getPos, view)
-        );
+        const fieldValues = getValuesFromNode(node, innerDecos);
+        update(fieldValues, commands(getPos, view));
 
         return true;
       }

@@ -64,8 +64,7 @@ export const createNoopElement = <FSpec extends FieldSpec<string>>(
   createElementSpec(
     fieldSpec,
     () => null,
-    () => null,
-    {}
+    () => null
   );
 
 export const createEditorWithElements = <
