@@ -21,7 +21,8 @@ import type {
 export const buildElementPlugin = <
   FSpec extends FieldSpec<keyof FSpec>,
   ElementNames extends keyof ESpecMap,
-  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
+  ExternalData,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames, ExternalData>
 >(
   elementSpecs: ESpecMap,
   predicate = defaultPredicate
