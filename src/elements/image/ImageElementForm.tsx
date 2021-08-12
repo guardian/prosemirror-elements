@@ -35,6 +35,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     <FieldView fieldViewSpec={fieldViewSpecs.photographer} />
     <FieldView fieldViewSpec={fieldViewSpecs.weighting} />
     <FieldView fieldViewSpec={fieldViewSpecs.imageType} />
+    <FieldView fieldViewSpec={fieldViewSpecs.source} />
     <FieldView fieldViewSpec={fieldViewSpecs.displayCreditInformation} />
     <ImageView
       fieldViewSpec={fieldViewSpecs.mainImage}
