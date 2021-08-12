@@ -88,20 +88,5 @@ export const createImageElement = (
     (fields, errors, __, fieldViewSpecs) => {
       return <ImageElementForm fieldViewSpecMap={fieldViewSpecs} />;
     },
-    () => null,
-    {
-      caption: "",
-      displayCreditInformation: { value: true },
-      altText: "",
-      source: "",
-      weighting: "supporting",
-      imageType: "Photograph",
-      photographer: "",
-      mainImage: {
-        mediaId: undefined,
-        mediaApiUri: undefined,
-        assets: [],
-        suppliersReference: "",
-      },
-    }
+    () => null
   );
