@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
@@ -72,8 +72,9 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   };
   return (
     <>
-      {JSON.stringify(imageFields)}
-      <div>Test Image Selector</div>
+      {imageFields.assets.length > 0 ? (
+        <img src={imageFields.assets[0].url} />
+      ) : null}
       <button
         onClick={() => {
           fieldViewSpec.fieldSpec.props.openImageSelector(
@@ -82,7 +83,7 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
           );
         }}
       >
-        Select Image
+        Re-crop image
       </button>
     </>
   );
