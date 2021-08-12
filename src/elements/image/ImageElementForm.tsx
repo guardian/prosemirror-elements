@@ -39,7 +39,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     <ImageView
       fieldViewSpec={fieldViewSpecs.mainImage}
       onChange={({ caption, source, photographer }) => {
-        fieldViewSpecs.altText.update(caption);
+        fieldViewSpecs.caption.update(caption);
         fieldViewSpecs.source.update(source);
         fieldViewSpecs.photographer.update(photographer);
       }}

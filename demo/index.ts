@@ -170,10 +170,21 @@ const createEditor = (server: CollabServer) => {
   imageElementButton.id = imageElementName;
   imageElementButton.addEventListener("click", () => {
     const setMedia = (mediaPayload: MediaPayload) => {
-      const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
+      const {
+        mediaId,
+        mediaApiUri,
+        assets,
+        suppliersReference,
+        caption,
+        photographer,
+        source,
+      } = mediaPayload;
       insertElement({
         elementName: imageElementName,
         values: {
+          caption,
+          photographer,
+          source,
           mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
         },
       })(view.state, view.dispatch);
