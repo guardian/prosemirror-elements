@@ -4,6 +4,7 @@ import type {
   ElementSpec,
   FieldNameToFieldViewSpec,
   FieldSpec,
+  Transformers,
 } from "./types/Element";
 
 type Subscriber<FSpec extends FieldSpec<string>> = (
@@ -48,12 +49,17 @@ export type Renderer<FSpec extends FieldSpec<string>> = (
   ) => void
 ) => void;
 
-export const createElementSpec = <FSpec extends FieldSpec<string>>(
+export const createElementSpec = <
+  FSpec extends FieldSpec<string>,
+  ExternalData
+>(
   fieldSpec: FSpec,
   render: Renderer<FSpec>,
-  validate: Validator<FSpec>
-): ElementSpec<FSpec> => ({
+  validate: Validator<FSpec>,
+  transformers?: Transformers<FSpec, ExternalData>
+): ElementSpec<FSpec, ExternalData> => ({
   fieldSpec,
+  transformers,
   createUpdator: (dom, fields, updateState, fieldValues, commands) => {
     const updater = createUpdater<FSpec>();
     render(

@@ -3,6 +3,7 @@ import { Plugin, PluginKey } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
+  ElementSpecMap,
   FieldNameToFieldViewSpec,
   FieldSpec,
 } from "../plugin/types/Element";
@@ -19,10 +20,11 @@ export type PluginState = { hasErrors: boolean };
 
 export const createPlugin = <
   ElementNames extends string,
+  ExternalData,
   FSpec extends FieldSpec<string>
 >(
   elementsSpec: {
-    [elementName in ElementNames]: ElementSpec<FSpec>;
+    [elementName in ElementNames]: ElementSpec<FSpec, ExternalData>;
   },
   commands: Commands
 ): Plugin<PluginState, Schema> => {
@@ -54,7 +56,10 @@ export const createPlugin = <
     },
     props: {
       decorations,
-      nodeViews: createNodeViews(elementsSpec, commands),
+      nodeViews: createNodeViews(
+        elementsSpec as ElementSpecMap<FSpec, ElementNames>,
+        commands
+      ),
     },
   });
 };
@@ -65,9 +70,7 @@ const createNodeViews = <
   ElementNames extends string,
   FSpec extends FieldSpec<string>
 >(
-  elementsSpec: {
-    [elementName in ElementNames]: ElementSpec<FSpec>;
-  },
+  elementsSpec: ElementSpecMap<FSpec, ElementNames>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;

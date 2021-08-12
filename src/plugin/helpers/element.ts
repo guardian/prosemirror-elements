@@ -1,9 +1,11 @@
 import type { DOMSerializer, Node, Schema } from "prosemirror-model";
+import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import { fieldTypeToViewMap } from "../fieldViews/helpers";
 import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
   ElementSpecMap,
   ExtractDataTypeFromElementSpec,
+  ExtractFieldValues,
   ExtractPartialDataTypeFromElementSpec,
   FieldNameToFieldViewSpec,
   FieldSpec,
@@ -12,7 +14,8 @@ import type {
 export const createGetNodeFromElementData = <
   FSpec extends FieldSpec<keyof FSpec>,
   ElementNames extends keyof ESpecMap,
-  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
+  ExternalData,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames, ExternalData>
 >(
   elementTypeMap: ESpecMap
 ) => (
@@ -31,10 +34,14 @@ export const createGetNodeFromElementData = <
     );
   }
 
+  const transformedValues =
+    element.transformers?.transformElementDataIn(values as ExternalData) ??
+    values;
+
   const nodes = createNodesForFieldValues(
     schema,
     element.fieldSpec,
-    values,
+    transformedValues as FieldNameToValueMap<FSpec>,
     elementName
   );
 
@@ -49,12 +56,13 @@ export const createGetNodeFromElementData = <
 export const createGetElementDataFromNode = <
   FSpec extends FieldSpec<keyof FSpec>,
   ElementNames extends keyof ESpecMap,
-  ESpecMap extends ElementSpecMap<FSpec, ElementNames>
+  ExternalData,
+  ESpecMap extends ElementSpecMap<FSpec, ElementNames, ExternalData>
 >(
   elementTypeMap: ESpecMap
 ) => (node: Node, serializer: DOMSerializer) => {
   const elementName = node.attrs.type as ElementNames;
-  const elementSpec = elementTypeMap[elementName];
+  const element = elementTypeMap[elementName];
 
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -65,7 +73,7 @@ export const createGetElementDataFromNode = <
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToFieldViewSpec<FSpec>;
-    const fieldSpec = elementSpec.fieldSpec[fieldName];
+    const fieldSpec = element.fieldSpec[fieldName];
     const fieldType = fieldTypeToViewMap[fieldSpec.type].fieldType;
 
     values[fieldName] =
@@ -76,7 +84,10 @@ export const createGetElementDataFromNode = <
 
   return ({
     elementName,
-    values: values,
+    values:
+      element.transformers?.transformElementDataOut(
+        values as ExtractFieldValues<typeof element>
+      ) ?? values,
   } as unknown) as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
 };
 
