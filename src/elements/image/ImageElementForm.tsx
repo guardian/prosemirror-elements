@@ -1,4 +1,5 @@
 import React from "react";
+import { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
@@ -14,7 +15,8 @@ import type {
 } from "./ImageElement";
 
 type Props = {
-  fieldViewSpecMap: FieldNameToFieldViewSpec<
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
+  fieldViewSpecs: FieldNameToFieldViewSpec<
     ReturnType<typeof createImageFields>
   >;
 };
@@ -27,11 +29,15 @@ type ImageViewProps = {
 export const ImageElementTestId = "ImageElement";
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
-  fieldViewSpecMap: fieldViewSpecs,
+  fieldValues,
+  fieldViewSpecs,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
     <FieldView fieldViewSpec={fieldViewSpecs.caption} />
+    <button onClick={() => fieldViewSpecs.altText.update(fieldValues.caption)}>
+      Copy from caption
+    </button>
+    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
     <FieldView fieldViewSpec={fieldViewSpecs.photographer} />
     <FieldView fieldViewSpec={fieldViewSpecs.weighting} />
     <FieldView fieldViewSpec={fieldViewSpecs.imageType} />

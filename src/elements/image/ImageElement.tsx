@@ -86,7 +86,12 @@ export const createImageElement = (
   createReactElementSpec(
     createImageFields(openImageSelector),
     (fields, errors, __, fieldViewSpecs) => {
-      return <ImageElementForm fieldViewSpecMap={fieldViewSpecs} />;
+      return (
+        <ImageElementForm
+          fieldValues={fields}
+          fieldViewSpecs={fieldViewSpecs}
+        />
+      );
     },
     () => null
   );
