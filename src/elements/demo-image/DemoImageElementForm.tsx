@@ -44,6 +44,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     >
       Programmatically update alt text
     </button>
+    <Field
+      fieldViewSpec={fieldViewSpecs.restrictedTextField}
+      label="Restricted Text Field"
+      errors={errors.restrictedTextField}
+    />
     <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
     <Field
       label="Code"

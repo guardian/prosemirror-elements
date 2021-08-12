@@ -86,18 +86,21 @@ export const getNodeSpecForField = (
           code: field.isCode,
         },
       };
-    case "richText":
+    case "richText": {
+      const nodeSpec = field.nodeSpec ?? {};
       return {
         [getNodeNameFromField(fieldName, elementName)]: {
-          content: field.content ?? "paragraph+",
+          ...nodeSpec,
+          content: nodeSpec.content ?? "paragraph+",
           toDOM:
-            field.toDOM ??
+            nodeSpec.toDOM ??
             getDefaultToDOMForContentNode(elementName, fieldName),
-          parseDOM: field.parseDOM ?? [
+          parseDOM: nodeSpec.parseDOM ?? [
             { tag: getTagForNode(elementName, fieldName) },
           ],
         },
       };
+    }
     case "checkbox":
       return {
         [getNodeNameFromField(fieldName, elementName)]: {

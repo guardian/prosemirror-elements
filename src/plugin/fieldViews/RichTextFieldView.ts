@@ -7,22 +7,28 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { BaseFieldSpec } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface RichTextField
-  extends BaseFieldSpec<string>,
-    Partial<Pick<NodeSpec, "toDOM" | "parseDOM" | "content">> {
+export interface RichTextField extends BaseFieldSpec<string> {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
+  nodeSpec?: Partial<NodeSpec>;
 }
 
-export const createRichTextField = (
-  createPlugins?: (schema: Schema) => Plugin[]
-): RichTextField => ({
+type RichTextOptions = {
+  createPlugins?: (schema: Schema) => Plugin[];
+  nodeSpec?: Partial<NodeSpec>;
+};
+
+export const createRichTextField = ({
+  createPlugins,
+  nodeSpec,
+}: RichTextOptions): RichTextField => ({
   type: RichTextFieldView.fieldName,
-  createPlugins: createPlugins,
+  createPlugins,
+  nodeSpec,
 });
 
 export const createDefaultRichTextField = (): RichTextField =>
-  createRichTextField((schema) => exampleSetup({ schema }));
+  createRichTextField({ createPlugins: (schema) => exampleSetup({ schema }) });
 
 export class RichTextFieldView extends ProseMirrorFieldView {
   public static fieldName = "richText" as const;

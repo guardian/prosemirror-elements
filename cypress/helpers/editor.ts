@@ -99,6 +99,7 @@ export const getSerialisedHtml = ({
   codeValue = "",
   useSrcValue = "false",
   optionValue = "opt1",
+  restrictedTextValue = "",
   customDropdownValue = "opt1",
   mainImageValue = {
     assets: "[]",
@@ -112,6 +113,7 @@ export const getSerialisedHtml = ({
   codeValue?: string;
   useSrcValue?: string;
   optionValue?: string;
+  restrictedTextValue?: string;
   customDropdownValue?: string;
   mainImageValue?: {
     assets: string;
@@ -134,6 +136,7 @@ export const getSerialisedHtml = ({
     <element-imageelement-customdropdown class="ProsemirrorElement__imageElement-customDropdown" fields="&quot;${customDropdownValue}&quot;"></element-imageelement-customdropdown>
     <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{${mainImageFields}}"></element-imageelement-mainimage>
     <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
+    <element-imageelement-restrictedtextfield class="ProsemirrorElement__imageElement-restrictedTextField">${restrictedTextValue}</element-imageelement-restrictedtextfield>
     <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
     <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
   </imageelement><p>First paragraph</p><p>Second paragraph</p>`);

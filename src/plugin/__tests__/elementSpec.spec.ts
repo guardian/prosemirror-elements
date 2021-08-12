@@ -125,9 +125,11 @@ describe("mount", () => {
           const fieldSpec = {
             field1: {
               type: "richText" as const,
-              content: "text",
-              toDOM: () => "element-testelement1-field1",
-              parseDOM: [{ tag: "header" }],
+              nodeSpec: {
+                content: "text",
+                toDOM: () => "element-testelement1-field1",
+                parseDOM: [{ tag: "header" }],
+              },
             },
           };
 
@@ -137,9 +139,9 @@ describe("mount", () => {
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
           ).toEqual({
-            content: fieldSpec.field1.content,
-            toDOM: fieldSpec.field1.toDOM,
-            parseDOM: fieldSpec.field1.parseDOM,
+            content: fieldSpec.field1.nodeSpec.content,
+            toDOM: fieldSpec.field1.nodeSpec.toDOM,
+            parseDOM: fieldSpec.field1.nodeSpec.parseDOM,
           });
         });
       });
