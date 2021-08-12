@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
 import { buildElementPlugin } from "../element";
+import { createElementSpec } from "../elementSpec";
 import type { CustomField } from "../fieldViews/CustomFieldView";
 import {
   createEditorWithElements,
@@ -329,6 +330,12 @@ describe("buildElementPlugin", () => {
         </testelement2>
       `;
 
+    const testElementTransformHTML = `
+      <testelementwithtransform type="testElementWithTransform" has-errors="false">
+      <element-testelementwithtransform-field1 class="ProsemirrorElement__testelementwithtransform-field1"><p></p></element-testelementwithtransform-field1>
+      </testelement2>
+    `;
+
     const testElement = createNoopElement({
       field1: { type: "richText" },
       field2: {
@@ -349,6 +356,45 @@ describe("buildElementPlugin", () => {
         isCode: false,
       },
     });
+
+    type ExternalData = { nestedElementValues: { field1: string } };
+    type OtherExternalData = { otherValues: { field1: string } };
+
+    const testElementWithTransform = createElementSpec(
+      {
+        field1: { type: "richText" },
+      },
+      () => null,
+      () => null,
+      {
+        transformElementDataIn: (external: ExternalData) => {
+          return external.nestedElementValues;
+        },
+        transformElementDataOut: (internal): ExternalData => {
+          return {
+            nestedElementValues: internal,
+          };
+        },
+      }
+    );
+
+    const testElementWithTransform2 = createElementSpec(
+      {
+        field1: { type: "richText" },
+      },
+      () => null,
+      () => null,
+      {
+        transformElementDataIn: (external: OtherExternalData) => {
+          return external.otherValues;
+        },
+        transformElementDataOut: (internal): OtherExternalData => {
+          return {
+            otherValues: internal,
+          };
+        },
+      }
+    );
 
     const testElementValues = {
       elementName: "testElement",
@@ -445,6 +491,45 @@ describe("buildElementPlugin", () => {
             view.state.schema
           );
         });
+
+        it("should transform data with the provided transformer", () => {
+          const { getNodeFromElementData, view } = createEditorWithElements(
+            {
+              testElementWithTransform,
+              testElementWithTransform2,
+            },
+            testElementTransformHTML
+          );
+
+          const node = getNodeFromElementData(
+            {
+              elementName: "testElementWithTransform",
+              values: { nestedElementValues: { field1: "<p></p>" } },
+            },
+            view.state.schema
+          );
+
+          expect(node?.eq(view.state.doc.firstChild as Node)).toBe(true);
+        });
+
+        it("should not accept data that doesn't match the shape expected by the transformer", () => {
+          const { getNodeFromElementData, view } = createEditorWithElements(
+            {
+              testElementWithTransform,
+              testElementWithTransform2,
+            },
+            testElementTransformHTML
+          );
+
+          getNodeFromElementData(
+            {
+              elementName: "testElementWithTransform",
+              // @ts-expect-error -- this value doesn't match the shape expected by our transform function
+              values: { notAThing: { field1: "<p></p>" } },
+            },
+            view.state.schema
+          );
+        });
       });
 
       describe("Conversion from node to data", () => {
@@ -514,6 +599,63 @@ describe("buildElementPlugin", () => {
 
           // @ts-expect-error -- we should not be able to access non-element properties
           element.notAField;
+        });
+
+        it("should transform data with the provided transformer", () => {
+          const {
+            getElementDataFromNode,
+            view,
+            serializer,
+          } = createEditorWithElements(
+            {
+              testElementWithTransform,
+              testElementWithTransform2,
+            },
+            testElementTransformHTML
+          );
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          expect(element).toEqual({
+            elementName: "testElementWithTransform",
+            values: {
+              nestedElementValues: { field1: "<p></p>" },
+            },
+          });
+        });
+
+        it("should be typesafe with transformed data", () => {
+          const {
+            getElementDataFromNode,
+            view,
+            serializer,
+          } = createEditorWithElements(
+            {
+              testElementWithTransform,
+              testElementWithTransform2,
+            },
+            testElementTransformHTML
+          );
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          if (element.elementName === "testElementWithTransform") {
+            element.values.nestedElementValues.field1;
+            // @ts-expect-error -- we should not be able to access properties not on a specific element
+            element.values.otherValues;
+          }
+
+          if (element.elementName === "testElementWithTransform2") {
+            element.values.otherValues.field1;
+            // @ts-expect-error -- we should not be able to access properties not on a specific element
+            element.values.nestedElementValues;
+          }
         });
       });
     });
