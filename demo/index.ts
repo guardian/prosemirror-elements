@@ -2,9 +2,14 @@ import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
-import type { Node, NodeSpec } from "prosemirror-model";
+import type {
+  DOMOutputSpec,
+  MarkSpec,
+  Node,
+  NodeSpec,
+} from "prosemirror-model";
 import { Schema } from "prosemirror-model";
-import { schema as basicSchema } from "prosemirror-schema-basic";
+import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
@@ -56,9 +61,28 @@ const {
   pullquoteElement,
 });
 
+const restrictedParagraph = {
+  content: "text*",
+  marks: "em",
+  group: "block",
+  parseDOM: [{ tag: "restricted-p" }],
+  toDOM() {
+    return ["restricted-p", 0] as DOMOutputSpec;
+  },
+};
+
+const strike: MarkSpec = {
+  parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
+  toDOM() {
+    return ["s"];
+  },
+};
+
 const schema = new Schema({
-  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
-  marks: basicSchema.spec.marks,
+  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>)
+    .append(nodeSpec)
+    .append({ restrictedParagraph }),
+  marks: { ...marks, strike },
 });
 
 const { serializer, parser } = createParsers(schema);

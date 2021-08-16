@@ -1,8 +1,9 @@
+import { exampleSetup } from "prosemirror-example-setup";
 import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
-import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
+import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
   createValidator,
@@ -51,7 +52,12 @@ export const createImageFields = (
 ) => {
   return {
     altText: createTextField(),
-    caption: createDefaultRichTextField(),
+    caption: createFlatRichTextField({
+      createPlugins: (schema) => exampleSetup({ schema }),
+      nodeSpec: {
+        marks: "em strong link strike",
+      },
+    }),
     displayCreditInformation: createCheckBox(true),
     imageType: createDropDownField(
       [
