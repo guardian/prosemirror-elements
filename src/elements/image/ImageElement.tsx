@@ -4,6 +4,11 @@ import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import {
+  createValidator,
+  htmlMaxLength,
+  htmlRequired,
+} from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 
@@ -89,9 +94,15 @@ export const createImageElement = (
       return (
         <ImageElementForm
           fieldValues={fields}
+          errors={errors}
           fieldViewSpecs={fieldViewSpecs}
         />
       );
     },
-    () => null
+    createValidator({
+      caption: [htmlMaxLength(600)],
+      altText: [htmlMaxLength(1000), htmlRequired()],
+      source: [htmlMaxLength(250), htmlRequired()],
+      photographer: [htmlMaxLength(250)],
+    })
   );

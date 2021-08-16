@@ -1,10 +1,10 @@
 import React from "react";
+import { Field } from "../../editorial-source-components/Field";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../plugin/types/Element";
-import { FieldView } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type {
   createImageFields,
@@ -16,6 +16,7 @@ import type {
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
+  errors: Record<string, string[]>;
   fieldViewSpecs: FieldNameToFieldViewSpec<
     ReturnType<typeof createImageFields>
   >;
@@ -29,20 +30,54 @@ type ImageViewProps = {
 export const ImageElementTestId = "ImageElement";
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
-  fieldValues,
+  errors,
   fieldViewSpecs,
+  fieldValues,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.caption} />
+    <Field
+      fieldViewSpec={fieldViewSpecs.caption}
+      errors={errors.caption}
+      label="Caption"
+    />
     <button onClick={() => fieldViewSpecs.altText.update(fieldValues.caption)}>
       Copy from caption
     </button>
-    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
-    <FieldView fieldViewSpec={fieldViewSpecs.photographer} />
-    <FieldView fieldViewSpec={fieldViewSpecs.weighting} />
-    <FieldView fieldViewSpec={fieldViewSpecs.imageType} />
-    <FieldView fieldViewSpec={fieldViewSpecs.source} />
-    <FieldView fieldViewSpec={fieldViewSpecs.displayCreditInformation} />
+    <Field
+      fieldViewSpec={fieldViewSpecs.altText}
+      errors={errors.altText}
+      label="Alt text"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.photographer}
+      errors={errors.photographer}
+      label="Photographer"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.weighting}
+      errors={errors.weighting}
+      label="Weighting"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.imageType}
+      errors={errors.imageType}
+      label="Image Types"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.source}
+      errors={errors.source}
+      label="Source"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.photographer}
+      errors={errors.photographer}
+      label="Photographer"
+    />
+    <Field
+      fieldViewSpec={fieldViewSpecs.displayCreditInformation}
+      errors={errors.displayCreditInformation}
+      label="Credits"
+    />
     <ImageView
       fieldViewSpec={fieldViewSpecs.mainImage}
       onChange={({ caption, source, photographer }) => {
