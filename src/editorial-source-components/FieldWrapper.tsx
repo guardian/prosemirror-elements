@@ -8,14 +8,16 @@ type Props<F> = {
   field: F;
   errors: string[];
   label: string;
+  className?: string;
 };
 
 export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
   field,
   errors,
   label,
+  className,
 }: Props<F>) => (
-  <InputGroup>
+  <InputGroup className={className}>
     <InputHeading label={label} errors={errors} />
     <FieldView field={field} hasErrors={!!errors.length} />
   </InputGroup>
