@@ -51,20 +51,8 @@ const {
   pullquoteElement,
 });
 
-const restrictedParagraph = {
-  content: "text*",
-  marks: "em",
-  group: "block",
-  parseDOM: [{ tag: "restricted-p" }],
-  toDOM() {
-    return ["restricted-p", 0] as DOMOutputSpec;
-  },
-};
-
 const schema = new Schema({
-  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>)
-    .append(nodeSpec)
-    .append({ restrictedParagraph }),
+  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
   marks: basicSchema.spec.marks,
 });
 
