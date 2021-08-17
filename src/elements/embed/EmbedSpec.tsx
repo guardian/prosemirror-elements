@@ -29,12 +29,12 @@ export const embedFields = {
 export const createEmbedElement = () =>
   createReactElementSpec(
     embedFields,
-    (fields, errors, __, fieldViewSpecs) => {
+    (fieldValues, errors, __, fields) => {
       return (
         <EmbedElementForm
           fields={fields}
           errors={errors}
-          fieldViewSpecMap={fieldViewSpecs}
+          fieldValues={fieldValues}
         />
       );
     },

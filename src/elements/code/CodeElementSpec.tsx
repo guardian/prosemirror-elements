@@ -22,7 +22,7 @@ export const codeFields = {
 export const codeElement = createReactElementSpec(
   codeFields,
   (_, errors, __, fieldViewSpecs) => {
-    return <CodeElementForm errors={errors} fieldViewSpecs={fieldViewSpecs} />;
+    return <CodeElementForm errors={errors} fields={fieldViewSpecs} />;
   },
   createValidator({ codeText: [required()] })
 );

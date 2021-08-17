@@ -5,8 +5,8 @@ import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { Commands } from "../../plugin/types/Commands";
 import type { Consumer } from "../../plugin/types/Consumer";
 import type {
-  FieldNameToFieldViewSpec,
   FieldDescriptions,
+  FieldNameToField,
 } from "../../plugin/types/Element";
 import type { Errors } from "../../plugin/types/Errors";
 import { ElementWrapper } from "./ElementWrapper";
@@ -32,7 +32,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
   validate: Validator<FDesc>;
   consumer: Consumer<ReactElement, FDesc>;
-  fields: FieldNameToFieldViewSpec<FDesc>;
+  fields: FieldNameToField<FDesc>;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -40,10 +40,9 @@ type IState<FDesc extends FieldDescriptions<string>> = {
   fieldValues: FieldNameToValueMap<FDesc>;
 };
 
-export class ElementProvider<FDesc extends FieldDescriptions<string>> extends Component<
-  IProps<FDesc>,
-  IState<FDesc>
-> {
+export class ElementProvider<
+  FDesc extends FieldDescriptions<string>
+> extends Component<IProps<FDesc>, IState<FDesc>> {
   constructor(props: IProps<FDesc>) {
     super(props);
 

@@ -1,5 +1,5 @@
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
-import type { FieldDescriptions, FieldNameToFieldViewSpec } from "./Element";
+import type { FieldDescriptions, FieldNameToField } from "./Element";
 import type { Errors } from "./Errors";
 
 export type Consumer<
@@ -9,5 +9,5 @@ export type Consumer<
   fieldValues: FieldNameToValueMap<FDesc>,
   errors: Errors,
   updateFields: (fieldValues: FieldNameToValueMap<FDesc>) => void,
-  fields: FieldNameToFieldViewSpec<FDesc>
+  fields: FieldNameToField<FDesc>
 ) => ConsumerResult;

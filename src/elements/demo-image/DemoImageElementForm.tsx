@@ -1,22 +1,17 @@
 import React from "react";
-import { Field } from "../../editorial-source-components/Field";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type {
-  CustomFieldViewSpec,
-  FieldNameToFieldViewSpec,
-} from "../../plugin/types/Element";
+import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type { createImageFields, SetMedia } from "./DemoImageElement";
 
 type Props = {
-  fields: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: Record<string, string[]>;
-  fieldViewSpecs: FieldNameToFieldViewSpec<
-    ReturnType<typeof createImageFields>
-  >;
+  fields: FieldNameToField<ReturnType<typeof createImageFields>>;
 };
 
 export const ImageElementTestId = "ImageElement";
@@ -25,69 +20,62 @@ export const UpdateAltTextButtonId = "UpdateAltTextButton";
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   fields,
   errors,
-  fieldViewSpecs,
+  fieldValues,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <Field
+    <FieldWrapper
       label="Caption"
-      fieldViewSpec={fieldViewSpecs.caption}
+      field={fields.caption}
       errors={errors.caption}
     />
-    <Field
+    <FieldWrapper
       label="Alt text"
-      fieldViewSpec={fieldViewSpecs.altText}
+      field={fields.altText}
       errors={errors.altText}
     />
     <button
       data-cy={UpdateAltTextButtonId}
-      onClick={() => fieldViewSpecs.altText.update("Default alt text")}
+      onClick={() => fields.altText.update("Default alt text")}
     >
       Programmatically update alt text
     </button>
-    <Field
-      fieldViewSpec={fieldViewSpecs.restrictedTextField}
+    <FieldWrapper
+      field={fields.restrictedTextField}
       label="Restricted Text Field"
       errors={errors.restrictedTextField}
     />
-    <Field label="Src" fieldViewSpec={fieldViewSpecs.src} errors={errors.src} />
-    <Field
-      label="Code"
-      fieldViewSpec={fieldViewSpecs.code}
-      errors={errors.code}
-    />
-    <Field
+    <FieldWrapper label="Src" field={fields.src} errors={errors.src} />
+    <FieldWrapper label="Code" field={fields.code} errors={errors.code} />
+    <FieldWrapper
       label="Use image source?"
-      fieldViewSpec={fieldViewSpecs.useSrc}
+      field={fields.useSrc}
       errors={errors.useSrc}
     />
-    <Field
+    <FieldWrapper
       label="Options"
-      fieldViewSpec={fieldViewSpecs.optionDropdown}
+      field={fields.optionDropdown}
       errors={errors.optionDropdown}
     />
     <ImageView
-      fieldViewSpec={fieldViewSpecs.mainImage}
+      field={fields.mainImage}
       onChange={(_, __, ___, description) => {
-        fieldViewSpecs.altText.update(description);
-        fieldViewSpecs.caption.update(description);
+        fields.altText.update(description);
+        fields.caption.update(description);
       }}
     />
-    <CustomDropdownView
-      label="Options"
-      fieldViewSpec={fieldViewSpecs.customDropdown}
-    />
+    <CustomDropdownView label="Options" field={fields.customDropdown} />
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>
     <hr />
     <Label>Element values</Label>
-    <pre>{JSON.stringify(fields)}</pre>
+    <pre>{JSON.stringify(fieldValues)}</pre>
   </div>
 );
 
 type ImageViewProps = {
   onChange: SetMedia;
-  fieldViewSpec: CustomFieldViewSpec<
+  field: CustomField<
     {
       mediaId?: string;
       mediaApiUri?: string;
@@ -100,10 +88,8 @@ type ImageViewProps = {
   >;
 };
 
-const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
-    fieldViewSpec
-  );
+const ImageView = ({ field, onChange }: ImageViewProps) => {
+  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(field);
 
   const setMedia = (
     mediaId: string,
@@ -118,7 +104,7 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   };
 
   return (
-    <div data-cy={getFieldViewTestId(fieldViewSpec.name)}>
+    <div data-cy={getFieldViewTestId(field.name)}>
       {imageFields.assets.length > 0 ? (
         <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
       ) : null}
@@ -127,23 +113,19 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
         <button
           onClick={() => {
             if (imageFields.mediaId) {
-              fieldViewSpec.fieldDescription.props.onCropImage(
+              field.description.props.onCropImage(
                 imageFields.mediaId,
                 setMedia
               );
             } else {
-              fieldViewSpec.fieldDescription.props.onSelectImage(setMedia);
+              field.description.props.onSelectImage(setMedia);
             }
           }}
         >
           Crop Image
         </button>
       ) : (
-        <button
-          onClick={() =>
-            fieldViewSpec.fieldDescription.props.onSelectImage(setMedia)
-          }
-        >
+        <button onClick={() => field.description.props.onSelectImage(setMedia)}>
           Choose Image
         </button>
       )}

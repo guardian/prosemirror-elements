@@ -80,12 +80,12 @@ export const createImageElement = (
 ) =>
   createReactElementSpec(
     createImageFields(onSelect, onCrop),
-    (fields, errors, __, fieldViewSpecs) => {
+    (fieldValues, errors, __, fields) => {
       return (
         <ImageElementForm
           fields={fields}
           errors={errors}
-          fieldViewSpecs={fieldViewSpecs}
+          fieldValues={fieldValues}
         />
       );
     },

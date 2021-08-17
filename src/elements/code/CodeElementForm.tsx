@@ -1,29 +1,26 @@
 import React from "react";
-import { Field } from "../../editorial-source-components/Field";
-import type { FieldNameToFieldViewSpec } from "../../plugin/types/Element";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { codeFields } from "./CodeElementSpec";
 
 type Props = {
   errors: Record<string, string[]>;
-  fieldViewSpecs: FieldNameToFieldViewSpec<typeof codeFields>;
+  fields: FieldNameToField<typeof codeFields>;
 };
 
 export const CodeElementTestId = "CodeElement";
 
 export const CodeElementForm: React.FunctionComponent<Props> = ({
   errors,
-  fieldViewSpecs,
+  fields,
 }) => (
   <div data-cy={CodeElementTestId}>
-    <Field
+    <FieldWrapper
       label="Code"
-      fieldViewSpec={fieldViewSpecs.codeText}
+      field={fields.codeText}
       errors={errors.codeText}
     />
-    <CustomDropdownView
-      label="Language"
-      fieldViewSpec={fieldViewSpecs.language}
-    />
+    <CustomDropdownView label="Language" field={fields.language} />
   </div>
 );

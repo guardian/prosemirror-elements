@@ -8,7 +8,7 @@ import type {
   ExtractFieldValues,
   ExtractPartialDataTypeFromElementSpec,
   FieldDescriptions,
-  FieldNameToFieldViewSpec,
+  FieldNameToField,
 } from "../types/Element";
 
 export const createGetNodeFromElementData = <
@@ -72,7 +72,7 @@ export const createGetElementDataFromNode = <
   node.forEach((node) => {
     const fieldName = getFieldNameFromNode(
       node
-    ) as keyof FieldNameToFieldViewSpec<FDesc>;
+    ) as keyof FieldNameToField<FDesc>;
     const fieldDescriptions = element.fieldDescriptions[fieldName];
     const fieldType = fieldTypeToViewMap[fieldDescriptions.type].fieldType;
 

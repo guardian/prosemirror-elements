@@ -54,27 +54,25 @@ export type NonCustomFieldViews =
   | RichTextFieldView
   | CheckboxFieldView;
 
-export interface FieldViewSpec<F> {
-  fieldView: F;
-  fieldDescription: FieldDescription;
+export interface Field<F> {
+  view: F;
+  description: FieldDescription;
   name: string;
   update: (value: F extends FieldView<infer Value> ? Value : never) => void;
 }
 
-export interface CustomFieldViewSpec<Data = unknown, Props = unknown>
-  extends FieldViewSpec<CustomFieldView<Data>> {
-  fieldDescription: CustomFieldDescription<Data, Props>;
+export interface CustomField<Data = unknown, Props = unknown>
+  extends Field<CustomFieldView<Data>> {
+  description: CustomFieldDescription<Data, Props>;
 }
 
-export type FieldNameToFieldViewSpec<
-  FDesc extends FieldDescriptions<string>
-> = {
+export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
   [name in Extract<
     keyof FDesc,
     string
   >]: FDesc[name] extends CustomFieldDescription<infer Data, infer Props>
-    ? CustomFieldViewSpec<Data, Props>
-    : FieldViewSpec<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
+    ? CustomField<Data, Props>
+    : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 
 export type Transformers<
@@ -97,7 +95,7 @@ export type ElementSpec<
   transformers?: Transformers<FDesc, ExternalData>;
   createUpdator: (
     dom: HTMLElement,
-    fields: FieldNameToFieldViewSpec<FDesc>,
+    fields: FieldNameToField<FDesc>,
     updateState: (
       fields: FieldNameToValueMap<FDesc>,
       hasErrors: boolean
