@@ -1,6 +1,5 @@
 import { exampleSetup } from "prosemirror-example-setup";
 import React from "react";
-import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
@@ -57,7 +56,7 @@ export const createImageFields = (
         marks: "em strong link strike",
       },
     }),
-    displayCreditInformation: createCheckBox(true),
+    displayCreditInformation: createCustomField(true, true),
     imageType: createCustomField("Photograph", [
       { text: "Photograph", value: "Photograph" },
       { text: "Illustration", value: "Illustration" },

@@ -9,6 +9,7 @@ import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../plugin/types/Element";
+import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type {
@@ -99,10 +100,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             css={inlineStyles}
           />
         </Inline>
-        <Field
+        <CustomCheckboxView
           fieldViewSpec={fieldViewSpecs.displayCreditInformation}
           errors={errors.displayCreditInformation}
-          label="Credits"
+          label="Display credit information"
         />
       </Column>
     </Columns>
