@@ -4,10 +4,10 @@ import { keymap } from "prosemirror-keymap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import type { BaseFieldSpec } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface RichTextField extends BaseFieldSpec<string> {
+export interface RichTextField extends BaseFieldDescription<string> {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;

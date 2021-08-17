@@ -7,15 +7,15 @@ import { getNodeNameFromField } from "../nodeSpec";
 describe("mount", () => {
   describe("fieldView typesafety", () => {
     it("should provide typesafe fieldView to its consumer", () => {
-      const fieldSpec = {
+      const fieldDescriptions = {
         field1: {
           type: "richText",
         },
       } as const;
       createElementSpec(
-        fieldSpec,
+        fieldDescriptions,
         (_, __, fieldViews) => {
-          // field1 is derived from the fieldSpec
+          // field1 is derived from the fieldDescriptions
           fieldViews.field1;
         },
         () => null
@@ -23,16 +23,16 @@ describe("mount", () => {
     });
 
     it("should not typecheck when fields are not provided", () => {
-      const fieldSpec = {
+      const fieldDescriptions = {
         notField1: {
           type: "richText",
         },
       } as const;
       createElementSpec(
-        fieldSpec,
+        fieldDescriptions,
         (_, __, fieldViews) => {
           // @ts-expect-error – field1 is not available on this object,
-          // as it is not defined in `fieldSpec` passed into `mount`
+          // as it is not defined in `fieldDescriptions` passed into `mount`
           fieldViews.field1;
         },
         () => null
@@ -42,7 +42,7 @@ describe("mount", () => {
 
   describe("validator typesafety", () => {
     it("should provide typesafe fields to its validator", () => {
-      const fieldSpec = {
+      const fieldDescriptions = {
         field1: {
           type: "richText",
         },
@@ -52,10 +52,10 @@ describe("mount", () => {
         },
       } as const;
       createElementSpec(
-        fieldSpec,
+        fieldDescriptions,
         () => () => undefined,
         (fields) => {
-          // field1 is derived from the fieldSpec, and is a string b/c it's a richText field
+          // field1 is derived from the fieldDescriptions, and is a string b/c it's a richText field
           fields.field1.toString();
           // field2 is a boolean b/c it's a checkbox field
           fields.field2.value.valueOf();
@@ -65,17 +65,17 @@ describe("mount", () => {
     });
 
     it("should not typecheck when fields are not provided", () => {
-      const fieldSpec = {
+      const fieldDescriptions = {
         notField1: {
           type: "richText",
         },
       } as const;
       createElementSpec(
-        fieldSpec,
+        fieldDescriptions,
         () => () => undefined,
         (fields) => {
           // @ts-expect-error – field1 is not available on this object,
-          // as it is not defined in `fieldSpec` passed into `mount`
+          // as it is not defined in `fieldDescriptions` passed into `mount`
           fields.doesNotExist;
           return null;
         }
@@ -122,7 +122,7 @@ describe("mount", () => {
     describe("fields", () => {
       describe("richText", () => {
         it("should allow the user to specify custom toDOM and parseDOM properties on richText fields", () => {
-          const fieldSpec = {
+          const fieldDescriptions = {
             field1: {
               type: "richText" as const,
               nodeSpec: {
@@ -133,22 +133,22 @@ describe("mount", () => {
             },
           };
 
-          const testElement1 = createNoopElement(fieldSpec);
+          const testElement1 = createNoopElement(fieldDescriptions);
           const { nodeSpec } = buildElementPlugin({ testElement1 });
 
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
           ).toEqual({
-            content: fieldSpec.field1.nodeSpec.content,
-            toDOM: fieldSpec.field1.nodeSpec.toDOM,
-            parseDOM: fieldSpec.field1.nodeSpec.parseDOM,
+            content: fieldDescriptions.field1.nodeSpec.content,
+            toDOM: fieldDescriptions.field1.nodeSpec.toDOM,
+            parseDOM: fieldDescriptions.field1.nodeSpec.parseDOM,
           });
         });
       });
 
       describe("text", () => {
         it("should provide a default inline node spec", () => {
-          const fieldSpec = {
+          const fieldDescriptions = {
             field1: {
               type: "text" as const,
               isMultiline: false,
@@ -157,7 +157,7 @@ describe("mount", () => {
             },
           };
 
-          const testElement1 = createNoopElement(fieldSpec);
+          const testElement1 = createNoopElement(fieldDescriptions);
           const { nodeSpec } = buildElementPlugin({ testElement1 });
           const field1NodeSpec = nodeSpec.get(
             getNodeNameFromField("field1", "testElement1")
@@ -171,14 +171,14 @@ describe("mount", () => {
 
       describe("checkbox", () => {
         it("should specify the appropriate fields on checkbox fields", () => {
-          const fieldSpec = {
+          const fieldDescriptions = {
             field1: {
               type: "checkbox" as const,
               defaultValue: { value: true },
             },
           };
 
-          const testElement1 = createNoopElement(fieldSpec);
+          const testElement1 = createNoopElement(fieldDescriptions);
           const { nodeSpec } = buildElementPlugin({ testElement1 });
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
@@ -197,14 +197,14 @@ describe("mount", () => {
 
       describe("custom", () => {
         it("should specify the appropriate fields for custom fields", () => {
-          const fieldSpec = {
+          const fieldDescriptions = {
             field1: {
               type: "custom",
               defaultValue: { arbitraryField: "hai" },
             } as CustomField<{ arbitraryField: string }>,
           };
 
-          const testElement1 = createNoopElement(fieldSpec);
+          const testElement1 = createNoopElement(fieldDescriptions);
           const { nodeSpec } = buildElementPlugin({ testElement1 });
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))

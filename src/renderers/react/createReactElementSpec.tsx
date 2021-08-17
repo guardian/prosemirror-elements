@@ -4,19 +4,22 @@ import { render } from "react-dom";
 import { createElementSpec } from "../../plugin/elementSpec";
 import type { Renderer, Validator } from "../../plugin/elementSpec";
 import type { Consumer } from "../../plugin/types/Consumer";
-import type { FieldSpec, Transformers } from "../../plugin/types/Element";
+import type {
+  FieldDescriptions,
+  Transformers,
+} from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
 
 export const createReactElementSpec = <
-  FSpec extends FieldSpec<string>,
+  FDesc extends FieldDescriptions<string>,
   ExternalData
 >(
-  fieldSpec: FSpec,
-  consumer: Consumer<ReactElement, FSpec>,
-  validate: Validator<FSpec>,
-  transformers?: Transformers<FSpec, ExternalData>
+  FieldDescriptions: FDesc,
+  consumer: Consumer<ReactElement, FDesc>,
+  validate: Validator<FDesc>,
+  transformers?: Transformers<FDesc, ExternalData>
 ) => {
-  const renderer: Renderer<FSpec> = (
+  const renderer: Renderer<FDesc> = (
     validate,
     dom,
     fields,
@@ -26,7 +29,7 @@ export const createReactElementSpec = <
     subscribe
   ) =>
     render(
-      <ElementProvider<FSpec>
+      <ElementProvider<FDesc>
         subscribe={subscribe}
         onStateChange={updateState}
         fields={fields}
@@ -38,5 +41,5 @@ export const createReactElementSpec = <
       dom
     );
 
-  return createElementSpec(fieldSpec, renderer, validate, transformers);
+  return createElementSpec(FieldDescriptions, renderer, validate, transformers);
 };

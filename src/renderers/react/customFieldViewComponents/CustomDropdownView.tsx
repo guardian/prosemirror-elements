@@ -22,7 +22,7 @@ export const CustomDropdownView = ({
   return (
     <InputGroup>
       <CustomDropdown
-        options={fieldViewSpec.fieldSpec.props}
+        options={fieldViewSpec.fieldDescription.props}
         selected={selectedElement}
         label={label}
         onChange={(event) => {

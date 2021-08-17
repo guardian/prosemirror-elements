@@ -4,13 +4,13 @@ import { CustomFieldView } from "../../plugin/fieldViews/CustomFieldView";
 import type { CustomFieldViewSpec } from "../../plugin/types/Element";
 
 export const useCustomFieldViewState = <Data extends unknown>({
-  fieldSpec,
+  fieldDescription,
   fieldView,
 }: CustomFieldViewSpec<Data>): [
   Data,
   MutableRefObject<((fields: Data) => void) | undefined>
 ] => {
-  const [fieldValue, setFieldValue] = useState(fieldSpec.defaultValue);
+  const [fieldValue, setFieldValue] = useState(fieldDescription.defaultValue);
 
   const updateRef = useRef<(fields: Data) => void>();
 

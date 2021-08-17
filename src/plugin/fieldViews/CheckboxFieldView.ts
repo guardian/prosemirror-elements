@@ -1,11 +1,11 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import { AttributeFieldView } from "./AttributeFieldView";
-import type { BaseFieldSpec } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
 
 export type CheckboxValue = { value: boolean };
 
-export interface CheckboxField extends BaseFieldSpec<CheckboxValue> {
+export interface CheckboxField extends BaseFieldDescription<CheckboxValue> {
   type: typeof CheckboxFieldView.fieldName;
 }
 

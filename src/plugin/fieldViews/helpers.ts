@@ -1,4 +1,4 @@
-import type { FieldSpec } from "../types/Element";
+import type { FieldDescriptions } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxValue } from "./CheckboxFieldView";
 import type { CustomField } from "./CustomFieldView";
@@ -29,21 +29,21 @@ export type FieldTypeToViewMap<Field> = {
  * A map from all FieldView types to the serialised values they create at runtime.
  */
 export type FieldTypeToValueMap<
-  FSpec extends FieldSpec<string>,
-  Name extends keyof FSpec
+  FDesc extends FieldDescriptions<string>,
+  Name extends keyof FDesc
 > = {
   [TextFieldView.fieldName]: string;
   [RichTextFieldView.fieldName]: string;
   [CheckboxFieldView.fieldName]: CheckboxValue;
   [DropdownFieldView.fieldName]: string;
-  [CustomFieldView.fieldName]: FSpec[Name] extends CustomField<infer Data>
+  [CustomFieldView.fieldName]: FDesc[Name] extends CustomField<infer Data>
     ? Data
     : never;
 };
 
 /**
- * Get the values that would be provided by the given FieldSpec at runtime,
- * keyed by their names. For example, for the FieldSpec:
+ * Get the values that would be provided by the given FieldDescriptions at runtime,
+ * keyed by their names. For example, for the FieldDescriptions:
  *
  * `{ altText: { type: "richText" }, isVisible: { type: "checkbox" }}`
  *
@@ -51,6 +51,8 @@ export type FieldTypeToValueMap<
  *
  * `{ altText: string }, { isVisible: { value: boolean }}`
  */
-export type FieldNameToValueMap<FSpec extends FieldSpec<keyof FSpec>> = {
-  [Name in keyof FSpec]: FieldTypeToValueMap<FSpec, Name>[FSpec[Name]["type"]];
+export type FieldNameToValueMap<
+  FDesc extends FieldDescriptions<keyof FDesc>
+> = {
+  [Name in keyof FDesc]: FieldTypeToValueMap<FDesc, Name>[FDesc[Name]["type"]];
 };

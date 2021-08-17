@@ -5,10 +5,10 @@ import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import type { BaseFieldSpec } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface TextField extends BaseFieldSpec<string> {
+export interface TextField extends BaseFieldDescription<string> {
   type: typeof TextFieldView.fieldName;
   // Can this field display over multiple lines? This will
   // insert line breaks (<br>) when the user hits the Enter key.

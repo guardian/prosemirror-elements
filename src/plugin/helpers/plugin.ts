@@ -5,7 +5,7 @@ import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
-import type { Field } from "../types/Element";
+import type { FieldDescription } from "../types/Element";
 
 type Options = {
   node: Node;
@@ -16,7 +16,7 @@ type Options = {
 };
 
 export const getElementFieldViewFromType = (
-  field: Field,
+  field: FieldDescription,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
   switch (field.type) {

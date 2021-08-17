@@ -90,7 +90,7 @@ describe("buildElementPlugin", () => {
         return;
       };
 
-      const createFieldSpec = (callback: () => void) => {
+      const createFieldDescriptions = (callback: () => void) => {
         return {
           field1: { type: "richText" },
           field2: {
@@ -106,7 +106,7 @@ describe("buildElementPlugin", () => {
         } as const;
       };
 
-      const testElement = createNoopElement(createFieldSpec(noop));
+      const testElement = createNoopElement(createFieldDescriptions(noop));
 
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({

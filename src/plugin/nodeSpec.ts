@@ -3,29 +3,33 @@ import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
-import type { Field, FieldSpec } from "./types/Element";
+import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
-export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
+export const getNodeSpecFromFieldDescriptions = <
+  FDesc extends FieldDescriptions<string>
+>(
   elementName: string,
-  fieldSpec: FSpec
+  fieldDescriptions: FDesc
 ): OrderedMap<NodeSpec> => {
-  const propSpecs = Object.entries(fieldSpec).reduce(
+  const propSpecs = Object.entries(fieldDescriptions).reduce(
     (acc, [fieldName, propSpec]) =>
       acc.append(getNodeSpecForField(elementName, fieldName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
-  return propSpecs.append(getNodeSpecForElement(elementName, fieldSpec));
+  return propSpecs.append(
+    getNodeSpecForElement(elementName, fieldDescriptions)
+  );
 };
 
 const getNodeSpecForElement = (
   elementName: string,
-  fieldSpec: FieldSpec<string>
+  fieldDescription: FieldDescriptions<string>
 ): NodeSpec => ({
   [elementName]: {
     group: "block",
     content: getDeterministicFieldOrder(
-      Object.keys(fieldSpec).map((fieldName) =>
+      Object.keys(fieldDescription).map((fieldName) =>
         getNodeNameFromField(fieldName, elementName)
       )
     ).join(" "),
@@ -68,7 +72,7 @@ const getNodeSpecForElement = (
 export const getNodeSpecForField = (
   elementName: string,
   fieldName: string,
-  field: Field
+  field: FieldDescription
 ): NodeSpec => {
   switch (field.type) {
     case "text":
@@ -192,22 +196,24 @@ const getTagForNode = (elementName: string, fieldName: string) =>
 
 export const createNodesForFieldValues = <
   S extends Schema,
-  FSpec extends FieldSpec<string>
+  FDesc extends FieldDescriptions<string>
 >(
   schema: S,
-  fieldSpec: FSpec,
-  fieldValues: Partial<FieldNameToValueMap<FSpec>>,
+  fieldDescriptions: FDesc,
+  fieldValues: Partial<FieldNameToValueMap<FDesc>>,
   elementName: string
 ): Node[] => {
-  const orderedFieldNames = getDeterministicFieldOrder(Object.keys(fieldSpec));
+  const orderedFieldNames = getDeterministicFieldOrder(
+    Object.keys(fieldDescriptions)
+  );
 
   return orderedFieldNames.map((fieldName) => {
-    const field = fieldSpec[fieldName];
+    const field = fieldDescriptions[fieldName];
     const fieldView = fieldTypeToViewMap[field.type];
     const nodeType = schema.nodes[getNodeNameFromField(fieldName, elementName)];
     const fieldValue =
       fieldValues[fieldName] ?? // The value supplied when the element is inserted
-      fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
+      fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
     if (fieldView.fieldType === "CONTENT") {

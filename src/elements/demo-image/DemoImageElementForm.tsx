@@ -127,12 +127,12 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
         <button
           onClick={() => {
             if (imageFields.mediaId) {
-              fieldViewSpec.fieldSpec.props.onCropImage(
+              fieldViewSpec.fieldDescription.props.onCropImage(
                 imageFields.mediaId,
                 setMedia
               );
             } else {
-              fieldViewSpec.fieldSpec.props.onSelectImage(setMedia);
+              fieldViewSpec.fieldDescription.props.onSelectImage(setMedia);
             }
           }}
         >
@@ -140,7 +140,9 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
         </button>
       ) : (
         <button
-          onClick={() => fieldViewSpec.fieldSpec.props.onSelectImage(setMedia)}
+          onClick={() =>
+            fieldViewSpec.fieldDescription.props.onSelectImage(setMedia)
+          }
         >
           Choose Image
         </button>
