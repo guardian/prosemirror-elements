@@ -9,6 +9,7 @@ import type {
   CustomFieldViewSpec,
   FieldNameToFieldViewSpec,
 } from "../../plugin/types/Element";
+import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type {
   createImageFields,
@@ -45,10 +46,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   <div data-cy={ImageElementTestId}>
     <Columns>
       <Column width={2 / 5}>
-        <Field
+        <CustomDropdownView
           fieldViewSpec={fieldViewSpecs.weighting}
-          errors={errors.weighting}
           label="Weighting"
+          errors={errors.weighting}
         />
         <ImageView
           fieldViewSpec={fieldViewSpecs.mainImage}
@@ -58,10 +59,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             fieldViewSpecs.photographer.update(photographer);
           }}
         />
-        <Field
+        <CustomDropdownView
           fieldViewSpec={fieldViewSpecs.imageType}
+          label={"Image type"}
           errors={errors.imageType}
-          label="Image Types"
         />
       </Column>
       <Column width={3 / 5}>

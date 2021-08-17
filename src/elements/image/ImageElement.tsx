@@ -2,7 +2,6 @@ import { exampleSetup } from "prosemirror-example-setup";
 import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
-import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
@@ -59,14 +58,11 @@ export const createImageFields = (
       },
     }),
     displayCreditInformation: createCheckBox(true),
-    imageType: createDropDownField(
-      [
-        { text: "Photograph", value: "Photograph" },
-        { text: "Illustration", value: "Illustration" },
-        { text: "Composite", value: "Composite" },
-      ],
-      "Photograph"
-    ),
+    imageType: createCustomField("Photograph", [
+      { text: "Photograph", value: "Photograph" },
+      { text: "Illustration", value: "Illustration" },
+      { text: "Composite", value: "Composite" },
+    ]),
     photographer: createTextField(),
     mainImage: createCustomField<MainImageData, MainImageProps>(
       {
@@ -78,16 +74,13 @@ export const createImageFields = (
       { openImageSelector }
     ),
     source: createTextField(),
-    weighting: createDropDownField(
-      [
-        { text: "inline (default)", value: "none-selected" },
-        { text: "supporting", value: "supporting" },
-        { text: "showcase", value: "showcase" },
-        { text: "thumbnail", value: "thumbnail" },
-        { text: "immersive", value: "immersive" },
-      ],
-      "none-selected"
-    ),
+    weighting: createCustomField("none-selected", [
+      { text: "inline (default)", value: "none-selected" },
+      { text: "supporting", value: "supporting" },
+      { text: "showcase", value: "showcase" },
+      { text: "thumbnail", value: "thumbnail" },
+      { text: "immersive", value: "immersive" },
+    ]),
   };
 };
 
