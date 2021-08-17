@@ -1,4 +1,6 @@
 import { css } from "@emotion/react";
+import { Button } from "@guardian/src-button";
+import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
 import { Field } from "../../editorial-source-components/Field";
@@ -68,11 +70,15 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           errors={errors.caption}
           label="Caption"
         />
-        <button
+        <Button
+          priority="primary"
+          size="xsmall"
+          // icon={<SvgCamera />}
+          iconSide="left"
           onClick={() => fieldViewSpecs.altText.update(fieldValues.caption)}
         >
           Copy from caption
-        </button>
+        </Button>
         <Field
           fieldViewSpec={fieldViewSpecs.altText}
           errors={errors.altText}
@@ -123,7 +129,12 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
       {imageFields.assets.length > 0 ? (
         <img src={imageFields.assets[0].url} />
       ) : null}
-      <button
+      <br></br>
+      <Button
+        priority="primary"
+        size="xsmall"
+        icon={<SvgCamera />}
+        iconSide="left"
         onClick={() => {
           fieldViewSpec.fieldSpec.props.openImageSelector(
             setMedia,
@@ -132,7 +143,7 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
         }}
       >
         Re-crop image
-      </button>
+      </Button>
     </>
   );
 };

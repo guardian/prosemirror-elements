@@ -552,6 +552,13 @@
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config/-/eslint-config-0.5.0.tgz#ece14ec90b372932c7bf01992fc6d8ce58f7f26e"
   integrity sha512-THJn0wg7i9YjSVM9ofobsJgS+WH9ybrZH1+0CXLAebp0T53RGtgZUkek82mDg1h3DidsM+f7HSZqoQyrCbPzPw==
 
+"@guardian/src-button@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-3.8.0.tgz#6c7eee727b0bf283766d36e20929e63131bf82eb"
+  integrity sha512-C7wa10EAe+tbuySuzfsNK/Fppxw8I5/3bdyJ0acZQJaDQxJAzAkraGrhXDfWgNXXjpJXA6j3lLJUBaZE6m+hzA==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
+
 "@guardian/src-checkbox@^3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-checkbox/-/src-checkbox-3.8.0.tgz#d2fb3340f08bcbbe10339868bded3205473427e9"
