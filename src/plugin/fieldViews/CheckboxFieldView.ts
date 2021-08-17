@@ -5,11 +5,11 @@ import type { BaseFieldDescription } from "./FieldView";
 
 export type CheckboxValue = { value: boolean };
 
-export interface CheckboxField extends BaseFieldDescription<CheckboxValue> {
+export interface CheckboxFieldDescription extends BaseFieldDescription<CheckboxValue> {
   type: typeof CheckboxFieldView.fieldName;
 }
 
-export const createCheckBox = (defaultValue: boolean): CheckboxField => ({
+export const createCheckBox = (defaultValue: boolean): CheckboxFieldDescription => ({
   type: CheckboxFieldView.fieldName,
   defaultValue: { value: defaultValue },
 });

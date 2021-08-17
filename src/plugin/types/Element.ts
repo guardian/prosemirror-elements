@@ -1,14 +1,14 @@
 import type { Schema } from "prosemirror-model";
 import type {
-  CheckboxField,
+  CheckboxFieldDescription,
   CheckboxFieldView,
 } from "../fieldViews/CheckboxFieldView";
 import type {
-  CustomField,
+  CustomFieldDescription,
   CustomFieldView,
 } from "../fieldViews/CustomFieldView";
 import type {
-  DropdownField,
+  DropdownFieldDescription,
   DropdownFieldView,
 } from "../fieldViews/DropdownFieldView";
 import type { FieldView } from "../fieldViews/FieldView";
@@ -17,18 +17,21 @@ import type {
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type {
-  RichTextField,
+  RichTextFieldDescription,
   RichTextFieldView,
 } from "../fieldViews/RichTextFieldView";
-import type { TextField, TextFieldView } from "../fieldViews/TextFieldView";
+import type {
+  TextFieldDescription,
+  TextFieldView,
+} from "../fieldViews/TextFieldView";
 import type { CommandCreator } from "./Commands";
 
 export type FieldDescription =
-  | TextField
-  | RichTextField
-  | CheckboxField
-  | CustomField
-  | DropdownField;
+  | TextFieldDescription
+  | RichTextFieldDescription
+  | CheckboxFieldDescription
+  | CustomFieldDescription
+  | DropdownFieldDescription;
 
 export type FieldDescriptions<Names extends string> = Record<
   Names,
@@ -60,16 +63,16 @@ export interface FieldViewSpec<F> {
 
 export interface CustomFieldViewSpec<Data = unknown, Props = unknown>
   extends FieldViewSpec<CustomFieldView<Data>> {
-  fieldDescription: CustomField<Data, Props>;
+  fieldDescription: CustomFieldDescription<Data, Props>;
 }
 
 export type FieldNameToFieldViewSpec<
   FDesc extends FieldDescriptions<string>
 > = {
-  [name in Extract<keyof FDesc, string>]: FDesc[name] extends CustomField<
-    infer Data,
-    infer Props
-  >
+  [name in Extract<
+    keyof FDesc,
+    string
+  >]: FDesc[name] extends CustomFieldDescription<infer Data, infer Props>
     ? CustomFieldViewSpec<Data, Props>
     : FieldViewSpec<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };

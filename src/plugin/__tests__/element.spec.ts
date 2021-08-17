@@ -1,7 +1,7 @@
 import type { Node } from "prosemirror-model";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import type { CustomField } from "../fieldViews/CustomFieldView";
+import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import {
   createEditorWithElements,
   createNoopElement,
@@ -73,7 +73,7 @@ describe("buildElementPlugin", () => {
         field2: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
-        } as CustomField<{ arbitraryValue: string }>,
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
@@ -99,7 +99,7 @@ describe("buildElementPlugin", () => {
             props: {
               callback,
             },
-          } as CustomField<
+          } as CustomFieldDescription<
             { arbitraryValue: string },
             { callback: () => void }
           >,
@@ -177,7 +177,7 @@ describe("buildElementPlugin", () => {
         field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
-        } as CustomField<{ arbitraryValue: string }>,
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
@@ -293,7 +293,7 @@ describe("buildElementPlugin", () => {
         field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
-        } as CustomField<{ arbitraryValue: string }>,
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
       });
       const {
         view,

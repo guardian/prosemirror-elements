@@ -1,6 +1,6 @@
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import type { CustomField } from "../fieldViews/CustomFieldView";
+import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import { createNoopElement } from "../helpers/test";
 import { getNodeNameFromField } from "../nodeSpec";
 
@@ -201,7 +201,7 @@ describe("mount", () => {
             field1: {
               type: "custom",
               defaultValue: { arbitraryField: "hai" },
-            } as CustomField<{ arbitraryField: string }>,
+            } as CustomFieldDescription<{ arbitraryField: string }>,
           };
 
           const testElement1 = createNoopElement(fieldDescriptions);

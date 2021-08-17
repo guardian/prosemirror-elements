@@ -7,7 +7,7 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface RichTextField extends BaseFieldDescription<string> {
+export interface RichTextFieldDescription extends BaseFieldDescription<string> {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
@@ -21,7 +21,7 @@ type RichTextOptions = {
 export const createRichTextField = ({
   createPlugins,
   nodeSpec,
-}: RichTextOptions): RichTextField => ({
+}: RichTextOptions): RichTextFieldDescription => ({
   type: RichTextFieldView.fieldName,
   createPlugins,
   nodeSpec,
@@ -38,7 +38,7 @@ type FlatRichTextOptions = RichTextOptions & {
 export const createFlatRichTextField = ({
   createPlugins,
   nodeSpec,
-}: FlatRichTextOptions): RichTextField =>
+}: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
       const br = schema.nodes.hard_break;
@@ -71,7 +71,7 @@ export const createFlatRichTextField = ({
  * Create a rich text field with a default setup. Largely for demonstrative
  * purposes, as library users are likely to want different defaults.
  */
-export const createDefaultRichTextField = (): RichTextField =>
+export const createDefaultRichTextField = (): RichTextFieldDescription =>
   createRichTextField({ createPlugins: (schema) => exampleSetup({ schema }) });
 
 export class RichTextFieldView extends ProseMirrorFieldView {

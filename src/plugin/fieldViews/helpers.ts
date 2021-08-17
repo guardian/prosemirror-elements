@@ -1,7 +1,7 @@
 import type { FieldDescriptions } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxValue } from "./CheckboxFieldView";
-import type { CustomField } from "./CustomFieldView";
+import type { CustomFieldDescription } from "./CustomFieldView";
 import { CustomFieldView } from "./CustomFieldView";
 import { DropdownFieldView } from "./DropdownFieldView";
 import { RichTextFieldView } from "./RichTextFieldView";
@@ -20,7 +20,7 @@ export type FieldTypeToViewMap<Field> = {
   [RichTextFieldView.fieldName]: RichTextFieldView;
   [CheckboxFieldView.fieldName]: CheckboxFieldView;
   [DropdownFieldView.fieldName]: DropdownFieldView;
-  [CustomFieldView.fieldName]: Field extends CustomField<infer Data>
+  [CustomFieldView.fieldName]: Field extends CustomFieldDescription<infer Data>
     ? CustomFieldView<Data>
     : never;
 };
@@ -36,7 +36,9 @@ export type FieldTypeToValueMap<
   [RichTextFieldView.fieldName]: string;
   [CheckboxFieldView.fieldName]: CheckboxValue;
   [DropdownFieldView.fieldName]: string;
-  [CustomFieldView.fieldName]: FDesc[Name] extends CustomField<infer Data>
+  [CustomFieldView.fieldName]: FDesc[Name] extends CustomFieldDescription<
+    infer Data
+  >
     ? Data
     : never;
 };
