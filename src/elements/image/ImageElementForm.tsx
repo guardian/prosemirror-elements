@@ -128,10 +128,11 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   };
   return (
     <>
-      {imageFields.assets.length > 0 ? (
-        <img src={imageFields.assets[0].url} />
-      ) : null}
-      <br></br>
+      <div>
+        {imageFields.assets.length > 0 ? (
+          <img src={imageFields.assets[0].url} />
+        ) : null}
+      </div>
       <Button
         priority="primary"
         size="xsmall"
