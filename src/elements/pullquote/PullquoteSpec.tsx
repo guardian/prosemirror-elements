@@ -17,10 +17,8 @@ export const pullquoteFields = {
 
 export const pullquoteElement = createReactElementSpec(
   pullquoteFields,
-  (_, errors, __, fieldViewSpecs) => {
-    return (
-      <PullquoteElementForm errors={errors} fieldViewSpecs={fieldViewSpecs} />
-    );
+  (_, errors, __, fields) => {
+    return <PullquoteElementForm errors={errors} fields={fields} />;
   },
   createValidator({ pullquote: [htmlRequired()] })
 );

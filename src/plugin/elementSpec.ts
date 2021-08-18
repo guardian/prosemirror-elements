@@ -39,9 +39,9 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  fieldViewSpecs: FieldNameToField<FDesc>,
+  fields: FieldNameToField<FDesc>,
   updateState: (fields: FieldNameToValueMap<FDesc>) => void,
-  fields: FieldNameToValueMap<FDesc>,
+  fieldValues: FieldNameToValueMap<FDesc>,
   commands: Commands,
   subscribe: (
     fn: (
