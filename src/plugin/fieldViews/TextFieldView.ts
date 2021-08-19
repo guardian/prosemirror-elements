@@ -5,10 +5,10 @@ import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import type { BaseFieldSpec } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface TextField extends BaseFieldSpec<string> {
+export interface TextFieldDescription extends BaseFieldDescription<string> {
   type: typeof TextFieldView.fieldName;
   // Can this field display over multiple lines? This will
   // insert line breaks (<br>) when the user hits the Enter key.
@@ -30,7 +30,7 @@ export const createTextField = (
     rows: 1,
   },
   isCode = false
-): TextField => ({
+): TextFieldDescription => ({
   type: TextFieldView.fieldName,
   isMultiline,
   rows,
@@ -51,7 +51,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    { isMultiline, rows, isCode }: TextField
+    { isMultiline, rows, isCode }: TextFieldDescription
   ) {
     const keymapping: Record<string, Command> = {
       "Mod-z": () => undo(outerView.state, outerView.dispatch),

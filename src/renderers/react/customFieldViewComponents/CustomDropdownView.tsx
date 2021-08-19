@@ -1,28 +1,26 @@
 import { CustomDropdown } from "../../../editorial-source-components/CustomDropdown";
 import { InputGroup } from "../../../editorial-source-components/InputGroup";
 import type { Option } from "../../../plugin/fieldViews/DropdownFieldView";
-import type { CustomFieldViewSpec } from "../../../plugin/types/Element";
+import type { CustomField } from "../../../plugin/types/Element";
 import { getFieldViewTestId } from "../FieldView";
 import { useCustomFieldViewState } from "../useCustomFieldViewState";
 
 type CustomDropdownViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<string>>>;
+  field: CustomField<string, Array<Option<string>>>;
   errors?: string[];
   label: string;
 };
 
 export const CustomDropdownView = ({
-  fieldViewSpec,
+  field,
   errors = [],
   label,
 }: CustomDropdownViewProps) => {
-  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(
-    fieldViewSpec
-  );
+  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(field);
   return (
     <InputGroup>
       <CustomDropdown
-        options={fieldViewSpec.fieldSpec.props}
+        options={field.description.props}
         selected={selectedElement}
         label={label}
         onChange={(event) => {
@@ -31,7 +29,7 @@ export const CustomDropdownView = ({
           }
         }}
         error={errors.join(", ")}
-        dataCy={getFieldViewTestId(fieldViewSpec.name)}
+        dataCy={getFieldViewTestId(field.name)}
       />
     </InputGroup>
   );

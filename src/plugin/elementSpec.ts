@@ -2,23 +2,25 @@ import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
-  FieldNameToFieldViewSpec,
-  FieldSpec,
+  FieldDescriptions,
+  FieldNameToField,
   Transformers,
 } from "./types/Element";
 
-type Subscriber<FSpec extends FieldSpec<string>> = (
-  fields: FieldNameToValueMap<FSpec>,
+type Subscriber<FDesc extends FieldDescriptions<string>> = (
+  fields: FieldNameToValueMap<FDesc>,
   commands: ReturnType<CommandCreator>
 ) => void;
 
-type Updater<FSpec extends FieldSpec<string>> = {
-  update: Subscriber<FSpec>;
-  subscribe: (s: Subscriber<FSpec>) => void;
+type Updater<FDesc extends FieldDescriptions<string>> = {
+  update: Subscriber<FDesc>;
+  subscribe: (s: Subscriber<FDesc>) => void;
 };
 
-const createUpdater = <FSpec extends FieldSpec<string>>(): Updater<FSpec> => {
-  let sub: Subscriber<FSpec> = () => undefined;
+const createUpdater = <
+  FDesc extends FieldDescriptions<string>
+>(): Updater<FDesc> => {
+  let sub: Subscriber<FDesc> = () => undefined;
   return {
     subscribe: (fn) => {
       sub = fn;
@@ -27,41 +29,41 @@ const createUpdater = <FSpec extends FieldSpec<string>>(): Updater<FSpec> => {
   };
 };
 
-export type Validator<FSpec extends FieldSpec<string>> = (
-  fields: FieldNameToValueMap<FSpec>
+export type Validator<FDesc extends FieldDescriptions<string>> = (
+  fields: FieldNameToValueMap<FDesc>
 ) => null | Record<string, string[]>;
 
-export type Renderer<FSpec extends FieldSpec<string>> = (
-  validate: Validator<FSpec>,
+export type Renderer<FDesc extends FieldDescriptions<string>> = (
+  validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
-  fieldViewSpecs: FieldNameToFieldViewSpec<FSpec>,
-  updateState: (fields: FieldNameToValueMap<FSpec>) => void,
-  fields: FieldNameToValueMap<FSpec>,
+  fields: FieldNameToField<FDesc>,
+  updateState: (fields: FieldNameToValueMap<FDesc>) => void,
+  fieldValues: FieldNameToValueMap<FDesc>,
   commands: Commands,
   subscribe: (
     fn: (
-      fields: FieldNameToValueMap<FSpec>,
+      fields: FieldNameToValueMap<FDesc>,
       commands: ReturnType<CommandCreator>
     ) => void
   ) => void
 ) => void;
 
 export const createElementSpec = <
-  FSpec extends FieldSpec<string>,
+  FDesc extends FieldDescriptions<string>,
   ExternalData
 >(
-  fieldSpec: FSpec,
-  render: Renderer<FSpec>,
-  validate: Validator<FSpec>,
-  transformers?: Transformers<FSpec, ExternalData>
-): ElementSpec<FSpec, ExternalData> => ({
-  fieldSpec,
+  fieldDescriptions: FDesc,
+  render: Renderer<FDesc>,
+  validate: Validator<FDesc>,
+  transformers?: Transformers<FDesc, ExternalData>
+): ElementSpec<FDesc, ExternalData> => ({
+  fieldDescriptions,
   transformers,
   createUpdator: (dom, fields, updateState, fieldValues, commands) => {
-    const updater = createUpdater<FSpec>();
+    const updater = createUpdater<FDesc>();
     render(
       validate,
       dom,

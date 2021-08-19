@@ -1,7 +1,7 @@
 import type { Node } from "prosemirror-model";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import type { CustomField } from "../fieldViews/CustomFieldView";
+import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import {
   createEditorWithElements,
   createNoopElement,
@@ -73,7 +73,7 @@ describe("buildElementPlugin", () => {
         field2: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
-        } as CustomField<{ arbitraryValue: string }>,
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
@@ -90,7 +90,7 @@ describe("buildElementPlugin", () => {
         return;
       };
 
-      const createFieldSpec = (callback: () => void) => {
+      const createFieldDescriptions = (callback: () => void) => {
         return {
           field1: { type: "richText" },
           field2: {
@@ -99,14 +99,14 @@ describe("buildElementPlugin", () => {
             props: {
               callback,
             },
-          } as CustomField<
+          } as CustomFieldDescription<
             { arbitraryValue: string },
             { callback: () => void }
           >,
         } as const;
       };
 
-      const testElement = createNoopElement(createFieldSpec(noop));
+      const testElement = createNoopElement(createFieldDescriptions(noop));
 
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
@@ -177,7 +177,7 @@ describe("buildElementPlugin", () => {
         field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
-        } as CustomField<{ arbitraryValue: string }>,
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
@@ -293,7 +293,7 @@ describe("buildElementPlugin", () => {
         field1: {
           type: "custom",
           defaultValue: { arbitraryValue: "hai" },
-        } as CustomField<{ arbitraryValue: string }>,
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
       });
       const {
         view,

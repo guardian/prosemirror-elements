@@ -4,8 +4,8 @@ import type { Decoration, DecorationSet, EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
   ElementSpecMap,
-  FieldNameToFieldViewSpec,
-  FieldSpec,
+  FieldDescriptions,
+  FieldNameToField,
 } from "../plugin/types/Element";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { getElementFieldViewFromType } from "./helpers/plugin";
@@ -21,10 +21,10 @@ export type PluginState = { hasErrors: boolean };
 export const createPlugin = <
   ElementNames extends string,
   ExternalData,
-  FSpec extends FieldSpec<string>
+  FDesc extends FieldDescriptions<string>
 >(
   elementsSpec: {
-    [elementName in ElementNames]: ElementSpec<FSpec, ExternalData>;
+    [elementName in ElementNames]: ElementSpec<FDesc, ExternalData>;
   },
   commands: Commands
 ): Plugin<PluginState, Schema> => {
@@ -57,7 +57,7 @@ export const createPlugin = <
     props: {
       decorations,
       nodeViews: createNodeViews(
-        elementsSpec as ElementSpecMap<FSpec, ElementNames>,
+        elementsSpec as ElementSpecMap<FDesc, ElementNames>,
         commands
       ),
     },
@@ -68,9 +68,9 @@ type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
 const createNodeViews = <
   ElementNames extends string,
-  FSpec extends FieldSpec<string>
+  FDesc extends FieldDescriptions<string>
 >(
-  elementsSpec: ElementSpecMap<FSpec, ElementNames>,
+  elementsSpec: ElementSpecMap<FDesc, ElementNames>,
   commands: Commands
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
@@ -88,38 +88,36 @@ const createNodeViews = <
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
 const createNodeView = <
-  FSpec extends FieldSpec<string>,
+  FDesc extends FieldDescriptions<string>,
   ElementName extends string
 >(
   elementName: ElementName,
-  element: ElementSpec<FSpec>,
+  element: ElementSpec<FDesc>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const fieldViewSpecs = {} as FieldNameToFieldViewSpec<FSpec>;
+  const fields = {} as FieldNameToField<FDesc>;
 
   initNode.forEach((node, offset) => {
-    const name = getFieldNameFromNode(
-      node
-    ) as keyof FieldNameToFieldViewSpec<FSpec>;
+    const name = getFieldNameFromNode(node) as keyof FieldNameToField<FDesc>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (fieldViewSpecs[name]) {
+    if (fields[name]) {
       throw new Error(
         `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but another instance with that name has already been created.`
       );
     }
-    const fieldSpec = element.fieldSpec[name];
+    const fieldDescriptions = element.fieldDescriptions[name];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
-    if (!fieldSpec) {
+    if (!fieldDescriptions) {
       throw new Error(
         `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate field`
       );
     }
 
-    const fieldView = getElementFieldViewFromType(fieldSpec, {
+    const fieldView = getElementFieldViewFromType(fieldDescriptions, {
       node,
       view,
       getPos,
@@ -127,17 +125,17 @@ const createNodeView = <
       innerDecos,
     });
 
-    fieldViewSpecs[name] = ({
-      fieldSpec,
+    fields[name] = ({
+      description: fieldDescriptions,
       name,
-      fieldView,
+      view: fieldView,
       // We coerce types here: it's difficult to prove we've the right shape here
       // to the compiler, and we're already beholden to runtime behaviour as there's
       // no guarantee that the node's `name` matches our spec. The errors above should
       // help to defend when something's wrong.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- as above
       update: (value: unknown) => fieldView.update(value as any),
-    } as unknown) as FieldNameToFieldViewSpec<FSpec>[typeof name];
+    } as unknown) as FieldNameToField<FDesc>[typeof name];
   });
 
   const getValuesFromNode = (
@@ -147,23 +145,23 @@ const createNodeView = <
     // We gather the values from each child as we iterate over the
     // node, to update the renderer. It's difficult to be typesafe here,
     // as the Node's name value is loosely typed as `string`, and so we
-    // cannot index into the element `fieldSpec` to discover the appropriate type.
+    // cannot index into the element `fieldDescription` to discover the appropriate type.
     const fieldValues: Record<string, unknown> = {};
     node.forEach((node, offset) => {
       const fieldName = getFieldNameFromNode(
         node
-      ) as keyof FieldNameToFieldViewSpec<FSpec>;
-      const fieldViewSpec = fieldViewSpecs[fieldName];
-      fieldViewSpec.fieldView.onUpdate(node, offset, decos);
-      fieldValues[fieldName] = fieldViewSpec.fieldView.getNodeValue(node);
+      ) as keyof FieldNameToField<FDesc>;
+      const field = fields[fieldName];
+      field.view.onUpdate(node, offset, decos);
+      fieldValues[fieldName] = field.view.getNodeValue(node);
     });
 
-    return fieldValues as FieldNameToValueMap<FSpec>;
+    return fieldValues as FieldNameToValueMap<FDesc>;
   };
 
   const update = element.createUpdator(
     dom,
-    fieldViewSpecs,
+    fields,
     (fields, hasErrors) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
@@ -193,9 +191,7 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fieldViewSpecs).map((fieldViewSpec) =>
-        fieldViewSpec.fieldView.destroy()
-      );
+      Object.values(fields).map((field) => field.view.destroy());
     },
     ignoreMutation: () => true,
   };

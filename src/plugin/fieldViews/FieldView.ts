@@ -4,7 +4,7 @@ import type { Decoration, DecorationSet } from "prosemirror-view";
 /**
  * The specification for an element field, to be modelled as a Node in Prosemirror.
  */
-export interface BaseFieldSpec<DefaultValue extends unknown> {
+export interface BaseFieldDescription<DefaultValue extends unknown> {
   // The data type of the field.
   type: string;
   defaultValue?: DefaultValue;

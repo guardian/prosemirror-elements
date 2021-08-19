@@ -5,14 +5,14 @@ import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { Commands } from "../../plugin/types/Commands";
 import type { Consumer } from "../../plugin/types/Consumer";
 import type {
-  FieldNameToFieldViewSpec,
-  FieldSpec,
+  FieldDescriptions,
+  FieldNameToField,
 } from "../../plugin/types/Element";
 import type { Errors } from "../../plugin/types/Errors";
 import { ElementWrapper } from "./ElementWrapper";
 
-const fieldErrors = <FSpec extends FieldSpec<string>>(
-  fields: FieldNameToValueMap<FSpec>,
+const fieldErrors = <FDesc extends FieldDescriptions<string>>(
+  fields: FieldNameToValueMap<FDesc>,
   errors: Errors | null
 ) =>
   Object.keys(fields).reduce(
@@ -23,28 +23,27 @@ const fieldErrors = <FSpec extends FieldSpec<string>>(
     {}
   );
 
-type IProps<FSpec extends FieldSpec<string>> = {
+type IProps<FDesc extends FieldDescriptions<string>> = {
   subscribe: (
-    fn: (fields: FieldNameToValueMap<FSpec>, commands: Commands) => void
+    fn: (fields: FieldNameToValueMap<FDesc>, commands: Commands) => void
   ) => void;
   commands: Commands;
-  fieldValues: FieldNameToValueMap<FSpec>;
-  onStateChange: (fields: FieldNameToValueMap<FSpec>) => void;
-  validate: Validator<FSpec>;
-  consumer: Consumer<ReactElement, FSpec>;
-  fields: FieldNameToFieldViewSpec<FSpec>;
+  fieldValues: FieldNameToValueMap<FDesc>;
+  onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
+  validate: Validator<FDesc>;
+  consumer: Consumer<ReactElement, FDesc>;
+  fields: FieldNameToField<FDesc>;
 };
 
-type IState<FSpec extends FieldSpec<string>> = {
+type IState<FDesc extends FieldDescriptions<string>> = {
   commands: Commands;
-  fieldValues: FieldNameToValueMap<FSpec>;
+  fieldValues: FieldNameToValueMap<FDesc>;
 };
 
-export class ElementProvider<FSpec extends FieldSpec<string>> extends Component<
-  IProps<FSpec>,
-  IState<FSpec>
-> {
-  constructor(props: IProps<FSpec>) {
+export class ElementProvider<
+  FDesc extends FieldDescriptions<string>
+> extends Component<IProps<FDesc>, IState<FDesc>> {
+  constructor(props: IProps<FDesc>) {
     super(props);
 
     this.updateFields = this.updateFields.bind(this);
@@ -74,7 +73,7 @@ export class ElementProvider<FSpec extends FieldSpec<string>> extends Component<
     this.props.onStateChange(this.state.fieldValues);
   }
 
-  updateState(state: Partial<IState<FSpec>>, notifyListeners: boolean): void {
+  updateState(state: Partial<IState<FDesc>>, notifyListeners: boolean): void {
     this.setState(
       { ...this.state, ...state },
       () => notifyListeners && this.onStateChange()

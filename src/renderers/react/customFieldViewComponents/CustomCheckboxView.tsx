@@ -1,20 +1,20 @@
 import { CustomCheckbox } from "../../../editorial-source-components/CustomCheckbox";
-import type { CustomFieldViewSpec } from "../../../plugin/types/Element";
+import type { CustomField } from "../../../plugin/types/Element";
 import { getFieldViewTestId } from "../FieldView";
 import { useCustomFieldViewState } from "../useCustomFieldViewState";
 
 type CustomCheckboxViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<boolean, boolean>;
+  field: CustomField<boolean, boolean>;
   errors: string[];
   label: string;
 };
 
 export const CustomCheckboxView = ({
-  fieldViewSpec,
+  field,
   errors,
   label,
 }: CustomCheckboxViewProps) => {
-  const [boolean, setBoolean] = useCustomFieldViewState(fieldViewSpec);
+  const [boolean, setBoolean] = useCustomFieldViewState(field);
   return (
     <CustomCheckbox
       checked={boolean}
@@ -25,7 +25,7 @@ export const CustomCheckboxView = ({
           setBoolean.current(!boolean);
         }
       }}
-      dataCy={getFieldViewTestId(fieldViewSpec.name)}
+      dataCy={getFieldViewTestId(field.name)}
     />
   );
 };

@@ -1,14 +1,14 @@
 import type { Schema } from "prosemirror-model";
 import type {
-  CheckboxField,
+  CheckboxFieldDescription,
   CheckboxFieldView,
 } from "../fieldViews/CheckboxFieldView";
 import type {
-  CustomField,
+  CustomFieldDescription,
   CustomFieldView,
 } from "../fieldViews/CustomFieldView";
 import type {
-  DropdownField,
+  DropdownFieldDescription,
   DropdownFieldView,
 } from "../fieldViews/DropdownFieldView";
 import type { FieldView } from "../fieldViews/FieldView";
@@ -17,24 +17,30 @@ import type {
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type {
-  RichTextField,
+  RichTextFieldDescription,
   RichTextFieldView,
 } from "../fieldViews/RichTextFieldView";
-import type { TextField, TextFieldView } from "../fieldViews/TextFieldView";
+import type {
+  TextFieldDescription,
+  TextFieldView,
+} from "../fieldViews/TextFieldView";
 import type { CommandCreator } from "./Commands";
 
-export type Field =
-  | TextField
-  | RichTextField
-  | CheckboxField
-  | CustomField
-  | DropdownField;
+export type FieldDescription =
+  | TextFieldDescription
+  | RichTextFieldDescription
+  | CheckboxFieldDescription
+  | CustomFieldDescription
+  | DropdownFieldDescription;
 
-export type FieldSpec<Names extends string> = Record<Names, Field>;
+export type FieldDescriptions<Names extends string> = Record<
+  Names,
+  FieldDescription
+>;
 
-export type SchemaFromElementFieldSpec<
-  FSpec extends FieldSpec<string>
-> = Schema<Extract<keyof FSpec, string>>;
+export type SchemaFromElementFieldDescriptions<
+  FDesc extends FieldDescriptions<string>
+> = Schema<Extract<keyof FDesc, string>>;
 
 export type FieldViews =
   | TextFieldView
@@ -48,62 +54,65 @@ export type NonCustomFieldViews =
   | RichTextFieldView
   | CheckboxFieldView;
 
-export interface FieldViewSpec<F> {
-  fieldView: F;
-  fieldSpec: Field;
+export interface Field<F> {
+  view: F;
+  description: FieldDescription;
   name: string;
   update: (value: F extends FieldView<infer Value> ? Value : never) => void;
 }
 
-export interface CustomFieldViewSpec<Data = unknown, Props = unknown>
-  extends FieldViewSpec<CustomFieldView<Data>> {
-  fieldSpec: CustomField<Data, Props>;
+export interface CustomField<Data = unknown, Props = unknown>
+  extends Field<CustomFieldView<Data>> {
+  description: CustomFieldDescription<Data, Props>;
 }
 
-export type FieldNameToFieldViewSpec<FSpec extends FieldSpec<string>> = {
-  [name in Extract<keyof FSpec, string>]: FSpec[name] extends CustomField<
-    infer Data,
-    infer Props
-  >
-    ? CustomFieldViewSpec<Data, Props>
-    : FieldViewSpec<FieldTypeToViewMap<FSpec[name]>[FSpec[name]["type"]]>;
+export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
+  [name in Extract<
+    keyof FDesc,
+    string
+  >]: FDesc[name] extends CustomFieldDescription<infer Data, infer Props>
+    ? CustomField<Data, Props>
+    : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 
-export type Transformers<FSpec extends FieldSpec<string>, ExternalData> = {
+export type Transformers<
+  FDesc extends FieldDescriptions<string>,
+  ExternalData
+> = {
   transformElementDataIn: (
     inputData: ExternalData
-  ) => FieldNameToValueMap<FSpec>;
+  ) => FieldNameToValueMap<FDesc>;
   transformElementDataOut: (
-    outputData: FieldNameToValueMap<FSpec>
+    outputData: FieldNameToValueMap<FDesc>
   ) => ExternalData;
 };
 
 export type ElementSpec<
-  FSpec extends FieldSpec<string>,
+  FDesc extends FieldDescriptions<string>,
   ExternalData = unknown
 > = {
-  fieldSpec: FSpec;
-  transformers?: Transformers<FSpec, ExternalData>;
+  fieldDescriptions: FDesc;
+  transformers?: Transformers<FDesc, ExternalData>;
   createUpdator: (
     dom: HTMLElement,
-    fields: FieldNameToFieldViewSpec<FSpec>,
+    fields: FieldNameToField<FDesc>,
     updateState: (
-      fields: FieldNameToValueMap<FSpec>,
+      fields: FieldNameToValueMap<FDesc>,
       hasErrors: boolean
     ) => void,
-    initFields: FieldNameToValueMap<FSpec>,
+    initFields: FieldNameToValueMap<FDesc>,
     commands: ReturnType<CommandCreator>
   ) => (
-    fields: FieldNameToValueMap<FSpec>,
+    fields: FieldNameToValueMap<FDesc>,
     commands: ReturnType<CommandCreator>
   ) => void;
 };
 
 export type ElementSpecMap<
-  FSpec extends FieldSpec<string>,
+  FDesc extends FieldDescriptions<string>,
   ElementNames extends string,
   ExternalData = unknown
-> = Record<ElementNames, ElementSpec<FSpec, ExternalData>>;
+> = Record<ElementNames, ElementSpec<FDesc, ExternalData>>;
 
 export type ExtractFieldValues<ESpec> = ESpec extends ElementSpec<
   infer F,

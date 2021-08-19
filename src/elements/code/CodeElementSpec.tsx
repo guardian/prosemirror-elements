@@ -21,8 +21,8 @@ export const codeFields = {
 
 export const codeElement = createReactElementSpec(
   codeFields,
-  (_, errors, __, fieldViewSpecs) => {
-    return <CodeElementForm errors={errors} fieldViewSpecs={fieldViewSpecs} />;
+  (_, errors, __, fields) => {
+    return <CodeElementForm errors={errors} fields={fields} />;
   },
   createValidator({ codeText: [required()] })
 );

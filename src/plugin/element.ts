@@ -6,12 +6,12 @@ import {
   createGetNodeFromElementData,
 } from "./helpers/element";
 import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
-import { getNodeSpecFromFieldSpec } from "./nodeSpec";
+import { getNodeSpecFromFieldDescriptions } from "./nodeSpec";
 import { createPlugin } from "./plugin";
 import type {
   ElementSpecMap,
   ExtractPartialDataTypeFromElementSpec,
-  FieldSpec,
+  FieldDescriptions,
 } from "./types/Element";
 
 /**
@@ -19,10 +19,10 @@ import type {
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  FSpec extends FieldSpec<keyof FSpec>,
+  FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
   ExternalData,
-  ESpecMap extends ElementSpecMap<FSpec, ElementNames, ExternalData>
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
 >(
   elementSpecs: ESpecMap,
   predicate = defaultPredicate
@@ -51,7 +51,10 @@ export const buildElementPlugin = <
   let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});
   for (const elementName in elementSpecs) {
     nodeSpec = nodeSpec.append(
-      getNodeSpecFromFieldSpec(elementName, elementSpecs[elementName].fieldSpec)
+      getNodeSpecFromFieldDescriptions(
+        elementName,
+        elementSpecs[elementName].fieldDescriptions
+      )
     );
   }
 

@@ -1,12 +1,12 @@
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
-import type { FieldSpec } from "../types/Element";
+import type { FieldDescriptions } from "../types/Element";
 
 type Validator = (fieldValue: unknown) => string[];
 
 export const createValidator = (
   fieldValidationMap: Record<string, Validator[]>
-) => <FSpec extends FieldSpec<string>>(
-  fieldValues: FieldNameToValueMap<FSpec>
+) => <FDesc extends FieldDescriptions<string>>(
+  fieldValues: FieldNameToValueMap<FDesc>
 ): Record<string, string[]> => {
   const errors: Record<string, string[]> = {};
 

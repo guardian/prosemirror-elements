@@ -7,15 +7,15 @@ import type {
   ExtractDataTypeFromElementSpec,
   ExtractFieldValues,
   ExtractPartialDataTypeFromElementSpec,
-  FieldNameToFieldViewSpec,
-  FieldSpec,
+  FieldDescriptions,
+  FieldNameToField,
 } from "../types/Element";
 
 export const createGetNodeFromElementData = <
-  FSpec extends FieldSpec<keyof FSpec>,
+  FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
   ExternalData,
-  ESpecMap extends ElementSpecMap<FSpec, ElementNames, ExternalData>
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
 >(
   elementTypeMap: ESpecMap
 ) => (
@@ -40,8 +40,8 @@ export const createGetNodeFromElementData = <
 
   const nodes = createNodesForFieldValues(
     schema,
-    element.fieldSpec,
-    transformedValues as FieldNameToValueMap<FSpec>,
+    element.fieldDescriptions,
+    transformedValues as FieldNameToValueMap<FDesc>,
     elementName
   );
 
@@ -54,10 +54,10 @@ export const createGetNodeFromElementData = <
 };
 
 export const createGetElementDataFromNode = <
-  FSpec extends FieldSpec<keyof FSpec>,
+  FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
   ExternalData,
-  ESpecMap extends ElementSpecMap<FSpec, ElementNames, ExternalData>
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
 >(
   elementTypeMap: ESpecMap
 ) => (node: Node, serializer: DOMSerializer) => {
@@ -67,14 +67,14 @@ export const createGetElementDataFromNode = <
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
   // as the Node's name value is loosely typed as `string`, and so we
-  // cannot index into the element `fieldSpec` to discover the appropriate type.
+  // cannot index into the element `fieldDescriptions` to discover the appropriate type.
   const values: Record<string, unknown> = {};
   node.forEach((node) => {
     const fieldName = getFieldNameFromNode(
       node
-    ) as keyof FieldNameToFieldViewSpec<FSpec>;
-    const fieldSpec = element.fieldSpec[fieldName];
-    const fieldType = fieldTypeToViewMap[fieldSpec.type].fieldType;
+    ) as keyof FieldNameToField<FDesc>;
+    const fieldDescriptions = element.fieldDescriptions[fieldName];
+    const fieldType = fieldTypeToViewMap[fieldDescriptions.type].fieldType;
 
     values[fieldName] =
       fieldType === "ATTRIBUTES"
