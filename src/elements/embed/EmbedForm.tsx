@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldWrapper } from "../../e../../editorial-source-components/FieldWrapper";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
