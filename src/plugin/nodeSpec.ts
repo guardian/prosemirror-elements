@@ -35,6 +35,10 @@ const getNodeSpecForElement = (
     ).join(" "),
     attrs: {
       type: elementName,
+      //Used to determine which nodes show have a forced update decoartion applied. See prosemirror.ts
+      addUpdateDecoration: {
+        default: true,
+      },
       hasErrors: {
         default: false,
       },

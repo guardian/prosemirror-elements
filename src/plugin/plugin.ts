@@ -10,10 +10,10 @@ import type {
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { getElementFieldViewFromType } from "./helpers/plugin";
 import type { Commands } from "./helpers/prosemirror";
-import { createDecorations } from "./helpers/prosemirror";
+import { createUpdateDecorations } from "./helpers/prosemirror";
 import { getFieldNameFromNode } from "./nodeSpec";
 
-const decorations = createDecorations("imageElement");
+const decorations = createUpdateDecorations();
 const pluginKey = new PluginKey("prosemirror_elements");
 
 export type PluginState = { hasErrors: boolean };
