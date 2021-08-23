@@ -98,6 +98,14 @@ describe("mount", () => {
       expect(nodeSpec.get("testElement2")).toMatchObject({ content: "" });
     });
 
+    it("should add a custom group if specified", () => {
+      const testElement1 = createNoopElement({});
+      const { nodeSpec } = buildElementPlugin({ testElement1 }, "customGroup");
+      expect(nodeSpec.get("testElement1")).toMatchObject({
+        group: "customGroup",
+      });
+    });
+
     it("should create child nodes for each element field, and the parent node should include them in its content expression", () => {
       const testElement1 = createNoopElement({
         field1: {
