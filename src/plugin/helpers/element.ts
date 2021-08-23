@@ -6,7 +6,6 @@ import type {
   ElementSpecMap,
   ExtractDataTypeFromElementSpec,
   ExtractFieldValues,
-  ExtractPartialDataTypeFromElementSpec,
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
@@ -22,10 +21,18 @@ export const createGetNodeFromElementData = <
   {
     elementName,
     values,
-  }: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>,
+  }: {
+    elementName: string;
+    values: unknown;
+  },
   schema: Schema
 ) => {
-  const element = elementTypeMap[elementName];
+  const element = elementTypeMap[elementName as keyof ESpecMap];
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
+  if (!element) {
+    return undefined;
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- we cannot be sure the schema has been amended
   if (!schema.nodes[elementName]) {
