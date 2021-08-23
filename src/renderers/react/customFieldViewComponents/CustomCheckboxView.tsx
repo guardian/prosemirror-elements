@@ -21,9 +21,7 @@ export const CustomCheckboxView = ({
       text={label}
       error={errors.join(", ")}
       onChange={() => {
-        if (setBoolean.current) {
-          setBoolean.current(!boolean);
-        }
+        setBoolean(!boolean);
       }}
       dataCy={getFieldViewTestId(field.name)}
     />

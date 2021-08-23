@@ -89,7 +89,7 @@ type ImageViewProps = {
 };
 
 const ImageView = ({ field, onChange }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(field);
+  const [imageFields, setImageFields] = useCustomFieldViewState(field);
 
   const setMedia = (
     mediaId: string,
@@ -97,9 +97,7 @@ const ImageView = ({ field, onChange }: ImageViewProps) => {
     assets: string[],
     description: string
   ) => {
-    if (setImageFieldsRef.current) {
-      setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
-    }
+    setImageFields({ mediaId, mediaApiUri, assets });
     onChange(mediaId, mediaApiUri, assets, description);
   };
 

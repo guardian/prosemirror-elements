@@ -16,7 +16,7 @@ export const CustomDropdownView = ({
   errors = [],
   label,
 }: CustomDropdownViewProps) => {
-  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(field);
+  const [selectedElement, setSelectedElement] = useCustomFieldViewState(field);
   return (
     <InputGroup>
       <CustomDropdown
@@ -24,9 +24,7 @@ export const CustomDropdownView = ({
         selected={selectedElement}
         label={label}
         onChange={(event) => {
-          if (setSelectFieldsRef.current) {
-            setSelectFieldsRef.current(event.target.value);
-          }
+          setSelectedElement(event.target.value);
         }}
         error={errors.join(", ")}
         dataCy={getFieldViewTestId(field.name)}
