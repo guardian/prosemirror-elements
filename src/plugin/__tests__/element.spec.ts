@@ -467,29 +467,20 @@ describe("buildElementPlugin", () => {
           expect(node?.eq(view.state.doc.firstChild as Node)).toBe(true);
         });
 
-        it("should not permit data that does not match an element", () => {
+        it("should return undefined if the element does not exist in the element map", () => {
           const { getNodeFromElementData, view } = createEditorWithElements(
             { testElement, testElement2 },
             testElementHTML
           );
 
-          getNodeFromElementData(
-            {
-              elementName: "testElement",
-              // @ts-expect-error -- we should not be able to instantiate elements with non-element types
-              values: { notAThing: "This doesn't look like an element" },
-            },
+          const node = getNodeFromElementData(
+            { elementName: "thisIsNotAnElement", values: {} },
             view.state.schema
           );
 
-          getNodeFromElementData(
-            {
-              elementName: "testElement",
-              // @ts-expect-error -- we should not be able to instantiate elements with non-element types
-              values: { field4: "This doesn't look like an element" },
-            },
-            view.state.schema
-          );
+          // We expect the node we've just manually created to match the node
+          // that's been serialised from the defaults
+          expect(node).toBe(undefined);
         });
 
         it("should transform data with the provided transformer", () => {
@@ -510,25 +501,6 @@ describe("buildElementPlugin", () => {
           );
 
           expect(node?.eq(view.state.doc.firstChild as Node)).toBe(true);
-        });
-
-        it("should not accept data that doesn't match the shape expected by the transformer", () => {
-          const { getNodeFromElementData, view } = createEditorWithElements(
-            {
-              testElementWithTransform,
-              testElementWithTransform2,
-            },
-            testElementTransformHTML
-          );
-
-          getNodeFromElementData(
-            {
-              elementName: "testElementWithTransform",
-              // @ts-expect-error -- this value doesn't match the shape expected by our transform function
-              values: { notAThing: { field1: "<p></p>" } },
-            },
-            view.state.schema
-          );
         });
       });
 
