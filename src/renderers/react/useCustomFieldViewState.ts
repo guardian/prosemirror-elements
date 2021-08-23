@@ -20,5 +20,10 @@ export const useCustomFieldState = <Data extends unknown>({
     return () => view.unsubscribe(setFieldValue);
   }, []);
 
-  return [fieldValue, view.update];
+  return [
+    fieldValue,
+    (fields: Data) => {
+      view.update(fields);
+    },
+  ];
 };
