@@ -87,9 +87,9 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
     return true;
   }
 
-  public update = (value: Value) => {
+  public update(value: Value) {
     this.updateOuterEditor(value);
-  };
+  }
 
   public destroy() {
     this.subscribers = [];

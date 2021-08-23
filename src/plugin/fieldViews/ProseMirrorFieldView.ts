@@ -87,7 +87,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     return true;
   }
 
-  public update = (value: string) => {
+  public update(value: string) {
     if (!this.innerEditorView) {
       return;
     }
@@ -96,7 +96,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const tr = this.innerEditorView.state.tr;
     tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
     this.onInnerStateChange(tr);
-  };
+  }
 
   public destroy() {
     if (this.innerEditorView) this.close();

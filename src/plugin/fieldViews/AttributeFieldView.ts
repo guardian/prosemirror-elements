@@ -53,9 +53,9 @@ export abstract class AttributeFieldView<Value extends unknown>
     return true;
   }
 
-  public update = (value: Value) => {
+  public update(value: Value) {
     this.updateOuterEditor(value);
-  };
+  }
 
   public destroy() {
     // Nothing to do – the DOM element is garbage collected.
