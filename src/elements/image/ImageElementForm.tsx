@@ -13,6 +13,7 @@ import { CustomCheckboxView } from "../../renderers/react/customFieldViewCompone
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
 import type {
+  Asset,
   createImageFields,
   MainImageData,
   MainImageProps,
@@ -110,6 +111,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   </div>
 );
 
+const imageViewStysles = css`
+  width: 100%;
+`;
+
 const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
   const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
     fieldViewSpec
@@ -126,12 +131,29 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
     }
     onChange(mediaPayload);
   };
+
+  const masterImageSource = imageFields.assets
+    .filter((image) => image.fields.width >= 1000)
+    .sort((assetA, assetB) => assetA.fields.width - assetB.fields.width)[0]
+    ?.url;
+  const isMaster = (asset: Asset) =>
+    typeof asset.fields.isMaster !== "undefined"
+      ? asset.fields.isMaster
+      : false;
+  const excludeMasterAsset = imageFields.assets.filter(
+    (asset) => !isMaster(asset)
+  );
+  const assetsInAscWidth = excludeMasterAsset
+    .filter((image) => image.fields.width < 1000)
+    .sort((assetA, assetB) => assetA.fields.width - assetB.fields.width)
+    .slice(-1)[0]?.url;
   return (
     <>
       <div>
-        {imageFields.assets.length > 0 ? (
-          <img src={imageFields.assets[0].url} />
-        ) : null}
+        <img
+          css={imageViewStysles}
+          src={masterImageSource || assetsInAscWidth}
+        />
       </div>
       <Button
         priority="primary"
