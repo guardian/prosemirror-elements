@@ -62,7 +62,6 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
   public subscribe(subscriber: Subscriber<Value>) {
     this.subscribers.push(subscriber);
     subscriber(this.node.attrs.fields as Value);
-    return (fields: Value) => this.updateOuterEditor(fields);
   }
 
   public unsubscribe(subscriber: Subscriber<Value>) {
