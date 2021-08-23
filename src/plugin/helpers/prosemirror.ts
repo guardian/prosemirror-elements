@@ -183,10 +183,10 @@ const buildCommands = (predicate: Predicate) => (
 
 // this forces our view to update every time an edit is made by inserting
 // a decoration right on top of it and updating it's attributes
-const createDecorations = (name: string) => (state: EditorState) => {
+const createUpdateDecorations = () => (state: EditorState) => {
   const decorations: Decoration[] = [];
   state.doc.descendants((node, pos) => {
-    if (node.type.name === name) {
+    if (node.attrs.addUpdateDecoration) {
       decorations.push(
         Decoration.node(
           pos,
@@ -227,7 +227,7 @@ const htmlToDoc = (parser: DOMParser, html: string) => {
 export {
   buildCommands,
   defaultPredicate,
-  createDecorations,
+  createUpdateDecorations,
   createParsers,
   docToHtml,
   htmlToDoc,
