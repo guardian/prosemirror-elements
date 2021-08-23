@@ -2,7 +2,7 @@ import React from "react";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createValidator, required } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { createGuElementSpec } from "../helpers";
 import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
@@ -19,7 +19,7 @@ export const codeFields = {
   ]),
 };
 
-export const codeElement = createReactElementSpec(
+export const codeElement = createGuElementSpec(
   codeFields,
   (_, errors, __, fields) => {
     return <CodeElementForm errors={errors} fields={fields} />;
