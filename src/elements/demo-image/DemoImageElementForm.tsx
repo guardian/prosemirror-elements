@@ -5,7 +5,7 @@ import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
+import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import type { createImageFields, SetMedia } from "./DemoImageElement";
 
 type Props = {
@@ -89,7 +89,7 @@ type ImageViewProps = {
 };
 
 const ImageView = ({ field, onChange }: ImageViewProps) => {
-  const [imageFields, setImageFields] = useCustomFieldViewState(field);
+  const [imageFields, setImageFields] = useCustomFieldState(field);
 
   const setMedia = (
     mediaId: string,

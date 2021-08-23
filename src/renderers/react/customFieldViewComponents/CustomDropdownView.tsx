@@ -3,7 +3,7 @@ import { InputGroup } from "../../../editorial-source-components/InputGroup";
 import type { Option } from "../../../plugin/fieldViews/DropdownFieldView";
 import type { CustomField } from "../../../plugin/types/Element";
 import { getFieldViewTestId } from "../FieldView";
-import { useCustomFieldViewState } from "../useCustomFieldViewState";
+import { useCustomFieldState } from "../useCustomFieldViewState";
 
 type CustomDropdownViewProps = {
   field: CustomField<string, Array<Option<string>>>;
@@ -16,7 +16,7 @@ export const CustomDropdownView = ({
   errors = [],
   label,
 }: CustomDropdownViewProps) => {
-  const [selectedElement, setSelectedElement] = useCustomFieldViewState(field);
+  const [selectedElement, setSelectedElement] = useCustomFieldState(field);
   return (
     <InputGroup>
       <CustomDropdown

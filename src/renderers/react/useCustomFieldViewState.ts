@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CustomFieldView } from "../../plugin/fieldViews/CustomFieldView";
 import type { CustomField } from "../../plugin/types/Element";
 
-export const useCustomFieldViewState = <Data extends unknown>({
+export const useCustomFieldState = <Data extends unknown>({
   description,
   view,
 }: CustomField<Data>): [Data, (fields: Data) => void] => {
