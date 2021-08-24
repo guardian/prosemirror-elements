@@ -26,7 +26,7 @@ export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
       assets = [],
       fields,
     }: FlexibleModelElement<FDesc>) => {
-      return { ...fields, assets } as FieldNameToValueMap<FDesc>;
+      return ({ ...fields, assets } as unknown) as FieldNameToValueMap<FDesc>;
     },
     transformElementDataOut: ({
       assets,
