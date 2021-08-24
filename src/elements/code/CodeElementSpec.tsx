@@ -2,7 +2,7 @@ import React from "react";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createValidator, required } from "../../plugin/helpers/validation";
-import { createGuElementSpec } from "../helpers";
+import { createGuElementSpec } from "../createGuElementSpec";
 import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {

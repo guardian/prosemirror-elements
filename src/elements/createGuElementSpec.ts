@@ -1,15 +1,20 @@
 import type { ReactElement } from "react";
-import type { Validator } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type { Consumer } from "../../plugin/types/Consumer";
-import type { FieldDescriptions } from "../../plugin/types/Element";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import type { Validator } from "../plugin/elementSpec";
+import type { FieldNameToValueMap } from "../plugin/fieldViews/helpers";
+import type { Consumer } from "../plugin/types/Consumer";
+import type { FieldDescriptions } from "../plugin/types/Element";
+import { createReactElementSpec } from "../renderers/react/createReactElementSpec";
 
 type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
   fields: Omit<FieldNameToValueMap<FDesc>, "assets"> & { isMandatory: boolean };
-  assets: Pick<FieldNameToValueMap<FDesc>, "assets">;
+  assets: string[];
 };
 
+/**
+ * Creates an element that is rendered by React, and transforms its data
+ * into a format compatible with flexible-model. See the model at
+ * https://github.com/guardian/flexible-model/blob/main/src/main/thrift/content.thrift
+ */
 export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
   FieldDescriptions: FDesc,
   consumer: Consumer<ReactElement, FDesc>,
@@ -18,7 +23,7 @@ export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
 ) => {
   return createReactElementSpec(FieldDescriptions, consumer, validate, {
     transformElementDataIn: ({
-      assets,
+      assets = [],
       fields,
     }: FlexibleModelElement<FDesc>) => {
       return { ...fields, assets } as FieldNameToValueMap<FDesc>;
@@ -28,7 +33,7 @@ export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
       ...fields
     }: FieldNameToValueMap<FDesc>) => {
       return {
-        assets,
+        assets: assets || [],
         fields: { ...fields, isMandatory },
       } as FlexibleModelElement<FDesc>;
     },
