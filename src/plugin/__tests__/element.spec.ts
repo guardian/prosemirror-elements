@@ -154,13 +154,13 @@ describe("buildElementPlugin", () => {
 
     it("should not allow fields to be instantiated with an incorrect type", () => {
       const testElement = createNoopElement({
-        field1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: false },
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
         elementName: "testElement",
         values: {
-          field1: { value: true },
+          field1: true,
         },
       });
       insertElement({
@@ -193,7 +193,7 @@ describe("buildElementPlugin", () => {
   describe("Element creation and serialisation", () => {
     it("should create an element with default content when no fields are supplied", () => {
       const testElement = createNoopElement({
-        field1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: false },
         field2: { type: "richText", defaultValue: "<p>Content</p>" },
       });
       const {
@@ -217,7 +217,7 @@ describe("buildElementPlugin", () => {
 
     it("should fill out fields in ATTRIBUTE nodes", () => {
       const testElement = createNoopElement({
-        field1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: false },
       });
       const {
         view,
@@ -227,7 +227,7 @@ describe("buildElementPlugin", () => {
 
       insertElement({
         elementName: "testElement",
-        values: { field1: { value: true } },
+        values: { field1: true },
       })(view.state, view.dispatch);
 
       const expected = trimHtml(
@@ -401,7 +401,7 @@ describe("buildElementPlugin", () => {
       values: {
         field1: "<p></p>",
         field2: "",
-        field3: { value: true },
+        field3: true,
       },
     } as const;
 

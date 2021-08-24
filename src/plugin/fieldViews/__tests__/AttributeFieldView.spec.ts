@@ -33,7 +33,7 @@ const testSchema = new Schema({
     text: schema.nodes.text,
     ...(getNodeSpecForField("doc", "testField", {
       type: "checkbox",
-      defaultValue: { value: false },
+      defaultValue: false,
     }) as { testField: NodeSpec }),
   },
 });
