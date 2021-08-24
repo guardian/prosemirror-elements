@@ -209,7 +209,7 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <testelement type="testElement" has-errors="false">
-          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:false}"></element-testelement-field1>
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="false"></element-testelement-field1>
           <element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content</p></element-testelement-field2>
         </testelement>`);
       expect(getElementAsHTML()).toBe(expected);
@@ -232,7 +232,7 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(
         `<testelement type="testElement" has-errors="false">
-          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:true}"></element-testelement-field1>
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="true"></element-testelement-field1>
         </testelement>`
       );
       expect(getElementAsHTML()).toBe(expected);
@@ -319,7 +319,7 @@ describe("buildElementPlugin", () => {
           <testelement type="testElement" has-errors="false">
           <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p></p></element-testelement-field1>
           <element-testelement-field2 class="ProsemirrorElement__testElement-field2"></element-testelement-field2>
-          <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
+          <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="true"></element-testelement-field3>
           </testelement>
         `;
 

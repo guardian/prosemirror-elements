@@ -7,7 +7,6 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../plugin/types/Element";
-import { CheckboxFieldView } from "./fieldViews/CheckboxFieldView";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { getElementFieldViewFromType } from "./helpers/plugin";
 import type { Commands } from "./helpers/prosemirror";
@@ -126,31 +125,17 @@ const createNodeView = <
       innerDecos,
     });
 
-    if (fieldView instanceof CheckboxFieldView) {
-      fields[name] = ({
-        description: fieldDescriptions,
-        name,
-        view: fieldView,
-        // We coerce types here: it's difficult to prove we've the right shape here
-        // to the compiler, and we're already beholden to runtime behaviour as there's
-        // no guarantee that the node's `name` matches our spec. The errors above should
-        // help to defend when something's wrong.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- as above
-        update: (value: boolean) => fieldView.update(value),
-      } as unknown) as FieldNameToField<FDesc>[typeof name];
-    } else {
-      fields[name] = ({
-        description: fieldDescriptions,
-        name,
-        view: fieldView,
-        // We coerce types here: it's difficult to prove we've the right shape here
-        // to the compiler, and we're already beholden to runtime behaviour as there's
-        // no guarantee that the node's `name` matches our spec. The errors above should
-        // help to defend when something's wrong.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- as above
-        update: (value: string) => fieldView.update(value),
-      } as unknown) as FieldNameToField<FDesc>[typeof name];
-    }
+    fields[name] = ({
+      description: fieldDescriptions,
+      name,
+      view: fieldView,
+      // We coerce types here: it's difficult to prove we've the right shape here
+      // to the compiler, and we're already beholden to runtime behaviour as there's
+      // no guarantee that the node's `name` matches our spec. The errors above should
+      // help to defend when something's wrong.
+      update: (value: unknown) =>
+        (fieldView.update as (value: unknown) => void)(value),
+    } as unknown) as FieldNameToField<FDesc>[typeof name];
   });
 
   const getValuesFromNode = (

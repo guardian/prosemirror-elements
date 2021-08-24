@@ -138,6 +138,6 @@ export const getSerialisedHtml = ({
     <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
     <element-imageelement-restrictedtextfield class="ProsemirrorElement__imageElement-restrictedTextField">${restrictedTextValue}</element-imageelement-restrictedtextfield>
     <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
-    <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
+    <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="${useSrcValue}"></element-imageelement-usesrc>
   </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
 };
