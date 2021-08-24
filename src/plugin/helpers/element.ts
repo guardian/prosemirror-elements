@@ -10,6 +10,11 @@ import type {
   FieldNameToField,
 } from "../types/Element";
 
+/**
+ * Creates a function that will attempt to create a Prosemirror node from
+ * the given element data. If it does not recognise the element type,
+ * returns undefined.
+ */
 export const createGetNodeFromElementData = <
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
@@ -60,6 +65,11 @@ export const createGetNodeFromElementData = <
   );
 };
 
+/**
+ * Creates a function that will attempt to extract element data from
+ * the given node. If it does not recognise the node as an element,
+ * returns undefined.
+ */
 export const createGetElementDataFromNode = <
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
@@ -70,6 +80,11 @@ export const createGetElementDataFromNode = <
 ) => (node: Node, serializer: DOMSerializer) => {
   const elementName = node.attrs.type as ElementNames;
   const element = elementTypeMap[elementName];
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
+  if (!element) {
+    return undefined;
+  }
 
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,

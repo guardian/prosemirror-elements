@@ -522,6 +522,23 @@ describe("buildElementPlugin", () => {
           expect(element).toEqual(testElementValues);
         });
 
+        it("should return undefined, given an non-element node", () => {
+          const {
+            getElementDataFromNode,
+            view,
+            serializer,
+          } = createEditorWithElements({ testElement });
+
+          const element = getElementDataFromNode(
+            view.state.doc.content.firstChild as Node,
+            serializer
+          );
+
+          // We expect the node we've just manually created to match the node
+          // that's been serialised from the defaults
+          expect(element).toEqual(undefined);
+        });
+
         it("should produce element data, given an element node, with multiple elements", () => {
           const {
             getElementDataFromNode,
@@ -556,7 +573,7 @@ describe("buildElementPlugin", () => {
           );
 
           // Type refinement should work on each element
-          if (element.elementName === "testElement") {
+          if (element?.elementName === "testElement") {
             element.values.field1;
             element.values.field2;
             element.values.field3;
@@ -564,7 +581,7 @@ describe("buildElementPlugin", () => {
             element.values.field4;
           }
 
-          if (element.elementName === "testElement2") {
+          if (element?.elementName === "testElement2") {
             element.values.field4;
             element.values.field5;
           }
@@ -617,13 +634,13 @@ describe("buildElementPlugin", () => {
             serializer
           );
 
-          if (element.elementName === "testElementWithTransform") {
+          if (element?.elementName === "testElementWithTransform") {
             element.values.nestedElementValues.field1;
             // @ts-expect-error -- we should not be able to access properties not on a specific element
             element.values.otherValues;
           }
 
-          if (element.elementName === "testElementWithTransform2") {
+          if (element?.elementName === "testElementWithTransform2") {
             element.values.otherValues.field1;
             // @ts-expect-error -- we should not be able to access properties not on a specific element
             element.values.nestedElementValues;
