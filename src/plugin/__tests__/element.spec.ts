@@ -573,7 +573,7 @@ describe("buildElementPlugin", () => {
           );
 
           // Type refinement should work on each element
-          if (element && element.elementName === "testElement") {
+          if (element?.elementName === "testElement") {
             element.values.field1;
             element.values.field2;
             element.values.field3;
@@ -581,7 +581,7 @@ describe("buildElementPlugin", () => {
             element.values.field4;
           }
 
-          if (element && element.elementName === "testElement2") {
+          if (element?.elementName === "testElement2") {
             element.values.field4;
             element.values.field5;
           }
@@ -634,13 +634,13 @@ describe("buildElementPlugin", () => {
             serializer
           );
 
-          if (element && element.elementName === "testElementWithTransform") {
+          if (element?.elementName === "testElementWithTransform") {
             element.values.nestedElementValues.field1;
             // @ts-expect-error -- we should not be able to access properties not on a specific element
             element.values.otherValues;
           }
 
-          if (element && element.elementName === "testElementWithTransform2") {
+          if (element?.elementName === "testElementWithTransform2") {
             element.values.otherValues.field1;
             // @ts-expect-error -- we should not be able to access properties not on a specific element
             element.values.nestedElementValues;
