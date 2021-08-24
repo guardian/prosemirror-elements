@@ -3,15 +3,12 @@ import { Button } from "@guardian/src-button";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
-import { Field } from "../../editorial-source-components/Field";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type {
-  CustomFieldViewSpec,
-  FieldNameToFieldViewSpec,
-} from "../../plugin/types/Element";
+import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
+import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import type {
   Asset,
   createImageFields,
@@ -28,48 +25,46 @@ const inlineStyles = css`
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: Record<string, string[]>;
-  fieldViewSpecs: FieldNameToFieldViewSpec<
-    ReturnType<typeof createImageFields>
-  >;
+  fields: FieldNameToField<ReturnType<typeof createImageFields>>;
 };
 
 type ImageViewProps = {
   onChange: SetMedia;
-  fieldViewSpec: CustomFieldViewSpec<MainImageData, MainImageProps>;
+  field: CustomField<MainImageData, MainImageProps>;
 };
 
 export const ImageElementTestId = "ImageElement";
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
-  fieldViewSpecs,
+  fields,
   fieldValues,
 }) => (
   <div data-cy={ImageElementTestId}>
     <Columns>
       <Column width={2 / 5}>
         <CustomDropdownView
-          fieldViewSpec={fieldViewSpecs.weighting}
+          field={fields.weighting}
           label="Weighting"
           errors={errors.weighting}
         />
         <ImageView
-          fieldViewSpec={fieldViewSpecs.mainImage}
+          field={fields.mainImage}
           onChange={({ caption, source, photographer }) => {
-            fieldViewSpecs.caption.update(caption);
-            fieldViewSpecs.source.update(source);
-            fieldViewSpecs.photographer.update(photographer);
+            fields.caption.update(caption);
+            fields.source.update(source);
+            fields.photographer.update(photographer);
           }}
         />
         <CustomDropdownView
-          fieldViewSpec={fieldViewSpecs.imageType}
+          field={fields.imageType}
           label={"Image type"}
           errors={errors.imageType}
         />
       </Column>
       <Column width={3 / 5}>
-        <Field
-          fieldViewSpec={fieldViewSpecs.caption}
+        <FieldWrapper
+          field={fields.caption}
           errors={errors.caption}
           label="Caption"
         />
@@ -78,31 +73,31 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           size="xsmall"
           // icon={<SvgCamera />}
           iconSide="left"
-          onClick={() => fieldViewSpecs.altText.update(fieldValues.caption)}
+          onClick={() => fields.altText.update(fieldValues.caption)}
         >
           Copy from caption
         </Button>
-        <Field
-          fieldViewSpec={fieldViewSpecs.altText}
+        <FieldWrapper
+          field={fields.altText}
           errors={errors.altText}
           label="Alt text"
         />
         <Inline space={2}>
-          <Field
-            fieldViewSpec={fieldViewSpecs.photographer}
+          <FieldWrapper
+            field={fields.photographer}
             errors={errors.photographer}
             label="Photographer"
             css={inlineStyles}
           />
-          <Field
-            fieldViewSpec={fieldViewSpecs.source}
+          <FieldWrapper
+            field={fields.source}
             errors={errors.source}
             label="Source"
             css={inlineStyles}
           />
         </Inline>
         <CustomCheckboxView
-          fieldViewSpec={fieldViewSpecs.displayCreditInformation}
+          field={fields.displayCreditInformation}
           errors={errors.displayCreditInformation}
           label="Display credit information"
         />
@@ -115,20 +110,16 @@ const imageViewStysles = css`
   width: 100%;
 `;
 
-const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
-    fieldViewSpec
-  );
+const ImageView = ({ field, onChange }: ImageViewProps) => {
+  const [imageFields, setImageFields] = useCustomFieldState(field);
   const setMedia = (mediaPayload: MediaPayload) => {
     const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
-    if (setImageFieldsRef.current) {
-      setImageFieldsRef.current({
-        mediaId,
-        mediaApiUri,
-        assets,
-        suppliersReference,
-      });
-    }
+    setImageFields({
+      mediaId,
+      mediaApiUri,
+      assets,
+      suppliersReference,
+    });
     onChange(mediaPayload);
   };
 
@@ -161,7 +152,7 @@ const ImageView = ({ fieldViewSpec, onChange }: ImageViewProps) => {
         icon={<SvgCamera />}
         iconSide="left"
         onClick={() => {
-          fieldViewSpec.fieldSpec.props.openImageSelector(
+          field.description.props.openImageSelector(
             setMedia,
             imageFields.mediaId
           );

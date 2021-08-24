@@ -2,12 +2,7 @@ import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
-import type {
-  DOMOutputSpec,
-  MarkSpec,
-  Node,
-  NodeSpec,
-} from "prosemirror-model";
+import type { MarkSpec, Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
@@ -61,16 +56,6 @@ const {
   pullquoteElement,
 });
 
-const restrictedParagraph = {
-  content: "text*",
-  marks: "em",
-  group: "block",
-  parseDOM: [{ tag: "restricted-p" }],
-  toDOM() {
-    return ["restricted-p", 0] as DOMOutputSpec;
-  },
-};
-
 const strike: MarkSpec = {
   parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
   toDOM() {
@@ -79,9 +64,7 @@ const strike: MarkSpec = {
 };
 
 const schema = new Schema({
-  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>)
-    .append(nodeSpec)
-    .append({ restrictedParagraph }),
+  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
   marks: { ...marks, strike },
 });
 

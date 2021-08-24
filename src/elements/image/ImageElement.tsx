@@ -88,12 +88,12 @@ export const createImageElement = (
 ) =>
   createReactElementSpec(
     createImageFields(openImageSelector),
-    (fields, errors, __, fieldViewSpecs) => {
+    (fieldValues, errors, __, fields) => {
       return (
         <ImageElementForm
-          fieldValues={fields}
+          fieldValues={fieldValues}
           errors={errors}
-          fieldViewSpecs={fieldViewSpecs}
+          fields={fields}
         />
       );
     },
