@@ -25,6 +25,7 @@ export const buildElementPlugin = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
 >(
   elementSpecs: ESpecMap,
+  groupName = "block",
   predicate = defaultPredicate
 ) => {
   const getNodeFromElementData = createGetNodeFromElementData(elementSpecs);
@@ -53,6 +54,7 @@ export const buildElementPlugin = <
     nodeSpec = nodeSpec.append(
       getNodeSpecFromFieldDescriptions(
         elementName,
+        groupName,
         elementSpecs[elementName].fieldDescriptions
       )
     );

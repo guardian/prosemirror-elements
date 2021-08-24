@@ -9,6 +9,7 @@ export const getNodeSpecFromFieldDescriptions = <
   FDesc extends FieldDescriptions<string>
 >(
   elementName: string,
+  groupName: string,
   fieldDescriptions: FDesc
 ): OrderedMap<NodeSpec> => {
   const propSpecs = Object.entries(fieldDescriptions).reduce(
@@ -18,16 +19,17 @@ export const getNodeSpecFromFieldDescriptions = <
   );
 
   return propSpecs.append(
-    getNodeSpecForElement(elementName, fieldDescriptions)
+    getNodeSpecForElement(elementName, groupName, fieldDescriptions)
   );
 };
 
 const getNodeSpecForElement = (
   elementName: string,
+  groupName: string,
   fieldDescription: FieldDescriptions<string>
 ): NodeSpec => ({
   [elementName]: {
-    group: "block",
+    group: groupName,
     content: getDeterministicFieldOrder(
       Object.keys(fieldDescription).map((fieldName) =>
         getNodeNameFromField(fieldName, elementName)
