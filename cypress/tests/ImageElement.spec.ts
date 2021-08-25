@@ -161,6 +161,16 @@ describe("ImageElement", () => {
         );
       });
 
+      it(`should remove marks when content is created with them`, () => {
+        addImageElement({
+          src: "<strong>bold text</strong> <em>italic text</em>",
+        });
+        getElementRichTextField("src").should(
+          "have.html",
+          "bold text italic text"
+        );
+      });
+
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
         addImageElement();
         typeIntoElementField("src", "Src text");
