@@ -6,7 +6,8 @@ import { createGuElementSpec } from "../createGuElementSpec";
 const guElement = createGuElementSpec(
   { exampleField: createTextField() },
   () => <p></p>,
-  () => null
+  () => null,
+  true
 );
 
 describe("createGuElementSpec", () => {

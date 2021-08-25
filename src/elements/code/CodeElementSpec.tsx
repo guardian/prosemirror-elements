@@ -6,7 +6,7 @@ import { createGuElementSpec } from "../createGuElementSpec";
 import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
-  codeText: createTextField({ isMultiline: true, rows: 11 }, true),
+  html: createTextField({ isMultiline: true, rows: 11 }, true),
   language: createCustomField("text", [
     { text: "Plain text", value: "text" },
     { text: "HTML", value: "html" },
@@ -24,5 +24,5 @@ export const codeElement = createGuElementSpec(
   (_, errors, __, fields) => {
     return <CodeElementForm errors={errors} fields={fields} />;
   },
-  createValidator({ codeText: [required()] })
+  createValidator({ html: [required()] })
 );

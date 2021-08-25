@@ -169,7 +169,7 @@ const createEditor = (server: CollabServer) => {
 
   editorElement.appendChild(
     createElementButton("Add code element", codeElementName, {
-      codeText: "",
+      html: "",
       language: "Plain text",
     })
   );
