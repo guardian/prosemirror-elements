@@ -94,6 +94,7 @@ export const getNodeSpecForField = (
             },
           ],
           code: field.isCode,
+          marks: "",
         },
       };
     case "richText": {

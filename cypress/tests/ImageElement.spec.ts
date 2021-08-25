@@ -2,11 +2,13 @@ import { UpdateAltTextButtonId } from "../../src/elements/demo-image/DemoImageEl
 import {
   addImageElement,
   assertDocHtml,
+  boldShortcut,
   changeTestDecoString,
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
   getSerialisedHtml,
+  italicShortcut,
   selectDataCy,
   typeIntoElementField,
   visitRoot,
@@ -27,6 +29,16 @@ describe("ImageElement", () => {
         const text = `caption text`;
         typeIntoElementField("caption", text);
         getElementRichTextField("caption").should("have.text", text);
+      });
+
+      it(`caption – should allow mark shortcuts in an element`, () => {
+        addImageElement();
+        const text = `${boldShortcut()}bold caption text${boldShortcut()}${italicShortcut()}italic caption text`;
+        typeIntoElementField("caption", text);
+        getElementRichTextField("caption").should(
+          "have.html",
+          "<p><strong>bold caption text</strong><em>italic caption text</em></p>"
+        );
       });
 
       it(`caption – should create hard breaks on shift-enter`, () => {
@@ -139,6 +151,27 @@ describe("ImageElement", () => {
         const text = `Src text`;
         typeIntoElementField("src", text);
         getElementRichTextField("src").should("have.text", text);
+      });
+
+      it(`should ignore mark shortcuts`, () => {
+        addImageElement();
+
+        const text = `${boldShortcut()}bold text ${boldShortcut()}${italicShortcut()}italic text`;
+        typeIntoElementField("src", text);
+        getElementRichTextField("src").should(
+          "have.html",
+          "bold text italic text"
+        );
+      });
+
+      it(`should remove marks when content is created with them`, () => {
+        addImageElement({
+          src: "<strong>bold text</strong> <em>italic text</em>",
+        });
+        getElementRichTextField("src").should(
+          "have.html",
+          "bold text italic text"
+        );
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
