@@ -5,6 +5,9 @@ import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
+export const elementTypeAttr = "pme-element-type";
+export const fieldNameAttr = "pme-field-name";
+
 export const getNodeSpecFromFieldDescriptions = <
   FDesc extends FieldDescriptions<string>
 >(
@@ -47,9 +50,9 @@ const getNodeSpecForElement = (
     },
     draggable: false,
     toDOM: (node: Node) => [
-      elementName,
+      "div",
       {
-        type: node.attrs.type as string,
+        [elementTypeAttr]: node.attrs.type as string,
         fields: JSON.stringify(node.attrs.fields),
         "has-errors": JSON.stringify(node.attrs.hasErrors),
       },
@@ -57,15 +60,17 @@ const getNodeSpecForElement = (
     ],
     parseDOM: [
       {
-        tag: elementName,
+        tag: "div",
         getAttrs: (dom: Element) => {
-          if (typeof dom === "string") {
-            return;
+          const domElementName = dom.getAttribute(elementTypeAttr);
+          if (domElementName !== elementName) {
+            return false;
           }
+
           const hasErrorAttr = dom.getAttribute("has-errors");
 
           return {
-            type: dom.getAttribute("type"),
+            type: elementName,
             fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
             hasErrors: hasErrorAttr && hasErrorAttr !== "false",
           };
@@ -89,7 +94,17 @@ export const getNodeSpecForField = (
           toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
           parseDOM: [
             {
-              tag: getTagForNode(elementName, fieldName),
+              tag: "div",
+              getAttrs: (dom: Element) => {
+                const domFieldName = dom.getAttribute(fieldNameAttr);
+                if (
+                  domFieldName !== getNodeNameFromField(fieldName, elementName)
+                ) {
+                  return false;
+                }
+
+                return {};
+              },
               preserveWhitespace: field.isCode ? "full" : false,
             },
           ],
@@ -159,18 +174,19 @@ const getDefaultToDOMForContentNode = (
   fieldName: string
 ) => () =>
   [
-    getTagForNode(elementName, fieldName),
-    { class: getClassForNode(elementName, fieldName) },
+    "div",
+    {
+      [fieldNameAttr]: getNodeNameFromField(fieldName, elementName),
+    },
     0,
   ] as const;
 
 const getDefaultToDOMForLeafNode = (elementName: string, fieldName: string) => (
   node: Node
 ) => [
-  getTagForNode(elementName, fieldName),
+  "div",
   {
-    class: getClassForNode(elementName, fieldName),
-    type: node.attrs.type as string,
+    [fieldNameAttr]: getNodeNameFromField(fieldName, elementName),
     fields: JSON.stringify(node.attrs.fields),
     "has-errors": JSON.stringify(node.attrs.hasErrors),
   },
@@ -181,11 +197,13 @@ const getDefaultParseDOMForLeafNode = (
   fieldName: string
 ) => [
   {
-    tag: getTagForNode(elementName, fieldName),
+    tag: "div",
     getAttrs: (dom: Element) => {
-      if (typeof dom === "string") {
-        return;
+      const domFieldName = dom.getAttribute(fieldNameAttr);
+      if (domFieldName !== getNodeNameFromField(fieldName, elementName)) {
+        return false;
       }
+
       const attrs = {
         fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
       };
@@ -194,9 +212,6 @@ const getDefaultParseDOMForLeafNode = (
     },
   },
 ];
-
-const getClassForNode = (elementName: string, fieldName: string) =>
-  `ProsemirrorElement__${elementName}-${fieldName}`;
 
 const getTagForNode = (elementName: string, fieldName: string) =>
   `element-${elementName}-${fieldName}`.toLowerCase();

@@ -171,9 +171,10 @@ describe("mount", () => {
             getNodeNameFromField("field1", "testElement1")
           );
           expect(field1NodeSpec).toHaveProperty("content", "text*");
-          expect(field1NodeSpec).toHaveProperty("parseDOM", [
-            { tag: "element-testelement1-field1", preserveWhitespace: false },
-          ]);
+          expect(field1NodeSpec?.parseDOM?.[0]).toMatchObject({
+            tag: "div",
+            preserveWhitespace: false,
+          });
         });
       });
 
