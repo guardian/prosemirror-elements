@@ -141,3 +141,21 @@ export const getSerialisedHtml = ({
     <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="${useSrcValue}"></element-imageelement-usesrc>
   </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
 };
+
+export const boldShortcut = () => {
+  switch (Cypress.platform) {
+    case "darwin":
+      return "{meta+b}";
+    default:
+      return "{ctrl+b}";
+  }
+};
+
+export const italicShortcut = () => {
+  switch (Cypress.platform) {
+    case "darwin":
+      return "{meta+i}";
+    default:
+      return "{ctrl+i}";
+  }
+};
