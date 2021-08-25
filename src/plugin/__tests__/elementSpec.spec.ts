@@ -48,7 +48,7 @@ describe("mount", () => {
         },
         field2: {
           type: "checkbox",
-          defaultValue: { value: true },
+          defaultValue: true,
         },
       } as const;
       createElementSpec(
@@ -58,7 +58,7 @@ describe("mount", () => {
           // field1 is derived from the fieldDescriptions, and is a string b/c it's a richText field
           fields.field1.toString();
           // field2 is a boolean b/c it's a checkbox field
-          fields.field2.value.valueOf();
+          fields.field2.valueOf();
           return null;
         }
       );
@@ -182,7 +182,7 @@ describe("mount", () => {
           const fieldDescriptions = {
             field1: {
               type: "checkbox" as const,
-              defaultValue: { value: true },
+              defaultValue: true,
             },
           };
 
@@ -194,9 +194,7 @@ describe("mount", () => {
             atom: true,
             attrs: {
               fields: {
-                default: {
-                  value: true,
-                },
+                default: true,
               },
             },
           });

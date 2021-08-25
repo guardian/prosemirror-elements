@@ -3,7 +3,7 @@ import type { EditorView } from "prosemirror-view";
 import { AttributeFieldView } from "./AttributeFieldView";
 import type { BaseFieldDescription } from "./FieldView";
 
-export type CheckboxValue = { value: boolean };
+export type CheckboxValue = boolean;
 
 export interface CheckboxFieldDescription
   extends BaseFieldDescription<CheckboxValue> {
@@ -14,12 +14,12 @@ export const createCheckBox = (
   defaultValue: boolean
 ): CheckboxFieldDescription => ({
   type: CheckboxFieldView.fieldName,
-  defaultValue: { value: defaultValue },
+  defaultValue,
 });
 
 export class CheckboxFieldView extends AttributeFieldView<CheckboxValue> {
   public static fieldName = "checkbox" as const;
-  public static defaultValue = { value: false };
+  public static defaultValue = false;
   private checkboxElement: HTMLInputElement | undefined = undefined;
 
   constructor(
@@ -40,18 +40,18 @@ export class CheckboxFieldView extends AttributeFieldView<CheckboxValue> {
     return node.attrs.fields as CheckboxValue;
   }
 
-  protected createInnerView({ value }: CheckboxValue): void {
+  protected createInnerView(value: CheckboxValue): void {
     this.checkboxElement = document.createElement("input");
     this.checkboxElement.type = "checkbox";
     this.checkboxElement.checked = value;
     this.checkboxElement.addEventListener("change", (event) =>
-      this.updateOuterEditor({
-        value: Boolean((event.target as HTMLInputElement).checked),
-      })
+      this.updateOuterEditor(
+        Boolean((event.target as HTMLInputElement).checked)
+      )
     );
     this.fieldViewElement.appendChild(this.checkboxElement);
   }
-  protected updateInnerView({ value }: CheckboxValue): void {
+  protected updateInnerView(value: CheckboxValue): void {
     if (this.checkboxElement) {
       this.checkboxElement.checked = value;
     }

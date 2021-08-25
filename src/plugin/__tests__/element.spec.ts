@@ -154,13 +154,13 @@ describe("buildElementPlugin", () => {
 
     it("should not allow fields to be instantiated with an incorrect type", () => {
       const testElement = createNoopElement({
-        field1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: false },
       });
       const { insertElement } = buildElementPlugin({ testElement });
       insertElement({
         elementName: "testElement",
         values: {
-          field1: { value: true },
+          field1: true,
         },
       });
       insertElement({
@@ -193,7 +193,7 @@ describe("buildElementPlugin", () => {
   describe("Element creation and serialisation", () => {
     it("should create an element with default content when no fields are supplied", () => {
       const testElement = createNoopElement({
-        field1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: false },
         field2: { type: "richText", defaultValue: "<p>Content</p>" },
       });
       const {
@@ -209,7 +209,7 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <testelement type="testElement" has-errors="false">
-          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:false}"></element-testelement-field1>
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="false"></element-testelement-field1>
           <element-testelement-field2 class="ProsemirrorElement__testElement-field2"><p>Content</p></element-testelement-field2>
         </testelement>`);
       expect(getElementAsHTML()).toBe(expected);
@@ -217,7 +217,7 @@ describe("buildElementPlugin", () => {
 
     it("should fill out fields in ATTRIBUTE nodes", () => {
       const testElement = createNoopElement({
-        field1: { type: "checkbox", defaultValue: { value: false } },
+        field1: { type: "checkbox", defaultValue: false },
       });
       const {
         view,
@@ -227,12 +227,12 @@ describe("buildElementPlugin", () => {
 
       insertElement({
         elementName: "testElement",
-        values: { field1: { value: true } },
+        values: { field1: true },
       })(view.state, view.dispatch);
 
       const expected = trimHtml(
         `<testelement type="testElement" has-errors="false">
-          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="{&quot;value&quot;:true}"></element-testelement-field1>
+          <element-testelement-field1 class="ProsemirrorElement__testElement-field1" fields="true"></element-testelement-field1>
         </testelement>`
       );
       expect(getElementAsHTML()).toBe(expected);
@@ -319,7 +319,7 @@ describe("buildElementPlugin", () => {
           <testelement type="testElement" has-errors="false">
           <element-testelement-field1 class="ProsemirrorElement__testElement-field1"><p></p></element-testelement-field1>
           <element-testelement-field2 class="ProsemirrorElement__testElement-field2"></element-testelement-field2>
-          <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="{&quot;value&quot;:true}"></element-testelement-field3>
+          <element-testelement-field3 class="ProsemirrorElement__testElement-field3" fields="true"></element-testelement-field3>
           </testelement>
         `;
 
@@ -401,7 +401,7 @@ describe("buildElementPlugin", () => {
       values: {
         field1: "<p></p>",
         field2: "",
-        field3: { value: true },
+        field3: true,
       },
     } as const;
 

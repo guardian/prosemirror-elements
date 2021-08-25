@@ -133,8 +133,8 @@ const createNodeView = <
       // to the compiler, and we're already beholden to runtime behaviour as there's
       // no guarantee that the node's `name` matches our spec. The errors above should
       // help to defend when something's wrong.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- as above
-      update: (value: unknown) => fieldView.update(value as any),
+      update: (value: unknown) =>
+        (fieldView.update as (value: unknown) => void)(value),
     } as unknown) as FieldNameToField<FDesc>[typeof name];
   });
 
