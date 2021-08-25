@@ -29,6 +29,16 @@ describe("ImageElement", () => {
         getElementRichTextField("caption").should("have.text", text);
       });
 
+      it(`caption – should allow mark shortcuts in an element`, () => {
+        addImageElement();
+        const text = `{meta+b}bold caption text`;
+        typeIntoElementField("caption", text);
+        getElementRichTextField("caption").should(
+          "have.html",
+          "<p><strong>bold caption text</strong></p>"
+        );
+      });
+
       it(`caption – should create hard breaks on shift-enter`, () => {
         addImageElement();
         const text = `caption{shift+enter}text`;
@@ -139,6 +149,16 @@ describe("ImageElement", () => {
         const text = `Src text`;
         typeIntoElementField("src", text);
         getElementRichTextField("src").should("have.text", text);
+      });
+
+      it(`should ignore mark shortcuts`, () => {
+        addImageElement();
+        const text = `{meta+b}{meta+i}bold text {meta+b}{meta+i}italic text`;
+        typeIntoElementField("src", text);
+        getElementRichTextField("src").should(
+          "have.html",
+          "bold text italic text"
+        );
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
