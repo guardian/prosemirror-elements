@@ -5,8 +5,8 @@ import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
-export const elementTypeAttr = "pm-elements-element-type";
-export const fieldNameAttr = "pm-elements-field-name";
+export const elementTypeAttr = "pme-element-type";
+export const fieldNameAttr = "pme-field-name";
 
 export const getNodeSpecFromFieldDescriptions = <
   FDesc extends FieldDescriptions<string>

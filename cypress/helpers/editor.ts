@@ -129,15 +129,15 @@ export const getSerialisedHtml = ({
           mainImageValue.mediaApiUri ?? "undefined"
         }&quot;,&quot;assets&quot;${mainImageValue.assets}`
       : `&quot;assets&quot;:[]`;
-  return trimHtml(`<div pm-elements-element-type="imageElement" has-errors="false">
-    <div pm-elements-field-name="imageElement_altText">${altTextValue}</div>
-    <div pm-elements-field-name="imageElement_caption">${captionValue}</div>
-    <div pm-elements-field-name="imageElement_code">${codeValue}</div>
-    <div pm-elements-field-name="imageElement_customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
-    <div pm-elements-field-name="imageElement_mainImage" fields="{${mainImageFields}}"></div>
-    <div pm-elements-field-name="imageElement_optionDropdown" fields="&quot;${optionValue}&quot;"></div>
-    <div pm-elements-field-name="imageElement_restrictedTextField">${restrictedTextValue}</div>
-    <div pm-elements-field-name="imageElement_src">${srcValue}</div>
-    <div pm-elements-field-name="imageElement_useSrc" fields="${useSrcValue}"></div>
+  return trimHtml(`<div pme-element-type="imageElement" has-errors="false">
+    <div pme-field-name="imageElement_altText">${altTextValue}</div>
+    <div pme-field-name="imageElement_caption">${captionValue}</div>
+    <div pme-field-name="imageElement_code">${codeValue}</div>
+    <div pme-field-name="imageElement_customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
+    <div pme-field-name="imageElement_mainImage" fields="{${mainImageFields}}"></div>
+    <div pme-field-name="imageElement_optionDropdown" fields="&quot;${optionValue}&quot;"></div>
+    <div pme-field-name="imageElement_restrictedTextField">${restrictedTextValue}</div>
+    <div pme-field-name="imageElement_src">${srcValue}</div>
+    <div pme-field-name="imageElement_useSrc" fields="${useSrcValue}"></div>
   </div><p>First paragraph</p><p>Second paragraph</p>`);
 };
