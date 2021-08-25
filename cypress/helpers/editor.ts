@@ -129,15 +129,15 @@ export const getSerialisedHtml = ({
           mainImageValue.mediaApiUri ?? "undefined"
         }&quot;,&quot;assets&quot;${mainImageValue.assets}`
       : `&quot;assets&quot;:[]`;
-  return trimHtml(`<imageelement type="imageElement" has-errors="false">
-    <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
-    <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
-    <element-imageelement-code class="ProsemirrorElement__imageElement-code">${codeValue}</element-imageelement-code>
-    <element-imageelement-customdropdown class="ProsemirrorElement__imageElement-customDropdown" fields="&quot;${customDropdownValue}&quot;"></element-imageelement-customdropdown>
-    <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{${mainImageFields}}"></element-imageelement-mainimage>
-    <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
-    <element-imageelement-restrictedtextfield class="ProsemirrorElement__imageElement-restrictedTextField">${restrictedTextValue}</element-imageelement-restrictedtextfield>
-    <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
-    <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="${useSrcValue}"></element-imageelement-usesrc>
-  </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
+  return trimHtml(`<div pm-elements-element-type="imageElement" has-errors="false">
+    <div pm-elements-field-name="imageElement_altText">${altTextValue}</div>
+    <div pm-elements-field-name="imageElement_caption">${captionValue}</div>
+    <div pm-elements-field-name="imageElement_code">${codeValue}</div>
+    <div pm-elements-field-name="imageElement_customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
+    <div pm-elements-field-name="imageElement_mainImage" fields="{${mainImageFields}}"></div>
+    <div pm-elements-field-name="imageElement_optionDropdown" fields="&quot;${optionValue}&quot;"></div>
+    <div pm-elements-field-name="imageElement_restrictedTextField">${restrictedTextValue}</div>
+    <div pm-elements-field-name="imageElement_src">${srcValue}</div>
+    <div pm-elements-field-name="imageElement_useSrc" fields="${useSrcValue}"></div>
+  </div><p>First paragraph</p><p>Second paragraph</p>`);
 };
