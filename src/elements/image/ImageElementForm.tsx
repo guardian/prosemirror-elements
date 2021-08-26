@@ -126,28 +126,26 @@ const ImageView = ({ field, onChange }: ImageViewProps) => {
     onChange(mediaPayload);
   };
 
-  const masterImageSource = imageFields.assets
-    .filter((image) => image.fields.width >= 1000)
-    .sort((assetA, assetB) => assetA.fields.width - assetB.fields.width)[0]
-    ?.url;
-  const isMaster = (asset: Asset) =>
-    typeof asset.fields.isMaster !== "undefined"
-      ? asset.fields.isMaster
-      : false;
-  const excludeMasterAsset = imageFields.assets.filter(
-    (asset) => !isMaster(asset)
-  );
-  const assetsInAscWidth = excludeMasterAsset
-    .filter((image) => image.fields.width < 1000)
-    .sort((assetA, assetB) => assetA.fields.width - assetB.fields.width)
-    .slice(-1)[0]?.url;
+  const getImageSrc = () => {
+    const desiredWidth = 1200;
+
+    const widthDifference = (width: number) => Math.abs(desiredWidth - width);
+
+    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
+      widthDifference(assetA.fields.width) -
+      widthDifference(assetB.fields.width);
+
+    const assets = imageFields.assets
+      .filter((asset) => !asset.fields.isMaster)
+      .sort(sortByWidthDifference);
+
+    return assets.length > 0 ? assets[0].url : undefined;
+  };
+
   return (
     <>
       <div>
-        <img
-          css={imageViewStysles}
-          src={masterImageSource || assetsInAscWidth}
-        />
+        <img css={imageViewStysles} src={getImageSrc()} />
       </div>
       <Button
         priority="primary"
