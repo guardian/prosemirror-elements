@@ -9,12 +9,12 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
   codeElement,
-  createImageElement as createDemoImageElement,
+  createDemoImageElement,
   createEmbedElement,
+  createImageElement,
   pullquoteElement,
 } from "../src";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { createImageElement } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,

@@ -74,7 +74,7 @@ export const createImageFields = (
   };
 };
 
-export const createImageElement = (
+export const createDemoImageElement = (
   onSelect: (setSrc: DemoSetMedia) => void,
   onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
 ) =>
