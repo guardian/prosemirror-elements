@@ -68,20 +68,23 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           errors={errors.caption}
           label="Caption"
         />
-        <Button
-          priority="primary"
-          size="xsmall"
-          // icon={<SvgCamera />}
-          iconSide="left"
-          onClick={() => fields.altText.update(fieldValues.caption)}
-        >
-          Copy from caption
-        </Button>
-        <FieldWrapper
-          field={fields.altText}
-          errors={errors.altText}
-          label="Alt text"
-        />
+        <span>
+          <FieldWrapper
+            field={fields.altText}
+            errors={errors.altText}
+            label="Alt text"
+          />
+        </span>
+        <span>
+          <Button
+            priority="primary"
+            size="xsmall"
+            iconSide="left"
+            onClick={() => fields.altText.update(fieldValues.caption)}
+          >
+            Copy from caption
+          </Button>
+        </span>
         <Inline space={2}>
           <FieldWrapper
             field={fields.photographer}
