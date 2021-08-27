@@ -21,6 +21,10 @@ export const CodeElementForm: React.FunctionComponent<Props> = ({
       field={fields.codeText}
       errors={errors.codeText}
     />
-    <CustomDropdownView label="Language" field={fields.language} />
+    <CustomDropdownView
+      label="Language"
+      display="inline"
+      field={fields.language}
+    />
   </div>
 );

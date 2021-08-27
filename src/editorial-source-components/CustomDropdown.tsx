@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
 import type { Option as OptionValue } from "../plugin/fieldViews/DropdownFieldView";
@@ -8,7 +9,7 @@ import { labelStyles } from "./Label";
 // These styles allow us to style the div, svg, and span elements in the Source Select Component.
 // However, they rely on it retaining its current structure, which is worth bearing in mind
 // if we decided to bump the version of @guardian/src-select
-const parentStyles = css`
+const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
   white-space: nowrap;
   width: initial;
   div {
@@ -33,6 +34,14 @@ const parentStyles = css`
       margin-left: 1px;
     }
   }
+  ${({ display }) =>
+    display === "inline" &&
+    `
+    label { 
+      display: flex; 
+      align-items: center; 
+      margin: -8px 0;
+    }`}
 `;
 
 const selectStyles = css`
@@ -53,11 +62,12 @@ type CustomDropdownProps = {
   label: string;
   dataCy: string;
   error: string;
+  display: "block" | "inline";
 };
 
 export const CustomDropdown = (props: CustomDropdownProps) => {
   return (
-    <div css={parentStyles} data-cy={props.dataCy}>
+    <SelectWrapper display={props.display} data-cy={props.dataCy}>
       <Select
         error={props.error}
         label={props.label}
@@ -71,6 +81,6 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
           </Option>
         ))}
       </Select>
-    </div>
+    </SelectWrapper>
   );
 };

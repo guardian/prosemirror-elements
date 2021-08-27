@@ -6,7 +6,7 @@ import { createGuElementSpec } from "../createGuElementSpec";
 import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
-  codeText: createTextField({ isMultiline: true, rows: 11 }, true),
+  codeText: createTextField({ isMultiline: true, rows: 6 }, true),
   language: createCustomField("text", [
     { text: "Plain text", value: "text" },
     { text: "HTML", value: "html" },
