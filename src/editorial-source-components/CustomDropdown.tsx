@@ -40,7 +40,15 @@ const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
     label { 
       display: flex; 
       align-items: center; 
-      margin: -8px 0;
+      >div:first-child {
+        margin-right: ${space[3]}px;
+      }
+      /* 
+       * This resolves some margin problems introduced by 
+       * restyling the Source Select component to be inline with its
+       * label
+       */
+      margin: -${space[2]}px 0;
     }`}
 `;
 
