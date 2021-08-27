@@ -31,7 +31,7 @@ const createUpdater = <
 
 export type Validator<FDesc extends FieldDescriptions<string>> = (
   fields: FieldNameToValueMap<FDesc>
-) => null | Record<string, string[]>;
+) => undefined | Record<string, string[]>;
 
 export type Renderer<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,
