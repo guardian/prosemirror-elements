@@ -62,6 +62,7 @@ export const createElementSpec = <
 ): ElementSpec<FDesc, ExternalData> => ({
   fieldDescriptions,
   transformers,
+  validate,
   createUpdator: (dom, fields, updateState, fieldValues, commands) => {
     const updater = createUpdater<FDesc>();
     render(

@@ -35,9 +35,12 @@ type Predicate = (
 ) => boolean;
 type CommandDirection = "up" | "down" | "top" | "bottom";
 
-const defaultPredicate: Predicate = (node: Node, pos: number, parent: Node) =>
-  parent.type.name === "doc" &&
-  (node.type.name === "element" || !!node.textContent);
+const defaultPredicate: Predicate = (node: Node, pos: number, parent: Node) => {
+  return (
+    parent.type.name === "doc" &&
+    (node.type.name === "element" || node.type.name === "paragraph")
+  );
+};
 
 const findPredicate = (consumerPredicate: Predicate, currentPos: number) => ([
   candidateNode,
