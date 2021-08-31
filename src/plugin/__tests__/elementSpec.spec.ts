@@ -18,7 +18,7 @@ describe("mount", () => {
           // field1 is derived from the fieldDescriptions
           fieldViews.field1;
         },
-        () => null
+        () => undefined
       );
     });
 
@@ -35,7 +35,7 @@ describe("mount", () => {
           // as it is not defined in `fieldDescriptions` passed into `mount`
           fieldViews.field1;
         },
-        () => null
+        () => undefined
       );
     });
   });
@@ -59,7 +59,7 @@ describe("mount", () => {
           fields.field1.toString();
           // field2 is a boolean b/c it's a checkbox field
           fields.field2.valueOf();
-          return null;
+          return undefined;
         }
       );
     });
@@ -77,7 +77,7 @@ describe("mount", () => {
           // @ts-expect-error – field1 is not available on this object,
           // as it is not defined in `fieldDescriptions` passed into `mount`
           fields.doesNotExist;
-          return null;
+          return undefined;
         }
       );
     });
