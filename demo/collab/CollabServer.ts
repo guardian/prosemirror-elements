@@ -133,6 +133,6 @@ export class EditorConnection {
       );
       tr.setMeta(COLLAB_ACTION, actionSelectionsChanged(selectionSpecs));
       this.dispatchTransaction(tr);
-    }, 500000);
+    }, 500);
   }
 }
