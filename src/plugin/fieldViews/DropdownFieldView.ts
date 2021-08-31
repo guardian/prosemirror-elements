@@ -39,8 +39,8 @@ export class DropdownFieldView extends AttributeFieldView<DropdownValue> {
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
-    defaultFields: string | undefined,
-    private options: ReadonlyArray<Option<string | undefined>>
+    defaultFields: DropdownValue,
+    private options: ReadonlyArray<Option<DropdownValue>>
   ) {
     super(node, outerView, getPos, offset);
     this.createInnerView(node.attrs.fields || defaultFields);
