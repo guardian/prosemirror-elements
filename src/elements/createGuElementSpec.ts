@@ -6,7 +6,9 @@ import type { FieldDescriptions } from "../plugin/types/Element";
 import { createReactElementSpec } from "../renderers/react/createReactElementSpec";
 
 type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
-  fields: Omit<FieldNameToValueMap<FDesc>, "assets"> & { isMandatory: boolean };
+  fields: Omit<FieldNameToValueMap<FDesc>, "assets"> & {
+    isMandatory?: boolean;
+  };
   assets: string[];
 };
 
@@ -19,7 +21,7 @@ export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
   FieldDescriptions: FDesc,
   consumer: Consumer<ReactElement, FDesc>,
   validate: Validator<FDesc>,
-  isMandatory = true
+  isMandatory?: boolean
 ) => {
   return createReactElementSpec(FieldDescriptions, consumer, validate, {
     transformElementDataIn: ({
@@ -32,10 +34,19 @@ export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
       assets,
       ...fields
     }: FieldNameToValueMap<FDesc>) => {
-      return {
+      const baseFields = {
         assets: assets || [],
-        fields: { ...fields, isMandatory },
+        fields: { ...fields },
       } as FlexibleModelElement<FDesc>;
+
+      if (isMandatory === undefined) {
+        return baseFields;
+      }
+
+      return {
+        ...baseFields,
+        fields: { ...fields, isMandatory },
+      };
     },
   });
 };

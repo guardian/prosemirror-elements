@@ -355,6 +355,14 @@ describe("buildElementPlugin", () => {
       },
     });
 
+    const testElementWithValidation = createElementSpec(
+      {
+        field1: { type: "richText" },
+      },
+      () => undefined,
+      () => ({ field1: ["Some error"] })
+    );
+
     type ExternalData = { nestedElementValues: { field1: string } };
     type OtherExternalData = { otherValues: { field1: string } };
 
@@ -362,8 +370,8 @@ describe("buildElementPlugin", () => {
       {
         field1: { type: "richText" },
       },
-      () => null,
-      () => null,
+      () => undefined,
+      () => undefined,
       {
         transformElementDataIn: (external: ExternalData) => {
           return external.nestedElementValues;
@@ -380,8 +388,8 @@ describe("buildElementPlugin", () => {
       {
         field1: { type: "richText" },
       },
-      () => null,
-      () => null,
+      () => undefined,
+      () => undefined,
       {
         transformElementDataIn: (external: OtherExternalData) => {
           return external.otherValues;
@@ -396,6 +404,7 @@ describe("buildElementPlugin", () => {
 
     const testElementValues = {
       elementName: "testElement",
+      errors: undefined,
       values: {
         field1: "<p></p>",
         field2: "",
@@ -405,6 +414,7 @@ describe("buildElementPlugin", () => {
 
     const testElement2Values = {
       elementName: "testElement2",
+      errors: undefined,
       values: {
         field4: "<p></p>",
         field5: "",
@@ -644,6 +654,28 @@ describe("buildElementPlugin", () => {
             element.values.nestedElementValues;
           }
         });
+      });
+      it("should output any errors", () => {
+        const {
+          insertElement,
+          getElementDataFromNode,
+          view,
+          serializer,
+        } = createEditorWithElements({
+          testElementWithValidation,
+        });
+
+        insertElement({
+          elementName: "testElementWithValidation",
+          values: { field1: "Some text" },
+        })(view.state, view.dispatch);
+
+        const element = getElementDataFromNode(
+          view.state.doc.firstChild as Node,
+          serializer
+        );
+
+        expect(element?.errors).toEqual({ field1: ["Some error"] });
       });
     });
   });
