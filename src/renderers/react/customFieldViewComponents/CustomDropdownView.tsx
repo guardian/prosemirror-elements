@@ -9,17 +9,20 @@ type CustomDropdownViewProps = {
   field: CustomField<string, Array<Option<string>>>;
   errors?: string[];
   label: string;
+  display?: "inline" | "block";
 };
 
 export const CustomDropdownView = ({
   field,
   errors = [],
   label,
+  display = "block",
 }: CustomDropdownViewProps) => {
   const [selectedElement, setSelectedElement] = useCustomFieldState(field);
   return (
     <InputGroup>
       <CustomDropdown
+        display={display}
         options={field.description.props}
         selected={selectedElement}
         label={label}

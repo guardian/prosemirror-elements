@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { neutral } from "@guardian/src-foundations/palette";
+import { border, neutral } from "@guardian/src-foundations/palette";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
@@ -13,8 +13,11 @@ import type { ReactElement } from "react";
 import React from "react";
 import type { CommandCreator } from "../../plugin/types/Commands";
 
+const buttonWidth = 32;
+
 const Container = styled("div")`
   margin: ${space[3]}px 0;
+  position: relative;
 `;
 
 const Body = styled("div")`
@@ -39,26 +42,19 @@ const Panel = styled("div")`
   padding-right: ${space[3]}px;
 `;
 
-const Actions = styled("div")`
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 0.2s;
-`;
-
-const Button = styled("button")`
+const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
   border: none;
   border-top: 1px solid ${neutral[100]};
   color: ${neutral[100]};
   cursor: pointer;
-  flex-grow: ${({ expanded }: { expanded?: boolean }) =>
-    expanded ? "1" : "0"};
+  flex-grow: ${({ expanded }) => (expanded ? "1" : "0")};
+  ${({ expanded }) => !expanded && "height: 32px;"};
   font-size: 16px;
   line-height: 1;
   padding: ${space[1]}px;
-  width: 32px;
+  width: ${buttonWidth}px;
   transition: background-color 0.1s;
   :focus {
     ${focusHalo}
@@ -91,6 +87,33 @@ const Button = styled("button")`
   }
 `;
 
+const SeriousButton = styled(Button)`
+  :hover {
+    background-color: ${border.error};
+    svg {
+      fill: #fff;
+    }
+  }
+`;
+
+const Actions = styled("div")`
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.2s;
+`;
+
+const RightActions = styled(Actions)`
+  right: -${buttonWidth + 1}px;
+`;
+
+const LeftActions = styled(Actions)`
+  flex-direction: column-reverse;
+  left: -${buttonWidth + 1}px;
+`;
+
 type Props = {
   children?: ReactElement;
 } & ReturnType<CommandCreator>;
@@ -112,8 +135,17 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
 }) => (
   <Container data-cy={elementWrapperTestId}>
     <Body>
+      <LeftActions className="actions">
+        <SeriousButton
+          data-cy={removeTestId}
+          disabled={!remove(false)}
+          onClick={() => remove(true)}
+        >
+          <SvgCross />
+        </SeriousButton>
+      </LeftActions>
       <Panel>{children}</Panel>
-      <Actions className="actions">
+      <RightActions className="actions">
         <Button
           data-cy={moveTopTestId}
           disabled={!moveTop(false)}
@@ -121,7 +153,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
         >
           <div
             css={css`
-              transform: rotate(270deg) translate(0, 1px);
+              transform: rotate(270deg) translate(1px, 1px);
             `}
           >
             <SvgChevronRightDouble />
@@ -150,21 +182,13 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
         >
           <div
             css={css`
-              transform: rotate(90deg) translate(0, 1px);
+              transform: rotate(90deg) translate(-2px, 2px);
             `}
           >
             <SvgChevronRightDouble />
           </div>
         </Button>
-
-        <Button
-          data-cy={removeTestId}
-          disabled={!remove(false)}
-          onClick={() => remove(true)}
-        >
-          <SvgCross />
-        </Button>
-      </Actions>
+      </RightActions>
     </Body>
   </Container>
 );
