@@ -140,6 +140,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
     <Body>
       <LeftActions className="actions">
         <SeriousButton
+          type="button"
           data-cy={removeTestId}
           disabled={!remove(false)}
           onClick={() => remove(true)}
@@ -150,6 +151,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
       <Panel>{children}</Panel>
       <RightActions className="actions">
         <Button
+          type="button"
           data-cy={moveTopTestId}
           disabled={!moveTop(false)}
           onClick={() => moveTop(true)}
@@ -163,6 +165,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           </div>
         </Button>
         <Button
+          type="button"
           data-cy={moveUpTestId}
           expanded
           disabled={!moveUp(false)}
@@ -171,6 +174,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           <SvgArrowUpStraight />
         </Button>
         <Button
+          type="button"
           data-cy={moveDownTestId}
           expanded
           disabled={!moveDown(false)}
@@ -179,6 +183,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           <SvgArrowDownStraight />
         </Button>
         <Button
+          type="button"
           data-cy={moveBottomTestId}
           disabled={!moveBottom(false)}
           onClick={() => moveBottom(true)}
