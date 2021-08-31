@@ -6,14 +6,17 @@ import type { BaseFieldDescription } from "./FieldView";
 export type Option<Data> = { text: string; value: Data };
 type Options<Data> = ReadonlyArray<Option<Data>>;
 
-export interface DropdownFieldDescription extends BaseFieldDescription<string> {
+type DropdownValue = string | undefined;
+
+export interface DropdownFieldDescription
+  extends BaseFieldDescription<DropdownValue> {
   type: typeof DropdownFieldView.fieldName;
-  options: ReadonlyArray<Option<string>>;
+  options: ReadonlyArray<Option<DropdownValue>>;
 }
 
 export const createDropDownField = (
-  options: Options<string>,
-  defaultValue: string
+  options: Options<DropdownValue>,
+  defaultValue: DropdownValue
 ): DropdownFieldDescription => ({
   type: DropdownFieldView.fieldName,
   options,
@@ -22,10 +25,10 @@ export const createDropDownField = (
 
 export type DropdownFields = string;
 
-export class DropdownFieldView extends AttributeFieldView<string> {
+export class DropdownFieldView extends AttributeFieldView<DropdownValue> {
   private dropdownElement: HTMLSelectElement | undefined = undefined;
   public static fieldName = "dropdown" as const;
-  public static defaultValue = "";
+  public static defaultValue = undefined;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -36,14 +39,14 @@ export class DropdownFieldView extends AttributeFieldView<string> {
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
-    defaultFields: string,
-    private options: ReadonlyArray<Option<string>>
+    defaultFields: string | undefined,
+    private options: ReadonlyArray<Option<string | undefined>>
   ) {
     super(node, outerView, getPos, offset);
     this.createInnerView(node.attrs.fields || defaultFields);
   }
 
-  protected createInnerView(chosenOption: string): void {
+  protected createInnerView(chosenOption: DropdownValue): void {
     this.dropdownElement = document.createElement("select");
 
     // Add a child option for each option in the array
@@ -58,29 +61,34 @@ export class DropdownFieldView extends AttributeFieldView<string> {
       const domOptions = Array.from(dropdownNode.options);
       const selectedOption = domOptions.find((option) => option.selected);
       this.updateOuterEditor(
-        selectedOption ? JSON.parse(selectedOption.value) : chosenOption
+        selectedOption?.value ? JSON.parse(selectedOption.value) : undefined
       );
     });
 
     this.fieldViewElement.appendChild(this.dropdownElement);
   }
 
-  protected updateInnerView(chosenOption: string): void {
+  protected updateInnerView(chosenOption: DropdownValue): void {
     if (this.dropdownElement) {
       const domOptions = Array.from(this.dropdownElement.options);
       domOptions.forEach(
         (domOption) =>
-          (domOption.selected = JSON.parse(domOption.value) === chosenOption)
+          (domOption.selected =
+            (domOption.value ? JSON.parse(domOption.value) : undefined) ===
+            chosenOption)
       );
     }
   }
 
   private optionToDOMnode(
-    option: Option<string>,
-    chosenOption: string
+    option: Option<DropdownValue>,
+    chosenOption: DropdownValue
   ): HTMLOptionElement {
     const domOption = document.createElement("option");
-    domOption.setAttribute("value", JSON.stringify(option.value));
+    domOption.setAttribute(
+      "value",
+      option.value !== undefined ? JSON.stringify(option.value) : ""
+    );
     domOption.selected = option.value === chosenOption;
     const optionText = document.createTextNode(option.text);
     domOption.appendChild(optionText);

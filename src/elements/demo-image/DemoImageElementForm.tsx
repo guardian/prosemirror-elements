@@ -56,6 +56,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       field={fields.optionDropdown}
       errors={errors.optionDropdown}
     />
+    <FieldWrapper
+      label="Other Options"
+      field={fields.otherOptionDropdown}
+      errors={errors.otherOptionDropdown}
+    />
     <ImageView
       field={fields.mainImage}
       onChange={(_, __, ___, description) => {

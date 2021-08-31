@@ -66,6 +66,14 @@ export const createImageFields = (
       ],
       "opt1"
     ),
+    otherOptionDropdown: createDropDownField(
+      [
+        { text: "Option 1", value: undefined },
+        { text: "Option 2", value: "opt2" },
+        { text: "Option 3", value: "opt3" },
+      ],
+      undefined
+    ),
     customDropdown: createCustomField<string, Array<Option<string>>>("opt1", [
       { text: "Option 1", value: "opt1" },
       { text: "Option 2", value: "opt2" },
