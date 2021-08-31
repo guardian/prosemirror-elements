@@ -61,7 +61,7 @@ const Button = styled("button")<{ expanded?: boolean }>`
     z-index: 1;
   }
 
-  :first-child {
+  :first-of-type {
     border: none;
   }
 
@@ -133,7 +133,10 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   remove,
   children,
 }) => (
-  <Container data-cy={elementWrapperTestId}>
+  <Container
+    className="ProsemirrorElement__wrapper"
+    data-cy={elementWrapperTestId}
+  >
     <Body>
       <LeftActions className="actions">
         <SeriousButton
