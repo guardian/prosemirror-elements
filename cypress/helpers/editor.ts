@@ -99,6 +99,7 @@ export const getSerialisedHtml = ({
   codeValue = "",
   useSrcValue = "false",
   optionValue = "opt1",
+  otherOptionValue = undefined,
   restrictedTextValue = "",
   customDropdownValue = "opt1",
   mainImageValue = {
@@ -113,6 +114,7 @@ export const getSerialisedHtml = ({
   codeValue?: string;
   useSrcValue?: string;
   optionValue?: string;
+  otherOptionValue?: string;
   restrictedTextValue?: string;
   customDropdownValue?: string;
   mainImageValue?: {
@@ -135,7 +137,12 @@ export const getSerialisedHtml = ({
     <div pme-field-name="imageElement_code">${codeValue}</div>
     <div pme-field-name="imageElement_customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
     <div pme-field-name="imageElement_mainImage" fields="{${mainImageFields}}"></div>
-    <div pme-field-name="imageElement_optionDropdown" fields="&quot;${optionValue}&quot;"></div>
+    <div pme-field-name="imageElement_optionDropdown"${
+      optionValue ? ` fields="&quot;${optionValue}&quot;"` : ""
+    }></div>
+    <div pme-field-name="imageElement_otherOptionDropdown"${
+      otherOptionValue ? ` fields="&quot;${otherOptionValue}&quot;"` : ""
+    }></div>
     <div pme-field-name="imageElement_restrictedTextField">${restrictedTextValue}</div>
     <div pme-field-name="imageElement_src">${srcValue}</div>
     <div pme-field-name="imageElement_useSrc" fields="${useSrcValue}"></div>

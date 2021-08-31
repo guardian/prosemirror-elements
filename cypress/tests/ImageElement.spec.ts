@@ -281,6 +281,33 @@ describe("ImageElement", () => {
       });
     });
 
+    describe("Dropdown field (with undefined default)", () => {
+      it(`should change the option selected in the document when a user selects a new option`, () => {
+        addImageElement();
+        getElementField("otherOptionDropdown")
+          .find("select")
+          .select(JSON.stringify("opt2"));
+        getElementField("otherOptionDropdown")
+          .find("select")
+          .children("option:selected")
+          .should("have.value", JSON.stringify("opt2"));
+      });
+
+      it(`should have a default value when instantiated`, () => {
+        addImageElement();
+        assertDocHtml(getSerialisedHtml({}));
+        assertDocHtml(getSerialisedHtml({ otherOptionValue: undefined }));
+      });
+
+      it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
+        addImageElement();
+        getElementField("otherOptionDropdown")
+          .find("select")
+          .select(JSON.stringify("opt2"));
+        assertDocHtml(getSerialisedHtml({ otherOptionValue: "opt2" }));
+      });
+    });
+
     describe("CustomDropdown field", () => {
       it(`should have a default value when instantiated`, () => {
         addImageElement();
