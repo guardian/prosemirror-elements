@@ -16,11 +16,7 @@ export const CodeElementForm: React.FunctionComponent<Props> = ({
   fields,
 }) => (
   <div data-cy={CodeElementTestId}>
-    <FieldWrapper
-      label="Code"
-      field={fields.codeText}
-      errors={errors.codeText}
-    />
+    <FieldWrapper label="Code" field={fields.html} errors={errors.html} />
     <CustomDropdownView label="Language" field={fields.language} />
   </div>
 );
