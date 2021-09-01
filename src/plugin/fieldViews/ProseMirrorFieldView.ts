@@ -51,7 +51,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // The ProseMirror node type name
     private readonly fieldName: string,
     // Plugins that the editor should use
-    private plugins?: Plugin[]
+    plugins?: Plugin[]
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
