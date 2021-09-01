@@ -140,7 +140,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           data-cy={removeTestId}
           disabled={!remove(false)}
           onClick={() => remove(true)}
-          aria-label="Delete element."
+          aria-label="Delete element"
         >
           <SvgCross />
         </SeriousButton>
@@ -151,7 +151,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           data-cy={moveTopTestId}
           disabled={!moveTop(false)}
           onClick={() => moveTop(true)}
-          aria-label="Move element to top."
+          aria-label="Move element to top"
         >
           <div
             css={css`
@@ -166,7 +166,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           expanded
           disabled={!moveUp(false)}
           onClick={() => moveUp(true)}
-          aria-label="Move element up."
+          aria-label="Move element up"
         >
           <SvgArrowUpStraight />
         </Button>
@@ -175,7 +175,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           expanded
           disabled={!moveDown(false)}
           onClick={() => moveDown(true)}
-          aria-label="Move element down."
+          aria-label="Move element down"
         >
           <SvgArrowDownStraight />
         </Button>
@@ -183,7 +183,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           data-cy={moveBottomTestId}
           disabled={!moveBottom(false)}
           onClick={() => moveBottom(true)}
-          aria-label="Move element to bottom."
+          aria-label="Move element to bottom"
         >
           <div
             css={css`
