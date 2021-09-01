@@ -106,5 +106,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
         ...plugins,
       ]
     );
+
+    this.fieldViewElement.classList.add("ProseMirrorElements__RichTextField");
   }
 }

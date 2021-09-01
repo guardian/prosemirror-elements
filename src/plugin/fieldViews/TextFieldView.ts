@@ -105,5 +105,7 @@ export class TextFieldView extends ProseMirrorFieldView {
         }px`;
       });
     }
+
+    this.fieldViewElement.classList.add("ProseMirrorElements__TextField");
   }
 }
