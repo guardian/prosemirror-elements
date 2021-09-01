@@ -1,7 +1,10 @@
 import { css } from "@emotion/react";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
-import type { DropdownValue, Options } from "../plugin/fieldViews/DropdownFieldView";
+import type {
+  DropdownValue,
+  Options,
+} from "../plugin/fieldViews/DropdownFieldView";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
