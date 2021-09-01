@@ -69,6 +69,10 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       }}
     />
     <CustomDropdownView label="Options" field={fields.customDropdown} />
+    <CustomDropdownView
+      label="Other Options"
+      field={fields.otherCustomDropdown}
+    />
     <hr />
     <Label>Element errors</Label>
     <pre>{JSON.stringify(errors)}</pre>

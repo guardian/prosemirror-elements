@@ -1,8 +1,10 @@
 import { exampleSetup } from "prosemirror-example-setup";
 import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
-import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
-import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
 import {
   createDefaultRichTextField,
@@ -74,8 +76,13 @@ export const createImageFields = (
       ],
       undefined
     ),
-    customDropdown: createCustomField<string, Array<Option<string>>>("opt1", [
+    customDropdown: createCustomDropdownField("opt1", [
       { text: "Option 1", value: "opt1" },
+      { text: "Option 2", value: "opt2" },
+      { text: "Option 3", value: "opt3" },
+    ]),
+    otherCustomDropdown: createCustomDropdownField(undefined, [
+      { text: "Option 1", value: undefined },
       { text: "Option 2", value: "opt2" },
       { text: "Option 3", value: "opt3" },
     ]),

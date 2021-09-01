@@ -322,6 +322,22 @@ describe("ImageElement", () => {
       });
     });
 
+    describe("CustomDropdown field (with undefined default)", () => {
+      it(`should have a default value when instantiated`, () => {
+        addImageElement();
+        assertDocHtml(getSerialisedHtml({}));
+        assertDocHtml(
+          getSerialisedHtml({ otherCustomDropdwonValue: undefined })
+        );
+      });
+
+      it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
+        addImageElement();
+        getElementField("otherCustomDropdown").find("select").select("opt2");
+        assertDocHtml(getSerialisedHtml({ otherCustomDropdwonValue: "opt2" }));
+      });
+    });
+
     describe("Programmatically update fields", () => {
       it("should revert the alt text to 'Default alt text' when the button is clicked", () => {
         addImageElement();

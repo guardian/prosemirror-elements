@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
-import type { Option as OptionValue } from "../plugin/fieldViews/DropdownFieldView";
+import type { DropdownValue, Options } from "../plugin/fieldViews/DropdownFieldView";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
@@ -47,9 +47,9 @@ const selectStyles = css`
 `;
 
 type CustomDropdownProps = {
-  options: Array<OptionValue<string>>;
-  selected: string;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: Options<DropdownValue>;
+  selected: DropdownValue;
+  onChange: (value: DropdownValue) => void;
   label: string;
   dataCy: string;
   error: string;
@@ -61,12 +61,14 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
       <Select
         error={props.error}
         label={props.label}
-        onChange={props.onChange}
+        onChange={(event) => {
+          props.onChange(event.target.value ? event.target.value : undefined);
+        }}
         value={props.selected}
         css={selectStyles}
       >
         {props.options.map((option) => (
-          <Option value={option.value} key={option.value}>
+          <Option value={option.value ?? ""} key={option.value}>
             {option.text}
           </Option>
         ))}

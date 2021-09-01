@@ -102,6 +102,7 @@ export const getSerialisedHtml = ({
   otherOptionValue = undefined,
   restrictedTextValue = "",
   customDropdownValue = "opt1",
+  otherCustomDropdwonValue = undefined,
   mainImageValue = {
     assets: "[]",
     mediaId: undefined,
@@ -117,6 +118,7 @@ export const getSerialisedHtml = ({
   otherOptionValue?: string;
   restrictedTextValue?: string;
   customDropdownValue?: string;
+  otherCustomDropdwonValue?: string;
   mainImageValue?: {
     assets: string;
     mediaId?: string;
@@ -139,6 +141,11 @@ export const getSerialisedHtml = ({
     <div pme-field-name="imageElement_mainImage" fields="{${mainImageFields}}"></div>
     <div pme-field-name="imageElement_optionDropdown"${
       optionValue ? ` fields="&quot;${optionValue}&quot;"` : ""
+    }></div>
+    <div pme-field-name="imageElement_otherCustomDropdown"${
+      otherCustomDropdwonValue
+        ? ` fields="&quot;${otherCustomDropdwonValue}&quot;"`
+        : ""
     }></div>
     <div pme-field-name="imageElement_otherOptionDropdown"${
       otherOptionValue ? ` fields="&quot;${otherOptionValue}&quot;"` : ""

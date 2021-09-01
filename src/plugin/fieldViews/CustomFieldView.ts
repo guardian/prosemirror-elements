@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
+import type { DropdownValue, Options } from "./DropdownFieldView";
 import type { BaseFieldDescription, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
 
@@ -14,6 +15,15 @@ export const createCustomField = <Data, Props>(
   defaultValue: Data,
   props: Props
 ): CustomFieldDescription<Data, Props> => ({
+  type: "custom" as const,
+  defaultValue,
+  props,
+});
+
+export const createCustomDropdownField = (
+  defaultValue: DropdownValue,
+  props: Options<DropdownValue>
+): CustomFieldDescription<DropdownValue, Options<DropdownValue>> => ({
   type: "custom" as const,
   defaultValue,
   props,

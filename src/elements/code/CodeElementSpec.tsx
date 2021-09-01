@@ -1,5 +1,5 @@
 import React from "react";
-import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
+import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createValidator, required } from "../../plugin/helpers/validation";
 import { createGuElementSpec } from "../createGuElementSpec";
@@ -7,7 +7,7 @@ import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
   html: createTextField({ isMultiline: true, rows: 11 }, true),
-  language: createCustomField("text", [
+  language: createCustomDropdownField("text", [
     { text: "Plain text", value: "text" },
     { text: "HTML", value: "html" },
     { text: "CSS", value: "css" },

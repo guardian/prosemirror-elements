@@ -4,9 +4,9 @@ import { AttributeFieldView } from "./AttributeFieldView";
 import type { BaseFieldDescription } from "./FieldView";
 
 export type Option<Data> = { text: string; value: Data };
-type Options<Data> = ReadonlyArray<Option<Data>>;
+export type Options<Data> = ReadonlyArray<Option<Data>>;
 
-type DropdownValue = string | undefined;
+export type DropdownValue = string | undefined;
 
 export interface DropdownFieldDescription
   extends BaseFieldDescription<DropdownValue> {
