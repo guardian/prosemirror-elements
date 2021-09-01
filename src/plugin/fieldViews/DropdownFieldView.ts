@@ -11,7 +11,7 @@ type DropdownValue = string | undefined;
 export interface DropdownFieldDescription
   extends BaseFieldDescription<DropdownValue> {
   type: typeof DropdownFieldView.fieldName;
-  options: ReadonlyArray<Option<DropdownValue>>;
+  options: Options<DropdownValue>;
 }
 
 export const createDropDownField = (
@@ -40,7 +40,7 @@ export class DropdownFieldView extends AttributeFieldView<DropdownValue> {
     // The offset of this node relative to its parent FieldView.
     offset: number,
     defaultFields: DropdownValue,
-    private options: ReadonlyArray<Option<DropdownValue>>
+    private options: Options<DropdownValue>
   ) {
     super(node, outerView, getPos, offset);
     this.createInnerView(node.attrs.fields || defaultFields);
