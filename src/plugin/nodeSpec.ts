@@ -148,7 +148,7 @@ export const getNodeSpecForField = (
           parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
           attrs: {
             fields: {
-              default: field.defaultValue,
+              default: undefined,
             },
           },
         },
@@ -204,8 +204,10 @@ const getDefaultParseDOMForLeafNode = (
         return false;
       }
 
+      const fields = dom.getAttribute("fields");
+
       const attrs = {
-        fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
+        fields: (fields ? JSON.parse(fields) : undefined) as unknown,
       };
 
       return attrs;
