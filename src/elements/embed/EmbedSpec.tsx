@@ -1,5 +1,8 @@
 import React from "react";
-import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
@@ -12,7 +15,7 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import { EmbedElementForm } from "./EmbedForm";
 
 export const embedFields = {
-  weighting: createCustomField("inline", [
+  weighting: createCustomDropdownField("inline", [
     { text: "inline (default)", value: "inline" },
     { text: "supporting", value: "supporting" },
     { text: "showcase", value: "showcase" },
