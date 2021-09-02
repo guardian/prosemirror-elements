@@ -3,16 +3,16 @@ import type { EditorView } from "prosemirror-view";
 import { AttributeFieldView } from "./AttributeFieldView";
 import type { BaseFieldDescription } from "./FieldView";
 
-export type Option<Data> = { text: string; value: Data };
-type Options<Data> = ReadonlyArray<Option<Data>>;
+export type Option = { text: string; value: string };
+export type Options = readonly Option[];
 
 export interface DropdownFieldDescription extends BaseFieldDescription<string> {
   type: typeof DropdownFieldView.fieldName;
-  options: ReadonlyArray<Option<string>>;
+  options: Options;
 }
 
 export const createDropDownField = (
-  options: Options<string>,
+  options: Options,
   defaultValue: string
 ): DropdownFieldDescription => ({
   type: DropdownFieldView.fieldName,
@@ -37,7 +37,7 @@ export class DropdownFieldView extends AttributeFieldView<string> {
     // The offset of this node relative to its parent FieldView.
     offset: number,
     defaultFields: string,
-    private options: ReadonlyArray<Option<string>>
+    private options: Options
   ) {
     super(node, outerView, getPos, offset);
     this.createInnerView(node.attrs.fields || defaultFields);
@@ -76,7 +76,7 @@ export class DropdownFieldView extends AttributeFieldView<string> {
   }
 
   private optionToDOMnode(
-    option: Option<string>,
+    option: Option,
     chosenOption: string
   ): HTMLOptionElement {
     const domOption = document.createElement("option");

@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
-import type { Option as OptionValue } from "../plugin/fieldViews/DropdownFieldView";
+import type { Options } from "../plugin/fieldViews/DropdownFieldView";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
@@ -64,7 +64,7 @@ const selectStyles = css`
 `;
 
 type CustomDropdownProps = {
-  options: Array<OptionValue<string>>;
+  options: Options;
   selected: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   label: string;
