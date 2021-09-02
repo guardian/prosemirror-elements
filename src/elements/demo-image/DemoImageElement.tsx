@@ -36,8 +36,8 @@ type ImageProps = {
 };
 
 export const createImageFields = (
-  onSelectImage: (setSrc: DemoSetMedia) => void, // once selected image
-  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void //have an image choosing which
+  onSelectImage: (setSrc: DemoSetMedia) => void,
+  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void
 ) => {
   return {
     caption: createDefaultRichTextField(),
