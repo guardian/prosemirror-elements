@@ -92,6 +92,29 @@ export const addImageElement = (values: Record<string, unknown> = {}) => {
   });
 };
 
+type ElementFields = {
+  altTextValue?: string;
+  captionValue?: string;
+  srcValue?: string;
+  codeValue?: string;
+  useSrcValue?: string;
+  optionValue?: string;
+  restrictedTextValue?: string;
+  customDropdownValue?: string;
+  mainImageValue?: {
+    assets: string;
+    mediaId?: string;
+    mediaApiUri?: string;
+  };
+};
+
+export const setDocFromHtml = (fields: ElementFields) => {
+  cy.window().then((win: WindowType) => {
+    const { htmlToDoc } = win.PM_ELEMENTS;
+    htmlToDoc(getSerialisedHtml(fields));
+  });
+};
+
 export const getSerialisedHtml = ({
   altTextValue = "",
   captionValue = "<p></p>",
@@ -106,21 +129,7 @@ export const getSerialisedHtml = ({
     mediaId: undefined,
     mediaApiUri: undefined,
   },
-}: {
-  altTextValue?: string;
-  captionValue?: string;
-  srcValue?: string;
-  codeValue?: string;
-  useSrcValue?: string;
-  optionValue?: string;
-  restrictedTextValue?: string;
-  customDropdownValue?: string;
-  mainImageValue?: {
-    assets: string;
-    mediaId?: string;
-    mediaApiUri?: string;
-  };
-}): string => {
+}: ElementFields): string => {
   const mainImageFields =
     mainImageValue.mediaId || mainImageValue.mediaApiUri
       ? `&quot;mediaId&quot;:&quot;${
