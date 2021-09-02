@@ -213,9 +213,6 @@ const getDefaultParseDOMForLeafNode = (
   },
 ];
 
-const getTagForNode = (elementName: string, fieldName: string) =>
-  `element-${elementName}-${fieldName}`.toLowerCase();
-
 export const createNodesForFieldValues = <
   S extends Schema,
   FDesc extends FieldDescriptions<string>
