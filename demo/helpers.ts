@@ -140,7 +140,7 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
     ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
     : `https://media.test.dev-gutools.co.uk/`;
 
-  modal.style.display = "Inherit";
+  modal.style.display = "inherit";
   const listener = onGridMessage(handleGridResponse(setMedia), modal);
 
   window.addEventListener("message", listener, {
@@ -151,7 +151,7 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
     "click",
     () => {
       window.removeEventListener("message", listener);
-      modal.style.display = "None";
+      modal.style.display = "none";
     },
     { once: false }
   );
