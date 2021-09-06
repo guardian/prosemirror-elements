@@ -2,17 +2,19 @@ import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
-import type { Node, NodeSpec } from "prosemirror-model";
+import type { MarkSpec, Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
-import { schema as basicSchema } from "prosemirror-schema-basic";
+import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
   codeElement,
+  createDemoImageElement,
   createEmbedElement,
   createImageElement,
   pullquoteElement,
 } from "../src";
+import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -22,7 +24,7 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onSelectImage } from "./helpers";
+import { onCropImage, onDemoCropImage, onSelectImage } from "./helpers";
 import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
@@ -30,12 +32,14 @@ import type { WindowType } from "./types";
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
+const demoImageElementName = "demoImageElement";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 
 type Name =
   | typeof embedElementName
   | typeof imageElementName
+  | typeof demoImageElementName
   | typeof codeElementName
   | typeof pullquoteElementName;
 
@@ -45,15 +49,23 @@ const {
   hasErrors,
   nodeSpec,
 } = buildElementPlugin({
-  imageElement: createImageElement(onSelectImage, onCropImage),
+  demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
+  imageElement: createImageElement(onCropImage),
   embedElement: createEmbedElement(),
   codeElement,
   pullquoteElement,
 });
 
+const strike: MarkSpec = {
+  parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
+  toDOM() {
+    return ["s"];
+  },
+};
+
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
-  marks: basicSchema.spec.marks,
+  marks: { ...marks, strike },
 });
 
 const { serializer, parser } = createParsers(schema);
@@ -153,12 +165,41 @@ const createEditor = (server: CollabServer) => {
   );
 
   editorElement.appendChild(
-    createElementButton("Add image element", imageElementName, {
+    createElementButton("Add demo image element", demoImageElementName, {
       altText: "",
       caption: "",
       useSrc: { value: false },
     })
   );
+
+  const imageElementButton = document.createElement("button");
+  imageElementButton.innerHTML = "Add image element";
+  imageElementButton.id = imageElementName;
+  imageElementButton.addEventListener("click", () => {
+    const setMedia = (mediaPayload: MediaPayload) => {
+      const {
+        mediaId,
+        mediaApiUri,
+        assets,
+        suppliersReference,
+        caption,
+        photographer,
+        source,
+      } = mediaPayload;
+      insertElement({
+        elementName: imageElementName,
+        values: {
+          caption,
+          photographer,
+          source,
+          mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+        },
+      })(view.state, view.dispatch);
+    };
+    onCropImage(setMedia);
+  });
+  editorElement.appendChild(imageElementButton);
+
   editorElement.appendChild(
     createElementButton("Add pullquote element", pullquoteElementName, {
       pullquote: "",

@@ -6,7 +6,7 @@ import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
-import type { createImageFields, SetMedia } from "./DemoImageElement";
+import type { createImageFields, DemoSetMedia } from "./DemoImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -74,7 +74,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
 );
 
 type ImageViewProps = {
-  onChange: SetMedia;
+  onChange: DemoSetMedia;
   field: CustomField<
     {
       mediaId?: string;
@@ -82,8 +82,8 @@ type ImageViewProps = {
       assets: string[];
     },
     {
-      onSelectImage: (setMedia: SetMedia) => void;
-      onCropImage: (mediaId: string, setMedia: SetMedia) => void;
+      onSelectImage: (setMedia: DemoSetMedia) => void;
+      onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void;
     }
   >;
 };

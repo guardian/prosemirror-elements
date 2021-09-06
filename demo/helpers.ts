@@ -1,13 +1,21 @@
-import type { SetMedia } from "../src/elements/demo-image/DemoImageElement";
+import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
+import type { Asset, SetMedia } from "../src/elements/image/ImageElement";
 
-export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
-  data,
-}: {
+type GridAsset = {
+  mimeType: string;
+  dimensions: { width: number; height: number };
+  secureUrl: string;
+};
+
+type GridResponse = {
   data: {
     image: {
       data: {
         metadata: {
           description: string;
+          suppliersReference: string;
+          source: string;
+          byline: string;
         };
         id: string;
       };
@@ -17,13 +25,25 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
         specification: {
           uri: string;
         };
-        assets: Array<{ secureUrl: string }>;
+        assets: GridAsset[];
+        master: GridAsset;
       };
     };
   };
-}) => {
+};
+
+const onGridMessage = (
+  handleGridResponse: (gridResponse: GridResponse) => void,
+  modal: HTMLElement
+) => (response: GridResponse) => {
   modal.style.display = "None";
-  setMedia(
+  handleGridResponse(response);
+};
+
+const demoHandleGridResponse = (demoSetMedia: DemoSetMedia) => ({
+  data,
+}: GridResponse) => {
+  demoSetMedia(
     data.image.data.id,
     data.crop.data.specification.uri,
     data.crop.data.assets.map((_) => _.secureUrl),
@@ -31,7 +51,37 @@ export const onGridMessage = (setMedia: SetMedia, modal: HTMLElement) => ({
   );
 };
 
-export const onSelectImage = (setMedia: SetMedia) => {
+const handleGridResponse = (setMedia: SetMedia) => ({ data }: GridResponse) => {
+  const gridAssetToAsset = (
+    gridAsset: GridAsset,
+    isMaster: boolean | undefined = undefined
+  ): Asset => {
+    return {
+      url: gridAsset.secureUrl,
+      mimeType: gridAsset.mimeType,
+      fields: {
+        width: gridAsset.dimensions.width,
+        height: gridAsset.dimensions.height,
+        isMaster,
+      },
+      assetType: "image",
+    };
+  };
+
+  setMedia({
+    mediaId: data.image.data.id,
+    mediaApiUri: data.crop.data.specification.uri,
+    assets: data.crop.data.assets
+      .map((asset) => gridAssetToAsset(asset))
+      .concat(gridAssetToAsset(data.crop.data.master, true)),
+    suppliersReference: data.image.data.metadata.suppliersReference,
+    caption: data.image.data.metadata.description,
+    photographer: data.image.data.metadata.byline,
+    source: data.image.data.metadata.source,
+  });
+};
+
+export const onSelectImage = (setMedia: DemoSetMedia) => {
   const modal = document.querySelector(".modal") as HTMLElement;
   modal.style.display = "Inherit";
 
@@ -39,7 +89,7 @@ export const onSelectImage = (setMedia: SetMedia) => {
     ".modal__body iframe"
   ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/`;
 
-  const listener = onGridMessage(setMedia, modal);
+  const listener = onGridMessage(demoHandleGridResponse(setMedia), modal);
 
   window.addEventListener("message", listener, {
     once: true,
@@ -55,15 +105,17 @@ export const onSelectImage = (setMedia: SetMedia) => {
   );
 };
 
-export const onCropImage = (mediaId: string, setMedia: SetMedia) => {
+export const onDemoCropImage = (mediaId: string, setMedia: DemoSetMedia) => {
   const modal = document.querySelector(".modal") as HTMLElement;
-  modal.style.display = "Inherit";
 
   (document.querySelector(
     ".modal__body iframe"
-  ) as HTMLIFrameElement).src = `https://media.test.dev-gutools.co.uk/images/${mediaId}`;
+  ) as HTMLIFrameElement).src = mediaId
+    ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
+    : `https://media.test.dev-gutools.co.uk/`;
 
-  const listener = onGridMessage(setMedia, modal);
+  modal.style.display = "Inherit";
+  const listener = onGridMessage(demoHandleGridResponse(setMedia), modal);
 
   window.addEventListener("message", listener, {
     once: true,
@@ -74,6 +126,32 @@ export const onCropImage = (mediaId: string, setMedia: SetMedia) => {
     () => {
       window.removeEventListener("message", listener);
       modal.style.display = "None";
+    },
+    { once: false }
+  );
+};
+
+export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+
+  (document.querySelector(
+    ".modal__body iframe"
+  ) as HTMLIFrameElement).src = mediaId
+    ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
+    : `https://media.test.dev-gutools.co.uk/`;
+
+  modal.style.display = "inherit";
+  const listener = onGridMessage(handleGridResponse(setMedia), modal);
+
+  window.addEventListener("message", listener, {
+    once: true,
+  });
+
+  document.querySelector(".modal__dismiss")?.addEventListener(
+    "click",
+    () => {
+      window.removeEventListener("message", listener);
+      modal.style.display = "none";
     },
     { once: false }
   );
