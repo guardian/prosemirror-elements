@@ -7,10 +7,10 @@ import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
   SvgChevronRightDouble,
-  SvgCross,
 } from "@guardian/src-icons";
 import type { ReactElement } from "react";
 import React, { useState } from "react";
+import { SvgBin } from "../../editorial-source-components/SvgBin";
 import type { CommandCreator } from "../../plugin/types/Commands";
 
 const buttonWidth = 32;
@@ -194,9 +194,8 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
                 }, 5000);
               }
             }}
-            aria-label="Delete element"
           >
-            <SvgCross />
+            <SvgBin />
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
           </SeriousButton>
         </LeftActions>
