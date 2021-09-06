@@ -59,6 +59,7 @@ describe("ElementWrapper", () => {
     it("should remove an element", async () => {
       addImageElement();
       cy.get(selectDataCy(removeTestId)).click();
+      cy.get(selectDataCy(removeTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph"]);
     });
