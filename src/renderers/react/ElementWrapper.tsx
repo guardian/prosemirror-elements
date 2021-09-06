@@ -87,14 +87,20 @@ const Button = styled("button")<{ expanded?: boolean }>`
   }
 `;
 
-const SeriousButton = styled(Button)`
+const SeriousButton = styled(Button)<{ activated?: boolean }>`
+  background-color: ${({ activated }) =>
+    activated ? border.error : neutral[93]};
   div {
     opacity: 0;
   }
+  svg {
+    fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
+  }
   :hover {
-    background-color: ${border.error};
+    background-color: ${({ activated }) =>
+      activated ? neutral[0] : border.error};
     svg {
-      fill: #fff;
+      fill: ${neutral[100]};
     }
     div {
       opacity: 1;
@@ -119,12 +125,12 @@ const Tooltip = styled("div")`
   bottom: ${buttonWidth + 10}px;
   font-family: "Guardian Agate Sans";
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-  z-index: 5;
+  z-index: 1;
   width: 82px;
   padding: ${space[1]}px;
   pointer-events: none;
   transition: opacity 0.2s;
-  // Add a point to the bottom of the tooltip
+  /* Add a point to the bottom of the tooltip */
   ::after {
     content: " ";
     position: absolute;
@@ -176,15 +182,22 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
         <LeftActions className="actions">
           <SeriousButton
             type="button"
+            activated={closeClickedOnce}
             data-cy={removeTestId}
             disabled={!remove(false)}
             onClick={() => {
-              closeClickedOnce ? remove(true) : setCloseClickedOnce(true);
+              if (closeClickedOnce) remove(true);
+              else {
+                setCloseClickedOnce(true);
+                setTimeout(() => {
+                  setCloseClickedOnce(false);
+                }, 5000);
+              }
             }}
             aria-label="Delete element"
           >
             <SvgCross />
-            {clickedOnce && <Tooltip>Click again to confirm</Tooltip>}
+            {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
           </SeriousButton>
         </LeftActions>
         <Panel>{children}</Panel>
