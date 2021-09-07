@@ -130,17 +130,15 @@ export const createElementValidator = <
 >(
   elementTypeMap: ESpecMap
 ) => (
-  elementName: string,
+  elementName: keyof ESpecMap,
   values: unknown
 ): Record<string, string[]> | undefined => {
-  const element = elementTypeMap[elementName as keyof ESpecMap];
+  const element = elementTypeMap[elementName];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
   if (!element) {
     return undefined;
   }
 
-  const errors = element.validate(values as FieldNameToValueMap<FDesc>);
-
-  return errors;
+  return element.validate(values as FieldNameToValueMap<FDesc>);
 };

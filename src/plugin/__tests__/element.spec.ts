@@ -363,6 +363,14 @@ describe("buildElementPlugin", () => {
       () => ({ field1: ["Some error"] })
     );
 
+    const testElementWithDifferentValidation = createElementSpec(
+      {
+        checkbox: { type: "checkbox" },
+      },
+      () => undefined,
+      () => ({ checkbox: ["Some other error"] })
+    );
+
     type ExternalData = { nestedElementValues: { field1: string } };
     type OtherExternalData = { otherValues: { field1: string } };
 
@@ -653,6 +661,107 @@ describe("buildElementPlugin", () => {
             // @ts-expect-error -- we should not be able to access properties not on a specific element
             element.values.nestedElementValues;
           }
+        });
+
+        describe("elementValidator", () => {
+          it("should output found errors", () => {
+            const {
+              insertElement,
+              getElementDataFromNode,
+              elementValidator,
+              view,
+              serializer,
+            } = createEditorWithElements({
+              testElementWithValidation,
+              testElementWithDifferentValidation,
+            });
+
+            insertElement({
+              elementName: "testElementWithValidation",
+              values: { field1: "Some text" },
+            })(view.state, view.dispatch);
+
+            const element = getElementDataFromNode(
+              view.state.doc.firstChild as Node,
+              serializer
+            );
+
+            const errors = elementValidator(
+              "testElementWithValidation",
+              element?.values
+            );
+
+            expect(errors).toEqual({ field1: ["Some error"] });
+
+            insertElement({
+              elementName: "testElementWithDifferentValidation",
+              values: { checkbox: true },
+            })(view.state, view.dispatch);
+
+            const otherElement = getElementDataFromNode(
+              view.state.doc.firstChild as Node,
+              serializer
+            );
+
+            const otherErrors = elementValidator(
+              "testElementWithDifferentValidation",
+              otherElement?.values
+            );
+
+            expect(otherErrors).toEqual({ checkbox: ["Some other error"] });
+          });
+
+          it("should output undefined if there are no errors", () => {
+            const {
+              insertElement,
+              getElementDataFromNode,
+              elementValidator,
+              view,
+              serializer,
+            } = createEditorWithElements({
+              testElement,
+            });
+
+            insertElement({
+              elementName: "testElement",
+              values: testElementValues.values,
+            })(view.state, view.dispatch);
+
+            const element = getElementDataFromNode(
+              view.state.doc.firstChild as Node,
+              serializer
+            );
+
+            const errors = elementValidator("testElement", element?.values);
+
+            expect(errors).toEqual(undefined);
+          });
+          it("should not allow non-existent elements", () => {
+            const {
+              insertElement,
+              getElementDataFromNode,
+              elementValidator,
+              view,
+              serializer,
+            } = createEditorWithElements({
+              testElement,
+            });
+
+            insertElement({
+              elementName: "testElement",
+              values: testElementValues.values,
+            })(view.state, view.dispatch);
+
+            const element = getElementDataFromNode(
+              view.state.doc.firstChild as Node,
+              serializer
+            );
+
+            expect(
+              // @ts-expect-error -- we should not be able to check a non-existent element
+              elementValidator("non-existing-element", element?.values)
+            ).toEqual(undefined);
+          });
         });
       });
     });
