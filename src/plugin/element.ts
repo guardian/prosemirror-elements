@@ -2,6 +2,7 @@ import OrderedMap from "orderedmap";
 import type { NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import {
+  createElementValidator,
   createGetElementDataFromNode,
   createGetNodeFromElementData,
 } from "./helpers/element";
@@ -30,6 +31,7 @@ export const buildElementPlugin = <
 ) => {
   const getNodeFromElementData = createGetNodeFromElementData(elementSpecs);
   const getElementDataFromNode = createGetElementDataFromNode(elementSpecs);
+  const elementValidator = createElementValidator(elementSpecs);
 
   const insertElement = (
     elementData: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>
@@ -67,5 +69,6 @@ export const buildElementPlugin = <
     nodeSpec,
     getElementDataFromNode,
     getNodeFromElementData,
+    elementValidator,
   };
 };

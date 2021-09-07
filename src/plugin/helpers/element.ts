@@ -121,3 +121,26 @@ const getValuesFromContentNode = (node: Node, serializer: DOMSerializer) => {
   e.appendChild(dom);
   return e.innerHTML;
 };
+
+export const createElementValidator = <
+  FDesc extends FieldDescriptions<keyof FDesc>,
+  ElementNames extends keyof ESpecMap,
+  ExternalData,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
+>(
+  elementTypeMap: ESpecMap
+) => (
+  elementName: string,
+  values: unknown
+): Record<string, string[]> | undefined => {
+  const element = elementTypeMap[elementName as keyof ESpecMap];
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
+  if (!element) {
+    return undefined;
+  }
+
+  const errors = element.validate(values as FieldNameToValueMap<FDesc>);
+
+  return errors;
+};
