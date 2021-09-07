@@ -10,6 +10,7 @@ import {
   getSerialisedHtml,
   italicShortcut,
   selectDataCy,
+  setDocFromHtml,
   typeIntoElementField,
   visitRoot,
 } from "../helpers/editor";
@@ -143,6 +144,12 @@ describe("ImageElement", () => {
           })
         );
       });
+
+      it("should deserialise content from HTML into the appropriate node in the document", () => {
+        const values = { altTextValue: "Alt text" };
+        setDocFromHtml(values);
+        assertDocHtml(getSerialisedHtml(values));
+      });
     });
 
     describe("Text field", () => {
@@ -210,6 +217,12 @@ describe("ImageElement", () => {
         addImageElement();
         typeIntoElementField("src", "Src text");
         assertDocHtml(getSerialisedHtml({ srcValue: "Src text" }));
+      });
+
+      it("should deserialise content from HTML into the appropriate node in the document", () => {
+        const values = { srcValue: "Src text" };
+        setDocFromHtml(values);
+        assertDocHtml(getSerialisedHtml(values));
       });
     });
 

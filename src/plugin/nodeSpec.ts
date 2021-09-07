@@ -85,26 +85,19 @@ export const getNodeSpecForField = (
   fieldName: string,
   field: FieldDescription
 ): NodeSpec => {
+  const nodeName = getNodeNameFromField(fieldName, elementName);
+
   switch (field.type) {
     case "text":
       return {
-        [getNodeNameFromField(fieldName, elementName)]: {
+        [nodeName]: {
           content:
             field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
-          toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForContentNode(nodeName),
           parseDOM: [
             {
               tag: "div",
-              getAttrs: (dom: Element) => {
-                const domFieldName = dom.getAttribute(fieldNameAttr);
-                if (
-                  domFieldName !== getNodeNameFromField(fieldName, elementName)
-                ) {
-                  return false;
-                }
-
-                return {};
-              },
+              getAttrs: createGetAttrsForTextNode(nodeName),
               preserveWhitespace: field.isCode ? "full" : false,
             },
           ],
@@ -115,24 +108,25 @@ export const getNodeSpecForField = (
     case "richText": {
       const nodeSpec = field.nodeSpec ?? {};
       return {
-        [getNodeNameFromField(fieldName, elementName)]: {
+        [nodeName]: {
           ...nodeSpec,
           content: nodeSpec.content ?? "paragraph+",
-          toDOM:
-            nodeSpec.toDOM ??
-            getDefaultToDOMForContentNode(elementName, fieldName),
+          toDOM: nodeSpec.toDOM ?? getDefaultToDOMForContentNode(nodeName),
           parseDOM: nodeSpec.parseDOM ?? [
-            { tag: getTagForNode(elementName, fieldName) },
+            {
+              tag: "div",
+              getAttrs: createGetAttrsForTextNode(nodeName),
+            },
           ],
         },
       };
     }
     case "checkbox":
       return {
-        [getNodeNameFromField(fieldName, elementName)]: {
+        [nodeName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
               default: field.defaultValue,
@@ -142,10 +136,10 @@ export const getNodeSpecForField = (
       };
     case "dropdown":
       return {
-        [getNodeNameFromField(fieldName, elementName)]: {
+        [nodeName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
               default: field.defaultValue,
@@ -155,10 +149,10 @@ export const getNodeSpecForField = (
       };
     case "custom":
       return {
-        [getNodeNameFromField(fieldName, elementName)]: {
+        [nodeName]: {
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
               default: { value: field.defaultValue },
@@ -169,38 +163,40 @@ export const getNodeSpecForField = (
   }
 };
 
-const getDefaultToDOMForContentNode = (
-  elementName: string,
-  fieldName: string
-) => () =>
+const createGetAttrsForTextNode = (nodeName: string) => (dom: Element) => {
+  const domFieldName = dom.getAttribute(fieldNameAttr);
+
+  if (domFieldName !== nodeName) {
+    return false;
+  }
+
+  return undefined;
+};
+
+const getDefaultToDOMForContentNode = (nodeName: string) => () =>
   [
     "div",
     {
-      [fieldNameAttr]: getNodeNameFromField(fieldName, elementName),
+      [fieldNameAttr]: nodeName,
     },
     0,
   ] as const;
 
-const getDefaultToDOMForLeafNode = (elementName: string, fieldName: string) => (
-  node: Node
-) => [
+const getDefaultToDOMForLeafNode = (nodeName: string) => (node: Node) => [
   "div",
   {
-    [fieldNameAttr]: getNodeNameFromField(fieldName, elementName),
+    [fieldNameAttr]: nodeName,
     fields: JSON.stringify(node.attrs.fields),
     "has-errors": JSON.stringify(node.attrs.hasErrors),
   },
 ];
 
-const getDefaultParseDOMForLeafNode = (
-  elementName: string,
-  fieldName: string
-) => [
+const getDefaultParseDOMForLeafNode = (nodeName: string) => [
   {
     tag: "div",
     getAttrs: (dom: Element) => {
       const domFieldName = dom.getAttribute(fieldNameAttr);
-      if (domFieldName !== getNodeNameFromField(fieldName, elementName)) {
+      if (domFieldName !== nodeName) {
         return false;
       }
 
@@ -212,9 +208,6 @@ const getDefaultParseDOMForLeafNode = (
     },
   },
 ];
-
-const getTagForNode = (elementName: string, fieldName: string) =>
-  `element-${elementName}-${fieldName}`.toLowerCase();
 
 export const createNodesForFieldValues = <
   S extends Schema,

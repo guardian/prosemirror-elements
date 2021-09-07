@@ -256,4 +256,13 @@ window.PM_ELEMENTS = {
   insertElement: insertElement,
   docToHtml: () =>
     firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "",
+  htmlToDoc: (html: string) => {
+    const node = htmlToDoc(parser, html);
+    firstEditor?.updateState(
+      EditorState.create({
+        doc: node,
+        plugins: firstEditor.state.plugins,
+      })
+    );
+  },
 };

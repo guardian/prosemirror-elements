@@ -12,5 +12,6 @@ export type WindowType = {
     view: EditorView;
     insertElement: typeof insertElement;
     docToHtml: () => string;
+    htmlToDoc: (html: string) => void;
   };
 };
