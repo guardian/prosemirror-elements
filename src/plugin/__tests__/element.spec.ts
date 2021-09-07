@@ -670,16 +670,19 @@ describe("buildElementPlugin", () => {
               testElementWithDifferentValidation,
             });
 
-            const errors = validateElementData("testElementWithValidation", {
-              field1: "Some text",
+            const errors = validateElementData({
+              elementName: "testElementWithValidation",
+              values: {
+                field1: "Some text",
+              },
             });
 
             expect(errors).toEqual({ field1: ["Some error"] });
 
-            const otherErrors = validateElementData(
-              "testElementWithDifferentValidation",
-              { checkbox: true }
-            );
+            const otherErrors = validateElementData({
+              elementName: "testElementWithDifferentValidation",
+              values: { checkbox: true },
+            });
 
             expect(otherErrors).toEqual({ checkbox: ["Some other error"] });
           });
@@ -689,10 +692,21 @@ describe("buildElementPlugin", () => {
               testElement,
             });
 
-            const errors = validateElementData(
-              "testElement",
-              testElementValues.values
-            );
+            const errors = validateElementData({
+              elementName: "testElement",
+              values: testElementValues.values,
+            });
+
+            expect(errors).toEqual(undefined);
+          });
+
+          it("should output undefined if there are no errors", () => {
+            const { validateElementData } = createEditorWithElements({
+              testElement,
+            });
+
+            // @ts-expect-error -- values need to match the expected shape
+            const errors = validateElementData("testElement", { a: 123 });
 
             expect(errors).toEqual(undefined);
           });
@@ -701,11 +715,11 @@ describe("buildElementPlugin", () => {
             const { validateElementData } = createEditorWithElements({
               testElement,
             });
-            validateElementData(
+            validateElementData({
               // @ts-expect-error -- we should not be able to check a non-existent element
-              "non-existing-element",
-              testElementValues.values
-            );
+              elementName: "non-existing-element",
+              values: testElementValues.values,
+            });
           });
 
           it("should accept the getElementDataFromNode output", () => {
@@ -728,11 +742,11 @@ describe("buildElementPlugin", () => {
             })(view.state, view.dispatch);
 
             const errors = validateElementData(
-              elementName,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion  -- We know this exists for the purposes of the test
               getElementDataFromNode(
                 view.state.doc.firstChild as Node,
                 serializer
-              )?.values
+              )!
             );
 
             expect(errors).toEqual({ field1: ["Some error"] });

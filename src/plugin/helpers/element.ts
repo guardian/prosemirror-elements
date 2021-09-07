@@ -123,16 +123,18 @@ const getValuesFromContentNode = (node: Node, serializer: DOMSerializer) => {
 };
 
 export const createElementDataValidator = <
-  FDesc extends FieldDescriptions<keyof FDesc>,
-  ElementNames extends keyof ESpecMap,
   ExternalData,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
+  FDesc extends FieldDescriptions<keyof FDesc>,
+  ElementNames extends keyof ESpec,
+  ESpec extends ElementSpecMap<FDesc, ElementNames, ExternalData>
 >(
-  elementTypeMap: ESpecMap
-) => (
-  elementName: keyof ESpecMap,
-  values: unknown
-): Record<string, string[]> | undefined => {
+  elementTypeMap: ESpec
+) => ({
+  elementName,
+  values,
+}: ExtractDataTypeFromElementSpec<ESpec, ElementNames>):
+  | Record<string, string[]>
+  | undefined => {
   const element = elementTypeMap[elementName];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
@@ -140,5 +142,9 @@ export const createElementDataValidator = <
     return undefined;
   }
 
-  return element.validate(values as FieldNameToValueMap<FDesc>);
+  const data =
+    element.transformers?.transformElementDataIn(values as ExternalData) ??
+    ((values as unknown) as FieldNameToValueMap<FDesc>);
+
+  return element.validate(data);
 };
