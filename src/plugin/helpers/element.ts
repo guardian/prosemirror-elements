@@ -106,7 +106,6 @@ export const createGetElementDataFromNode = <
 
   return ({
     elementName,
-    errors: element.validate(values as ExtractFieldValues<typeof element>),
     values:
       element.transformers?.transformElementDataOut(
         values as ExtractFieldValues<typeof element>

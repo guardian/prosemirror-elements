@@ -655,28 +655,6 @@ describe("buildElementPlugin", () => {
           }
         });
       });
-      it("should output any errors", () => {
-        const {
-          insertElement,
-          getElementDataFromNode,
-          view,
-          serializer,
-        } = createEditorWithElements({
-          testElementWithValidation,
-        });
-
-        insertElement({
-          elementName: "testElementWithValidation",
-          values: { field1: "Some text" },
-        })(view.state, view.dispatch);
-
-        const element = getElementDataFromNode(
-          view.state.doc.firstChild as Node,
-          serializer
-        );
-
-        expect(element?.errors).toEqual({ field1: ["Some error"] });
-      });
     });
   });
 });

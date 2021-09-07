@@ -139,7 +139,6 @@ export type ExtractDataTypeFromElementSpec<T, U> = U extends keyof T
       values: ExtractExternalData<T[U]> extends Record<string, unknown>
         ? ExtractExternalData<T[U]>
         : ExtractFieldValues<T[U]>;
-      errors: Record<string, string[]>;
     }
   : never;
 
