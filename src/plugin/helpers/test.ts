@@ -81,7 +81,7 @@ export const createEditorWithElements = <
     nodeSpec,
     getNodeFromElementData,
     getElementDataFromNode,
-    elementValidator,
+    validateElementData,
   } = buildElementPlugin(elements);
   const editorElement = document.createElement("div");
   const docElement = document.createElement("div");
@@ -114,6 +114,6 @@ export const createEditorWithElements = <
     getNodeFromElementData,
     getElementDataFromNode,
     serializer,
-    elementValidator,
+    validateElementData,
   };
 };

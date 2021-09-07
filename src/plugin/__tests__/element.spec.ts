@@ -663,12 +663,12 @@ describe("buildElementPlugin", () => {
           }
         });
 
-        describe("elementValidator", () => {
+        describe("validateElementData", () => {
           it("should output found errors", () => {
             const {
               insertElement,
               getElementDataFromNode,
-              elementValidator,
+              validateElementData,
               view,
               serializer,
             } = createEditorWithElements({
@@ -686,7 +686,7 @@ describe("buildElementPlugin", () => {
               serializer
             );
 
-            const errors = elementValidator(
+            const errors = validateElementData(
               "testElementWithValidation",
               element?.values
             );
@@ -703,7 +703,7 @@ describe("buildElementPlugin", () => {
               serializer
             );
 
-            const otherErrors = elementValidator(
+            const otherErrors = validateElementData(
               "testElementWithDifferentValidation",
               otherElement?.values
             );
@@ -715,7 +715,7 @@ describe("buildElementPlugin", () => {
             const {
               insertElement,
               getElementDataFromNode,
-              elementValidator,
+              validateElementData,
               view,
               serializer,
             } = createEditorWithElements({
@@ -732,7 +732,7 @@ describe("buildElementPlugin", () => {
               serializer
             );
 
-            const errors = elementValidator("testElement", element?.values);
+            const errors = validateElementData("testElement", element?.values);
 
             expect(errors).toEqual(undefined);
           });
@@ -740,7 +740,7 @@ describe("buildElementPlugin", () => {
             const {
               insertElement,
               getElementDataFromNode,
-              elementValidator,
+              validateElementData,
               view,
               serializer,
             } = createEditorWithElements({
@@ -759,7 +759,7 @@ describe("buildElementPlugin", () => {
 
             expect(
               // @ts-expect-error -- we should not be able to check a non-existent element
-              elementValidator("non-existing-element", element?.values)
+              validateElementData("non-existing-element", element?.values)
             ).toEqual(undefined);
           });
         });

@@ -122,7 +122,7 @@ const getValuesFromContentNode = (node: Node, serializer: DOMSerializer) => {
   return e.innerHTML;
 };
 
-export const createElementValidator = <
+export const createElementDataValidator = <
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
   ExternalData,
