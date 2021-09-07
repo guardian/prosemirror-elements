@@ -665,6 +665,50 @@ describe("buildElementPlugin", () => {
 
         describe("validateElementData", () => {
           it("should output found errors", () => {
+            const { validateElementData } = createEditorWithElements({
+              testElementWithValidation,
+              testElementWithDifferentValidation,
+            });
+
+            const errors = validateElementData("testElementWithValidation", {
+              field1: "Some text",
+            });
+
+            expect(errors).toEqual({ field1: ["Some error"] });
+
+            const otherErrors = validateElementData(
+              "testElementWithDifferentValidation",
+              { checkbox: true }
+            );
+
+            expect(otherErrors).toEqual({ checkbox: ["Some other error"] });
+          });
+
+          it("should output undefined if there are no errors", () => {
+            const { validateElementData } = createEditorWithElements({
+              testElement,
+            });
+
+            const errors = validateElementData(
+              "testElement",
+              testElementValues.values
+            );
+
+            expect(errors).toEqual(undefined);
+          });
+
+          it("should not allow non-existent elements", () => {
+            const { validateElementData } = createEditorWithElements({
+              testElement,
+            });
+            validateElementData(
+              // @ts-expect-error -- we should not be able to check a non-existent element
+              "non-existing-element",
+              testElementValues.values
+            );
+          });
+
+          it("should accept the getElementDataFromNode output", () => {
             const {
               insertElement,
               getElementDataFromNode,
@@ -676,91 +720,22 @@ describe("buildElementPlugin", () => {
               testElementWithDifferentValidation,
             });
 
+            const elementName = "testElementWithValidation";
+
             insertElement({
-              elementName: "testElementWithValidation",
+              elementName,
               values: { field1: "Some text" },
             })(view.state, view.dispatch);
 
-            const element = getElementDataFromNode(
-              view.state.doc.firstChild as Node,
-              serializer
-            );
-
             const errors = validateElementData(
-              "testElementWithValidation",
-              element?.values
+              elementName,
+              getElementDataFromNode(
+                view.state.doc.firstChild as Node,
+                serializer
+              )?.values
             );
 
             expect(errors).toEqual({ field1: ["Some error"] });
-
-            insertElement({
-              elementName: "testElementWithDifferentValidation",
-              values: { checkbox: true },
-            })(view.state, view.dispatch);
-
-            const otherElement = getElementDataFromNode(
-              view.state.doc.firstChild as Node,
-              serializer
-            );
-
-            const otherErrors = validateElementData(
-              "testElementWithDifferentValidation",
-              otherElement?.values
-            );
-
-            expect(otherErrors).toEqual({ checkbox: ["Some other error"] });
-          });
-
-          it("should output undefined if there are no errors", () => {
-            const {
-              insertElement,
-              getElementDataFromNode,
-              validateElementData,
-              view,
-              serializer,
-            } = createEditorWithElements({
-              testElement,
-            });
-
-            insertElement({
-              elementName: "testElement",
-              values: testElementValues.values,
-            })(view.state, view.dispatch);
-
-            const element = getElementDataFromNode(
-              view.state.doc.firstChild as Node,
-              serializer
-            );
-
-            const errors = validateElementData("testElement", element?.values);
-
-            expect(errors).toEqual(undefined);
-          });
-          it("should not allow non-existent elements", () => {
-            const {
-              insertElement,
-              getElementDataFromNode,
-              validateElementData,
-              view,
-              serializer,
-            } = createEditorWithElements({
-              testElement,
-            });
-
-            insertElement({
-              elementName: "testElement",
-              values: testElementValues.values,
-            })(view.state, view.dispatch);
-
-            const element = getElementDataFromNode(
-              view.state.doc.firstChild as Node,
-              serializer
-            );
-
-            expect(
-              // @ts-expect-error -- we should not be able to check a non-existent element
-              validateElementData("non-existing-element", element?.values)
-            ).toEqual(undefined);
           });
         });
       });
