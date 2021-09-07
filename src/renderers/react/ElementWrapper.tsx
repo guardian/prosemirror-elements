@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { border, neutral } from "@guardian/src-foundations/palette";
+import { border, neutral, news } from "@guardian/src-foundations/palette";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
@@ -51,7 +51,7 @@ const Button = styled("button")<{ expanded?: boolean }>`
   cursor: pointer;
   flex-grow: ${({ expanded }) => (expanded ? "1" : "0")};
   ${({ expanded }) => !expanded && "height: 32px;"};
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1;
   padding: ${space[1]}px;
   width: ${buttonWidth}px;
@@ -98,7 +98,7 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
   :hover {
     background-color: ${({ activated }) =>
-      activated ? neutral[0] : border.error};
+      activated ? news[200] : border.error};
     svg {
       fill: ${neutral[100]};
     }
@@ -118,16 +118,20 @@ const Actions = styled("div")`
 `;
 
 const Tooltip = styled("div")`
-  background-color: ${neutral[93]};
+  background-color: ${neutral[97]};
   color: ${neutral[0]};
   position: absolute;
+  left: 0px;
+  border-radius: 4px;
   line-height: 1.2rem;
   bottom: ${buttonWidth + 10}px;
   font-family: "Guardian Agate Sans";
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  font-size: 15px;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
   z-index: 1;
   width: 82px;
   padding: ${space[1]}px;
+  padding-bottom: 5px;
   pointer-events: none;
   transition: opacity 0.2s;
   /* Add a point to the bottom of the tooltip */
@@ -139,7 +143,7 @@ const Tooltip = styled("div")`
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: ${neutral[93]} transparent transparent transparent;
+    border-color: ${neutral[97]} transparent transparent transparent;
   }
 `;
 
