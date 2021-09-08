@@ -105,9 +105,6 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
     div {
       opacity: 1;
     }
-    div {
-      opacity: 1;
-    }
   }
 `;
 
