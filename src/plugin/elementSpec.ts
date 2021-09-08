@@ -29,9 +29,15 @@ const createUpdater = <
   };
 };
 
+export type ValidationError = {
+  error: string;
+  message: string;
+};
+export type FieldValidationErrors = Record<string, ValidationError[]>;
+
 export type Validator<FDesc extends FieldDescriptions<string>> = (
   fields: FieldNameToValueMap<FDesc>
-) => undefined | Record<string, string[]>;
+) => undefined | FieldValidationErrors;
 
 export type Renderer<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,

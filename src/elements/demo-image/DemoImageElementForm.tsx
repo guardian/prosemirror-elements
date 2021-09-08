@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
+import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -10,7 +11,7 @@ import type { createImageFields, DemoSetMedia } from "./DemoImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
-  errors: Record<string, string[]>;
+  errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createImageFields>>;
 };
 

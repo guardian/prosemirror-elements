@@ -1,6 +1,9 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
-import type { Validator } from "../../plugin/elementSpec";
+import type {
+  FieldValidationErrors,
+  Validator,
+} from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { Commands } from "../../plugin/types/Commands";
 import type { Consumer } from "../../plugin/types/Consumer";
@@ -8,12 +11,11 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../../plugin/types/Element";
-import type { Errors } from "../../plugin/types/Errors";
 import { ElementWrapper } from "./ElementWrapper";
 
 const fieldErrors = <FDesc extends FieldDescriptions<string>>(
   fields: FieldNameToValueMap<FDesc>,
-  errors: Errors | undefined
+  errors: FieldValidationErrors | undefined
 ) =>
   Object.keys(fields).reduce(
     (acc, key) => ({

@@ -1,4 +1,5 @@
 import type { DOMSerializer, Node, Schema } from "prosemirror-model";
+import type { FieldValidationErrors } from "../elementSpec";
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import { fieldTypeToViewMap } from "../fieldViews/helpers";
 import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
@@ -133,7 +134,7 @@ export const createElementDataValidator = <
   elementName,
   values,
 }: ExtractDataTypeFromElementSpec<ESpec, ElementNames>):
-  | Record<string, string[]>
+  | FieldValidationErrors
   | undefined => {
   const element = elementTypeMap[elementName];
 

@@ -1,12 +1,13 @@
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { pullquoteFields } from "./PullquoteSpec";
 
 type Props = {
-  errors: Record<string, string[]>;
+  errors: FieldValidationErrors;
   fields: FieldNameToField<typeof pullquoteFields>;
 };
 

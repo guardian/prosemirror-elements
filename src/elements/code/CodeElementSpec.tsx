@@ -24,5 +24,5 @@ export const codeElement = createGuElementSpec(
   (_, errors, __, fields) => {
     return <CodeElementForm errors={errors} fields={fields} />;
   },
-  createValidator({ html: [required()] })
+  createValidator({ html: [required("empty code field")] })
 );
