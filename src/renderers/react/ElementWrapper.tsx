@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { border, neutral, news } from "@guardian/src-foundations/palette";
+import { border, neutral } from "@guardian/src-foundations/palette";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
@@ -98,9 +98,9 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
   :hover {
     background-color: ${({ activated }) =>
-      activated ? news[200] : border.error};
+      activated ? neutral[0] : neutral[86]};
     svg {
-      fill: ${neutral[100]};
+      fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
     }
     div {
       opacity: 1;
