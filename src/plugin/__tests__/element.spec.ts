@@ -700,7 +700,7 @@ describe("buildElementPlugin", () => {
             expect(errors).toEqual(undefined);
           });
 
-          it("should output undefined if there are no errors", () => {
+          it("should not allow values which don't match the element", () => {
             const { validateElementData } = createEditorWithElements({
               testElement,
             });
