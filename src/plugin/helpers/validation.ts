@@ -29,20 +29,20 @@ type ImageAsset = {
   };
 };
 
-function hasOwnProperty<X extends Record<string, unknown>, Y extends string>(
+const hasOwnProperty = <X extends Record<string, unknown>, Y extends string>(
   obj: X,
   prop: Y
-): obj is X & Record<Y, unknown> {
+): obj is X & Record<Y, unknown> => {
   return Object.hasOwnProperty.call(obj, prop);
-}
+};
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+const isRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === "object" && value !== null;
-}
+};
 
-function isValidImageAsset(
+const isValidImageAsset = (
   maybeImage: Record<string, unknown>
-): maybeImage is ImageAsset {
+): maybeImage is ImageAsset => {
   return (
     hasOwnProperty(maybeImage, "fields") &&
     isRecord(maybeImage.fields) &&
@@ -51,9 +51,9 @@ function isValidImageAsset(
     typeof maybeImage.fields.width === "number" &&
     typeof maybeImage.fields.height === "number"
   );
-}
+};
 
-function validateAssets(maybeAssets: unknown[]) {
+const validateAssets = (maybeAssets: unknown[]) => {
   const assets = maybeAssets.map((asset, i) => {
     if (!isRecord(asset)) {
       throw new Error(
@@ -68,7 +68,7 @@ function validateAssets(maybeAssets: unknown[]) {
     return asset;
   });
   return assets;
-}
+};
 
 export const largestAssetMinDimension = (minSize: number): Validator => (
   value
