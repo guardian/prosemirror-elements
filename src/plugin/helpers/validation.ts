@@ -1,14 +1,9 @@
-import type { FieldValidationErrors, ValidationError } from "../elementSpec";
+import type { FieldValidationErrors, FieldValidator } from "../elementSpec";
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import type { FieldDescriptions } from "../types/Element";
 
-export type Validator = (
-  fieldValue: unknown,
-  fieldName: string
-) => ValidationError[];
-
 export const createValidator = (
-  fieldValidationMap: Record<string, Validator[]>
+  fieldValidationMap: Record<string, FieldValidator[]>
 ) => <FDesc extends FieldDescriptions<string>>(
   fieldValues: FieldNameToValueMap<FDesc>
 ): FieldValidationErrors => {
@@ -28,7 +23,7 @@ export const createValidator = (
 export const htmlMaxLength = (
   maxLength: number,
   customMessage: string | undefined = undefined
-): Validator => (value, field) => {
+): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `html max length check: ${field} value is incorrect`;
     return [
@@ -57,7 +52,7 @@ export const htmlMaxLength = (
 export const maxLength = (
   maxLength: number,
   customMessage: string | undefined = undefined
-): Validator => (value, field) => {
+): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `max length check: ${field} value is incorrect`;
     return [
@@ -82,7 +77,7 @@ export const maxLength = (
 
 export const htmlRequired = (
   customMessage: string | undefined = undefined
-): Validator => (value, field) => {
+): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `required check: ${field} value is incorrect`;
     return [
@@ -104,7 +99,7 @@ export const htmlRequired = (
 
 export const required = (
   customMessage: string | undefined = undefined
-): Validator => (value, field) => {
+): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `required check: ${field} value is incorrect`;
     return [

@@ -39,6 +39,11 @@ export type Validator<FDesc extends FieldDescriptions<string>> = (
   fields: FieldNameToValueMap<FDesc>
 ) => undefined | FieldValidationErrors;
 
+export type FieldValidator = (
+  fieldValue: unknown,
+  fieldName: string
+) => ValidationError[];
+
 export type Renderer<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
@@ -63,23 +68,46 @@ export const createElementSpec = <
 >(
   fieldDescriptions: FDesc,
   render: Renderer<FDesc>,
-  validate: Validator<FDesc>,
+  validate: Validator<FDesc> | undefined = undefined,
   transformers?: Transformers<FDesc, ExternalData>
-): ElementSpec<FDesc, ExternalData> => ({
-  fieldDescriptions,
-  transformers,
-  validate,
-  createUpdator: (dom, fields, updateState, fieldValues, commands) => {
-    const updater = createUpdater<FDesc>();
-    render(
-      validate,
-      dom,
-      fields,
-      (fields) => updateState(fields),
-      fieldValues,
-      commands,
-      updater.subscribe
-    );
-    return updater.update;
-  },
-});
+): ElementSpec<FDesc, ExternalData> => {
+  const validateWithFieldAndElementValidators: Validator<FDesc> = (
+    fields: FieldNameToValueMap<FDesc>
+  ) => {
+    const fieldErrors: FieldValidationErrors = {};
+    for (const field in fieldDescriptions) {
+      const validators = fieldDescriptions[field].validators;
+      if (validators && validators.length > 0) {
+        validators.forEach((validate) => {
+          const value = fields[field];
+          fieldErrors[field] = [...validate(value, field)];
+        });
+      }
+    }
+
+    const elementErrors = validate ? validate(fields) : {};
+
+    const allErrors = { ...elementErrors, ...fieldErrors };
+
+    return Object.keys(allErrors).length > 0 ? allErrors : undefined;
+  };
+
+  return {
+    fieldDescriptions,
+    transformers,
+    validate: validateWithFieldAndElementValidators,
+    createUpdator: (dom, fields, updateState, fieldValues, commands) => {
+      const updater = createUpdater<FDesc>();
+      render(
+        validateWithFieldAndElementValidators,
+        dom,
+        fields,
+        (fields) => updateState(fields),
+        fieldValues,
+        commands,
+        updater.subscribe
+      );
+      return updater.update;
+    },
+  };
+};

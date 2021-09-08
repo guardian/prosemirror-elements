@@ -5,6 +5,7 @@ import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -24,17 +25,20 @@ type MultilineOptions = {
   isMultiline: boolean;
   rows?: number;
 };
+
 export const createTextField = (
   { isMultiline = false, rows = 1 }: MultilineOptions = {
     isMultiline: false,
     rows: 1,
   },
-  isCode = false
+  isCode = false,
+  validators: FieldValidator[] = []
 ): TextFieldDescription => ({
   type: TextFieldView.fieldName,
   isMultiline,
   rows,
   isCode,
+  validators,
 });
 
 export class TextFieldView extends ProseMirrorFieldView {
