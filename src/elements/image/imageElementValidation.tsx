@@ -1,13 +1,6 @@
 import type { Validator } from "../../plugin/helpers/validation";
 import type { Asset } from "./ImageElement";
 
-const hasOwnProperty = <X extends Record<string, unknown>, Y extends string>(
-  obj: X,
-  prop: Y
-): obj is X & Record<Y, unknown> => {
-  return Object.hasOwnProperty.call(obj, prop);
-};
-
 const isRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === "object" && value !== null;
 };
@@ -16,10 +9,10 @@ const isValidImageAsset = (
   maybeImage: Record<string, unknown>
 ): maybeImage is Asset => {
   return (
-    hasOwnProperty(maybeImage, "fields") &&
+    maybeImage.fields !== undefined &&
     isRecord(maybeImage.fields) &&
-    hasOwnProperty(maybeImage.fields, "width") &&
-    hasOwnProperty(maybeImage.fields, "height") &&
+    maybeImage.fields.width !== undefined &&
+    maybeImage.fields.height !== undefined &&
     typeof maybeImage.fields.width === "number" &&
     typeof maybeImage.fields.height === "number"
   );
