@@ -5,7 +5,10 @@ import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
+import type {
+  FieldValidationErrors,
+  ValidationError,
+} from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
@@ -32,7 +35,7 @@ type Props = {
 
 type ImageViewProps = {
   onChange: SetMedia;
-  errors: string[];
+  errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
 
@@ -150,7 +153,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
 
   return (
     <>
-      <Errors errors={errors} />
+      <Errors errors={errors.map((error) => error.message)} />
       <div>
         <img css={imageViewStysles} src={getImageSrc()} />
       </div>

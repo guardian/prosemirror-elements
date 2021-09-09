@@ -3,11 +3,11 @@ import React from "react";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import type { Validator } from "../../plugin/helpers/validation";
 import {
   createValidator,
   htmlMaxLength,
   htmlRequired,
-  largestAssetMinDimension,
 } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
@@ -82,6 +82,88 @@ export const createImageFields = (
       { text: "immersive", value: "immersive" },
     ]),
   };
+};
+
+type ImageAsset = {
+  fields: {
+    width: number;
+    height: number;
+  };
+};
+
+const hasOwnProperty = <X extends Record<string, unknown>, Y extends string>(
+  obj: X,
+  prop: Y
+): obj is X & Record<Y, unknown> => {
+  return Object.hasOwnProperty.call(obj, prop);
+};
+
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === "object" && value !== null;
+};
+
+const isValidImageAsset = (
+  maybeImage: Record<string, unknown>
+): maybeImage is ImageAsset => {
+  return (
+    hasOwnProperty(maybeImage, "fields") &&
+    isRecord(maybeImage.fields) &&
+    hasOwnProperty(maybeImage.fields, "width") &&
+    hasOwnProperty(maybeImage.fields, "height") &&
+    typeof maybeImage.fields.width === "number" &&
+    typeof maybeImage.fields.height === "number"
+  );
+};
+
+const validateAssets = (maybeAssets: unknown[]) => {
+  const assets = maybeAssets.map((asset, i) => {
+    if (!isRecord(asset)) {
+      throw new Error(
+        `[largestAssetMinDimension]: asset ${i} passed to validator was not an object`
+      );
+    }
+    if (!isValidImageAsset(asset)) {
+      throw new Error(
+        `[largestAssetMinDimension]: asset ${i} does not have height and width props that are numbers`
+      );
+    }
+    return asset;
+  });
+  return assets;
+};
+
+export const largestAssetMinDimension = (minSize: number): Validator => (
+  value
+) => {
+  if (typeof value !== "object" || value === null) {
+    throw new Error(
+      `[largestAssetMinDimension]: overall value passed to validator is not an object`
+    );
+  }
+
+  if (isRecord(value) && value.assets && Array.isArray(value.assets)) {
+    const validatedAssets = validateAssets(value.assets);
+    const largestImageAsset = validatedAssets.sort(function (a, b) {
+      return b.fields.width - a.fields.width;
+    })[0];
+
+    const largestDimensionMin = minSize;
+
+    if (
+      largestImageAsset.fields.width < largestDimensionMin &&
+      largestImageAsset.fields.height < largestDimensionMin
+    ) {
+      return [
+        {
+          error: "Warning: Small image, only thumbnail available",
+          message:
+            "Image should be greater than 460 x 460px for uses other than a thumbnail.",
+        },
+      ];
+    }
+  }
+
+  return [];
 };
 
 export const createImageElement = (
