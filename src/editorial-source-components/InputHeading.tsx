@@ -20,7 +20,7 @@ const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
 type Props = {
-  label: string;
+  label: React.ReactNode;
   errors: string[];
 };
 

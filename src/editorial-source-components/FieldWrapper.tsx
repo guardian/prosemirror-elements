@@ -8,7 +8,7 @@ import { InputHeading } from "./InputHeading";
 type Props<F> = {
   field: F;
   errors: ValidationError[];
-  label: string;
+  label: React.ReactNode;
   className?: string;
 };
 

@@ -1,4 +1,6 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
@@ -38,6 +40,10 @@ type ImageViewProps = {
   errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
+
+const AltText = styled.span`
+  margin-right: ${space[2]}px;
+`;
 
 export const ImageElementTestId = "ImageElement";
 
@@ -79,18 +85,20 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           <FieldWrapper
             field={fields.altText}
             errors={errors.altText}
-            label="Alt text"
+            label={
+              <span>
+                <AltText>Alt text</AltText>
+                <Button
+                  priority="primary"
+                  size="xsmall"
+                  iconSide="left"
+                  onClick={() => fields.altText.update(fieldValues.caption)}
+                >
+                  Copy from caption
+                </Button>
+              </span>
+            }
           />
-        </span>
-        <span>
-          <Button
-            priority="primary"
-            size="xsmall"
-            iconSide="left"
-            onClick={() => fields.altText.update(fieldValues.caption)}
-          >
-            Copy from caption
-          </Button>
         </span>
         <Inline space={2}>
           <FieldWrapper
