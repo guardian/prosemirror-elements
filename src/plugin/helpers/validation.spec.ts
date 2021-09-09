@@ -15,7 +15,7 @@ describe("Validation helpers", () => {
       expect(result).toEqual({
         field1: [],
         field2: [
-          { error: "Too long: 7/5", message: "Property is too long: 7/5" },
+          { error: "Too long: 7/5", message: "field2 is too long: 7/5" },
         ],
       });
     });
@@ -30,7 +30,7 @@ describe("Validation helpers", () => {
       });
 
       expect(result).toEqual({
-        field1: [{ error: "Required", message: "Property is required" }],
+        field1: [{ error: "Required", message: "field1 is required" }],
       });
     });
   });
