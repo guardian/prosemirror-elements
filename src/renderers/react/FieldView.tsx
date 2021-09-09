@@ -5,14 +5,12 @@ import type { Field } from "../../plugin/types/Element";
 
 type Props<F extends Field<unknown>> = {
   field: F;
-  hasErrors?: boolean;
 };
 
 export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 
 export const FieldView = <F extends Field<TFieldView<unknown>>>({
   field,
-  hasErrors = false,
 }: Props<F>) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -23,10 +21,6 @@ export const FieldView = <F extends Field<TFieldView<unknown>>>({
   }, []);
 
   return (
-    <Editor
-      hasErrors={hasErrors}
-      data-cy={getFieldViewTestId(field.name)}
-      ref={editorRef}
-    ></Editor>
+    <Editor data-cy={getFieldViewTestId(field.name)} ref={editorRef}></Editor>
   );
 };

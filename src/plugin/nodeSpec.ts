@@ -44,9 +44,6 @@ const getNodeSpecForElement = (
       addUpdateDecoration: {
         default: true,
       },
-      hasErrors: {
-        default: false,
-      },
     },
     draggable: false,
     toDOM: (node: Node) => [
@@ -54,7 +51,6 @@ const getNodeSpecForElement = (
       {
         [elementTypeAttr]: node.attrs.type as string,
         fields: JSON.stringify(node.attrs.fields),
-        "has-errors": JSON.stringify(node.attrs.hasErrors),
       },
       0,
     ],
@@ -67,12 +63,9 @@ const getNodeSpecForElement = (
             return false;
           }
 
-          const hasErrorAttr = dom.getAttribute("has-errors");
-
           return {
             type: elementName,
             fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
-            hasErrors: hasErrorAttr && hasErrorAttr !== "false",
           };
         },
       },
@@ -187,7 +180,6 @@ const getDefaultToDOMForLeafNode = (nodeName: string) => (node: Node) => [
   {
     [fieldNameAttr]: nodeName,
     fields: JSON.stringify(node.attrs.fields),
-    "has-errors": JSON.stringify(node.attrs.hasErrors),
   },
 ];
 

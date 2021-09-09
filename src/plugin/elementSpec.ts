@@ -75,7 +75,7 @@ export const createElementSpec = <
       validate,
       dom,
       fields,
-      (fields) => updateState(fields, !!validate(fields)),
+      (fields) => updateState(fields),
       fieldValues,
       commands,
       updater.subscribe

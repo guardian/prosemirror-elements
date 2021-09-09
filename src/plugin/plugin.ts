@@ -16,7 +16,7 @@ import { getFieldNameFromNode } from "./nodeSpec";
 const decorations = createUpdateDecorations();
 const pluginKey = new PluginKey("prosemirror_elements");
 
-export type PluginState = { hasErrors: boolean };
+export type PluginState = unknown;
 
 export const createPlugin = <
   ElementNames extends string,
@@ -28,32 +28,8 @@ export const createPlugin = <
   },
   commands: Commands
 ): Plugin<PluginState, Schema> => {
-  type ElementNode = Node<Schema>;
-
-  const hasErrors = (doc: Node) => {
-    let foundError = false;
-    doc.descendants((node: ElementNode) => {
-      if (!foundError) {
-        if (node.type.name === "element") {
-          foundError = node.attrs.hasErrors as boolean;
-        }
-      } else {
-        return false;
-      }
-    });
-    return foundError;
-  };
-
   return new Plugin<PluginState, Schema>({
     key: pluginKey,
-    state: {
-      init: (_, state) => ({
-        hasErrors: hasErrors(state.doc),
-      }),
-      apply: (_tr, _value, _oldState, state) => ({
-        hasErrors: hasErrors(state.doc),
-      }),
-    },
     props: {
       decorations,
       nodeViews: createNodeViews(
@@ -162,12 +138,11 @@ const createNodeView = <
   const update = element.createUpdator(
     dom,
     fields,
-    (fields, hasErrors) => {
+    (fields) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
           ...initNode.attrs,
           fields,
-          hasErrors,
         })
       );
     },
