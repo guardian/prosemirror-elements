@@ -85,7 +85,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               <span>
                 <AltText>Alt text</AltText>
                 <Button
-                  priority="primary"
+                  priority="secondary"
                   size="xsmall"
                   iconSide="left"
                   onClick={() => fields.altText.update(fieldValues.caption)}
@@ -164,7 +164,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
         <img css={imageViewStysles} src={getImageSrc()} />
       </div>
       <Button
-        priority="primary"
+        priority="secondary"
         size="xsmall"
         icon={<SvgCamera />}
         iconSide="left"
