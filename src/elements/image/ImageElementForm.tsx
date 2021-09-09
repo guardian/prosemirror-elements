@@ -85,7 +85,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               <>
                 <AltText>Alt text</AltText>
                 <Button
-                  priority="secondary"
+                  priority="primary"
                   size="xsmall"
                   iconSide="left"
                   onClick={() => fields.altText.update(fieldValues.caption)}
