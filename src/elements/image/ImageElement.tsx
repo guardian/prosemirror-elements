@@ -7,6 +7,7 @@ import {
   createValidator,
   htmlMaxLength,
   htmlRequired,
+  largestAssetMinDimension,
 } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
@@ -102,5 +103,6 @@ export const createImageElement = (
       altText: [htmlMaxLength(1000), htmlRequired()],
       source: [htmlMaxLength(250), htmlRequired()],
       photographer: [htmlMaxLength(250)],
+      mainImage: [largestAssetMinDimension(460)],
     })
   );
