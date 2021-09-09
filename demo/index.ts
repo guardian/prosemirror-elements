@@ -43,12 +43,7 @@ type Name =
   | typeof codeElementName
   | typeof pullquoteElementName;
 
-const {
-  plugin: elementPlugin,
-  insertElement,
-  hasErrors,
-  nodeSpec,
-} = buildElementPlugin({
+const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement: createImageElement(onCropImage),
   embedElement: createEmbedElement(),
@@ -75,12 +70,6 @@ const editorsContainer = document.querySelector("#editor-container");
 if (!editorsContainer) {
   throw new Error("No #editor element present in DOM");
 }
-
-const highlightErrors = (state: EditorState) => {
-  document.body.style.backgroundColor = hasErrors(state)
-    ? "red"
-    : "transparent";
-};
 
 const get = () => {
   const state = window.localStorage.getItem("pm");
@@ -136,8 +125,6 @@ const createEditor = (server: CollabServer) => {
   if (!isFirstEditor) {
     firstEditor = view;
   }
-
-  highlightErrors(view.state);
 
   const createElementButton = (
     buttonText: string,
@@ -216,7 +203,6 @@ const createEditor = (server: CollabServer) => {
   );
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
-    highlightErrors(state);
     if (isFirstEditor) {
       set(state.doc);
     }

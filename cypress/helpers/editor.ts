@@ -138,7 +138,7 @@ export const getSerialisedHtml = ({
           mainImageValue.mediaApiUri ?? "undefined"
         }&quot;,&quot;assets&quot;${mainImageValue.assets}`
       : `&quot;assets&quot;:[]`;
-  return trimHtml(`<div pme-element-type="demoImageElement" has-errors="false">
+  return trimHtml(`<div pme-element-type="demoImageElement">
     <div pme-field-name="demoImageElement_altText">${altTextValue}</div>
     <div pme-field-name="demoImageElement_caption">${captionValue}</div>
     <div pme-field-name="demoImageElement_code">${codeValue}</div>

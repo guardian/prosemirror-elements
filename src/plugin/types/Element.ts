@@ -98,10 +98,7 @@ export type ElementSpec<
   createUpdator: (
     dom: HTMLElement,
     fields: FieldNameToField<FDesc>,
-    updateState: (
-      fields: FieldNameToValueMap<FDesc>,
-      hasErrors: boolean
-    ) => void,
+    updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     initFields: FieldNameToValueMap<FDesc>,
     commands: ReturnType<CommandCreator>
   ) => (

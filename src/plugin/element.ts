@@ -64,7 +64,6 @@ export const buildElementPlugin = <
 
   return {
     insertElement,
-    hasErrors: (state: EditorState) => plugin.getState(state).hasErrors,
     plugin,
     nodeSpec,
     getElementDataFromNode,
