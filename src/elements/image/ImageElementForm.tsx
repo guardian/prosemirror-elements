@@ -153,7 +153,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
 
   return (
     <>
-      <Errors errors={errors.map((error) => error.message)} />
+      <Errors errors={errors.map((e) => e.error)} />
       <div>
         <img css={imageViewStysles} src={getImageSrc()} />
       </div>

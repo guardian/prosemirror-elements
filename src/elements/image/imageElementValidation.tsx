@@ -5,10 +5,9 @@ const isRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === "object" && value !== null;
 };
 
-const isValidImageAsset = (
-  maybeImage: Record<string, unknown>
-): maybeImage is Asset => {
+const isValidImageAsset = (maybeImage: unknown): maybeImage is Asset => {
   return (
+    isRecord(maybeImage) &&
     maybeImage.fields !== undefined &&
     isRecord(maybeImage.fields) &&
     maybeImage.fields.width !== undefined &&
@@ -18,35 +17,20 @@ const isValidImageAsset = (
   );
 };
 
-const validateAssets = (maybeAssets: unknown[]) => {
-  const assets = maybeAssets.map((asset, i) => {
-    if (!isRecord(asset)) {
-      throw new Error(
-        `[largestAssetMinDimension]: asset ${i} passed to validator was not an object`
-      );
-    }
-    if (!isValidImageAsset(asset)) {
-      throw new Error(
-        `[largestAssetMinDimension]: asset ${i} does not have height and width props that are numbers`
-      );
-    }
-    return asset;
-  });
-  return assets;
+const hasAssets = (maybeData: unknown): maybeData is { assets: Asset[] } => {
+  return (
+    isRecord(maybeData) &&
+    maybeData.assets != undefined &&
+    Array.isArray(maybeData.assets) &&
+    maybeData.assets.every((asset) => isValidImageAsset(asset))
+  );
 };
 
 export const largestAssetMinDimension = (minSize: number): Validator => (
   value
 ) => {
-  if (typeof value !== "object" || value === null) {
-    throw new Error(
-      `[largestAssetMinDimension]: overall value passed to validator is not an object`
-    );
-  }
-
-  if (isRecord(value) && value.assets && Array.isArray(value.assets)) {
-    const validatedAssets = validateAssets(value.assets);
-    const largestImageAsset = validatedAssets.sort(function (a, b) {
+  if (hasAssets(value)) {
+    const largestImageAsset = value.assets.sort(function (a, b) {
       return b.fields.width - a.fields.width;
     })[0];
 
