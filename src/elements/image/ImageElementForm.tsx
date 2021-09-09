@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "@guardian/src-button";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
-import { Column, Columns, Inline } from "@guardian/src-layout";
+import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -24,10 +24,6 @@ import type {
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
-
-const inlineStyles = css`
-  width: 40%;
-`;
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -100,20 +96,22 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             }
           />
         </span>
-        <Inline space={2}>
-          <FieldWrapper
-            field={fields.photographer}
-            errors={errors.photographer}
-            label="Photographer"
-            css={inlineStyles}
-          />
-          <FieldWrapper
-            field={fields.source}
-            errors={errors.source}
-            label="Source"
-            css={inlineStyles}
-          />
-        </Inline>
+        <Columns>
+          <Column width={1 / 2}>
+            <FieldWrapper
+              field={fields.photographer}
+              errors={errors.photographer}
+              label="Photographer"
+            />
+          </Column>
+          <Column width={1 / 2}>
+            <FieldWrapper
+              field={fields.source}
+              errors={errors.source}
+              label="Source"
+            />
+          </Column>
+        </Columns>
         <CustomCheckboxView
           field={fields.displayCreditInformation}
           errors={errors.displayCreditInformation}
