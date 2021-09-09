@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
-import { Column, Columns } from "@guardian/src-layout";
+import { Column, Columns, Tiles } from "@guardian/src-layout";
 import React from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
@@ -11,6 +11,7 @@ import type {
   FieldValidationErrors,
   ValidationError,
 } from "../../plugin/elementSpec";
+import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
@@ -51,6 +52,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   <div data-cy={ImageElementTestId}>
     <Columns>
       <Column width={2 / 5}>
+<<<<<<< HEAD
         <CustomDropdownView
           field={fields.weighting}
           label="Weighting"
@@ -70,14 +72,36 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           label={"Image type"}
           errors={errors.imageType}
         />
+=======
+        <FieldLayoutVertical>
+          <CustomDropdownView
+            field={fields.weighting}
+            label="Weighting"
+            errors={errors.weighting}
+          />
+          <ImageView
+            field={fields.mainImage}
+            onChange={({ caption, source, photographer }) => {
+              fields.caption.update(caption);
+              fields.source.update(source);
+              fields.photographer.update(photographer);
+            }}
+          />
+          <CustomDropdownView
+            field={fields.imageType}
+            label={"Image type"}
+            errors={errors.imageType}
+          />
+        </FieldLayoutVertical>
+>>>>>>> a68b722... Add FieldLayoutVertical
       </Column>
       <Column width={3 / 5}>
-        <FieldWrapper
-          field={fields.caption}
-          errors={errors.caption}
-          label="Caption"
-        />
-        <span>
+        <FieldLayoutVertical>
+          <FieldWrapper
+            field={fields.caption}
+            errors={errors.caption}
+            label="Caption"
+          />
           <FieldWrapper
             field={fields.altText}
             errors={errors.altText}
@@ -95,28 +119,28 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               </span>
             }
           />
-        </span>
-        <Columns>
-          <Column width={1 / 2}>
-            <FieldWrapper
-              field={fields.photographer}
-              errors={errors.photographer}
-              label="Photographer"
-            />
-          </Column>
-          <Column width={1 / 2}>
-            <FieldWrapper
-              field={fields.source}
-              errors={errors.source}
-              label="Source"
-            />
-          </Column>
-        </Columns>
-        <CustomCheckboxView
-          field={fields.displayCreditInformation}
-          errors={errors.displayCreditInformation}
-          label="Display credit information"
-        />
+          <Columns>
+            <Column width={1 / 2}>
+              <FieldWrapper
+                field={fields.photographer}
+                errors={errors.photographer}
+                label="Photographer"
+              />
+            </Column>
+            <Column width={1 / 2}>
+              <FieldWrapper
+                field={fields.source}
+                errors={errors.source}
+                label="Source"
+              />
+            </Column>
+          </Columns>
+          <CustomCheckboxView
+            field={fields.displayCreditInformation}
+            errors={errors.displayCreditInformation}
+            label="Display credit information"
+          />
+        </FieldLayoutVertical>
       </Column>
     </Columns>
   </div>
@@ -158,11 +182,16 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
   };
 
   return (
+<<<<<<< HEAD
     <>
       <Errors errors={errors.map((e) => e.error)} />
       <div>
         <img css={imageViewStysles} src={getImageSrc()} />
       </div>
+=======
+    <div>
+      <img css={imageViewStysles} src={getImageSrc()} />
+>>>>>>> a68b722... Add FieldLayoutVertical
       <Button
         priority="secondary"
         size="xsmall"
@@ -177,6 +206,6 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
       >
         Re-crop image
       </Button>
-    </>
+    </div>
   );
 };

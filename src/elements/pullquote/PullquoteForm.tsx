@@ -2,6 +2,7 @@ import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
+import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { pullquoteFields } from "./PullquoteSpec";
@@ -27,12 +28,23 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
         />
       </Column>
       <Column width={1 / 3}>
+<<<<<<< HEAD
         <FieldWrapper
           label="Attribution"
           field={fields.attribution}
           errors={errors.attribution}
         />
         <CustomDropdownView label="Weighting" field={fields.role} />
+=======
+        <FieldLayoutVertical>
+          <FieldWrapper
+            label="Attribution"
+            field={fields.attribution}
+            errors={errors.attribution}
+          />
+          <CustomDropdownView label="Weighting" field={fields.weighting} />
+        </FieldLayoutVertical>
+>>>>>>> a68b722... Add FieldLayoutVertical
       </Column>
     </Columns>
   </div>
