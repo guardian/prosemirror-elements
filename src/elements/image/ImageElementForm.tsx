@@ -4,6 +4,7 @@ import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
@@ -24,7 +25,7 @@ const inlineStyles = css`
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
-  errors: Record<string, string[]>;
+  errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createImageFields>>;
 };
 

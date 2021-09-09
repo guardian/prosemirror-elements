@@ -1,11 +1,12 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { codeFields } from "./CodeElementSpec";
 
 type Props = {
-  errors: Record<string, string[]>;
+  errors: FieldValidationErrors;
   fields: FieldNameToField<typeof codeFields>;
 };
 

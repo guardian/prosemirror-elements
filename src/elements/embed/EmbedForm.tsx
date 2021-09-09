@@ -1,5 +1,6 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
@@ -8,7 +9,7 @@ import type { embedFields } from "./EmbedSpec";
 
 type Props = {
   fieldValues: FieldNameToValueMap<typeof embedFields>;
-  errors: Record<string, string[]>;
+  errors: FieldValidationErrors;
   fields: FieldNameToField<typeof embedFields>;
 };
 

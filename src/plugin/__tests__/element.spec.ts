@@ -360,7 +360,7 @@ describe("buildElementPlugin", () => {
         field1: { type: "richText" },
       },
       () => undefined,
-      () => ({ field1: ["Some error"] })
+      () => ({ field1: [{ error: "Some error", message: "" }] })
     );
 
     const testElementWithDifferentValidation = createElementSpec(
@@ -368,7 +368,11 @@ describe("buildElementPlugin", () => {
         checkbox: { type: "checkbox" },
       },
       () => undefined,
-      () => ({ checkbox: ["Some other error"] })
+      () => ({
+        checkbox: [
+          { error: "Some other error", message: "A human readable message" },
+        ],
+      })
     );
 
     type ExternalData = { nestedElementValues: { field1: string } };
@@ -677,14 +681,23 @@ describe("buildElementPlugin", () => {
               },
             });
 
-            expect(errors).toEqual({ field1: ["Some error"] });
+            expect(errors).toEqual({
+              field1: [{ error: "Some error", message: "" }],
+            });
 
             const otherErrors = validateElementData({
               elementName: "testElementWithDifferentValidation",
               values: { checkbox: true },
             });
 
-            expect(otherErrors).toEqual({ checkbox: ["Some other error"] });
+            expect(otherErrors).toEqual({
+              checkbox: [
+                {
+                  error: "Some other error",
+                  message: "A human readable message",
+                },
+              ],
+            });
           });
 
           it("should output undefined if there are no errors", () => {
@@ -749,7 +762,9 @@ describe("buildElementPlugin", () => {
               )!
             );
 
-            expect(errors).toEqual({ field1: ["Some error"] });
+            expect(errors).toEqual({
+              field1: [{ error: "Some error", message: "" }],
+            });
           });
         });
       });

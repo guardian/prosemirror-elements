@@ -1,11 +1,12 @@
 import { CustomCheckbox } from "../../../editorial-source-components/CustomCheckbox";
+import type { ValidationError } from "../../../plugin/elementSpec";
 import type { CustomField } from "../../../plugin/types/Element";
 import { getFieldViewTestId } from "../FieldView";
 import { useCustomFieldState } from "../useCustomFieldViewState";
 
 type CustomCheckboxViewProps = {
   field: CustomField<boolean, boolean>;
-  errors: string[];
+  errors: ValidationError[];
   label: string;
 };
 
@@ -19,7 +20,7 @@ export const CustomCheckboxView = ({
     <CustomCheckbox
       checked={boolean}
       text={label}
-      error={errors.join(", ")}
+      error={errors.map((e) => e.error).join(", ")}
       onChange={() => {
         setBoolean(!boolean);
       }}
