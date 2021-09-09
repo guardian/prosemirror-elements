@@ -2,7 +2,6 @@ import type { ValidationError } from "../plugin/elementSpec";
 import type { FieldView as TFieldView } from "../plugin/fieldViews/FieldView";
 import type { Field } from "../plugin/types/Element";
 import { FieldView } from "../renderers/react/FieldView";
-import { InputGroup } from "./InputGroup";
 import { InputHeading } from "./InputHeading";
 
 type Props<F> = {
@@ -18,8 +17,8 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
   label,
   className,
 }: Props<F>) => (
-  <InputGroup className={className}>
+  <div className={className}>
     <InputHeading label={label} errors={errors.map((e) => e.error)} />
-    <FieldView field={field} hasValidationErrors={errors.length >= 1} />
-  </InputGroup>
+    <FieldView field={field} hasValidationErrors={!!errors.length} />
+  </div>
 );

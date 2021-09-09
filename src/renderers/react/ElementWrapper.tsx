@@ -38,8 +38,7 @@ const Panel = styled("div")`
   background: ${neutral[97]};
   flex-grow: 1;
   overflow: hidden;
-  padding-left: ${space[3]}px;
-  padding-right: ${space[3]}px;
+  padding: ${space[3]}px;
 `;
 
 const Button = styled("button")<{ expanded?: boolean }>`
