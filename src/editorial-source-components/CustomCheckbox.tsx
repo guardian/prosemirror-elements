@@ -10,10 +10,8 @@ const parentStyles = css`
   white-space: nowrap;
   div {
     ${labelStyles}
-  }
-  label {
-    margin-top: -6px;
-    margin-bottom: -6px;
+    margin-top: ${space[2]}px;
+    margin-bottom: ${space[2]}px;
   }
   // Re-order the checkbox field and error message
   fieldset {
