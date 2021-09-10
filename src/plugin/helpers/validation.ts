@@ -26,17 +26,25 @@ export const htmlMaxLength = (
   maxLength: number,
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
-  if (typeof value !== "string") {
-    throw new Error(`[htmlMaxLength]: value is not of type string`);
-  }
-  const el = document.createElement("div");
-  el.innerHTML = value;
-  if (el.innerText.length > maxLength) {
+  if (typeof value !== "string" && value !== undefined) {
+    const typeError = `[htmlMaxLength]: value is not of type string`;
     return [
       {
-        error: `Too long: ${value.length}/${maxLength}`,
+        message: typeError,
+        error: typeError,
+      },
+    ];
+  }
+
+  const el = document.createElement("div");
+  el.innerHTML = value ?? "";
+  const length = el.innerText.length;
+  if (length > maxLength) {
+    return [
+      {
+        error: `Too long: ${length}/${maxLength}`,
         message:
-          customMessage ?? `${field} is too long: ${value.length}/${maxLength}`,
+          customMessage ?? `${field} is too long: ${length}/${maxLength}`,
       },
     ];
   }
@@ -47,15 +55,22 @@ export const maxLength = (
   maxLength: number,
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
-  if (typeof value !== "string") {
-    throw new Error(`[maxLength]: value is not of type string`);
-  }
-  if (value.length > maxLength) {
+  if (typeof value !== "string" && value !== undefined) {
+    const typeError = `[maxLength]: value is not of type string`;
     return [
       {
-        error: `Too long: ${value.length}/${maxLength}`,
+        message: typeError,
+        error: typeError,
+      },
+    ];
+  }
+  const length = (value ?? "").length;
+  if (length > maxLength) {
+    return [
+      {
+        error: `Too long: ${length}/${maxLength}`,
         message:
-          customMessage ?? `${field} is too long: ${value.length}/${maxLength}`,
+          customMessage ?? `${field} is too long: ${length}/${maxLength}`,
       },
     ];
   }
@@ -65,11 +80,17 @@ export const maxLength = (
 export const htmlRequired = (
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
-  if (typeof value !== "string") {
-    throw new Error(`[maxLength]: value is not of type string`);
+  if (typeof value !== "string" && value !== undefined) {
+    const typeError = `[maxLength]: value is not of type string`;
+    return [
+      {
+        message: typeError,
+        error: typeError,
+      },
+    ];
   }
   const el = document.createElement("div");
-  el.innerHTML = value;
+  el.innerHTML = value ?? "";
   if (!el.innerText.length) {
     return [
       { error: "Required", message: customMessage ?? `${field} is required` },
@@ -81,10 +102,17 @@ export const htmlRequired = (
 export const required = (
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
-  if (typeof value !== "string") {
-    throw new Error(`[maxLength]: value is not of type string`);
+  if (typeof value !== "string" && value !== undefined) {
+    const typeError = `[maxLength]: value is not of type string`;
+    return [
+      {
+        message: typeError,
+        error: typeError,
+      },
+    ];
   }
-  if (!value.length) {
+  const length = (value ?? "").length;
+  if (!length) {
     return [
       { error: "Required", message: customMessage ?? `${field} is required` },
     ];
