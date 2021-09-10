@@ -22,8 +22,8 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
       <Column width={2 / 3}>
         <FieldWrapper
           label="Pullquote"
-          field={fields.pullquote}
-          errors={errors.pullquote}
+          field={fields.html}
+          errors={errors.html}
         />
       </Column>
       <Column width={1 / 3}>
@@ -32,7 +32,7 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
           field={fields.attribution}
           errors={errors.attribution}
         />
-        <CustomDropdownView label="Weighting" field={fields.weighting} />
+        <CustomDropdownView label="Weighting" field={fields.role} />
       </Column>
     </Columns>
   </div>
