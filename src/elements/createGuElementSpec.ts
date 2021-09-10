@@ -20,7 +20,7 @@ type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
 export const createGuElementSpec = <FDesc extends FieldDescriptions<string>>(
   FieldDescriptions: FDesc,
   consumer: Consumer<ReactElement, FDesc>,
-  validate: Validator<FDesc>,
+  validate: Validator<FDesc> | undefined = undefined,
   isMandatory?: boolean
 ) => {
   return createReactElementSpec(FieldDescriptions, consumer, validate, {

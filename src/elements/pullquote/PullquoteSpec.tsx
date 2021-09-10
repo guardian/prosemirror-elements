@@ -6,9 +6,10 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
-  html: createTextField({ isMultiline: true, rows: 4 }, false, [
-    htmlRequired(),
-  ]),
+  html: createTextField({
+    multilineOptions: { isMultiline: true, rows: 4 },
+    validators: [htmlRequired()],
+  }),
   attribution: createTextField(),
   role: createCustomDropdownField("supporting", [
     { text: "supporting (default)", value: "supporting" },

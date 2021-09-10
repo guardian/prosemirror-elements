@@ -50,7 +50,9 @@ export const createImageFields = (
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
 ) => {
   return {
-    altText: createTextField({ isMultiline: true, rows: 2 }),
+    altText: createTextField({
+      multilineOptions: { isMultiline: true, rows: 2 },
+    }),
     caption: createFlatRichTextField({
       createPlugins: (schema) => exampleSetup({ schema }),
       nodeSpec: {

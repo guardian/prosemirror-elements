@@ -23,9 +23,16 @@ export const embedFields = {
     { text: "immersive", value: "immersive" },
   ]),
   sourceUrl: createTextField(),
-  embedCode: createTextField({ isMultiline: true, rows: 2 }, true),
+  embedCode: createTextField({
+    multilineOptions: { isMultiline: true, rows: 2 },
+    isCode: true,
+    validators: [htmlRequired()],
+  }),
   caption: createDefaultRichTextField(),
-  altText: createTextField({ isMultiline: true, rows: 2 }),
+  altText: createTextField({
+    multilineOptions: { isMultiline: true, rows: 2 },
+    validators: [htmlMaxLength(1000), htmlRequired()],
+  }),
   required: createCustomField(true, true),
 };
 
@@ -42,8 +49,6 @@ export const createEmbedElement = () =>
       );
     },
     createValidator({
-      altText: [htmlMaxLength(1000), htmlRequired()],
-      embedCode: [htmlRequired()],
       caption: [maxLength(1000)],
     })
   );

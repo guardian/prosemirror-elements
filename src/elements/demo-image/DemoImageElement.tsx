@@ -49,9 +49,14 @@ export const createImageFields = (
         marks: "em",
       },
     }),
-    altText: createTextField({ isMultiline: true, rows: 2 }),
+    altText: createTextField({
+      multilineOptions: { isMultiline: true, rows: 2 },
+    }),
     src: createTextField(),
-    code: createTextField({ isMultiline: true, rows: 4 }, true),
+    code: createTextField({
+      multilineOptions: { isMultiline: true, rows: 4 },
+      isCode: true,
+    }),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       {

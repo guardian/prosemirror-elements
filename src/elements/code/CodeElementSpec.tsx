@@ -1,12 +1,16 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createValidator, required } from "../../plugin/helpers/validation";
+import { required } from "../../plugin/helpers/validation";
 import { createGuElementSpec } from "../createGuElementSpec";
 import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
-  html: createTextField({ isMultiline: true, rows: 4 }, true),
+  html: createTextField({
+    multilineOptions: { isMultiline: true, rows: 4 },
+    isCode: true,
+    validators: [required("empty code field")],
+  }),
   language: createCustomDropdownField("text", [
     { text: "Plain text", value: "text" },
     { text: "HTML", value: "html" },
@@ -23,6 +27,5 @@ export const codeElement = createGuElementSpec(
   codeFields,
   (_, errors, __, fields) => {
     return <CodeElementForm errors={errors} fields={fields} />;
-  },
-  createValidator({ html: [required("empty code field")] })
+  }
 );

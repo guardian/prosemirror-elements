@@ -26,17 +26,26 @@ type MultilineOptions = {
   rows?: number;
 };
 
+type TextFieldOptions = {
+  multilineOptions?: MultilineOptions | undefined;
+  isCode?: boolean;
+  validators?: FieldValidator[];
+};
+
 export const createTextField = (
-  { isMultiline = false, rows = 1 }: MultilineOptions = {
-    isMultiline: false,
-    rows: 1,
-  },
-  isCode = false,
-  validators: FieldValidator[] = []
+  {
+    multilineOptions,
+    isCode = false,
+    validators = [],
+  }: TextFieldOptions | undefined = {
+    multilineOptions: undefined,
+    isCode: false,
+    validators: [],
+  }
 ): TextFieldDescription => ({
   type: TextFieldView.fieldName,
-  isMultiline,
-  rows,
+  isMultiline: multilineOptions?.isMultiline ?? false,
+  rows: multilineOptions?.rows ?? 0,
   isCode,
   validators,
 });
