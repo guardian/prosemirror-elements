@@ -52,12 +52,14 @@ export const createImageFields = (
   return {
     altText: createTextField({
       multilineOptions: { isMultiline: true, rows: 2 },
+      validators: [htmlMaxLength(1000), htmlRequired()],
     }),
     caption: createFlatRichTextField({
       createPlugins: (schema) => exampleSetup({ schema }),
       nodeSpec: {
         marks: "em strong link strike",
       },
+      validators: [htmlMaxLength(600)],
     }),
     displayCreditInformation: createCustomField(true, true),
     imageType: createCustomField("Photograph", [
@@ -65,7 +67,7 @@ export const createImageFields = (
       { text: "Illustration", value: "Illustration" },
       { text: "Composite", value: "Composite" },
     ]),
-    photographer: createTextField(),
+    photographer: createTextField({ validators: [htmlMaxLength(250)] }),
     mainImage: createCustomField<MainImageData, MainImageProps>(
       {
         mediaId: undefined,
@@ -75,7 +77,9 @@ export const createImageFields = (
       },
       { openImageSelector }
     ),
-    source: createTextField(),
+    source: createTextField({
+      validators: [htmlMaxLength(250), htmlRequired()],
+    }),
     weighting: createCustomField("none-selected", [
       { text: "inline (default)", value: "none-selected" },
       { text: "supporting", value: "supporting" },
@@ -101,10 +105,6 @@ export const createImageElement = (
       );
     },
     createValidator({
-      caption: [htmlMaxLength(600)],
-      altText: [htmlMaxLength(1000), htmlRequired()],
-      source: [htmlMaxLength(250), htmlRequired()],
-      photographer: [htmlMaxLength(250)],
       mainImage: [largestAssetMinDimension(460)],
     })
   );

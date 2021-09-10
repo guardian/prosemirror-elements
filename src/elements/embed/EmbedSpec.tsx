@@ -6,7 +6,6 @@ import {
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
-  createValidator,
   htmlMaxLength,
   htmlRequired,
   maxLength,
@@ -28,7 +27,7 @@ export const embedFields = {
     isCode: true,
     validators: [htmlRequired()],
   }),
-  caption: createDefaultRichTextField(),
+  caption: createDefaultRichTextField([maxLength(1000)]),
   altText: createTextField({
     multilineOptions: { isMultiline: true, rows: 2 },
     validators: [htmlMaxLength(1000), htmlRequired()],
@@ -37,18 +36,12 @@ export const embedFields = {
 };
 
 export const createEmbedElement = () =>
-  createReactElementSpec(
-    embedFields,
-    (fieldValues, errors, __, fields) => {
-      return (
-        <EmbedElementForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-        />
-      );
-    },
-    createValidator({
-      caption: [maxLength(1000)],
-    })
-  );
+  createReactElementSpec(embedFields, (fieldValues, errors, __, fields) => {
+    return (
+      <EmbedElementForm
+        fields={fields}
+        errors={errors}
+        fieldValues={fieldValues}
+      />
+    );
+  });

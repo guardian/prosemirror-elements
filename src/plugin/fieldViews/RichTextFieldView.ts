@@ -4,6 +4,7 @@ import { keymap } from "prosemirror-keymap";
 import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -16,19 +17,23 @@ export interface RichTextFieldDescription extends BaseFieldDescription<string> {
 type RichTextOptions = {
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
+  validators?: FieldValidator[];
 };
 
 export const createRichTextField = ({
   createPlugins,
   nodeSpec,
+  validators,
 }: RichTextOptions): RichTextFieldDescription => ({
   type: RichTextFieldView.fieldName,
   createPlugins,
   nodeSpec,
+  validators,
 });
 
 type FlatRichTextOptions = RichTextOptions & {
   nodeSpec?: Partial<Omit<NodeSpec, "content">>;
+  validators?: FieldValidator[];
 };
 
 /**
@@ -38,6 +43,7 @@ type FlatRichTextOptions = RichTextOptions & {
 export const createFlatRichTextField = ({
   createPlugins,
   nodeSpec,
+  validators,
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
@@ -65,14 +71,20 @@ export const createFlatRichTextField = ({
       ...nodeSpec,
       content: "(text|hard_break)*",
     },
+    validators,
   });
 
 /**
  * Create a rich text field with a default setup. Largely for demonstrative
  * purposes, as library users are likely to want different defaults.
  */
-export const createDefaultRichTextField = (): RichTextFieldDescription =>
-  createRichTextField({ createPlugins: (schema) => exampleSetup({ schema }) });
+export const createDefaultRichTextField = (
+  validators?: FieldValidator[]
+): RichTextFieldDescription =>
+  createRichTextField({
+    createPlugins: (schema) => exampleSetup({ schema }),
+    validators,
+  });
 
 export class RichTextFieldView extends ProseMirrorFieldView {
   public static fieldName = "richText" as const;

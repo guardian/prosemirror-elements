@@ -11,11 +11,7 @@ import {
   createFlatRichTextField,
 } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import {
-  createValidator,
-  htmlMaxLength,
-  htmlRequired,
-} from "../../plugin/helpers/validation";
+import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./DemoImageElementForm";
 
@@ -42,7 +38,7 @@ export const createImageFields = (
   onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void
 ) => {
   return {
-    caption: createDefaultRichTextField(),
+    caption: createDefaultRichTextField([htmlRequired()]),
     restrictedTextField: createFlatRichTextField({
       createPlugins: (schema) => exampleSetup({ schema }),
       nodeSpec: {
@@ -51,6 +47,7 @@ export const createImageFields = (
     }),
     altText: createTextField({
       multilineOptions: { isMultiline: true, rows: 2 },
+      validators: [htmlMaxLength(100), htmlRequired()],
     }),
     src: createTextField(),
     code: createTextField({
@@ -95,9 +92,5 @@ export const createDemoImageElement = (
           fieldValues={fieldValues}
         />
       );
-    },
-    createValidator({
-      altText: [htmlMaxLength(100), htmlRequired()],
-      caption: [htmlRequired()],
-    })
+    }
   );
