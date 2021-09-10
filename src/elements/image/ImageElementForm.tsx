@@ -3,8 +3,12 @@ import { Button } from "@guardian/src-button";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
+import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
+import type {
+  FieldValidationErrors,
+  ValidationError,
+} from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
@@ -31,6 +35,7 @@ type Props = {
 
 type ImageViewProps = {
   onChange: SetMedia;
+  errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
 
@@ -56,6 +61,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             fields.source.update(source);
             fields.photographer.update(photographer);
           }}
+          errors={errors.mainImage}
         />
         <CustomDropdownView
           field={fields.imageType}
@@ -114,7 +120,10 @@ const imageViewStysles = css`
   width: 100%;
 `;
 
-const ImageView = ({ field, onChange }: ImageViewProps) => {
+const Errors = ({ errors }: { errors: string[] }) =>
+  !errors.length ? null : <Error>{errors.join(", ")}</Error>;
+
+const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
   const setMedia = (mediaPayload: MediaPayload) => {
     const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
@@ -139,12 +148,12 @@ const ImageView = ({ field, onChange }: ImageViewProps) => {
     const assets = imageFields.assets
       .filter((asset) => !asset.fields.isMaster)
       .sort(sortByWidthDifference);
-
     return assets.length > 0 ? assets[0].url : undefined;
   };
 
   return (
     <>
+      <Errors errors={errors.map((e) => e.error)} />
       <div>
         <img css={imageViewStysles} src={getImageSrc()} />
       </div>

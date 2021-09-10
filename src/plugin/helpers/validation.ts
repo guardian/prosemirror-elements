@@ -2,7 +2,10 @@ import type { FieldValidationErrors, ValidationError } from "../elementSpec";
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import type { FieldDescriptions } from "../types/Element";
 
-type Validator = (fieldValue: unknown, fieldName: string) => ValidationError[];
+export type Validator = (
+  fieldValue: unknown,
+  fieldName: string
+) => ValidationError[];
 
 export const createValidator = (
   fieldValidationMap: Record<string, Validator[]>

@@ -10,6 +10,7 @@ import {
 } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
+import { largestAssetMinDimension } from "./imageElementValidation";
 
 export type MediaPayload = {
   mediaId: string;
@@ -102,5 +103,6 @@ export const createImageElement = (
       altText: [htmlMaxLength(1000), htmlRequired()],
       source: [htmlMaxLength(250), htmlRequired()],
       photographer: [htmlMaxLength(250)],
+      mainImage: [largestAssetMinDimension(460)],
     })
   );
