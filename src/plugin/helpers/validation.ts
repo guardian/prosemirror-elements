@@ -27,7 +27,7 @@ export const htmlMaxLength = (
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
-    const typeError = `[htmlMaxLength]: value is not of type string`;
+    const typeError = `html max length check: ${field} value is incorrect`;
     return [
       {
         message: typeError,
@@ -56,7 +56,7 @@ export const maxLength = (
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
-    const typeError = `[maxLength]: value is not of type string`;
+    const typeError = `max length check: ${field} value is incorrect`;
     return [
       {
         message: typeError,
@@ -81,7 +81,7 @@ export const htmlRequired = (
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
-    const typeError = `[maxLength]: value is not of type string`;
+    const typeError = `required check: ${field} value is incorrect`;
     return [
       {
         message: typeError,
@@ -103,7 +103,7 @@ export const required = (
   customMessage: string | undefined = undefined
 ): Validator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
-    const typeError = `[maxLength]: value is not of type string`;
+    const typeError = `required check: ${field} value is incorrect`;
     return [
       {
         message: typeError,
