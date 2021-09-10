@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
-import { Button } from "@guardian/src-button";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns, Inline } from "@guardian/src-layout";
 import React from "react";
+import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type {
