@@ -20,6 +20,6 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
 }: Props<F>) => (
   <InputGroup className={className}>
     <InputHeading label={label} errors={errors.map((e) => e.error)} />
-    <FieldView field={field} />
+    <FieldView field={field} hasValidationErrors={errors.length >= 1} />
   </InputGroup>
 );
