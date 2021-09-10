@@ -23,29 +23,29 @@ export interface TextFieldDescription extends BaseFieldDescription<string> {
 
 type MultilineOptions = {
   isMultiline: boolean;
-  rows?: number;
+  rows: number;
 };
 
 type TextFieldOptions = {
-  multilineOptions?: MultilineOptions | undefined;
+  multilineOptions?: MultilineOptions;
   isCode?: boolean;
   validators?: FieldValidator[];
 };
 
 export const createTextField = (
   {
-    multilineOptions,
+    multilineOptions = { isMultiline: false, rows: 1 },
     isCode = false,
     validators = [],
   }: TextFieldOptions | undefined = {
-    multilineOptions: undefined,
+    multilineOptions: { isMultiline: false, rows: 1 },
     isCode: false,
     validators: [],
   }
 ): TextFieldDescription => ({
   type: TextFieldView.fieldName,
-  isMultiline: multilineOptions?.isMultiline ?? false,
-  rows: multilineOptions?.rows ?? 0,
+  isMultiline: multilineOptions.isMultiline,
+  rows: multilineOptions.rows,
   isCode,
   validators,
 });
