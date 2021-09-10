@@ -3,11 +3,7 @@ import React from "react";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import {
-  createValidator,
-  htmlMaxLength,
-  htmlRequired,
-} from "../../plugin/helpers/validation";
+import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
@@ -75,7 +71,8 @@ export const createImageFields = (
         assets: [],
         suppliersReference: "",
       },
-      { openImageSelector }
+      { openImageSelector },
+      [largestAssetMinDimension(460)]
     ),
     source: createTextField({
       validators: [htmlMaxLength(250), htmlRequired()],
@@ -103,8 +100,5 @@ export const createImageElement = (
           fields={fields}
         />
       );
-    },
-    createValidator({
-      mainImage: [largestAssetMinDimension(460)],
-    })
+    }
   );

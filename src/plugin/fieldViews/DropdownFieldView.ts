@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 import { AttributeFieldView } from "./AttributeFieldView";
 import type { BaseFieldDescription } from "./FieldView";
 
@@ -13,11 +14,13 @@ export interface DropdownFieldDescription extends BaseFieldDescription<string> {
 
 export const createDropDownField = (
   options: Options,
-  defaultValue: string
+  defaultValue: string,
+  validators?: FieldValidator[]
 ): DropdownFieldDescription => ({
   type: DropdownFieldView.fieldName,
   options,
   defaultValue,
+  validators,
 });
 
 export type DropdownFields = string;
