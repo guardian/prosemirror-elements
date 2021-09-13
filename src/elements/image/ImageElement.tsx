@@ -4,7 +4,8 @@ import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { createGuElementSpec } from "../createGuElementSpec";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { imageElementTransforms } from "./ImageElementDataTransform";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
 
@@ -32,8 +33,8 @@ export type Asset = {
 };
 
 export type MainImageData = {
-  mediaId?: string | undefined;
-  mediaApiUri?: string | undefined;
+  mediaId: string;
+  mediaApiUri: string;
   assets: Asset[];
   suppliersReference: string;
 };
@@ -46,7 +47,7 @@ export const createImageFields = (
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
 ) => {
   return {
-    altText: createTextField({
+    alt: createTextField({
       multilineOptions: { isMultiline: true, rows: 2 },
       validators: [htmlMaxLength(1000), htmlRequired()],
     }),
@@ -57,7 +58,7 @@ export const createImageFields = (
       },
       validators: [htmlMaxLength(600)],
     }),
-    displayCreditInformation: createCustomField(true, true),
+    displayCredit: createCustomField(true, true),
     imageType: createCustomField("Photograph", [
       { text: "Photograph", value: "Photograph" },
       { text: "Illustration", value: "Illustration" },
@@ -66,8 +67,8 @@ export const createImageFields = (
     photographer: createTextField({ validators: [htmlMaxLength(250)] }),
     mainImage: createCustomField<MainImageData, MainImageProps>(
       {
-        mediaId: undefined,
-        mediaApiUri: undefined,
+        mediaId: "",
+        mediaApiUri: "",
         assets: [],
         suppliersReference: "",
       },
@@ -77,7 +78,7 @@ export const createImageFields = (
     source: createTextField({
       validators: [htmlMaxLength(250), htmlRequired()],
     }),
-    weighting: createCustomField("none-selected", [
+    role: createCustomField("none-selected", [
       { text: "inline (default)", value: "none-selected" },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
@@ -90,7 +91,7 @@ export const createImageFields = (
 export const createImageElement = (
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
 ) =>
-  createGuElementSpec(
+  createReactElementSpec(
     createImageFields(openImageSelector),
     (fieldValues, errors, __, fields) => {
       return (
@@ -100,5 +101,7 @@ export const createImageElement = (
           fields={fields}
         />
       );
-    }
+    },
+    undefined,
+    imageElementTransforms
   );
