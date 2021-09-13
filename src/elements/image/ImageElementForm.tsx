@@ -1,8 +1,10 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { Button } from "@guardian/src-button";
+import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
-import { Column, Columns, Inline } from "@guardian/src-layout";
+import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
-import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type {
@@ -23,10 +25,6 @@ import type {
   SetMedia,
 } from "./ImageElement";
 
-const inlineStyles = css`
-  width: 40%;
-`;
-
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: FieldValidationErrors;
@@ -38,6 +36,10 @@ type ImageViewProps = {
   errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
+
+const AltText = styled.span`
+  margin-right: ${space[2]}px;
+`;
 
 export const ImageElementTestId = "ImageElement";
 
@@ -79,33 +81,37 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           <FieldWrapper
             field={fields.altText}
             errors={errors.altText}
-            label="Alt text"
+            label={
+              <>
+                <AltText>Alt text</AltText>
+                <Button
+                  priority="secondary"
+                  size="xsmall"
+                  iconSide="left"
+                  onClick={() => fields.altText.update(fieldValues.caption)}
+                >
+                  Copy from caption
+                </Button>
+              </>
+            }
           />
         </span>
-        <span>
-          <Button
-            priority="primary"
-            size="xsmall"
-            iconSide="left"
-            onClick={() => fields.altText.update(fieldValues.caption)}
-          >
-            Copy from caption
-          </Button>
-        </span>
-        <Inline space={2}>
-          <FieldWrapper
-            field={fields.photographer}
-            errors={errors.photographer}
-            label="Photographer"
-            css={inlineStyles}
-          />
-          <FieldWrapper
-            field={fields.source}
-            errors={errors.source}
-            label="Source"
-            css={inlineStyles}
-          />
-        </Inline>
+        <Columns>
+          <Column width={1 / 2}>
+            <FieldWrapper
+              field={fields.photographer}
+              errors={errors.photographer}
+              label="Photographer"
+            />
+          </Column>
+          <Column width={1 / 2}>
+            <FieldWrapper
+              field={fields.source}
+              errors={errors.source}
+              label="Source"
+            />
+          </Column>
+        </Columns>
         <CustomCheckboxView
           field={fields.displayCreditInformation}
           errors={errors.displayCreditInformation}
@@ -158,7 +164,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
         <img css={imageViewStysles} src={getImageSrc()} />
       </div>
       <Button
-        priority="primary"
+        priority="secondary"
         size="xsmall"
         icon={<SvgCamera />}
         iconSide="left"
