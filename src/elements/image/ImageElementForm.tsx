@@ -82,7 +82,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             field={fields.altText}
             errors={errors.altText}
             label={
-              <span>
+              <>
                 <AltText>Alt text</AltText>
                 <Button
                   priority="secondary"
@@ -92,7 +92,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 >
                   Copy from caption
                 </Button>
-              </span>
+              </>
             }
           />
         </span>
