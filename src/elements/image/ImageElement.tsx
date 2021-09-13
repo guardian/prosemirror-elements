@@ -4,7 +4,7 @@ import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { createGuElementSpec } from "../createGuElementSpec";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
 
@@ -90,7 +90,7 @@ export const createImageFields = (
 export const createImageElement = (
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
 ) =>
-  createReactElementSpec(
+  createGuElementSpec(
     createImageFields(openImageSelector),
     (fieldValues, errors, __, fields) => {
       return (

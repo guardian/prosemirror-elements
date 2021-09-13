@@ -2,7 +2,7 @@ import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlRequired } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { createGuElementSpec } from "../createGuElementSpec";
 import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
@@ -18,7 +18,7 @@ export const pullquoteFields = {
   ]),
 };
 
-export const pullquoteElement = createReactElementSpec(
+export const pullquoteElement = createGuElementSpec(
   pullquoteFields,
   (_, errors, __, fields) => {
     return <PullquoteElementForm errors={errors} fields={fields} />;
