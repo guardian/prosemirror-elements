@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 import type { Options } from "./DropdownFieldView";
 import type { BaseFieldDescription, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
@@ -13,20 +14,24 @@ export interface CustomFieldDescription<Data = unknown, Props = unknown>
 
 export const createCustomField = <Data, Props>(
   defaultValue: Data,
-  props: Props
+  props: Props,
+  validators?: FieldValidator[]
 ): CustomFieldDescription<Data, Props> => ({
   type: "custom" as const,
   defaultValue,
   props,
+  validators,
 });
 
 export const createCustomDropdownField = (
   defaultValue: string,
-  props: Options
+  props: Options,
+  validators?: FieldValidator[]
 ): CustomFieldDescription<string, Options> => ({
   type: "custom" as const,
   defaultValue,
   props,
+  validators,
 });
 
 type Subscriber<Fields extends unknown> = (fields: Fields) => void;

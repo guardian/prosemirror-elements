@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 import { AttributeFieldView } from "./AttributeFieldView";
 import type { BaseFieldDescription } from "./FieldView";
 
@@ -11,10 +12,12 @@ export interface CheckboxFieldDescription
 }
 
 export const createCheckBox = (
-  defaultValue: boolean
+  defaultValue: boolean,
+  validators?: FieldValidator[]
 ): CheckboxFieldDescription => ({
   type: CheckboxFieldView.fieldName,
   defaultValue,
+  validators,
 });
 
 export class CheckboxFieldView extends AttributeFieldView<CheckboxValue> {

@@ -6,7 +6,6 @@ import {
 import { createDefaultRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import {
-  createValidator,
   htmlMaxLength,
   htmlRequired,
   maxLength,
@@ -23,27 +22,26 @@ export const embedFields = {
     { text: "immersive", value: "immersive" },
   ]),
   sourceUrl: createTextField(),
-  embedCode: createTextField({ isMultiline: true, rows: 2 }, true),
-  caption: createDefaultRichTextField(),
-  altText: createTextField({ isMultiline: true, rows: 2 }),
+  embedCode: createTextField({
+    multilineOptions: { isMultiline: true, rows: 2 },
+    isCode: true,
+    validators: [htmlRequired()],
+  }),
+  caption: createDefaultRichTextField([maxLength(1000)]),
+  altText: createTextField({
+    multilineOptions: { isMultiline: true, rows: 2 },
+    validators: [htmlMaxLength(1000), htmlRequired()],
+  }),
   required: createCustomField(true, true),
 };
 
 export const createEmbedElement = () =>
-  createReactElementSpec(
-    embedFields,
-    (fieldValues, errors, __, fields) => {
-      return (
-        <EmbedElementForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-        />
-      );
-    },
-    createValidator({
-      altText: [htmlMaxLength(1000), htmlRequired()],
-      embedCode: [htmlRequired()],
-      caption: [maxLength(1000)],
-    })
-  );
+  createReactElementSpec(embedFields, (fieldValues, errors, __, fields) => {
+    return (
+      <EmbedElementForm
+        fields={fields}
+        errors={errors}
+        fieldValues={fieldValues}
+      />
+    );
+  });

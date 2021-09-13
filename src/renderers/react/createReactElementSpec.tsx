@@ -14,10 +14,10 @@ export const createReactElementSpec = <
   FDesc extends FieldDescriptions<string>,
   ExternalData
 >(
-  FieldDescriptions: FDesc,
+  fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement, FDesc>,
-  validate: Validator<FDesc>,
-  transformers?: Transformers<FDesc, ExternalData>
+  validate: Validator<FDesc> | undefined = undefined,
+  transformers: Transformers<FDesc, ExternalData> | undefined = undefined
 ) => {
   const renderer: Renderer<FDesc> = (
     validate,
@@ -41,5 +41,5 @@ export const createReactElementSpec = <
       dom
     );
 
-  return createElementSpec(FieldDescriptions, renderer, validate, transformers);
+  return createElementSpec(fieldDescriptions, renderer, validate, transformers);
 };

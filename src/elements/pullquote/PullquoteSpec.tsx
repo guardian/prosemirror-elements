@@ -1,12 +1,15 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createValidator, htmlRequired } from "../../plugin/helpers/validation";
+import { htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
-  html: createTextField({ isMultiline: true, rows: 4 }),
+  html: createTextField({
+    multilineOptions: { isMultiline: true, rows: 4 },
+    validators: [htmlRequired()],
+  }),
   attribution: createTextField(),
   role: createCustomDropdownField("supporting", [
     { text: "supporting (default)", value: "supporting" },
@@ -19,6 +22,5 @@ export const pullquoteElement = createReactElementSpec(
   pullquoteFields,
   (_, errors, __, fields) => {
     return <PullquoteElementForm errors={errors} fields={fields} />;
-  },
-  createValidator({ pullquote: [htmlRequired()] })
+  }
 );

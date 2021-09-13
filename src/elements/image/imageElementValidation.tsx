@@ -1,4 +1,4 @@
-import type { Validator } from "../../plugin/helpers/validation";
+import type { FieldValidator } from "../../plugin/elementSpec";
 import type { Asset } from "./ImageElement";
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {
@@ -26,7 +26,7 @@ const hasAssets = (maybeData: unknown): maybeData is { assets: Asset[] } => {
   );
 };
 
-export const largestAssetMinDimension = (minSize: number): Validator => (
+export const largestAssetMinDimension = (minSize: number): FieldValidator => (
   value
 ) => {
   if (hasAssets(value)) {

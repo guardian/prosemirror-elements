@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 
 /**
  * The specification for an element field, to be modelled as a Node in Prosemirror.
@@ -8,6 +9,7 @@ export interface BaseFieldDescription<DefaultValue extends unknown> {
   // The data type of the field.
   type: string;
   defaultValue?: DefaultValue;
+  validators?: FieldValidator[];
 }
 
 export enum FieldType {
