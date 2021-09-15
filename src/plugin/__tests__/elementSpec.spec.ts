@@ -56,9 +56,9 @@ describe("mount", () => {
         () => () => undefined,
         (fields) => {
           // field1 is derived from the fieldDescriptions, and is a string b/c it's a richText field
-          fields.field1.toString();
+          fields.field1?.toString();
           // field2 is a boolean b/c it's a checkbox field
-          fields.field2.valueOf();
+          fields.field2?.valueOf();
           return undefined;
         }
       );

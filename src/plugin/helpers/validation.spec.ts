@@ -33,5 +33,20 @@ describe("Validation helpers", () => {
         field1: [{ error: "Required", message: "field1 is required" }],
       });
     });
+
+    it("should receive a validation map, and return the results of validators for partial data", () => {
+      const validator = createValidator({
+        field1: [maxLength(5)],
+        field2: [required()],
+      });
+      const result = validator({
+        field1: "OK!",
+      });
+
+      expect(result).toEqual({
+        field1: [],
+        field2: [{ error: "Required", message: "field2 is required" }],
+      });
+    });
   });
 });
