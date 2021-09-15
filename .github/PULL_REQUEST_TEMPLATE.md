@@ -24,5 +24,4 @@ This repository follows the Editorial Tools accessibility guidelines: https://gi
 - [ ] [Colour contrast passed](https://webaim.org/resources/contrastchecker/)
 - [ ] [The change doesn't use only colour to convey meaning](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html)
 - [ ] [Interactive elements show a focus ring when focused by keyboard](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)
-- [ ] [No content flashes more than three times in any one second period](https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html)
 - [ ] [Semantic elements have been used where possible](https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-programmatic.html)
