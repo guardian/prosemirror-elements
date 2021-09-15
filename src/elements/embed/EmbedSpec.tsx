@@ -10,7 +10,7 @@ import {
   htmlRequired,
   maxLength,
 } from "../../plugin/helpers/validation";
-import { createGuElementSpec } from "../createGuElementSpec";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { EmbedElementForm } from "./EmbedForm";
 
 export const embedFields = {
@@ -36,7 +36,7 @@ export const embedFields = {
 };
 
 export const createEmbedElement = () =>
-  createGuElementSpec(embedFields, (fieldValues, errors, __, fields) => {
+  createReactElementSpec(embedFields, (fieldValues, errors, __, fields) => {
     return (
       <EmbedElementForm
         fields={fields}

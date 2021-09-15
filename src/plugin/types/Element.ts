@@ -76,24 +76,8 @@ export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
     : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 
-export type Transformers<
-  FDesc extends FieldDescriptions<string>,
-  ExternalData
-> = {
-  transformElementDataIn: (
-    inputData: ExternalData
-  ) => FieldNameToValueMap<FDesc>;
-  transformElementDataOut: (
-    outputData: FieldNameToValueMap<FDesc>
-  ) => ExternalData;
-};
-
-export type ElementSpec<
-  FDesc extends FieldDescriptions<string>,
-  ExternalData = unknown
-> = {
+export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
-  transformers?: Transformers<FDesc, ExternalData>;
   validate: Validator<FDesc>;
   createUpdator: (
     dom: HTMLElement,
@@ -109,41 +93,24 @@ export type ElementSpec<
 
 export type ElementSpecMap<
   FDesc extends FieldDescriptions<string>,
-  ElementNames extends string,
-  ExternalData = unknown
-> = Record<ElementNames, ElementSpec<FDesc, ExternalData>>;
+  ElementNames extends string
+> = Record<ElementNames, ElementSpec<FDesc>>;
 
-export type ExtractFieldValues<ESpec> = ESpec extends ElementSpec<
-  infer F,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we don't need this type.
-  infer E
->
+export type ExtractFieldValues<ESpec> = ESpec extends ElementSpec<infer F>
   ? FieldNameToValueMap<F>
-  : never;
-
-export type ExtractExternalData<ESpec> = ESpec extends ElementSpec<
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we don't need this type.
-  infer F,
-  infer E
->
-  ? E
   : never;
 
 // Construct a union of the possible element data values from an ElementSpec.
 export type ExtractDataTypeFromElementSpec<T, U> = U extends keyof T
   ? {
       elementName: U;
-      values: ExtractExternalData<T[U]> extends Record<string, unknown>
-        ? ExtractExternalData<T[U]>
-        : ExtractFieldValues<T[U]>;
+      values: ExtractFieldValues<T[U]>;
     }
   : never;
 
 export type ExtractPartialDataTypeFromElementSpec<T, U> = U extends keyof T
   ? {
       elementName: U;
-      values: ExtractExternalData<T[U]> extends Record<string, unknown>
-        ? Partial<ExtractExternalData<T[U]>>
-        : Partial<ExtractFieldValues<T[U]>>;
+      values: Partial<ExtractFieldValues<T[U]>>;
     }
   : never;

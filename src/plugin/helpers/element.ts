@@ -6,7 +6,6 @@ import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
   ElementSpecMap,
   ExtractDataTypeFromElementSpec,
-  ExtractFieldValues,
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
@@ -19,8 +18,7 @@ import type {
 export const createGetNodeFromElementData = <
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
-  ExternalData,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
 ) => (
@@ -47,14 +45,10 @@ export const createGetNodeFromElementData = <
     );
   }
 
-  const transformedValues =
-    element.transformers?.transformElementDataIn(values as ExternalData) ??
-    values;
-
   const nodes = createNodesForFieldValues(
     schema,
     element.fieldDescriptions,
-    transformedValues as FieldNameToValueMap<FDesc>,
+    values as FieldNameToValueMap<FDesc>,
     elementName
   );
 
@@ -74,8 +68,7 @@ export const createGetNodeFromElementData = <
 export const createGetElementDataFromNode = <
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
-  ExternalData,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
 ) => (node: Node, serializer: DOMSerializer) => {
@@ -107,10 +100,7 @@ export const createGetElementDataFromNode = <
 
   return ({
     elementName,
-    values:
-      element.transformers?.transformElementDataOut(
-        values as ExtractFieldValues<typeof element>
-      ) ?? values,
+    values,
   } as unknown) as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
 };
 
@@ -124,10 +114,9 @@ const getValuesFromContentNode = (node: Node, serializer: DOMSerializer) => {
 };
 
 export const createElementDataValidator = <
-  ExternalData,
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpec,
-  ESpec extends ElementSpecMap<FDesc, ElementNames, ExternalData>
+  ESpec extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpec
 ) => ({
@@ -143,9 +132,7 @@ export const createElementDataValidator = <
     return undefined;
   }
 
-  const data =
-    element.transformers?.transformElementDataIn(values as ExternalData) ??
-    ((values as unknown) as FieldNameToValueMap<FDesc>);
+  const data = (values as unknown) as FieldNameToValueMap<FDesc>;
 
   return element.validate(data);
 };

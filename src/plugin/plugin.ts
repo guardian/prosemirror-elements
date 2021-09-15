@@ -20,11 +20,10 @@ export type PluginState = unknown;
 
 export const createPlugin = <
   ElementNames extends string,
-  ExternalData,
   FDesc extends FieldDescriptions<string>
 >(
   elementsSpec: {
-    [elementName in ElementNames]: ElementSpec<FDesc, ExternalData>;
+    [elementName in ElementNames]: ElementSpec<FDesc>;
   },
   commands: Commands
 ): Plugin<PluginState, Schema> => {

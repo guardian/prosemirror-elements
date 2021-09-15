@@ -22,8 +22,7 @@ import type {
 export const buildElementPlugin = <
   FDesc extends FieldDescriptions<keyof FDesc>,
   ElementNames extends keyof ESpecMap,
-  ExternalData,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames, ExternalData>
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementSpecs: ESpecMap,
   groupName = "block",
