@@ -21,10 +21,10 @@ type ExternalImageData = {
   fields: ImageFields;
 };
 
-type PartialExternalImageData = Partial<{
+type PartialExternalImageData = {
   assets: Asset[];
   fields: Partial<ImageFields>;
-}>;
+};
 
 export const transformElementDataIn: TransformIn<
   PartialExternalImageData,

@@ -6,17 +6,15 @@ export type TransformIn<
   FDesc extends FieldDescriptions<string>
 > = (data: ExternalData) => Partial<FieldNameToValueMap<FDesc>>;
 
-export type TransformInMap<
-  ExternalData,
-  FDesc extends FieldDescriptions<string>
-> = Record<string, TransformIn<ExternalData, FDesc>>;
-
 export type TransformOut<
   ExternalData,
   FDesc extends FieldDescriptions<string>
 > = (data: FieldNameToValueMap<FDesc>) => ExternalData;
 
-export type TransformOutMap<FDesc extends FieldDescriptions<string>> = Record<
-  string,
-  (data: unknown) => Partial<FieldNameToValueMap<FDesc>>
->;
+export type ExtractTransformParameter<T> = T extends (arg: any) => any
+  ? Parameters<T>[0]
+  : unknown;
+
+export type ExtractTransformReturnType<T, U> = T extends (arg: any) => any
+  ? ReturnType<T>
+  : U;
