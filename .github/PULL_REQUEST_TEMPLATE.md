@@ -19,9 +19,9 @@
 This repository follows the Editorial Tools accessibility guidelines: https://github.com/guardian/accessibility/blob/main/editorial-tools-guidelines.md
 -->
 
-- [ ] [Tested with screen reader](https://accessibility.gutools.co.uk/testing/web/screen-readers/)
-- [ ] [Navigable with keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html)
-- [ ] [Colour contrast passed](https://webaim.org/resources/contrastchecker/)
-- [ ] [The change doesn't use only colour to convey meaning](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html)
-- [ ] [Interactive elements show a focus ring when focused by keyboard](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)
-- [ ] [Semantic elements have been used where possible](https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-programmatic.html)
+- [ ] [Tested with screen reader](https://github.com/guardian/source/blob/main/docs/06-accessibility.md#screen-readers)
+- [ ] [Navigable with keyboard](https://github.com/guardian/source/blob/main/docs/06-accessibility.md#keyboard-navigation)
+- [ ] [Colour contrast passed](https://github.com/guardian/source/blob/main/docs/06-accessibility.md#colour-contrast)
+- [ ] [The change doesn't use only colour to convey meaning](https://github.com/guardian/source/blob/main/docs/06-accessibility.md#use-of-colour)
+- [ ] [Interactive elements show a focus ring when focused by keyboard](https://github.com/guardian/accessibility/blob/main/editorial-tools-guidelines.md#appendix-the-focus-ring)
+- [ ] [Semantic elements have been used where possible](https://github.com/guardian/accessibility/blob/main/editorial-tools-guidelines.md#appendix-semantic-html)
