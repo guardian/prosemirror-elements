@@ -18,12 +18,14 @@ export interface RichTextFieldDescription extends BaseFieldDescription<string> {
 }
 
 type RichTextOptions = {
+  absentOnEmpty?: boolean;
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
   validators?: FieldValidator[];
 };
 
 export const createRichTextField = ({
+  absentOnEmpty,
   createPlugins,
   nodeSpec,
   validators,
@@ -32,6 +34,7 @@ export const createRichTextField = ({
   createPlugins,
   nodeSpec,
   validators,
+  absentOnEmpty,
 });
 
 type FlatRichTextOptions = RichTextOptions & {

@@ -553,7 +553,7 @@ describe("buildElementPlugin", () => {
           expect(element).toEqual(testElementValues);
         });
 
-        it("should not output keys that match the field's `absentOn` value", () => {
+        it("should not output keys that match the field's `absentOn` value if they are empty", () => {
           const {
             getElementDataFromNode,
             insertElement,
@@ -577,6 +577,36 @@ describe("buildElementPlugin", () => {
           expect(element).toEqual({
             elementName: "elementWithAbsentOn",
             values: {},
+          });
+        });
+
+        it("should output keys that match the field's `absentOn` value if they have content", () => {
+          const {
+            getElementDataFromNode,
+            insertElement,
+            view,
+            serializer,
+          } = createEditorWithElements({ elementWithAbsentOn });
+
+          insertElement({
+            elementName: "elementWithAbsentOn",
+            values: {
+              field1: "<p>Content</p>",
+              field2: "Content",
+            },
+          })(view.state, view.dispatch);
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          expect(element).toEqual({
+            elementName: "elementWithAbsentOn",
+            values: {
+              field1: "<p>Content</p>",
+              field2: "Content",
+            },
           });
         });
 

@@ -7,7 +7,7 @@ import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
   html: createTextField({
-    multilineOptions: { isMultiline: true, rows: 4 },
+    rows: 4,
     validators: [htmlRequired("Pullquote cannot be empty")],
   }),
   attribution: createTextField(),

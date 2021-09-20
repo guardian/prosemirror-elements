@@ -105,7 +105,8 @@ export const createGetElementDataFromNode = <
     if (
       (fieldDescription.type === "richText" ||
         fieldDescription.type === "text") &&
-      fieldDescription.absentOnEmpty
+      fieldDescription.absentOnEmpty &&
+      !node.textContent
     ) {
       return;
     }

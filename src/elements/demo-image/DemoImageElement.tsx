@@ -46,12 +46,12 @@ export const createImageFields = (
       },
     }),
     altText: createTextField({
-      multilineOptions: { isMultiline: true, rows: 2 },
+      rows: 2,
       validators: [htmlMaxLength(100), htmlRequired()],
     }),
     src: createTextField(),
     code: createTextField({
-      multilineOptions: { isMultiline: true, rows: 4 },
+      rows: 4,
       isCode: true,
     }),
     mainImage: createCustomField<ImageField, ImageProps>(
