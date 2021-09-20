@@ -15,6 +15,7 @@ import type {
 import type { FieldView } from "../fieldViews/FieldView";
 import type {
   FieldNameToValueMap,
+  FieldNameToValueMapWithEmptyValues,
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type {
@@ -118,7 +119,7 @@ export type ExtractFieldValues<ESpec> = ESpec extends ElementSpec<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we don't need this type.
   infer E
 >
-  ? FieldNameToValueMap<F>
+  ? FieldNameToValueMapWithEmptyValues<F>
   : never;
 
 export type ExtractExternalData<ESpec> = ESpec extends ElementSpec<

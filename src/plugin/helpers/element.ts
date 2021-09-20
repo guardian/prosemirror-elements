@@ -6,7 +6,6 @@ import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
   ElementSpecMap,
   ExtractDataTypeFromElementSpec,
-  ExtractFieldValues,
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
@@ -96,21 +95,29 @@ export const createGetElementDataFromNode = <
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
-    const fieldDescriptions = element.fieldDescriptions[fieldName];
-    const fieldType = fieldTypeToViewMap[fieldDescriptions.type].fieldType;
-
-    values[fieldName] =
+    const fieldDescription = element.fieldDescriptions[fieldName];
+    const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldType;
+    const value =
       fieldType === "ATTRIBUTES"
         ? getValuesFromAttributeNode(node)
         : getValuesFromContentNode(node, serializer);
+
+    if (
+      (fieldDescription.type === "richText" ||
+        fieldDescription.type === "text") &&
+      fieldDescription.absentOnEmpty
+    ) {
+      return;
+    }
+
+    values[fieldName] = value;
   });
 
   return ({
     elementName,
     values:
-      element.transformers?.transformElementDataOut(
-        values as ExtractFieldValues<typeof element>
-      ) ?? values,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this is temporary, we are removing transformers soon
+      element.transformers?.transformElementDataOut(values as any) ?? values,
   } as unknown) as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
 };
 
