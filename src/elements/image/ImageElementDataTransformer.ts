@@ -29,7 +29,7 @@ type PartialExternalImageData = Partial<{
 export const transformElementDataIn: TransformIn<
   PartialExternalImageData,
   ReturnType<typeof createImageFields>
-> = ({ assets, fields }: PartialExternalImageData) => {
+> = ({ assets, fields }) => {
   const {
     alt,
     caption,
@@ -54,12 +54,12 @@ export const transformElementDataIn: TransformIn<
       : undefined;
 
   return {
-    altText: alt,
+    alt,
     caption,
-    displayCreditInformation: displayCredit === "true",
+    displayCredit: displayCredit === "true",
     imageType,
     photographer,
-    weighting: role,
+    role,
     source,
     mainImage,
   };
@@ -69,12 +69,12 @@ export const transformElementDataOut: TransformOut<
   ExternalImageData,
   ReturnType<typeof createImageFields>
 > = ({
-  altText,
+  alt,
   caption,
-  displayCreditInformation,
+  displayCredit,
   imageType,
   photographer,
-  weighting,
+  role,
   source,
   mainImage,
 }: FieldNameToValueMap<
@@ -83,15 +83,15 @@ export const transformElementDataOut: TransformOut<
   return {
     assets: mainImage.assets,
     fields: {
-      alt: altText,
+      alt,
       caption,
-      displayCredit: displayCreditInformation.toString(),
+      displayCredit: displayCredit.toString(),
       imageType,
       isMandatory: "true",
       mediaApiUri: mainImage.mediaApiUri ?? "",
       mediaId: mainImage.mediaId ?? "",
       photographer,
-      role: weighting,
+      role,
       source,
       suppliersReference: mainImage.suppliersReference,
     },

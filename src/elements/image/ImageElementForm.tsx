@@ -54,9 +54,9 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       <Column width={2 / 5}>
         <FieldLayoutVertical>
           <CustomDropdownView
-            field={fields.weighting}
+            field={fields.role}
             label="Weighting"
-            errors={errors.weighting}
+            errors={errors.role}
           />
           <ImageView
             field={fields.mainImage}
@@ -82,8 +82,8 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             label="Caption"
           />
           <FieldWrapper
-            field={fields.altText}
-            errors={errors.altText}
+            field={fields.alt}
+            errors={errors.alt}
             label={
               <>
                 <AltText>Alt text</AltText>
@@ -91,7 +91,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                   priority="secondary"
                   size="xsmall"
                   iconSide="left"
-                  onClick={() => fields.altText.update(fieldValues.caption)}
+                  onClick={() => fields.alt.update(fieldValues.caption)}
                 >
                   Copy from caption
                 </Button>
@@ -115,8 +115,8 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             </Column>
           </Columns>
           <CustomCheckboxView
-            field={fields.displayCreditInformation}
-            errors={errors.displayCreditInformation}
+            field={fields.displayCredit}
+            errors={errors.displayCredit}
             label="Display credit information"
           />
         </FieldLayoutVertical>
