@@ -10,6 +10,7 @@ export const codeFields = {
     rows: 4,
     isCode: true,
     validators: [required("empty code field")],
+    absentOnEmpty: true,
   }),
   language: createCustomDropdownField("text", [
     { text: "Plain text", value: "text" },
