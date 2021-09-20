@@ -414,6 +414,17 @@ describe("buildElementPlugin", () => {
       }
     );
 
+    const elementWithAbsentOn = createNoopElement({
+      field1: { type: "richText", absentOnEmpty: true },
+      field2: {
+        type: "text",
+        absentOnEmpty: true,
+        isMultiline: false,
+        rows: 1,
+        isCode: false,
+      },
+    });
+
     const testElementValues = {
       elementName: "testElement",
       errors: undefined,
@@ -540,6 +551,63 @@ describe("buildElementPlugin", () => {
           // We expect the node we've just manually created to match the node
           // that's been serialised from the defaults
           expect(element).toEqual(testElementValues);
+        });
+
+        it("should not output keys that match the field's `absentOn` value", () => {
+          const {
+            getElementDataFromNode,
+            insertElement,
+            view,
+            serializer,
+          } = createEditorWithElements({ elementWithAbsentOn });
+
+          insertElement({
+            elementName: "elementWithAbsentOn",
+            values: {
+              field1: "",
+              field2: "",
+            },
+          })(view.state, view.dispatch);
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          expect(element).toEqual({
+            elementName: "elementWithAbsentOn",
+            values: {},
+          });
+        });
+
+        it("should make keys with `absentOn` optional in the output type", () => {
+          const {
+            getElementDataFromNode,
+            insertElement,
+            view,
+            serializer,
+          } = createEditorWithElements({ elementWithAbsentOn });
+
+          insertElement({
+            elementName: "elementWithAbsentOn",
+            values: {},
+          })(view.state, view.dispatch);
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          if (element) {
+            try {
+              // @ts-expect-error -- this field should be optional
+              element.values.field1.toString();
+              // @ts-expect-error -- this field should be optional
+              element.values.field2.toString();
+            } catch (e) {
+              // We expect to fail here
+            }
+          }
         });
 
         it("should return undefined, given an non-element node", () => {

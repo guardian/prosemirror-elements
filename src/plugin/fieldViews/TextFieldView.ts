@@ -19,6 +19,9 @@ export interface TextFieldDescription extends BaseFieldDescription<string> {
   rows: number;
   // The text field is used to display code
   isCode: boolean;
+  // If the text field is empty (""), don't include its key in the output data
+  // created by `getElementDataFromNode`.
+  absentOnEmpty?: boolean;
 }
 
 type MultilineOptions = {
