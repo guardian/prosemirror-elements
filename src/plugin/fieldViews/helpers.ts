@@ -60,6 +60,10 @@ export type FieldNameToValueMap<
   [Name in keyof FDesc]: FieldTypeToValueMap<FDesc, Name>[FDesc[Name]["type"]];
 };
 
+/**
+ * As with `FieldNameToValueMap`, but respects the `absentOnEmpty` value
+ * to produce a result that reflects the output type of `getElementDataFromNode`.
+ */
 export type FieldNameToValueMapWithEmptyValues<
   FDesc extends FieldDescriptions<keyof FDesc>
 > = Optional<
