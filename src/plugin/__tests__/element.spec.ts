@@ -488,6 +488,48 @@ describe("buildElementPlugin", () => {
           expect(element).toEqual(testElementValues);
         });
 
+        it("should escape HTML chars in rich text", () => {
+          const {
+            getElementDataFromNode,
+            insertElement,
+            view,
+            serializer,
+          } = createEditorWithElements({ testElement });
+
+          insertElement({
+            elementName: "testElement",
+            values: { field1: "<p>><</p>" },
+          })(view.state, view.dispatch);
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          expect(element?.values.field1).toEqual("<p>&gt;&lt;</p>");
+        });
+
+        it("should not escape HTML chars in plain text", () => {
+          const {
+            getElementDataFromNode,
+            insertElement,
+            view,
+            serializer,
+          } = createEditorWithElements({ testElement });
+
+          insertElement({
+            elementName: "testElement",
+            values: { field2: "<>" },
+          })(view.state, view.dispatch);
+
+          const element = getElementDataFromNode(
+            view.state.doc.firstChild as Node,
+            serializer
+          );
+
+          expect(element?.values.field2).toEqual("<>");
+        });
+
         it("should not output keys that match the field's `absentOn` value if they are empty", () => {
           const {
             getElementDataFromNode,

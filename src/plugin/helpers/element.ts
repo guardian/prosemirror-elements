@@ -6,6 +6,7 @@ import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
   ElementSpecMap,
   ExtractDataTypeFromElementSpec,
+  FieldDescription,
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
@@ -90,11 +91,7 @@ export const createGetElementDataFromNode = <
       node
     ) as keyof FieldNameToField<FDesc>;
     const fieldDescription = element.fieldDescriptions[fieldName];
-    const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldType;
-    const value =
-      fieldType === "ATTRIBUTES"
-        ? getValuesFromAttributeNode(node)
-        : getValuesFromContentNode(node, serializer);
+    const value = getValuesFromNode(node, fieldDescription, serializer);
 
     if (
       (fieldDescription.type === "richText" ||
@@ -108,20 +105,43 @@ export const createGetElementDataFromNode = <
     values[fieldName] = value;
   });
 
-  return ({
+  return {
     elementName,
     values,
-  } as unknown) as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
+  } as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
+};
+
+const getValuesFromNode = (
+  node: Node,
+  fieldDescription: FieldDescription,
+  serializer: DOMSerializer
+): unknown => {
+  const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldType;
+  if (fieldType === "ATTRIBUTES") {
+    return getValuesFromAttributeNode(node);
+  }
+  if (fieldDescription.type === "richText") {
+    return getValuesFromRichContentNode(node, serializer);
+  }
+  if (fieldDescription.type === "text") {
+    return getValuesFromTextContentNode(node);
+  }
+  return undefined;
 };
 
 const getValuesFromAttributeNode = (node: Node) => node.attrs.fields as unknown;
 
-const getValuesFromContentNode = (node: Node, serializer: DOMSerializer) => {
+const getValuesFromRichContentNode = (
+  node: Node,
+  serializer: DOMSerializer
+) => {
   const dom = serializer.serializeFragment(node.content);
   const e = document.createElement("div");
   e.appendChild(dom);
   return e.innerHTML;
 };
+
+const getValuesFromTextContentNode = (node: Node) => node.textContent;
 
 export const createElementDataValidator = <
   FDesc extends FieldDescriptions<keyof FDesc>,
