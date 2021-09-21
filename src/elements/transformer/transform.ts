@@ -12,14 +12,16 @@ const transformMap = {
 } as const;
 
 type TransformMap = typeof transformMap;
-type TransformMapIn<Name extends keyof TransformMap> = TransformMap[Name][0];
-type TransformMapOut<Name extends keyof TransformMap> = TransformMap[Name][1];
+type TransformMapIn<Name extends keyof TransformMap> = TransformMap[Name]["in"];
+type TransformMapOut<
+  Name extends keyof TransformMap
+> = TransformMap[Name]["out"];
 
 export const transformElementIn = <Name extends keyof TransformMap>(
   elementName: Name,
   values: Parameters<TransformMapIn<Name>>[0]
 ): ReturnType<TransformMapIn<Name>> => {
-  const transformer = transformMap[elementName][0];
+  const transformer = transformMap[elementName].in;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
   const result = transformer((values as unknown) as any);
@@ -30,7 +32,7 @@ export const transformElementOut = <Name extends keyof TransformMap>(
   elementName: Name,
   values: Parameters<TransformMapOut<Name>>[0]
 ): ReturnType<TransformMapOut<Name>> => {
-  const transformer = transformMap[elementName][1];
+  const transformer = transformMap[elementName].out;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
   const result = transformer((values as unknown) as any);

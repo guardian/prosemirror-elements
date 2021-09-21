@@ -38,7 +38,9 @@ export const transformElementDataOut = <
   };
 };
 
-export const transformElement = <FDesc extends FieldDescriptions<string>>() => [
-  transformElementDataIn<FDesc>(),
-  transformElementDataOut<FDesc>(),
-];
+export const transformElement = <FDesc extends FieldDescriptions<string>>() => {
+  return {
+    in: transformElementDataIn<FDesc>(),
+    out: transformElementDataOut<FDesc>(),
+  };
+};

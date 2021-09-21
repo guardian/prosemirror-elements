@@ -95,4 +95,7 @@ export const transformElementOut: TransformOut<
   };
 };
 
-export const transformElement = [transformElementIn, transformElementOut];
+export const transformElement = {
+  in: transformElementIn,
+  out: transformElementOut,
+};
