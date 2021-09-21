@@ -1,57 +1,39 @@
-import { transformElementDataIn } from "../image/ImageElementDataTransformer";
+import type { codeFields } from "../code/CodeElementSpec";
+import type { embedFields } from "../embed/EmbedSpec";
+import {
+  transformElementDataIn as imageElementIn,
+  transformElementDataOut as imageElementOut,
+} from "../image/ImageElementDataTransformer";
+import type { pullquoteFields } from "../pullquote/PullquoteSpec";
+import { transformElement as defaultElementTransform } from "./DefaultTransform";
 
-// const fakeTransform = (foo: string) => {
-//   return {
-//     bar: "",
-//     foo,
-//   };
-// };
-
-const transformInMap = {
-  image: transformElementDataIn,
-  //code: undefined,
-  // blah: fakeTransform,
+const transformMap = {
+  code: defaultElementTransform<typeof codeFields>(),
+  embed: defaultElementTransform<typeof embedFields>(),
+  image: [imageElementIn, imageElementOut],
+  pullquote: defaultElementTransform<typeof pullquoteFields>(),
 } as const;
 
-type TransformInMap = typeof transformInMap;
+type TransformMap = typeof transformMap;
+type TransformMapIn<Name extends keyof TransformMap> = TransformMap[Name][0];
+type TransformMapOut<Name extends keyof TransformMap> = TransformMap[Name][1];
 
-export const transfromElementIn = <Name extends keyof TransformInMap>(
+export const transfromElementIn = <Name extends keyof TransformMap>(
   elementName: Name,
-  values: Parameters<TransformInMap[Name]>[0]
-): ReturnType<TransformInMap[Name]> => {
-  const transformer = transformInMap[elementName];
+  values: Parameters<TransformMapIn<Name>>[0]
+): ReturnType<TransformMapIn<Name>> => {
+  const transformer = transformMap[elementName][0];
 
   const result = transformer((values as unknown) as any);
-  return result as ReturnType<TransformInMap[Name]>;
+  return result as ReturnType<TransformMapIn<Name>>;
 };
 
-// const foo = () => {
-//   const codeValues = { html: "words" };
+export const transfromElementOut = <Name extends keyof TransformMap>(
+  elementName: Name,
+  values: Parameters<TransformMapOut<Name>>[0]
+): ReturnType<TransformMapOut<Name>> => {
+  const transformer = transformMap[elementName][1];
 
-//   const result = transfromElementIn({ elementName: "code", values: codeValues });
-
-//   return result;
-// };
-
-// const thing = foo();
-
-// const bar = () => {
-//   const imageValues = { abc: "words" };
-
-//   const result = transfromElementIn("image", imageValues);
-
-//   return result;
-// };
-
-// const thing2 = bar();
-
-// const baz = () => {
-//   return transfromElementIn("blah", "hello");
-// };
-
-// const thing3 = baz();
-
-// : ExtractTransformReturnType<
-//   TransformInMap[Name],
-//   ExternalValues
-// >
+  const result = transformer((values as unknown) as any);
+  return result as ReturnType<TransformMapOut<Name>>;
+};
