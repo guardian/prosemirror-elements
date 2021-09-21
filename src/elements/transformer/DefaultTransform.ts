@@ -3,7 +3,7 @@ import type { FieldDescriptions } from "../../plugin/types/Element";
 import type { TransformIn, TransformOut } from "./Transformer";
 
 type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
-  fields: Omit<FieldNameToValueMap<FDesc>, "assets"> & {
+  fields: Partial<Omit<FieldNameToValueMap<FDesc>, "assets">> & {
     isMandatory?: boolean;
   };
   assets: string[];
