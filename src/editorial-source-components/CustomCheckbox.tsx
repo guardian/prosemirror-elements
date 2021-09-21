@@ -29,6 +29,7 @@ const checkboxGroupStyles = css`
   span {
     font-size: 0.9375rem;
     transform: scale(${scaleFactor}) rotate(45);
+    top: 5px;
     svg {
       height: ${space[6]}px;
       margin-top: 2px;
