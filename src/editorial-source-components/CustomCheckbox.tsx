@@ -10,8 +10,9 @@ const parentStyles = css`
   white-space: nowrap;
   div {
     ${labelStyles}
-    margin-top: ${space[2]}px;
-    margin-bottom: ${space[2]}px;
+  }
+  label {
+    min-height: initial;
   }
   // Re-order the checkbox field and error message
   fieldset {
@@ -28,6 +29,7 @@ const checkboxGroupStyles = css`
   span {
     font-size: 0.9375rem;
     transform: scale(${scaleFactor}) rotate(45);
+    top: 5px;
     svg {
       height: ${space[6]}px;
       margin-top: 2px;

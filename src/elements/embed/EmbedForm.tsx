@@ -1,5 +1,6 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldNameToField } from "../../plugin/types/Element";
@@ -19,7 +20,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
 }) => (
-  <div data-cy={EmbedElementTestId}>
+  <FieldLayoutVertical data-cy={EmbedElementTestId}>
     <CustomDropdownView
       field={fields.weighting}
       label="Weighting"
@@ -50,5 +51,5 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       errors={errors.required}
       label="This element is required for publication"
     />
-  </div>
+  </FieldLayoutVertical>
 );
