@@ -5,7 +5,7 @@ import type { FieldDescriptions } from "../types/Element";
 export const createValidator = (
   fieldValidationMap: Record<string, FieldValidator[]>
 ) => <FDesc extends FieldDescriptions<string>>(
-  fieldValues: FieldNameToValueMap<FDesc>
+  fieldValues: Partial<FieldNameToValueMap<FDesc>>
 ): FieldValidationErrors => {
   const errors: FieldValidationErrors = {};
 

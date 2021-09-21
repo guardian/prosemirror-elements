@@ -35,7 +35,8 @@ export type ValidationError = {
 export type FieldValidationErrors = Record<string, ValidationError[]>;
 
 export type Validator<FDesc extends FieldDescriptions<string>> = (
-  fields: FieldNameToValueMap<FDesc>
+  // Fields is partial to allow for validating an incomplete element representation
+  fields: Partial<FieldNameToValueMap<FDesc>>
 ) => undefined | FieldValidationErrors;
 
 export type FieldValidator = (
@@ -67,7 +68,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   validate: Validator<FDesc> | undefined = undefined
 ): ElementSpec<FDesc> => {
   const validateWithFieldAndElementValidators: Validator<FDesc> = (
-    fields: FieldNameToValueMap<FDesc>
+    fields: Partial<FieldNameToValueMap<FDesc>>
   ) => {
     const fieldErrors: FieldValidationErrors = {};
     for (const field in fieldDescriptions) {
