@@ -26,7 +26,7 @@ type PartialExternalImageData = {
   fields: Partial<ImageFields>;
 };
 
-export const transformElementDataIn: TransformIn<
+export const transformElementIn: TransformIn<
   PartialExternalImageData,
   ReturnType<typeof createImageFields>
 > = ({ assets, fields }) => {
@@ -65,7 +65,7 @@ export const transformElementDataIn: TransformIn<
   };
 };
 
-export const transformElementDataOut: TransformOut<
+export const transformElementOut: TransformOut<
   ExternalImageData,
   ReturnType<typeof createImageFields>
 > = ({
@@ -97,3 +97,5 @@ export const transformElementDataOut: TransformOut<
     },
   };
 };
+
+export const transformElement = [transformElementIn, transformElementOut]
