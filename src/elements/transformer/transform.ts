@@ -1,13 +1,13 @@
 import type { codeFields } from "../code/CodeElementSpec";
 import type { embedFields } from "../embed/EmbedSpec";
-import { transformElement as imageElementTransfrom } from "../image/imageElementDataTransformer";
+import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
 const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
   embed: defaultElementTransform<typeof embedFields>(),
-  image: imageElementTransfrom,
+  image: imageElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
 } as const;
 
