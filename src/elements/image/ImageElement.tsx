@@ -47,7 +47,7 @@ export const createImageFields = (
 ) => {
   return {
     altText: createTextField({
-      multilineOptions: { isMultiline: true, rows: 2 },
+      rows: 2,
       validators: [htmlMaxLength(1000), htmlRequired()],
     }),
     caption: createFlatRichTextField({

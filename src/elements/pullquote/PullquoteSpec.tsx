@@ -7,10 +7,11 @@ import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
   html: createTextField({
-    multilineOptions: { isMultiline: true, rows: 4 },
+    rows: 4,
     validators: [htmlRequired("Pullquote cannot be empty")],
+    absentOnEmpty: true,
   }),
-  attribution: createTextField(),
+  attribution: createTextField({ absentOnEmpty: true }),
   role: createCustomDropdownField("supporting", [
     { text: "supporting (default)", value: "supporting" },
     { text: "inline", value: "inline" },
