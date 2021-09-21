@@ -5,6 +5,6 @@ export { pullquoteElement } from "./elements/pullquote/PullquoteSpec";
 export { codeElement } from "./elements/code/CodeElementSpec";
 export { createImageElement } from "./elements/image/ImageElement";
 export {
-  transfromElementIn,
-  transfromElementOut,
+  transformElementIn,
+  transformElementOut,
 } from "./elements/transformer/Transform";

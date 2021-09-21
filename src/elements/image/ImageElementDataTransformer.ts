@@ -41,17 +41,14 @@ export const transformElementIn: TransformIn<
     role,
     source,
     suppliersReference,
-  } = fields ?? {};
+  } = fields;
 
-  const mainImage: MainImageData | undefined =
-    assets && suppliersReference && mediaId && mediaApiUri
-      ? {
-          assets,
-          suppliersReference,
-          mediaId,
-          mediaApiUri,
-        }
-      : undefined;
+  const mainImage: MainImageData | undefined = {
+    assets,
+    suppliersReference: suppliersReference ?? "",
+    mediaId,
+    mediaApiUri,
+  };
 
   return {
     alt,
@@ -98,4 +95,4 @@ export const transformElementOut: TransformOut<
   };
 };
 
-export const transformElement = [transformElementIn, transformElementOut]
+export const transformElement = [transformElementIn, transformElementOut];
