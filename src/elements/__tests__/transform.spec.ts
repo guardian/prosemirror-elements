@@ -1,7 +1,7 @@
 import {
   transformElementIn,
   transformElementOut,
-} from "../transformer/Transform";
+} from "../transformer/transform";
 
 describe("transform", () => {
   describe("transformIn", () => {

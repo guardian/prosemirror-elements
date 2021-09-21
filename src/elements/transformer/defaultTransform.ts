@@ -1,6 +1,6 @@
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { FieldDescriptions } from "../../plugin/types/Element";
-import type { TransformIn, TransformOut } from "./Transformer";
+import type { TransformIn, TransformOut } from "./types/Transform";
 
 type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
   fields: Partial<Omit<FieldNameToValueMap<FDesc>, "assets">> & {

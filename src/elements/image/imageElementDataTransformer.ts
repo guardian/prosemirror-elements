@@ -1,5 +1,5 @@
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type { TransformIn, TransformOut } from "../transformer/Transformer";
+import type { TransformIn, TransformOut } from "../transformer/types/Transform";
 import type { Asset, createImageFields, MainImageData } from "./ImageElement";
 
 type ImageFields = {

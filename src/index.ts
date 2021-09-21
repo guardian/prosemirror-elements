@@ -7,4 +7,4 @@ export { createImageElement } from "./elements/image/ImageElement";
 export {
   transformElementIn,
   transformElementOut,
-} from "./elements/transformer/Transform";
+} from "./elements/transformer/transform";

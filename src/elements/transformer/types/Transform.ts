@@ -1,5 +1,5 @@
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
-import type { FieldDescriptions } from "../../plugin/types/Element";
+import type { FieldNameToValueMap } from "../../../plugin/fieldViews/helpers";
+import type { FieldDescriptions } from "../../../plugin/types/Element";
 
 export type TransformIn<
   ExternalData,
