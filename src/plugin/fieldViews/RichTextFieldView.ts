@@ -12,15 +12,20 @@ export interface RichTextFieldDescription extends BaseFieldDescription<string> {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
+  // If the text content produced by this node is an empty string, don't
+  // include its key in the output data created by `getElementDataFromNode`.
+  absentOnEmpty?: boolean;
 }
 
 type RichTextOptions = {
+  absentOnEmpty?: boolean;
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
   validators?: FieldValidator[];
 };
 
 export const createRichTextField = ({
+  absentOnEmpty,
   createPlugins,
   nodeSpec,
   validators,
@@ -29,6 +34,7 @@ export const createRichTextField = ({
   createPlugins,
   nodeSpec,
   validators,
+  absentOnEmpty,
 });
 
 type FlatRichTextOptions = RichTextOptions & {

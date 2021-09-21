@@ -23,13 +23,13 @@ export const embedFields = {
   ]),
   sourceUrl: createTextField(),
   embedCode: createTextField({
-    multilineOptions: { isMultiline: true, rows: 2 },
+    rows: 2,
     isCode: true,
     validators: [htmlRequired()],
   }),
   caption: createDefaultRichTextField([maxLength(1000)]),
   altText: createTextField({
-    multilineOptions: { isMultiline: true, rows: 2 },
+    rows: 2,
     validators: [htmlMaxLength(1000), htmlRequired()],
   }),
   required: createCustomField(true, true),

@@ -16,8 +16,7 @@ const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
     display: flex;
     :first-of-type {
       ${labelStyles}
-      margin-top: ${space[2]}px;
-      margin-bottom: ${space[2]}px;
+      ${({ display }) => display === "block" && `margin-bottom: ${space[2]}px;`}
     }
     svg {
       height: ${space[5]}px;
@@ -45,12 +44,6 @@ const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
       >div:first-child {
         margin-right: ${space[3]}px;
       }
-      /*
-       * This resolves some margin problems introduced by
-       * restyling the Source Select component to be inline with its
-       * label
-       */
-      margin: -${space[2]}px 0;
     }`}
 `;
 

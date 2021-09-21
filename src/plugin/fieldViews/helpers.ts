@@ -1,3 +1,4 @@
+import type { KeysWithValsOfType, Optional } from "../helpers/types";
 import type { FieldDescriptions } from "../types/Element";
 import { CheckboxFieldView } from "./CheckboxFieldView";
 import type { CheckboxValue } from "./CheckboxFieldView";
@@ -58,3 +59,14 @@ export type FieldNameToValueMap<
 > = {
   [Name in keyof FDesc]: FieldTypeToValueMap<FDesc, Name>[FDesc[Name]["type"]];
 };
+
+/**
+ * As with `FieldNameToValueMap`, but respects the `absentOnEmpty` value
+ * to produce a result that reflects the output type of `getElementDataFromNode`.
+ */
+export type FieldNameToValueMapWithEmptyValues<
+  FDesc extends FieldDescriptions<keyof FDesc>
+> = Optional<
+  FieldNameToValueMap<FDesc>,
+  KeysWithValsOfType<FDesc, { absentOnEmpty: true }>
+>;

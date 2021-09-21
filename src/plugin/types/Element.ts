@@ -15,6 +15,7 @@ import type {
 import type { FieldView } from "../fieldViews/FieldView";
 import type {
   FieldNameToValueMap,
+  FieldNameToValueMapWithEmptyValues,
   FieldTypeToViewMap,
 } from "../fieldViews/helpers";
 import type {
@@ -97,7 +98,7 @@ export type ElementSpecMap<
 > = Record<ElementNames, ElementSpec<FDesc>>;
 
 export type ExtractFieldValues<ESpec> = ESpec extends ElementSpec<infer F>
-  ? FieldNameToValueMap<F>
+  ? FieldNameToValueMapWithEmptyValues<F>
   : never;
 
 // Construct a union of the possible element data values from an ElementSpec.

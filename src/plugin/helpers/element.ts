@@ -89,13 +89,23 @@ export const createGetElementDataFromNode = <
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
-    const fieldDescriptions = element.fieldDescriptions[fieldName];
-    const fieldType = fieldTypeToViewMap[fieldDescriptions.type].fieldType;
-
-    values[fieldName] =
+    const fieldDescription = element.fieldDescriptions[fieldName];
+    const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldType;
+    const value =
       fieldType === "ATTRIBUTES"
         ? getValuesFromAttributeNode(node)
         : getValuesFromContentNode(node, serializer);
+
+    if (
+      (fieldDescription.type === "richText" ||
+        fieldDescription.type === "text") &&
+      fieldDescription.absentOnEmpty &&
+      !node.textContent
+    ) {
+      return;
+    }
+
+    values[fieldName] = value;
   });
 
   return ({

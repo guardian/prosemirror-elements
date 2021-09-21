@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
+import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
@@ -23,7 +24,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fieldValues,
 }) => (
-  <div data-cy={ImageElementTestId}>
+  <FieldLayoutVertical data-cy={ImageElementTestId}>
     <FieldWrapper
       label="Caption"
       field={fields.caption}
@@ -71,7 +72,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     <hr />
     <Label>Element values</Label>
     <pre>{JSON.stringify(fieldValues)}</pre>
-  </div>
+  </FieldLayoutVertical>
 );
 
 type ImageViewProps = {
