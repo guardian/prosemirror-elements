@@ -19,13 +19,13 @@ describe("transform", () => {
       const codeElement = { assets: [], fields: {} };
       const result = transformElementIn("code", codeElement);
 
-      expect(result).toEqual({ assets: [] });
+      expect(result).toEqual({});
     });
     it("should partially transform elements with some fields", () => {
       const codeElement = { assets: [], fields: { html: "123" } };
       const result = transformElementIn("code", codeElement);
 
-      expect(result).toEqual({ assets: [], html: "123" });
+      expect(result).toEqual({ html: "123" });
     });
     it("should completely transform elements with all fields", () => {
       const codeElement = {
@@ -34,7 +34,7 @@ describe("transform", () => {
       };
       const result = transformElementIn("code", codeElement);
 
-      expect(result).toEqual({ assets: [], html: "123", langaue: "HTML" });
+      expect(result).toEqual({ html: "123", langaue: "HTML" });
     });
   });
   describe("transformOut", () => {

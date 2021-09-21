@@ -6,16 +6,13 @@ type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
   fields: Partial<Omit<FieldNameToValueMap<FDesc>, "assets">> & {
     isMandatory?: boolean;
   };
-  assets: string[];
+  assets?: string[];
 };
 
 export const transformElementDataIn = <
   FDesc extends FieldDescriptions<string>
->(): TransformIn<FlexibleModelElement<FDesc>, FDesc> => ({
-  assets,
-  fields,
-}) => {
-  return ({ ...fields, assets } as unknown) as FieldNameToValueMap<FDesc>;
+>(): TransformIn<FlexibleModelElement<FDesc>, FDesc> => ({ fields }) => {
+  return ({ ...fields } as unknown) as FieldNameToValueMap<FDesc>;
 };
 
 export const transformElementDataOut = <
