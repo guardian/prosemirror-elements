@@ -16,7 +16,8 @@ Modelling non-text content in Prosemirror can be tricky. `prosemirror-elements` 
 
 ## Run
 
-`yarn start` builds the project locally, spins up a webserver on http://localhost:7890, and watches for file changes.
+1. Ensure nginx is running.
+2. `yarn start` builds the project locally, spins up a webserver on http://localhost:7890, and watches for file changes.
 
 ## Testing
 
