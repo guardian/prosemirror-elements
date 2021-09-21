@@ -4,20 +4,13 @@ import { render } from "react-dom";
 import { createElementSpec } from "../../plugin/elementSpec";
 import type { Renderer, Validator } from "../../plugin/elementSpec";
 import type { Consumer } from "../../plugin/types/Consumer";
-import type {
-  FieldDescriptions,
-  Transformers,
-} from "../../plugin/types/Element";
+import type { FieldDescriptions } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
 
-export const createReactElementSpec = <
-  FDesc extends FieldDescriptions<string>,
-  ExternalData
->(
+export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement, FDesc>,
-  validate: Validator<FDesc> | undefined = undefined,
-  transformers: Transformers<FDesc, ExternalData> | undefined = undefined
+  validate: Validator<FDesc> | undefined = undefined
 ) => {
   const renderer: Renderer<FDesc> = (
     validate,
@@ -41,5 +34,5 @@ export const createReactElementSpec = <
       dom
     );
 
-  return createElementSpec(fieldDescriptions, renderer, validate, transformers);
+  return createElementSpec(fieldDescriptions, renderer, validate);
 };

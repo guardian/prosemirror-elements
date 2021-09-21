@@ -4,7 +4,6 @@ import type {
   ElementSpec,
   FieldDescriptions,
   FieldNameToField,
-  Transformers,
 } from "./types/Element";
 
 type Subscriber<FDesc extends FieldDescriptions<string>> = (
@@ -62,15 +61,11 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   ) => void
 ) => void;
 
-export const createElementSpec = <
-  FDesc extends FieldDescriptions<string>,
-  ExternalData
->(
+export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   render: Renderer<FDesc>,
-  validate: Validator<FDesc> | undefined = undefined,
-  transformers?: Transformers<FDesc, ExternalData>
-): ElementSpec<FDesc, ExternalData> => {
+  validate: Validator<FDesc> | undefined = undefined
+): ElementSpec<FDesc> => {
   const validateWithFieldAndElementValidators: Validator<FDesc> = (
     fields: FieldNameToValueMap<FDesc>
   ) => {
@@ -94,7 +89,6 @@ export const createElementSpec = <
 
   return {
     fieldDescriptions,
-    transformers,
     validate: validateWithFieldAndElementValidators,
     createUpdator: (dom, fields, updateState, fieldValues, commands) => {
       const updater = createUpdater<FDesc>();
