@@ -46,7 +46,7 @@ export const createImageFields = (
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
 ) => {
   return {
-    altText: createTextField({
+    alt: createTextField({
       rows: 2,
       validators: [htmlMaxLength(1000), htmlRequired()],
     }),
@@ -57,7 +57,7 @@ export const createImageFields = (
       },
       validators: [htmlMaxLength(600)],
     }),
-    displayCreditInformation: createCustomField(true, true),
+    displayCredit: createCustomField(true, true),
     imageType: createCustomField("Photograph", [
       { text: "Photograph", value: "Photograph" },
       { text: "Illustration", value: "Illustration" },
@@ -77,7 +77,7 @@ export const createImageFields = (
     source: createTextField({
       validators: [htmlMaxLength(250), htmlRequired()],
     }),
-    weighting: createCustomField("none-selected", [
+    role: createCustomField("none-selected", [
       { text: "inline (default)", value: "none-selected" },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
