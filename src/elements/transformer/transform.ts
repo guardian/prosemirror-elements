@@ -20,21 +20,31 @@ type TransformMapOut<
 export const transformElementIn = <Name extends keyof TransformMap>(
   elementName: Name,
   values: Parameters<TransformMapIn<Name>>[0]
-): ReturnType<TransformMapIn<Name>> => {
-  const transformer = transformMap[elementName].in;
+): ReturnType<TransformMapIn<Name>> | undefined => {
+  const transformer = transformMap[elementName];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
-  const result = transformer((values as unknown) as any);
-  return result as ReturnType<TransformMapIn<Name>>;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- This may be used in a JS context and be falst
+  if (transformer) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
+    const result = transformer.in((values as unknown) as any);
+    return result as ReturnType<TransformMapIn<Name>>;
+  } else {
+    return undefined;
+  }
 };
 
 export const transformElementOut = <Name extends keyof TransformMap>(
   elementName: Name,
   values: Parameters<TransformMapOut<Name>>[0]
-): ReturnType<TransformMapOut<Name>> => {
-  const transformer = transformMap[elementName].out;
+): ReturnType<TransformMapOut<Name>> | undefined => {
+  const transformer = transformMap[elementName];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
-  const result = transformer((values as unknown) as any);
-  return result as ReturnType<TransformMapOut<Name>>;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- This may be used in a JS context and be falst
+  if (transformer) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
+    const result = transformer.out((values as unknown) as any);
+    return result as ReturnType<TransformMapOut<Name>>;
+  } else {
+    return undefined;
+  }
 };
