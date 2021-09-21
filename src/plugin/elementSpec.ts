@@ -35,6 +35,7 @@ export type ValidationError = {
 export type FieldValidationErrors = Record<string, ValidationError[]>;
 
 export type Validator<FDesc extends FieldDescriptions<string>> = (
+  // Fields is partial to allow for validating an incomplete element representation
   fields: Partial<FieldNameToValueMap<FDesc>>
 ) => undefined | FieldValidationErrors;
 
