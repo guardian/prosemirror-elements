@@ -468,6 +468,36 @@ describe("buildElementPlugin", () => {
           // that's been serialised from the defaults
           expect(node).toBe(undefined);
         });
+
+        it("should not retain HTML chars in rich text", () => {
+          const { getNodeFromElementData, view } = createEditorWithElements({
+            testElement,
+          });
+
+          const fieldText = "<html></html>";
+
+          const node = getNodeFromElementData(
+            { elementName: "testElement", values: { field1: fieldText } },
+            view.state.schema
+          );
+
+          expect(node?.textContent).toBe("");
+        });
+
+        it("should retain HTML chars in plain text", () => {
+          const { getNodeFromElementData, view } = createEditorWithElements({
+            testElement,
+          });
+
+          const fieldText = "<html></html>";
+
+          const node = getNodeFromElementData(
+            { elementName: "testElement", values: { field2: fieldText } },
+            view.state.schema
+          );
+
+          expect(node?.textContent).toBe(fieldText);
+        });
       });
 
       describe("Conversion from node to data", () => {

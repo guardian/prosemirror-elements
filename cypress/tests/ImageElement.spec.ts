@@ -171,13 +171,13 @@ describe("ImageElement", () => {
         );
       });
 
-      it(`should remove marks when content is created with them`, () => {
+      it(`should treat html tags as text, not html`, () => {
         addImageElement({
           src: "<strong>bold text</strong> <em>italic text</em>",
         });
         getElementRichTextField("src").should(
-          "have.html",
-          "bold text italic text"
+          "have.text",
+          "<strong>bold text</strong> <em>italic text</em>"
         );
       });
 
