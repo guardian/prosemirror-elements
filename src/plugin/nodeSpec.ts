@@ -1,5 +1,5 @@
 import OrderedMap from "orderedmap";
-import type { Node, NodeSpec, Schema } from "prosemirror-model";
+import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
 import { fieldTypeToViewMap } from "./fieldViews/helpers";
@@ -224,31 +224,42 @@ export const createNodesForFieldValues = <
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
     if (fieldView.fieldType === "CONTENT") {
-      const node = nodeType.create({ type: field.type });
-      return createContentForFieldValue(
-        schema,
-        fieldValue as string,
-        node,
-        field.type === "text"
-      );
+      const content = fieldValue as string;
+
+      return field.type === "richText"
+        ? createContentNodeFromRichText(
+            schema,
+            content,
+            nodeType.create({ type: field.type })
+          )
+        : createContentNodeFromText(content, field, nodeType);
     } else {
       return nodeType.create({ type: field.type, fields: fieldValue });
     }
   });
 };
 
-const createContentForFieldValue = <S extends Schema>(
+const createContentNodeFromText = (
+  content: string,
+  fieldDesc: FieldDescription,
+  nodeType: NodeType<Schema>
+) =>
+  nodeType.create(
+    { type: fieldDesc.type },
+    content ? nodeType.schema.text(content) : undefined
+  );
+
+const createContentNodeFromRichText = <S extends Schema>(
   schema: S,
   fieldValue: string,
-  topNode: Node,
-  isText: boolean
+  topNode: Node
 ) => {
   const parser = DOMParser.fromSchema(schema);
   const element = document.createElement("div");
   element.innerHTML = fieldValue;
   return parser.parse(element, {
     topNode,
-    preserveWhitespace: isText ? "full" : false,
+    preserveWhitespace: false,
   });
 };
 
