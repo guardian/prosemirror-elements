@@ -1,6 +1,7 @@
 import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { TransformIn, TransformOut } from "../transformer/types/Transform";
 import type { Asset, createImageFields, MainImageData } from "./ImageElement";
+import { undefinedDropdownValue } from "./ImageElement";
 
 type ImageFields = {
   alt: string;
@@ -11,7 +12,7 @@ type ImageFields = {
   mediaApiUri: string;
   mediaId: string;
   photographer: string;
-  role: string;
+  role: string | undefined;
   source: string;
   suppliersReference: string;
 };
@@ -56,7 +57,7 @@ export const transformElementIn: TransformIn<
     displayCredit: displayCredit === "true",
     imageType,
     photographer,
-    role,
+    role: role ?? undefinedDropdownValue,
     source,
     mainImage,
   };
@@ -88,7 +89,7 @@ export const transformElementOut: TransformOut<
       mediaApiUri: mainImage.mediaApiUri ?? "",
       mediaId: mainImage.mediaId ?? "",
       photographer,
-      role,
+      role: role === undefinedDropdownValue ? undefined : role,
       source,
       suppliersReference: mainImage.suppliersReference,
     },
