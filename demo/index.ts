@@ -45,7 +45,10 @@ type Name =
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement: createImageElement(onCropImage),
+  imageElement: createImageElement({
+    openImageSelector: onCropImage,
+    createCaptionPlugins: (schema) => exampleSetup({ schema }),
+  }),
   embedElement: createEmbedElement(),
   codeElement,
   pullquoteElement,
