@@ -152,26 +152,32 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
     onChange(mediaPayload);
   };
 
-  const getImageSrc = () => {
+  const getImageSrc = (assets: Asset[]) => {
     const desiredWidth = 1200;
 
     const widthDifference = (width: number) => Math.abs(desiredWidth - width);
 
-    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
-      widthDifference(assetA.fields.width) -
-      widthDifference(assetB.fields.width);
+    const stringOrNumberToNumber = (value: string | number) => {
+      const parsedValue = parseInt(value.toString());
+      return !isNaN(parsedValue) ? parsedValue : 0;
+    };
 
-    const assets = imageFields.assets
+    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
+      widthDifference(stringOrNumberToNumber(assetA.fields.width)) -
+      widthDifference(stringOrNumberToNumber(assetB.fields.width));
+
+    const sortedAssets = assets
       .filter((asset) => !asset.fields.isMaster)
       .sort(sortByWidthDifference);
-    return assets.length > 0 ? assets[0].url : undefined;
+
+    return sortedAssets.length > 0 ? assets[0].url : undefined;
   };
 
   return (
     <div>
       <Errors errors={errors.map((e) => e.error)} />
       <div>
-        <img css={imageViewStysles} src={getImageSrc()} />
+        <img css={imageViewStysles} src={getImageSrc(imageFields.assets)} />
       </div>
       <Button
         priority="secondary"

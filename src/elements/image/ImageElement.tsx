@@ -26,8 +26,8 @@ export type Asset = {
   mimeType: string;
   url: string;
   fields: {
-    width: number;
-    height: number;
+    width: number | string;
+    height: number | string;
     isMaster: boolean | undefined;
   };
 };
