@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Button } from "@guardian/src-button";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
 import React, { useMemo } from "react";
+import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
