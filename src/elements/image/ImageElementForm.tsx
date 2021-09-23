@@ -4,7 +4,7 @@ import { Button } from "@guardian/src-button";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
-import React from "react";
+import React, { useMemo } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
@@ -152,7 +152,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
     onChange(mediaPayload);
   };
 
-  const getImageSrc = (assets: Asset[]) => {
+  const imageSrc = useMemo(() => {
     const desiredWidth = 1200;
 
     const widthDifference = (width: number) => Math.abs(desiredWidth - width);
@@ -166,18 +166,18 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
       widthDifference(stringOrNumberToNumber(assetA.fields.width)) -
       widthDifference(stringOrNumberToNumber(assetB.fields.width));
 
-    const sortedAssets = assets
+    const sortedAssets = imageFields.assets
       .filter((asset) => !asset.fields.isMaster)
       .sort(sortByWidthDifference);
 
-    return sortedAssets.length > 0 ? assets[0].url : undefined;
-  };
+    return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;
+  }, [imageFields.assets]);
 
   return (
     <div>
       <Errors errors={errors.map((e) => e.error)} />
       <div>
-        <img css={imageViewStysles} src={getImageSrc(imageFields.assets)} />
+        <img css={imageViewStysles} src={imageSrc} />
       </div>
       <Button
         priority="secondary"
