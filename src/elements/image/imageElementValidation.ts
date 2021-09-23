@@ -22,6 +22,7 @@ const hasAssets = (maybeData: unknown): maybeData is { assets: Asset[] } => {
     isRecord(maybeData) &&
     maybeData.assets != undefined &&
     Array.isArray(maybeData.assets) &&
+    maybeData.assets.length > 0 &&
     maybeData.assets.every((asset) => isValidImageAsset(asset))
   );
 };
