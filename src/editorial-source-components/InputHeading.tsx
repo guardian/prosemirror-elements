@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
+import { Description } from "./Description";
 import { Error } from "./Error";
 import { Label } from "./Label";
 
@@ -20,12 +21,17 @@ const Errors = ({ errors }: { errors: string[] }) =>
 
 type Props = {
   label: React.ReactNode;
+  description?: React.ReactNode;
   errors: string[];
 };
 
-export const InputHeading = ({ label, errors }: Props) => (
+export const InputHeading = ({ label, description, errors }: Props) => (
   <InputHeadingContainer>
     <Label>{label}</Label>
-    <Errors errors={errors} />
+    {errors.length > 0 ? (
+      <Errors errors={errors} />
+    ) : description ? (
+      <Description>{description}</Description>
+    ) : null}
   </InputHeadingContainer>
 );

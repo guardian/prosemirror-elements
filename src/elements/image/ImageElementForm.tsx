@@ -44,6 +44,12 @@ const AltText = styled.span`
 
 export const ImageElementTestId = "ImageElement";
 
+const htmlLength = (text: string) => {
+  const el = document.createElement("div");
+  el.innerHTML = text;
+  return el.innerText.length;
+};
+
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
@@ -80,6 +86,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             field={fields.caption}
             errors={errors.caption}
             label="Caption"
+            description={`${htmlLength(fieldValues.caption)}/600 characters`}
           />
           <FieldWrapper
             field={fields.alt}
