@@ -1,4 +1,5 @@
-import { exampleSetup } from "prosemirror-example-setup";
+import type { Schema } from "prosemirror-model";
+import type { Plugin } from "prosemirror-state";
 import React from "react";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
@@ -40,18 +41,20 @@ export type MainImageData = {
 
 export type MainImageProps = {
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void;
+  createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 
-export const createImageFields = (
-  openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
-) => {
+export const createImageFields = ({
+  createCaptionPlugins,
+  openImageSelector,
+}: MainImageProps) => {
   return {
     alt: createTextField({
       rows: 2,
       validators: [htmlMaxLength(1000), htmlRequired()],
     }),
     caption: createFlatRichTextField({
-      createPlugins: (schema) => exampleSetup({ schema }),
+      createPlugins: createCaptionPlugins,
       nodeSpec: {
         marks: "em strong link strike",
       },
@@ -87,11 +90,9 @@ export const createImageFields = (
   };
 };
 
-export const createImageElement = (
-  openImageSelector: (setMedia: SetMedia, mediaId?: string) => void
-) =>
+export const createImageElement = (props: MainImageProps) =>
   createReactElementSpec(
-    createImageFields(openImageSelector),
+    createImageFields(props),
     (fieldValues, errors, __, fields) => {
       return (
         <ImageElementForm
