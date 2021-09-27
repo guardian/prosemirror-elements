@@ -101,12 +101,12 @@ export class ElementProvider<
     );
     return (
       <ElementWrapper {...this.state.commands}>
-        {this.props.consumer(
-          this.props.fields,
+        {this.props.consumer({
+          fields: this.props.fields,
           errors,
-          this.state.fieldValues,
-          this.updateFields
-        )}
+          fieldValues: this.state.fieldValues,
+          updateFields: this.updateFields,
+        })}
       </ElementWrapper>
     );
   }

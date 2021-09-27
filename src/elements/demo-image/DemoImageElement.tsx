@@ -84,7 +84,7 @@ export const createDemoImageElement = (
 ) =>
   createReactElementSpec(
     createImageFields(onSelect, onCrop),
-    (fields, errors, fieldValues) => {
+    ({ fields, errors, fieldValues }) => {
       return (
         <ImageElementForm
           fields={fields}

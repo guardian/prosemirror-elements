@@ -36,7 +36,7 @@ export const embedFields = {
 };
 
 export const createEmbedElement = () =>
-  createReactElementSpec(embedFields, (fields, errors, fieldValues) => {
+  createReactElementSpec(embedFields, ({ fields, errors, fieldValues }) => {
     return (
       <EmbedElementForm
         fields={fields}
