@@ -3,7 +3,7 @@ import type { TransformIn, TransformOut } from "../transformer/types/Transform";
 import type { Asset, createImageFields, MainImageData } from "./ImageElement";
 import { undefinedDropdownValue } from "./ImageElement";
 
-type ImageFields = {
+export type ImageFields = {
   alt: string;
   caption: string;
   displayCredit: string;
