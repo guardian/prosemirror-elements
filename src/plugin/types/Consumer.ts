@@ -6,8 +6,8 @@ export type Consumer<
   ConsumerResult,
   FDesc extends FieldDescriptions<string>
 > = (
-  fieldValues: FieldNameToValueMap<FDesc>,
+  fields: FieldNameToField<FDesc>,
   errors: FieldValidationErrors,
-  updateFields: (fieldValues: FieldNameToValueMap<FDesc>) => void,
-  fields: FieldNameToField<FDesc>
+  fieldValues: FieldNameToValueMap<FDesc>,
+  updateFields: (fieldValues: FieldNameToValueMap<FDesc>) => void
 ) => ConsumerResult;

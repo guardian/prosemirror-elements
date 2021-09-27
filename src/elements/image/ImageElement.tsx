@@ -95,7 +95,7 @@ export const createImageFields = ({
 export const createImageElement = (props: MainImageProps) =>
   createReactElementSpec(
     createImageFields(props),
-    (fieldValues, errors, __, fields) => {
+    (fields, errors, fieldValues) => {
       return (
         <ImageElementForm
           fieldValues={fieldValues}

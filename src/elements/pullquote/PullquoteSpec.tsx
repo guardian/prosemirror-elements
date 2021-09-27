@@ -21,7 +21,7 @@ export const pullquoteFields = {
 
 export const pullquoteElement = createReactElementSpec(
   pullquoteFields,
-  (_, errors, __, fields) => {
+  (fields, errors) => {
     return <PullquoteElementForm errors={errors} fields={fields} />;
   }
 );
