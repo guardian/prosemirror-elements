@@ -1,4 +1,5 @@
 import type { FieldNameToValueMap } from "./fieldViews/helpers";
+import { validateWithFieldAndElementValidators } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
@@ -65,36 +66,20 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   render: Renderer<FDesc>,
-  validate: Validator<FDesc> | undefined = undefined
+  validateElement: Validator<FDesc> | undefined = undefined
 ): ElementSpec<FDesc> => {
-  const validateWithFieldAndElementValidators: Validator<FDesc> = (
-    fields: Partial<FieldNameToValueMap<FDesc>>
-  ) => {
-    const fieldErrors: FieldValidationErrors = {};
-    for (const field in fieldDescriptions) {
-      const validators = fieldDescriptions[field].validators;
-      if (validators && validators.length > 0) {
-        validators.forEach((validate) => {
-          const value = fields[field];
-          fieldErrors[field] = [...validate(value, field)];
-        });
-      }
-    }
-
-    const elementErrors = validate ? validate(fields) : {};
-
-    const allErrors = { ...elementErrors, ...fieldErrors };
-
-    return Object.keys(allErrors).length > 0 ? allErrors : undefined;
-  };
+  const validate = validateWithFieldAndElementValidators(
+    fieldDescriptions,
+    validateElement
+  );
 
   return {
     fieldDescriptions,
-    validate: validateWithFieldAndElementValidators,
+    validate,
     createUpdator: (dom, fields, updateState, fieldValues, commands) => {
       const updater = createUpdater<FDesc>();
       render(
-        validateWithFieldAndElementValidators,
+        validate,
         dom,
         fields,
         (fields) => updateState(fields),
