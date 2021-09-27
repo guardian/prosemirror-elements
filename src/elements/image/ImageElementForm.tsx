@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Button } from "@guardian/src-button";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
-import React from "react";
+import React, { useMemo } from "react";
+import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
@@ -44,6 +44,12 @@ const AltText = styled.span`
 
 export const ImageElementTestId = "ImageElement";
 
+const htmlLength = (text: string) => {
+  const el = document.createElement("div");
+  el.innerHTML = text;
+  return el.innerText.length;
+};
+
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
@@ -80,6 +86,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             field={fields.caption}
             errors={errors.caption}
             label="Caption"
+            description={`${htmlLength(fieldValues.caption)}/600 characters`}
           />
           <FieldWrapper
             field={fields.alt}
@@ -145,26 +152,32 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
     onChange(mediaPayload);
   };
 
-  const getImageSrc = () => {
+  const imageSrc = useMemo(() => {
     const desiredWidth = 1200;
 
     const widthDifference = (width: number) => Math.abs(desiredWidth - width);
 
-    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
-      widthDifference(assetA.fields.width) -
-      widthDifference(assetB.fields.width);
+    const stringOrNumberToNumber = (value: string | number) => {
+      const parsedValue = parseInt(value.toString());
+      return !isNaN(parsedValue) ? parsedValue : 0;
+    };
 
-    const assets = imageFields.assets
+    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
+      widthDifference(stringOrNumberToNumber(assetA.fields.width)) -
+      widthDifference(stringOrNumberToNumber(assetB.fields.width));
+
+    const sortedAssets = imageFields.assets
       .filter((asset) => !asset.fields.isMaster)
       .sort(sortByWidthDifference);
-    return assets.length > 0 ? assets[0].url : undefined;
-  };
+
+    return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;
+  }, [imageFields.assets]);
 
   return (
     <div>
       <Errors errors={errors.map((e) => e.error)} />
       <div>
-        <img css={imageViewStysles} src={getImageSrc()} />
+        <img css={imageViewStysles} src={imageSrc} />
       </div>
       <Button
         priority="secondary"

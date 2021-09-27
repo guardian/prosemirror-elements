@@ -1,7 +1,4 @@
-import {
-  transformElementIn,
-  transformElementOut,
-} from "../transformer/transform";
+import { transformElementIn, transformElementOut } from "../transform";
 
 describe("transform", () => {
   describe("transformIn", () => {

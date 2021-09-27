@@ -26,8 +26,8 @@ export type Asset = {
   mimeType: string;
   url: string;
   fields: {
-    width: number;
-    height: number;
+    width: number | string;
+    height: number | string;
     isMaster: boolean | undefined;
   };
 };
@@ -43,6 +43,8 @@ export type MainImageProps = {
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
+
+export const undefinedDropdownValue = "none-selected";
 
 export const createImageFields = ({
   createCaptionPlugins,
@@ -80,8 +82,8 @@ export const createImageFields = ({
     source: createTextField({
       validators: [htmlMaxLength(250), htmlRequired()],
     }),
-    role: createCustomField("none-selected", [
-      { text: "inline (default)", value: "none-selected" },
+    role: createCustomField(undefinedDropdownValue, [
+      { text: "inline (default)", value: undefinedDropdownValue },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
       { text: "thumbnail", value: "thumbnail" },
