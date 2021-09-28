@@ -1,4 +1,8 @@
-import type { FieldValidationErrors, FieldValidator } from "../elementSpec";
+import type {
+  FieldValidationErrors,
+  FieldValidator,
+  Validator,
+} from "../elementSpec";
 import type { FieldNameToValueMap } from "../fieldViews/helpers";
 import type { FieldDescriptions } from "../types/Element";
 
@@ -18,6 +22,32 @@ export const createValidator = (
     errors[fieldName] = fieldErrors;
   }
   return errors;
+};
+
+export const validateWithFieldAndElementValidators = <
+  FDesc extends FieldDescriptions<string>
+>(
+  fieldDescriptions: FDesc,
+  validateElement: Validator<FDesc> | undefined = undefined
+): Validator<FDesc> => (fields: Partial<FieldNameToValueMap<FDesc>>) => {
+  const fieldErrors: FieldValidationErrors = {};
+  for (const field in fieldDescriptions) {
+    const value = fields[field];
+    const validators = fieldDescriptions[field].validators;
+    if (validators?.length) {
+      fieldErrors[field] = [];
+      validators.forEach((validate) => {
+        const errors = validate(value, field);
+        fieldErrors[field].push(...errors);
+      });
+    }
+  }
+
+  const elementErrors = validateElement ? validateElement(fields) : {};
+
+  const allErrors = { ...fieldErrors, ...elementErrors };
+
+  return Object.keys(allErrors).length > 0 ? allErrors : undefined;
 };
 
 export const htmlMaxLength = (
