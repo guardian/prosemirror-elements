@@ -26,7 +26,7 @@ export const codeFields = {
 
 export const codeElement = createReactElementSpec(
   codeFields,
-  (_, errors, __, fields) => {
+  ({ fields, errors }) => {
     return <CodeElementForm errors={errors} fields={fields} />;
   }
 );
