@@ -32,17 +32,20 @@ export const validateWithFieldAndElementValidators = <
 ): Validator<FDesc> => (fields: Partial<FieldNameToValueMap<FDesc>>) => {
   const fieldErrors: FieldValidationErrors = {};
   for (const field in fieldDescriptions) {
-    fieldErrors[field] = [];
     const value = fields[field];
     const validators = fieldDescriptions[field].validators;
-    validators?.forEach((validate) => {
-      fieldErrors[field] = [...fieldErrors[field], ...validate(value, field)];
-    });
+    if (validators?.length) {
+      fieldErrors[field] = [];
+      validators.forEach((validate) => {
+        const errors = validate(value, field);
+        fieldErrors[field].push(...errors);
+      });
+    }
   }
 
   const elementErrors = validateElement ? validateElement(fields) : {};
 
-  const allErrors = { ...elementErrors, ...fieldErrors };
+  const allErrors = { ...fieldErrors, ...elementErrors };
 
   return Object.keys(allErrors).length > 0 ? allErrors : undefined;
 };
