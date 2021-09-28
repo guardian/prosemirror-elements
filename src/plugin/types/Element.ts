@@ -14,11 +14,6 @@ import type {
 } from "../fieldViews/DropdownFieldView";
 import type { FieldView } from "../fieldViews/FieldView";
 import type {
-  FieldNameToValueMap,
-  FieldNameToValueMapWithEmptyValues,
-  FieldTypeToViewMap,
-} from "../fieldViews/helpers";
-import type {
   RichTextFieldDescription,
   RichTextFieldView,
 } from "../fieldViews/RichTextFieldView";
@@ -26,6 +21,11 @@ import type {
   TextFieldDescription,
   TextFieldView,
 } from "../fieldViews/TextFieldView";
+import type {
+  FieldNameToValueMap,
+  FieldNameToValueMapWithEmptyValues,
+  FieldTypeToViewMap,
+} from "../helpers/fieldView";
 import type { CommandCreator } from "./Commands";
 
 export type FieldDescription =

@@ -1,5 +1,5 @@
 import type { Command } from "prosemirror-commands";
-import { newlineInCode } from "prosemirror-commands";
+import { baseKeymap, newlineInCode } from "prosemirror-commands";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { Node, Schema } from "prosemirror-model";
@@ -68,7 +68,10 @@ export class TextFieldView extends ProseMirrorFieldView {
     decorations: DecorationSet | Decoration[],
     { isMultiline, rows, isCode }: TextFieldDescription
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove 'enter' commands from keymap
+    const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
     const keymapping: Record<string, Command> = {
+      ...modifiedBaseKeymap,
       "Mod-z": () => undo(outerView.state, outerView.dispatch),
       "Mod-y": () => redo(outerView.state, outerView.dispatch),
     };

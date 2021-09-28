@@ -1,5 +1,5 @@
 import type { FieldValidationErrors } from "../elementSpec";
-import type { FieldNameToValueMap } from "../fieldViews/helpers";
+import type { FieldNameToValueMap } from "../helpers/fieldView";
 import type { FieldDescriptions, FieldNameToField } from "./Element";
 
 type ConsumerOptions<FDesc extends FieldDescriptions<string>> = {

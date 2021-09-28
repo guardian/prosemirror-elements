@@ -1,12 +1,12 @@
-import type { KeysWithValsOfType, Optional } from "../helpers/types";
+import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
+import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
+import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
+import { CustomFieldView } from "../fieldViews/CustomFieldView";
+import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
+import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { FieldDescriptions } from "../types/Element";
-import { CheckboxFieldView } from "./CheckboxFieldView";
-import type { CheckboxValue } from "./CheckboxFieldView";
-import type { CustomFieldDescription } from "./CustomFieldView";
-import { CustomFieldView } from "./CustomFieldView";
-import { DropdownFieldView } from "./DropdownFieldView";
-import { RichTextFieldView } from "./RichTextFieldView";
-import { TextFieldView } from "./TextFieldView";
+import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
   [TextFieldView.fieldName]: TextFieldView,

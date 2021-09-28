@@ -4,7 +4,7 @@ import type {
   FieldValidationErrors,
   Validator,
 } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { Commands } from "../../plugin/types/Commands";
 import type { Consumer } from "../../plugin/types/Consumer";
 import type {

@@ -1,4 +1,4 @@
-import type { FieldNameToValueMap } from "./fieldViews/helpers";
+import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { validateWithFieldAndElementValidators } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {

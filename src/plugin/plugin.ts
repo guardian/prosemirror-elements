@@ -7,7 +7,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../plugin/types/Element";
-import type { FieldNameToValueMap } from "./fieldViews/helpers";
+import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { getElementFieldViewFromType } from "./helpers/plugin";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";

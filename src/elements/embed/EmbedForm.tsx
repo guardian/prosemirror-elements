@@ -2,7 +2,7 @@ import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
