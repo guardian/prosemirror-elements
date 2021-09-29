@@ -10,7 +10,8 @@ const getDefaultPlaceholder = (text: string) => {
   span.style.height = "0px";
   span.style.width = "0px";
   span.style.whiteSpace = "nowrap";
-  span.style.color = "#888";
+  // Passes accessibility contrast on a white background
+  span.style.color = "#777575";
   span.style.pointerEvents = "none";
   span.style.cursor = "text";
   span.draggable = false;
