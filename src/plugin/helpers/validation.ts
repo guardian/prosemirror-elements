@@ -3,7 +3,7 @@ import type {
   FieldValidator,
   Validator,
 } from "../elementSpec";
-import type { FieldNameToValueMap } from "../fieldViews/helpers";
+import type { FieldNameToValueMap } from "../helpers/fieldView";
 import type { FieldDescriptions } from "../types/Element";
 
 export const createValidator = (

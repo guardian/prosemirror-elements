@@ -12,7 +12,7 @@ import type {
   FieldValidationErrors,
   ValidationError,
 } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
