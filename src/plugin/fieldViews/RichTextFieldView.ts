@@ -6,10 +6,11 @@ import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
-import type { BaseFieldDescription } from "./FieldView";
+import type { PlaceholderOption } from "../helpers/placeholder";
+import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface RichTextFieldDescription extends BaseFieldDescription<string> {
+export interface RichTextFieldDescription extends AbstractTextFieldDescription {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
@@ -23,6 +24,7 @@ type RichTextOptions = {
   createPlugins?: (schema: Schema) => Plugin[];
   nodeSpec?: Partial<NodeSpec>;
   validators?: FieldValidator[];
+  placeholder?: PlaceholderOption;
 };
 
 export const createRichTextField = ({
@@ -30,12 +32,14 @@ export const createRichTextField = ({
   createPlugins,
   nodeSpec,
   validators,
+  placeholder,
 }: RichTextOptions): RichTextFieldDescription => ({
   type: RichTextFieldView.fieldName,
   createPlugins,
   nodeSpec,
   validators,
   absentOnEmpty,
+  placeholder,
 });
 
 type FlatRichTextOptions = RichTextOptions & {
@@ -51,6 +55,7 @@ export const createFlatRichTextField = ({
   createPlugins,
   nodeSpec,
   validators,
+  placeholder,
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
@@ -79,6 +84,7 @@ export const createFlatRichTextField = ({
       content: "(text|hard_break)*",
     },
     validators,
+    placeholder,
   });
 
 /**
@@ -86,11 +92,13 @@ export const createFlatRichTextField = ({
  * purposes, as library users are likely to want different defaults.
  */
 export const createDefaultRichTextField = (
-  validators?: FieldValidator[]
+  validators?: FieldValidator[],
+  placeholder?: string
 ): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => exampleSetup({ schema }),
     validators,
+    placeholder: placeholder ?? "",
   });
 
 export class RichTextFieldView extends ProseMirrorFieldView {
@@ -107,8 +115,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    // The plugins passed by the consumer into the FieldView, if any.
-    plugins: Plugin[]
+    field: RichTextFieldDescription
   ) {
     super(
       node,
@@ -123,8 +130,9 @@ export class RichTextFieldView extends ProseMirrorFieldView {
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
           ...filteredKeymap,
         }),
-        ...plugins,
-      ]
+        ...(field.createPlugins ? field.createPlugins(node.type.schema) : []),
+      ],
+      field.placeholder
     );
 
     this.fieldViewElement.classList.add("ProseMirrorElements__RichTextField");

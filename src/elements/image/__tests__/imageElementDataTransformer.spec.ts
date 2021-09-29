@@ -1,4 +1,4 @@
-import type { FieldNameToValueMap } from "../../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../../plugin/helpers/fieldView";
 import type { createImageFields } from "../ImageElement";
 import { undefinedDropdownValue } from "../ImageElement";
 import type { ImageFields } from "../imageElementDataTransformer";

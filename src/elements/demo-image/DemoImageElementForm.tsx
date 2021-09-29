@@ -3,7 +3,7 @@ import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";

@@ -12,7 +12,7 @@ import type {
   FieldValidationErrors,
   ValidationError,
 } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -25,6 +25,7 @@ import type {
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
+import { minAssetValidation, thumbnailOption } from "./ImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -33,7 +34,8 @@ type Props = {
 };
 
 type ImageViewProps = {
-  onChange: SetMedia;
+  updateFields: SetMedia;
+  updateRole: (value: string) => void;
   errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
@@ -63,14 +65,20 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             field={fields.role}
             label="Weighting"
             errors={errors.role}
+            options={
+              minAssetValidation(fieldValues.mainImage, "").length
+                ? [thumbnailOption]
+                : undefined
+            }
           />
           <ImageView
             field={fields.mainImage}
-            onChange={({ caption, source, photographer }) => {
+            updateFields={({ caption, source, photographer }) => {
               fields.caption.update(caption);
               fields.source.update(source);
               fields.photographer.update(photographer);
             }}
+            updateRole={(value) => fields.role.update(value)}
             errors={errors.mainImage}
           />
           <CustomDropdownView
@@ -139,9 +147,17 @@ const imageViewStysles = css`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
-const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
+const ImageView = ({
+  field,
+  updateFields,
+  updateRole,
+  errors,
+}: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
-  const setMedia = (mediaPayload: MediaPayload) => {
+
+  const setMedia = (previousMediaId: string | undefined) => (
+    mediaPayload: MediaPayload
+  ) => {
     const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
     setImageFields({
       mediaId,
@@ -149,7 +165,12 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
       assets,
       suppliersReference,
     });
-    onChange(mediaPayload);
+    if (minAssetValidation({ assets }, "").length) {
+      updateRole(thumbnailOption.value);
+    }
+    if (previousMediaId && previousMediaId !== mediaId) {
+      updateFields(mediaPayload);
+    }
   };
 
   const imageSrc = useMemo(() => {
@@ -186,7 +207,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
         iconSide="left"
         onClick={() => {
           field.description.props.openImageSelector(
-            setMedia,
+            setMedia(imageFields.mediaId),
             imageFields.mediaId
           );
         }}

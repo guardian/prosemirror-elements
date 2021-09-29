@@ -7,6 +7,7 @@ import {
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
+  getElementRichTextFieldPlaceholder,
   getSerialisedHtml,
   italicShortcut,
   selectDataCy,
@@ -25,6 +26,13 @@ describe("ImageElement", () => {
 
   describe("Fields", () => {
     describe("Rich text field", () => {
+      it(`caption – should have a placeholder`, () => {
+        addImageElement();
+        getElementRichTextFieldPlaceholder("caption").should(
+          "have.text",
+          "Enter caption"
+        );
+      });
       it(`caption – should accept input in an element`, () => {
         addImageElement();
         const text = `caption text`;
@@ -158,7 +166,7 @@ describe("ImageElement", () => {
         });
         typeIntoElementField("caption", "{cmd+a}{backspace}");
 
-        getElementRichTextField("caption").should("have.text", "");
+        getElementRichTextField("caption").should("have.text", "Enter caption");
         getElementRichTextField("src").should(
           "have.text",
           "The remaining field."
@@ -167,6 +175,14 @@ describe("ImageElement", () => {
     });
 
     describe("Text field", () => {
+      it(`should have a placeholder`, () => {
+        addImageElement();
+        getElementRichTextFieldPlaceholder("src").should(
+          "have.text",
+          "Add src"
+        );
+      });
+
       it(`should accept input in an element`, () => {
         addImageElement();
         const text = `Src text`;
@@ -246,7 +262,7 @@ describe("ImageElement", () => {
         });
         typeIntoElementField("src", "{cmd+a}{backspace}");
 
-        getElementRichTextField("src").should("have.text", "");
+        getElementRichTextField("src").should("have.text", "Add src");
         getElementRichTextField("caption").should(
           "have.text",
           "The remaining field."

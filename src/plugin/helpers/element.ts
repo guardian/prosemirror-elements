@@ -1,7 +1,5 @@
 import type { DOMSerializer, Node, Schema } from "prosemirror-model";
 import type { FieldValidationErrors } from "../elementSpec";
-import type { FieldNameToValueMap } from "../fieldViews/helpers";
-import { fieldTypeToViewMap } from "../fieldViews/helpers";
 import { createNodesForFieldValues, getFieldNameFromNode } from "../nodeSpec";
 import type {
   ElementSpecMap,
@@ -10,6 +8,8 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
+import type { FieldNameToValueMap } from "./fieldView";
+import { fieldTypeToViewMap } from "./fieldView";
 
 /**
  * Creates a function that will attempt to create a Prosemirror node from

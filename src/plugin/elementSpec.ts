@@ -1,4 +1,4 @@
-import type { FieldNameToValueMap } from "./fieldViews/helpers";
+import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { validateWithFieldAndElementValidators } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
@@ -29,9 +29,12 @@ const createUpdater = <
   };
 };
 
+export type ErrorLevel = "ERROR" | "WARN";
+
 export type ValidationError = {
   error: string;
   message: string;
+  level: ErrorLevel;
 };
 export type FieldValidationErrors = Record<string, ValidationError[]>;
 

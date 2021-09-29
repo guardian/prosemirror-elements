@@ -1,8 +1,8 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
-import type { FieldNameToValueMap } from "./fieldViews/helpers";
-import { fieldTypeToViewMap } from "./fieldViews/helpers";
+import type { FieldNameToValueMap } from "./helpers/fieldView";
+import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
 export const elementTypeAttr = "pme-element-type";

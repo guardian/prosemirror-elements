@@ -1,4 +1,5 @@
 import type { WindowType } from "../../demo/types";
+import { placeholderTestAttribute } from "../../src/plugin/helpers/placeholder";
 import {
   ChangeTestDecoStringAction,
   trimHtml,
@@ -35,6 +36,13 @@ export const typeIntoProsemirror = (content: string) =>
 
 export const getElementRichTextField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))} .ProseMirror`);
+
+export const getElementRichTextFieldPlaceholder = (fieldName: string) =>
+  cy.get(
+    `div${selectDataCy(
+      getFieldViewTestId(fieldName)
+    )} [data-cy=${placeholderTestAttribute}]`
+  );
 
 export const getElementField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))}`);

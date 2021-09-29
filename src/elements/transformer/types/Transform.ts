@@ -1,4 +1,4 @@
-import type { FieldNameToValueMap } from "../../../plugin/fieldViews/helpers";
+import type { FieldNameToValueMap } from "../../../plugin/helpers/fieldView";
 import type { FieldDescriptions } from "../../../plugin/types/Element";
 
 export type TransformIn<
