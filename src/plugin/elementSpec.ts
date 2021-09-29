@@ -29,9 +29,12 @@ const createUpdater = <
   };
 };
 
+export type ErrorLevel = "ERROR" | "WARN";
+
 export type ValidationError = {
   error: string;
   message: string;
+  level: ErrorLevel;
 };
 export type FieldValidationErrors = Record<string, ValidationError[]>;
 

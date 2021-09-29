@@ -21,7 +21,11 @@ describe("Validation helpers", () => {
       expect(result).toEqual({
         field1: [],
         field2: [
-          { error: "Too long: 7/5", message: "field2 is too long: 7/5" },
+          {
+            error: "Too long: 7/5",
+            message: "field2 is too long: 7/5",
+            level: "ERROR",
+          },
         ],
       });
     });
@@ -36,7 +40,9 @@ describe("Validation helpers", () => {
       });
 
       expect(result).toEqual({
-        field1: [{ error: "Required", message: "field1 is required" }],
+        field1: [
+          { error: "Required", message: "field1 is required", level: "ERROR" },
+        ],
       });
     });
 
@@ -51,7 +57,9 @@ describe("Validation helpers", () => {
 
       expect(result).toEqual({
         field1: [],
-        field2: [{ error: "Required", message: "field2 is required" }],
+        field2: [
+          { error: "Required", message: "field2 is required", level: "ERROR" },
+        ],
       });
     });
   });
@@ -81,7 +89,11 @@ describe("Validation helpers", () => {
       expect(result).toEqual({
         field1: [],
         field2: [
-          { error: "Too long: 7/5", message: "field2 is too long: 7/5" },
+          {
+            error: "Too long: 7/5",
+            message: "field2 is too long: 7/5",
+            level: "ERROR",
+          },
         ],
       });
     });
@@ -103,7 +115,11 @@ describe("Validation helpers", () => {
       expect(result).toEqual({
         field1: [],
         field2: [
-          { error: "Too long: 7/5", message: "field2 is too long: 7/5" },
+          {
+            error: "Too long: 7/5",
+            message: "field2 is too long: 7/5",
+            level: "ERROR",
+          },
         ],
       });
     });
@@ -129,10 +145,18 @@ describe("Validation helpers", () => {
 
       expect(result).toEqual({
         field1: [
-          { error: "Too long: 7/5", message: "field1 is too long: 7/5" },
+          {
+            error: "Too long: 7/5",
+            message: "field1 is too long: 7/5",
+            level: "ERROR",
+          },
         ],
         field2: [
-          { error: "Too long: 7/5", message: "field2 is too long: 7/5" },
+          {
+            error: "Too long: 7/5",
+            message: "field2 is too long: 7/5",
+            level: "ERROR",
+          },
         ],
       });
     });

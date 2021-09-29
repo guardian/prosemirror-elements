@@ -1,4 +1,5 @@
 import type {
+  ErrorLevel,
   FieldValidationErrors,
   FieldValidator,
   Validator,
@@ -52,7 +53,8 @@ export const validateWithFieldAndElementValidators = <
 
 export const htmlMaxLength = (
   maxLength: number,
-  customMessage: string | undefined = undefined
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
 ): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `html max length check: ${field} value is incorrect`;
@@ -60,6 +62,7 @@ export const htmlMaxLength = (
       {
         message: typeError,
         error: typeError,
+        level,
       },
     ];
   }
@@ -73,6 +76,7 @@ export const htmlMaxLength = (
         error: `Too long: ${length}/${maxLength}`,
         message:
           customMessage ?? `${field} is too long: ${length}/${maxLength}`,
+        level,
       },
     ];
   }
@@ -81,7 +85,8 @@ export const htmlMaxLength = (
 
 export const maxLength = (
   maxLength: number,
-  customMessage: string | undefined = undefined
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
 ): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `max length check: ${field} value is incorrect`;
@@ -89,6 +94,7 @@ export const maxLength = (
       {
         message: typeError,
         error: typeError,
+        level,
       },
     ];
   }
@@ -99,6 +105,7 @@ export const maxLength = (
         error: `Too long: ${length}/${maxLength}`,
         message:
           customMessage ?? `${field} is too long: ${length}/${maxLength}`,
+        level,
       },
     ];
   }
@@ -106,7 +113,8 @@ export const maxLength = (
 };
 
 export const htmlRequired = (
-  customMessage: string | undefined = undefined
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
 ): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `required check: ${field} value is incorrect`;
@@ -114,6 +122,7 @@ export const htmlRequired = (
       {
         message: typeError,
         error: typeError,
+        level,
       },
     ];
   }
@@ -121,14 +130,19 @@ export const htmlRequired = (
   el.innerHTML = value ?? "";
   if (!el.innerText.length) {
     return [
-      { error: "Required", message: customMessage ?? `${field} is required` },
+      {
+        error: "Required",
+        message: customMessage ?? `${field} is required`,
+        level,
+      },
     ];
   }
   return [];
 };
 
 export const required = (
-  customMessage: string | undefined = undefined
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
 ): FieldValidator => (value, field) => {
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `required check: ${field} value is incorrect`;
@@ -136,13 +150,18 @@ export const required = (
       {
         message: typeError,
         error: typeError,
+        level,
       },
     ];
   }
   const length = (value ?? "").length;
   if (!length) {
     return [
-      { error: "Required", message: customMessage ?? `${field} is required` },
+      {
+        error: "Required",
+        message: customMessage ?? `${field} is required`,
+        level,
+      },
     ];
   }
   return [];
