@@ -7,6 +7,7 @@ import {
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
+  getElementRichTextFieldPlaceholder,
   getSerialisedHtml,
   italicShortcut,
   selectDataCy,
@@ -25,6 +26,13 @@ describe("ImageElement", () => {
 
   describe("Fields", () => {
     describe("Rich text field", () => {
+      it(`caption – should have a placeholder`, () => {
+        addImageElement();
+        getElementRichTextFieldPlaceholder("caption").should(
+          "have.text",
+          "Enter caption"
+        );
+      });
       it(`caption – should accept input in an element`, () => {
         addImageElement();
         const text = `caption text`;
@@ -153,6 +161,14 @@ describe("ImageElement", () => {
     });
 
     describe("Text field", () => {
+      it(`should have a placeholder`, () => {
+        addImageElement();
+        getElementRichTextFieldPlaceholder("src").should(
+          "have.text",
+          "Add src"
+        );
+      });
+
       it(`should accept input in an element`, () => {
         addImageElement();
         const text = `Src text`;

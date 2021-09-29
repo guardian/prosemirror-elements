@@ -31,6 +31,6 @@ describe("createPlaceholderDecos", () => {
     const decoSpecs = getDecoSpecs(
       createPlaceholderDecos("Placeholder")({ doc })
     );
-    expect(decoSpecs).toEqual([{ from: 2, to: 2 }]);
+    expect(decoSpecs).toEqual([{ from: 1, to: 1 }]);
   });
 });

@@ -2,7 +2,7 @@ import type { Node } from "prosemirror-model";
 import { Plugin } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
 
-const placeholderAttribute = "data-cy-is-placeholder";
+export const placeholderTestAttribute = "placeholder";
 
 const getDefaultPlaceholder = (text: string) => {
   const span = document.createElement("span");
@@ -15,12 +15,12 @@ const getDefaultPlaceholder = (text: string) => {
   span.style.cursor = "text";
   span.draggable = false;
   span.innerHTML = text;
-  span.setAttribute(placeholderAttribute, "true");
+  span.setAttribute("data-cy", placeholderTestAttribute);
   return span;
 };
 
 export const containsPlaceholder = (element: HTMLElement): boolean =>
-  !!element.querySelector(`span[${placeholderAttribute}]`);
+  !!element.querySelector(`span[${placeholderTestAttribute}]`);
 
 /**
  * Get the first placeholder position in the document – assumed
@@ -28,11 +28,8 @@ export const containsPlaceholder = (element: HTMLElement): boolean =>
  */
 const getFirstPlaceholderPosition = (node: Node, currentPos = 0): number =>
   node.firstChild
-    ? getFirstPlaceholderPosition(
-        node.firstChild,
-        currentPos + node.content.size
-      )
-    : currentPos + node.content.size;
+    ? getFirstPlaceholderPosition(node.firstChild, currentPos + 1)
+    : currentPos;
 
 export type PlaceholderOption = string | (() => HTMLElement);
 

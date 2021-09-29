@@ -11,6 +11,7 @@ import {
   createFlatRichTextField,
 } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { placeholderTestAttribute } from "../../plugin/helpers/placeholder";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { ImageElementForm } from "./DemoImageElementForm";
@@ -28,6 +29,22 @@ type ImageField = {
   assets: string[];
 };
 
+const getCustomPlaceholder = (text: string) => () => {
+  const span = document.createElement("span");
+  span.style.fontFamily = "Comic Sans MS";
+  span.style.display = "inline-block";
+  span.style.height = "0px";
+  span.style.width = "0px";
+  span.style.whiteSpace = "nowrap";
+  span.style.color = "#888";
+  span.style.pointerEvents = "none";
+  span.style.cursor = "text";
+  span.draggable = false;
+  span.innerHTML = text;
+  span.setAttribute("data-cy", placeholderTestAttribute);
+  return span;
+};
+
 type ImageProps = {
   onSelectImage: (setMedia: DemoSetMedia) => void;
   onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void;
@@ -38,18 +55,20 @@ export const createImageFields = (
   onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void
 ) => {
   return {
-    caption: createDefaultRichTextField([htmlRequired()]),
+    caption: createDefaultRichTextField([htmlRequired()], "Enter caption"),
     restrictedTextField: createFlatRichTextField({
+      placeholder: "Enter restricted text",
       createPlugins: (schema) => exampleSetup({ schema }),
       nodeSpec: {
         marks: "em",
       },
     }),
     altText: createTextField({
+      placeholder: "Alt text",
       rows: 2,
       validators: [htmlMaxLength(100), htmlRequired()],
     }),
-    src: createTextField({ placeholder: "Add src here" }),
+    src: createTextField({ placeholder: getCustomPlaceholder("Add src") }),
     code: createTextField({
       rows: 4,
       isCode: true,

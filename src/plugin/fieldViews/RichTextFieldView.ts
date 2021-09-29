@@ -129,7 +129,8 @@ export class RichTextFieldView extends ProseMirrorFieldView {
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
         }),
         ...(field.createPlugins ? field.createPlugins(node.type.schema) : []),
-      ]
+      ],
+      field.placeholder
     );
 
     this.fieldViewElement.classList.add("ProseMirrorElements__RichTextField");
