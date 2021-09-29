@@ -33,7 +33,7 @@ type Props = {
 };
 
 type ImageViewProps = {
-  onChange: SetMedia;
+  updateFields: SetMedia;
   errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
@@ -66,7 +66,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           />
           <ImageView
             field={fields.mainImage}
-            onChange={({ caption, source, photographer }) => {
+            updateFields={({ caption, source, photographer }) => {
               fields.caption.update(caption);
               fields.source.update(source);
               fields.photographer.update(photographer);
@@ -139,9 +139,12 @@ const imageViewStysles = css`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
-const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
+const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
-  const setMedia = (mediaPayload: MediaPayload) => {
+
+  const setMedia = (previousMediaId: string | undefined) => (
+    mediaPayload: MediaPayload
+  ) => {
     const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
     setImageFields({
       mediaId,
@@ -149,7 +152,9 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
       assets,
       suppliersReference,
     });
-    onChange(mediaPayload);
+    if (previousMediaId && previousMediaId !== mediaId) {
+      updateFields(mediaPayload);
+    }
   };
 
   const imageSrc = useMemo(() => {
@@ -186,7 +191,7 @@ const ImageView = ({ field, onChange, errors }: ImageViewProps) => {
         iconSide="left"
         onClick={() => {
           field.description.props.openImageSelector(
-            setMedia,
+            setMedia(imageFields.mediaId),
             imageFields.mediaId
           );
         }}
