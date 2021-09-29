@@ -5,6 +5,7 @@ import type { Node, NodeSpec, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
+import { filteredKeymap } from "../helpers/keymap";
 import type { BaseFieldDescription } from "./FieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -120,6 +121,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
         keymap({
           "Mod-z": () => undo(outerView.state, outerView.dispatch),
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
+          ...filteredKeymap,
         }),
         ...plugins,
       ]
