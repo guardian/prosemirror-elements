@@ -25,6 +25,7 @@ import type {
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
+import { minAssetValidation, thumbnailOption } from "./ImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -34,6 +35,7 @@ type Props = {
 
 type ImageViewProps = {
   updateFields: SetMedia;
+  updateRole: (value: string) => void;
   errors: ValidationError[];
   field: CustomField<MainImageData, MainImageProps>;
 };
@@ -63,6 +65,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
             field={fields.role}
             label="Weighting"
             errors={errors.role}
+            options={
+              minAssetValidation(fieldValues.mainImage, "").length
+                ? [thumbnailOption]
+                : undefined
+            }
           />
           <ImageView
             field={fields.mainImage}
@@ -71,6 +78,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               fields.source.update(source);
               fields.photographer.update(photographer);
             }}
+            updateRole={(value) => fields.role.update(value)}
             errors={errors.mainImage}
           />
           <CustomDropdownView
@@ -139,7 +147,12 @@ const imageViewStysles = css`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
-const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
+const ImageView = ({
+  field,
+  updateFields,
+  updateRole,
+  errors,
+}: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
 
   const setMedia = (previousMediaId: string | undefined) => (
@@ -152,6 +165,9 @@ const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
       assets,
       suppliersReference,
     });
+    if (minAssetValidation({ assets }, "").length) {
+      updateRole(thumbnailOption.value);
+    }
     if (previousMediaId && previousMediaId !== mediaId) {
       updateFields(mediaPayload);
     }
