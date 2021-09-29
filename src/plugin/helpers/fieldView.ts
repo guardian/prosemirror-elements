@@ -1,3 +1,5 @@
+import type { Node } from "prosemirror-model";
+import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
@@ -5,7 +7,7 @@ import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
-import type { FieldDescriptions } from "../types/Element";
+import type { FieldDescription, FieldDescriptions } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -70,3 +72,49 @@ export type FieldNameToValueMapWithEmptyValues<
   FieldNameToValueMap<FDesc>,
   KeysWithValsOfType<FDesc, { absentOnEmpty: true }>
 >;
+
+type Options = {
+  node: Node;
+  view: EditorView;
+  getPos: () => number;
+  offset: number;
+  innerDecos: Decoration[] | DecorationSet;
+};
+
+export const getElementFieldViewFromType = (
+  field: FieldDescription,
+  { node, view, getPos, offset, innerDecos }: Options
+) => {
+  switch (field.type) {
+    case "text":
+      return new TextFieldView(node, view, getPos, offset, innerDecos, field);
+    case "richText":
+      return new RichTextFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        innerDecos,
+        field.createPlugins ? field.createPlugins(node.type.schema) : []
+      );
+    case "checkbox":
+      return new CheckboxFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        field.defaultValue ?? CheckboxFieldView.defaultValue
+      );
+    case "custom":
+      return new CustomFieldView(node, view, getPos, offset);
+    case "dropdown":
+      return new DropdownFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        field.defaultValue ?? DropdownFieldView.defaultValue,
+        field.options
+      );
+  }
+};
