@@ -354,7 +354,7 @@ describe("buildElementPlugin", () => {
         field1: { type: "richText" },
       },
       () => undefined,
-      () => ({ field1: [{ error: "Some error", message: "" }] })
+      () => ({ field1: [{ error: "Some error", message: "", level: "ERROR" }] })
     );
 
     const testElementWithDifferentValidation = createElementSpec(
@@ -364,7 +364,11 @@ describe("buildElementPlugin", () => {
       () => undefined,
       () => ({
         checkbox: [
-          { error: "Some other error", message: "A human readable message" },
+          {
+            error: "Some other error",
+            message: "A human readable message",
+            level: "ERROR",
+          },
         ],
       })
     );
@@ -730,7 +734,7 @@ describe("buildElementPlugin", () => {
             });
 
             expect(errors).toEqual({
-              field1: [{ error: "Some error", message: "" }],
+              field1: [{ error: "Some error", message: "", level: "ERROR" }],
             });
 
             const otherErrors = validateElementData({
@@ -743,6 +747,7 @@ describe("buildElementPlugin", () => {
                 {
                   error: "Some other error",
                   message: "A human readable message",
+                  level: "ERROR",
                 },
               ],
             });
@@ -811,7 +816,7 @@ describe("buildElementPlugin", () => {
             );
 
             expect(errors).toEqual({
-              field1: [{ error: "Some error", message: "" }],
+              field1: [{ error: "Some error", message: "", level: "ERROR" }],
             });
           });
         });

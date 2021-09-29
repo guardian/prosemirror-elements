@@ -1,7 +1,10 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import React from "react";
-import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
@@ -46,6 +49,12 @@ export type MainImageProps = {
 
 export const undefinedDropdownValue = "none-selected";
 
+export const minAssetValidation = largestAssetMinDimension(460);
+export const thumbnailOption = {
+  text: "thumbnail",
+  value: "thumbnail",
+};
+
 export const createImageFields = ({
   createCaptionPlugins,
   openImageSelector,
@@ -77,16 +86,16 @@ export const createImageFields = ({
         suppliersReference: "",
       },
       { openImageSelector },
-      [largestAssetMinDimension(460)]
+      [minAssetValidation]
     ),
     source: createTextField({
       validators: [htmlMaxLength(250), htmlRequired()],
     }),
-    role: createCustomField(undefinedDropdownValue, [
+    role: createCustomDropdownField(undefinedDropdownValue, [
       { text: "inline (default)", value: undefinedDropdownValue },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
-      { text: "thumbnail", value: "thumbnail" },
+      thumbnailOption,
       { text: "immersive", value: "immersive" },
     ]),
   };

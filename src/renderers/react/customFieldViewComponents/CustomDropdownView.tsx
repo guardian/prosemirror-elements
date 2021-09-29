@@ -7,6 +7,7 @@ import { useCustomFieldState } from "../useCustomFieldViewState";
 
 type CustomDropdownViewProps = {
   field: CustomField<string, Options>;
+  options?: Options;
   errors?: ValidationError[];
   label: string;
   display?: "inline" | "block";
@@ -14,6 +15,7 @@ type CustomDropdownViewProps = {
 
 export const CustomDropdownView = ({
   field,
+  options,
   errors = [],
   label,
   display = "block",
@@ -22,7 +24,7 @@ export const CustomDropdownView = ({
   return (
     <CustomDropdown
       display={display}
-      options={field.description.props}
+      options={options ?? field.description.props}
       selected={selectedElement}
       label={label}
       onChange={(event) => {
