@@ -6,10 +6,11 @@ import type { Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
-import type { BaseFieldDescription } from "./FieldView";
+import type { PlaceholderOption } from "../helpers/placeholder";
+import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-export interface TextFieldDescription extends BaseFieldDescription<string> {
+export interface TextFieldDescription extends AbstractTextFieldDescription {
   type: typeof TextFieldView.fieldName;
   // Can this field display over multiple lines? This will
   // insert line breaks (<br>) when the user hits the Enter key.
@@ -29,6 +30,7 @@ type TextFieldOptions = {
   isCode?: boolean;
   absentOnEmpty?: boolean;
   validators?: FieldValidator[];
+  placeholder?: PlaceholderOption;
 };
 
 export const createTextField = (
@@ -37,11 +39,13 @@ export const createTextField = (
     isCode = false,
     absentOnEmpty = false,
     validators,
+    placeholder,
   }: TextFieldOptions | undefined = {
     rows: 1,
     isCode: false,
     absentOnEmpty: false,
     validators: [],
+    placeholder: undefined,
   }
 ): TextFieldDescription => ({
   type: TextFieldView.fieldName,
@@ -50,6 +54,7 @@ export const createTextField = (
   isCode,
   absentOnEmpty,
   validators,
+  placeholder,
 });
 
 export class TextFieldView extends ProseMirrorFieldView {
@@ -66,7 +71,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    { isMultiline, rows, isCode }: TextFieldDescription
+    { isMultiline, rows, isCode, placeholder }: TextFieldDescription
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove 'enter' commands from keymap
     const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
@@ -99,7 +104,8 @@ export class TextFieldView extends ProseMirrorFieldView {
       offset,
       decorations,
       TextFieldView.fieldName,
-      [keymap(keymapping)]
+      [keymap(keymapping)],
+      placeholder
     );
 
     if (isCode && this.innerEditorView) {

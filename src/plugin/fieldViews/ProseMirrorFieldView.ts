@@ -5,12 +5,19 @@ import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
-import type { FieldView } from "./FieldView";
+import type { PlaceholderOption } from "../helpers/placeholder";
+import { createPlaceholderPlugin } from "../helpers/placeholder";
+import type { BaseFieldDescription, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
 
+export interface AbstractTextFieldDescription
+  extends BaseFieldDescription<string> {
+  placeholder?: PlaceholderOption;
+  absentOnEmpty?: boolean;
+}
+
 /**
- * A FieldView that represents a
- * nested rich text editor interface.
+ * A FieldView that represents a nested prosemirror instance.
  */
 export abstract class ProseMirrorFieldView implements FieldView<string> {
   public static fieldType = FieldType.CONTENT;
@@ -51,12 +58,18 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // The ProseMirror node type name
     private readonly fieldName: string,
     // Plugins that the editor should use
-    plugins?: Plugin[]
+    plugins?: Plugin[],
+    // The field placeholder option
+    placeholder?: PlaceholderOption
   ) {
     this.applyDecorationsFromOuterEditor(decorations);
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
     this.parser = DOMParser.fromSchema(node.type.schema);
-    this.innerEditorView = this.createInnerEditorView(plugins);
+
+    const localPlugins = placeholder
+      ? [...(plugins ?? []), createPlaceholderPlugin(placeholder)]
+      : plugins;
+    this.innerEditorView = this.createInnerEditorView(localPlugins);
   }
 
   public getNodeValue(node: Node) {
