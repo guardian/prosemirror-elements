@@ -95,7 +95,7 @@ export const getElementFieldViewFromType = (
         getPos,
         offset,
         innerDecos,
-        field.createPlugins ? field.createPlugins(node.type.schema) : []
+        field
       );
     case "checkbox":
       return new CheckboxFieldView(

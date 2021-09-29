@@ -49,10 +49,11 @@ export const createImageFields = (
       rows: 2,
       validators: [htmlMaxLength(100), htmlRequired()],
     }),
-    src: createTextField(),
+    src: createTextField({ placeholder: "Add src here" }),
     code: createTextField({
       rows: 4,
       isCode: true,
+      placeholder: "Write code here",
     }),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },
