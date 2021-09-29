@@ -35,19 +35,25 @@ const getFirstPlaceholderPosition = (node: Node, currentPos = 0): number =>
       )
     : currentPos + node.content.size;
 
+export const createPlaceholderDecos = (text: string) => ({
+  doc,
+}: {
+  doc: Node;
+}) => {
+  if (doc.textContent) {
+    return DecorationSet.empty;
+  }
+
+  // If the document contains inline content only, just place the widget at its start.
+  const pos = doc.inlineContent ? 0 : getFirstPlaceholderPosition(doc);
+  return DecorationSet.create(doc, [
+    Decoration.widget(pos, getPlaceholder(text)),
+  ]);
+};
+
 export const createPlaceholderPlugin = (text: string) =>
   new Plugin({
     props: {
-      decorations: ({ doc }) => {
-        if (doc.textContent) {
-          return DecorationSet.empty;
-        }
-
-        // If the document contains inline content only, just place the widget at its start.
-        const pos = doc.inlineContent ? 0 : getFirstPlaceholderPosition(doc);
-        return DecorationSet.create(doc, [
-          Decoration.widget(pos, getPlaceholder(text)),
-        ]);
-      },
+      decorations: createPlaceholderDecos(text),
     },
   });

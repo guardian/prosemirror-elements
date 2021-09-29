@@ -117,3 +117,9 @@ export const createEditorWithElements = <
     validateElementData,
   };
 };
+
+export const getDecoSpecs = (decoSet: DecorationSet) =>
+  decoSet.find().map(({ from, to }) => ({
+    from,
+    to,
+  }));
