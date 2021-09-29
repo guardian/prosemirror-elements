@@ -4,14 +4,13 @@ import { Decoration, DecorationSet } from "prosemirror-view";
 
 const placeholderAttribute = "data-cy-is-placeholder";
 
-const getPlaceholder = (text: string) => {
+const getDefaultPlaceholder = (text: string) => {
   const span = document.createElement("span");
   span.style.display = "inline-block";
   span.style.height = "0px";
   span.style.width = "0px";
   span.style.whiteSpace = "nowrap";
-  span.style.fontStyle = "italic";
-  span.style.color = "#777";
+  span.style.color = "#888";
   span.style.pointerEvents = "none";
   span.style.cursor = "text";
   span.draggable = false;
@@ -35,23 +34,26 @@ const getFirstPlaceholderPosition = (node: Node, currentPos = 0): number =>
       )
     : currentPos + node.content.size;
 
-export const createPlaceholderDecos = (text: string) => ({
-  doc,
-}: {
-  doc: Node;
-}) => {
-  if (doc.textContent) {
-    return DecorationSet.empty;
-  }
+export type PlaceholderOption = string | (() => HTMLElement);
 
-  // If the document contains inline content only, just place the widget at its start.
-  const pos = doc.inlineContent ? 0 : getFirstPlaceholderPosition(doc);
-  return DecorationSet.create(doc, [
-    Decoration.widget(pos, getPlaceholder(text)),
-  ]);
+export const createPlaceholderDecos = (placeholder: PlaceholderOption) => {
+  const getPlaceholder =
+    typeof placeholder === "string"
+      ? getDefaultPlaceholder(placeholder)
+      : placeholder;
+
+  return ({ doc }: { doc: Node }) => {
+    if (doc.textContent) {
+      return DecorationSet.empty;
+    }
+
+    // If the document contains inline content only, just place the widget at its start.
+    const pos = doc.inlineContent ? 0 : getFirstPlaceholderPosition(doc);
+    return DecorationSet.create(doc, [Decoration.widget(pos, getPlaceholder)]);
+  };
 };
 
-export const createPlaceholderPlugin = (text: string) =>
+export const createPlaceholderPlugin = (text: PlaceholderOption) =>
   new Plugin({
     props: {
       decorations: createPlaceholderDecos(text),
