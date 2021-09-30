@@ -73,6 +73,8 @@ const getNodeSpecForElement = (
   },
 });
 
+// A group for our field nodes. Exported to allow consumers to
+// easily identify field nodes in their own code.
 export const fieldGroupName = "pme-field";
 
 export const getNodeSpecForField = (
