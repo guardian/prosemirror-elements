@@ -1,4 +1,4 @@
-import { ImageElementTestId } from "../../src/elements/image/ImageElementForm";
+import { ImageElementTestId } from "../../src/elements/demo-image/DemoImageElementForm";
 import {
   moveBottomTestId,
   moveDownTestId,
@@ -7,7 +7,7 @@ import {
   removeTestId,
 } from "../../src/renderers/react/ElementWrapper";
 import {
-  addElement,
+  addImageElement,
   getArrayOfBlockElementTypes,
   selectDataCy,
   visitRoot,
@@ -18,28 +18,28 @@ describe("ElementWrapper", () => {
 
   describe("Element creation", () => {
     it("should create an element given its DOM specification", () => {
-      addElement();
+      addImageElement();
       cy.get(selectDataCy(ImageElementTestId));
     });
   });
 
   describe("Element movement", () => {
     it("should move an element down", async () => {
-      addElement();
+      addImageElement();
       cy.get(selectDataCy(moveDownTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
     });
 
     it("should move an element to the bottom", async () => {
-      addElement();
+      addImageElement();
       cy.get(selectDataCy(moveBottomTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph", "element"]);
     });
 
     it("should move an element up", async () => {
-      addElement();
+      addImageElement();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveUpTestId)).click();
@@ -48,7 +48,7 @@ describe("ElementWrapper", () => {
     });
 
     it("should move an element to the top", async () => {
-      addElement();
+      addImageElement();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveDownTestId)).click();
       cy.get(selectDataCy(moveTopTestId)).click();
@@ -57,7 +57,8 @@ describe("ElementWrapper", () => {
     });
 
     it("should remove an element", async () => {
-      addElement();
+      addImageElement();
+      cy.get(selectDataCy(removeTestId)).click();
       cy.get(selectDataCy(removeTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph"]);

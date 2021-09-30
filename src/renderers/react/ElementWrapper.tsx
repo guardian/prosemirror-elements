@@ -2,30 +2,22 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { neutral } from "@guardian/src-foundations/palette";
-import { textSans } from "@guardian/src-foundations/typography";
+import { border, neutral } from "@guardian/src-foundations/palette";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
   SvgChevronRightDouble,
-  SvgCross,
 } from "@guardian/src-icons";
 import type { ReactElement } from "react";
-import React from "react";
+import React, { useState } from "react";
+import { SvgBin } from "../../editorial-source-components/SvgBin";
 import type { CommandCreator } from "../../plugin/types/Commands";
+
+const buttonWidth = 32;
 
 const Container = styled("div")`
   margin: ${space[3]}px 0;
-`;
-
-const Header = styled("div")`
-  border-bottom: 1px solid ${neutral[86]};
-  padding-left: ${space[3]}px;
-  margin-top: ${space[3]}px;
-`;
-
-const Title = styled("h2")`
-  ${textSans.large({ fontWeight: "bold" })}
+  position: relative;
 `;
 
 const Body = styled("div")`
@@ -49,33 +41,26 @@ const Panel = styled("div")`
   padding: ${space[3]}px;
 `;
 
-const Actions = styled("div")`
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 0.2s;
-`;
-
-const Button = styled("button")`
+const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
   border: none;
   border-top: 1px solid ${neutral[100]};
   color: ${neutral[100]};
   cursor: pointer;
-  flex-grow: ${({ expanded }: { expanded?: boolean }) =>
-    expanded ? "1" : "0"};
-  font-size: 16px;
+  flex-grow: ${({ expanded }) => (expanded ? "1" : "0")};
+  ${({ expanded }) => !expanded && "height: 32px;"};
+  font-size: 15px;
   line-height: 1;
   padding: ${space[1]}px;
-  min-width: 32px;
+  width: ${buttonWidth}px;
   transition: background-color 0.1s;
   :focus {
     ${focusHalo}
     z-index: 1;
   }
 
-  :first-child {
+  :first-of-type {
     border: none;
   }
 
@@ -101,8 +86,76 @@ const Button = styled("button")`
   }
 `;
 
+const SeriousButton = styled(Button)<{ activated?: boolean }>`
+  background-color: ${({ activated }) =>
+    activated ? border.error : neutral[93]};
+  div {
+    opacity: 0;
+  }
+  svg {
+    fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
+  }
+  :hover {
+    background-color: ${({ activated }) =>
+      activated ? neutral[0] : neutral[86]};
+    svg {
+      fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
+    }
+    div {
+      opacity: 1;
+    }
+  }
+`;
+
+const Actions = styled("div")`
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.2s;
+`;
+
+const Tooltip = styled("div")`
+  background-color: ${neutral[97]};
+  color: ${neutral[0]};
+  position: absolute;
+  left: 0px;
+  border-radius: 4px;
+  line-height: 1.2rem;
+  bottom: ${buttonWidth + 10}px;
+  font-family: "Guardian Agate Sans";
+  font-size: 15px;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
+  z-index: 1;
+  width: 82px;
+  padding: ${space[1]}px;
+  padding-bottom: 5px;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  /* Add a point to the bottom of the tooltip */
+  ::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: ${buttonWidth / 2}px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: ${neutral[97]} transparent transparent transparent;
+  }
+`;
+
+const RightActions = styled(Actions)`
+  right: -${buttonWidth + 1}px;
+`;
+
+const LeftActions = styled(Actions)`
+  flex-direction: column-reverse;
+  left: -${buttonWidth + 1}px;
+`;
+
 type Props = {
-  name: string;
   children?: ReactElement;
 } & ReturnType<CommandCreator>;
 
@@ -114,74 +167,95 @@ export const moveDownTestId = "ElementWrapper__moveDown";
 export const removeTestId = "ElementWrapper__remove";
 
 export const ElementWrapper: React.FunctionComponent<Props> = ({
-  name,
   moveUp,
   moveDown,
   moveTop,
   moveBottom,
   remove,
   children,
-}) => (
-  <Container data-cy={elementWrapperTestId}>
-    <Body>
-      <Panel>
-        <Header>
-          <Title>{name}</Title>
-        </Header>
-        {children}
-      </Panel>
-      <Actions className="actions">
-        <Button
-          data-cy={moveTopTestId}
-          disabled={!moveTop(false)}
-          onClick={() => moveTop(true)}
-        >
-          <div
-            css={css`
-              transform: rotate(270deg) translate(0, 1px);
-            `}
-          >
-            <SvgChevronRightDouble />
-          </div>
-        </Button>
-        <Button
-          data-cy={moveUpTestId}
-          expanded
-          disabled={!moveUp(false)}
-          onClick={() => moveUp(true)}
-        >
-          <SvgArrowUpStraight />
-        </Button>
-        <Button
-          data-cy={moveDownTestId}
-          expanded
-          disabled={!moveDown(false)}
-          onClick={() => moveDown(true)}
-        >
-          <SvgArrowDownStraight />
-        </Button>
-        <Button
-          data-cy={moveBottomTestId}
-          disabled={!moveBottom(false)}
-          onClick={() => moveBottom(true)}
-        >
-          <div
-            css={css`
-              transform: rotate(90deg) translate(0, 1px);
-            `}
-          >
-            <SvgChevronRightDouble />
-          </div>
-        </Button>
+}) => {
+  const [closeClickedOnce, setCloseClickedOnce] = useState(false);
 
-        <Button
-          data-cy={removeTestId}
-          disabled={!remove(false)}
-          onClick={() => remove(true)}
-        >
-          <SvgCross />
-        </Button>
-      </Actions>
-    </Body>
-  </Container>
-);
+  return (
+    <Container
+      className="ProsemirrorElement__wrapper"
+      data-cy={elementWrapperTestId}
+    >
+      <Body>
+        <LeftActions className="actions">
+          <SeriousButton
+            type="button"
+            activated={closeClickedOnce}
+            data-cy={removeTestId}
+            disabled={!remove(false)}
+            onClick={() => {
+              if (closeClickedOnce) remove(true);
+              else {
+                setCloseClickedOnce(true);
+                setTimeout(() => {
+                  setCloseClickedOnce(false);
+                }, 5000);
+              }
+            }}
+          >
+            <SvgBin />
+            {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
+          </SeriousButton>
+        </LeftActions>
+        <Panel>{children}</Panel>
+        <RightActions className="actions">
+          <Button
+            type="button"
+            data-cy={moveTopTestId}
+            disabled={!moveTop(false)}
+            onClick={() => moveTop(true)}
+            aria-label="Move element to top"
+          >
+            <div
+              css={css`
+                transform: rotate(270deg) translate(1px, 1px);
+              `}
+            >
+              <SvgChevronRightDouble />
+            </div>
+          </Button>
+          <Button
+            type="button"
+            data-cy={moveUpTestId}
+            expanded
+            disabled={!moveUp(false)}
+            onClick={() => moveUp(true)}
+            aria-label="Move element up"
+          >
+            <SvgArrowUpStraight />
+          </Button>
+          <Button
+            type="button"
+            data-cy={moveDownTestId}
+            expanded
+            disabled={!moveDown(false)}
+            onClick={() => moveDown(true)}
+            aria-label="Move element down"
+          >
+            <SvgArrowDownStraight />
+          </Button>
+          <Button
+            type="button"
+            data-cy={moveBottomTestId}
+            disabled={!moveBottom(false)}
+            onClick={() => moveBottom(true)}
+            aria-label="Move element to bottom"
+          >
+            <div
+              css={css`
+                transform: rotate(90deg) translate(-2px, 2px);
+              `}
+            >
+              <SvgChevronRightDouble />
+            </div>
+          </Button>
+        </RightActions>
+      </Body>
+    </Container>
+  );
+};

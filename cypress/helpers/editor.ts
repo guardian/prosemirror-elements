@@ -1,4 +1,5 @@
-import type { EditorView } from "prosemirror-view";
+import type { WindowType } from "../../demo/types";
+import { placeholderTestAttribute } from "../../src/plugin/helpers/placeholder";
 import {
   ChangeTestDecoStringAction,
   trimHtml,
@@ -30,13 +31,18 @@ export const getElementType = (element: JQuery) => {
   return "unknown";
 };
 
-export const addElement = () => cy.get("#element").click();
-
 export const typeIntoProsemirror = (content: string) =>
   cy.get(`.ProseMirror`).type(content);
 
 export const getElementRichTextField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))} .ProseMirror`);
+
+export const getElementRichTextFieldPlaceholder = (fieldName: string) =>
+  cy.get(
+    `div${selectDataCy(
+      getFieldViewTestId(fieldName)
+    )} [data-cy=${placeholderTestAttribute}]`
+  );
 
 export const getElementField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))}`);
@@ -70,47 +76,68 @@ export const getArrayOfBlockElementTypes = () => {
 };
 
 export const assertDocHtml = (expectedHtml: string) =>
-  cy.window().then((win) => {
-    const actualHtml = ((win as unknown) as {
-      docToHtml: () => string;
-    }).docToHtml();
+  cy.window().then((win: WindowType) => {
+    const actualHtml = win.PM_ELEMENTS.docToHtml();
     expect(trimHtml(expectedHtml)).to.equal(actualHtml);
   });
 
 export const changeTestDecoString = (newTestString: string) => {
-  cy.window().then((win) => {
-    const view = ((win as unknown) as { view: EditorView }).view;
+  cy.window().then((win: WindowType) => {
+    const view = win.PM_ELEMENTS.view;
     view.dispatch(
       view.state.tr.setMeta(ChangeTestDecoStringAction, newTestString)
     );
   });
 };
 
-export const getSerialisedHtml = ({
-  altTextValue = "<p></p>",
-  captionValue = "<p></p>",
-  srcValue = "",
-  useSrcValue = "false",
-  optionValue = "opt1",
-  customDropdownValue = "opt1",
-  mainImageValue = {
-    assets: "[]",
-    mediaId: undefined,
-    mediaApiUri: undefined,
-  },
-}: {
+export const addImageElement = (values: Record<string, unknown> = {}) => {
+  cy.window().then((win: WindowType) => {
+    const { view, insertElement } = win.PM_ELEMENTS;
+    insertElement({ elementName: "demoImageElement", values })(
+      view.state,
+      view.dispatch
+    );
+  });
+};
+
+type ElementFields = {
   altTextValue?: string;
   captionValue?: string;
   srcValue?: string;
+  codeValue?: string;
   useSrcValue?: string;
   optionValue?: string;
+  restrictedTextValue?: string;
   customDropdownValue?: string;
   mainImageValue?: {
     assets: string;
     mediaId?: string;
     mediaApiUri?: string;
   };
-}): string => {
+};
+
+export const setDocFromHtml = (fields: ElementFields) => {
+  cy.window().then((win: WindowType) => {
+    const { htmlToDoc } = win.PM_ELEMENTS;
+    htmlToDoc(getSerialisedHtml(fields));
+  });
+};
+
+export const getSerialisedHtml = ({
+  altTextValue = "",
+  captionValue = "<p></p>",
+  srcValue = "",
+  codeValue = "",
+  useSrcValue = "false",
+  optionValue = "opt1",
+  restrictedTextValue = "",
+  customDropdownValue = "opt1",
+  mainImageValue = {
+    assets: "[]",
+    mediaId: undefined,
+    mediaApiUri: undefined,
+  },
+}: ElementFields): string => {
   const mainImageFields =
     mainImageValue.mediaId || mainImageValue.mediaApiUri
       ? `&quot;mediaId&quot;:&quot;${
@@ -119,13 +146,33 @@ export const getSerialisedHtml = ({
           mainImageValue.mediaApiUri ?? "undefined"
         }&quot;,&quot;assets&quot;${mainImageValue.assets}`
       : `&quot;assets&quot;:[]`;
-  return trimHtml(`<imageelement type="imageElement" has-errors="false">
-    <element-imageelement-alttext class="ProsemirrorElement__imageElement-altText">${altTextValue}</element-imageelement-alttext>
-    <element-imageelement-caption class="ProsemirrorElement__imageElement-caption">${captionValue}</element-imageelement-caption>
-    <element-imageelement-customdropdown class="ProsemirrorElement__imageElement-customDropdown" fields="&quot;${customDropdownValue}&quot;"></element-imageelement-customdropdown>
-    <element-imageelement-mainimage class="ProsemirrorElement__imageElement-mainImage" fields="{${mainImageFields}}"></element-imageelement-mainimage>
-    <element-imageelement-optiondropdown class="ProsemirrorElement__imageElement-optionDropdown" fields="&quot;${optionValue}&quot;"></element-imageelement-optiondropdown>
-    <element-imageelement-src class="ProsemirrorElement__imageElement-src">${srcValue}</element-imageelement-src>
-    <element-imageelement-usesrc class="ProsemirrorElement__imageElement-useSrc" fields="{&quot;value&quot;:${useSrcValue}}"></element-imageelement-usesrc>
-  </imageelement><p>First paragraph</p><p>Second paragraph</p>`);
+  return trimHtml(`<div pme-element-type="demoImageElement">
+    <div pme-field-name="demoImageElement_altText">${altTextValue}</div>
+    <div pme-field-name="demoImageElement_caption">${captionValue}</div>
+    <div pme-field-name="demoImageElement_code">${codeValue}</div>
+    <div pme-field-name="demoImageElement_customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
+    <div pme-field-name="demoImageElement_mainImage" fields="{${mainImageFields}}"></div>
+    <div pme-field-name="demoImageElement_optionDropdown" fields="&quot;${optionValue}&quot;"></div>
+    <div pme-field-name="demoImageElement_restrictedTextField">${restrictedTextValue}</div>
+    <div pme-field-name="demoImageElement_src">${srcValue}</div>
+    <div pme-field-name="demoImageElement_useSrc" fields="${useSrcValue}"></div>
+  </div><p>First paragraph</p><p>Second paragraph</p>`);
+};
+
+export const boldShortcut = () => {
+  switch (Cypress.platform) {
+    case "darwin":
+      return "{meta+b}";
+    default:
+      return "{ctrl+b}";
+  }
+};
+
+export const italicShortcut = () => {
+  switch (Cypress.platform) {
+    case "darwin":
+      return "{meta+i}";
+    default:
+      return "{ctrl+i}";
+  }
 };

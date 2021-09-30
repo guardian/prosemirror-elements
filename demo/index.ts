@@ -1,12 +1,20 @@
+import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
-import type { Node, NodeSpec } from "prosemirror-model";
+import type { MarkSpec, Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
-import { schema as basicSchema } from "prosemirror-schema-basic";
+import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { createImageElement } from "../src/elements/image/imageElement";
+import {
+  codeElement,
+  createDemoImageElement,
+  createEmbedElement,
+  createImageElement,
+  pullquoteElement,
+} from "../src";
+import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -16,20 +24,46 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onSelectImage } from "./helpers";
+import { onCropImage, onDemoCropImage, onSelectImage } from "./helpers";
+import type { WindowType } from "./types";
 
-const {
-  plugin: elementPlugin,
-  insertElement,
-  hasErrors,
-  nodeSpec,
-} = buildElementPlugin([
-  createImageElement("imageElement", onSelectImage, onCropImage),
-]);
+// Only show focus when the user is keyboard navigating, not when
+// they click a text field.
+FocusStyleManager.onlyShowFocusOnTabs();
+const embedElementName = "embedElement";
+const imageElementName = "imageElement";
+const demoImageElementName = "demoImageElement";
+const codeElementName = "codeElement";
+const pullquoteElementName = "pullquoteElement";
+
+type Name =
+  | typeof embedElementName
+  | typeof imageElementName
+  | typeof demoImageElementName
+  | typeof codeElementName
+  | typeof pullquoteElementName;
+
+const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
+  demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
+  imageElement: createImageElement({
+    openImageSelector: onCropImage,
+    createCaptionPlugins: (schema) => exampleSetup({ schema }),
+  }),
+  embedElement: createEmbedElement(),
+  codeElement,
+  pullquoteElement,
+});
+
+const strike: MarkSpec = {
+  parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
+  toDOM() {
+    return ["s"];
+  },
+};
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
-  marks: basicSchema.spec.marks,
+  marks: { ...marks, strike },
 });
 
 const { serializer, parser } = createParsers(schema);
@@ -39,12 +73,6 @@ const editorsContainer = document.querySelector("#editor-container");
 if (!editorsContainer) {
   throw new Error("No #editor element present in DOM");
 }
-
-const highlightErrors = (state: EditorState) => {
-  document.body.style.backgroundColor = hasErrors(state)
-    ? "red"
-    : "transparent";
-};
 
 const get = () => {
   const state = window.localStorage.getItem("pm");
@@ -101,22 +129,83 @@ const createEditor = (server: CollabServer) => {
     firstEditor = view;
   }
 
-  highlightErrors(view.state);
+  const createElementButton = (
+    buttonText: string,
+    elementName: Name,
+    values: Record<string, unknown>
+  ) => {
+    const elementButton = document.createElement("button");
+    elementButton.innerHTML = buttonText;
+    elementButton.id = elementName;
+    elementButton.addEventListener("click", () =>
+      insertElement({ elementName, values })(view.state, view.dispatch)
+    );
+    return elementButton;
+  };
 
-  const elementButton = document.createElement("button");
-  elementButton.innerHTML = "Element";
-  elementButton.id = "element";
-  elementButton.addEventListener("click", () =>
-    insertElement("imageElement", {
+  editorElement.appendChild(
+    createElementButton("Add embed element", embedElementName, {
+      weighting: "",
+      sourceUrl: "",
+      embedCode: "",
+      caption: "",
+      altText: "",
+      required: false,
+    })
+  );
+
+  editorElement.appendChild(
+    createElementButton("Add demo image element", demoImageElementName, {
       altText: "",
       caption: "",
       useSrc: { value: false },
-    })(view.state, view.dispatch)
+    })
   );
-  editorElement.appendChild(elementButton);
+
+  const imageElementButton = document.createElement("button");
+  imageElementButton.innerHTML = "Add image element";
+  imageElementButton.id = imageElementName;
+  imageElementButton.addEventListener("click", () => {
+    const setMedia = (mediaPayload: MediaPayload) => {
+      const {
+        mediaId,
+        mediaApiUri,
+        assets,
+        suppliersReference,
+        caption,
+        photographer,
+        source,
+      } = mediaPayload;
+      insertElement({
+        elementName: imageElementName,
+        values: {
+          caption,
+          photographer,
+          source,
+          mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+        },
+      })(view.state, view.dispatch);
+    };
+    onCropImage(setMedia);
+  });
+  editorElement.appendChild(imageElementButton);
+
+  editorElement.appendChild(
+    createElementButton("Add pullquote element", pullquoteElementName, {
+      pullquote: "",
+      attribution: "",
+      weighting: "supporting",
+    })
+  );
+
+  editorElement.appendChild(
+    createElementButton("Add code element", codeElementName, {
+      codeText: "",
+      language: "Plain text",
+    })
+  );
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
-    highlightErrors(state);
     if (isFirstEditor) {
       set(state.doc);
     }
@@ -139,12 +228,30 @@ addEditorButton.id = "add-editor";
 addEditorButton.addEventListener("click", () => createEditor(server));
 document.body.appendChild(addEditorButton);
 
-// Handy debugging tools
+// Handy debugging tools. We assign a few things to window for our integration tests,
+// and to facilitate debugging.
+export { insertElement }; // Necessary to ensure the type is available in the global namespace
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
+  interface Window extends WindowType {}
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- debug
-(window as any).ProseMirrorDevTools.applyDevTools(firstEditor, {
+window.ProseMirrorDevTools.applyDevTools(firstEditor, {
   EditorState,
 });
-((window as unknown) as { view: EditorView }).view = firstEditor;
-((window as unknown) as { docToHtml: () => string }).docToHtml = () =>
-  firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "";
+
+window.PM_ELEMENTS = {
+  view: firstEditor,
+  insertElement: insertElement,
+  docToHtml: () =>
+    firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "",
+  htmlToDoc: (html: string) => {
+    const node = htmlToDoc(parser, html);
+    firstEditor?.updateState(
+      EditorState.create({
+        doc: node,
+        plugins: firstEditor.state.plugins,
+      })
+    );
+  },
+};

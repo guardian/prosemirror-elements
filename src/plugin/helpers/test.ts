@@ -7,7 +7,7 @@ import { EditorState, Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { buildElementPlugin } from "../element";
 import { createElementSpec } from "../elementSpec";
-import type { ElementSpec, FieldSpec } from "../types/Element";
+import type { ElementSpecMap, FieldDescriptions } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
 const initialPhrase = "deco";
@@ -58,29 +58,31 @@ export const trimHtml = (html: string) => html.replace(/>\s+</g, "><").trim();
 /**
  * Create an element which renders nothing. Useful when testing schema output.
  */
-export const createNoopElement = <
-  Name extends string,
-  FSpec extends FieldSpec<string>
->(
-  name: Name,
-  fieldSpec: FSpec
+export const createNoopElement = <FDesc extends FieldDescriptions<string>>(
+  fieldDescriptions: FDesc
 ) =>
   createElementSpec(
-    name,
-    fieldSpec,
+    fieldDescriptions,
     () => null,
-    () => null,
-    {}
+    () => undefined
   );
 
 export const createEditorWithElements = <
-  FSpec extends FieldSpec<string>,
-  ElementNames extends string
+  FDesc extends FieldDescriptions<keyof FDesc>,
+  ElementNames extends keyof ESpecMap,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
-  elements: Array<ElementSpec<FSpec, ElementNames>>,
+  elements: ESpecMap,
   initialHTML = ""
 ) => {
-  const { plugin, insertElement, nodeSpec } = buildElementPlugin(elements);
+  const {
+    plugin,
+    insertElement,
+    nodeSpec,
+    getNodeFromElementData,
+    getElementDataFromNode,
+    validateElementData,
+  } = buildElementPlugin(elements);
   const editorElement = document.createElement("div");
   const docElement = document.createElement("div");
   docElement.innerHTML = initialHTML;
@@ -105,5 +107,19 @@ export const createEditorWithElements = <
     return element.innerHTML;
   };
 
-  return { view, insertElement, getElementAsHTML };
+  return {
+    view,
+    insertElement,
+    getElementAsHTML,
+    getNodeFromElementData,
+    getElementDataFromNode,
+    serializer,
+    validateElementData,
+  };
 };
+
+export const getDecoSpecs = (decoSet: DecorationSet) =>
+  decoSet.find().map(({ from, to }) => ({
+    from,
+    to,
+  }));

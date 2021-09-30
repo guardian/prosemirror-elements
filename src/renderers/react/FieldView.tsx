@@ -1,35 +1,32 @@
-import React, { useEffect, useRef } from "react";
-import { editor } from "../../editorial-source-components/editor";
-import { Label } from "../../editorial-source-components/Label";
-import type { CheckboxFieldView } from "../../plugin/fieldViews/CheckboxFieldView";
-import type { DropdownFieldView } from "../../plugin/fieldViews/DropdownFieldView";
-import type { RichTextFieldView } from "../../plugin/fieldViews/RichTextFieldView";
-import type { TextFieldView } from "../../plugin/fieldViews/TextFieldView";
-import type { FieldViewSpec } from "../../plugin/types/Element";
+import { useEffect, useRef } from "react";
+import { Editor } from "../../editorial-source-components/Editor";
+import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
+import type { Field } from "../../plugin/types/Element";
 
-type Props = {
-  fieldViewSpec: FieldViewSpec<
-    TextFieldView | RichTextFieldView | CheckboxFieldView | DropdownFieldView
-  >;
+type Props<F extends Field<unknown>> = {
+  field: F;
+  hasValidationErrors: boolean;
 };
 
 export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 
-export const FieldView: React.FunctionComponent<Props> = ({
-  fieldViewSpec,
-}) => {
+export const FieldView = <F extends Field<TFieldView<unknown>>>({
+  field,
+  hasValidationErrors,
+}: Props<F>) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    if (!editorRef.current) {
+    if (!editorRef.current || !field.view.fieldViewElement) {
       return;
     }
-    editorRef.current.appendChild(fieldViewSpec.fieldView.fieldViewElement);
+    editorRef.current.appendChild(field.view.fieldViewElement);
   }, []);
 
   return (
-    <div data-cy={getFieldViewTestId(fieldViewSpec.name)}>
-      <Label>{fieldViewSpec.name}</Label>
-      <div css={editor} ref={editorRef}></div>
-    </div>
+    <Editor
+      data-cy={getFieldViewTestId(field.name)}
+      hasValidationErrors={hasValidationErrors}
+      ref={editorRef}
+    ></Editor>
   );
 };

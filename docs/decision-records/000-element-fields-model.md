@@ -1,4 +1,4 @@
-# ProseMirror Elements Model ADR
+# ADR: Modelling fields as node content
 ## Context
 
 At the Guardian, elements currently exist as block-level elements within a document. They manage an arbitrary amount of state that ranges from relatively simple (e.g. pullquote – one non-rich text field, a few supporting properties) to more complex (e.g. image – many rich text fields, communication with outside code for [Grid](https://github.com/guardian/grid) integration, etc.)

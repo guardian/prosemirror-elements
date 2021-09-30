@@ -1,8 +1,13 @@
 name: Node.js CI
 
 on:
+  push:
+    branches:
+      - main
+      - beta
   pull_request:
-  workflow_dispatch:
+    branches:
+      - "*"
 jobs:
   build:
     runs-on: ubuntu-latest

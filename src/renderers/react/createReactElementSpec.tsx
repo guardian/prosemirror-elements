@@ -3,22 +3,16 @@ import React from "react";
 import { render } from "react-dom";
 import { createElementSpec } from "../../plugin/elementSpec";
 import type { Renderer, Validator } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
 import type { Consumer } from "../../plugin/types/Consumer";
-import type { FieldSpec } from "../../plugin/types/Element";
+import type { FieldDescriptions } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
 
-export const createReactElementSpec = <
-  FSpec extends FieldSpec<string>,
-  Name extends string
->(
-  name: Name,
-  fieldSpec: FSpec,
-  consumer: Consumer<ReactElement, FSpec>,
-  validate: Validator<FSpec>,
-  defaultState: FieldNameToValueMap<FSpec>
+export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
+  fieldDescriptions: FDesc,
+  consumer: Consumer<ReactElement, FDesc>,
+  validate: Validator<FDesc> | undefined = undefined
 ) => {
-  const renderer: Renderer<FSpec> = (
+  const renderer: Renderer<FDesc> = (
     validate,
     dom,
     fields,
@@ -28,7 +22,7 @@ export const createReactElementSpec = <
     subscribe
   ) =>
     render(
-      <ElementProvider<FSpec>
+      <ElementProvider<FDesc>
         subscribe={subscribe}
         onStateChange={updateState}
         fields={fields}
@@ -40,5 +34,5 @@ export const createReactElementSpec = <
       dom
     );
 
-  return createElementSpec(name, fieldSpec, renderer, validate, defaultState);
+  return createElementSpec(fieldDescriptions, renderer, validate);
 };

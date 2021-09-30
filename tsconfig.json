@@ -1,18 +1,7 @@
 {
+  "extends": "./tsconfig-esm.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "ES2015",
-    "moduleResolution": "node",
-    "target": "es6",
-    "lib": ["dom", "ESNext"],
-    "types": ["jest"],
-    "sourceMap": true,
-    "declaration": true,
-    "strict": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "rootDir": ".",
   },
-  "include": ["src/**/*", "demo/**/*", "declarations"],
+  "include": ["src", "demo"]
 }

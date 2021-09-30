@@ -1,124 +1,219 @@
-import React from "react";
-import { CustomDropdown } from "../../editorial-source-components/CustomDropdown";
-import { Label } from "../../editorial-source-components/Label";
-import type { Option } from "../../plugin/fieldViews/DropdownFieldView";
-import type { FieldNameToValueMap } from "../../plugin/fieldViews/helpers";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { space } from "@guardian/src-foundations";
+import { SvgCamera } from "@guardian/src-icons";
+import { Column, Columns } from "@guardian/src-layout";
+import React, { useMemo } from "react";
+import { Button } from "../../editorial-source-components/Button";
+import { Error } from "../../editorial-source-components/Error";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type {
-  CustomFieldViewSpec,
-  FieldNameToFieldViewSpec,
-} from "../../plugin/types/Element";
-import { FieldView, getFieldViewTestId } from "../../renderers/react/FieldView";
-import { useCustomFieldViewState } from "../../renderers/react/useCustomFieldViewState";
-import type { createImageFields, SetMedia } from "./imageElement";
+  FieldValidationErrors,
+  ValidationError,
+} from "../../plugin/elementSpec";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
+import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
+import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
+import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
+import type {
+  Asset,
+  createImageFields,
+  MainImageData,
+  MainImageProps,
+  MediaPayload,
+  SetMedia,
+} from "./ImageElement";
+import { minAssetValidation, thumbnailOption } from "./ImageElement";
 
 type Props = {
-  fields: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
-  errors: Record<string, string[]>;
-  fieldViewSpecMap: FieldNameToFieldViewSpec<
-    ReturnType<typeof createImageFields>
-  >;
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
+  errors: FieldValidationErrors;
+  fields: FieldNameToField<ReturnType<typeof createImageFields>>;
 };
+
+type ImageViewProps = {
+  updateFields: SetMedia;
+  updateRole: (value: string) => void;
+  errors: ValidationError[];
+  field: CustomField<MainImageData, MainImageProps>;
+};
+
+const AltText = styled.span`
+  margin-right: ${space[2]}px;
+`;
 
 export const ImageElementTestId = "ImageElement";
 
+const htmlLength = (text: string) => {
+  const el = document.createElement("div");
+  el.innerHTML = text;
+  return el.innerText.length;
+};
+
 export const ImageElementForm: React.FunctionComponent<Props> = ({
-  fields,
   errors,
-  fieldViewSpecMap: fieldViewSpecs,
+  fields,
+  fieldValues,
 }) => (
   <div data-cy={ImageElementTestId}>
-    <FieldView fieldViewSpec={fieldViewSpecs.altText} />
-    <FieldView fieldViewSpec={fieldViewSpecs.caption} />
-    <FieldView fieldViewSpec={fieldViewSpecs.src} />
-    <FieldView fieldViewSpec={fieldViewSpecs.useSrc} />
-    <FieldView fieldViewSpec={fieldViewSpecs.optionDropdown} />
-    <ImageView fieldViewSpec={fieldViewSpecs.mainImage} />
-    <CustomDropdownView fieldViewSpec={fieldViewSpecs.customDropdown} />
-    <hr />
-    <Label>Element errors</Label>
-    <pre>{JSON.stringify(errors)}</pre>
-    <hr />
-    <Label>Element values</Label>
-    <pre>{JSON.stringify(fields)}</pre>
+    <Columns>
+      <Column width={2 / 5}>
+        <FieldLayoutVertical>
+          <CustomDropdownView
+            field={fields.role}
+            label="Weighting"
+            errors={errors.role}
+            options={
+              minAssetValidation(fieldValues.mainImage, "").length
+                ? [thumbnailOption]
+                : undefined
+            }
+          />
+          <ImageView
+            field={fields.mainImage}
+            updateFields={({ caption, source, photographer }) => {
+              fields.caption.update(caption);
+              fields.source.update(source);
+              fields.photographer.update(photographer);
+            }}
+            updateRole={(value) => fields.role.update(value)}
+            errors={errors.mainImage}
+          />
+          <CustomDropdownView
+            field={fields.imageType}
+            label={"Image type"}
+            errors={errors.imageType}
+          />
+        </FieldLayoutVertical>
+      </Column>
+      <Column width={3 / 5}>
+        <FieldLayoutVertical>
+          <FieldWrapper
+            field={fields.caption}
+            errors={errors.caption}
+            label="Caption"
+            description={`${htmlLength(fieldValues.caption)}/600 characters`}
+          />
+          <FieldWrapper
+            field={fields.alt}
+            errors={errors.alt}
+            label={
+              <>
+                <AltText>Alt text</AltText>
+                <Button
+                  priority="secondary"
+                  size="xsmall"
+                  iconSide="left"
+                  onClick={() => fields.alt.update(fieldValues.caption)}
+                >
+                  Copy from caption
+                </Button>
+              </>
+            }
+          />
+          <Columns>
+            <Column width={1 / 2}>
+              <FieldWrapper
+                field={fields.photographer}
+                errors={errors.photographer}
+                label="Photographer"
+              />
+            </Column>
+            <Column width={1 / 2}>
+              <FieldWrapper
+                field={fields.source}
+                errors={errors.source}
+                label="Source"
+              />
+            </Column>
+          </Columns>
+          <CustomCheckboxView
+            field={fields.displayCredit}
+            errors={errors.displayCredit}
+            label="Display credit information"
+          />
+        </FieldLayoutVertical>
+      </Column>
+    </Columns>
   </div>
 );
 
-type ImageViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<
-    {
-      mediaId?: string;
-      mediaApiUri?: string;
-      assets: string[];
-    },
-    {
-      onSelectImage: (setMedia: SetMedia) => void;
-      onCropImage: (mediaId: string, setMedia: SetMedia) => void;
+const imageViewStysles = css`
+  width: 100%;
+`;
+
+const Errors = ({ errors }: { errors: string[] }) =>
+  !errors.length ? null : <Error>{errors.join(", ")}</Error>;
+
+const ImageView = ({
+  field,
+  updateFields,
+  updateRole,
+  errors,
+}: ImageViewProps) => {
+  const [imageFields, setImageFields] = useCustomFieldState(field);
+
+  const setMedia = (previousMediaId: string | undefined) => (
+    mediaPayload: MediaPayload
+  ) => {
+    const { mediaId, mediaApiUri, assets, suppliersReference } = mediaPayload;
+    setImageFields({
+      mediaId,
+      mediaApiUri,
+      assets,
+      suppliersReference,
+    });
+    if (minAssetValidation({ assets }, "").length) {
+      updateRole(thumbnailOption.value);
     }
-  >;
-};
-
-const ImageView = ({ fieldViewSpec }: ImageViewProps) => {
-  const [imageFields, setImageFieldsRef] = useCustomFieldViewState(
-    fieldViewSpec
-  );
-
-  const setMedia = (mediaId: string, mediaApiUri: string, assets: string[]) => {
-    if (setImageFieldsRef.current) {
-      setImageFieldsRef.current({ mediaId, mediaApiUri, assets });
+    if (previousMediaId && previousMediaId !== mediaId) {
+      updateFields(mediaPayload);
     }
   };
 
-  return (
-    <div data-cy={getFieldViewTestId(fieldViewSpec.name)}>
-      {imageFields.assets.length > 0 ? (
-        <img style={{ width: "25%" }} src={imageFields.assets[0]}></img>
-      ) : null}
+  const imageSrc = useMemo(() => {
+    const desiredWidth = 1200;
 
-      {imageFields.mediaId ? (
-        <button
-          onClick={() => {
-            if (imageFields.mediaId) {
-              fieldViewSpec.fieldSpec.props.onCropImage(
-                imageFields.mediaId,
-                setMedia
-              );
-            } else {
-              fieldViewSpec.fieldSpec.props.onSelectImage(setMedia);
-            }
-          }}
-        >
-          Crop Image
-        </button>
-      ) : (
-        <button
-          onClick={() => fieldViewSpec.fieldSpec.props.onSelectImage(setMedia)}
-        >
-          Choose Image
-        </button>
-      )}
+    const widthDifference = (width: number) => Math.abs(desiredWidth - width);
+
+    const stringOrNumberToNumber = (value: string | number) => {
+      const parsedValue = parseInt(value.toString());
+      return !isNaN(parsedValue) ? parsedValue : 0;
+    };
+
+    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
+      widthDifference(stringOrNumberToNumber(assetA.fields.width)) -
+      widthDifference(stringOrNumberToNumber(assetB.fields.width));
+
+    const sortedAssets = imageFields.assets
+      .filter((asset) => !asset.fields.isMaster)
+      .sort(sortByWidthDifference);
+
+    return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;
+  }, [imageFields.assets]);
+
+  return (
+    <div>
+      <Errors errors={errors.map((e) => e.error)} />
+      <div>
+        <img css={imageViewStysles} src={imageSrc} />
+      </div>
+      <Button
+        priority="secondary"
+        size="xsmall"
+        icon={<SvgCamera />}
+        iconSide="left"
+        onClick={() => {
+          field.description.props.openImageSelector(
+            setMedia(imageFields.mediaId),
+            imageFields.mediaId
+          );
+        }}
+      >
+        Re-crop image
+      </Button>
     </div>
-  );
-};
-
-type CustomDropdownViewProps = {
-  fieldViewSpec: CustomFieldViewSpec<string, Array<Option<string>>>;
-};
-
-const CustomDropdownView = ({ fieldViewSpec }: CustomDropdownViewProps) => {
-  const [selectedElement, setSelectFieldsRef] = useCustomFieldViewState(
-    fieldViewSpec
-  );
-  return (
-    <CustomDropdown
-      options={fieldViewSpec.fieldSpec.props}
-      selected={selectedElement}
-      label={fieldViewSpec.name}
-      onChange={(event) => {
-        if (setSelectFieldsRef.current) {
-          setSelectFieldsRef.current(event.target.value);
-        }
-      }}
-      dataCy={getFieldViewTestId(fieldViewSpec.name)}
-    />
   );
 };

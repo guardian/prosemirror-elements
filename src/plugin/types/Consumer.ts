@@ -1,10 +1,15 @@
-import type { FieldNameToValueMap } from "../fieldViews/helpers";
-import type { FieldNameToFieldViewSpec, FieldSpec } from "./Element";
-import type { Errors } from "./Errors";
+import type { FieldValidationErrors } from "../elementSpec";
+import type { FieldNameToValueMap } from "../helpers/fieldView";
+import type { FieldDescriptions, FieldNameToField } from "./Element";
 
-export type Consumer<ConsumerResult, FSpec extends FieldSpec<string>> = (
-  fieldValues: FieldNameToValueMap<FSpec>,
-  errors: Errors,
-  updateFields: (fieldValues: FieldNameToValueMap<FSpec>) => void,
-  fields: FieldNameToFieldViewSpec<FSpec>
-) => ConsumerResult;
+type ConsumerOptions<FDesc extends FieldDescriptions<string>> = {
+  fields: FieldNameToField<FDesc>;
+  errors: FieldValidationErrors;
+  fieldValues: FieldNameToValueMap<FDesc>;
+  updateFields: (fieldValues: FieldNameToValueMap<FDesc>) => void;
+};
+
+export type Consumer<
+  ConsumerResult,
+  FDesc extends FieldDescriptions<string>
+> = (options: ConsumerOptions<FDesc>) => ConsumerResult;

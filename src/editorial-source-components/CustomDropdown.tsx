@@ -1,19 +1,22 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
-import type { Option as OptionValue } from "../plugin/fieldViews/DropdownFieldView";
+import type { Options } from "../plugin/fieldViews/DropdownFieldView";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
-// These styles allow us to style the div and svg elements in the Source Select Component.
+// These styles allow us to style the div, svg, and span elements in the Source Select Component.
 // However, they rely on it retaining its current structure, which is worth bearing in mind
 // if we decided to bump the version of @guardian/src-select
-const parentStyles = css`
+const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
+  white-space: nowrap;
   width: initial;
   div {
     display: flex;
     :first-of-type {
       ${labelStyles}
+      ${({ display }) => display === "block" && `margin-bottom: ${space[2]}px;`}
     }
     svg {
       height: ${space[5]}px;
@@ -22,6 +25,26 @@ const parentStyles = css`
       right: 30px;
     }
   }
+  span {
+    font-family: "Guardian Agate Sans";
+    font-size: 1rem;
+    svg {
+      width: ${space[6]}px;
+      height: ${space[6]}px;
+      margin-top: 1px;
+      margin-left: 1px;
+    }
+  }
+  ${({ display }) =>
+    display === "inline" &&
+    `
+    label {
+      display: flex;
+      align-items: center;
+      >div:first-child {
+        margin-right: ${space[3]}px;
+      }
+    }`}
 `;
 
 const selectStyles = css`
@@ -36,17 +59,20 @@ const selectStyles = css`
 `;
 
 type CustomDropdownProps = {
-  options: Array<OptionValue<string>>;
+  options: Options;
   selected: string;
-  label: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  label: string;
   dataCy: string;
+  error: string;
+  display: "block" | "inline";
 };
 
 export const CustomDropdown = (props: CustomDropdownProps) => {
   return (
-    <div css={parentStyles} data-cy={props.dataCy}>
+    <SelectWrapper display={props.display} data-cy={props.dataCy}>
       <Select
+        error={props.error}
         label={props.label}
         onChange={props.onChange}
         value={props.selected}
@@ -58,6 +84,6 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
           </Option>
         ))}
       </Select>
-    </div>
+    </SelectWrapper>
   );
 };

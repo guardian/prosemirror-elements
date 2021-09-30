@@ -1,33 +1,34 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 import { AttributeFieldView } from "./AttributeFieldView";
-import type { BaseFieldSpec } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
 
-export type Option<Data> = { text: string; value: Data };
-type Options<Data> = ReadonlyArray<Option<Data>>;
+export type Option = { text: string; value: string };
+export type Options = readonly Option[];
 
-export interface DropdownField<Data = unknown> extends BaseFieldSpec<Data> {
+export interface DropdownFieldDescription extends BaseFieldDescription<string> {
   type: typeof DropdownFieldView.fieldName;
-  options: ReadonlyArray<Option<Data>>;
+  options: Options;
 }
 
-export const createDropDownField = <Data>(
-  options: Options<Data>,
-  defaultValue: Data
-): DropdownField<Data> => ({
+export const createDropDownField = (
+  options: Options,
+  defaultValue: string,
+  validators?: FieldValidator[]
+): DropdownFieldDescription => ({
   type: DropdownFieldView.fieldName,
   options,
   defaultValue,
+  validators,
 });
 
 export type DropdownFields = string;
 
-export class DropdownFieldView<
-  Data = unknown
-> extends AttributeFieldView<Data> {
+export class DropdownFieldView extends AttributeFieldView<string> {
   private dropdownElement: HTMLSelectElement | undefined = undefined;
   public static fieldName = "dropdown" as const;
-  public static defaultValue = undefined;
+  public static defaultValue = "";
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -38,14 +39,14 @@ export class DropdownFieldView<
     getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     offset: number,
-    defaultFields: Data,
-    private options: ReadonlyArray<Option<Data>>
+    defaultFields: string,
+    private options: Options
   ) {
     super(node, outerView, getPos, offset);
     this.createInnerView(node.attrs.fields || defaultFields);
   }
 
-  protected createInnerView(chosenOption: Data): void {
+  protected createInnerView(chosenOption: string): void {
     this.dropdownElement = document.createElement("select");
 
     // Add a child option for each option in the array
@@ -67,7 +68,7 @@ export class DropdownFieldView<
     this.fieldViewElement.appendChild(this.dropdownElement);
   }
 
-  protected updateInnerView(chosenOption: Data): void {
+  protected updateInnerView(chosenOption: string): void {
     if (this.dropdownElement) {
       const domOptions = Array.from(this.dropdownElement.options);
       domOptions.forEach(
@@ -78,8 +79,8 @@ export class DropdownFieldView<
   }
 
   private optionToDOMnode(
-    option: Option<Data>,
-    chosenOption: Data
+    option: Option,
+    chosenOption: string
   ): HTMLOptionElement {
     const domOption = document.createElement("option");
     domOption.setAttribute("value", JSON.stringify(option.value));

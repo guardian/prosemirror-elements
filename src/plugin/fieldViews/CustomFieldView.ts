@@ -1,10 +1,12 @@
 import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import type { BaseFieldSpec, FieldView } from "./FieldView";
+import type { FieldValidator } from "../elementSpec";
+import type { Options } from "./DropdownFieldView";
+import type { BaseFieldDescription, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
 
-export interface CustomField<Data = unknown, Props = unknown>
-  extends BaseFieldSpec<Data> {
+export interface CustomFieldDescription<Data = unknown, Props = unknown>
+  extends BaseFieldDescription<Data> {
   type: typeof CustomFieldView.fieldName;
   defaultValue: Data;
   props: Props;
@@ -12,11 +14,24 @@ export interface CustomField<Data = unknown, Props = unknown>
 
 export const createCustomField = <Data, Props>(
   defaultValue: Data,
-  props: Props
-): CustomField<Data, Props> => ({
+  props: Props,
+  validators?: FieldValidator[]
+): CustomFieldDescription<Data, Props> => ({
   type: "custom" as const,
   defaultValue,
   props,
+  validators,
+});
+
+export const createCustomDropdownField = (
+  defaultValue: string,
+  props: Options,
+  validators?: FieldValidator[]
+): CustomFieldDescription<string, Options> => ({
+  type: "custom" as const,
+  defaultValue,
+  props,
+  validators,
 });
 
 type Subscriber<Fields extends unknown> = (fields: Fields) => void;
@@ -30,13 +45,12 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * state changes. In this way, consuming code can manage state and UI changes itself,
  * perhaps in its own renderer format.
  */
-export class CustomFieldView<CustomFieldValue = unknown>
-  implements FieldView<CustomFieldValue> {
+export class CustomFieldView<Value = unknown> implements FieldView<Value> {
   public static fieldName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
   public static defaultValue = undefined;
 
-  private subscribers: Array<Subscriber<CustomFieldValue>> = [];
+  private subscribers: Array<Subscriber<Value>> = [];
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -49,24 +63,23 @@ export class CustomFieldView<CustomFieldValue = unknown>
     protected offset: number
   ) {}
 
-  public getNodeValue(node: Node): CustomFieldValue {
-    return node.attrs.fields as CustomFieldValue;
+  public getNodeValue(node: Node): Value {
+    return node.attrs.fields as Value;
   }
 
-  public getNodeFromValue(fields: CustomFieldValue): Node {
+  public getNodeFromValue(fields: Value): Node {
     return this.node.type.create({ fields });
   }
 
   /**
    * @returns A function that can be called to update the node fields.
    */
-  public subscribe(subscriber: Subscriber<CustomFieldValue>) {
+  public subscribe(subscriber: Subscriber<Value>) {
     this.subscribers.push(subscriber);
-    subscriber(this.node.attrs.fields as CustomFieldValue);
-    return (fields: CustomFieldValue) => this.updateOuterEditor(fields);
+    subscriber(this.node.attrs.fields as Value);
   }
 
-  public unsubscribe(subscriber: Subscriber<CustomFieldValue>) {
+  public unsubscribe(subscriber: Subscriber<Value>) {
     const subscriberIndex = this.subscribers.indexOf(subscriber);
     if (subscriberIndex === -1) {
       console.error(
@@ -77,23 +90,27 @@ export class CustomFieldView<CustomFieldValue = unknown>
     this.subscribers.splice(subscriberIndex, 1);
   }
 
-  public update(node: Node, elementOffset: number) {
+  public onUpdate(node: Node, elementOffset: number) {
     if (node.type !== this.node.type) {
       return false;
     }
 
     this.offset = elementOffset;
 
-    this.updateSubscribers(node.attrs.fields as CustomFieldValue);
+    this.updateSubscribers(node.attrs.fields as Value);
 
     return true;
+  }
+
+  public update(value: Value) {
+    this.updateOuterEditor(value);
   }
 
   public destroy() {
     this.subscribers = [];
   }
 
-  private updateSubscribers(fields: CustomFieldValue) {
+  private updateSubscribers(fields: Value) {
     this.subscribers.forEach((subscriber) => {
       subscriber(fields);
     });
@@ -102,7 +119,7 @@ export class CustomFieldView<CustomFieldValue = unknown>
   /**
    * Update the outer editor with a new field state.
    */
-  protected updateOuterEditor(fields: CustomFieldValue) {
+  protected updateOuterEditor(fields: Value) {
     const outerTr = this.outerView.state.tr;
     // When we insert content, we must offset to account for a few things:
     //  - getPos() returns the position directly before the parent node (+1)

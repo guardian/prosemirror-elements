@@ -1,13 +1,15 @@
 import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
+import type { FieldValidator } from "../elementSpec";
 
 /**
  * The specification for an element field, to be modelled as a Node in Prosemirror.
  */
-export interface BaseFieldSpec<DefaultValue extends unknown> {
+export interface BaseFieldDescription<DefaultValue extends unknown> {
   // The data type of the field.
   type: string;
   defaultValue?: DefaultValue;
+  validators?: FieldValidator[];
 }
 
 export enum FieldType {
@@ -29,11 +31,16 @@ export abstract class FieldView<NodeValue> {
   /**
    * Called when the fieldView is updated.
    */
-  public abstract update(
+  public abstract onUpdate(
     node: Node,
     elementOffset: number,
     decorations: DecorationSet | Decoration[]
   ): boolean;
+
+  /**
+   * Programmatically update this fieldView with the given value.
+   */
+  public abstract update(value: NodeValue): void;
 
   /**
    * Called when the fieldView is destroyed.
@@ -46,7 +53,7 @@ export abstract class FieldView<NodeValue> {
   public abstract getNodeValue(node: Node): NodeValue;
 
   /**
-   * Create a node for this fieldView with the given data.
+   * Create a node for this fieldView with the given value.
    */
   public abstract getNodeFromValue(data: NodeValue): Node;
 }

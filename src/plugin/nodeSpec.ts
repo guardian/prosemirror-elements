@@ -1,59 +1,71 @@
 import OrderedMap from "orderedmap";
-import type { Node, NodeSpec, Schema } from "prosemirror-model";
+import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
-import type { FieldNameToValueMap } from "./fieldViews/helpers";
-import { fieldTypeToViewMap } from "./fieldViews/helpers";
-import type { Field, FieldSpec } from "./types/Element";
+import type { FieldNameToValueMap } from "./helpers/fieldView";
+import { fieldTypeToViewMap } from "./helpers/fieldView";
+import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
-export const getNodeSpecFromFieldSpec = <FSpec extends FieldSpec<string>>(
+export const elementTypeAttr = "pme-element-type";
+export const fieldNameAttr = "pme-field-name";
+
+export const getNodeSpecFromFieldDescriptions = <
+  FDesc extends FieldDescriptions<string>
+>(
   elementName: string,
-  fieldSpec: FSpec
+  groupName: string,
+  fieldDescriptions: FDesc
 ): OrderedMap<NodeSpec> => {
-  const propSpecs = Object.entries(fieldSpec).reduce(
+  const propSpecs = Object.entries(fieldDescriptions).reduce(
     (acc, [fieldName, propSpec]) =>
       acc.append(getNodeSpecForField(elementName, fieldName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
-  return propSpecs.append(getNodeSpecForElement(elementName, fieldSpec));
+  return propSpecs.append(
+    getNodeSpecForElement(elementName, groupName, fieldDescriptions)
+  );
 };
 
 const getNodeSpecForElement = (
   elementName: string,
-  fieldSpec: FieldSpec<string>
+  groupName: string,
+  fieldDescription: FieldDescriptions<string>
 ): NodeSpec => ({
   [elementName]: {
-    group: "block",
-    content: getDeterministicFieldOrder(Object.keys(fieldSpec)).join(" "),
+    group: groupName,
+    content: getDeterministicFieldOrder(
+      Object.keys(fieldDescription).map((fieldName) =>
+        getNodeNameFromField(fieldName, elementName)
+      )
+    ).join(" "),
     attrs: {
       type: elementName,
-      hasErrors: {
-        default: false,
+      // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
+      addUpdateDecoration: {
+        default: true,
       },
     },
     draggable: false,
     toDOM: (node: Node) => [
-      elementName,
+      "div",
       {
-        type: node.attrs.type as string,
+        [elementTypeAttr]: node.attrs.type as string,
         fields: JSON.stringify(node.attrs.fields),
-        "has-errors": JSON.stringify(node.attrs.hasErrors),
       },
       0,
     ],
     parseDOM: [
       {
-        tag: elementName,
+        tag: "div",
         getAttrs: (dom: Element) => {
-          if (typeof dom === "string") {
-            return;
+          const domElementName = dom.getAttribute(elementTypeAttr);
+          if (domElementName !== elementName) {
+            return false;
           }
-          const hasErrorAttr = dom.getAttribute("has-errors");
 
           return {
-            type: dom.getAttribute("type"),
+            type: elementName,
             fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
-            hasErrors: hasErrorAttr && hasErrorAttr !== "false",
           };
         },
       },
@@ -61,38 +73,63 @@ const getNodeSpecForElement = (
   },
 });
 
+// A group for our field nodes. Exported to allow consumers to
+// easily identify field nodes in their own code.
+export const fieldGroupName = "pme-field";
+
 export const getNodeSpecForField = (
   elementName: string,
   fieldName: string,
-  field: Field
+  field: FieldDescription
 ): NodeSpec => {
+  const nodeName = getNodeNameFromField(fieldName, elementName);
+
   switch (field.type) {
-    case "text":
+    case "text": {
+      const nodeSpec = field.nodeSpec ?? {};
       return {
-        [fieldName]: {
-          content: "text*",
-          toDOM: getDefaultToDOMForContentNode(elementName, fieldName),
-          parseDOM: [{ tag: getTagForNode(elementName, fieldName) }],
-        },
-      };
-    case "richText":
-      return {
-        [fieldName]: {
-          content: field.content ?? "paragraph+",
-          toDOM:
-            field.toDOM ??
-            getDefaultToDOMForContentNode(elementName, fieldName),
-          parseDOM: field.parseDOM ?? [
-            { tag: getTagForNode(elementName, fieldName) },
+        [nodeName]: {
+          group: fieldGroupName,
+          content:
+            field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
+            {
+              tag: "div",
+              getAttrs: createGetAttrsForTextNode(nodeName),
+              preserveWhitespace: field.isCode ? "full" : false,
+            },
           ],
+          code: field.isCode,
+          marks: "",
+          ...nodeSpec,
         },
       };
+    }
+    case "richText": {
+      const nodeSpec = field.nodeSpec ?? {};
+      return {
+        [nodeName]: {
+          group: fieldGroupName,
+          content: "paragraph+",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
+            {
+              tag: "div",
+              getAttrs: createGetAttrsForTextNode(nodeName),
+            },
+          ],
+          ...nodeSpec,
+        },
+      };
+    }
     case "checkbox":
       return {
-        [fieldName]: {
+        [nodeName]: {
+          group: fieldGroupName,
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
               default: field.defaultValue,
@@ -102,10 +139,11 @@ export const getNodeSpecForField = (
       };
     case "dropdown":
       return {
-        [fieldName]: {
+        [nodeName]: {
+          group: fieldGroupName,
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
               default: field.defaultValue,
@@ -115,10 +153,11 @@ export const getNodeSpecForField = (
       };
     case "custom":
       return {
-        [fieldName]: {
+        [nodeName]: {
+          group: fieldGroupName,
           atom: true,
-          toDOM: getDefaultToDOMForLeafNode(elementName, fieldName),
-          parseDOM: getDefaultParseDOMForLeafNode(elementName, fieldName),
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
               default: { value: field.defaultValue },
@@ -129,38 +168,42 @@ export const getNodeSpecForField = (
   }
 };
 
-const getDefaultToDOMForContentNode = (
-  elementName: string,
-  fieldName: string
-) => () =>
+const createGetAttrsForTextNode = (nodeName: string) => (dom: Element) => {
+  const domFieldName = dom.getAttribute(fieldNameAttr);
+
+  if (domFieldName !== nodeName) {
+    return false;
+  }
+
+  return undefined;
+};
+
+const getDefaultToDOMForContentNode = (nodeName: string) => () =>
   [
-    getTagForNode(elementName, fieldName),
-    { class: getClassForNode(elementName, fieldName) },
+    "div",
+    {
+      [fieldNameAttr]: nodeName,
+    },
     0,
   ] as const;
 
-const getDefaultToDOMForLeafNode = (elementName: string, fieldName: string) => (
-  node: Node
-) => [
-  getTagForNode(elementName, fieldName),
+const getDefaultToDOMForLeafNode = (nodeName: string) => (node: Node) => [
+  "div",
   {
-    class: getClassForNode(elementName, fieldName),
-    type: node.attrs.type as string,
+    [fieldNameAttr]: nodeName,
     fields: JSON.stringify(node.attrs.fields),
-    "has-errors": JSON.stringify(node.attrs.hasErrors),
   },
 ];
 
-const getDefaultParseDOMForLeafNode = (
-  elementName: string,
-  fieldName: string
-) => [
+const getDefaultParseDOMForLeafNode = (nodeName: string) => [
   {
-    tag: getTagForNode(elementName, fieldName),
+    tag: "div",
     getAttrs: (dom: Element) => {
-      if (typeof dom === "string") {
-        return;
+      const domFieldName = dom.getAttribute(fieldNameAttr);
+      if (domFieldName !== nodeName) {
+        return false;
       }
+
       const attrs = {
         fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
       };
@@ -170,44 +213,55 @@ const getDefaultParseDOMForLeafNode = (
   },
 ];
 
-const getClassForNode = (elementName: string, fieldName: string) =>
-  `ProsemirrorElement__${elementName}-${fieldName}`;
-
-const getTagForNode = (elementName: string, fieldName: string) =>
-  `element-${elementName}-${fieldName}`.toLowerCase();
-
 export const createNodesForFieldValues = <
   S extends Schema,
-  FSpec extends FieldSpec<Name>,
-  Name extends string
+  FDesc extends FieldDescriptions<string>
 >(
   schema: S,
-  fieldSpec: FSpec,
-  fieldValues: Partial<FieldNameToValueMap<FSpec>>
+  fieldDescriptions: FDesc,
+  fieldValues: Partial<FieldNameToValueMap<FDesc>>,
+  elementName: string
 ): Node[] => {
   const orderedFieldNames = getDeterministicFieldOrder(
-    Object.keys(fieldSpec) as Array<Extract<keyof FSpec, Name>>
+    Object.keys(fieldDescriptions)
   );
 
   return orderedFieldNames.map((fieldName) => {
-    const field = fieldSpec[fieldName];
+    const field = fieldDescriptions[fieldName];
     const fieldView = fieldTypeToViewMap[field.type];
-    const nodeType = schema.nodes[fieldName];
+    const nodeType = schema.nodes[getNodeNameFromField(fieldName, elementName)];
     const fieldValue =
       fieldValues[fieldName] ?? // The value supplied when the element is inserted
-      fieldSpec[fieldName].defaultValue ?? // The default value supplied by the element field spec
+      fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
     if (fieldView.fieldType === "CONTENT") {
-      const node = nodeType.create({ type: field.type });
-      return createContentForFieldValue(schema, fieldValue as string, node);
+      const content = fieldValue as string;
+
+      return field.type === "richText"
+        ? createContentNodeFromRichText(
+            schema,
+            content,
+            nodeType.create({ type: field.type })
+          )
+        : createContentNodeFromText(content, field, nodeType);
     } else {
       return nodeType.create({ type: field.type, fields: fieldValue });
     }
   });
 };
 
-const createContentForFieldValue = <S extends Schema>(
+const createContentNodeFromText = (
+  content: string,
+  fieldDesc: FieldDescription,
+  nodeType: NodeType<Schema>
+) =>
+  nodeType.create(
+    { type: fieldDesc.type },
+    content ? nodeType.schema.text(content) : undefined
+  );
+
+const createContentNodeFromRichText = <S extends Schema>(
   schema: S,
   fieldValue: string,
   topNode: Node
@@ -215,7 +269,10 @@ const createContentForFieldValue = <S extends Schema>(
   const parser = DOMParser.fromSchema(schema);
   const element = document.createElement("div");
   element.innerHTML = fieldValue;
-  return parser.parse(element, { topNode });
+  return parser.parse(element, {
+    topNode,
+    preserveWhitespace: false,
+  });
 };
 
 /**
@@ -223,6 +280,11 @@ const createContentForFieldValue = <S extends Schema>(
  * but it does matter that we reliably match the order we create them to the
  * order that they're added to the schema. This function gives us a fixed order.
  */
-export const getDeterministicFieldOrder = <Name extends string>(
-  fieldNames: Name[]
-): Name[] => fieldNames.slice().sort();
+export const getDeterministicFieldOrder = (fieldNames: string[]): string[] =>
+  fieldNames.slice().sort();
+
+export const getNodeNameFromField = (fieldName: string, elementName: string) =>
+  `${elementName}_${fieldName}`;
+
+export const getFieldNameFromNode = (node: Node) =>
+  node.type.name.split("_")[1];
