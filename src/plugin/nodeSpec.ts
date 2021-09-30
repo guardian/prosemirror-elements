@@ -86,7 +86,6 @@ export const getNodeSpecForField = (
 
   switch (field.type) {
     case "text": {
-      const nodeSpec = field.nodeSpec ?? {};
       return {
         [nodeName]: {
           group: fieldGroupName,
@@ -102,16 +101,15 @@ export const getNodeSpecForField = (
           ],
           code: field.isCode,
           marks: "",
-          ...nodeSpec,
+          attrs: field.attrs,
         },
       };
     }
     case "richText": {
-      const nodeSpec = field.nodeSpec ?? {};
       return {
         [nodeName]: {
           group: fieldGroupName,
-          content: "paragraph+",
+          content: field.content ?? "paragraph+",
           toDOM: getDefaultToDOMForContentNode(nodeName),
           parseDOM: [
             {
@@ -119,7 +117,7 @@ export const getNodeSpecForField = (
               getAttrs: createGetAttrsForTextNode(nodeName),
             },
           ],
-          ...nodeSpec,
+          attrs: field.attrs,
         },
       };
     }
