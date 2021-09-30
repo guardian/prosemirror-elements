@@ -10,6 +10,7 @@ import {
   getElementRichTextFieldPlaceholder,
   getSerialisedHtml,
   italicShortcut,
+  selectAllShortcut,
   selectDataCy,
   setDocFromHtml,
   typeIntoElementField,
@@ -158,6 +159,20 @@ describe("ImageElement", () => {
         setDocFromHtml(values);
         assertDocHtml(getSerialisedHtml(values));
       });
+
+      it("should select all of its text when the select all shortcut is used", () => {
+        addImageElement({
+          caption: "Here is some text we'd like to delete.",
+          src: "The remaining field.",
+        });
+        typeIntoElementField("caption", `${selectAllShortcut()}{backspace}`);
+
+        getElementRichTextField("caption").should("have.text", "Enter caption");
+        getElementRichTextField("src").should(
+          "have.text",
+          "The remaining field."
+        );
+      });
     });
 
     describe("Text field", () => {
@@ -239,6 +254,20 @@ describe("ImageElement", () => {
         const values = { srcValue: "Src text" };
         setDocFromHtml(values);
         assertDocHtml(getSerialisedHtml(values));
+      });
+
+      it("should select all of its text when the select all shortcut is used", () => {
+        addImageElement({
+          caption: "The remaining field.",
+          src: "Here is some text we'd like to delete.",
+        });
+        typeIntoElementField("src", `${selectAllShortcut()}{backspace}`);
+
+        getElementRichTextField("src").should("have.text", "Add src");
+        getElementRichTextField("caption").should(
+          "have.text",
+          "The remaining field."
+        );
       });
     });
 
