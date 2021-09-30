@@ -12,7 +12,6 @@ import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 export interface RichTextFieldDescription extends AbstractTextFieldDescription {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
-  nodeSpec?: Partial<NodeSpec>;
   // If the text content produced by this node is an empty string, don't
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;

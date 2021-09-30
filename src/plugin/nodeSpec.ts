@@ -81,13 +81,18 @@ export const getNodeSpecForField = (
   const nodeName = getNodeNameFromField(fieldName, elementName);
 
   switch (field.type) {
-    case "text":
+    case "text": {
+      const nodeSpec = field.nodeSpec ?? {};
       return {
         [nodeName]: {
+          ...nodeSpec,
           content:
-            field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
-          toDOM: getDefaultToDOMForContentNode(nodeName),
-          parseDOM: [
+            nodeSpec.content ??
+            (field.isMultiline && !field.isCode
+              ? "(text|hard_break)*"
+              : "text*"),
+          toDOM: nodeSpec.toDOM ?? getDefaultToDOMForContentNode(nodeName),
+          parseDOM: nodeSpec.parseDOM ?? [
             {
               tag: "div",
               getAttrs: createGetAttrsForTextNode(nodeName),
@@ -98,6 +103,7 @@ export const getNodeSpecForField = (
           marks: "",
         },
       };
+    }
     case "richText": {
       const nodeSpec = field.nodeSpec ?? {};
       return {
