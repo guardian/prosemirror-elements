@@ -10,8 +10,12 @@ export const pullquoteFields = {
     rows: 4,
     validators: [htmlRequired("Pullquote cannot be empty")],
     absentOnEmpty: true,
+    placeholder: "Enter a pull quote here…",
   }),
-  attribution: createTextField({ absentOnEmpty: true }),
+  attribution: createTextField({
+    absentOnEmpty: true,
+    placeholder: "Enter attribution here…",
+  }),
   role: createCustomDropdownField("supporting", [
     { text: "supporting (default)", value: "supporting" },
     { text: "inline", value: "inline" },
