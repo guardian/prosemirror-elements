@@ -10,6 +10,7 @@ import {
   getElementRichTextFieldPlaceholder,
   getSerialisedHtml,
   italicShortcut,
+  selectAllShortcut,
   selectDataCy,
   setDocFromHtml,
   typeIntoElementField,
@@ -164,7 +165,7 @@ describe("ImageElement", () => {
           caption: "Here is some text we'd like to delete.",
           src: "The remaining field.",
         });
-        typeIntoElementField("caption", "{cmd+a}{backspace}");
+        typeIntoElementField("caption", `${selectAllShortcut()}{backspace}`);
 
         getElementRichTextField("caption").should("have.text", "Enter caption");
         getElementRichTextField("src").should(
@@ -260,7 +261,7 @@ describe("ImageElement", () => {
           caption: "The remaining field.",
           src: "Here is some text we'd like to delete.",
         });
-        typeIntoElementField("src", "{cmd+a}{backspace}");
+        typeIntoElementField("src", `${selectAllShortcut()}{backspace}`);
 
         getElementRichTextField("src").should("have.text", "Add src");
         getElementRichTextField("caption").should(

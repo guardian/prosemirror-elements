@@ -176,3 +176,12 @@ export const italicShortcut = () => {
       return "{ctrl+i}";
   }
 };
+
+export const selectAllShortcut = () => {
+  switch (Cypress.platform) {
+    case "darwin":
+      return "{meta+a}";
+    default:
+      return "{ctrl+a}";
+  }
+};
