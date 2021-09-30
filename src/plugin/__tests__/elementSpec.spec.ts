@@ -146,7 +146,7 @@ describe("mount", () => {
 
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
-          ).toEqual({
+          ).toMatchObject({
             content: fieldDescriptions.field1.nodeSpec.content,
             toDOM: fieldDescriptions.field1.nodeSpec.toDOM,
             parseDOM: fieldDescriptions.field1.nodeSpec.parseDOM,

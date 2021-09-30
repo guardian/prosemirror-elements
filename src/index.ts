@@ -8,3 +8,5 @@ export {
   transformElementIn,
   transformElementOut,
 } from "./elements/helpers/transform";
+export { useTyperighterAttr } from "./elements/helpers/typerighter";
+export { fieldGroupName } from "./plugin/nodeSpec";

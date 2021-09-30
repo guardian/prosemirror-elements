@@ -73,6 +73,8 @@ const getNodeSpecForElement = (
   },
 });
 
+export const fieldGroupName = "pme-field";
+
 export const getNodeSpecForField = (
   elementName: string,
   fieldName: string,
@@ -85,14 +87,11 @@ export const getNodeSpecForField = (
       const nodeSpec = field.nodeSpec ?? {};
       return {
         [nodeName]: {
-          ...nodeSpec,
+          group: fieldGroupName,
           content:
-            nodeSpec.content ??
-            (field.isMultiline && !field.isCode
-              ? "(text|hard_break)*"
-              : "text*"),
-          toDOM: nodeSpec.toDOM ?? getDefaultToDOMForContentNode(nodeName),
-          parseDOM: nodeSpec.parseDOM ?? [
+            field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
             {
               tag: "div",
               getAttrs: createGetAttrsForTextNode(nodeName),
@@ -101,6 +100,7 @@ export const getNodeSpecForField = (
           ],
           code: field.isCode,
           marks: "",
+          ...nodeSpec,
         },
       };
     }
@@ -108,21 +108,23 @@ export const getNodeSpecForField = (
       const nodeSpec = field.nodeSpec ?? {};
       return {
         [nodeName]: {
-          ...nodeSpec,
-          content: nodeSpec.content ?? "paragraph+",
-          toDOM: nodeSpec.toDOM ?? getDefaultToDOMForContentNode(nodeName),
-          parseDOM: nodeSpec.parseDOM ?? [
+          group: fieldGroupName,
+          content: "paragraph+",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
             {
               tag: "div",
               getAttrs: createGetAttrsForTextNode(nodeName),
             },
           ],
+          ...nodeSpec,
         },
       };
     }
     case "checkbox":
       return {
         [nodeName]: {
+          group: fieldGroupName,
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
@@ -136,6 +138,7 @@ export const getNodeSpecForField = (
     case "dropdown":
       return {
         [nodeName]: {
+          group: fieldGroupName,
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
@@ -149,6 +152,7 @@ export const getNodeSpecForField = (
     case "custom":
       return {
         [nodeName]: {
+          group: fieldGroupName,
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),

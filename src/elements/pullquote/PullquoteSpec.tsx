@@ -3,6 +3,7 @@ import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { useTyperighterNodeSpec } from "../helpers/typerighter";
 import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
@@ -11,6 +12,7 @@ export const pullquoteFields = {
     validators: [htmlRequired("Pullquote cannot be empty")],
     absentOnEmpty: true,
     placeholder: "Enter a pull quote here…",
+    nodeSpec: useTyperighterNodeSpec,
   }),
   attribution: createTextField({
     absentOnEmpty: true,
