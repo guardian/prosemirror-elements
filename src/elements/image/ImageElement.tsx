@@ -63,6 +63,7 @@ export const createImageFields = ({
     alt: createTextField({
       rows: 2,
       validators: [htmlMaxLength(1000), htmlRequired()],
+      placeholder: "Enter some alt text…",
     }),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
@@ -70,6 +71,7 @@ export const createImageFields = ({
         marks: "em strong link strike",
       },
       validators: [htmlMaxLength(600)],
+      placeholder: "Enter a caption for this media…",
     }),
     displayCredit: createCustomField(true, true),
     imageType: createCustomField("Photograph", [
@@ -77,7 +79,10 @@ export const createImageFields = ({
       { text: "Illustration", value: "Illustration" },
       { text: "Composite", value: "Composite" },
     ]),
-    photographer: createTextField({ validators: [htmlMaxLength(250)] }),
+    photographer: createTextField({
+      validators: [htmlMaxLength(250)],
+      placeholder: "Enter the photographer…",
+    }),
     mainImage: createCustomField<MainImageData, MainImageProps>(
       {
         mediaId: undefined,
@@ -90,6 +95,7 @@ export const createImageFields = ({
     ),
     source: createTextField({
       validators: [htmlMaxLength(250), htmlRequired()],
+      placeholder: "Enter the source…",
     }),
     role: createCustomDropdownField(undefinedDropdownValue, [
       { text: "inline (default)", value: undefinedDropdownValue },
