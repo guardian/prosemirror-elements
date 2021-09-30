@@ -67,9 +67,7 @@ export const createImageFields = ({
     }),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
-      nodeSpec: {
-        marks: "em strong link strike",
-      },
+      marks: "em strong link strike",
       validators: [htmlMaxLength(600)],
       placeholder: "Enter a caption for this media…",
     }),

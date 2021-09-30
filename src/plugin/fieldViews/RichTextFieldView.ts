@@ -1,7 +1,7 @@
 import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { AttributeSpec, Node, NodeSpec, Schema } from "prosemirror-model";
+import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
@@ -14,6 +14,8 @@ export interface RichTextFieldDescription extends AbstractTextFieldDescription {
   createPlugins?: (schema: Schema) => Plugin[];
   // A content expression for this node. This will override the default content expression.
   content?: string;
+  // The marks permitted on this node.
+  marks?: string;
   // If the text content produced by this node is an empty string, don't
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;
@@ -24,6 +26,7 @@ type RichTextOptions = {
   createPlugins?: (schema: Schema) => Plugin[];
   attrs?: Record<string, AttributeSpec>;
   content?: string;
+  marks?: string;
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
 };
@@ -33,6 +36,7 @@ export const createRichTextField = ({
   createPlugins,
   attrs,
   content,
+  marks,
   validators,
   placeholder,
 }: RichTextOptions): RichTextFieldDescription => ({
@@ -40,13 +44,13 @@ export const createRichTextField = ({
   createPlugins,
   attrs,
   content,
+  marks,
   validators,
   absentOnEmpty,
   placeholder,
 });
 
 type FlatRichTextOptions = RichTextOptions & {
-  nodeSpec?: Partial<Omit<NodeSpec, "content">>;
   validators?: FieldValidator[];
 };
 
@@ -58,6 +62,7 @@ export const createFlatRichTextField = ({
   createPlugins,
   validators,
   placeholder,
+  marks,
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
@@ -84,6 +89,7 @@ export const createFlatRichTextField = ({
     content: "(text|hard_break)*",
     validators,
     placeholder,
+    marks,
   });
 
 /**
