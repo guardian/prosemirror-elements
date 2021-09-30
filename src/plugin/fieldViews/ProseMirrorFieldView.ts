@@ -1,4 +1,4 @@
-import type { Node, NodeSpec } from "prosemirror-model";
+import type { AttributeSpec, Node } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
@@ -13,10 +13,8 @@ import { FieldType } from "./FieldView";
 export interface AbstractTextFieldDescription
   extends BaseFieldDescription<string> {
   placeholder?: PlaceholderOption;
-  // Amend the nodeSpec for the node that represents this field. Take care –
-  // any keys specified here will override any defaults provided by
-  // prosemirror-elements, which may break editor behaviour.
-  nodeSpec?: Partial<NodeSpec>;
+  // Add additional attributes to the node representing this field.
+  attrs?: Record<string, AttributeSpec>;
   // If true, when this text field is empty, do not include it as a key-value pair
   // in the element data extracted with `getElementDataFromNode`.
   absentOnEmpty?: boolean;

@@ -129,15 +129,12 @@ describe("mount", () => {
 
     describe("fields", () => {
       describe("richText", () => {
-        it("should allow the user to specify custom toDOM and parseDOM properties", () => {
+        it("should allow the user to specify content and attribute properties", () => {
           const fieldDescriptions = {
             field1: {
               type: "richText" as const,
-              nodeSpec: {
-                content: "text",
-                toDOM: () => "element-testelement1-field1",
-                parseDOM: [{ tag: "header" }],
-              },
+              attrs: { customAttr: { default: "custom" } },
+              content: "content",
             },
           };
 
@@ -147,23 +144,18 @@ describe("mount", () => {
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
           ).toMatchObject({
-            content: fieldDescriptions.field1.nodeSpec.content,
-            toDOM: fieldDescriptions.field1.nodeSpec.toDOM,
-            parseDOM: fieldDescriptions.field1.nodeSpec.parseDOM,
+            content: fieldDescriptions.field1.content,
+            attrs: fieldDescriptions.field1.attrs,
           });
         });
       });
 
       describe("text", () => {
-        it("should allow the user to specify custom toDOM and parseDOM properties", () => {
+        it("should allow the user to specify custom attributes", () => {
           const fieldDescriptions = {
             field1: {
               type: "text" as const,
-              nodeSpec: {
-                content: "text",
-                toDOM: () => "element-testelement1-field1",
-                parseDOM: [{ tag: "header" }],
-              },
+              attrs: { customAttr: { default: "custom" } },
               isMultiline: false,
               rows: 1,
               isCode: false,
@@ -176,9 +168,7 @@ describe("mount", () => {
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
           ).toMatchObject({
-            content: fieldDescriptions.field1.nodeSpec.content,
-            toDOM: fieldDescriptions.field1.nodeSpec.toDOM,
-            parseDOM: fieldDescriptions.field1.nodeSpec.parseDOM,
+            attrs: fieldDescriptions.field1.attrs,
           });
         });
         it("should provide a default inline node spec", () => {
