@@ -129,12 +129,13 @@ describe("mount", () => {
 
     describe("fields", () => {
       describe("richText", () => {
-        it("should allow the user to specify content and attribute properties", () => {
+        it("should allow the user to specify content, attribute and marks properties", () => {
           const fieldDescriptions = {
             field1: {
               type: "richText" as const,
               attrs: { customAttr: { default: "custom" } },
               content: "content",
+              marks: "some marks",
             },
           };
 
@@ -146,6 +147,7 @@ describe("mount", () => {
           ).toMatchObject({
             content: fieldDescriptions.field1.content,
             attrs: fieldDescriptions.field1.attrs,
+            marks: fieldDescriptions.field1.marks,
           });
         });
       });

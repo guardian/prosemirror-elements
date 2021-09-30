@@ -118,6 +118,7 @@ export const getNodeSpecForField = (
             },
           ],
           attrs: field.attrs,
+          marks: field.marks,
         },
       };
     }
