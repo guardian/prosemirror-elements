@@ -7,9 +7,12 @@ export const placeholderTestAttribute = "placeholder";
 const getDefaultPlaceholder = (text: string) => {
   const span = document.createElement("span");
   span.style.display = "inline-block";
-  span.style.height = "0px";
-  span.style.width = "0px";
+  span.style.width = "90%";
   span.style.whiteSpace = "nowrap";
+  span.style.overflowX = "hidden";
+  span.style.textOverflow = "ellipsis";
+  span.style.verticalAlign = "bottom";
+  span.style.fontFamily = "Guardian Agate Sans";
   // Passes accessibility contrast on a white background
   span.style.color = "#777575";
   span.style.pointerEvents = "none";
@@ -17,6 +20,7 @@ const getDefaultPlaceholder = (text: string) => {
   span.draggable = false;
   span.innerHTML = text;
   span.setAttribute("data-cy", placeholderTestAttribute);
+
   return span;
 };
 
