@@ -129,15 +129,13 @@ describe("mount", () => {
 
     describe("fields", () => {
       describe("richText", () => {
-        it("should allow the user to specify custom toDOM and parseDOM properties on richText fields", () => {
+        it("should allow the user to specify content, attribute and marks properties", () => {
           const fieldDescriptions = {
             field1: {
               type: "richText" as const,
-              nodeSpec: {
-                content: "text",
-                toDOM: () => "element-testelement1-field1",
-                parseDOM: [{ tag: "header" }],
-              },
+              attrs: { customAttr: { default: "custom" } },
+              content: "content",
+              marks: "some marks",
             },
           };
 
@@ -146,15 +144,35 @@ describe("mount", () => {
 
           expect(
             nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
-          ).toEqual({
-            content: fieldDescriptions.field1.nodeSpec.content,
-            toDOM: fieldDescriptions.field1.nodeSpec.toDOM,
-            parseDOM: fieldDescriptions.field1.nodeSpec.parseDOM,
+          ).toMatchObject({
+            content: fieldDescriptions.field1.content,
+            attrs: fieldDescriptions.field1.attrs,
+            marks: fieldDescriptions.field1.marks,
           });
         });
       });
 
       describe("text", () => {
+        it("should allow the user to specify custom attributes", () => {
+          const fieldDescriptions = {
+            field1: {
+              type: "text" as const,
+              attrs: { customAttr: { default: "custom" } },
+              isMultiline: false,
+              rows: 1,
+              isCode: false,
+            },
+          };
+
+          const testElement1 = createNoopElement(fieldDescriptions);
+          const { nodeSpec } = buildElementPlugin({ testElement1 });
+
+          expect(
+            nodeSpec.get(getNodeNameFromField("field1", "testElement1"))
+          ).toMatchObject({
+            attrs: fieldDescriptions.field1.attrs,
+          });
+        });
         it("should provide a default inline node spec", () => {
           const fieldDescriptions = {
             field1: {

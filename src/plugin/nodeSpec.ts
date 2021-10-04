@@ -73,6 +73,10 @@ const getNodeSpecForElement = (
   },
 });
 
+// A group for our field nodes. Exported to allow consumers to
+// easily identify field nodes in their own code.
+export const fieldGroupName = "pme-field";
+
 export const getNodeSpecForField = (
   elementName: string,
   fieldName: string,
@@ -81,9 +85,10 @@ export const getNodeSpecForField = (
   const nodeName = getNodeNameFromField(fieldName, elementName);
 
   switch (field.type) {
-    case "text":
+    case "text": {
       return {
         [nodeName]: {
+          group: fieldGroupName,
           content:
             field.isMultiline && !field.isCode ? "(text|hard_break)*" : "text*",
           toDOM: getDefaultToDOMForContentNode(nodeName),
@@ -96,27 +101,31 @@ export const getNodeSpecForField = (
           ],
           code: field.isCode,
           marks: "",
+          attrs: field.attrs,
         },
       };
+    }
     case "richText": {
-      const nodeSpec = field.nodeSpec ?? {};
       return {
         [nodeName]: {
-          ...nodeSpec,
-          content: nodeSpec.content ?? "paragraph+",
-          toDOM: nodeSpec.toDOM ?? getDefaultToDOMForContentNode(nodeName),
-          parseDOM: nodeSpec.parseDOM ?? [
+          group: fieldGroupName,
+          content: field.content ?? "paragraph+",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
             {
               tag: "div",
               getAttrs: createGetAttrsForTextNode(nodeName),
             },
           ],
+          attrs: field.attrs,
+          marks: field.marks,
         },
       };
     }
     case "checkbox":
       return {
         [nodeName]: {
+          group: fieldGroupName,
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
@@ -130,6 +139,7 @@ export const getNodeSpecForField = (
     case "dropdown":
       return {
         [nodeName]: {
+          group: fieldGroupName,
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
@@ -143,6 +153,7 @@ export const getNodeSpecForField = (
     case "custom":
       return {
         [nodeName]: {
+          group: fieldGroupName,
           atom: true,
           toDOM: getDefaultToDOMForLeafNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
