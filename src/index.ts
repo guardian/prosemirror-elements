@@ -7,4 +7,6 @@ export { createImageElement } from "./elements/image/ImageElement";
 export {
   transformElementIn,
   transformElementOut,
-} from "./elements/transformer/transform";
+} from "./elements/helpers/transform";
+export { useTyperighterAttr } from "./elements/helpers/typerighter";
+export { fieldGroupName } from "./plugin/nodeSpec";

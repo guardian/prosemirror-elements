@@ -1,7 +1,7 @@
 import { exampleSetup } from "prosemirror-example-setup";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { Node, NodeSpec, Schema } from "prosemirror-model";
+import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
@@ -13,7 +13,10 @@ import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 export interface RichTextFieldDescription extends AbstractTextFieldDescription {
   type: typeof RichTextFieldView.fieldName;
   createPlugins?: (schema: Schema) => Plugin[];
-  nodeSpec?: Partial<NodeSpec>;
+  // A content expression for this node. This will override the default content expression.
+  content?: string;
+  // The marks permitted on this node.
+  marks?: string;
   // If the text content produced by this node is an empty string, don't
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;
@@ -22,7 +25,9 @@ export interface RichTextFieldDescription extends AbstractTextFieldDescription {
 type RichTextOptions = {
   absentOnEmpty?: boolean;
   createPlugins?: (schema: Schema) => Plugin[];
-  nodeSpec?: Partial<NodeSpec>;
+  attrs?: Record<string, AttributeSpec>;
+  content?: string;
+  marks?: string;
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
 };
@@ -30,20 +35,23 @@ type RichTextOptions = {
 export const createRichTextField = ({
   absentOnEmpty,
   createPlugins,
-  nodeSpec,
+  attrs,
+  content,
+  marks,
   validators,
   placeholder,
 }: RichTextOptions): RichTextFieldDescription => ({
   type: RichTextFieldView.fieldName,
   createPlugins,
-  nodeSpec,
+  attrs,
+  content,
+  marks,
   validators,
   absentOnEmpty,
   placeholder,
 });
 
 type FlatRichTextOptions = RichTextOptions & {
-  nodeSpec?: Partial<Omit<NodeSpec, "content">>;
   validators?: FieldValidator[];
 };
 
@@ -53,9 +61,9 @@ type FlatRichTextOptions = RichTextOptions & {
  */
 export const createFlatRichTextField = ({
   createPlugins,
-  nodeSpec,
   validators,
   placeholder,
+  marks,
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
@@ -79,12 +87,10 @@ export const createFlatRichTextField = ({
       const plugin = keymap(keymapping);
       return [plugin, ...(createPlugins?.(schema) ?? [])];
     },
-    nodeSpec: {
-      ...nodeSpec,
-      content: "(text|hard_break)*",
-    },
+    content: "(text|hard_break)*",
     validators,
     placeholder,
+    marks,
   });
 
 /**

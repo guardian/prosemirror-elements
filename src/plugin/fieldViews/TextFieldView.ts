@@ -2,7 +2,7 @@ import type { Command } from "prosemirror-commands";
 import { baseKeymap, newlineInCode } from "prosemirror-commands";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { Node, Schema } from "prosemirror-model";
+import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
@@ -32,6 +32,7 @@ type TextFieldOptions = {
   absentOnEmpty?: boolean;
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
+  attrs?: Record<string, AttributeSpec>;
 };
 
 export const createTextField = (
@@ -41,6 +42,7 @@ export const createTextField = (
     absentOnEmpty = false,
     validators,
     placeholder,
+    attrs,
   }: TextFieldOptions | undefined = {
     rows: 1,
     isCode: false,
@@ -56,6 +58,7 @@ export const createTextField = (
   absentOnEmpty,
   validators,
   placeholder,
+  attrs,
 });
 
 export class TextFieldView extends ProseMirrorFieldView {

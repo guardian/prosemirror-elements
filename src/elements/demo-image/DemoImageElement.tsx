@@ -59,9 +59,7 @@ export const createImageFields = (
     restrictedTextField: createFlatRichTextField({
       placeholder: "Enter restricted text",
       createPlugins: (schema) => exampleSetup({ schema }),
-      nodeSpec: {
-        marks: "em",
-      },
+      marks: "em",
     }),
     altText: createTextField({
       placeholder: "Alt text",
