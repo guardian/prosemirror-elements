@@ -9,6 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { useTyperighterAttrs } from "../helpers/typerighter";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
 
@@ -68,6 +69,7 @@ export const createImageFields = ({
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
       marks: "em strong link strike",
+      attrs: useTyperighterAttrs,
       validators: [htmlMaxLength(600)],
       placeholder: "Enter a caption for this media…",
     }),

@@ -64,6 +64,8 @@ export const createFlatRichTextField = ({
   validators,
   placeholder,
   marks,
+  attrs,
+  absentOnEmpty,
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
@@ -91,6 +93,8 @@ export const createFlatRichTextField = ({
     validators,
     placeholder,
     marks,
+    attrs,
+    absentOnEmpty,
   });
 
 /**
