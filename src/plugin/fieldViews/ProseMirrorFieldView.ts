@@ -62,7 +62,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // The field placeholder option
     placeholder?: PlaceholderOption
   ) {
-    this.applyDecorationsFromOuterEditor(decorations);
+    this.applyDecorationsFromOuterEditor(decorations, node, offset);
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
     this.parser = DOMParser.fromSchema(node.type.schema);
 
@@ -108,14 +108,14 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const node = this.getNodeFromValue(value);
     const tr = this.innerEditorView.state.tr;
     tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
-    this.onInnerStateChange(tr);
+    this.dispatchTransaction(tr);
   }
 
   public destroy() {
     if (this.innerEditorView) this.close();
   }
 
-  private onInnerStateChange(tr: Transaction) {
+  private dispatchTransaction(tr: Transaction) {
     if (!this.innerEditorView) {
       return;
     }
@@ -141,13 +141,13 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     decorations: DecorationSet | Decoration[],
     elementOffset: number
   ) {
-    this.applyDecorationsFromOuterEditor(decorations);
-    this.offset = elementOffset;
-    this.node = node;
-
     if (!this.innerEditorView) {
       return;
     }
+
+    this.offset = elementOffset;
+    this.node = node;
+    this.applyDecorationsFromOuterEditor(decorations, node, elementOffset);
 
     const state = this.innerEditorView.state;
 
@@ -251,13 +251,15 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
       }),
       // The EditorView defers state management to this class rather than handling changes itself.
       // This lets us propagate changes to the outer EditorView when needed.
-      dispatchTransaction: this.onInnerStateChange.bind(this),
+      dispatchTransaction: this.dispatchTransaction.bind(this),
       decorations: () => this.decorations,
     });
   }
 
   private applyDecorationsFromOuterEditor(
-    decorationSet: DecorationSet | Decoration[]
+    decorationSet: DecorationSet | Decoration[],
+    node: Node,
+    elementOffset: number
   ) {
     // Do nothing if the decorations have not changed.
     if (!this.innerEditorView || decorationSet === this.outerDecorations) {
@@ -267,11 +269,13 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const localDecoSet =
       decorationSet instanceof DecorationSet
         ? decorationSet
-        : DecorationSet.create(this.node, decorationSet);
+        : DecorationSet.create(node, decorationSet);
     // Offset because the node we are displaying these decorations in is a child of its parent (-1)
     const localOffset = -1;
-    const offsetMap = new Mapping([StepMap.offset(-this.offset + localOffset)]);
-    this.decorations = localDecoSet.map(offsetMap, this.node);
+    const offsetMap = new Mapping([
+      StepMap.offset(-elementOffset + localOffset),
+    ]);
+    this.decorations = localDecoSet.map(offsetMap, node);
     this.decorationsPending = true;
   }
 
