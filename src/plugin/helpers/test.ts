@@ -10,7 +10,7 @@ import { createElementSpec } from "../elementSpec";
 import type { ElementSpecMap, FieldDescriptions } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
-const initialPhrase = "deco";
+const initialPhrase = "dec(o)+";
 const key = new PluginKey<string>("TEST_DECO_PLUGIN");
 export const ChangeTestDecoStringAction = "CHANGE_TEST_DECO_STRING";
 
@@ -29,15 +29,16 @@ export const testDecorationPlugin = new Plugin<string>({
   },
   props: {
     decorations: (state) => {
-      const testString = key.getState(state) ?? initialPhrase;
+      const testString = new RegExp(key.getState(state) ?? initialPhrase);
       const ranges = [] as Array<[number, number]>;
       state.doc.descendants((node, offset) => {
         if (node.isLeaf && node.textContent) {
-          const indexOfDeco = node.textContent.indexOf(testString);
-          if (indexOfDeco !== -1) {
+          const results = testString.exec(node.textContent);
+          if (results !== null) {
+            const [match] = results;
             ranges.push([
-              indexOfDeco + offset,
-              indexOfDeco + offset + testString.length,
+              results.index + offset,
+              results.index + offset + match.length,
             ]);
           }
         }

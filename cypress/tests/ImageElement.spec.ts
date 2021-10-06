@@ -128,6 +128,34 @@ describe("ImageElement", () => {
           .should("have.text", "deco");
       });
 
+      it("caption – should map decorations passed from the parent editor correctly when they grow", () => {
+        addImageElement();
+        typeIntoElementField("caption", "caption deco");
+
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+        typeIntoElementField("caption", "oo");
+
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "decooo");
+      });
+
+      it("caption – should map decorations passed from the parent editor correctly when they shrink", () => {
+        addImageElement();
+        typeIntoElementField("caption", "caption decooo");
+
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "decooo");
+        typeIntoElementField("caption", "{backspace}{backspace}");
+
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
       it(`caption – should render new decorations, even if the document state has not changed`, () => {
         addImageElement();
 
