@@ -69,10 +69,60 @@ describe("ImageElement", () => {
           .should("have.text", "deco");
       });
 
-      it(`caption – should map decorations passed from the parent editor correctly when they move`, () => {
+      it(`caption – should map decorations passed from the parent editor correctly when they move – add text before`, () => {
         addImageElement();
-        const text = `caption deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more text`;
-        typeIntoElementField("caption", text);
+        typeIntoElementField(
+          "caption",
+          "start deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow} more"
+        );
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should map decorations passed from the parent editor correctly when they move – add text after`, () => {
+        addImageElement();
+        typeIntoElementField("caption", "caption deco more text");
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should map decorations passed from the parent editor correctly when they move – remove text before`, () => {
+        addImageElement();
+        typeIntoElementField(
+          "caption",
+          "start deco{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{backspace}{backspace}"
+        );
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should map decorations passed from the parent editor correctly when they move – remove text after`, () => {
+        addImageElement();
+        typeIntoElementField(
+          "caption",
+          "caption deco more text {backspace}{backspace}"
+        );
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should map decorations passed from the parent editor correctly when they move – add text in following field`, () => {
+        addImageElement();
+        typeIntoElementField("caption", "caption deco");
+        typeIntoElementField("altText", "text");
+        getElementRichTextField("caption")
+          .find(".TestDecoration")
+          .should("have.text", "deco");
+      });
+
+      it(`caption – should map decorations passed from the parent editor correctly when they move – remove text in following field`, () => {
+        addImageElement();
+        typeIntoElementField("caption", "caption deco");
+        typeIntoElementField("altText", "text{backspace}{backspace}");
         getElementRichTextField("caption")
           .find(".TestDecoration")
           .should("have.text", "deco");
