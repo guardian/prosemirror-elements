@@ -66,10 +66,8 @@ export const htmlMaxLength = (
       },
     ];
   }
-
-  const el = document.createElement("div");
-  el.innerHTML = value ?? "";
-  const length = el.innerText.length;
+  const strWithoutHtml = removeHTMLFromStr(value);
+  const length = strWithoutHtml.length;
   if (length > maxLength) {
     return [
       {
@@ -126,9 +124,8 @@ export const htmlRequired = (
       },
     ];
   }
-  const el = document.createElement("div");
-  el.innerHTML = value ?? "";
-  if (!el.innerText.length) {
+  const strWithoutHtml = removeHTMLFromStr(value);
+  if (!strWithoutHtml.length) {
     return [
       {
         error: "Required",
@@ -165,4 +162,11 @@ export const required = (
     ];
   }
   return [];
+};
+
+const removeHTMLFromStr = (str: string | undefined) => {
+  // At the moment, we don't remove HTML – it's proved too costly to strip
+  // html with .innerHTML parsing on the fly in large documents. If we find
+  // a fast solution, we can revisit this.
+  return str ?? "";
 };
