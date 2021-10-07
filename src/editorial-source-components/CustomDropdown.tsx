@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { Option, Select } from "@guardian/src-select";
+import React from "react";
 import type { Options } from "../plugin/fieldViews/DropdownFieldView";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
@@ -68,7 +69,7 @@ type CustomDropdownProps = {
   display: "block" | "inline";
 };
 
-export const CustomDropdown = (props: CustomDropdownProps) => {
+export const CustomDropdown = React.memo((props: CustomDropdownProps) => {
   return (
     <SelectWrapper display={props.display} data-cy={props.dataCy}>
       <Select
@@ -86,4 +87,4 @@ export const CustomDropdown = (props: CustomDropdownProps) => {
       </Select>
     </SelectWrapper>
   );
-};
+});
