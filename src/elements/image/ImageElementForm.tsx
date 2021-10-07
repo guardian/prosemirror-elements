@@ -99,18 +99,16 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           <FieldWrapper
             field={fields.alt}
             errors={errors.alt}
-            label={
-              <>
-                <AltText>Alt text</AltText>
-                <Button
-                  priority="secondary"
-                  size="xsmall"
-                  iconSide="left"
-                  onClick={() => fields.alt.update(fieldValues.caption)}
-                >
-                  Copy from caption
-                </Button>
-              </>
+            label={<AltText>Alt text</AltText>}
+            button={
+              <Button
+                priority="secondary"
+                size="xsmall"
+                iconSide="left"
+                onClick={() => fields.alt.update(fieldValues.caption)}
+              >
+                Copy from caption
+              </Button>
             }
           />
           <Columns>
