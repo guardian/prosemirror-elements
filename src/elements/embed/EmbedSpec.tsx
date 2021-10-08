@@ -12,6 +12,7 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import { EmbedElementForm } from "./EmbedForm";
 
 export type MainEmbedProps = {
+  checkEmbedTracking: (html: string) => Promise<any>;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 
@@ -32,6 +33,7 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
     html: createTextField({
       rows: 2,
       isCode: true,
+      isMultiline: true,
       validators: [htmlRequired()],
       placeholder: "Paste in the embed code…",
     }),
@@ -59,6 +61,7 @@ export const createEmbedElement = (props: MainEmbedProps) =>
           fields={fields}
           errors={errors}
           fieldValues={fieldValues}
+          checkEmbedTracking={props.checkEmbedTracking}
         />
       );
     }

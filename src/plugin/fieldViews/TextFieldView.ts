@@ -29,6 +29,7 @@ export interface TextFieldDescription extends AbstractTextFieldDescription {
 type TextFieldOptions = {
   rows?: number;
   isCode?: boolean;
+  isMultiline?: boolean;
   absentOnEmpty?: boolean;
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
