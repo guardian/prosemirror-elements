@@ -179,6 +179,7 @@ const buildCommands = (predicate: Predicate) => (
 ) => ({
   ...buildMoveCommands(predicate)(getPos, view),
   remove: (run = true) => removeNode(getPos)(view.state, run && view.dispatch),
+  pos: getPos(),
 });
 
 // this forces our view to update every time an edit is made by inserting
