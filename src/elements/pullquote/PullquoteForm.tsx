@@ -18,8 +18,9 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
 }) => {
-  //It is necessary to filter errors for the HTML field as we have two validators.
-  //The first is meant to display a warning to the user, the second blocks publication.
+  //It is necessary to filter errors for the HTML field as we have two overlapping length check validators.
+  //We only want to show the smaller length check "warning" instead of the higher length check "error".
+  //The desired behaviour is to display a "WARN" level error if there is one, otherwise show what's found.
   const htmlErrors = errors.html.length
     ? [
         errors.html.reduce((acc, cur) => {
