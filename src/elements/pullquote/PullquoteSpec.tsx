@@ -1,7 +1,7 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { htmlRequired } from "../../plugin/helpers/validation";
+import { maxLength, required } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { PullquoteElementForm } from "./PullquoteForm";
@@ -9,7 +9,13 @@ import { PullquoteElementForm } from "./PullquoteForm";
 export const pullquoteFields = {
   html: createTextField({
     rows: 4,
-    validators: [htmlRequired("Pullquote cannot be empty")],
+    validators: [
+      required("Pullquote cannot be empty"),
+      //To display a warning to users
+      maxLength(120, undefined, "WARN"),
+      //To prevent publication
+      maxLength(1000, "Pullquote is too long", "ERROR"),
+    ],
     absentOnEmpty: true,
     placeholder: "Enter a pull quote here…",
     attrs: useTyperighterAttrs,

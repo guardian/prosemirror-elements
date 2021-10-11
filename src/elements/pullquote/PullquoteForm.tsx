@@ -17,26 +17,43 @@ export const PullquoteElementTestId = "PullquoteElement";
 export const PullquoteElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
-}) => (
-  <div data-cy={PullquoteElementTestId}>
-    <Columns>
-      <Column width={2 / 3}>
-        <FieldWrapper
-          label="Pullquote"
-          field={fields.html}
-          errors={errors.html}
-        />
-      </Column>
-      <Column width={1 / 3}>
-        <FieldLayoutVertical>
+}) => {
+  //It is necessary to filter errors for the HTML field as we have two overlapping length check validators.
+  //We only want to show the smaller length check "warning" instead of the higher length check "error".
+  //The desired behaviour is to display a "WARN" level error if there is one, otherwise show what's found.
+  const htmlErrors = errors.html.length
+    ? [
+        errors.html.reduce((acc, cur) => {
+          if (acc.level === "WARN") {
+            return acc;
+          } else {
+            return cur;
+          }
+        }),
+      ]
+    : [];
+
+  return (
+    <div data-cy={PullquoteElementTestId}>
+      <Columns>
+        <Column width={2 / 3}>
           <FieldWrapper
-            label="Attribution"
-            field={fields.attribution}
-            errors={errors.attribution}
+            label="Pullquote"
+            field={fields.html}
+            errors={htmlErrors}
           />
-          <CustomDropdownView label="Weighting" field={fields.role} />
-        </FieldLayoutVertical>
-      </Column>
-    </Columns>
-  </div>
-);
+        </Column>
+        <Column width={1 / 3}>
+          <FieldLayoutVertical>
+            <FieldWrapper
+              label="Attribution"
+              field={fields.attribution}
+              errors={errors.attribution}
+            />
+            <CustomDropdownView label="Weighting" field={fields.role} />
+          </FieldLayoutVertical>
+        </Column>
+      </Columns>
+    </div>
+  );
+};
