@@ -20,8 +20,8 @@ import type {
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  FDesc extends FieldDescriptions<keyof FDesc>,
-  ElementNames extends keyof ESpecMap,
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementSpecs: ESpecMap,

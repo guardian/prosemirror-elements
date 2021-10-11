@@ -68,8 +68,8 @@ export const createNoopElement = <FDesc extends FieldDescriptions<string>>(
   );
 
 export const createEditorWithElements = <
-  FDesc extends FieldDescriptions<keyof FDesc>,
-  ElementNames extends keyof ESpecMap,
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elements: ESpecMap,

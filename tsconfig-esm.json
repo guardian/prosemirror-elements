@@ -12,7 +12,6 @@
     "jsxImportSource": "@emotion/react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "keyofStringsOnly": true,
     "rootDir": "./src",
     "outDir": "dist/esm",
     "declarationDir": "dist/declaration"
