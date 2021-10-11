@@ -127,11 +127,15 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               />
             </Column>
           </Columns>
-          <CustomCheckboxView
-            field={fields.displayCredit}
-            errors={errors.displayCredit}
-            label="Display credit information"
-          />
+          <Columns>
+            <Column width={1 / 2}>
+              <CustomCheckboxView
+                field={fields.displayCredit}
+                errors={errors.displayCredit}
+                label="Display credit information"
+              />
+            </Column>
+          </Columns>
         </FieldLayoutVertical>
       </Column>
     </Columns>
