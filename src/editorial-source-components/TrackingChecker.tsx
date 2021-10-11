@@ -2,32 +2,109 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { background, border } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
+import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useState } from "react";
 
-export const labelStyles = css`
-  ${textSans.small({ fontWeight: "bold", lineHeight: "loose" })}
-  font-family: "Guardian Agate Sans";
-  display: block;
-`;
-
-type EmbedStatus = {
-  reach: string[];
+export type EmbedStatus = {
   tracking: {
     tracks: string;
   };
+  reach: {
+    unsupportedPlatforms: string[];
+  };
 };
 
-export const TrackingChecker = ({
+type StatusProps = {
+  embedStatus: EmbedStatus;
+};
+
+const message = css`
+  ${textSans.small({ fontWeight: "bold", lineHeight: "loose" })}
+  font-family: "Guardian Agate Sans";
+  display: block;
+  font-weight: 300;
+  svg {
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-bottom: -4px;
+  }
+`;
+
+const niceColours = css`
+  color: ${border.success};
+  svg {
+    fill: ${border.success};
+  }
+`;
+
+const warningColours = css`
+  color: #ca870c;
+  svg {
+    fill: #ca870c;
+  }
+`;
+
+const naughtyColours = css`
+  color: ${border.error};
+  svg {
+    fill: ${border.error};
+  }
+`;
+
+const centralProduction = "mailto:central.production@guardian.co.uk";
+
+const TrackingChecker = (props: StatusProps) =>
+  props.embedStatus.tracking.tracks === "does-not-track" ? (
+    <p css={[message, niceColours]}>
+      <SvgTickRound />
+      This embed does not track readers, and will be visible by default.
+    </p>
+  ) : (
+    <p css={[message, naughtyColours]}>
+      <SvgAlertTriangle />
+      This embed tracks readers, so it may not be visible by default in future.
+      <br />
+      Worried? Email{" "}
+      <a target="_blank" href={centralProduction}>
+        Central Production
+      </a>
+      .
+    </p>
+  );
+
+const UnsupportedPlatforms = (props: StatusProps) => {
+  const { embedStatus } = props;
+  console.log(embedStatus)
+  const unsupportedPlatforms = embedStatus.reach.unsupportedPlatforms;
+  if (unsupportedPlatforms.length > 0) {
+    return (
+      <p css={[message, warningColours]}>
+        <SvgAlertTriangle />
+        This embed will not be available on all platforms.
+        <br />
+        Making it required will mean this article won't be published to:
+        <span> {unsupportedPlatforms.join(", ")}</span>
+        <br />
+        Please contact the{" "}
+        <a href="mailto:audience.global.all@theguardian.com">
+          Audience Team
+        </a>{" "}
+        for more information.
+      </p>
+    );
+  }
+  return <div />;
+};
+
+export const EmbedStatusChecks = ({
   html,
   checkEmbedTracking,
 }: {
   html: string;
-  checkEmbedTracking: (html: string) => Promise<any>;
+  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
 }) => {
-  const [trackingState, updateTrackingState] = useState<
-    undefined | EmbedStatus
-  >();
+  const [embedStatus, updateEmbedStatus] = useState<EmbedStatus>();
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises -- not useful to save value here
@@ -42,19 +119,19 @@ export const TrackingChecker = ({
             .textContent ?? ""
         )
           .then((response) => {
-            updateTrackingState(response);
+            updateEmbedStatus(response);
           })
           .catch((e) => console.log(e)),
       3000
     ),
     []
   );
-
-  if (trackingState != undefined) {
-    return trackingState.tracking.tracks === "does-not-track" ? (
-      <div>Does not track</div>
-    ) : (
-      <div>Tracks</div>
+  if (embedStatus != undefined) {
+    return (
+      <>
+        <TrackingChecker embedStatus={embedStatus} />
+        <UnsupportedPlatforms embedStatus={embedStatus} />
+      </>
     );
   } else return <div />;
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { TrackingChecker } from "../../editorial-source-components/TrackingChecker";
+import type { EmbedStatus } from "../../editorial-source-components/TrackingChecker";
+import { EmbedStatusChecks } from "../../editorial-source-components/TrackingChecker";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
@@ -13,7 +14,7 @@ type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
-  checkEmbedTracking: (html: string) => Promise<any>;
+  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
 };
 
 export const EmbedElementTestId = "EmbedElement";
@@ -43,7 +44,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       errors={errors.isMandatory}
       label="This element is required for publication"
     />
-    <TrackingChecker
+    <EmbedStatusChecks
       html={fieldValues.html}
       checkEmbedTracking={checkEmbedTracking}
     />
