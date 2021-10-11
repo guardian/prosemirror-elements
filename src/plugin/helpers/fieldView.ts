@@ -57,7 +57,7 @@ export type FieldTypeToValueMap<
  * `{ altText: string }, { isVisible: { value: boolean }}`
  */
 export type FieldNameToValueMap<
-  FDesc extends FieldDescriptions<keyof FDesc>
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
 > = {
   [Name in keyof FDesc]: FieldTypeToValueMap<FDesc, Name>[FDesc[Name]["type"]];
 };
@@ -67,7 +67,7 @@ export type FieldNameToValueMap<
  * to produce a result that reflects the output type of `getElementDataFromNode`.
  */
 export type FieldNameToValueMapWithEmptyValues<
-  FDesc extends FieldDescriptions<keyof FDesc>
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
 > = Optional<
   FieldNameToValueMap<FDesc>,
   KeysWithValsOfType<FDesc, { absentOnEmpty: true }>

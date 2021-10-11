@@ -17,8 +17,8 @@ import { fieldTypeToViewMap } from "./fieldView";
  * returns undefined.
  */
 export const createGetNodeFromElementData = <
-  FDesc extends FieldDescriptions<keyof FDesc>,
-  ElementNames extends keyof ESpecMap,
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
@@ -67,8 +67,8 @@ export const createGetNodeFromElementData = <
  * returns undefined.
  */
 export const createGetElementDataFromNode = <
-  FDesc extends FieldDescriptions<keyof FDesc>,
-  ElementNames extends keyof ESpecMap,
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
@@ -144,8 +144,8 @@ const getValuesFromRichContentNode = (
 const getValuesFromTextContentNode = (node: Node) => node.textContent;
 
 export const createElementDataValidator = <
-  FDesc extends FieldDescriptions<keyof FDesc>,
-  ElementNames extends keyof ESpec,
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpec, string>,
   ESpec extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpec
