@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { background, border } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import debounce from "lodash/debounce";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const labelStyles = css`
   ${textSans.small({ fontWeight: "bold", lineHeight: "loose" })}
@@ -30,16 +30,25 @@ export const TrackingChecker = ({
   >();
 
   useEffect(() => {
-    console.log("updating");
-    debounce(
-      () =>
-        checkEmbedTracking(decodeURIComponent(html)).then((response) => {
-          updateTrackingState(response);
-          console.log("inside debounce");
-        }),
-      1000
-    );
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- not useful to save value here
+    checkTracking(html);
   }, [html]);
+
+  const checkTracking = useCallback(
+    debounce(
+      (html) =>
+        checkEmbedTracking(
+          new DOMParser().parseFromString(html, "text/html").documentElement
+            .textContent ?? ""
+        )
+          .then((response) => {
+            updateTrackingState(response);
+          })
+          .catch((e) => console.log(e)),
+      3000
+    ),
+    []
+  );
 
   if (trackingState != undefined) {
     return trackingState.tracking.tracks === "does-not-track" ? (
