@@ -55,7 +55,7 @@ export const CustomCheckbox = (props: CustomCheckboxProps) => {
   return (
     <div css={parentStyles} data-cy={props.dataCy}>
       <CheckboxGroup
-        name="emails"
+        name="checkbox"
         error={props.error ? props.error : undefined}
         css={checkboxGroupStyles}
       >

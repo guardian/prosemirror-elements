@@ -50,13 +50,13 @@ const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
 
 const selectStyles = css`
   ${inputBorder}
-  font-size: 14px;
   height: ${space[6]}px;
   width: initial;
   padding-right: 50px !important;
   :hover {
     cursor: pointer;
   }
+  font-family: "GuardianTextEgyptian, Guardian Text Egyptian";
 `;
 
 type CustomDropdownProps = {
