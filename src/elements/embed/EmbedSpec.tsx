@@ -1,6 +1,7 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import React from "react";
+import type { EmbedStatus } from "../../editorial-source-components/TrackingChecker";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -12,7 +13,7 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import { EmbedElementForm } from "./EmbedForm";
 
 export type MainEmbedProps = {
-  checkEmbedTracking: (html: string) => Promise<any>;
+  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 

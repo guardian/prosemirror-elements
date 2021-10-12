@@ -49,7 +49,23 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
     openImageSelector: onCropImage,
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
-  embedElement: createEmbedElement(),
+  embedElement: createEmbedElement({
+    checkEmbedTracking: (html) =>
+      html.includes("fail")
+        ? Promise.resolve({
+            tracking: {
+              tracks: "tracks",
+            },
+            reach: { unsupportedPlatforms: ["amp", "mobile"] },
+          })
+        : Promise.resolve({
+            tracking: {
+              tracks: "does-not-track",
+            },
+            reach: { unsupportedPlatforms: [] },
+          }),
+    createCaptionPlugins: (schema) => exampleSetup({ schema }),
+  }),
   codeElement,
   pullquoteElement,
 });
