@@ -28,6 +28,7 @@ const message = css`
   font-family: "Guardian Agate Sans";
   display: block;
   font-weight: 300;
+  margin-bottom: 0px;
   svg {
     height: 1.2rem;
     width: 1.2rem;
@@ -89,15 +90,13 @@ const UnsupportedPlatforms = (props: PlatformProps) => {
         Making it required will mean this article won't be published to:
         <span> {unsupportedPlatforms.join(", ")}</span>
         <br />
-        Please contact the{" "}
-        <a href="mailto:audience.global.all@theguardian.com">
-          Audience Team
-        </a>{" "}
+        Please contact the
+        <a href="mailto:audience.global.all@theguardian.com"> Audience Team </a>
         for more information.
       </p>
     );
   }
-  return <div />;
+  return null;
 };
 
 export const EmbedStatusChecks = ({
@@ -116,6 +115,17 @@ export const EmbedStatusChecks = ({
     checkTracking(html);
   }, [html]);
 
+  useEffect(() => {
+    checkEmbedTracking(
+      new DOMParser().parseFromString(html, "text/html").documentElement
+        .textContent ?? ""
+    )
+      .then((response) => {
+        updateEmbedStatus(response);
+      })
+      .catch((e) => console.log(e));
+  }, []);
+
   const checkTracking = useCallback(
     debounce(
       (html) =>
@@ -131,6 +141,7 @@ export const EmbedStatusChecks = ({
     ),
     []
   );
+
   if (embedStatus != undefined) {
     return (
       <>
@@ -141,5 +152,5 @@ export const EmbedStatusChecks = ({
         />
       </>
     );
-  } else return <div />;
+  } else return null;
 };
