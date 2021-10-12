@@ -38,7 +38,7 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
       <Columns>
         <Column width={2 / 3}>
           <FieldWrapper
-            label="Pullquote"
+            headingLabel="Pullquote"
             field={fields.html}
             errors={htmlErrors}
           />
@@ -46,7 +46,7 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
         <Column width={1 / 3}>
           <FieldLayoutVertical>
             <FieldWrapper
-              label="Attribution"
+              headingLabel="Attribution"
               field={fields.attribution}
               errors={errors.attribution}
             />

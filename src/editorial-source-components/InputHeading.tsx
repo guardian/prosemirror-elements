@@ -19,17 +19,22 @@ const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
 type Props = {
-  label: React.ReactNode;
-  button: React.ReactNode;
+  headingLabel: React.ReactNode;
+  headingContent: React.ReactNode;
   description?: React.ReactNode;
   errors: string[];
 };
 
-export const InputHeading = ({ label, button, description, errors }: Props) => (
+export const InputHeading = ({
+  headingLabel,
+  headingContent,
+  description,
+  errors,
+}: Props) => (
   <InputHeadingContainer>
     <Heading>
-      <Label>{label}</Label>
-      {button}
+      <Label>{headingLabel}</Label>
+      {headingContent}
     </Heading>
     {errors.length > 0 ? (
       <Errors errors={errors} />

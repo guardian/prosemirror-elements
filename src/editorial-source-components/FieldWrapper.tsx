@@ -7,8 +7,8 @@ import { InputHeading } from "./InputHeading";
 type Props<F> = {
   field: F;
   errors?: ValidationError[];
-  label: React.ReactNode;
-  button?: React.ReactNode;
+  headingLabel: React.ReactNode;
+  headingContent?: React.ReactNode;
   description?: React.ReactNode;
   className?: string;
 };
@@ -16,15 +16,15 @@ type Props<F> = {
 export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
   field,
   errors = [],
-  label,
-  button = null,
+  headingLabel,
+  headingContent = null,
   description,
   className,
 }: Props<F>) => (
   <div className={className}>
     <InputHeading
-      label={label}
-      button={button}
+      headingLabel={headingLabel}
+      headingContent={headingContent}
       description={description}
       errors={errors.map((e) => e.error)}
     />
