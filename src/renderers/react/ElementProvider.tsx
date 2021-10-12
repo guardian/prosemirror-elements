@@ -1,4 +1,4 @@
-import isEqual from "lodash.isequal";
+import isEqual from "lodash/isEqual";
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type {
