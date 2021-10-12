@@ -116,7 +116,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     if (isCode && this.innerEditorView) {
       const dom = this.innerEditorView.dom as HTMLDivElement;
       dom.style.fontFamily = "monospace";
-      dom.style.whiteSpace = "pre";
+      dom.style.whiteSpace = "pre-wrap";
     }
 
     if (enableMultiline) {
