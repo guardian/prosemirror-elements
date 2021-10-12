@@ -64,12 +64,13 @@ const TrackingChecker = (props: StatusProps) =>
   props.embedStatus.tracking.tracks === "does-not-track" ? (
     <p css={[message, niceColours]}>
       <SvgTickRound />
-      This embed does not track readers, and will be visible by default.
+      This element does not track readers, and will be visible by default.
     </p>
   ) : (
     <p css={[message, naughtyColours]}>
       <SvgAlertTriangle />
-      This embed tracks readers, so it may not be visible by default in future.
+      This element tracks readers, so it may not be visible by default in
+      future.
       <br />
       Worried? Email{" "}
       <a target="_blank" href={centralProduction}>
@@ -86,13 +87,15 @@ const UnsupportedPlatforms = (props: PlatformProps) => {
     return (
       <p css={[message, warningColours]}>
         <SvgAlertTriangle />
-        This embed will not be available on all platforms.
+        This element will not be available on all platforms.
         <br />
         Making it required will mean this article won't be published to:
         <span> {unsupportedPlatforms.join(", ")}</span>
         <br />
-        Please contact the
-        <a href="mailto:audience.global.all@theguardian.com"> Audience Team </a>
+        Please contact the{" "}
+        <a href="mailto:audience.global.all@theguardian.com">
+          Audience Team
+        </a>{" "}
         for more information.
       </p>
     );
