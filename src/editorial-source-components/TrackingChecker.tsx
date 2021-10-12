@@ -28,7 +28,8 @@ const message = css`
   font-family: "Guardian Agate Sans";
   display: block;
   font-weight: 300;
-  margin-bottom: 0px;
+  margin-bottom: 0px !important;
+  margin-top: 0px;
   svg {
     height: 1.2rem;
     width: 1.2rem;
