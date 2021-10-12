@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { background, border } from "@guardian/src-foundations";
+import { border } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
 import debounce from "lodash/debounce";
@@ -17,6 +16,11 @@ export type EmbedStatus = {
 
 type StatusProps = {
   embedStatus: EmbedStatus;
+};
+
+type PlatformProps = {
+  embedStatus: EmbedStatus;
+  isMandatory: boolean;
 };
 
 const message = css`
@@ -73,11 +77,10 @@ const TrackingChecker = (props: StatusProps) =>
     </p>
   );
 
-const UnsupportedPlatforms = (props: StatusProps) => {
-  const { embedStatus } = props;
-  console.log(embedStatus)
+const UnsupportedPlatforms = (props: PlatformProps) => {
+  const { embedStatus, isMandatory } = props;
   const unsupportedPlatforms = embedStatus.reach.unsupportedPlatforms;
-  if (unsupportedPlatforms.length > 0) {
+  if (unsupportedPlatforms.length > 0 && isMandatory) {
     return (
       <p css={[message, warningColours]}>
         <SvgAlertTriangle />
@@ -99,9 +102,11 @@ const UnsupportedPlatforms = (props: StatusProps) => {
 
 export const EmbedStatusChecks = ({
   html,
+  isMandatory,
   checkEmbedTracking,
 }: {
   html: string;
+  isMandatory: boolean;
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
 }) => {
   const [embedStatus, updateEmbedStatus] = useState<EmbedStatus>();
@@ -130,7 +135,10 @@ export const EmbedStatusChecks = ({
     return (
       <>
         <TrackingChecker embedStatus={embedStatus} />
-        <UnsupportedPlatforms embedStatus={embedStatus} />
+        <UnsupportedPlatforms
+          embedStatus={embedStatus}
+          isMandatory={isMandatory}
+        />
       </>
     );
   } else return <div />;

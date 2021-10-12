@@ -46,6 +46,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
     />
     <EmbedStatusChecks
       html={fieldValues.html}
+      isMandatory={fieldValues.isMandatory}
       checkEmbedTracking={checkEmbedTracking}
     />
   </FieldLayoutVertical>
