@@ -26,12 +26,12 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
 }) => (
   <FieldLayoutVertical data-cy={ImageElementTestId}>
     <FieldWrapper
-      label="Caption"
+      headingLabel="Caption"
       field={fields.caption}
       errors={errors.caption}
     />
     <FieldWrapper
-      label="Alt text"
+      headingLabel="Alt text"
       field={fields.altText}
       errors={errors.altText}
     />
@@ -43,18 +43,22 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
     </button>
     <FieldWrapper
       field={fields.restrictedTextField}
-      label="Restricted Text Field"
+      headingLabel="Restricted Text Field"
       errors={errors.restrictedTextField}
     />
-    <FieldWrapper label="Src" field={fields.src} errors={errors.src} />
-    <FieldWrapper label="Code" field={fields.code} errors={errors.code} />
+    <FieldWrapper headingLabel="Src" field={fields.src} errors={errors.src} />
     <FieldWrapper
-      label="Use image source?"
+      headingLabel="Code"
+      field={fields.code}
+      errors={errors.code}
+    />
+    <FieldWrapper
+      headingLabel="Use image source?"
       field={fields.useSrc}
       errors={errors.useSrc}
     />
     <FieldWrapper
-      label="Options"
+      headingLabel="Options"
       field={fields.optionDropdown}
       errors={errors.optionDropdown}
     />

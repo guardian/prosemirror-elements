@@ -29,22 +29,22 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
     <FieldWrapper
       field={fields.sourceUrl}
       errors={errors.sourceUrl}
-      label="Source URL"
+      headingLabel="Source URL"
     />
     <FieldWrapper
       field={fields.embedCode}
       errors={errors.embedCode}
-      label="Embed code"
+      headingLabel="Embed code"
     />
     <FieldWrapper
       field={fields.caption}
       errors={errors.caption}
-      label="Caption"
+      headingLabel="Caption"
     />
     <FieldWrapper
       field={fields.altText}
       errors={errors.altText}
-      label="Alt text"
+      headingLabel="Alt text"
     />
     <CustomCheckboxView
       field={fields.required}

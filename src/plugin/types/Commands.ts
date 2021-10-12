@@ -10,6 +10,7 @@ export type CommandCreator = (
   moveDown: (run?: boolean) => boolean | void;
   moveTop: (run?: boolean) => boolean | void;
   moveBottom: (run?: boolean) => boolean | void;
+  pos?: number;
 };
 
 export type Commands = ReturnType<CommandCreator>;

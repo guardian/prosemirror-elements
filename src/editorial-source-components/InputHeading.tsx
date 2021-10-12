@@ -8,26 +8,34 @@ const InputHeadingContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: ${space[2]}px;
-  label {
-    // Ensure that the label pushes error messages to the rhs
-    // if they occupy the same line, to ensure the error message
-    // is right-aligned.
-    flex-grow: 1;
-  }
+`;
+
+const Heading = styled.div`
+  display: inline-flex;
+  flex-grow: 1;
 `;
 
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
 type Props = {
-  label: React.ReactNode;
+  headingLabel: React.ReactNode;
+  headingContent: React.ReactNode;
   description?: React.ReactNode;
   errors: string[];
 };
 
-export const InputHeading = ({ label, description, errors }: Props) => (
+export const InputHeading = ({
+  headingLabel,
+  headingContent,
+  description,
+  errors,
+}: Props) => (
   <InputHeadingContainer>
-    <Label>{label}</Label>
+    <Heading>
+      <Label>{headingLabel}</Label>
+      {headingContent}
+    </Heading>
     {errors.length > 0 ? (
       <Errors errors={errors} />
     ) : description ? (

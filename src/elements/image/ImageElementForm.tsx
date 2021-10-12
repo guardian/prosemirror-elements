@@ -93,24 +93,22 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
           <FieldWrapper
             field={fields.caption}
             errors={errors.caption}
-            label="Caption"
+            headingLabel="Caption"
             description={`${htmlLength(fieldValues.caption)}/600 characters`}
           />
           <FieldWrapper
             field={fields.alt}
             errors={errors.alt}
-            label={
-              <>
-                <AltText>Alt text</AltText>
-                <Button
-                  priority="secondary"
-                  size="xsmall"
-                  iconSide="left"
-                  onClick={() => fields.alt.update(fieldValues.caption)}
-                >
-                  Copy from caption
-                </Button>
-              </>
+            headingLabel={<AltText>Alt text</AltText>}
+            headingContent={
+              <Button
+                priority="secondary"
+                size="xsmall"
+                iconSide="left"
+                onClick={() => fields.alt.update(fieldValues.caption)}
+              >
+                Copy from caption
+              </Button>
             }
           />
           <Columns>
@@ -118,22 +116,26 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               <FieldWrapper
                 field={fields.photographer}
                 errors={errors.photographer}
-                label="Photographer"
+                headingLabel="Photographer"
               />
             </Column>
             <Column width={1 / 2}>
               <FieldWrapper
                 field={fields.source}
                 errors={errors.source}
-                label="Source"
+                headingLabel="Source"
               />
             </Column>
           </Columns>
-          <CustomCheckboxView
-            field={fields.displayCredit}
-            errors={errors.displayCredit}
-            label="Display credit information"
-          />
+          <Columns>
+            <Column width={1 / 2}>
+              <CustomCheckboxView
+                field={fields.displayCredit}
+                errors={errors.displayCredit}
+                label="Display credit information"
+              />
+            </Column>
+          </Columns>
         </FieldLayoutVertical>
       </Column>
     </Columns>
