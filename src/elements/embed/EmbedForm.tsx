@@ -6,7 +6,11 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { ElementRecommendation, EmbedStatusChecks } from "./EmbedComponents";
+import {
+  ElementRecommendation,
+  EmbedStatusChecks,
+  Preview,
+} from "./EmbedComponents";
 import type { EmbedStatus } from "./EmbedComponents";
 import type { createEmbedFields } from "./EmbedSpec";
 
@@ -35,6 +39,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       convertTwitter={convertTwitter}
       convertYouTube={convertYouTube}
     />
+    <Preview html={fieldValues.html} />
     <CustomDropdownView
       field={fields.role}
       label="Weighting"
