@@ -64,6 +64,8 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
             },
             reach: { unsupportedPlatforms: [] },
           }),
+    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
   codeElement,

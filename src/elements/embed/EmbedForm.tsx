@@ -1,13 +1,13 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import type { EmbedStatus } from "../../editorial-source-components/TrackingChecker";
-import { EmbedStatusChecks } from "../../editorial-source-components/TrackingChecker";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
+import { ElementRecommendation, EmbedStatusChecks } from "./EmbedComponents";
+import type { EmbedStatus } from "./EmbedComponents";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -15,6 +15,8 @@ type Props = {
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  convertYouTube: (src: string) => void;
+  convertTwitter: (src: string) => void;
 };
 
 export const EmbedElementTestId = "EmbedElement";
@@ -24,8 +26,15 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   checkEmbedTracking,
+  convertYouTube,
+  convertTwitter,
 }) => (
   <FieldLayoutVertical data-cy={EmbedElementTestId}>
+    <ElementRecommendation
+      html={fieldValues.html}
+      convertTwitter={convertTwitter}
+      convertYouTube={convertYouTube}
+    />
     <CustomDropdownView
       field={fields.role}
       label="Weighting"

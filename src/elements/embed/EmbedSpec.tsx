@@ -1,7 +1,6 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import React from "react";
-import type { EmbedStatus } from "../../editorial-source-components/TrackingChecker";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -10,10 +9,13 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import type { EmbedStatus } from "./EmbedComponents";
 import { EmbedElementForm } from "./EmbedForm";
 
 export type MainEmbedProps = {
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  convertYouTube: (src: string) => void;
+  convertTwitter: (src: string) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 
@@ -63,6 +65,8 @@ export const createEmbedElement = (props: MainEmbedProps) =>
           errors={errors}
           fieldValues={fieldValues}
           checkEmbedTracking={props.checkEmbedTracking}
+          convertYouTube={props.convertYouTube}
+          convertTwitter={props.convertTwitter}
         />
       );
     }
