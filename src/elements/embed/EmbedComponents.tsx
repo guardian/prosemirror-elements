@@ -95,6 +95,14 @@ export const IFrame = ({ children }: { children: ReactChild }) => {
   const [contentRef, setContentRef] = useState<HTMLIFrameElement | null>(null);
   const mountNode = contentRef?.contentWindow?.document.body;
 
+  // Set some default styles for the iframe body
+  if (mountNode) {
+    mountNode.setAttribute(
+      "style",
+      "font-family: Helvetica, Arial, sans-serif; font-size: 15px;"
+    );
+  }
+
   return (
     <iframe ref={setContentRef} css={iframe}>
       {mountNode && createPortal(children, mountNode)}
@@ -102,10 +110,9 @@ export const IFrame = ({ children }: { children: ReactChild }) => {
   );
 };
 
-const centralProduction = "mailto:central.production@guardian.co.uk";
-
-const TrackingChecker = (props: StatusProps) =>
-  props.embedStatus.tracking.tracks === "does-not-track" ? (
+const TrackingChecker = (props: StatusProps) => {
+  const centralProduction = "mailto:central.production@guardian.co.uk";
+  return props.embedStatus.tracking.tracks === "does-not-track" ? (
     <p css={[message, niceColours]}>
       <SvgTickRound />
       This element does not track readers, and will be visible by default.
@@ -123,8 +130,10 @@ const TrackingChecker = (props: StatusProps) =>
       .
     </p>
   );
+};
 
 const UnsupportedPlatforms = (props: PlatformProps) => {
+  const audience = "mailto:audience.global.all@theguardian.com";
   const { embedStatus, isMandatory } = props;
   const unsupportedPlatforms = embedStatus.reach.unsupportedPlatforms;
   if (unsupportedPlatforms.length > 0 && isMandatory) {
@@ -136,11 +145,8 @@ const UnsupportedPlatforms = (props: PlatformProps) => {
         Making it required will mean this article won't be published to:
         <span> {unsupportedPlatforms.join(", ")}</span>
         <br />
-        Please contact the{" "}
-        <a href="mailto:audience.global.all@theguardian.com">
-          Audience Team
-        </a>{" "}
-        for more information.
+        Please contact the <a href={audience}>Audience Team</a> for more
+        information.
       </p>
     );
   }

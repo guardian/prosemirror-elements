@@ -36,6 +36,7 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
     html: createTextField({
       rows: 2,
       isCode: true,
+      maxRows: 10,
       isMultiline: true,
       validators: [htmlRequired()],
       placeholder: "Paste in the embed code…",
