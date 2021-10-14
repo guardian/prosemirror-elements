@@ -8,6 +8,7 @@ import type { ReactChild } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "../../editorial-source-components/Button";
+import { Label } from "../../editorial-source-components/Label";
 
 export type EmbedStatus = {
   tracking: {
@@ -72,6 +73,11 @@ const button = css`
   text-decoration: none;
 `;
 
+const iframe = css`
+  background-color: white;
+  width: 100%;
+`;
+
 const unescapeHtml = (html: string): string => {
   return (
     new DOMParser().parseFromString(html, "text/html").documentElement
@@ -90,7 +96,7 @@ export const IFrame = ({ children }: { children: ReactChild }) => {
   const mountNode = contentRef?.contentWindow?.document.body;
 
   return (
-    <iframe ref={setContentRef}>
+    <iframe ref={setContentRef} css={iframe}>
       {mountNode && createPortal(children, mountNode)}
     </iframe>
   );
@@ -277,8 +283,11 @@ export const Preview = ({ html }: { html: string }) => {
     setParsedHtml(unescapeHtml(html));
   }, [html]);
   return (
-    <IFrame>
-      <div dangerouslySetInnerHTML={{ __html: parsedHtml }} />
-    </IFrame>
+    <div>
+      <Label>Preview</Label>
+      <IFrame>
+        <div dangerouslySetInnerHTML={{ __html: parsedHtml }} />
+      </IFrame>
+    </div>
   );
 };
