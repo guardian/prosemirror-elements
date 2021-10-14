@@ -69,10 +69,6 @@ const conversionMessage = css`
   padding: ${space[1]}px;
 `;
 
-const button = css`
-  text-decoration: none;
-`;
-
 const iframe = css`
   background-color: white;
   width: 100%;
@@ -227,8 +223,6 @@ export const ElementRecommendation = ({
   convertTwitter: (src: string) => void;
 }) => {
   const [source, setSource] = useState(getEmbedSource(parseHtml(html)));
-  const guardianEmailFormLink =
-    "https://docs.google.com/document/d/1RkNCBg_ekfocuHsQOozW_jy21JDGH_BZnIKOE3mX95s/edit#heading=h.j9kod6vgz96s";
 
   useEffect(() => {
     updateSource(html);
@@ -271,11 +265,8 @@ export const ElementRecommendation = ({
         <>
           <div css={[conversionMessage, message]}>
             <span>
-              Please use the new email form to ensure it works for app users.{" "}
+              Please use the new email form to ensure it works for app users.
             </span>
-            <a href={guardianEmailFormLink} css={button}>
-              <Button priority="subdued">Find out how</Button>
-            </a>
           </div>
         </>
       )}
