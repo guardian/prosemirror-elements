@@ -45,14 +45,26 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       label="Weighting"
       errors={errors.role}
     />
-    <FieldWrapper field={fields.url} errors={errors.url} label="Source URL" />
-    <FieldWrapper field={fields.html} errors={errors.html} label="Embed code" />
+    <FieldWrapper
+      field={fields.url}
+      errors={errors.url}
+      headingLabel="Source URL"
+    />
+    <FieldWrapper
+      field={fields.html}
+      errors={errors.html}
+      headingLabel="Embed code"
+    />
     <FieldWrapper
       field={fields.caption}
       errors={errors.caption}
-      label="Caption"
+      headingLabel="Caption"
     />
-    <FieldWrapper field={fields.alt} errors={errors.alt} label="Alt text" />
+    <FieldWrapper
+      field={fields.alt}
+      errors={errors.alt}
+      headingLabel="Alt text"
+    />
     <CustomCheckboxView
       field={fields.isMandatory}
       errors={errors.isMandatory}
