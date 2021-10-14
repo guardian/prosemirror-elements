@@ -6,12 +6,12 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { embedFields } from "./EmbedSpec";
+import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<typeof embedFields>;
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
   errors: FieldValidationErrors;
-  fields: FieldNameToField<typeof embedFields>;
+  fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
 };
 
 export const EmbedElementTestId = "EmbedElement";
@@ -22,33 +22,21 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
 }) => (
   <FieldLayoutVertical data-cy={EmbedElementTestId}>
     <CustomDropdownView
-      field={fields.weighting}
+      field={fields.role}
       label="Weighting"
-      errors={errors.weighting}
+      errors={errors.role}
     />
-    <FieldWrapper
-      field={fields.sourceUrl}
-      errors={errors.sourceUrl}
-      headingLabel="Source URL"
-    />
-    <FieldWrapper
-      field={fields.embedCode}
-      errors={errors.embedCode}
-      headingLabel="Embed code"
-    />
+    <FieldWrapper field={fields.url} errors={errors.url} label="Source URL" />
+    <FieldWrapper field={fields.html} errors={errors.html} label="Embed code" />
     <FieldWrapper
       field={fields.caption}
       errors={errors.caption}
-      headingLabel="Caption"
+      label="Caption"
     />
-    <FieldWrapper
-      field={fields.altText}
-      errors={errors.altText}
-      headingLabel="Alt text"
-    />
+    <FieldWrapper field={fields.alt} errors={errors.alt} label="Alt text" />
     <CustomCheckboxView
-      field={fields.required}
-      errors={errors.required}
+      field={fields.isMandatory}
+      errors={errors.isMandatory}
       label="This element is required for publication"
     />
   </FieldLayoutVertical>
