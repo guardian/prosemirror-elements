@@ -289,6 +289,7 @@ export const getNodeNameFromField = (fieldName: string, elementName: string) =>
 export const getFieldNameFromNode = (node: Node) =>
   node.type.name.split("_")[1];
 
-export const getNodeNameFromElementName = (elementName: string) => elementName.replaceAll("-", "_")
+export const getNodeNameFromElementName = (elementName: string) => elementName.replaceAll("-", "_");
 
-export const getElementNameFromNode = (node: Node) => node.type.name.replaceAll("_", "-")
+export const getElementNameFromNode = (node: Node) =>
+  node.type.name.replaceAll("_", "-");
