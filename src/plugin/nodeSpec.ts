@@ -15,14 +15,15 @@ export const getNodeSpecFromFieldDescriptions = <
   groupName: string,
   fieldDescriptions: FDesc
 ): OrderedMap<NodeSpec> => {
+  const elementNodeName = getNodeNameFromElementName(elementName);
   const propSpecs = Object.entries(fieldDescriptions).reduce(
     (acc, [fieldName, propSpec]) =>
-      acc.append(getNodeSpecForField(elementName, fieldName, propSpec)),
+      acc.append(getNodeSpecForField(elementNodeName, fieldName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
   return propSpecs.append(
-    getNodeSpecForElement(elementName, groupName, fieldDescriptions)
+    getNodeSpecForElement(elementNodeName, groupName, fieldDescriptions)
   );
 };
 
@@ -287,3 +288,7 @@ export const getNodeNameFromField = (fieldName: string, elementName: string) =>
 
 export const getFieldNameFromNode = (node: Node) =>
   node.type.name.split("_")[1];
+
+export const getNodeNameFromElementName = (elementName: string) => elementName.replaceAll("-", "_")
+
+export const getElementNameFromNode = (node: Node) => node.type.name.replaceAll("_", "-")

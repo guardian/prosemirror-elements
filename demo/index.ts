@@ -31,7 +31,7 @@ import type { WindowType } from "./types";
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
-const imageElementName = "imageElement";
+const imageElementName = "image-Element";
 const demoImageElementName = "demoImageElement";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
@@ -45,7 +45,7 @@ type Name =
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement: createImageElement({
+  "image-Element": createImageElement({
     openImageSelector: onCropImage,
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
