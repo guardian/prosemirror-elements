@@ -9,7 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import type { EmbedStatus } from "./EmbedComponents";
+import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
 import { EmbedElementForm } from "./EmbedForm";
 
 export type MainEmbedProps = {

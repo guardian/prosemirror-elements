@@ -6,12 +6,10 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import {
-  ElementRecommendation,
-  EmbedStatusChecks,
-  Preview,
-} from "./EmbedComponents";
-import type { EmbedStatus } from "./EmbedComponents";
+import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
+import { EmbedStatusChecks } from "./embedComponents/EmbedStatusChecks";
+import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
+import { Preview } from "./embedComponents/Preview";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -34,7 +32,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   convertTwitter,
 }) => (
   <FieldLayoutVertical data-cy={EmbedElementTestId}>
-    <ElementRecommendation
+    <EmbedRecommendation
       html={fieldValues.html}
       convertTwitter={convertTwitter}
       convertYouTube={convertYouTube}
