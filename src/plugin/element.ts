@@ -1,6 +1,7 @@
 import OrderedMap from "orderedmap";
-import type { NodeSpec, Schema } from "prosemirror-model";
+import type { NodeSpec, ResolvedPos, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
+import { Selection } from "prosemirror-state";
 import {
   createElementDataValidator,
   createGetElementDataFromNode,
@@ -41,7 +42,29 @@ export const buildElementPlugin = <
     const maybeNode = getNodeFromElementData(elementData, state.schema);
 
     if (maybeNode) {
-      dispatch(state.tr.replaceSelectionWith(maybeNode));
+      const findParentElementSelection = (
+        pos: ResolvedPos
+      ): Selection | undefined => {
+        const depth = pos.depth;
+        const node = pos.node(depth);
+
+        if (node.attrs.addUpdateDecoration) {
+          return Selection.near(pos, 1);
+        } else if (depth > 0) {
+          const newPos = pos.doc.resolve(pos.end(depth - 1));
+          return findParentElementSelection(newPos);
+        } else {
+          return undefined;
+        }
+      };
+
+      const newSelection = findParentElementSelection(state.tr.selection.$head);
+      if (newSelection) {
+        const newTr = state.tr.setSelection(newSelection);
+        dispatch(newTr.replaceSelectionWith(maybeNode));
+      } else {
+        dispatch(state.tr.replaceSelectionWith(maybeNode));
+      }
     } else {
       console.warn(
         `[prosemirror-elements]: Could not create a node for ${elementData.elementName}`
