@@ -38,13 +38,13 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
       isCode: true,
       maxRows: 10,
       isMultiline: true,
-      validators: [htmlRequired()],
+      validators: [htmlRequired(undefined, "WARN")],
       placeholder: "Paste in the embed code…",
     }),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
       marks: "em strong link strike",
-      validators: [htmlMaxLength(1000)],
+      validators: [htmlMaxLength(1000, undefined, "WARN")],
       placeholder: "Enter a caption for this media…",
     }),
     alt: createTextField({
