@@ -81,31 +81,26 @@ export const EmbedStatusChecks = ({
 }) => {
   const [embedStatus, updateEmbedStatus] = useState<EmbedStatus>();
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises -- not useful to save value here
-    checkTracking(html);
-  }, [html]);
-
-  useEffect(() => {
+  const checkTrackingAndUpdate = (html: string) => {
     checkEmbedTracking(unescapeHtml(html))
       .then((response) => {
         updateEmbedStatus(response);
       })
       .catch((e) => console.log(e));
-  }, []);
+  };
 
-  const checkTracking = useCallback(
-    debounce(
-      (html) =>
-        checkEmbedTracking(unescapeHtml(html))
-          .then((response) => {
-            updateEmbedStatus(response);
-          })
-          .catch((e) => console.log(e)),
-      3000
-    ),
+  const checkTrackingAndUpdateDebounced = useCallback(
+    debounce(checkTrackingAndUpdate, 3000),
     []
   );
+
+  useEffect(() => {
+    checkTrackingAndUpdateDebounced(html);
+  }, [html]);
+
+  useEffect(() => {
+    checkTrackingAndUpdate(html);
+  }, []);
 
   if (embedStatus != undefined) {
     return (
