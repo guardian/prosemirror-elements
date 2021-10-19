@@ -41,34 +41,32 @@ export const buildElementPlugin = <
   ): void => {
     const maybeNode = getNodeFromElementData(elementData, state.schema);
 
-    if (maybeNode) {
-      const findParentElementSelection = (
-        pos: ResolvedPos
-      ): Selection | undefined => {
-        const depth = pos.depth;
-        const node = pos.node(depth);
-
-        if (node.attrs.addUpdateDecoration) {
-          return Selection.near(pos, 1);
-        } else if (depth > 0) {
-          const newPos = pos.doc.resolve(pos.end(depth - 1));
-          return findParentElementSelection(newPos);
-        } else {
-          return undefined;
-        }
-      };
-
-      const newSelection = findParentElementSelection(state.tr.selection.$head);
-      if (newSelection) {
-        const newTr = state.tr.setSelection(newSelection);
-        dispatch(newTr.replaceSelectionWith(maybeNode));
-      } else {
-        dispatch(state.tr.replaceSelectionWith(maybeNode));
-      }
-    } else {
+    if (!maybeNode) {
       console.warn(
         `[prosemirror-elements]: Could not create a node for ${elementData.elementName}`
       );
+      return;
+    }
+
+    const findValidInsertPosition = ($pos: ResolvedPos): number | undefined => {
+      const depth = $pos.depth;
+      const node = $pos.node(depth);
+
+      if (node.attrs.addUpdateDecoration) {
+        return $pos.pos;
+      } else if (depth > 0) {
+        const newPos = $pos.doc.resolve($pos.end(depth - 1));
+        return findValidInsertPosition(newPos);
+      } else {
+        return undefined;
+      }
+    };
+
+    const maybeNewPos = findValidInsertPosition(state.selection.$head);
+    if (maybeNewPos) {
+      dispatch(state.tr.insert(maybeNewPos, maybeNode));
+    } else {
+      dispatch(state.tr.replaceSelectionWith(maybeNode));
     }
   };
 
