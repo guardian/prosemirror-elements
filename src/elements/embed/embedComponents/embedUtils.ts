@@ -7,8 +7,11 @@ export const unescapeHtml = (html: string): string => {
 
 export const parseHtml = (html: string) => {
   const unescapedHtml = unescapeHtml(html);
-  const document = new DOMParser().parseFromString(unescapedHtml, "text/html");
-  return document.body.firstElementChild;
+  const parsedHtml = new DOMParser().parseFromString(
+    unescapedHtml,
+    "text/html"
+  );
+  return parsedHtml.body.firstElementChild;
 };
 
 export const getEmbedSource = (element: Element | null) => {
