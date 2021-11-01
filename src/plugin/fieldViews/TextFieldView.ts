@@ -126,36 +126,30 @@ export class TextFieldView extends ProseMirrorFieldView {
       dom.style.whiteSpace = "pre-wrap";
     }
 
-    if (enableMultiline) {
+    if (enableMultiline || maxRows) {
       // We wait to ensure that the browser has applied the appropriate styles.
       setTimeout(() => {
         if (!this.innerEditorView) {
           return;
         }
+
         const { lineHeight, paddingTop } = window.getComputedStyle(
           this.innerEditorView.dom
         );
 
-        (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
-          parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
-        }px`;
-      });
-    }
-
-    if (maxRows) {
-      // We wait to ensure that the browser has applied the appropriate styles.
-      setTimeout(() => {
-        if (!this.innerEditorView) {
-          return;
+        if (enableMultiline) {
+          (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
+            parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
+          }px`;
         }
-        const { lineHeight, paddingTop } = window.getComputedStyle(
-          this.innerEditorView.dom
-        );
 
-        (this.innerEditorView.dom as HTMLDivElement).style.maxHeight = `${
-          parseInt(lineHeight, 10) * maxRows + parseInt(paddingTop)
-        }px`;
-        (this.innerEditorView.dom as HTMLDivElement).style.overflowY = "scroll";
+        if (maxRows) {
+          (this.innerEditorView.dom as HTMLDivElement).style.maxHeight = `${
+            parseInt(lineHeight, 10) * maxRows + parseInt(paddingTop)
+          }px`;
+          (this.innerEditorView.dom as HTMLDivElement).style.overflowY =
+            "scroll";
+        }
       });
     }
 
