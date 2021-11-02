@@ -33,11 +33,6 @@ const elementDoesTrack = (embedStatus: EmbedStatus): boolean =>
 const TrackingChecker = (props: StatusProps) => {
   const centralProduction = "mailto:central.production@guardian.co.uk";
   return elementDoesTrack(props.embedStatus) ? (
-    <p css={[message, niceColours]}>
-      <SvgTickRound />
-      This element does not track readers, and will be visible by default.
-    </p>
-  ) : (
     <p css={[message, naughtyColours]}>
       <SvgAlertTriangle />
       This element tracks readers, so it may not be visible by default in
@@ -48,6 +43,11 @@ const TrackingChecker = (props: StatusProps) => {
         Central Production
       </a>
       .
+    </p>
+  ) : (
+    <p css={[message, niceColours]}>
+      <SvgTickRound />
+      This element does not track readers, and will be visible by default.
     </p>
   );
 };
