@@ -27,9 +27,12 @@ type PlatformProps = {
   isMandatory: boolean;
 };
 
+const elementDoesTrack = (embedStatus: EmbedStatus): boolean =>
+  embedStatus.tracking.tracks !== "does-not-track";
+
 const TrackingChecker = (props: StatusProps) => {
   const centralProduction = "mailto:central.production@guardian.co.uk";
-  return props.embedStatus.tracking.tracks === "does-not-track" ? (
+  return elementDoesTrack(props.embedStatus) ? (
     <p css={[message, niceColours]}>
       <SvgTickRound />
       This element does not track readers, and will be visible by default.
@@ -49,11 +52,13 @@ const TrackingChecker = (props: StatusProps) => {
   );
 };
 
+const getUnsupportedPlatforms = (embedStatus: EmbedStatus): string[] =>
+  embedStatus.reach.unsupportedPlatforms;
+
 const UnsupportedPlatforms = (props: PlatformProps) => {
   const audience = "mailto:audience.global.all@theguardian.com";
-  const { embedStatus, isMandatory } = props;
-  const unsupportedPlatforms = embedStatus.reach.unsupportedPlatforms;
-  if (unsupportedPlatforms.length > 0 && isMandatory) {
+  const unsupportedPlatforms = getUnsupportedPlatforms(props.embedStatus);
+  if (unsupportedPlatforms.length > 0 && props.isMandatory) {
     return (
       <p css={[message, warningColours]}>
         <SvgAlertTriangle />
