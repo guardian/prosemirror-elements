@@ -1,13 +1,13 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { brand, neutral, space } from "@guardian/src-foundations";
-import { SvgCamera, SvgInfo } from "@guardian/src-icons";
+import { space } from "@guardian/src-foundations";
+import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
-import React, { useMemo, useState } from "react";
-import { usePopper } from "react-popper";
+import React, { useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type {
   FieldValidationErrors,
@@ -45,82 +45,6 @@ const AltText = styled.span`
   margin-right: ${space[2]}px;
 `;
 
-const infoIcon = css`
-  height: 22px;
-  width: 22px;
-  margin-right: 4px;
-  margin-left: -4px;
-  svg {
-    margin: -1px;
-  }
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const tooltip = css`
-  font-family: "Guardian Agate Sans";
-  background-color: ${neutral[10]};
-  color: ${neutral[97]};
-  width: 300px;
-  font-weight: 300;
-  border-radius: 4px;
-  line-height: 1.2rem;
-  font-family: "Guardian Agate Sans";
-  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
-  z-index: 1;
-  p {
-    margin: 10px;
-  }
-  a {
-    color: ${brand[800]};
-  }
-  opacity: 0;
-  transition: opacity 0.3s;
-  /* transition: visibility 0.3s; */
-  transition: visibility 0s;
-  transition-delay: visibility 0s;
-
-  visibility: hidden;
-  &[data-show] {
-    transition-delay: visibility 1s;
-    transition-delay: transition-delay 1s;
-    visibility: visible;
-    opacity: 1;
-  }
-  [data-popper-reference-hidden] {
-    visibility: hidden;
-    pointer-events: none;
-  }
-`;
-
-const arrow = css`
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: inherit;
-  visibility: hidden;
-  &[data-show] {
-    ::before {
-      visibility: visible;
-    }
-  }
-  &[data-popper-reference-hidden] {
-    ::before {
-      visibility: hidden;
-      pointer-events: none;
-    }
-  }
-  ::before {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: inherit;
-    content: "";
-    transform: translate(0px, -4px) rotate(45deg);
-  }
-`;
-
 export const ImageElementTestId = "ImageElement";
 
 const htmlLength = (text: string) => {
@@ -134,31 +58,6 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   fields,
   fieldValues,
 }) => {
-  const [
-    referenceElement,
-    setReferenceElement,
-  ] = useState<HTMLDivElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  );
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
-  const { styles, attributes, update } = usePopper(
-    referenceElement,
-    popperElement,
-    {
-      placement: "top",
-      modifiers: [
-        { name: "arrow", options: { element: arrowElement } },
-        {
-          name: "offset",
-          options: {
-            offset: [0, 4],
-          },
-        },
-      ],
-    }
-  );
   return (
     <div data-cy={ImageElementTestId}>
       <Columns>
@@ -205,36 +104,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               headingLabel={<AltText>Alt text</AltText>}
               headingContent={
                 <>
-                  <div
-                    css={infoIcon}
-                    ref={setReferenceElement}
-                    onMouseOver={() => {
-                      setTooltipVisible(true);
-                      if (update) void update();
-                    }}
-                    onMouseLeave={() => {
-                      setTooltipVisible(false);
-                      if (update) void update();
-                    }}
-                  >
-                    <SvgInfo />
-                  </div>
-
-                  <div
-                    ref={setPopperElement}
-                    style={styles.popper}
-                    css={tooltip}
-                    data-show={tooltipVisible ? tooltipVisible : null}
-                    {...attributes.popper}
-                    onMouseOver={() => {
-                      setTooltipVisible(true);
-                      if (update) void update();
-                    }}
-                    onMouseLeave={() => {
-                      setTooltipVisible(false);
-                      if (update) void update();
-                    }}
-                  >
+                  <Tooltip>
                     <p>
                       'Alt text' describes what's in an image. It helps users of
                       screen readers understand our images, and improves our
@@ -243,14 +113,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                     <p>
                       <a href="https://example.com">Find out more</a>
                     </p>
-
-                    <div
-                      ref={setArrowElement}
-                      style={styles.arrow}
-                      css={arrow}
-                      data-show={tooltipVisible ? tooltipVisible : null}
-                    />
-                  </div>
+                  </Tooltip>
                   <Button
                     priority="secondary"
                     size="xsmall"
