@@ -11,7 +11,7 @@ import { getElementFieldViewFromType } from "./helpers/fieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
-import { getFieldNameFromNode } from "./nodeSpec";
+import { getFieldNameFromNode, getNodeNameFromElementName } from "./nodeSpec";
 
 const decorations = createUpdateDecorations();
 const pluginKey = new PluginKey("prosemirror_elements");
@@ -50,8 +50,9 @@ const createNodeViews = <
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
   for (const elementName in elementsSpec) {
-    nodeViews[elementName] = createNodeView(
-      elementName,
+    const nodeName = getNodeNameFromElementName(elementName);
+    nodeViews[nodeName] = createNodeView(
+      nodeName,
       elementsSpec[elementName],
       commands
     );
@@ -64,9 +65,9 @@ type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
 const createNodeView = <
   FDesc extends FieldDescriptions<string>,
-  ElementName extends string
+  NodeName extends string
 >(
-  elementName: ElementName,
+  nodeName: NodeName,
   element: ElementSpec<FDesc>,
   commands: Commands
 ): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
@@ -77,18 +78,20 @@ const createNodeView = <
   const fields = {} as FieldNameToField<FDesc>;
 
   initNode.forEach((node, offset) => {
-    const name = getFieldNameFromNode(node) as keyof FieldNameToField<FDesc>;
+    const fieldName = getFieldNameFromNode(
+      node
+    ) as keyof FieldNameToField<FDesc>;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (fields[name]) {
+    if (fields[fieldName]) {
       throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but another instance with that name has already been created.`
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but another instance with that name has already been created.`
       );
     }
-    const fieldDescriptions = element.fieldDescriptions[name];
+    const fieldDescriptions = element.fieldDescriptions[fieldName];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldDescriptions) {
       throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${name}, but could not find the associate field`
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associate field`
       );
     }
 
@@ -100,9 +103,9 @@ const createNodeView = <
       innerDecos,
     });
 
-    fields[name] = ({
+    fields[fieldName] = ({
       description: fieldDescriptions,
-      name,
+      name: fieldName,
       view: fieldView,
       // We coerce types here: it's difficult to prove we've the right shape here
       // to the compiler, and we're already beholden to runtime behaviour as there's
@@ -110,7 +113,7 @@ const createNodeView = <
       // help to defend when something's wrong.
       update: (value: unknown) =>
         (fieldView.update as (value: unknown) => void)(value),
-    } as unknown) as FieldNameToField<FDesc>[typeof name];
+    } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
   });
 
   const getValuesFromNode = (
@@ -153,7 +156,7 @@ const createNodeView = <
     dom,
     update: (node, _, innerDecos) => {
       if (
-        node.type.name === elementName &&
+        node.type.name === nodeName &&
         node.attrs.type === initNode.attrs.type
       ) {
         const fieldValues = getValuesFromNode(node, innerDecos);
