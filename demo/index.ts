@@ -32,12 +32,17 @@ import type { WindowType } from "./types";
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 <<<<<<< HEAD
+<<<<<<< HEAD
 const imageElementName = "imageElement";
 const demoImageElementName = "demo-image-element";
 =======
 const imageElementName = "image-Element";
 const demoImageElementName = "demoImageElement";
 >>>>>>> e559baa... create initial convert functions and test with image-element
+=======
+const imageElementName = "imageElement";
+const demoImageElementName = "demo-image-element";
+>>>>>>> beeebdb... Add tests
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 
@@ -50,12 +55,17 @@ type Name =
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
 <<<<<<< HEAD
+<<<<<<< HEAD
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement: createImageElement({
 =======
   demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
   "image-Element": createImageElement({
 >>>>>>> e559baa... create initial convert functions and test with image-element
+=======
+  "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
+  imageElement: createImageElement({
+>>>>>>> beeebdb... Add tests
     openImageSelector: onCropImage,
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
