@@ -209,8 +209,8 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1" fields="false"></div>
-          <div pme-field-name="testElement_field2"><p>Content</p></div>
+          <div pme-field-name="testElement__field1" fields="false"></div>
+          <div pme-field-name="testElement__field2"><p>Content</p></div>
         </div>`);
       expect(getElementAsHTML()).toBe(expected);
     });
@@ -232,7 +232,7 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1" fields="true"></div>
+          <div pme-field-name="testElement__field1" fields="true"></div>
         </div>`);
       expect(getElementAsHTML()).toBe(expected);
     });
@@ -254,7 +254,7 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1"><p>Content</p></div>
+          <div pme-field-name="testElement__field1"><p>Content</p></div>
         </div>`);
       expect(getElementAsHTML()).toBe(expected);
     });
@@ -280,8 +280,8 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1"><p>Content for field1</p></div>
-          <div pme-field-name="testElement_field2"><p>Content for field2</p></div>
+          <div pme-field-name="testElement__field1"><p>Content for field1</p></div>
+          <div pme-field-name="testElement__field2"><p>Content for field2</p></div>
         </div>`);
       expect(getElementAsHTML()).toBe(expected);
     });
@@ -306,7 +306,32 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></div>
+          <div pme-field-name="testElement__field1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should convert underscores into hyphens when representing elements as nodes", () => {
+      const testElement = createNoopElement({
+        field1: {
+          type: "custom",
+          defaultValue: { arbitraryValue: "hai" },
+        } as CustomFieldDescription<{ arbitraryValue: string }>,
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ "test-element": testElement });
+
+      insertElement({
+        elementName: "test-element",
+        values: { field1: { arbitraryValue: "hai" } },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="test_element">
+          <div pme-field-name="test_element__field1" fields="{&quot;arbitraryValue&quot;:&quot;hai&quot;}"></div>
         </div>`);
       expect(getElementAsHTML()).toBe(expected);
     });
@@ -315,16 +340,16 @@ describe("buildElementPlugin", () => {
   describe("Serialisation/deserialisation", () => {
     const testElementHTML = `
           <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1"><p></p></div>
-          <div pme-field-name="testElement_field2"></div>
-          <div pme-field-name="testElement_field3" fields="true"></div>
+          <div pme-field-name="testElement__field1"><p></p></div>
+          <div pme-field-name="testElement__field2"></div>
+          <div pme-field-name="testElement__field3" fields="true"></div>
           </div>
         `;
 
     const testElement2HTML = `
         <div pme-element-type="testElement2">
-        <div pme-field-name="testElement_field4"><p></p></div>
-        <div pme-field-name="testElement_field5"></div>
+        <div pme-field-name="testElement__field4"><p></p></div>
+        <div pme-field-name="testElement__field5"></div>
         </div2>
       `;
 
@@ -407,9 +432,9 @@ describe("buildElementPlugin", () => {
       it("should parse fields of all types, respecting values against defaults", () => {
         const elementHTML = `
           <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1"><p>Content</p></div>
-          <div pme-field-name="testElement_field2">Content</div>
-          <div pme-field-name="testElement_field3" fields="true"></div>
+          <div pme-field-name="testElement__field1"><p>Content</p></div>
+          <div pme-field-name="testElement__field2">Content</div>
+          <div pme-field-name="testElement__field3" fields="true"></div>
           </div>
         `;
 
@@ -424,9 +449,9 @@ describe("buildElementPlugin", () => {
       it("should parse fields of all types, handling empty content values correctly", () => {
         const elementHTML = `
           <div pme-element-type="testElement">
-          <div pme-field-name="testElement_field1"><p></p></div>
-          <div pme-field-name="testElement_field2"></div>
-          <div pme-field-name="testElement_field3" fields="true"></div>
+          <div pme-field-name="testElement__field1"><p></p></div>
+          <div pme-field-name="testElement__field2"></div>
+          <div pme-field-name="testElement__field3" fields="true"></div>
           </div>
         `;
 

@@ -98,6 +98,15 @@ describe("mount", () => {
       expect(nodeSpec.get("testElement2")).toMatchObject({ content: "" });
     });
 
+    it("should convert dashes in element names to underscores", () => {
+      const testElement1 = createNoopElement({});
+      const { nodeSpec } = buildElementPlugin({
+        "test-element-1": testElement1,
+      });
+      expect(nodeSpec.size).toBe(1);
+      expect(nodeSpec.get("test_element_1")).toMatchObject({ content: "" });
+    });
+
     it("should add a custom group if specified", () => {
       const testElement1 = createNoopElement({});
       const { nodeSpec } = buildElementPlugin({ testElement1 }, "customGroup");
@@ -117,12 +126,12 @@ describe("mount", () => {
       });
       const { nodeSpec } = buildElementPlugin({ testElement1 });
       expect(nodeSpec.get("testElement1")).toMatchObject({
-        content: "testElement1_field1 testElement1_field2",
+        content: "testElement1__field1 testElement1__field2",
       });
-      expect(nodeSpec.get("testElement1_field1")).toMatchObject({
+      expect(nodeSpec.get("testElement1__field1")).toMatchObject({
         content: "paragraph+",
       });
-      expect(nodeSpec.get("testElement1_field2")).toMatchObject({
+      expect(nodeSpec.get("testElement1__field2")).toMatchObject({
         content: "paragraph+",
       });
     });
