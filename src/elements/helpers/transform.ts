@@ -2,6 +2,7 @@ import type { codeFields } from "../code/CodeElementSpec";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
+import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
 const transformMap = {
@@ -9,6 +10,7 @@ const transformMap = {
   embed: embedElementTransform,
   image: imageElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
+  "rich-link": defaultElementTransform<typeof richlinkFields>(),
 } as const;
 
 type TransformMap = typeof transformMap;
