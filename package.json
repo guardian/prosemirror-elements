@@ -32,6 +32,7 @@
     "@guardian/src-layout": "^3.8.0",
     "@guardian/src-select": "^3.7.0",
     "@guardian/src-text-input": "^3.7.0",
+    "@popperjs/core": "^2.10.2",
     "@types/prosemirror-collab": "^1.1.1",
     "emotion": "^9.2.10",
     "lodash": "^4.17.21",
@@ -45,7 +46,9 @@
     "prosemirror-transform": "^1.3.2",
     "prosemirror-view": "^1.18.7",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-popper": "^2.2.5",
+    "react-tooltip": "^4.2.21"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.6.0",

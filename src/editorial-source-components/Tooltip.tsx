@@ -45,6 +45,8 @@ const tooltip = css`
     transition-delay: visibility 1s;
     transition-delay: transition-delay 1s;
     visibility: visible;
+  }
+  &[data-opaque] {
     opacity: 1;
   }
   [data-popper-reference-hidden] {
@@ -62,6 +64,11 @@ const arrow = css`
   &[data-show] {
     ::before {
       visibility: visible;
+    }
+  }
+  &[data-opaque] {
+    ::before {
+      opacity: 1;
     }
   }
   &[data-popper-reference-hidden] {
@@ -89,6 +96,8 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
     null
   );
   const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [timeoutIsValid, setTimeoutIsValid] = useState(false);
+  const [opaque, setOpaque] = useState(false);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes, update } = usePopper(
     referenceElement,
@@ -111,12 +120,20 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
       <div
         css={infoIcon}
         ref={setReferenceElement}
-        onMouseOver={() => {
+        onMouseEnter={() => {
+          setTimeoutIsValid(false);
+          setOpaque(true);
           setTooltipVisible(true);
           if (update) void update();
         }}
         onMouseLeave={() => {
-          setTooltipVisible(false);
+          setTimeoutIsValid(true);
+          setOpaque(false);
+          setTimeout(() => {
+            if (timeoutIsValid) {
+              setTooltipVisible(false);
+            }
+          }, 2000);
           if (update) void update();
         }}
       >
@@ -128,13 +145,22 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
         style={styles.popper}
         css={tooltip}
         data-show={tooltipVisible ? tooltipVisible : null}
+        data-opaque={opaque ? opaque : null}
         {...attributes.popper}
-        onMouseOver={() => {
+        onMouseEnter={() => {
           setTooltipVisible(true);
+          setOpaque(true);
+          setTimeoutIsValid(false);
           if (update) void update();
         }}
         onMouseLeave={() => {
-          setTooltipVisible(false);
+          setTimeoutIsValid(true);
+          setOpaque(false);
+          setTimeout(() => {
+            if (timeoutIsValid) {
+              setTooltipVisible(false);
+            }
+          }, 2000);
           if (update) void update();
         }}
       >
