@@ -71,6 +71,7 @@ export const createImageFields = (
       rows: 4,
       isCode: true,
       placeholder: "Write code here",
+      maxRows: 10,
     }),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },
