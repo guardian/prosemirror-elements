@@ -7,7 +7,7 @@ import { RichlinkElementForm } from "./RichlinkForm";
 export const richlinkFields = {
   linkText: createTextField(),
   weighting: createCustomDropdownField("thumbnail", [
-    { text: "inline (default)", value: "inline" },
+    { text: "thumbnail", value: "thumbnail" },
     { text: "supporting", value: "supporting" },
   ]),
   role: createTextField(),

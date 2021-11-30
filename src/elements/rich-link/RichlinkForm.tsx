@@ -20,11 +20,14 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
   fieldValues,
 }) => (
   <FieldLayoutVertical data-cy={RichlinkElementTestId}>
+    <div>
+      Related: <a href={fieldValues.url}>{fieldValues.linkText}</a>
+    </div>
     <CustomDropdownView
       field={fields.weighting}
       label="Weighting"
       errors={errors.weighting}
+      display="inline"
     />
-    <a href={fieldValues.url}>{fieldValues.linkText}</a>
   </FieldLayoutVertical>
 );
