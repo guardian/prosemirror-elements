@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { brand, neutral } from "@guardian/src-foundations";
 import { SvgInfo } from "@guardian/src-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 
 const infoIcon = css`
@@ -16,6 +16,10 @@ const infoIcon = css`
     cursor: pointer;
   }
 `;
+
+const fadeDuration = 300; //Milliseconds
+
+const timeouts: number[] = [];
 
 const tooltip = css`
   font-family: "Guardian Agate Sans";
@@ -35,15 +39,10 @@ const tooltip = css`
     color: ${brand[800]};
   }
   opacity: 0;
-  transition: opacity 0.3s;
-  /* transition: visibility 0.3s; */
-  transition: visibility 0s;
-  transition-delay: visibility 0s;
-
+  transition: opacity ${fadeDuration}ms;
   visibility: hidden;
+
   &[data-show] {
-    transition-delay: visibility 1s;
-    transition-delay: transition-delay 1s;
     visibility: visible;
   }
   &[data-opaque] {
@@ -64,11 +63,6 @@ const arrow = css`
   &[data-show] {
     ::before {
       visibility: visible;
-    }
-  }
-  &[data-opaque] {
-    ::before {
-      opacity: 1;
     }
   }
   &[data-popper-reference-hidden] {
@@ -95,8 +89,7 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null
   );
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [timeoutIsValid, setTimeoutIsValid] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [opaque, setOpaque] = useState(false);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes, update } = usePopper(
@@ -115,25 +108,33 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
       ],
     }
   );
+
+  const makeOpaque = () => {
+    setOpaque(true);
+    setVisible(true);
+    timeouts.forEach((timeout) => clearTimeout(timeout));
+  };
+
+  useEffect(() => {
+    if (!opaque) {
+      const timeout = setTimeout(() => {
+        setVisible(false);
+      }, fadeDuration);
+      timeouts.push(timeout);
+    }
+  }, [opaque]);
+
   return (
     <>
       <div
         css={infoIcon}
         ref={setReferenceElement}
         onMouseEnter={() => {
-          setTimeoutIsValid(false);
-          setOpaque(true);
-          setTooltipVisible(true);
+          makeOpaque();
           if (update) void update();
         }}
         onMouseLeave={() => {
-          setTimeoutIsValid(true);
           setOpaque(false);
-          setTimeout(() => {
-            if (timeoutIsValid) {
-              setTooltipVisible(false);
-            }
-          }, 2000);
           if (update) void update();
         }}
       >
@@ -144,23 +145,15 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
         ref={setPopperElement}
         style={styles.popper}
         css={tooltip}
-        data-show={tooltipVisible ? tooltipVisible : null}
-        data-opaque={opaque ? opaque : null}
+        data-show={visible || null}
+        data-opaque={opaque || null}
         {...attributes.popper}
         onMouseEnter={() => {
-          setTooltipVisible(true);
-          setOpaque(true);
-          setTimeoutIsValid(false);
+          makeOpaque();
           if (update) void update();
         }}
         onMouseLeave={() => {
-          setTimeoutIsValid(true);
           setOpaque(false);
-          setTimeout(() => {
-            if (timeoutIsValid) {
-              setTooltipVisible(false);
-            }
-          }, 2000);
           if (update) void update();
         }}
       >
@@ -169,7 +162,7 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
           ref={setArrowElement}
           style={styles.arrow}
           css={arrow}
-          data-show={tooltipVisible ? tooltipVisible : null}
+          data-show={visible || null}
         />
       </div>
     </>
