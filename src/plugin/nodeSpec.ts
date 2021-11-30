@@ -15,31 +15,32 @@ export const getNodeSpecFromFieldDescriptions = <
   groupName: string,
   fieldDescriptions: FDesc
 ): OrderedMap<NodeSpec> => {
+  const nodeName = getNodeNameFromElementName(elementName);
   const propSpecs = Object.entries(fieldDescriptions).reduce(
     (acc, [fieldName, propSpec]) =>
-      acc.append(getNodeSpecForField(elementName, fieldName, propSpec)),
+      acc.append(getNodeSpecForField(nodeName, fieldName, propSpec)),
     OrderedMap.from<NodeSpec>({})
   );
 
   return propSpecs.append(
-    getNodeSpecForElement(elementName, groupName, fieldDescriptions)
+    getNodeSpecForElement(nodeName, groupName, fieldDescriptions)
   );
 };
 
 const getNodeSpecForElement = (
-  elementName: string,
+  nodeName: string,
   groupName: string,
   fieldDescription: FieldDescriptions<string>
 ): NodeSpec => ({
-  [elementName]: {
+  [nodeName]: {
     group: groupName,
     content: getDeterministicFieldOrder(
       Object.keys(fieldDescription).map((fieldName) =>
-        getNodeNameFromField(fieldName, elementName)
+        getNodeNameFromField(fieldName, nodeName)
       )
     ).join(" "),
     attrs: {
-      type: elementName,
+      type: nodeName,
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
       addUpdateDecoration: {
         default: true,
@@ -59,12 +60,12 @@ const getNodeSpecForElement = (
         tag: "div",
         getAttrs: (dom: Element) => {
           const domElementName = dom.getAttribute(elementTypeAttr);
-          if (domElementName !== elementName) {
+          if (domElementName !== nodeName) {
             return false;
           }
 
           return {
-            type: elementName,
+            type: nodeName,
             fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
           };
         },
@@ -219,7 +220,7 @@ export const createNodesForFieldValues = <
   schema: S,
   fieldDescriptions: FDesc,
   fieldValues: Partial<FieldNameToValueMap<FDesc>>,
-  elementName: string
+  nodeName: string
 ): Node[] => {
   const orderedFieldNames = getDeterministicFieldOrder(
     Object.keys(fieldDescriptions)
@@ -228,7 +229,7 @@ export const createNodesForFieldValues = <
   return orderedFieldNames.map((fieldName) => {
     const field = fieldDescriptions[fieldName];
     const fieldView = fieldTypeToViewMap[field.type];
-    const nodeType = schema.nodes[getNodeNameFromField(fieldName, elementName)];
+    const nodeType = schema.nodes[getNodeNameFromField(fieldName, nodeName)];
     const fieldValue =
       fieldValues[fieldName] ?? // The value supplied when the element is inserted
       fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
@@ -282,8 +283,19 @@ const createContentNodeFromRichText = <S extends Schema>(
 export const getDeterministicFieldOrder = (fieldNames: string[]): string[] =>
   fieldNames.slice().sort();
 
-export const getNodeNameFromField = (fieldName: string, elementName: string) =>
-  `${elementName}_${fieldName}`;
+export const getNodeNameFromField = (fieldName: string, nodeName: string) =>
+  `${nodeName}__${fieldName}`;
 
 export const getFieldNameFromNode = (node: Node) =>
-  node.type.name.split("_")[1];
+  node.type.name.split("__")[1];
+
+/**
+ * Node names must not include hyphens, as they're a reserved character in the content spec,
+ * so we convert them to underscores on ingress, and back on egress.
+ */
+
+export const getNodeNameFromElementName = (elementName: string) =>
+  elementName.replaceAll("-", "_");
+
+export const getElementNameFromNode = (node: Node) =>
+  node.type.name.replaceAll("_", "-");

@@ -32,7 +32,7 @@ import type { WindowType } from "./types";
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
 const imageElementName = "imageElement";
-const demoImageElementName = "demoImageElement";
+const demoImageElementName = "demo-image-element";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 
@@ -44,7 +44,7 @@ type Name =
   | typeof pullquoteElementName;
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
-  demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
+  "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement: createImageElement({
     openImageSelector: onCropImage,
     createCaptionPlugins: (schema) => exampleSetup({ schema }),

@@ -93,7 +93,7 @@ export const changeTestDecoString = (newTestString: string) => {
 export const addImageElement = (values: Record<string, unknown> = {}) => {
   cy.window().then((win: WindowType) => {
     const { view, insertElement } = win.PM_ELEMENTS;
-    insertElement({ elementName: "demoImageElement", values })(
+    insertElement({ elementName: "demo-image-element", values })(
       view.state,
       view.dispatch
     );
@@ -146,16 +146,16 @@ export const getSerialisedHtml = ({
           mainImageValue.mediaApiUri ?? "undefined"
         }&quot;,&quot;assets&quot;${mainImageValue.assets}`
       : `&quot;assets&quot;:[]`;
-  return trimHtml(`<div pme-element-type="demoImageElement">
-    <div pme-field-name="demoImageElement_altText">${altTextValue}</div>
-    <div pme-field-name="demoImageElement_caption">${captionValue}</div>
-    <div pme-field-name="demoImageElement_code">${codeValue}</div>
-    <div pme-field-name="demoImageElement_customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
-    <div pme-field-name="demoImageElement_mainImage" fields="{${mainImageFields}}"></div>
-    <div pme-field-name="demoImageElement_optionDropdown" fields="&quot;${optionValue}&quot;"></div>
-    <div pme-field-name="demoImageElement_restrictedTextField">${restrictedTextValue}</div>
-    <div pme-field-name="demoImageElement_src">${srcValue}</div>
-    <div pme-field-name="demoImageElement_useSrc" fields="${useSrcValue}"></div>
+  return trimHtml(`<div pme-element-type="demo_image_element">
+    <div pme-field-name="demo_image_element__altText">${altTextValue}</div>
+    <div pme-field-name="demo_image_element__caption">${captionValue}</div>
+    <div pme-field-name="demo_image_element__code">${codeValue}</div>
+    <div pme-field-name="demo_image_element__customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
+    <div pme-field-name="demo_image_element__mainImage" fields="{${mainImageFields}}"></div>
+    <div pme-field-name="demo_image_element__optionDropdown" fields="&quot;${optionValue}&quot;"></div>
+    <div pme-field-name="demo_image_element__restrictedTextField">${restrictedTextValue}</div>
+    <div pme-field-name="demo_image_element__src">${srcValue}</div>
+    <div pme-field-name="demo_image_element__useSrc" fields="${useSrcValue}"></div>
   </div><p>First paragraph</p><p>Second paragraph</p>`);
 };
 
