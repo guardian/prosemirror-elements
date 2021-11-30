@@ -111,7 +111,9 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                       SEO.
                     </p>
                     <p>
-                      <a href="https://example.com">Find out more</a>
+                      <a href="https://docs.google.com/document/d/1oW542iCRyKfI4DS22QU7AH0TQRWLYMm7bTlhJlX5_Ng/edit?usp=sharing">
+                        Find out more
+                      </a>
                     </p>
                   </Tooltip>
                   <Button
