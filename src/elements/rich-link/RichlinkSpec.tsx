@@ -28,16 +28,3 @@ export const richlinkElement = createReactElementSpec(
     );
   }
 );
-
-// {
-//     "elementType": "rich-link",
-//     "fields": {
-//     "linkText": "thfthfdghfghfghfghfghfgh",
-//     "isMandatory": "true",
-//     "role": "supporting",
-//     "url": "http://www.code.dev-theguardian.com/test/2021/oct/13/thfthfdghfghfghfghfghfgh",
-//     "originalUrl": "https://m.code.dev-theguardian.com/test/2021/oct/13/thfthfdghfghfghfghfghfgh",
-//     "linkPrefix": "Related: "
-//     },
-//     "assets": []
-//     },
