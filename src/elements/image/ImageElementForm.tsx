@@ -106,7 +106,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 <>
                   <Tooltip>
                     <p>
-                      'Alt text' describes what's in an image. It helps users of
+                      ‘Alt text’ describes what’s in an image. It helps users of
                       screen readers understand our images, and improves our
                       SEO.
                     </p>
