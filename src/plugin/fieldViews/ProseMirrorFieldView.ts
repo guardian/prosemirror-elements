@@ -328,6 +328,10 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
       }
       const { tr, doc } = this.innerEditorView.state;
       tr.setSelection(TextSelection.create(doc, 0));
+      // Setting a text selection seems to clear out our stored marks,
+      // so we must add them to the transaction explicitly.
+      tr.setStoredMarks(this.innerEditorView.state.storedMarks ?? []);
+
       this.dispatchTransaction(tr);
     });
   }
