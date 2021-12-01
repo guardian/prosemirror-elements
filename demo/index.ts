@@ -13,7 +13,6 @@ import {
   createEmbedElement,
   createImageElement,
   pullquoteElement,
-  richlinkElement,
 } from "../src";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
@@ -32,43 +31,21 @@ import type { WindowType } from "./types";
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
-<<<<<<< HEAD
-<<<<<<< HEAD
 const imageElementName = "imageElement";
 const demoImageElementName = "demo-image-element";
-=======
-const imageElementName = "image-Element";
-const demoImageElementName = "demoImageElement";
->>>>>>> e559baa... create initial convert functions and test with image-element
-=======
-const imageElementName = "imageElement";
-const demoImageElementName = "demo-image-element";
->>>>>>> beeebdb... Add tests
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
-const richlinkElementName = "richlinkElement";
 
 type Name =
   | typeof embedElementName
   | typeof imageElementName
   | typeof demoImageElementName
   | typeof codeElementName
-  | typeof pullquoteElementName
-  | typeof richlinkElementName;
+  | typeof pullquoteElementName;
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
-<<<<<<< HEAD
-<<<<<<< HEAD
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement: createImageElement({
-=======
-  demoImageElement: createDemoImageElement(onSelectImage, onDemoCropImage),
-  "image-Element": createImageElement({
->>>>>>> e559baa... create initial convert functions and test with image-element
-=======
-  "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement: createImageElement({
->>>>>>> beeebdb... Add tests
     openImageSelector: onCropImage,
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
@@ -93,7 +70,6 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   }),
   codeElement,
   pullquoteElement,
-  richlinkElement,
 });
 
 const strike: MarkSpec = {
@@ -201,14 +177,6 @@ const createEditor = (server: CollabServer) => {
       altText: "",
       caption: "",
       useSrc: { value: false },
-    })
-  );
-
-  editorElement.appendChild(
-    createElementButton("Add demo rich-link element", richlinkElementName, {
-      linkText: "example",
-      url: "https://example.com",
-      weighting: "",
     })
   );
 
