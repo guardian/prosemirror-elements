@@ -332,7 +332,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
       // so we must add them to the transaction explicitly.
       tr.setStoredMarks(this.innerEditorView.state.storedMarks ?? []);
 
-      this.dispatchTransaction(tr);
+      this.updateOuterEditor(tr, this.innerEditorView.state, [tr]);
     });
   }
 

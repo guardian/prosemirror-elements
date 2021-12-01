@@ -49,13 +49,13 @@ describe("ImageElement", () => {
         getElementRichTextField("caption").should("have.text", text);
       });
 
-      it(`caption – should allow mark shortcuts in an element`, () => {
+      it.only(`caption – should allow mark shortcuts in an element`, () => {
         addImageElement();
-        const text = `${boldShortcut()}bold caption text${boldShortcut()}${italicShortcut()}italic caption text`;
+        const text = `text with ${boldShortcut()}bold and ${boldShortcut()}${italicShortcut()}italic`;
         typeIntoElementField("caption", text);
         getElementRichTextField("caption").should(
           "have.html",
-          "<p><strong>bold caption text</strong><em>italic caption text</em></p>"
+          "<p>text with <strong>bold and </strong><em>italic</em></p>"
         );
       });
 
