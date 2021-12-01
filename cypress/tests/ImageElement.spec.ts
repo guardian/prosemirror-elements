@@ -294,6 +294,30 @@ describe("ImageElement", () => {
         assertDocHtml(getSerialisedHtml({ codeValue: "Code \n text" }));
       });
 
+      it(`should not reach its max height when text has fewer rows than the number of lines specified by maxRows`, () => {
+        addImageElement({ code: "Code \n \n \n \n \n text" });
+        getElementRichTextField("code")
+          .invoke("css", "height")
+          .then((height) =>
+            getElementRichTextField("code")
+              .invoke("css", "max-height")
+              // Chained expressions here allow us to compare numerical value of string px properties
+              .then((maxHeight) => parseInt(maxHeight.toString()))
+              .should("be.above", parseInt(height.toString()))
+          );
+      });
+
+      it(`should visually extend no more than the number of lines specified by maxRows`, () => {
+        addImageElement({ code: "Code \n \n \n \n \n \n \n \n \n \n \n text" });
+        getElementRichTextField("code")
+          .invoke("css", "height")
+          .then((height) =>
+            getElementRichTextField("code")
+              .invoke("css", "max-height")
+              .should("equal", height)
+          );
+      });
+
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
         addImageElement();
         typeIntoElementField("src", "Src text");

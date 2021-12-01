@@ -16,6 +16,8 @@ export interface TextFieldDescription extends AbstractTextFieldDescription {
   // Can this field display over multiple lines? This will
   // insert line breaks (<br>) when the user hits the Enter key.
   isMultiline: boolean;
+  // The maximum number of rows this input should occupy
+  maxRows?: number;
   // The minimum number of rows this input should occupy.
   // Analogous to the <textarea> `rows` attribute.
   rows: number;
@@ -29,6 +31,8 @@ export interface TextFieldDescription extends AbstractTextFieldDescription {
 type TextFieldOptions = {
   rows?: number;
   isCode?: boolean;
+  isMultiline?: boolean;
+  maxRows?: number | undefined;
   absentOnEmpty?: boolean;
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
@@ -43,16 +47,19 @@ export const createTextField = (
     validators,
     placeholder,
     attrs,
+    maxRows,
   }: TextFieldOptions | undefined = {
     rows: 1,
     isCode: false,
     absentOnEmpty: false,
     validators: [],
     placeholder: undefined,
+    maxRows: undefined,
   }
 ): TextFieldDescription => ({
   type: TextFieldView.fieldName,
   isMultiline: rows > 1,
+  maxRows,
   rows,
   isCode,
   absentOnEmpty,
@@ -75,7 +82,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    { isMultiline, rows, isCode, placeholder }: TextFieldDescription
+    { isMultiline, maxRows, rows, isCode, placeholder }: TextFieldDescription
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove 'enter' commands from keymap
     const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
@@ -119,19 +126,30 @@ export class TextFieldView extends ProseMirrorFieldView {
       dom.style.whiteSpace = "pre-wrap";
     }
 
-    if (enableMultiline) {
+    if (enableMultiline || maxRows) {
       // We wait to ensure that the browser has applied the appropriate styles.
       setTimeout(() => {
         if (!this.innerEditorView) {
           return;
         }
+
         const { lineHeight, paddingTop } = window.getComputedStyle(
           this.innerEditorView.dom
         );
 
-        (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
-          parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
-        }px`;
+        if (enableMultiline) {
+          (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
+            parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
+          }px`;
+        }
+
+        if (maxRows) {
+          (this.innerEditorView.dom as HTMLDivElement).style.maxHeight = `${
+            parseInt(lineHeight, 10) * maxRows + parseInt(paddingTop)
+          }px`;
+          (this.innerEditorView.dom as HTMLDivElement).style.overflowY =
+            "scroll";
+        }
       });
     }
 

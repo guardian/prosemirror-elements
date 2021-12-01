@@ -6,34 +6,51 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { embedFields } from "./EmbedSpec";
+import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
+import { EmbedStatusChecks } from "./embedComponents/EmbedStatusChecks";
+import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
+import { Preview } from "./embedComponents/Preview";
+import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<typeof embedFields>;
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
   errors: FieldValidationErrors;
-  fields: FieldNameToField<typeof embedFields>;
+  fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
+  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  convertYouTube: (src: string) => void;
+  convertTwitter: (src: string) => void;
 };
 
 export const EmbedElementTestId = "EmbedElement";
 
 export const EmbedElementForm: React.FunctionComponent<Props> = ({
+  fieldValues,
   errors,
   fields,
+  checkEmbedTracking,
+  convertYouTube,
+  convertTwitter,
 }) => (
   <FieldLayoutVertical data-cy={EmbedElementTestId}>
+    <EmbedRecommendation
+      html={fieldValues.html}
+      convertTwitter={convertTwitter}
+      convertYouTube={convertYouTube}
+    />
+    <Preview html={fieldValues.html} />
     <CustomDropdownView
-      field={fields.weighting}
+      field={fields.role}
       label="Weighting"
-      errors={errors.weighting}
+      errors={errors.role}
     />
     <FieldWrapper
-      field={fields.sourceUrl}
-      errors={errors.sourceUrl}
+      field={fields.url}
+      errors={errors.url}
       headingLabel="Source URL"
     />
     <FieldWrapper
-      field={fields.embedCode}
-      errors={errors.embedCode}
+      field={fields.html}
+      errors={errors.html}
       headingLabel="Embed code"
     />
     <FieldWrapper
@@ -42,14 +59,19 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       headingLabel="Caption"
     />
     <FieldWrapper
-      field={fields.altText}
-      errors={errors.altText}
+      field={fields.alt}
+      errors={errors.alt}
       headingLabel="Alt text"
     />
     <CustomCheckboxView
-      field={fields.required}
-      errors={errors.required}
+      field={fields.isMandatory}
+      errors={errors.isMandatory}
       label="This element is required for publication"
+    />
+    <EmbedStatusChecks
+      html={fieldValues.html}
+      isMandatory={fieldValues.isMandatory}
+      checkEmbedTracking={checkEmbedTracking}
     />
   </FieldLayoutVertical>
 );
