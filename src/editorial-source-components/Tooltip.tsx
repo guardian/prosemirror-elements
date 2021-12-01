@@ -31,7 +31,7 @@ const tooltip = css`
   line-height: 1.2rem;
   font-family: "Guardian Agate Sans";
   filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
-  z-index: 1;
+  z-index: 10; // ProseMirror-menubar has a default z-index of 10
   p {
     margin: 10px;
   }
