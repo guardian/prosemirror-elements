@@ -59,6 +59,9 @@ export const getElementMenuButton = (fieldName: string, buttonTitle: string) =>
     )} .ProseMirror-menubar [title="${buttonTitle}"]`
   );
 
+export const focusElementField = (fieldName: string) =>
+  getElementRichTextField(fieldName).focus();
+
 // If we don't focus the nested RTE we're typing into before type() is called,
 // Cypress tends to type into the parent RTE instead.
 export const typeIntoElementField = (fieldName: string, content: string) =>
@@ -79,6 +82,13 @@ export const assertDocHtml = (expectedHtml: string) =>
   cy.window().then((win: WindowType) => {
     const actualHtml = win.PM_ELEMENTS.docToHtml();
     expect(trimHtml(expectedHtml)).to.equal(actualHtml);
+  });
+
+export const assertDocSelection = (from: number, to: number) =>
+  cy.window().then((win: WindowType) => {
+    const { from: docFrom, to: docTo } = win.PM_ELEMENTS.view.state.selection;
+    expect(docFrom).equals(from);
+    expect(docTo).equals(to);
   });
 
 export const changeTestDecoString = (newTestString: string) => {

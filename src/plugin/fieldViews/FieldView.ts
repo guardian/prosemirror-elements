@@ -29,7 +29,7 @@ export abstract class FieldView<NodeValue> {
   public abstract fieldViewElement?: HTMLElement;
 
   /**
-   * Called when the fieldView is updated.
+   * Called when the fieldView is updated from the parent editor.
    */
   public abstract onUpdate(
     node: Node,
@@ -43,7 +43,7 @@ export abstract class FieldView<NodeValue> {
   public abstract update(value: NodeValue): void;
 
   /**
-   * Called when the fieldView is destroyed.
+   * Destroy this fieldView, cleaning up any resources it has instantiated.
    */
   public abstract destroy(): void;
 

@@ -1,7 +1,7 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
-import { EditorState } from "prosemirror-state";
+import { EditorState, TextSelection } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
@@ -71,6 +71,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     isResizeable = false
   ) {
     this.applyDecorationsFromOuterEditor(decorations, node, offset);
+    this.setupFocusHandler();
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
     this.parser = DOMParser.fromSchema(node.type.schema);
 
@@ -310,6 +311,25 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     }
     (this.innerEditorView.dom as HTMLDivElement).style.resize = "vertical";
     (this.innerEditorView.dom as HTMLDivElement).style.overflow = "auto";
+  }
+
+  /**
+   * We need to set the appropriate selection in the parent editor when this field is focused.
+   * Prosemirror does not dispatch a transaction when it receives focus on an empty document,
+   * so in that case we do this manually.
+   */
+  private setupFocusHandler() {
+    this.fieldViewElement.addEventListener("focusin", () => {
+      if (!this.innerEditorView) {
+        return;
+      }
+      if (this.innerEditorView.state.doc.textContent.length !== 0) {
+        return;
+      }
+      const { tr, doc } = this.innerEditorView.state;
+      tr.setSelection(TextSelection.create(doc, 0));
+      this.dispatchTransaction(tr);
+    });
   }
 
   private close() {

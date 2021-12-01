@@ -2,8 +2,10 @@ import { UpdateAltTextButtonId } from "../../src/elements/demo-image/DemoImageEl
 import {
   addImageElement,
   assertDocHtml,
+  assertDocSelection,
   boldShortcut,
   changeTestDecoString,
+  focusElementField,
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
@@ -27,6 +29,12 @@ describe("ImageElement", () => {
 
   describe("Fields", () => {
     describe("Rich text field", () => {
+      it("should update the document selection when the user focuses on the field", () => {
+        addImageElement();
+        assertDocSelection(19, 19); // The selection immediately after the inserted element
+        focusElementField("caption");
+        assertDocSelection(5, 5);
+      });
       it(`caption – should have a placeholder`, () => {
         addImageElement();
         getElementRichTextFieldPlaceholder("caption").should(
