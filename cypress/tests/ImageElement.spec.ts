@@ -318,19 +318,33 @@ describe("ImageElement", () => {
           );
       });
 
-      it("should visually extend no more than the number of lines specified by `rows` when resizeable", () => {
-        addImageElement();
-        typeIntoElementField(
-          "resizeable",
-          "{Enter}{Enter}{Enter}{Enter}{Enter}"
-        );
-        getElementRichTextField("resizeable")
-          .invoke("css", "height")
-          .then((height) => {
-            const heightAsNumber = parseInt((height as unknown) as string, 10);
-            // Proxy: height should be less than the five lines we've entered above
-            expect(heightAsNumber).to.be.lessThan(50);
-          });
+      describe("Resizeable fields", () => {
+        it("should be resizeable", () => {
+          addImageElement();
+          getElementRichTextField("resizeable")
+            .invoke("css", "resize")
+            .then((resize) => {
+              expect(resize).to.be.equal("vertical");
+            });
+        });
+
+        it("should visually extend no more than the number of lines specified by `rows` when resizeable", () => {
+          addImageElement();
+          typeIntoElementField(
+            "resizeable",
+            "{Enter}{Enter}{Enter}{Enter}{Enter}"
+          );
+          getElementRichTextField("resizeable")
+            .invoke("css", "height")
+            .then((height) => {
+              const heightAsNumber = parseInt(
+                (height as unknown) as string,
+                10
+              );
+              // Proxy: height should be less than the five lines we've entered above
+              expect(heightAsNumber).to.be.lessThan(50);
+            });
+        });
       });
 
       it("should serialise content as HTML within the appropriate nodes in the document", () => {
