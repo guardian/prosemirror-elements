@@ -66,3 +66,25 @@ const mySchema = new Schema({
   marks
 });
 ```
+### `Yalc`: An alternative to yarn link - Testing with flexible-content locally
+A very simple local repository for your locally developed packages that you want to share across your local environment.
+[Read more](https://github.com/wclr/yalc).
+
+Setup is  straightforward but requires you to have both `prosemirror-elements` and the consimung project open and ready (In our case usually Composer in `flexible-content`).
+
+The advantage is you dont even need to add or commit your changes when publishing.
+You can make minor ammendments and simply republish!
+
+Setup: 
+
+1. Install `yalc` globally with `npm i yalc -g` or `yarn global add yalc`
+2. Run `yarn build` in your local `prosemirror-elements` from your current branch
+3. Run `yalc publish` in the same directory
+4. Run `yalc add @guardian/prosemirror-elements` from the `composer` directory of your local `flexible-content`
+
+note: any changes you make to your local prosemirror-elements branch must be republished (step 3). 
+Dont forget to run `yarn build`!
+
+You will notice `.yalc` directory in the root of flexible-content which will be home to the local version of your guardian package.
+
+![image](https://user-images.githubusercontent.com/49187886/144407562-33286b25-1ec5-4c6d-a802-ce6e622ab357.png)
