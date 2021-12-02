@@ -73,6 +73,7 @@ export const createImageFields = (
       placeholder: "Write code here",
       maxRows: 10,
     }),
+    resizeable: createTextField({ rows: 2, isResizeable: true }),
     mainImage: createCustomField<ImageField, ImageProps>(
       { mediaId: undefined, mediaApiUri: undefined, assets: [] },
       {
