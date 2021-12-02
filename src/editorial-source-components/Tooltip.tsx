@@ -115,6 +115,16 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
     timeouts.forEach((timeout) => clearTimeout(timeout));
   };
 
+  const handleMouseEnter = () => {
+    makeOpaque();
+    if (update) void update();
+  };
+
+  const handleMouseLeave = () => {
+    setOpaque(false);
+    if (update) void update();
+  };
+
   useEffect(() => {
     if (!opaque) {
       const timeout = setTimeout(() => {
@@ -129,14 +139,8 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
       <div
         css={infoIcon}
         ref={setReferenceElement}
-        onMouseEnter={() => {
-          makeOpaque();
-          if (update) void update();
-        }}
-        onMouseLeave={() => {
-          setOpaque(false);
-          if (update) void update();
-        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <SvgInfo />
       </div>
@@ -148,14 +152,8 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
         data-show={visible || null}
         data-opaque={opaque || null}
         {...attributes.popper}
-        onMouseEnter={() => {
-          makeOpaque();
-          if (update) void update();
-        }}
-        onMouseLeave={() => {
-          setOpaque(false);
-          if (update) void update();
-        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {children}
         <div
