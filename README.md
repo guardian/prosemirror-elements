@@ -67,13 +67,7 @@ const mySchema = new Schema({
 });
 ```
 ### Testing locally in applications using `prosemirror-elements`
-A very simple local repository for your locally developed packages that you want to share across your local environment.
-[Read more](https://github.com/wclr/yalc).
-
-Setup is  straightforward but requires you to have both `prosemirror-elements` and the consimung project open and ready (In our case usually Composer in `flexible-content`).
-
-The advantage is you dont even need to add or commit your changes when publishing.
-You can make minor ammendments and simply republish!
+We've found yalc useful in testing local changes to prosemirror-elements in applications that use it.
 
 Setup: 
 
