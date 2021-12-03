@@ -66,7 +66,7 @@ const mySchema = new Schema({
   marks
 });
 ```
-### `Yalc`: An alternative to yarn link - Testing with flexible-content locally
+### Testing locally in applications using `prosemirror-elements`
 A very simple local repository for your locally developed packages that you want to share across your local environment.
 [Read more](https://github.com/wclr/yalc).
 
