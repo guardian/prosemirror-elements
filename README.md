@@ -82,7 +82,7 @@ Setup:
 3. Run `yalc publish` in the same directory
 4. Run `yalc add @guardian/prosemirror-elements` from the `composer` directory of your local `flexible-content`
 
-note: any changes you make to your local prosemirror-elements branch must be republished (step 3). 
+Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). 
 Dont forget to run `yarn build`!
 
 You will notice `.yalc` directory in the root of flexible-content which will be home to the local version of your guardian package.
