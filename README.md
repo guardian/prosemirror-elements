@@ -72,13 +72,11 @@ We've found yalc useful in testing local changes to prosemirror-elements in appl
 Setup: 
 
 1. Install `yalc` globally with `npm i yalc -g` or `yarn global add yalc`
-2. Run `yarn build` in your local `prosemirror-elements` from your current branch
+2. Run `yarn build` in your local project from your current branch
 3. Run `yalc publish` in the same directory
-4. Run `yalc add @guardian/prosemirror-elements` from the `composer` directory of your local `flexible-content`
+4. Run `yalc add @guardian/<project>`  of your local project.
 
 Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). 
 Dont forget to run `yarn build`!
 
-You will notice `.yalc` directory in the root of flexible-content which will be home to the local version of your guardian package.
-
-![image](https://user-images.githubusercontent.com/49187886/144407562-33286b25-1ec5-4c6d-a802-ce6e622ab357.png)
+You will notice `.yalc` directory in the root of your porject, which will be home to the local version of your guardian package.
