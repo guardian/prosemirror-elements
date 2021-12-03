@@ -66,3 +66,17 @@ const mySchema = new Schema({
   marks
 });
 ```
+### Testing locally in applications using `prosemirror-elements`
+We've found yalc useful in testing local changes to prosemirror-elements in applications that use it.
+
+Setup: 
+
+1. Install `yalc` globally with `npm i yalc -g` or `yarn global add yalc`
+2. Run `yarn build` in your local project from your current branch
+3. Run `yalc publish` in the same directory
+4. Run `yalc add @guardian/<project>`  of your local project.
+
+Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). 
+Dont forget to run `yarn build`!
+
+You will notice `.yalc` directory in the root of your porject, which will be home to the local version of your guardian package.
