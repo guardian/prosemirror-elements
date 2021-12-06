@@ -13,6 +13,7 @@ import {
   createEmbedElement,
   createImageElement,
   pullquoteElement,
+  richlinkElement,
 } from "../src";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
@@ -35,13 +36,15 @@ const imageElementName = "imageElement";
 const demoImageElementName = "demo-image-element";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
+const richlinkElementName = "richlinkElement";
 
 type Name =
   | typeof embedElementName
   | typeof imageElementName
   | typeof demoImageElementName
   | typeof codeElementName
-  | typeof pullquoteElementName;
+  | typeof pullquoteElementName
+  | typeof richlinkElementName;
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
@@ -70,6 +73,7 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   }),
   codeElement,
   pullquoteElement,
+  richlinkElement,
 });
 
 const strike: MarkSpec = {
@@ -177,6 +181,14 @@ const createEditor = (server: CollabServer) => {
       altText: "",
       caption: "",
       useSrc: { value: false },
+    })
+  );
+
+  editorElement.appendChild(
+    createElementButton("Add rich-link element", richlinkElementName, {
+      linkText: "example",
+      url: "https://example.com",
+      weighting: "",
     })
   );
 

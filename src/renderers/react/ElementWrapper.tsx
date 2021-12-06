@@ -32,6 +32,7 @@ const Body = styled("div")`
       opacity: 1;
     }
   }
+  min-height: 134px;
 `;
 
 const Panel = styled("div")`
