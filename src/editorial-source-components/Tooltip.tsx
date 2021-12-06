@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { brand, neutral } from "@guardian/src-foundations";
 import { SvgInfo } from "@guardian/src-icons";
 import React, { useEffect, useState } from "react";
@@ -21,7 +22,34 @@ const fadeDuration = 300; //Milliseconds
 
 const timeouts: number[] = [];
 
-const tooltip = css`
+const Arrow = styled.div`
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  visibility: hidden;
+  &[data-show] {
+    ::before {
+      visibility: visible;
+    }
+  }
+  &[data-popper-reference-hidden] {
+    ::before {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+  ::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    content: "";
+    transform: rotate(45deg);
+  }
+`;
+
+const TooltipBox = styled.div`
   font-family: "Guardian Agate Sans";
   background-color: ${neutral[10]};
   color: ${neutral[97]};
@@ -52,32 +80,17 @@ const tooltip = css`
     visibility: hidden;
     pointer-events: none;
   }
-`;
-
-const arrow = css`
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: inherit;
-  visibility: hidden;
-  &[data-show] {
-    ::before {
-      visibility: visible;
-    }
+  &[data-popper-placement^="top"] > .arrow {
+    bottom: -4px;
   }
-  &[data-popper-reference-hidden] {
-    ::before {
-      visibility: hidden;
-      pointer-events: none;
-    }
+  &[data-popper-placement^="bottom"] > .arrow {
+    top: -4px;
   }
-  ::before {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: inherit;
-    content: "";
-    transform: translate(0px, -4px) rotate(45deg);
+  &[data-popper-placement^="left"] > .arrow {
+    right: -4px;
+  }
+  &[data-popper-placement^="right"] > .arrow {
+    left: -4px;
   }
 `;
 
@@ -145,10 +158,9 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
         <SvgInfo />
       </div>
 
-      <div
+      <TooltipBox
         ref={setPopperElement}
         style={styles.popper}
-        css={tooltip}
         data-show={visible || null}
         data-opaque={opaque || null}
         {...attributes.popper}
@@ -156,13 +168,13 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
         onMouseLeave={handleMouseLeave}
       >
         {children}
-        <div
+        <Arrow
           ref={setArrowElement}
           style={styles.arrow}
-          css={arrow}
+          className="arrow"
           data-show={visible || null}
         />
-      </div>
+      </TooltipBox>
     </>
   );
 };
