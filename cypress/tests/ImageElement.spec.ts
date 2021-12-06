@@ -31,7 +31,7 @@ describe("ImageElement", () => {
     describe("Rich text field", () => {
       it("should update the document selection when the user focuses on the field", () => {
         addImageElement();
-        assertDocSelection(19, 19); // The selection immediately after the inserted element
+        assertDocSelection(21, 21); // The selection immediately after the inserted element
         focusElementField("caption");
         assertDocSelection(5, 5);
       });
