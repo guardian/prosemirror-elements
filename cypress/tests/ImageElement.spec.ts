@@ -49,7 +49,7 @@ describe("ImageElement", () => {
         getElementRichTextField("caption").should("have.text", text);
       });
 
-      it.only(`caption – should allow mark shortcuts in an element`, () => {
+      it(`caption – should allow mark shortcuts in an element`, () => {
         addImageElement();
         const text = `text with ${boldShortcut()}bold and ${boldShortcut()}${italicShortcut()}italic`;
         typeIntoElementField("caption", text);
