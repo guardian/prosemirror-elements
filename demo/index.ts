@@ -185,7 +185,7 @@ const createEditor = (server: CollabServer) => {
   );
 
   editorElement.appendChild(
-    createElementButton("Add demo rich-link element", richlinkElementName, {
+    createElementButton("Add rich-link element", richlinkElementName, {
       linkText: "example",
       url: "https://example.com",
       weighting: "",
