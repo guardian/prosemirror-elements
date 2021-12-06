@@ -61,7 +61,7 @@ export const createImageFields = ({
 }: MainImageProps) => {
   return {
     alt: createTextField({
-      rows: 4,
+      rows: 2,
       validators: [htmlMaxLength(1000), htmlRequired()],
       placeholder: "Enter some alt text…",
       isResizeable: true,
