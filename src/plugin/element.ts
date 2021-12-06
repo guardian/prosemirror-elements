@@ -16,6 +16,20 @@ import type {
   FieldDescriptions,
 } from "./types/Element";
 
+const findValidInsertPosition = ($pos: ResolvedPos): number | undefined => {
+  const depth = $pos.depth;
+  const node = $pos.node(depth);
+
+  if (node.attrs.addUpdateDecoration) {
+    return $pos.pos;
+  } else if (depth > 0) {
+    const newPos = $pos.doc.resolve($pos.end(depth - 1));
+    return findValidInsertPosition(newPos);
+  } else {
+    return undefined;
+  }
+};
+
 /**
  * Build an element plugin with the given element specs, along with the schema required
  * by those elements, and a method to insert elements into the document.
@@ -47,20 +61,6 @@ export const buildElementPlugin = <
       );
       return;
     }
-
-    const findValidInsertPosition = ($pos: ResolvedPos): number | undefined => {
-      const depth = $pos.depth;
-      const node = $pos.node(depth);
-
-      if (node.attrs.addUpdateDecoration) {
-        return $pos.pos;
-      } else if (depth > 0) {
-        const newPos = $pos.doc.resolve($pos.end(depth - 1));
-        return findValidInsertPosition(newPos);
-      } else {
-        return undefined;
-      }
-    };
 
     const maybeNewPos = findValidInsertPosition(state.selection.$head);
     if (maybeNewPos) {

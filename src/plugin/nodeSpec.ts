@@ -5,6 +5,9 @@ import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
+// An attribute added to Element nodes to identify them as such.
+export const elementNodeAttr = "isProseMirrorElement";
+
 export const elementTypeAttr = "pme-element-type";
 export const fieldNameAttr = "pme-field-name";
 
@@ -41,11 +44,14 @@ const getNodeSpecForElement = (
       )
     ).join(" "),
     attrs: {
+<<<<<<< HEAD
       type: nodeName,
+=======
+      [elementNodeAttr]: { default: true },
+      type: elementName,
+>>>>>>> e818a10... Move function into helpers; add a non-proxy way of identifying an element node
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
-      addUpdateDecoration: {
-        default: true,
-      },
+      addUpdateDecoration: { default: true },
     },
     draggable: false,
     toDOM: (node: Node) => [
@@ -300,3 +306,6 @@ export const getNodeNameFromElementName = (elementName: string) =>
 
 export const getElementNameFromNode = (node: Node) =>
   node.type.name.replaceAll("_", "-");
+
+export const isProseMirrorElement = (node: Node): boolean =>
+  node.attrs[elementNodeAttr] === true;
