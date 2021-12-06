@@ -12,14 +12,12 @@ type Props = {
   fields: FieldNameToField<typeof richlinkFields>;
 };
 
-export const RichlinkElementTestId = "RichlinkElement";
-
 export const RichlinkElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,
 }) => (
-  <FieldLayoutVertical data-cy={RichlinkElementTestId}>
+  <FieldLayoutVertical>
     <div>
       Related: <a href={fieldValues.url}>{fieldValues.linkText}</a>
     </div>
