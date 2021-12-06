@@ -44,12 +44,8 @@ const getNodeSpecForElement = (
       )
     ).join(" "),
     attrs: {
-<<<<<<< HEAD
-      type: nodeName,
-=======
       [elementNodeAttr]: { default: true },
-      type: elementName,
->>>>>>> e818a10... Move function into helpers; add a non-proxy way of identifying an element node
+      type: nodeName,
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
       addUpdateDecoration: { default: true },
     },

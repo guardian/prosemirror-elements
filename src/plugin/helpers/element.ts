@@ -7,14 +7,10 @@ import type {
 import type { FieldValidationErrors } from "../elementSpec";
 import {
   createNodesForFieldValues,
-<<<<<<< HEAD
   getElementNameFromNode,
   getFieldNameFromNode,
   getNodeNameFromElementName,
-=======
-  getFieldNameFromNode,
   isProseMirrorElement,
->>>>>>> e818a10... Move function into helpers; add a non-proxy way of identifying an element node
 } from "../nodeSpec";
 import type {
   ElementSpecMap,

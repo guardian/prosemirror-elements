@@ -1,7 +1,6 @@
 import OrderedMap from "orderedmap";
 import type { NodeSpec, ResolvedPos, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { Selection } from "prosemirror-state";
 import {
   createElementDataValidator,
   createGetElementDataFromNode,
