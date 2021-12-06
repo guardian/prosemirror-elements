@@ -37,6 +37,7 @@ type TextFieldOptions = {
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
   attrs?: Record<string, AttributeSpec>;
+  isResizeable?: boolean;
 };
 
 export const createTextField = (
@@ -44,6 +45,7 @@ export const createTextField = (
     rows = 1,
     isCode = false,
     absentOnEmpty = false,
+    isResizeable = false,
     validators,
     placeholder,
     attrs,
@@ -51,6 +53,7 @@ export const createTextField = (
   }: TextFieldOptions | undefined = {
     rows: 1,
     isCode: false,
+    isResizeable: false,
     absentOnEmpty: false,
     validators: [],
     placeholder: undefined,
@@ -59,6 +62,7 @@ export const createTextField = (
 ): TextFieldDescription => ({
   type: TextFieldView.fieldName,
   isMultiline: rows > 1,
+  isResizeable,
   maxRows,
   rows,
   isCode,
@@ -82,7 +86,14 @@ export class TextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    { isMultiline, maxRows, rows, isCode, placeholder }: TextFieldDescription
+    {
+      isMultiline,
+      maxRows,
+      rows,
+      isCode,
+      placeholder,
+      isResizeable,
+    }: TextFieldDescription
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove 'enter' commands from keymap
     const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
@@ -117,7 +128,8 @@ export class TextFieldView extends ProseMirrorFieldView {
       decorations,
       TextFieldView.fieldName,
       [keymap(keymapping)],
-      placeholder
+      placeholder,
+      isResizeable
     );
 
     if (isCode && this.innerEditorView) {
@@ -137,18 +149,26 @@ export class TextFieldView extends ProseMirrorFieldView {
           this.innerEditorView.dom
         );
 
+        const domElement = this.innerEditorView.dom as HTMLDivElement;
         if (enableMultiline) {
-          (this.innerEditorView.dom as HTMLDivElement).style.minHeight = `${
+          const initialInputHeightPx = `${
             parseInt(lineHeight, 10) * rows + parseInt(paddingTop) * 2
           }px`;
+          domElement.style.minHeight = initialInputHeightPx;
+          if (isResizeable) {
+            // If the input is resizeable, assume that the user would like the input
+            // to begin life with its height set to `rows`, with the opportunity to
+            // expand it later.
+            domElement.style.height = initialInputHeightPx;
+          }
         }
 
         if (maxRows) {
-          (this.innerEditorView.dom as HTMLDivElement).style.maxHeight = `${
+          const maxHeightPx = `${
             parseInt(lineHeight, 10) * maxRows + parseInt(paddingTop)
           }px`;
-          (this.innerEditorView.dom as HTMLDivElement).style.overflowY =
-            "scroll";
+          domElement.style.maxHeight = maxHeightPx;
+          domElement.style.overflowY = "scroll";
         }
       });
     }

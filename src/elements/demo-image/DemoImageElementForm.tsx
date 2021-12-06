@@ -42,6 +42,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       Programmatically update alt text
     </button>
     <FieldWrapper
+      headingLabel="Resizeable Text Field"
+      field={fields.resizeable}
+      errors={errors.resizeable}
+    />
+    <FieldWrapper
       field={fields.restrictedTextField}
       headingLabel="Restricted Text Field"
       errors={errors.restrictedTextField}

@@ -30,6 +30,7 @@ type RichTextOptions = {
   marks?: string;
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
+  isResizeable?: boolean;
 };
 
 export const createRichTextField = ({
@@ -40,6 +41,7 @@ export const createRichTextField = ({
   marks,
   validators,
   placeholder,
+  isResizeable,
 }: RichTextOptions): RichTextFieldDescription => ({
   type: RichTextFieldView.fieldName,
   createPlugins,
@@ -49,6 +51,7 @@ export const createRichTextField = ({
   validators,
   absentOnEmpty,
   placeholder,
+  isResizeable,
 });
 
 type FlatRichTextOptions = RichTextOptions & {
@@ -121,7 +124,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    field: RichTextFieldDescription
+    { placeholder, isResizeable, createPlugins }: RichTextFieldDescription
   ) {
     super(
       node,
@@ -136,9 +139,10 @@ export class RichTextFieldView extends ProseMirrorFieldView {
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
           ...filteredKeymap,
         }),
-        ...(field.createPlugins ? field.createPlugins(node.type.schema) : []),
+        ...(createPlugins ? createPlugins(node.type.schema) : []),
       ],
-      field.placeholder
+      placeholder,
+      isResizeable
     );
 
     this.fieldViewElement.classList.add("ProseMirrorElements__RichTextField");

@@ -8,6 +8,7 @@ import { CodeElementForm } from "./CodeElementForm";
 export const codeFields = {
   html: createTextField({
     rows: 4,
+    isResizeable: true,
     isCode: true,
     validators: [required("empty code field")],
     absentOnEmpty: true,

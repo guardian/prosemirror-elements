@@ -37,6 +37,7 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
       rows: 2,
       isCode: true,
       maxRows: 10,
+      isResizeable: true,
       isMultiline: true,
       validators: [htmlRequired(undefined, "WARN")],
       placeholder: "Paste in the embed code…",
@@ -49,6 +50,7 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
     }),
     alt: createTextField({
       rows: 2,
+      isResizeable: true,
       validators: [htmlMaxLength(1000), htmlRequired()],
       placeholder: "Enter some alt text…",
     }),

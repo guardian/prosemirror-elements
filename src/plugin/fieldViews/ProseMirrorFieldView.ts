@@ -18,6 +18,8 @@ export interface AbstractTextFieldDescription
   // If true, when this text field is empty, do not include it as a key-value pair
   // in the element data extracted with `getElementDataFromNode`.
   absentOnEmpty?: boolean;
+  // Can the user resize the input?
+  isResizeable?: boolean;
 }
 
 /**
@@ -64,7 +66,9 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // Plugins that the editor should use
     plugins?: Plugin[],
     // The field placeholder option
-    placeholder?: PlaceholderOption
+    placeholder?: PlaceholderOption,
+    // Is this text field resizeable?
+    isResizeable = false
   ) {
     this.applyDecorationsFromOuterEditor(decorations, node, offset);
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
@@ -74,6 +78,9 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
       ? [...(plugins ?? []), createPlaceholderPlugin(placeholder)]
       : plugins;
     this.innerEditorView = this.createInnerEditorView(localPlugins);
+    if (isResizeable) {
+      this.makeInputElementResizeable();
+    }
   }
 
   public getNodeValue(node: Node) {
@@ -295,6 +302,14 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
         this.innerEditorView.state.tr.setMeta("fromOutside", true)
       );
     }
+  }
+
+  private makeInputElementResizeable() {
+    if (!this.innerEditorView) {
+      return;
+    }
+    (this.innerEditorView.dom as HTMLDivElement).style.resize = "vertical";
+    (this.innerEditorView.dom as HTMLDivElement).style.overflow = "auto";
   }
 
   private close() {
