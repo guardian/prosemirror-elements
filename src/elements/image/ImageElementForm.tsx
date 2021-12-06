@@ -7,6 +7,7 @@ import React, { useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type {
   FieldValidationErrors,
@@ -56,93 +57,112 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,
-}) => (
-  <div data-cy={ImageElementTestId}>
-    <Columns>
-      <Column width={2 / 5}>
-        <FieldLayoutVertical>
-          <CustomDropdownView
-            field={fields.role}
-            label="Weighting"
-            errors={errors.role}
-            options={
-              minAssetValidation(fieldValues.mainImage, "").length
-                ? [thumbnailOption]
-                : undefined
-            }
-          />
-          <ImageView
-            field={fields.mainImage}
-            updateFields={({ caption, source, photographer }) => {
-              fields.caption.update(caption);
-              fields.source.update(source);
-              fields.photographer.update(photographer);
-            }}
-            updateRole={(value) => fields.role.update(value)}
-            errors={errors.mainImage}
-          />
-          <CustomDropdownView
-            field={fields.imageType}
-            label={"Image type"}
-            errors={errors.imageType}
-          />
-        </FieldLayoutVertical>
-      </Column>
-      <Column width={3 / 5}>
-        <FieldLayoutVertical>
-          <FieldWrapper
-            field={fields.caption}
-            errors={errors.caption}
-            headingLabel="Caption"
-            description={`${htmlLength(fieldValues.caption)}/600 characters`}
-          />
-          <FieldWrapper
-            field={fields.alt}
-            errors={errors.alt}
-            headingLabel={<AltText>Alt text</AltText>}
-            headingContent={
-              <Button
-                priority="secondary"
-                size="xsmall"
-                iconSide="left"
-                onClick={() => fields.alt.update(fieldValues.caption)}
-              >
-                Copy from caption
-              </Button>
-            }
-          />
-          <Columns>
-            <Column width={1 / 2}>
-              <FieldWrapper
-                field={fields.photographer}
-                errors={errors.photographer}
-                headingLabel="Photographer"
-              />
-            </Column>
-            <Column width={1 / 2}>
-              <FieldWrapper
-                field={fields.source}
-                errors={errors.source}
-                headingLabel="Source"
-              />
-            </Column>
-          </Columns>
-          <Columns>
-            <Column width={1 / 2}>
-              <CustomCheckboxView
-                field={fields.displayCredit}
-                errors={errors.displayCredit}
-                label="Display credit information"
-              />
-            </Column>
-          </Columns>
-        </FieldLayoutVertical>
-      </Column>
-    </Columns>
-  </div>
-);
+}) => {
+  return (
+    <div data-cy={ImageElementTestId}>
+      <Columns>
+        <Column width={2 / 5}>
+          <FieldLayoutVertical>
+            <CustomDropdownView
+              field={fields.role}
+              label="Weighting"
+              errors={errors.role}
+              options={
+                minAssetValidation(fieldValues.mainImage, "").length
+                  ? [thumbnailOption]
+                  : undefined
+              }
+            />
+            <ImageView
+              field={fields.mainImage}
+              updateFields={({ caption, source, photographer }) => {
+                fields.caption.update(caption);
+                fields.source.update(source);
+                fields.photographer.update(photographer);
+              }}
+              updateRole={(value) => fields.role.update(value)}
+              errors={errors.mainImage}
+            />
+            <CustomDropdownView
+              field={fields.imageType}
+              label={"Image type"}
+              errors={errors.imageType}
+            />
+          </FieldLayoutVertical>
+        </Column>
+        <Column width={3 / 5}>
+          <FieldLayoutVertical>
+            <FieldWrapper
+              field={fields.caption}
+              errors={errors.caption}
+              headingLabel="Caption"
+              description={`${htmlLength(fieldValues.caption)}/600 characters`}
+            />
+            <FieldWrapper
+              field={fields.alt}
+              errors={errors.alt}
+              headingLabel={<AltText>Alt text</AltText>}
+              headingContent={
+                <>
+                  <Tooltip>
+                    <p>
+                      ‘Alt text’ describes what’s in an image. It helps users of
+                      screen readers understand our images, and improves our
+                      SEO.
+                    </p>
+                    <p>
+                      <a
+                        href="https://docs.google.com/document/d/1oW542iCRyKfI4DS22QU7AH0TQRWLYMm7bTlhJlX5_Ng/edit?usp=sharing"
+                        target="_blank"
+                      >
+                        Find out more
+                      </a>
+                    </p>
+                  </Tooltip>
+                  <Button
+                    priority="secondary"
+                    size="xsmall"
+                    iconSide="left"
+                    onClick={() => fields.alt.update(fieldValues.caption)}
+                  >
+                    Copy from caption
+                  </Button>
+                </>
+              }
+            />
+            <Columns>
+              <Column width={1 / 2}>
+                <FieldWrapper
+                  field={fields.photographer}
+                  errors={errors.photographer}
+                  headingLabel="Photographer"
+                />
+              </Column>
+              <Column width={1 / 2}>
+                <FieldWrapper
+                  field={fields.source}
+                  errors={errors.source}
+                  headingLabel="Source"
+                />
+              </Column>
+            </Columns>
+            <Columns>
+              <Column width={1 / 2}>
+                <CustomCheckboxView
+                  field={fields.displayCredit}
+                  errors={errors.displayCredit}
+                  label="Display credit information"
+                />
+              </Column>
+            </Columns>
+          </FieldLayoutVertical>
+        </Column>
+      </Columns>
+    </div>
+  );
+};
 
-const imageViewStysles = css`
+const imageViewStyles = css`
   width: 100%;
 `;
 
@@ -200,7 +220,7 @@ const ImageView = ({
     <div>
       <Errors errors={errors.map((e) => e.error)} />
       <div>
-        <img css={imageViewStysles} src={imageSrc} />
+        <img css={imageViewStyles} src={imageSrc} />
       </div>
       <Button
         priority="secondary"
