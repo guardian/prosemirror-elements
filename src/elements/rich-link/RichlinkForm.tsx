@@ -19,7 +19,8 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
 }) => (
   <FieldLayoutVertical>
     <div>
-      Related: <a href={fieldValues.url}>{fieldValues.linkText}</a>
+      Related Prepare Spike:{" "}
+      <a href={fieldValues.url}>{fieldValues.linkText}</a>
     </div>
     <CustomDropdownView
       field={fields.weighting}
