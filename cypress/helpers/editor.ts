@@ -84,11 +84,10 @@ export const assertDocHtml = (expectedHtml: string) =>
     expect(trimHtml(expectedHtml)).to.equal(actualHtml);
   });
 
-export const assertDocSelection = (from: number, to: number) =>
+export const getDocSelection = () =>
   cy.window().then((win: WindowType) => {
     const { from: docFrom, to: docTo } = win.PM_ELEMENTS.view.state.selection;
-    expect(docFrom).equals(from);
-    expect(docTo).equals(to);
+    return [docFrom, docTo];
   });
 
 export const changeTestDecoString = (newTestString: string) => {

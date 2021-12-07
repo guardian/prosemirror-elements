@@ -2,10 +2,10 @@ import { UpdateAltTextButtonId } from "../../src/elements/demo-image/DemoImageEl
 import {
   addImageElement,
   assertDocHtml,
-  assertDocSelection,
   boldShortcut,
   changeTestDecoString,
   focusElementField,
+  getDocSelection,
   getElementField,
   getElementMenuButton,
   getElementRichTextField,
@@ -31,9 +31,16 @@ describe("ImageElement", () => {
     describe("Rich text field", () => {
       it("should update the document selection when the user focuses on the field", () => {
         addImageElement();
-        assertDocSelection(21, 21); // The selection immediately after the inserted element
+        getDocSelection().then(([from]) => {
+          // The selection should be just after the inserted element
+          expect(from).to.be.greaterThan(5);
+        });
         focusElementField("caption");
-        assertDocSelection(5, 5);
+        getDocSelection().then(([from, to]) => {
+          // The selection should be at the first field of the element
+          expect(from).to.equal(5);
+          expect(to).to.equal(5);
+        });
       });
       it(`caption – should have a placeholder`, () => {
         addImageElement();
