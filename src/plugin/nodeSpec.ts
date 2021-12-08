@@ -5,6 +5,9 @@ import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
+// An attribute added to Element nodes to identify them as such.
+export const elementNodeAttr = "isProseMirrorElement";
+
 export const elementTypeAttr = "pme-element-type";
 export const fieldNameAttr = "pme-field-name";
 
@@ -33,6 +36,7 @@ const getNodeSpecForElement = (
   fieldDescription: FieldDescriptions<string>
 ): NodeSpec => ({
   [nodeName]: {
+    defining: true,
     group: groupName,
     content: getDeterministicFieldOrder(
       Object.keys(fieldDescription).map((fieldName) =>
@@ -40,11 +44,10 @@ const getNodeSpecForElement = (
       )
     ).join(" "),
     attrs: {
+      [elementNodeAttr]: { default: true },
       type: nodeName,
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
-      addUpdateDecoration: {
-        default: true,
-      },
+      addUpdateDecoration: { default: true },
     },
     draggable: false,
     toDOM: (node: Node) => [
@@ -299,3 +302,6 @@ export const getNodeNameFromElementName = (elementName: string) =>
 
 export const getElementNameFromNode = (node: Node) =>
   node.type.name.replaceAll("_", "-");
+
+export const isProseMirrorElement = (node: Node): boolean =>
+  node.attrs[elementNodeAttr] === true;

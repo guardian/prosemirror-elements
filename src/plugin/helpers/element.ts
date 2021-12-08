@@ -1,10 +1,16 @@
-import type { DOMSerializer, Node, Schema } from "prosemirror-model";
+import type {
+  DOMSerializer,
+  Node,
+  ResolvedPos,
+  Schema,
+} from "prosemirror-model";
 import type { FieldValidationErrors } from "../elementSpec";
 import {
   createNodesForFieldValues,
   getElementNameFromNode,
   getFieldNameFromNode,
   getNodeNameFromElementName,
+  isProseMirrorElement,
 } from "../nodeSpec";
 import type {
   ElementSpecMap,
@@ -172,4 +178,24 @@ export const createElementDataValidator = <
   const data = (values as unknown) as FieldNameToValueMap<FDesc>;
 
   return element.validate(data);
+};
+
+/**
+ * If the position given is within an element, find a valid position to insert an element.
+ * Otherwise, return `undefined`;
+ */
+export const findValidInsertPositionWithinElement = (
+  $pos: ResolvedPos
+): number | undefined => {
+  const depth = $pos.depth;
+  const node = $pos.node(depth);
+
+  if (isProseMirrorElement(node)) {
+    return $pos.pos;
+  } else if (depth > 0) {
+    const newPos = $pos.doc.resolve($pos.end(depth - 1));
+    return findValidInsertPositionWithinElement(newPos);
+  } else {
+    return undefined;
+  }
 };

@@ -1,5 +1,5 @@
 import OrderedMap from "orderedmap";
-import type { NodeSpec, Schema } from "prosemirror-model";
+import type { NodeSpec, ResolvedPos, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import {
   createElementDataValidator,
@@ -14,6 +14,20 @@ import type {
   ExtractPartialDataTypeFromElementSpec,
   FieldDescriptions,
 } from "./types/Element";
+
+const findValidInsertPosition = ($pos: ResolvedPos): number | undefined => {
+  const depth = $pos.depth;
+  const node = $pos.node(depth);
+
+  if (node.attrs.addUpdateDecoration) {
+    return $pos.pos;
+  } else if (depth > 0) {
+    const newPos = $pos.doc.resolve($pos.end(depth - 1));
+    return findValidInsertPosition(newPos);
+  } else {
+    return undefined;
+  }
+};
 
 /**
  * Build an element plugin with the given element specs, along with the schema required
@@ -40,12 +54,18 @@ export const buildElementPlugin = <
   ): void => {
     const maybeNode = getNodeFromElementData(elementData, state.schema);
 
-    if (maybeNode) {
-      dispatch(state.tr.replaceSelectionWith(maybeNode));
-    } else {
+    if (!maybeNode) {
       console.warn(
         `[prosemirror-elements]: Could not create a node for ${elementData.elementName}`
       );
+      return;
+    }
+
+    const maybeNewPos = findValidInsertPosition(state.selection.$head);
+    if (maybeNewPos) {
+      dispatch(state.tr.insert(maybeNewPos, maybeNode));
+    } else {
+      dispatch(state.tr.replaceSelectionWith(maybeNode));
     }
   };
 

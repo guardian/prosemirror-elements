@@ -109,6 +109,7 @@ export const createEditorWithElements = <
 
   return {
     view,
+    schema,
     insertElement,
     getElementAsHTML,
     getNodeFromElementData,
