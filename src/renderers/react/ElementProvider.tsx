@@ -7,7 +7,7 @@ import type {
 } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { Commands } from "../../plugin/types/Commands";
-import type { Consumer } from "../../plugin/types/Consumer";
+import type { Consumer, ConsumerOptions } from "../../plugin/types/Consumer";
 import type {
   FieldDescriptions,
   FieldNameToField,
@@ -46,7 +46,7 @@ type IState<FDesc extends FieldDescriptions<string>> = {
 export class ElementProvider<
   FDesc extends FieldDescriptions<string>
 > extends Component<IProps<FDesc>, IState<FDesc>> {
-  constructor(props: IProps<FDesc>) {
+  public constructor(props: IProps<FDesc>) {
     super(props);
 
     this.updateFields = this.updateFields.bind(this);
@@ -57,26 +57,26 @@ export class ElementProvider<
     };
   }
 
-  componentDidMount() {
-    this.props.subscribe((fields, commands) =>
+  public componentDidMount() {
+    this.props.subscribe((fieldValues, commands) =>
       this.updateState(
         {
           commands,
-          fieldValues: {
-            ...this.state.fieldValues,
-            ...fields,
-          },
+          fieldValues,
         },
         false
       )
     );
   }
 
-  onStateChange(): void {
+  public onStateChange(): void {
     this.props.onStateChange(this.state.fieldValues);
   }
 
-  updateState(state: Partial<IState<FDesc>>, notifyListeners: boolean): void {
+  private updateState(
+    state: Partial<IState<FDesc>>,
+    notifyListeners: boolean
+  ): void {
     if (
       !isEqual(state.fieldValues, this.state.fieldValues) ||
       (state.commands && state.commands.pos != this.state.commands.pos)
@@ -88,32 +88,34 @@ export class ElementProvider<
     }
   }
 
-  updateFields(fieldValues = {}): void {
+  private updateFields(fieldValues: FieldNameToValueMap<FDesc>): void {
     this.updateState(
       {
-        fieldValues: {
-          ...this.state.fieldValues,
-          ...fieldValues,
-        },
+        fieldValues,
       },
       true
     );
   }
 
-  render() {
-    const errors = fieldErrors(
-      this.state.fieldValues,
-      this.props.validate(this.state.fieldValues)
-    );
+  public render() {
     return (
       <ElementWrapper {...this.state.commands}>
-        {this.props.consumer({
-          fields: this.props.fields,
-          errors,
-          fieldValues: this.state.fieldValues,
-          updateFields: this.updateFields,
-        })}
+        <this.Element
+          fields={this.props.fields}
+          fieldValues={this.state.fieldValues}
+          updateFields={this.updateFields}
+        />
       </ElementWrapper>
     );
   }
+
+  private Element = React.memo<Omit<ConsumerOptions<FDesc>, "errors">>(
+    (options) => {
+      const errors = fieldErrors(
+        this.state.fieldValues,
+        this.props.validate(this.state.fieldValues)
+      );
+      return this.props.consumer({ ...options, errors });
+    }
+  );
 }
