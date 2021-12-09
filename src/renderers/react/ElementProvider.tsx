@@ -109,6 +109,9 @@ export class ElementProvider<
     );
   }
 
+  /**
+   * This element is memoised to prevent rerenders when our fieldValues have not changed.
+   */
   private Element = React.memo<Omit<ConsumerOptions<FDesc>, "errors">>(
     (options) => {
       const errors = fieldErrors(
