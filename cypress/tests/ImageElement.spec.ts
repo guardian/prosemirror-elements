@@ -42,6 +42,24 @@ describe("ImageElement", () => {
           expect(to).to.equal(5);
         });
       });
+      it("should update the document selection when the user focuses on the field and it contains content, even if the inner field's selection has not changed", () => {
+        addImageElement();
+        getDocSelection().then(([from]) => {
+          // The selection should be just after the inserted element
+          expect(from).to.be.greaterThan(13);
+        });
+        typeIntoElementField("caption", "Example");
+        focusElementField("caption");
+        focusElementField("src");
+
+        // We click to ensure we select the end of the text, where the cursor would have previously been
+        getElementRichTextField("caption").click();
+        getDocSelection().then(([from, to]) => {
+          // The selection should be at the first field of the element
+          expect(from).to.equal(12);
+          expect(to).to.equal(12);
+        });
+      });
       it("should update the document selection when the user focuses on the field – subsequent field", () => {
         addImageElement();
         getDocSelection().then(([from]) => {

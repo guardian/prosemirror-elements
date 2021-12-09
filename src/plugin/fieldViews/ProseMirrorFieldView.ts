@@ -1,7 +1,7 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
-import { EditorState, TextSelection } from "prosemirror-state";
+import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
@@ -323,16 +323,14 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
       if (!this.innerEditorView) {
         return;
       }
-      if (this.innerEditorView.state.doc.textContent.length !== 0) {
-        return;
-      }
-      const { tr, doc } = this.innerEditorView.state;
-      tr.setSelection(TextSelection.create(doc, 0));
+
+      const { tr } = this.innerEditorView.state;
+      tr.setSelection(this.innerEditorView.state.selection);
       // Setting a text selection seems to clear out our stored marks,
       // so we must add them to the transaction explicitly.
       tr.setStoredMarks(this.innerEditorView.state.storedMarks ?? []);
 
-      this.updateOuterEditor(tr, this.innerEditorView.state, [tr]);
+      this.dispatchTransaction(tr);
     });
   }
 
