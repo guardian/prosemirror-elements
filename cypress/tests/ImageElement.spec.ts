@@ -29,7 +29,7 @@ describe("ImageElement", () => {
 
   describe("Fields", () => {
     describe("Rich text field", () => {
-      it("should update the document selection when the user focuses on the field", () => {
+      it("should update the document selection when the user focuses on the field – initial field", () => {
         addImageElement();
         getDocSelection().then(([from]) => {
           // The selection should be just after the inserted element
@@ -40,6 +40,19 @@ describe("ImageElement", () => {
           // The selection should be at the first field of the element
           expect(from).to.equal(5);
           expect(to).to.equal(5);
+        });
+      });
+      it("should update the document selection when the user focuses on the field – subsequent field", () => {
+        addImageElement();
+        getDocSelection().then(([from]) => {
+          // The selection should be just after the inserted element
+          expect(from).to.be.greaterThan(13);
+        });
+        focusElementField("src");
+        getDocSelection().then(([from, to]) => {
+          // The selection should be at the first field of the element
+          expect(from).to.equal(17);
+          expect(to).to.equal(17);
         });
       });
       it(`caption – should have a placeholder`, () => {
