@@ -52,10 +52,15 @@ describe("ImageElement", () => {
         focusElementField("caption");
         focusElementField("src");
 
+        getDocSelection().then(([from]) => {
+          // The selection should have moved from the field
+          expect(from).to.not.equal(12);
+        });
+
         // We click to ensure we select the end of the text, where the cursor would have previously been
         getElementRichTextField("caption").click();
         getDocSelection().then(([from, to]) => {
-          // The selection should be at the first field of the element
+          // The selection should be at the end of the field
           expect(from).to.equal(12);
           expect(to).to.equal(12);
         });
