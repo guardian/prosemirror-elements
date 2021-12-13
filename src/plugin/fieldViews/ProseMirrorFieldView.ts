@@ -71,6 +71,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     isResizeable = false
   ) {
     this.applyDecorationsFromOuterEditor(decorations, node, offset);
+    this.setupFocusHandler();
     this.serialiser = DOMSerializer.fromSchema(node.type.schema);
     this.parser = DOMParser.fromSchema(node.type.schema);
 
@@ -310,6 +311,34 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     }
     (this.innerEditorView.dom as HTMLDivElement).style.resize = "vertical";
     (this.innerEditorView.dom as HTMLDivElement).style.overflow = "auto";
+  }
+
+  /**
+   * We need to set the appropriate selection in the parent editor when this
+   * field is focused. ProseMirror does not dispatch a transaction when it
+   * receives focus on a document and the selection state doesn't change, so in
+   * that case we do this manually.
+   *
+   * This can result in two selection transactions being dispatched in quick
+   * succession when users focus this field and the selection state _has_
+   * changed. This is difficult to work around, because we cannot know what the
+   * user selection is until ProseMirror has resolved it. We haven't observed
+   * any problems as a result of this behaviour yet, but it's worth noting.
+   */
+  private setupFocusHandler() {
+    this.fieldViewElement.addEventListener("focusin", () => {
+      if (!this.innerEditorView) {
+        return;
+      }
+
+      const { tr } = this.innerEditorView.state;
+      tr.setSelection(this.innerEditorView.state.selection);
+      // Setting a text selection seems to clear out our stored marks,
+      // so we must add them to the transaction explicitly.
+      tr.setStoredMarks(this.innerEditorView.state.storedMarks ?? []);
+
+      this.dispatchTransaction(tr);
+    });
   }
 
   private close() {
