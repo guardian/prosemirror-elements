@@ -314,9 +314,16 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
   }
 
   /**
-   * We need to set the appropriate selection in the parent editor when this field is focused.
-   * Prosemirror does not dispatch a transaction when it receives focus on an empty document,
-   * so in that case we do this manually.
+   * We need to set the appropriate selection in the parent editor when this
+   * field is focused. ProseMirror does not dispatch a transaction when it
+   * receives focus on a document and the selection state doesn't change, so in
+   * that case we do this manually.
+   *
+   * This can result in two selection transactions being dispatched in quick
+   * succession when users focus this field and the selection state _has_
+   * changed. This is difficult to work around, because we cannot know what the
+   * user selection is until ProseMirror has resolved it. We haven't observed
+   * any problems as a result of this behaviour yet, but it's worth noting.
    */
   private setupFocusHandler() {
     this.fieldViewElement.addEventListener("focusin", () => {
