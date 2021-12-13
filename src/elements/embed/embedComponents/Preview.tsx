@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Label } from "../../../editorial-source-components/Label";
 import { unescapeHtml } from "./embedUtils";
 
-export const Preview = ({ html }: { html: string }) => {
+export const Preview = React.memo(({ html }: { html: string }) => {
   const [height, setHeight] = useState("0px");
   const [resize, setResize] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
@@ -40,4 +40,4 @@ export const Preview = ({ html }: { html: string }) => {
       />
     </div>
   );
-};
+});
