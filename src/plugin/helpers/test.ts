@@ -5,7 +5,9 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState, Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { buildElementPlugin } from "../element";
+import type { Renderer } from "../elementSpec";
 import { createElementSpec } from "../elementSpec";
 import type { ElementSpecMap, FieldDescriptions } from "../types/Element";
 import { createParsers } from "./prosemirror";
@@ -107,11 +109,19 @@ export const createEditorWithElements = <
     return element.innerHTML;
   };
 
+  const getDocAsHTML = () => {
+    const actual = serializer.serializeFragment(view.state.doc.content);
+    const element = document.createElement("div");
+    element.appendChild(actual);
+    return element.innerHTML;
+  };
+
   return {
     view,
     schema,
     insertElement,
     getElementAsHTML,
+    getDocAsHTML,
     getNodeFromElementData,
     getElementDataFromNode,
     serializer,
