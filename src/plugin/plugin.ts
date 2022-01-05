@@ -138,7 +138,7 @@ const createNodeView = <
   let currentNode = initNode;
   let currentValues = initValues;
   let currentDecos = innerDecos;
-  const currentCommandValues = getCommandValues(initCommands);
+  let currentCommandValues = getCommandValues(initCommands);
 
   const update = element.createUpdator(
     dom,
@@ -163,12 +163,12 @@ const createNodeView = <
         node.attrs.type === initNode.attrs.type
       ) {
         const newCommands = commands(getPos, view);
-
+        const newCommandValues = getCommandValues(newCommands);
         const fieldValuesChanged = node !== currentNode;
         const innerDecosChanged = currentDecos !== innerDecos;
         const commandsChanged = commandsHaveChanged(
           currentCommandValues,
-          getCommandValues(newCommands)
+          newCommandValues
         );
 
         // Only recalculate our field values if our node content has changed.
@@ -181,7 +181,7 @@ const createNodeView = <
           updateFieldViewsFromNode(fields, node, innerDecos);
         }
 
-        // Only update our consumer if anything has changed.
+        // Only update our consumer if anything internal to the field has changed.
         if (fieldValuesChanged || innerDecosChanged || commandsChanged) {
           update(newFieldValues, newCommands);
         }
@@ -189,6 +189,7 @@ const createNodeView = <
         currentNode = node;
         currentValues = newFieldValues;
         currentDecos = innerDecos;
+        currentCommandValues = newCommandValues;
 
         return true;
       }

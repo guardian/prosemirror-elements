@@ -1,4 +1,3 @@
-import isEqual from "lodash/isEqual";
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type {
@@ -74,18 +73,13 @@ export class ElementProvider<
   }
 
   private updateState(
-    state: Partial<IState<FDesc>>,
+    newState: Partial<IState<FDesc>>,
     notifyListeners: boolean
   ): void {
-    if (
-      !isEqual(state.fieldValues, this.state.fieldValues) ||
-      (state.commands && state.commands.pos != this.state.commands.pos)
-    ) {
-      this.setState(
-        { ...this.state, ...state },
-        () => notifyListeners && this.onStateChange()
-      );
-    }
+    this.setState(
+      { ...this.state, ...newState },
+      () => notifyListeners && this.onStateChange()
+    );
   }
 
   private updateFields(fieldValues: FieldNameToValueMap<FDesc>): void {

@@ -88,6 +88,4 @@ describe("createPlugin", () => {
       initialFieldViewUpdateCount + 1
     );
   });
-
-  it("should rerender elements when the element decorations have changed", () => {});
 });
