@@ -120,11 +120,12 @@ const createNodeView = <
   });
 
   const initValues = getFieldValuesFromNode(fields, initNode);
+  const initCommands = commands(getPos, view);
 
   // Because nodes and decorations are immutable in ProseMirror, we can compare
   // current nodes to new nodes to determine whether node content has changed.
   // We therefore cache the current node and field values here to enable this
-  // comparison, allowing us to make three optimisations:
+  // comparison, allowing us to make some optimisations:
   //   - we only recalculate field values when the node has changed.
   //   - we preserve the object identity of our field values when they remain
   //     the same, enabling renderers downstream to avoid rerendering when field
@@ -132,9 +133,12 @@ const createNodeView = <
   //     and new fieldValue objects.
   //   - we only update FieldViews when the node or its decorations have
   //     changed.
+  //   - we only update consumers when the fieldValues, decorations or command
+  //     values have changed.
   let currentNode = initNode;
   let currentValues = initValues;
   let currentDecos = innerDecos;
+  const currentCommandValues = getCommandValues(initCommands);
 
   const update = element.createUpdator(
     dom,
@@ -148,7 +152,7 @@ const createNodeView = <
       );
     },
     initValues,
-    commands(getPos, view)
+    initCommands
   );
 
   return {
@@ -158,11 +162,17 @@ const createNodeView = <
         node.type.name === nodeName &&
         node.attrs.type === initNode.attrs.type
       ) {
+        const newCommands = commands(getPos, view);
+
         const fieldValuesChanged = node !== currentNode;
         const innerDecosChanged = currentDecos !== innerDecos;
+        const commandsChanged = commandsHaveChanged(
+          currentCommandValues,
+          getCommandValues(newCommands)
+        );
 
         // Only recalculate our field values if our node content has changed.
-        const fieldValues = fieldValuesChanged
+        const newFieldValues = fieldValuesChanged
           ? currentValues
           : getFieldValuesFromNode(fields, node);
 
@@ -171,10 +181,13 @@ const createNodeView = <
           updateFieldViewsFromNode(fields, node, innerDecos);
         }
 
-        update(fieldValues, commands(getPos, view));
+        // Only update our consumer if anything has changed.
+        if (fieldValuesChanged || innerDecosChanged || commandsChanged) {
+          update(newFieldValues, newCommands);
+        }
 
         currentNode = node;
-        currentValues = fieldValues;
+        currentValues = newFieldValues;
         currentDecos = innerDecos;
 
         return true;
@@ -188,3 +201,19 @@ const createNodeView = <
     ignoreMutation: () => true,
   };
 };
+
+const getCommandValues = (commands: ReturnType<Commands>) => ({
+  moveUp: commands.moveUp(false),
+  moveDown: commands.moveDown(false),
+  moveTop: commands.moveTop(false),
+  moveBottom: commands.moveBottom(false),
+});
+
+const commandsHaveChanged = (
+  oldCommandValues: ReturnType<typeof getCommandValues>,
+  newCommandValues: ReturnType<typeof getCommandValues>
+) =>
+  oldCommandValues.moveBottom !== newCommandValues.moveBottom ||
+  oldCommandValues.moveTop !== newCommandValues.moveTop ||
+  oldCommandValues.moveUp !== newCommandValues.moveUp ||
+  oldCommandValues.moveDown !== newCommandValues.moveDown;
