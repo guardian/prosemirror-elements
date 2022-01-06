@@ -182,7 +182,7 @@ const createNodeView = <
         }
 
         // Only update our consumer if anything internal to the field has changed.
-        if (fieldValuesChanged || innerDecosChanged || commandsChanged) {
+        if (fieldValuesChanged || commandsChanged) {
           update(newFieldValues, newCommands);
         }
 

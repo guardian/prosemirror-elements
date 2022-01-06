@@ -73,7 +73,8 @@ export const createEditorWithElements = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elements: ESpecMap,
-  initialHTML = ""
+  initialHTML = "",
+  plugins: Plugin[] = []
 ) => {
   const {
     plugin,
@@ -95,7 +96,7 @@ export const createEditorWithElements = <
     state: EditorState.create({
       doc: parser.parse(docElement),
       schema,
-      plugins: [...exampleSetup({ schema }), plugin],
+      plugins: [...exampleSetup({ schema }), plugin, ...plugins],
     }),
   });
 
