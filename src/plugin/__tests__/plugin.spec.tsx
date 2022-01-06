@@ -205,4 +205,30 @@ describe("createPlugin", () => {
       );
     });
   });
+
+  describe("Response to command changes", () => {
+    it("should update the consumer when the command output changes", () => {
+      const { view } = createEditorWithSingleElementPresent();
+
+      const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
+      const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
+
+      // By inserting content before the element, we enable the content to move
+      // upward, changing the command output.
+      const positionThatEnablesUpCommand = 0;
+      const tr = view.state.tr.replaceWith(
+        positionThatEnablesUpCommand,
+        positionThatEnablesUpCommand,
+        (view.state.schema as Schema).text("Text before element")
+      );
+      view.dispatch(tr);
+
+      expect(consumerRenderSpy.mock.calls.length).toBe(
+        initialConsumerUpdateCount + 1
+      );
+      expect(fieldViewRenderSpy.mock.calls.length).toBe(
+        initialFieldViewUpdateCount
+      );
+    });
+  });
 });
