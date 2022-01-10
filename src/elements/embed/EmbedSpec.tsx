@@ -10,10 +10,8 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
+import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { EmbedElementForm } from "./EmbedForm";
-
-export type TwitterUrl = `https://twitter.com/${string}`;
-export type YoutubeUrl = `${string}https://www.youtube.com/embed/${string}`;
 
 export type MainEmbedProps = {
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;

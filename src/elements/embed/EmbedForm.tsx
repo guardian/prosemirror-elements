@@ -9,8 +9,9 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
 import { EmbedStatusChecks } from "./embedComponents/EmbedStatusChecks";
 import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
+import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { Preview } from "./embedComponents/Preview";
-import type { createEmbedFields, TwitterUrl, YoutubeUrl } from "./EmbedSpec";
+import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;

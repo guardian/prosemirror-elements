@@ -3,9 +3,14 @@ import { buttonBrandAlt } from "@guardian/src-button";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../../editorial-source-components/Button";
-import type { TwitterUrl, YoutubeUrl } from "../EmbedSpec";
 import { conversionMessage, message } from "./embedStyles";
-import { getEmbedSource, parseHtml } from "./embedUtils";
+import type { TwitterUrl, YoutubeUrl } from "./embedUtils";
+import {
+  getEmbedSource,
+  isTwitterUrl,
+  isYoutubeUrl,
+  parseHtml,
+} from "./embedUtils";
 
 export const EmbedRecommendation = ({
   html,
@@ -29,33 +34,27 @@ export const EmbedRecommendation = ({
 
   return (
     <>
-      {source.startsWith("https://twitter.com/") && (
+      {isTwitterUrl(source) && (
         <div css={[conversionMessage, message]}>
           <span>
             It is recommended to use a Twitter URL rather than pasting their
             embed code.{" "}
           </span>
           <ThemeProvider theme={buttonBrandAlt}>
-            <Button
-              priority="secondary"
-              onClick={() => convertTwitter(source as TwitterUrl)}
-            >
+            <Button priority="secondary" onClick={() => convertTwitter(source)}>
               Convert
             </Button>
           </ThemeProvider>
         </div>
       )}
-      {source.includes("https://www.youtube.com/embed/") && (
+      {isYoutubeUrl(source) && (
         <div css={[conversionMessage, message]}>
           <span>
             It is recommended to use a YouTube URL rather than pasting their
             embed code.{" "}
           </span>
           <ThemeProvider theme={buttonBrandAlt}>
-            <Button
-              priority="secondary"
-              onClick={() => convertYouTube(source as YoutubeUrl)}
-            >
+            <Button priority="secondary" onClick={() => convertYouTube(source)}>
               Convert
             </Button>
           </ThemeProvider>

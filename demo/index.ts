@@ -7,6 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
+import type { TwitterUrl, YoutubeUrl } from "../src";
 import {
   codeElement,
   createDemoImageElement,
@@ -15,7 +16,6 @@ import {
   pullquoteElement,
   richlinkElement,
 } from "../src";
-import type { TwitterUrl, YoutubeUrl } from "../src/elements/embed/EmbedSpec";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
