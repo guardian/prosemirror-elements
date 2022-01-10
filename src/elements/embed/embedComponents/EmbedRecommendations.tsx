@@ -3,6 +3,7 @@ import { buttonBrandAlt } from "@guardian/src-button";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../../editorial-source-components/Button";
+import type { TwitterUrl, YoutubeUrl } from "../EmbedSpec";
 import { conversionMessage, message } from "./embedStyles";
 import { getEmbedSource, parseHtml } from "./embedUtils";
 
@@ -12,8 +13,8 @@ export const EmbedRecommendation = ({
   convertTwitter,
 }: {
   html: string;
-  convertYouTube: (src: string) => void;
-  convertTwitter: (src: string) => void;
+  convertYouTube: (src: YoutubeUrl) => void;
+  convertTwitter: (src: TwitterUrl) => void;
 }) => {
   const [source, setSource] = useState(getEmbedSource(parseHtml(html)));
 
@@ -35,7 +36,10 @@ export const EmbedRecommendation = ({
             embed code.{" "}
           </span>
           <ThemeProvider theme={buttonBrandAlt}>
-            <Button priority="secondary" onClick={() => convertTwitter(source)}>
+            <Button
+              priority="secondary"
+              onClick={() => convertTwitter(source as TwitterUrl)}
+            >
               Convert
             </Button>
           </ThemeProvider>
@@ -48,7 +52,10 @@ export const EmbedRecommendation = ({
             embed code.{" "}
           </span>
           <ThemeProvider theme={buttonBrandAlt}>
-            <Button priority="secondary" onClick={() => convertYouTube(source)}>
+            <Button
+              priority="secondary"
+              onClick={() => convertYouTube(source as YoutubeUrl)}
+            >
               Convert
             </Button>
           </ThemeProvider>

@@ -10,15 +10,15 @@ import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
 import { EmbedStatusChecks } from "./embedComponents/EmbedStatusChecks";
 import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
 import { Preview } from "./embedComponents/Preview";
-import type { createEmbedFields } from "./EmbedSpec";
+import type { createEmbedFields, TwitterUrl, YoutubeUrl } from "./EmbedSpec";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
-  convertYouTube: (src: string) => void;
-  convertTwitter: (src: string) => void;
+  convertYouTube: (src: YoutubeUrl) => void;
+  convertTwitter: (src: TwitterUrl) => void;
 };
 
 export const EmbedElementTestId = "EmbedElement";

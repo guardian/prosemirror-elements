@@ -12,10 +12,13 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
 import { EmbedElementForm } from "./EmbedForm";
 
+export type TwitterUrl = `https://twitter.com/${string}`;
+export type YoutubeUrl = `${string}https://www.youtube.com/embed/${string}`;
+
 export type MainEmbedProps = {
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
-  convertYouTube: (src: string) => void;
-  convertTwitter: (src: string) => void;
+  convertYouTube: (src: YoutubeUrl) => void;
+  convertTwitter: (src: TwitterUrl) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 
