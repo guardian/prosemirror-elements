@@ -4,7 +4,13 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../../editorial-source-components/Button";
 import { conversionMessage, message } from "./embedStyles";
-import { getEmbedSource, parseHtml } from "./embedUtils";
+import type { TwitterUrl, YoutubeUrl } from "./embedUtils";
+import {
+  getEmbedSource,
+  isTwitterUrl,
+  isYoutubeUrl,
+  parseHtml,
+} from "./embedUtils";
 
 export const EmbedRecommendation = ({
   html,
@@ -12,8 +18,8 @@ export const EmbedRecommendation = ({
   convertTwitter,
 }: {
   html: string;
-  convertYouTube: (src: string) => void;
-  convertTwitter: (src: string) => void;
+  convertYouTube: (src: YoutubeUrl) => void;
+  convertTwitter: (src: TwitterUrl) => void;
 }) => {
   const [source, setSource] = useState(getEmbedSource(parseHtml(html)));
 
@@ -28,7 +34,7 @@ export const EmbedRecommendation = ({
 
   return (
     <>
-      {source.startsWith("https://twitter.com/") && (
+      {isTwitterUrl(source) && (
         <div css={[conversionMessage, message]}>
           <span>
             It is recommended to use a Twitter URL rather than pasting their
@@ -41,7 +47,7 @@ export const EmbedRecommendation = ({
           </ThemeProvider>
         </div>
       )}
-      {source.includes("https://www.youtube.com/embed/") && (
+      {isYoutubeUrl(source) && (
         <div css={[conversionMessage, message]}>
           <span>
             It is recommended to use a YouTube URL rather than pasting their

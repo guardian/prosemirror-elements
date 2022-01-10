@@ -9,6 +9,7 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
 import { EmbedStatusChecks } from "./embedComponents/EmbedStatusChecks";
 import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
+import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { Preview } from "./embedComponents/Preview";
 import type { createEmbedFields } from "./EmbedSpec";
 
@@ -17,8 +18,8 @@ type Props = {
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
   checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
-  convertYouTube: (src: string) => void;
-  convertTwitter: (src: string) => void;
+  convertYouTube: (src: YoutubeUrl) => void;
+  convertTwitter: (src: TwitterUrl) => void;
 };
 
 export const EmbedElementTestId = "EmbedElement";

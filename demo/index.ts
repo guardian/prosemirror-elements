@@ -7,6 +7,7 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
+import type { TwitterUrl, YoutubeUrl } from "../src";
 import {
   codeElement,
   createDemoImageElement,
@@ -67,8 +68,10 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
             },
             reach: { unsupportedPlatforms: [] },
           }),
-    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
-    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    convertTwitter: (src: TwitterUrl) =>
+      console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src: YoutubeUrl) =>
+      console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
   codeElement,
