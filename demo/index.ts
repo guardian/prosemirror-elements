@@ -15,6 +15,7 @@ import {
   pullquoteElement,
   richlinkElement,
 } from "../src";
+import type { TwitterUrl, YoutubeUrl } from "../src/elements/embed/EmbedSpec";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -67,8 +68,10 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
             },
             reach: { unsupportedPlatforms: [] },
           }),
-    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
-    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    convertTwitter: (src: TwitterUrl) =>
+      console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src: YoutubeUrl) =>
+      console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
   }),
   codeElement,
