@@ -1,6 +1,10 @@
 export { buildElementPlugin } from "./plugin/element";
 export { createDemoImageElement } from "./elements/demo-image/DemoImageElement";
-export { createEmbedElement } from "./elements/embed/EmbedSpec";
+export {
+  createEmbedElement,
+  YoutubeUrl,
+  TwitterUrl,
+} from "./elements/embed/EmbedSpec";
 export { pullquoteElement } from "./elements/pullquote/PullquoteSpec";
 export { codeElement } from "./elements/code/CodeElementSpec";
 export { createImageElement } from "./elements/image/ImageElement";
