@@ -1,14 +1,17 @@
-import type { Node, Schema } from "prosemirror-model";
+import type { Schema } from "prosemirror-model";
 import { Plugin, PluginKey } from "prosemirror-state";
-import type { Decoration, DecorationSet, EditorProps } from "prosemirror-view";
+import type { EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
   ElementSpecMap,
   FieldDescriptions,
   FieldNameToField,
 } from "../plugin/types/Element";
-import { getElementFieldViewFromType } from "./helpers/fieldView";
-import type { FieldNameToValueMap } from "./helpers/fieldView";
+import {
+  getElementFieldViewFromType,
+  getFieldValuesFromNode,
+  updateFieldViewsFromNode,
+} from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import { getFieldNameFromNode, getNodeNameFromElementName } from "./nodeSpec";
@@ -116,26 +119,26 @@ const createNodeView = <
     } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
   });
 
-  const getValuesFromNode = (
-    node: Node,
-    decos: Decoration[] | DecorationSet
-  ) => {
-    // We gather the values from each child as we iterate over the
-    // node, to update the renderer. It's difficult to be typesafe here,
-    // as the Node's name value is loosely typed as `string`, and so we
-    // cannot index into the element `fieldDescription` to discover the appropriate type.
-    const fieldValues: Record<string, unknown> = {};
-    node.forEach((node, offset) => {
-      const fieldName = getFieldNameFromNode(
-        node
-      ) as keyof FieldNameToField<FDesc>;
-      const field = fields[fieldName];
-      field.view.onUpdate(node, offset, decos);
-      fieldValues[fieldName] = field.view.getNodeValue(node);
-    });
+  const initValues = getFieldValuesFromNode(fields, initNode);
+  const initCommands = commands(getPos, view);
 
-    return fieldValues as FieldNameToValueMap<FDesc>;
-  };
+  // Because nodes and decorations are immutable in ProseMirror, we can compare
+  // current nodes to new nodes to determine whether node content has changed.
+  // We therefore cache the current node and field values here to enable this
+  // comparison, allowing us to make some optimisations:
+  //   - we only recalculate field values when the node has changed.
+  //   - we preserve the object identity of our field values when they remain
+  //     the same, enabling renderers downstream to avoid rerendering when field
+  //     values have not changed by comparing the object identities of current
+  //     and new fieldValue objects.
+  //   - we only update FieldViews when the node or its decorations have
+  //     changed.
+  //   - we only update consumers when the fieldValues, decorations or command
+  //     values have changed.
+  let currentNode = initNode;
+  let currentValues = initValues;
+  let currentDecos = innerDecos;
+  let currentCommandValues = getCommandValues(initCommands);
 
   const update = element.createUpdator(
     dom,
@@ -148,8 +151,8 @@ const createNodeView = <
         })
       );
     },
-    getValuesFromNode(initNode, innerDecos),
-    commands(getPos, view)
+    initValues,
+    initCommands
   );
 
   return {
@@ -159,8 +162,34 @@ const createNodeView = <
         node.type.name === nodeName &&
         node.attrs.type === initNode.attrs.type
       ) {
-        const fieldValues = getValuesFromNode(node, innerDecos);
-        update(fieldValues, commands(getPos, view));
+        const newCommands = commands(getPos, view);
+        const newCommandValues = getCommandValues(newCommands);
+        const fieldValuesChanged = node !== currentNode;
+        const innerDecosChanged = currentDecos !== innerDecos;
+        const commandsChanged = commandsHaveChanged(
+          currentCommandValues,
+          newCommandValues
+        );
+
+        // Only recalculate our field values if our node content has changed.
+        const newFieldValues = fieldValuesChanged
+          ? currentValues
+          : getFieldValuesFromNode(fields, node);
+
+        // Only update our FieldViews if their content or decorations have changed.
+        if (fieldValuesChanged || innerDecosChanged) {
+          updateFieldViewsFromNode(fields, node, innerDecos);
+        }
+
+        // Only update our consumer if anything internal to the field has changed.
+        if (fieldValuesChanged || commandsChanged) {
+          update(newFieldValues, newCommands);
+        }
+
+        currentNode = node;
+        currentValues = newFieldValues;
+        currentDecos = innerDecos;
+        currentCommandValues = newCommandValues;
 
         return true;
       }
@@ -173,3 +202,19 @@ const createNodeView = <
     ignoreMutation: () => true,
   };
 };
+
+const getCommandValues = (commands: ReturnType<Commands>) => ({
+  moveUp: commands.moveUp(false),
+  moveDown: commands.moveDown(false),
+  moveTop: commands.moveTop(false),
+  moveBottom: commands.moveBottom(false),
+});
+
+const commandsHaveChanged = (
+  oldCommandValues: ReturnType<typeof getCommandValues>,
+  newCommandValues: ReturnType<typeof getCommandValues>
+) =>
+  oldCommandValues.moveBottom !== newCommandValues.moveBottom ||
+  oldCommandValues.moveTop !== newCommandValues.moveTop ||
+  oldCommandValues.moveUp !== newCommandValues.moveUp ||
+  oldCommandValues.moveDown !== newCommandValues.moveDown;

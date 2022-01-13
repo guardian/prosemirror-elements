@@ -7,7 +7,12 @@ import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
-import type { FieldDescription, FieldDescriptions } from "../types/Element";
+import { getFieldNameFromNode } from "../nodeSpec";
+import type {
+  FieldDescription,
+  FieldDescriptions,
+  FieldNameToField,
+} from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -117,4 +122,40 @@ export const getElementFieldViewFromType = (
         field.options
       );
   }
+};
+
+export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
+  fields: FieldNameToField<FDesc>,
+  node: Node
+) => {
+  // We gather the values from each child as we iterate over the
+  // node, to update the renderer. It's difficult to be typesafe here,
+  // as the Node's name value is loosely typed as `string`, and so we
+  // cannot index into the element `fieldDescription` to discover the appropriate type.
+  const fieldValues: Record<string, unknown> = {};
+  node.forEach((node) => {
+    const fieldName = getFieldNameFromNode(
+      node
+    ) as keyof FieldNameToField<FDesc>;
+    const field = fields[fieldName];
+    fieldValues[fieldName] = field.view.getNodeValue(node);
+  });
+
+  return fieldValues as FieldNameToValueMap<FDesc>;
+};
+
+export const updateFieldViewsFromNode = <
+  FDesc extends FieldDescriptions<string>
+>(
+  fields: FieldNameToField<FDesc>,
+  node: Node,
+  decos: DecorationSet | Decoration[]
+) => {
+  node.forEach((node, offset) => {
+    const fieldName = getFieldNameFromNode(
+      node
+    ) as keyof FieldNameToField<FDesc>;
+    const field = fields[fieldName];
+    field.view.onUpdate(node, offset, decos);
+  });
 };
