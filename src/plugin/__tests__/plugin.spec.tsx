@@ -88,11 +88,11 @@ describe("createPlugin", () => {
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
 
-      // This edit falls inside of the element, replacing its content
-      const positionInsideElement = 2;
+      // This edit falls inside of the element, inserting new content
+      const positionInsideElement = 5;
       const tr = view.state.tr.replaceWith(
         positionInsideElement,
-        positionInsideElement + 15,
+        positionInsideElement,
         exampleText
       );
       view.dispatch(tr);
@@ -105,10 +105,10 @@ describe("createPlugin", () => {
       );
     });
 
-    it("the consumer should receive the new field values when element content has changed", () => {
+    it("should provide the consumer with new field values when element content has changed", () => {
       const { view, exampleText } = createEditorWithSingleElementPresent();
 
-      // This edit falls inside of the element, replacing its content
+      // This edit covers the whole of the element field, replacing its content
       const positionInsideElement = 2;
       const tr = view.state.tr.replaceWith(
         positionInsideElement,
