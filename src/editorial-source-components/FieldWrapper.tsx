@@ -23,6 +23,7 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
 }: Props<F>) => (
   <div className={className}>
     <InputHeading
+      name={field.name}
       headingLabel={headingLabel}
       headingContent={headingContent}
       description={description}

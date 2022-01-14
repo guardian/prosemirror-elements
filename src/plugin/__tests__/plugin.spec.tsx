@@ -82,13 +82,13 @@ describe("createPlugin", () => {
       );
     });
 
-    it("should update the consumer and FieldView and when the element content has changed", () => {
+    it("should call the consumer and FieldView when the element content has changed", () => {
       const { view, exampleText } = createEditorWithSingleElementPresent();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
 
-      // This edit falls inside of the element, replacing its content
+      // This edit falls inside of the element, inserting new content
       const positionInsideElement = 5;
       const tr = view.state.tr.replaceWith(
         positionInsideElement,
@@ -103,6 +103,23 @@ describe("createPlugin", () => {
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
         initialFieldViewUpdateCount + 1
       );
+    });
+
+    it("should provide the consumer with new field values when element content has changed", () => {
+      const { view, exampleText } = createEditorWithSingleElementPresent();
+
+      // This edit covers the whole of the element field, replacing its content
+      const positionInsideElement = 2;
+      const tr = view.state.tr.replaceWith(
+        positionInsideElement,
+        positionInsideElement + 15,
+        exampleText
+      );
+      view.dispatch(tr);
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access -- waive type for mock
+      const newFieldValues = consumerRenderSpy.mock.calls.pop()[0];
+      expect(newFieldValues).toEqual({ field1: "New content" });
     });
   });
 

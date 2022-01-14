@@ -173,8 +173,8 @@ const createNodeView = <
 
         // Only recalculate our field values if our node content has changed.
         const newFieldValues = fieldValuesChanged
-          ? currentValues
-          : getFieldValuesFromNode(fields, node);
+          ? getFieldValuesFromNode(fields, node)
+          : currentValues;
 
         // Only update our FieldViews if their content or decorations have changed.
         if (fieldValuesChanged || innerDecosChanged) {

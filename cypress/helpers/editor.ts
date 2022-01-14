@@ -1,4 +1,5 @@
 import type { WindowType } from "../../demo/types";
+import { getFieldHeadingTestId } from "../../src/editorial-source-components/InputHeading";
 import { placeholderTestAttribute } from "../../src/plugin/helpers/placeholder";
 import {
   ChangeTestDecoStringAction,
@@ -46,6 +47,9 @@ export const getElementRichTextFieldPlaceholder = (fieldName: string) =>
 
 export const getElementField = (fieldName: string) =>
   cy.get(`div${selectDataCy(getFieldViewTestId(fieldName))}`);
+
+export const getElementHeading = (fieldName: string) =>
+  cy.get(`div${selectDataCy(getFieldHeadingTestId(fieldName))}`);
 
 export const getElementMenu = (fieldName: string) =>
   cy.get(
