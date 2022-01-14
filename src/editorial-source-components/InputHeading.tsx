@@ -18,11 +18,14 @@ const Heading = styled.div`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
+export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
+
 type Props = {
   headingLabel: React.ReactNode;
   headingContent: React.ReactNode;
   description?: React.ReactNode;
   errors: string[];
+  name: string;
 };
 
 export const InputHeading = ({
@@ -30,8 +33,9 @@ export const InputHeading = ({
   headingContent,
   description,
   errors,
+  name,
 }: Props) => (
-  <InputHeadingContainer>
+  <InputHeadingContainer data-cy={getFieldHeadingTestId(name)}>
     <Heading>
       <Label>{headingLabel}</Label>
       {headingContent}

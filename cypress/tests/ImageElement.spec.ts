@@ -7,6 +7,7 @@ import {
   focusElementField,
   getDocSelection,
   getElementField,
+  getElementHeading,
   getElementMenuButton,
   getElementRichTextField,
   getElementRichTextFieldPlaceholder,
@@ -515,6 +516,30 @@ describe("ImageElement", () => {
           "have.text",
           "Default alt text"
         );
+      });
+    });
+
+    describe("Validation behaviour", () => {
+      it("should display the alt text as required", () => {
+        addImageElement();
+        getElementHeading("altText").should("exist");
+      });
+      it("should remove the alt text required warning", () => {
+        addImageElement();
+        typeIntoElementField("altText", "text");
+        getElementHeading("altText").contains("Required").should("not.exist");
+      });
+      it("should display the alt text as too long", () => {
+        addImageElement();
+        typeIntoElementField("altText", "text ".repeat(25));
+        getElementHeading("altText").contains("Too long").should("exist");
+      });
+      it("should update the alt text validation", () => {
+        addImageElement();
+        typeIntoElementField("altText", "a");
+        getElementHeading("altText").contains("Required").should("not.exist");
+        typeIntoElementField("altText", "{backspace}");
+        getElementHeading("altText").contains("Required").should("exist");
       });
     });
   });
