@@ -66,6 +66,7 @@ export const createImageFields = ({
       validators: [htmlMaxLength(1000), htmlRequired()],
       placeholder: "Enter some alt text…",
       isResizeable: true,
+      attrs: useTyperighterAttrs,
     }),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
