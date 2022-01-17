@@ -71,9 +71,9 @@ export const createImageFields = ({
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
       marks: "em strong link strike",
-      attrs: useTyperighterAttrs,
       validators: [htmlMaxLength(600, undefined, "WARN")],
       placeholder: "Enter a caption for this media…",
+      attrs: useTyperighterAttrs,
     }),
     displayCredit: createCustomField(true, true),
     imageType: createCustomField("Photograph", [
