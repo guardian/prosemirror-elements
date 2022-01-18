@@ -9,7 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import type { EmbedStatus } from "./embedComponents/EmbedStatusChecks";
+import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { EmbedElementForm } from "./EmbedForm";
 

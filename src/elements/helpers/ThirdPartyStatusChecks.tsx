@@ -6,8 +6,8 @@ import {
   naughtyColours,
   niceColours,
   warningColours,
-} from "./embedStyles";
-import { unescapeHtml } from "./embedUtils";
+} from "../embed/embedComponents/embedStyles";
+import { unescapeHtml } from "./html";
 
 export type EmbedStatus = {
   tracking: {
