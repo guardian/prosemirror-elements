@@ -1,7 +1,4 @@
-import {
-  parseHtml,
-  unescapeHtml,
-} from "../../embed/embedComponents/embedUtils";
+import { parseHtml, unescapeHtml } from "../html";
 
 describe("unescapeHtml", () => {
   it("should return an empty string for other valid html", () => {

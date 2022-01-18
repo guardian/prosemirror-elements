@@ -1,13 +1,13 @@
 import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useState } from "react";
+import { unescapeHtml } from "./html";
 import {
   message,
   naughtyColours,
   niceColours,
   warningColours,
-} from "../embed/embedComponents/embedStyles";
-import { unescapeHtml } from "./html";
+} from "./messagingStyles";
 
 export type EmbedStatus = {
   tracking: {

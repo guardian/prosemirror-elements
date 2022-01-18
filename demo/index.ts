@@ -7,7 +7,6 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import type { TwitterUrl, YoutubeUrl } from "../src";
 import {
   codeElement,
   createDemoImageElement,
@@ -17,6 +16,7 @@ import {
   richlinkElement,
 } from "../src";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
+import { createInteractiveElement } from "../src/elements/interactive/InteractiveSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -38,6 +38,7 @@ const demoImageElementName = "demo-image-element";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 const richlinkElementName = "richlinkElement";
+const interactiveElementName = "interactiveElement";
 
 type Name =
   | typeof embedElementName
@@ -45,34 +46,41 @@ type Name =
   | typeof demoImageElementName
   | typeof codeElementName
   | typeof pullquoteElementName
-  | typeof richlinkElementName;
+  | typeof richlinkElementName
+  | typeof interactiveElementName;
+
+const mockThirdPartyTracking = (html: string) =>
+  html.includes("fail")
+    ? Promise.resolve({
+        tracking: {
+          tracks: "tracks",
+        },
+        reach: { unsupportedPlatforms: ["amp", "mobile"] },
+      })
+    : Promise.resolve({
+        tracking: {
+          tracks: "does-not-track",
+        },
+        reach: { unsupportedPlatforms: [] },
+      });
+
+const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement: createImageElement({
     openImageSelector: onCropImage,
-    createCaptionPlugins: (schema) => exampleSetup({ schema }),
+    createCaptionPlugins,
   }),
   embedElement: createEmbedElement({
-    checkEmbedTracking: (html) =>
-      html.includes("fail")
-        ? Promise.resolve({
-            tracking: {
-              tracks: "tracks",
-            },
-            reach: { unsupportedPlatforms: ["amp", "mobile"] },
-          })
-        : Promise.resolve({
-            tracking: {
-              tracks: "does-not-track",
-            },
-            reach: { unsupportedPlatforms: [] },
-          }),
-    convertTwitter: (src: TwitterUrl) =>
-      console.log(`Add Twitter embed with src: ${src}`),
-    convertYouTube: (src: YoutubeUrl) =>
-      console.log(`Add youtube embed with src: ${src}`),
-    createCaptionPlugins: (schema) => exampleSetup({ schema }),
+    checkEmbedTracking: mockThirdPartyTracking,
+    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    createCaptionPlugins,
+  }),
+  interactiveElement: createInteractiveElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    createCaptionPlugins,
   }),
   codeElement,
   pullquoteElement,
@@ -175,7 +183,24 @@ const createEditor = (server: CollabServer) => {
       embedCode: "",
       caption: "",
       altText: "",
-      required: false,
+    })
+  );
+
+  editorElement.appendChild(
+    createElementButton("Add interactive element", interactiveElementName, {
+      iframeUrl:
+        "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+      scriptName: "iframe-wrapper",
+      source: "Guardian",
+      isMandatory: true,
+      role: "supporting",
+      originalUrl:
+        "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+      scriptUrl:
+        "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+      html: `<a href="https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html">Interactive</a>`,
+      caption: "",
+      altText: "",
     })
   );
 
