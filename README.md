@@ -73,9 +73,7 @@ Setup:
 
 1. Install `yalc` globally with `npm i yalc -g` or `yarn global add yalc`
 2. Run `yarn yalc` in your local project from your current branch
-3. Run `yalc add @guardian/<project>`  of your local project.
+3. Run `yalc add @guardian/prosemirror-elements` within the project consuming prosemirror-elements locally.
 
-Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). 
-Dont forget to run `yarn build`!
+Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). Dont forget to run `yarn yalc` again!
 
-You will notice `.yalc` directory in the root of your porject, which will be home to the local version of your guardian package.
