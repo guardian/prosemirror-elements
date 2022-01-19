@@ -18,6 +18,7 @@ import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
+import { htmlLength } from "../helpers/validation";
 import type {
   Asset,
   createImageFields,
@@ -46,12 +47,6 @@ const AltText = styled.span`
 `;
 
 export const ImageElementTestId = "ImageElement";
-
-const htmlLength = (text: string) => {
-  const el = document.createElement("div");
-  el.innerHTML = text;
-  return el.innerText.length;
-};
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,

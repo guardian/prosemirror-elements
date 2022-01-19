@@ -8,6 +8,7 @@ export {
 export { pullquoteElement } from "./elements/pullquote/PullquoteSpec";
 export { codeElement } from "./elements/code/CodeElementSpec";
 export { createImageElement } from "./elements/image/ImageElement";
+export { createVideoElement } from "./elements/video/VideoSpec";
 export { richlinkElement } from "./elements/rich-link/RichlinkSpec";
 export {
   transformElementIn,

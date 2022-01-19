@@ -3,6 +3,7 @@ import { transformElement as embedElementTransform } from "../embed/embedDataTra
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
+import { transformElement as videoElementTransform } from "../video/videoDataTransformer";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
 const transformMap = {
@@ -11,6 +12,7 @@ const transformMap = {
   image: imageElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
   "rich-link": defaultElementTransform<typeof richlinkFields>(true),
+  video: videoElementTransform,
 } as const;
 
 type TransformMap = typeof transformMap;
