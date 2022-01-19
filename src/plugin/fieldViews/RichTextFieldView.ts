@@ -64,9 +64,7 @@ type FlatRichTextOptions = RichTextOptions & {
  */
 export const createFlatRichTextField = ({
   createPlugins,
-  validators,
-  placeholder,
-  marks,
+  ...rest
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
     createPlugins: (schema) => {
@@ -91,9 +89,7 @@ export const createFlatRichTextField = ({
       return [plugin, ...(createPlugins?.(schema) ?? [])];
     },
     content: "(text|hard_break)*",
-    validators,
-    placeholder,
-    marks,
+    ...rest,
   });
 
 /**
