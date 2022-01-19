@@ -4,14 +4,14 @@ import type { Asset, createImageFields, MainImageData } from "./ImageElement";
 import { undefinedDropdownValue } from "./ImageElement";
 
 export type ImageFields = {
-  alt: string;
-  caption: string;
+  alt?: string;
+  caption?: string;
   displayCredit: string;
   imageType: string;
   isMandatory: string;
   mediaApiUri: string;
   mediaId: string;
-  photographer: string;
+  photographer?: string;
   role: string | undefined;
   source: string;
   suppliersReference: string;
@@ -32,16 +32,12 @@ export const transformElementIn: TransformIn<
   ReturnType<typeof createImageFields>
 > = ({ assets, fields }) => {
   const {
-    alt,
-    caption,
-    displayCredit,
-    imageType,
-    mediaApiUri,
-    mediaId,
-    photographer,
-    role,
-    source,
     suppliersReference,
+    displayCredit,
+    mediaId,
+    mediaApiUri,
+    role,
+    ...rest
   } = fields;
 
   const mainImage: MainImageData | undefined = {
@@ -52,14 +48,10 @@ export const transformElementIn: TransformIn<
   };
 
   return {
-    alt,
-    caption,
     displayCredit: displayCredit === "true",
-    imageType,
-    photographer,
     role: role ?? undefinedDropdownValue,
-    source,
     mainImage,
+    ...rest,
   };
 };
 
@@ -67,31 +59,30 @@ export const transformElementOut: TransformOut<
   ExternalImageData,
   ReturnType<typeof createImageFields>
 > = ({
-  alt,
-  caption,
   displayCredit,
-  imageType,
-  photographer,
   role,
-  source,
   mainImage,
+  photographer,
+  ...rest
 }: FieldNameToValueMap<
   ReturnType<typeof createImageFields>
 >): ExternalImageData => {
+  const optionalFields: { photographer?: string } = {};
+  if (photographer) {
+    optionalFields.photographer = photographer;
+  }
+
   return {
     assets: mainImage.assets,
     fields: {
-      alt,
-      caption,
       displayCredit: displayCredit.toString(),
-      imageType,
       isMandatory: "true",
       mediaApiUri: mainImage.mediaApiUri ?? "",
       mediaId: mainImage.mediaId ?? "",
-      photographer,
       role: role === undefinedDropdownValue ? undefined : role,
-      source,
       suppliersReference: mainImage.suppliersReference,
+      ...optionalFields,
+      ...rest,
     },
   };
 };

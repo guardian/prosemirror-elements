@@ -18,7 +18,6 @@ const partialPmeElement = (
       mediaId: undefined,
       suppliersReference: "",
     },
-    photographer: undefined,
     role: "none-selected",
     source: undefined,
     ...data,
@@ -46,7 +45,7 @@ const fullPmeElement = (
   };
 };
 
-const externnalElement = (data: Partial<ImageFields> = {}) => {
+const externalElement = (data: Partial<ImageFields> = {}) => {
   return {
     assets: [],
     fields: {
@@ -57,7 +56,6 @@ const externnalElement = (data: Partial<ImageFields> = {}) => {
       isMandatory: "true",
       mediaApiUri: "",
       mediaId: "",
-      photographer: "",
       role: undefined,
       source: "",
       suppliersReference: "",
@@ -136,22 +134,32 @@ describe("image element transform", () => {
     it("should completely transform elements with all fields", () => {
       const element = fullPmeElement();
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement());
+      expect(result).toEqual(externalElement());
     });
     it("should convert undefined dropdown string to undefined", () => {
       const element = fullPmeElement({ role: undefinedDropdownValue });
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement({ role: undefined }));
+      expect(result).toEqual(externalElement({ role: undefined }));
     });
     it("should not convert regular dropdown strings", () => {
       const element = fullPmeElement({ role: "showcase" });
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement({ role: "showcase" }));
+      expect(result).toEqual(externalElement({ role: "showcase" }));
     });
     it("should convert displayCredit to string", () => {
       const element = fullPmeElement({ displayCredit: false });
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement({ displayCredit: "false" }));
+      expect(result).toEqual(externalElement({ displayCredit: "false" }));
+    });
+    it("should include photographer when specified", () => {
+      const element = fullPmeElement({ photographer: "Ansel Adams" });
+      const result = transformElement.out(element);
+      expect(result).toEqual(externalElement({ photographer: "Ansel Adams" }));
+    });
+    it("should not include photographer when photographer field is empty", () => {
+      const element = fullPmeElement({ photographer: "" });
+      const result = transformElement.out(element);
+      expect(result).toEqual(externalElement());
     });
   });
 });
