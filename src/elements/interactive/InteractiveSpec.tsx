@@ -19,17 +19,6 @@ export type MainInteractiveProps = {
 
 export const undefinedDropdownValue = "none-selected";
 
-// iframeUrl: "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
-// scriptName: "iframe-wrapper",
-// source: "Guardian",
-// isMandatory: "true",
-// role: "supporting",
-// originalUrl: "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
-// scriptUrl: "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
-// alt: "dsa",
-// caption: "dsa",
-// html: "<a href="https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.htmnteractive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html">Interactive</a>"
-
 export const createInteractiveFields = ({
   createCaptionPlugins,
 }: MainInteractiveProps) => {
