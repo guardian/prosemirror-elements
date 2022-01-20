@@ -1,7 +1,7 @@
 import { parseHtml, unescapeHtml } from "../html";
 
 describe("unescapeHtml", () => {
-  it("should return an empty string for other valid html", () => {
+  it("should unescape HTML", () => {
     const escapedHtml =
       "&lt;a href=&quot;https://www.example.com&quot;&gt;Example website&lt;/a&gt;";
 
