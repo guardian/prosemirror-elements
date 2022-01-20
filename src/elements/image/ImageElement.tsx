@@ -81,7 +81,6 @@ export const createImageFields = ({
     photographer: createTextField({
       validators: [htmlMaxLength(250)],
       placeholder: "Enter the photographer…",
-      absentOnEmpty: true,
     }),
     mainImage: createCustomField<MainImageData, MainImageProps>(
       {
