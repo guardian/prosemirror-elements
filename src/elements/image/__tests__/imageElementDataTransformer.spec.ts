@@ -49,15 +49,12 @@ const externalElement = (data: Partial<ImageFields> = {}) => {
   return {
     assets: [],
     fields: {
-      alt: "",
-      caption: "",
       displayCredit: "true",
       imageType: "",
       isMandatory: "true",
       mediaApiUri: "",
       mediaId: "",
       role: undefined,
-      source: "",
       suppliersReference: "",
       ...data,
     },
@@ -151,13 +148,30 @@ describe("image element transform", () => {
       const result = transformElement.out(element);
       expect(result).toEqual(externalElement({ displayCredit: "false" }));
     });
-    it("should include photographer when specified", () => {
-      const element = fullPmeElement({ photographer: "Ansel Adams" });
+    it("should include optional fields when specified", () => {
+      const element = fullPmeElement({
+        photographer: "Ansel Adams",
+        alt: "Alt text",
+        caption: "caption",
+        source: "Source",
+      });
       const result = transformElement.out(element);
-      expect(result).toEqual(externalElement({ photographer: "Ansel Adams" }));
+      expect(result).toEqual(
+        externalElement({
+          photographer: "Ansel Adams",
+          alt: "Alt text",
+          caption: "caption",
+          source: "Source",
+        })
+      );
     });
-    it("should not include photographer when photographer field is empty", () => {
-      const element = fullPmeElement({ photographer: "" });
+    it("should not include optional fields when they are empty", () => {
+      const element = fullPmeElement({
+        photographer: "",
+        alt: "",
+        caption: "",
+        source: "",
+      });
       const result = transformElement.out(element);
       expect(result).toEqual(externalElement());
     });

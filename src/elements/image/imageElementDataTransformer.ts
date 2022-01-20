@@ -1,3 +1,4 @@
+import pickBy from "lodash/pickBy";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { Asset, createImageFields, MainImageData } from "./ImageElement";
@@ -13,7 +14,7 @@ export type ImageFields = {
   mediaId: string;
   photographer?: string;
   role: string | undefined;
-  source: string;
+  source?: string;
   suppliersReference: string;
 };
 
@@ -63,14 +64,22 @@ export const transformElementOut: TransformOut<
   role,
   mainImage,
   photographer,
+  source,
+  alt,
+  caption,
   ...rest
 }: FieldNameToValueMap<
   ReturnType<typeof createImageFields>
 >): ExternalImageData => {
-  const optionalFields: { photographer?: string } = {};
-  if (photographer) {
-    optionalFields.photographer = photographer;
-  }
+  const optionalFields = pickBy(
+    {
+      photographer,
+      source,
+      alt,
+      caption,
+    },
+    (field) => field.length > 0
+  );
 
   return {
     assets: mainImage.assets,
