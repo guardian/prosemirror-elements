@@ -18,7 +18,6 @@ const partialPmeElement = (
       mediaId: undefined,
       suppliersReference: "",
     },
-    photographer: undefined,
     role: "none-selected",
     source: undefined,
     ...data,
@@ -46,20 +45,16 @@ const fullPmeElement = (
   };
 };
 
-const externnalElement = (data: Partial<ImageFields> = {}) => {
+const externalElement = (data: Partial<ImageFields> = {}) => {
   return {
     assets: [],
     fields: {
-      alt: "",
-      caption: "",
       displayCredit: "true",
       imageType: "",
       isMandatory: "true",
       mediaApiUri: "",
       mediaId: "",
-      photographer: "",
       role: undefined,
-      source: "",
       suppliersReference: "",
       ...data,
     },
@@ -136,22 +131,49 @@ describe("image element transform", () => {
     it("should completely transform elements with all fields", () => {
       const element = fullPmeElement();
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement());
+      expect(result).toEqual(externalElement());
     });
     it("should convert undefined dropdown string to undefined", () => {
       const element = fullPmeElement({ role: undefinedDropdownValue });
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement({ role: undefined }));
+      expect(result).toEqual(externalElement({ role: undefined }));
     });
     it("should not convert regular dropdown strings", () => {
       const element = fullPmeElement({ role: "showcase" });
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement({ role: "showcase" }));
+      expect(result).toEqual(externalElement({ role: "showcase" }));
     });
     it("should convert displayCredit to string", () => {
       const element = fullPmeElement({ displayCredit: false });
       const result = transformElement.out(element);
-      expect(result).toEqual(externnalElement({ displayCredit: "false" }));
+      expect(result).toEqual(externalElement({ displayCredit: "false" }));
+    });
+    it("should include optional fields when specified", () => {
+      const element = fullPmeElement({
+        photographer: "Ansel Adams",
+        alt: "Alt text",
+        caption: "caption",
+        source: "Source",
+      });
+      const result = transformElement.out(element);
+      expect(result).toEqual(
+        externalElement({
+          photographer: "Ansel Adams",
+          alt: "Alt text",
+          caption: "caption",
+          source: "Source",
+        })
+      );
+    });
+    it("should not include optional fields when they are empty", () => {
+      const element = fullPmeElement({
+        photographer: "",
+        alt: "",
+        caption: "",
+        source: "",
+      });
+      const result = transformElement.out(element);
+      expect(result).toEqual(externalElement());
     });
   });
 });
