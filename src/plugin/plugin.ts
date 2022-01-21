@@ -1,4 +1,4 @@
-import type { Schema } from "prosemirror-model";
+import type { Node, Schema } from "prosemirror-model";
 import { Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
@@ -14,7 +14,13 @@ import {
 } from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
-import { getFieldNameFromNode, getNodeNameFromElementName } from "./nodeSpec";
+import {
+  elementSelectedNodeAttr,
+  getFieldNameFromNode,
+  getNodeNameFromElementName,
+  isProseMirrorElement,
+  isProseMirrorElementSelected,
+} from "./nodeSpec";
 
 const decorations = createUpdateDecorations();
 const pluginKey = new PluginKey("prosemirror_elements");
@@ -32,6 +38,61 @@ export const createPlugin = <
 ): Plugin<PluginState, Schema> => {
   return new Plugin<PluginState, Schema>({
     key: pluginKey,
+    appendTransaction: (trs, oldState, newState) => {
+      if (newState.selection.from === newState.selection.to) {
+        return;
+      }
+
+      const tr = newState.tr;
+      const selectedElements = new Map<
+        Node,
+        {
+          from: number;
+          to: number;
+        }
+      >();
+
+      newState.doc.nodesBetween(
+        newState.selection.from,
+        newState.selection.to,
+        (node, pos) => {
+          if (!isProseMirrorElement(node)) {
+            return false;
+          }
+          if (
+            newState.selection.from <= pos &&
+            newState.selection.to > pos + node.nodeSize
+          ) {
+            selectedElements.set(node, {
+              from: pos,
+              to: pos + node.nodeSize,
+            });
+          }
+        }
+      );
+
+      newState.doc.descendants((node, pos) => {
+        if (!isProseMirrorElement(node)) {
+          return false;
+        }
+        if (isProseMirrorElementSelected(node) && !selectedElements.get(node)) {
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            [elementSelectedNodeAttr]: false,
+          });
+        }
+      });
+
+      selectedElements.forEach(({ from }, node) => {
+        const newAttrs = {
+          ...node.attrs,
+          [elementSelectedNodeAttr]: true,
+        };
+        tr.setNodeMarkup(from, undefined, newAttrs);
+      });
+
+      return tr;
+    },
     props: {
       decorations,
       nodeViews: createNodeViews(
@@ -144,6 +205,7 @@ const createNodeView = <
     dom,
     fields,
     (fields) => {
+      console.log("update", fields);
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
           ...initNode.attrs,
@@ -162,6 +224,7 @@ const createNodeView = <
         node.type.name === nodeName &&
         node.attrs.type === initNode.attrs.type
       ) {
+        console.log(node.attrs);
         const newCommands = commands(getPos, view);
         const newCommandValues = getCommandValues(newCommands);
         const fieldValuesChanged = node !== currentNode;
@@ -200,6 +263,10 @@ const createNodeView = <
       Object.values(fields).map((field) => field.view.destroy());
     },
     ignoreMutation: () => true,
+    setSelection: (...args) => console.log(args),
+    selectNode: () => {
+      console.log("hai");
+    },
   };
 };
 
