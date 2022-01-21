@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -188,6 +188,10 @@ const ImageView = ({
       suppliersReference,
     });
 
+    if (minAssetValidation({ assets }, "").length) {
+      updateRole(thumbnailOption.value);
+    }
+
     if (previousMediaId && previousMediaId !== mediaId) {
       updateFields(mediaPayload);
     }
@@ -212,12 +216,6 @@ const ImageView = ({
       .sort(sortByWidthDifference);
 
     return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;
-  }, [imageFields.assets]);
-
-  useEffect(() => {
-    if (minAssetValidation({ assets: imageFields.assets }, "").length) {
-      updateRole(thumbnailOption.value);
-    }
   }, [imageFields.assets]);
 
   return (
