@@ -2,7 +2,11 @@ import pickBy from "lodash/pickBy";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { Asset, createImageFields, MainImageData } from "./ImageElement";
-import { undefinedDropdownValue } from "./ImageElement";
+import {
+  minAssetValidation,
+  thumbnailOption,
+  undefinedDropdownValue,
+} from "./ImageElement";
 
 export type ImageFields = {
   alt?: string;
@@ -48,9 +52,15 @@ export const transformElementIn: TransformIn<
     mediaApiUri,
   };
 
+  let newRole = role;
+
+  if (minAssetValidation({ assets }, "").length) {
+    newRole = thumbnailOption.value;
+  }
+
   return {
     displayCredit: displayCredit === "true",
-    role: role ?? undefinedDropdownValue,
+    role: newRole ?? undefinedDropdownValue,
     mainImage,
     ...rest,
   };
