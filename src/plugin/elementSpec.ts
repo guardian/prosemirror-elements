@@ -55,7 +55,6 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   // The HTMLElement representing the node's children, if there are any. The renderer can
   // choose to append this node if it needs to render children.
   fields: FieldNameToField<FDesc>,
-  updateState: (fields: FieldNameToValueMap<FDesc>) => void,
   fieldValues: FieldNameToValueMap<FDesc>,
   commands: Commands,
   subscribe: (
@@ -79,17 +78,9 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   return {
     fieldDescriptions,
     validate,
-    createUpdator: (dom, fields, updateState, fieldValues, commands) => {
+    createUpdator: (dom, fields, fieldValues, commands) => {
       const updater = createUpdater<FDesc>();
-      render(
-        validate,
-        dom,
-        fields,
-        (fields) => updateState(fields),
-        fieldValues,
-        commands,
-        updater.subscribe
-      );
+      render(validate, dom, fields, fieldValues, commands, updater.subscribe);
       return updater.update;
     },
   };

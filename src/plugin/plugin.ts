@@ -140,20 +140,7 @@ const createNodeView = <
   let currentDecos = innerDecos;
   let currentCommandValues = getCommandValues(initCommands);
 
-  const update = element.createUpdator(
-    dom,
-    fields,
-    (fields) => {
-      view.dispatch(
-        view.state.tr.setNodeMarkup(getPos(), undefined, {
-          ...initNode.attrs,
-          fields,
-        })
-      );
-    },
-    initValues,
-    initCommands
-  );
+  const update = element.createUpdator(dom, fields, initValues, initCommands);
 
   return {
     dom,

@@ -31,7 +31,6 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   ) => void;
   commands: Commands;
   fieldValues: FieldNameToValueMap<FDesc>;
-  onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
   validate: Validator<FDesc>;
   consumer: Consumer<ReactElement, FDesc>;
   fields: FieldNameToField<FDesc>;
@@ -58,37 +57,21 @@ export class ElementProvider<
 
   public componentDidMount() {
     this.props.subscribe((fieldValues, commands) =>
-      this.updateState(
-        {
-          commands,
-          fieldValues,
-        },
-        false
-      )
+      this.updateState({
+        commands,
+        fieldValues,
+      })
     );
   }
 
-  public onStateChange(): void {
-    this.props.onStateChange(this.state.fieldValues);
-  }
-
-  private updateState(
-    newState: Partial<IState<FDesc>>,
-    notifyListeners: boolean
-  ): void {
-    this.setState(
-      { ...this.state, ...newState },
-      () => notifyListeners && this.onStateChange()
-    );
+  private updateState(newState: Partial<IState<FDesc>>): void {
+    this.setState({ ...this.state, ...newState });
   }
 
   private updateFields(fieldValues: FieldNameToValueMap<FDesc>): void {
-    this.updateState(
-      {
-        fieldValues,
-      },
-      true
-    );
+    this.updateState({
+      fieldValues,
+    });
   }
 
   public render() {

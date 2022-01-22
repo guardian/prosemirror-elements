@@ -83,7 +83,6 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
   createUpdator: (
     dom: HTMLElement,
     fields: FieldNameToField<FDesc>,
-    updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     initFields: FieldNameToValueMap<FDesc>,
     commands: ReturnType<CommandCreator>
   ) => (

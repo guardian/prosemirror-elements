@@ -12,15 +12,8 @@ describe("createPlugin", () => {
 
   const testElement = createElementSpec(
     { field1: createTextField() },
-    (
-      _validate,
-      _dom,
-      _fields,
-      _updateFields,
-      _fieldValues,
-      _commands,
-      subscribe
-    ) => subscribe(consumerRenderSpy),
+    (_validate, _dom, _fields, _fieldValues, _commands, subscribe) =>
+      subscribe(consumerRenderSpy),
     () => undefined
   );
 

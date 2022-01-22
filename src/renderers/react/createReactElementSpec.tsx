@@ -16,7 +16,6 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
     validate,
     dom,
     fields,
-    updateState,
     fieldValues,
     commands,
     subscribe
@@ -24,7 +23,6 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
     render(
       <ElementProvider<FDesc>
         subscribe={subscribe}
-        onStateChange={updateState}
         fields={fields}
         validate={validate}
         commands={commands}
