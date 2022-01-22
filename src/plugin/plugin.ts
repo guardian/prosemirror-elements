@@ -1,5 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
-import { Plugin, PluginKey } from "prosemirror-state";
+import type { EditorState } from "prosemirror-state";
+import { Plugin, PluginKey, Selection } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
@@ -27,6 +28,9 @@ const pluginKey = new PluginKey("prosemirror_elements");
 
 export type PluginState = unknown;
 
+const selectionIsZeroWidth = (state: EditorState) =>
+  state.selection.from === state.selection.to;
+
 export const createPlugin = <
   ElementNames extends string,
   FDesc extends FieldDescriptions<string>
@@ -38,57 +42,58 @@ export const createPlugin = <
 ): Plugin<PluginState, Schema> => {
   return new Plugin<PluginState, Schema>({
     key: pluginKey,
-    appendTransaction: (trs, oldState, newState) => {
-      if (newState.selection.from === newState.selection.to) {
+    /**
+     * Update the elements to represent the current selection.
+     */
+    appendTransaction: (_, oldState, newState) => {
+      // If we are not transitioning between at least one selection of non-zero
+      // width, we cannot be altering the element selection state.
+      if (selectionIsZeroWidth(oldState) && selectionIsZeroWidth(newState)) {
         return;
       }
 
       const tr = newState.tr;
-      const selectedElements = new Map<
-        Node,
-        {
-          from: number;
-          to: number;
-        }
-      >();
+      const elementNodeToPos = new Map<Node, number>();
 
+      // Find all the nodes within the current selection.
       newState.doc.nodesBetween(
         newState.selection.from,
         newState.selection.to,
         (node, pos) => {
-          if (!isProseMirrorElement(node)) {
-            return false;
-          }
           if (
+            isProseMirrorElement(node) &&
             newState.selection.from <= pos &&
             newState.selection.to > pos + node.nodeSize
           ) {
-            selectedElements.set(node, {
-              from: pos,
-              to: pos + node.nodeSize,
-            });
+            elementNodeToPos.set(node, pos);
+            return false;
           }
         }
       );
 
+      // Update nodes representing any elements that are no longer selected.
       newState.doc.descendants((node, pos) => {
-        if (!isProseMirrorElement(node)) {
+        if (isProseMirrorElementSelected(node) && !elementNodeToPos.get(node)) {
+          if (node.attrs[elementSelectedNodeAttr] === true) {
+            tr.setNodeMarkup(pos, undefined, {
+              ...node.attrs,
+              [elementSelectedNodeAttr]: false,
+            });
+          }
           return false;
-        }
-        if (isProseMirrorElementSelected(node) && !selectedElements.get(node)) {
-          tr.setNodeMarkup(pos, undefined, {
-            ...node.attrs,
-            [elementSelectedNodeAttr]: false,
-          });
         }
       });
 
-      selectedElements.forEach(({ from }, node) => {
+      // Update nodes representing any elements that are now selected.
+      elementNodeToPos.forEach((pos, node) => {
+        if (node.attrs[elementSelectedNodeAttr] === true) {
+          return;
+        }
         const newAttrs = {
           ...node.attrs,
           [elementSelectedNodeAttr]: true,
         };
-        tr.setNodeMarkup(from, undefined, newAttrs);
+        tr.setNodeMarkup(pos, undefined, newAttrs);
       });
 
       return tr;
@@ -199,6 +204,7 @@ const createNodeView = <
   let currentNode = initNode;
   let currentValues = initValues;
   let currentDecos = innerDecos;
+  let currentIsSelected = false;
   let currentCommandValues = getCommandValues(initCommands);
 
   const update = element.createUpdator(
@@ -224,9 +230,11 @@ const createNodeView = <
         node.type.name === nodeName &&
         node.attrs.type === initNode.attrs.type
       ) {
-        console.log(node.attrs);
+        const newIsSelected = isProseMirrorElementSelected(node);
         const newCommands = commands(getPos, view);
         const newCommandValues = getCommandValues(newCommands);
+
+        const isSelectedChanged = currentIsSelected !== newIsSelected;
         const fieldValuesChanged = node !== currentNode;
         const innerDecosChanged = currentDecos !== innerDecos;
         const commandsChanged = commandsHaveChanged(
@@ -245,14 +253,15 @@ const createNodeView = <
         }
 
         // Only update our consumer if anything internal to the field has changed.
-        if (fieldValuesChanged || commandsChanged) {
-          update(newFieldValues, newCommands);
+        if (fieldValuesChanged || commandsChanged || isSelectedChanged) {
+          update(newFieldValues, newCommands, newIsSelected);
         }
 
         currentNode = node;
         currentValues = newFieldValues;
         currentDecos = innerDecos;
         currentCommandValues = newCommandValues;
+        currentIsSelected = newIsSelected;
 
         return true;
       }
