@@ -81,12 +81,6 @@ export const VideoForm: React.FunctionComponent<Props> = ({
                 }}
               />
             </IframeAspectRatioContainer>
-            <CustomDropdownView
-              field={fields.role}
-              label="Weighting"
-              errors={errors.role}
-              display="inline"
-            />
           </FieldLayoutVertical>
         </Column>
         <Column width={2 / 3}>
@@ -100,6 +94,12 @@ export const VideoForm: React.FunctionComponent<Props> = ({
           </FieldLayoutVertical>
         </Column>
       </Columns>
+      <CustomDropdownView
+        field={fields.role}
+        label="Weighting"
+        errors={errors.role}
+        display="inline"
+      />
       <CustomCheckboxView
         field={fields.isMandatory}
         errors={errors.isMandatory}
