@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { background, border, neutral } from "@guardian/src-foundations/palette";
+import { border, neutral } from "@guardian/src-foundations/palette";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
@@ -37,7 +37,7 @@ const Body = styled("div")`
 
 const Panel = styled("div")<{ isSelected: boolean }>`
   background-color: ${({ isSelected }) =>
-    isSelected ? background.ctaSecondary : neutral[97]};
+    isSelected ? "#b3d7fe" : neutral[97]};
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
