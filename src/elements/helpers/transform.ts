@@ -10,7 +10,7 @@ const transformMap = {
   embed: embedElementTransform,
   image: imageElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
-  "rich-link": defaultElementTransform<typeof richlinkFields>(),
+  "rich-link": defaultElementTransform<typeof richlinkFields>(true),
 } as const;
 
 type TransformMap = typeof transformMap;
