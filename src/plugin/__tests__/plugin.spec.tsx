@@ -1,10 +1,12 @@
 import type { Schema } from "prosemirror-model";
-import { Plugin } from "prosemirror-state";
+import { AllSelection, Plugin, TextSelection } from "prosemirror-state";
+import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import { createElementSpec } from "../elementSpec";
 import { ProseMirrorFieldView } from "../fieldViews/ProseMirrorFieldView";
 import { createTextField } from "../fieldViews/TextFieldView";
 import { createEditorWithElements } from "../helpers/test";
+import { elementSelectedNodeAttr } from "../nodeSpec";
 
 describe("createPlugin", () => {
   // Called when our consumer is updated by the plugin.
@@ -246,6 +248,136 @@ describe("createPlugin", () => {
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
         initialFieldViewUpdateCount
       );
+    });
+  });
+
+  describe("Response to selection changes", () => {
+    const applyNoopSelection = (view: EditorView) => {
+      const selectEntireDoc = TextSelection.between(
+        view.state.doc.resolve(0),
+        view.state.doc.resolve(1)
+      );
+      const tr = view.state.tr.setSelection(selectEntireDoc);
+      view.dispatch(tr);
+    };
+    const applyWholeDocSelection = (view: EditorView) => {
+      const selectEntireDoc = new AllSelection(view.state.doc);
+      const tr = view.state.tr.setSelection(selectEntireDoc);
+      view.dispatch(tr);
+    };
+
+    describe("when selection does not affect element", () => {
+      it("should not update the consumer", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
+        applyNoopSelection(view);
+
+        expect(consumerRenderSpy.mock.calls.length).toBe(
+          initialConsumerUpdateCount
+        );
+      });
+
+      it("should not update the fieldView", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        const initialFieldViewUpdateCount =
+          fieldViewRenderSpy.mock.calls.length;
+
+        applyNoopSelection(view);
+
+        expect(fieldViewRenderSpy.mock.calls.length).toBe(
+          initialFieldViewUpdateCount
+        );
+      });
+
+      it("should not update the element node", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        applyNoopSelection(view);
+
+        expect(view.state.doc.firstChild?.attrs).toMatchObject({
+          [elementSelectedNodeAttr]: false,
+        });
+      });
+    });
+
+    describe("when selection includes element", () => {
+      it("should update the consumer", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
+        applyWholeDocSelection(view);
+
+        expect(consumerRenderSpy.mock.calls.length).toBe(
+          initialConsumerUpdateCount + 1
+        );
+      });
+
+      it("should not update the fieldView", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        const initialFieldViewUpdateCount =
+          fieldViewRenderSpy.mock.calls.length;
+
+        applyWholeDocSelection(view);
+
+        expect(fieldViewRenderSpy.mock.calls.length).toBe(
+          initialFieldViewUpdateCount
+        );
+      });
+
+      it("should update the element node", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        applyWholeDocSelection(view);
+
+        expect(view.state.doc.firstChild?.attrs).toMatchObject({
+          [elementSelectedNodeAttr]: true,
+        });
+      });
+    });
+
+    describe("when selection no longer includes element", () => {
+      it("should update the consumer", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        applyWholeDocSelection(view);
+
+        const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
+
+        applyNoopSelection(view);
+
+        expect(consumerRenderSpy.mock.calls.length).toBe(
+          initialConsumerUpdateCount + 1
+        );
+      });
+
+      it("should not update the fieldView", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        applyWholeDocSelection(view);
+
+        const initialFieldViewUpdateCount =
+          fieldViewRenderSpy.mock.calls.length;
+
+        applyNoopSelection(view);
+
+        expect(fieldViewRenderSpy.mock.calls.length).toBe(
+          initialFieldViewUpdateCount
+        );
+      });
+
+      it("should update the element node", () => {
+        const { view } = createEditorWithSingleElementPresent();
+
+        applyWholeDocSelection(view);
+        applyNoopSelection(view);
+
+        expect(view.state.doc.firstChild?.attrs).toMatchObject({
+          [elementSelectedNodeAttr]: false,
+        });
+      });
     });
   });
 });

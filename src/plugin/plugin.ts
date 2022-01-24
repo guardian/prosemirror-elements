@@ -63,7 +63,7 @@ export const createPlugin = <
           if (
             isProseMirrorElement(node) &&
             newState.selection.from <= pos &&
-            newState.selection.to > pos + node.nodeSize
+            newState.selection.to >= pos + node.nodeSize
           ) {
             elementNodeToPos.set(node, pos);
             return false;
@@ -211,7 +211,6 @@ const createNodeView = <
     dom,
     fields,
     (fields) => {
-      console.log("update", fields);
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
           ...initNode.attrs,
@@ -225,18 +224,18 @@ const createNodeView = <
 
   return {
     dom,
-    update: (node, _, innerDecos) => {
+    update: (newNode, _, innerDecos) => {
       if (
-        node.type.name === nodeName &&
-        node.attrs.type === initNode.attrs.type
+        newNode.type.name === nodeName &&
+        newNode.attrs.type === initNode.attrs.type
       ) {
-        const newIsSelected = isProseMirrorElementSelected(node);
+        const newIsSelected = isProseMirrorElementSelected(newNode);
         const newCommands = commands(getPos, view);
         const newCommandValues = getCommandValues(newCommands);
 
         const isSelectedChanged = currentIsSelected !== newIsSelected;
-        const fieldValuesChanged = node !== currentNode;
         const innerDecosChanged = currentDecos !== innerDecos;
+        const fieldValuesChanged = fieldValuesHaveChanged(currentNode, newNode);
         const commandsChanged = commandsHaveChanged(
           currentCommandValues,
           newCommandValues
@@ -244,12 +243,12 @@ const createNodeView = <
 
         // Only recalculate our field values if our node content has changed.
         const newFieldValues = fieldValuesChanged
-          ? getFieldValuesFromNode(fields, node)
+          ? getFieldValuesFromNode(fields, newNode)
           : currentValues;
 
         // Only update our FieldViews if their content or decorations have changed.
         if (fieldValuesChanged || innerDecosChanged) {
-          updateFieldViewsFromNode(fields, node, innerDecos);
+          updateFieldViewsFromNode(fields, newNode, innerDecos);
         }
 
         // Only update our consumer if anything internal to the field has changed.
@@ -257,11 +256,11 @@ const createNodeView = <
           update(newFieldValues, newCommands, newIsSelected);
         }
 
-        currentNode = node;
-        currentValues = newFieldValues;
-        currentDecos = innerDecos;
-        currentCommandValues = newCommandValues;
+        currentNode = newNode;
         currentIsSelected = newIsSelected;
+        currentDecos = innerDecos;
+        currentValues = newFieldValues;
+        currentCommandValues = newCommandValues;
 
         return true;
       }
@@ -272,10 +271,6 @@ const createNodeView = <
       Object.values(fields).map((field) => field.view.destroy());
     },
     ignoreMutation: () => true,
-    setSelection: (...args) => console.log(args),
-    selectNode: () => {
-      console.log("hai");
-    },
   };
 };
 
@@ -294,3 +289,10 @@ const commandsHaveChanged = (
   oldCommandValues.moveTop !== newCommandValues.moveTop ||
   oldCommandValues.moveUp !== newCommandValues.moveUp ||
   oldCommandValues.moveDown !== newCommandValues.moveDown;
+
+/**
+ * Only compares the parts of the node from which we derive field values.
+ */
+const fieldValuesHaveChanged = (oldNode: Node, newNode: Node) =>
+  oldNode.content !== newNode.content ||
+  newNode.attrs.fields !== oldNode.attrs.fields;
