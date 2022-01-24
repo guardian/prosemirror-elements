@@ -9,6 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
@@ -47,8 +48,6 @@ export type MainImageProps = {
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
-
-export const undefinedDropdownValue = "none-selected";
 
 export const minAssetValidation = largestAssetMinDimension(460);
 export const thumbnailOption = {

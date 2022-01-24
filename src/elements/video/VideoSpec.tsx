@@ -9,8 +9,8 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { undefinedDropdownValue } from "../embed/EmbedSpec";
 import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
+import { undefinedDropdownValue } from "../helpers/transform";
 import { VideoForm } from "./VideoForm";
 
 export const createVideoFields = (
@@ -19,7 +19,7 @@ export const createVideoFields = (
   return {
     source: createTextField(),
     isMandatory: createCustomField(true, true),
-    role: createCustomDropdownField("inline", [
+    role: createCustomDropdownField(undefinedDropdownValue, [
       { text: "inline (default)", value: undefinedDropdownValue },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
@@ -34,6 +34,7 @@ export const createVideoFields = (
       marks: "em strong link strike",
       validators: [htmlMaxLength(1000, undefined, "WARN")],
       placeholder: "Enter a caption for this media…",
+      absentOnEmpty: true,
     }),
     title: createTextField(),
     html: createTextField(),

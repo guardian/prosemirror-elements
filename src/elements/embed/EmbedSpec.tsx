@@ -10,6 +10,7 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
+import { undefinedDropdownValue } from "../helpers/transform";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { EmbedElementForm } from "./EmbedForm";
 
@@ -20,11 +21,9 @@ export type MainEmbedProps = {
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 
-export const undefinedDropdownValue = "none-selected";
-
 export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
   return {
-    role: createCustomDropdownField("inline", [
+    role: createCustomDropdownField(undefinedDropdownValue, [
       { text: "inline (default)", value: undefinedDropdownValue },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },

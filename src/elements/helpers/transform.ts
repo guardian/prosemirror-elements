@@ -52,3 +52,5 @@ export const transformElementOut = <Name extends keyof TransformMap>(
     return undefined;
   }
 };
+
+export const undefinedDropdownValue = "none-selected";

@@ -1,12 +1,9 @@
 import pickBy from "lodash/pickBy";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { Asset, createImageFields, MainImageData } from "./ImageElement";
-import {
-  minAssetValidation,
-  thumbnailOption,
-  undefinedDropdownValue,
-} from "./ImageElement";
+import { minAssetValidation, thumbnailOption } from "./ImageElement";
 
 export type ImageFields = {
   alt?: string;
