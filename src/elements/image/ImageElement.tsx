@@ -43,6 +43,10 @@ export type MainImageData = {
   suppliersReference: string;
 };
 
+export type ImageElementOptions = MainImageProps & {
+  includeHalfWidthRole: boolean;
+};
+
 export type MainImageProps = {
   openImageSelector: (setMedia: SetMedia, mediaId?: string) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
@@ -59,7 +63,22 @@ export const thumbnailOption = {
 export const createImageFields = ({
   createCaptionPlugins,
   openImageSelector,
-}: MainImageProps) => {
+  includeHalfWidthRole,
+}: ImageElementOptions) => {
+  const baseRoleOptions = [
+    { text: "inline (default)", value: undefinedDropdownValue },
+    { text: "supporting", value: "supporting" },
+    { text: "showcase", value: "showcase" },
+    thumbnailOption,
+    { text: "immersive", value: "immersive" },
+  ];
+
+  const halfWidthOption = { text: "half width", value: "halfWidth" };
+
+  const roleOptions = includeHalfWidthRole
+    ? [...baseRoleOptions, halfWidthOption]
+    : baseRoleOptions;
+
   return {
     alt: createTextField({
       rows: 2,
@@ -99,19 +118,13 @@ export const createImageFields = ({
       validators: [htmlMaxLength(250), htmlRequired()],
       placeholder: "Enter the source…",
     }),
-    role: createCustomDropdownField(undefinedDropdownValue, [
-      { text: "inline (default)", value: undefinedDropdownValue },
-      { text: "supporting", value: "supporting" },
-      { text: "showcase", value: "showcase" },
-      thumbnailOption,
-      { text: "immersive", value: "immersive" },
-    ]),
+    role: createCustomDropdownField(undefinedDropdownValue, roleOptions),
   };
 };
 
-export const createImageElement = (props: MainImageProps) =>
+export const createImageElement = (options: ImageElementOptions) =>
   createReactElementSpec(
-    createImageFields(props),
+    createImageFields(options),
     ({ fields, errors, fieldValues }) => {
       return (
         <ImageElementForm

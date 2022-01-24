@@ -52,6 +52,7 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   imageElement: createImageElement({
     openImageSelector: onCropImage,
     createCaptionPlugins: (schema) => exampleSetup({ schema }),
+    includeHalfWidthRole: false,
   }),
   embedElement: createEmbedElement({
     checkEmbedTracking: (html) =>
