@@ -13,10 +13,12 @@ import type {
   FieldValidationErrors,
   ValidationError,
 } from "../../plugin/elementSpec";
+import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
+import type { Store } from "../../renderers/react/externalStore";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import type {
   Asset,
@@ -32,6 +34,7 @@ type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createImageFields>>;
+  roleOptionsStore: Store<Options>;
 };
 
 type ImageViewProps = {
@@ -57,6 +60,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,
+  roleOptionsStore: RoleOptionsStore,
 }) => {
   return (
     <div data-cy={ImageElementTestId}>
@@ -83,11 +87,16 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               updateRole={(value) => fields.role.update(value)}
               errors={errors.mainImage}
             />
-            <CustomDropdownView
-              field={fields.imageType}
-              label={"Image type"}
-              errors={errors.imageType}
-            />
+            <RoleOptionsStore>
+              {(roleOptions) => (
+                <CustomDropdownView
+                  options={roleOptions}
+                  field={fields.imageType}
+                  label={"Image type"}
+                  errors={errors.imageType}
+                />
+              )}
+            </RoleOptionsStore>
           </FieldLayoutVertical>
         </Column>
         <Column width={3 / 5}>

@@ -66,12 +66,29 @@ const mockThirdPartyTracking = (html: string) =>
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 
+const { element: imageElement, updateRoleOptions } = createImageElement({
+  openImageSelector: onCropImage,
+  createCaptionPlugins,
+});
+
+setInterval(() => {
+  const newOpts = [
+    { text: "inline (default)", value: "inline" },
+    { text: "supporting", value: "supporting" },
+    { text: "showcase", value: "showcase" },
+    {
+      text: "thumbnail",
+      value: "thumbnail",
+    },
+    { text: "immersive", value: "immersive" },
+  ];
+  newOpts.splice(Math.floor(Math.random() * 3), 1);
+  updateRoleOptions(newOpts);
+}, 1000);
+
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement: createImageElement({
-    openImageSelector: onCropImage,
-    createCaptionPlugins,
-  }),
+  imageElement,
   embedElement: createEmbedElement({
     checkEmbedTracking: mockThirdPartyTracking,
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),

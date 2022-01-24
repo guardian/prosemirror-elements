@@ -9,6 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { createStore } from "../../renderers/react/externalStore";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
@@ -109,8 +110,16 @@ export const createImageFields = ({
   };
 };
 
-export const createImageElement = (props: MainImageProps) =>
-  createReactElementSpec(
+export const createImageElement = (props: MainImageProps) => {
+  const { update: updateRoleOptions, Store: RoleStore } = createStore([
+    { text: "inline (default)", value: undefinedDropdownValue },
+    { text: "supporting", value: "supporting" },
+    { text: "showcase", value: "showcase" },
+    thumbnailOption,
+    { text: "immersive", value: "immersive" },
+  ]);
+
+  const element = createReactElementSpec(
     createImageFields(props),
     ({ fields, errors, fieldValues }) => {
       return (
@@ -118,7 +127,11 @@ export const createImageElement = (props: MainImageProps) =>
           fieldValues={fieldValues}
           errors={errors}
           fields={fields}
+          roleOptionsStore={RoleStore}
         />
       );
     }
   );
+
+  return { element, updateRoleOptions };
+};
