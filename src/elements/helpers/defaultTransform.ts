@@ -4,7 +4,7 @@ import type { TransformIn, TransformOut } from "./types/Transform";
 
 type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
   fields: Partial<Omit<FieldNameToValueMap<FDesc>, "assets">> & {
-    isMandatory?: boolean;
+    isMandatory?: string;
   };
   assets?: string[];
 };
@@ -34,13 +34,15 @@ export const transformElementDataOut = <
 
   return {
     ...baseFields,
-    fields: { ...fields, isMandatory },
+    fields: { ...fields, isMandatory: isMandatory ? "true" : "false" },
   };
 };
 
-export const transformElement = <FDesc extends FieldDescriptions<string>>() => {
+export const transformElement = <FDesc extends FieldDescriptions<string>>(
+  isMandatory?: boolean
+) => {
   return {
     in: transformElementDataIn<FDesc>(),
-    out: transformElementDataOut<FDesc>(),
+    out: transformElementDataOut<FDesc>(isMandatory),
   };
 };

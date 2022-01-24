@@ -25,7 +25,7 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
       </a>
     </div>
     <CustomDropdownView
-      field={fields.weighting}
+      field={fields.role}
       label="Weighting"
       errors={errors.weighting}
       display="inline"
