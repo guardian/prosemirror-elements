@@ -8,3 +8,4 @@ cypress/videos
 cypress/screenshots
 .metals
 dist
+.idea
