@@ -32,7 +32,7 @@ export type FieldDescription =
   | TextFieldDescription
   | RichTextFieldDescription
   | CheckboxFieldDescription
-  | CustomFieldDescription
+  | CustomFieldDescription<unknown, unknown>
   | DropdownFieldDescription;
 
 export type FieldDescriptions<Names extends string> = Record<
