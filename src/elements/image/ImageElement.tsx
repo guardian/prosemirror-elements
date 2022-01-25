@@ -1,10 +1,10 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
-import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
+import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
@@ -44,23 +44,23 @@ export type MainImageData = {
   suppliersReference: string;
 };
 
-export type MainImageProps = {
-  openImageSelector: (setMedia: SetMedia, mediaId?: string) => void;
+export type ImageSelector = (setMedia: SetMedia, mediaId?: string) => void;
+
+export type ImageElementOptions = {
+  openImageSelector: ImageSelector;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
+  additionalRoleOptions: Options;
 };
 
 export const undefinedDropdownValue = "none-selected";
 
 export const minAssetValidation = largestAssetMinDimension(460);
-export const thumbnailOption = {
-  text: "thumbnail",
-  value: "thumbnail",
-};
 
 export const createImageFields = ({
   createCaptionPlugins,
   openImageSelector,
-}: MainImageProps) => {
+  additionalRoleOptions: roleOptions,
+}: ImageElementOptions) => {
   return {
     alt: createTextField({
       rows: 2,
@@ -86,7 +86,10 @@ export const createImageFields = ({
       validators: [htmlMaxLength(250)],
       placeholder: "Enter the photographer…",
     }),
-    mainImage: createCustomField<MainImageData, MainImageProps>(
+    mainImage: createCustomField<
+      MainImageData,
+      { openImageSelector: ImageSelector }
+    >(
       {
         mediaId: undefined,
         mediaApiUri: undefined,
@@ -100,27 +103,17 @@ export const createImageFields = ({
       validators: [htmlMaxLength(250), htmlRequired()],
       placeholder: "Enter the source…",
     }),
-    role: createCustomDropdownField(undefinedDropdownValue, [
-      { text: "inline (default)", value: undefinedDropdownValue },
-      { text: "supporting", value: "supporting" },
-      { text: "showcase", value: "showcase" },
-      thumbnailOption,
-      { text: "immersive", value: "immersive" },
-    ]),
+    role: createCustomDropdownField(undefinedDropdownValue, roleOptions),
   };
 };
 
-export const createImageElement = (props: MainImageProps) => {
-  const { update: updateRoleOptions, Store: RoleStore } = createStore([
-    { text: "inline (default)", value: undefinedDropdownValue },
-    { text: "supporting", value: "supporting" },
-    { text: "showcase", value: "showcase" },
-    thumbnailOption,
-    { text: "immersive", value: "immersive" },
-  ]);
+export const createImageElement = (options: ImageElementOptions) => {
+  const { update: updateRoleOptions, Store: RoleStore } = createStore(
+    options.additionalRoleOptions
+  );
 
   const element = createReactElementSpec(
-    createImageFields(props),
+    createImageFields(options),
     ({ fields, errors, fieldValues }) => {
       return (
         <ImageElementForm

@@ -23,12 +23,12 @@ import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewSta
 import type {
   Asset,
   createImageFields,
+  ImageSelector,
   MainImageData,
-  MainImageProps,
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
-import { minAssetValidation, thumbnailOption } from "./ImageElement";
+import { minAssetValidation } from "./ImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -41,7 +41,7 @@ type ImageViewProps = {
   updateFields: SetMedia;
   updateRole: (value: string) => void;
   errors: ValidationError[];
-  field: CustomField<MainImageData, MainImageProps>;
+  field: CustomField<MainImageData, { openImageSelector: ImageSelector }>;
 };
 
 const AltText = styled.span`
@@ -56,6 +56,11 @@ const htmlLength = (text: string) => {
   return el.innerText.length;
 };
 
+export const thumbnailOption = {
+  text: "thumbnail",
+  value: "thumbnail",
+};
+
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
@@ -67,16 +72,20 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       <Columns>
         <Column width={2 / 5}>
           <FieldLayoutVertical>
-            <CustomDropdownView
-              field={fields.role}
-              label="Weighting"
-              errors={errors.role}
-              options={
-                minAssetValidation(fieldValues.mainImage, "").length
-                  ? [thumbnailOption]
-                  : undefined
-              }
-            />
+            <RoleOptionsStore>
+              {(additionalRoleOptions) => (
+                <CustomDropdownView
+                  field={fields.role}
+                  label="Weighting"
+                  errors={errors.role}
+                  options={
+                    minAssetValidation(fieldValues.mainImage, "").length
+                      ? [thumbnailOption]
+                      : [...additionalRoleOptions, thumbnailOption]
+                  }
+                />
+              )}
+            </RoleOptionsStore>
             <ImageView
               field={fields.mainImage}
               updateFields={({ caption, source, photographer }) => {
@@ -87,16 +96,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               updateRole={(value) => fields.role.update(value)}
               errors={errors.mainImage}
             />
-            <RoleOptionsStore>
-              {(roleOptions) => (
-                <CustomDropdownView
-                  options={roleOptions}
-                  field={fields.imageType}
-                  label={"Image type"}
-                  errors={errors.imageType}
-                />
-              )}
-            </RoleOptionsStore>
+            <CustomDropdownView
+              field={fields.imageType}
+              label={"Image type"}
+              errors={errors.imageType}
+            />
           </FieldLayoutVertical>
         </Column>
         <Column width={3 / 5}>

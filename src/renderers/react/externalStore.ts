@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
  * Creates a store to allow state within React to be programmatically updated
  * outside of a React context.
  */
-export const createStore = <Value>(defaultValue: Value) => {
+export const createStore = <Value>(getValue: Value) => {
   type Subscription = (val: Value) => void;
 
   const subscribers: Subscription[] = [];
@@ -53,7 +53,7 @@ export const createStore = <Value>(defaultValue: Value) => {
    * ```
    */
   const Store = ({ children }: { children: (val: Value) => ReactElement }) => {
-    const [value, setValue] = useState(defaultValue);
+    const [value, setValue] = useState(getValue);
     useEffect(() => {
       store.subscribe(setValue);
       return () => store.unsubscribe(setValue);

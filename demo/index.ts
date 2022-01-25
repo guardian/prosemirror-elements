@@ -66,9 +66,17 @@ const mockThirdPartyTracking = (html: string) =>
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 
+const additionalRoleOptions = [
+  { text: "inline (default)", value: "inline" },
+  { text: "supporting", value: "supporting" },
+  { text: "showcase", value: "showcase" },
+  { text: "immersive", value: "immersive" },
+];
+
 const { element: imageElement, updateRoleOptions } = createImageElement({
   openImageSelector: onCropImage,
   createCaptionPlugins,
+  additionalRoleOptions,
 });
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
@@ -248,18 +256,9 @@ const createEditor = (server: CollabServer) => {
   toggleImageFields.innerHTML = "Randomise image role options";
 
   toggleImageFields.addEventListener("click", () => {
-    const newOpts = [
-      { text: "inline (default)", value: "inline" },
-      { text: "supporting", value: "supporting" },
-      { text: "showcase", value: "showcase" },
-      {
-        text: "thumbnail",
-        value: "thumbnail",
-      },
-      { text: "immersive", value: "immersive" },
-    ];
-    newOpts.splice(Math.floor(Math.random() * 3), 2);
-    updateRoleOptions(newOpts);
+    updateRoleOptions(
+      [...additionalRoleOptions].splice(Math.floor(Math.random() * 3), 2)
+    );
   });
   btnContainer.appendChild(toggleImageFields);
 
