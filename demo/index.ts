@@ -71,21 +71,6 @@ const { element: imageElement, updateRoleOptions } = createImageElement({
   createCaptionPlugins,
 });
 
-setInterval(() => {
-  const newOpts = [
-    { text: "inline (default)", value: "inline" },
-    { text: "supporting", value: "supporting" },
-    { text: "showcase", value: "showcase" },
-    {
-      text: "thumbnail",
-      value: "thumbnail",
-    },
-    { text: "immersive", value: "immersive" },
-  ];
-  newOpts.splice(Math.floor(Math.random() * 3), 1);
-  updateRoleOptions(newOpts);
-}, 1000);
-
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement,
@@ -119,8 +104,8 @@ const schema = new Schema({
 const { serializer, parser } = createParsers(schema);
 
 const editorsContainer = document.querySelector("#editor-container");
-
-if (!editorsContainer) {
+const btnContainer = document.getElementById("button-container");
+if (!editorsContainer || !btnContainer) {
   throw new Error("No #editor element present in DOM");
 }
 
@@ -190,52 +175,45 @@ const createEditor = (server: CollabServer) => {
     elementButton.addEventListener("click", () =>
       insertElement({ elementName, values })(view.state, view.dispatch)
     );
-    return elementButton;
+    btnContainer.appendChild(elementButton);
   };
 
-  editorElement.appendChild(
-    createElementButton("Add embed element", embedElementName, {
-      weighting: "",
-      sourceUrl: "",
-      embedCode: "",
-      caption: "",
-      altText: "",
-    })
-  );
+  createElementButton("Add interactive element", interactiveElementName, {
+    iframeUrl:
+      "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+    scriptName: "iframe-wrapper",
+    source: "Guardian",
+    isMandatory: true,
+    role: "supporting",
+    originalUrl:
+      "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+    scriptUrl:
+      "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+    html: `<a href="https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html">Interactive</a>`,
+    caption: "",
+    altText: "",
+  });
 
-  editorElement.appendChild(
-    createElementButton("Add interactive element", interactiveElementName, {
-      iframeUrl:
-        "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
-      scriptName: "iframe-wrapper",
-      source: "Guardian",
-      isMandatory: true,
-      role: "supporting",
-      originalUrl:
-        "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
-      scriptUrl:
-        "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
-      html: `<a href="https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html">Interactive</a>`,
-      caption: "",
-      altText: "",
-    })
-  );
+  createElementButton("Add embed element", embedElementName, {
+    weighting: "",
+    sourceUrl: "",
+    embedCode: "",
+    caption: "",
+    altText: "",
+    required: false,
+  });
 
-  editorElement.appendChild(
-    createElementButton("Add demo image element", demoImageElementName, {
-      altText: "",
-      caption: "",
-      useSrc: { value: false },
-    })
-  );
+  createElementButton("Add demo image element", demoImageElementName, {
+    altText: "",
+    caption: "",
+    useSrc: { value: false },
+  });
 
-  editorElement.appendChild(
-    createElementButton("Add rich-link element", richlinkElementName, {
-      linkText: "example",
-      url: "https://example.com",
-      weighting: "",
-    })
-  );
+  createElementButton("Add rich-link element", richlinkElementName, {
+    linkText: "example",
+    url: "https://example.com",
+    weighting: "",
+  });
 
   const imageElementButton = document.createElement("button");
   imageElementButton.innerHTML = "Add image element";
@@ -263,22 +241,38 @@ const createEditor = (server: CollabServer) => {
     };
     onCropImage(setMedia);
   });
-  editorElement.appendChild(imageElementButton);
 
-  editorElement.appendChild(
-    createElementButton("Add pullquote element", pullquoteElementName, {
-      pullquote: "",
-      attribution: "",
-      weighting: "supporting",
-    })
-  );
+  // Add a button allowing you to toggle the image role fields
+  btnContainer.appendChild(imageElementButton);
+  const toggleImageFields = document.createElement("button");
+  toggleImageFields.innerHTML = "Randomise image role options";
 
-  editorElement.appendChild(
-    createElementButton("Add code element", codeElementName, {
-      codeText: "",
-      language: "Plain text",
-    })
-  );
+  toggleImageFields.addEventListener("click", () => {
+    const newOpts = [
+      { text: "inline (default)", value: "inline" },
+      { text: "supporting", value: "supporting" },
+      { text: "showcase", value: "showcase" },
+      {
+        text: "thumbnail",
+        value: "thumbnail",
+      },
+      { text: "immersive", value: "immersive" },
+    ];
+    newOpts.splice(Math.floor(Math.random() * 3), 2);
+    updateRoleOptions(newOpts);
+  });
+  btnContainer.appendChild(toggleImageFields);
+
+  createElementButton("Add pullquote element", pullquoteElementName, {
+    pullquote: "",
+    attribution: "",
+    weighting: "supporting",
+  });
+
+  createElementButton("Add code element", codeElementName, {
+    codeText: "",
+    language: "Plain text",
+  });
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     if (isFirstEditor) {

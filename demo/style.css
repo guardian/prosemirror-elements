@@ -102,6 +102,15 @@ h6 {
   width: 100%;
 }
 
+#button-container {
+  margin: 0 24px;
+  padding-bottom: 10px;
+}
+
+#button-container button {
+  margin: 5px;
+}
+
 .Editor {
   flex: 1 1 0;
   min-width: 0;
