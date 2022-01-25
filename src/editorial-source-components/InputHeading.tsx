@@ -20,12 +20,12 @@ const Errors = ({ errors }: { errors: string[] }) =>
 
 export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
 
-type Props = {
+export type InputHeadingProps = {
   headingLabel: React.ReactNode;
-  headingContent: React.ReactNode;
+  headingContent?: React.ReactNode;
   description?: React.ReactNode;
-  errors: string[];
-  name: string;
+  errors?: string[];
+  name?: string;
 };
 
 export const InputHeading = ({
@@ -34,13 +34,13 @@ export const InputHeading = ({
   description,
   errors,
   name,
-}: Props) => (
-  <InputHeadingContainer data-cy={getFieldHeadingTestId(name)}>
+}: InputHeadingProps) => (
+  <InputHeadingContainer data-cy={getFieldHeadingTestId(name ?? "")}>
     <Heading>
       <Label>{headingLabel}</Label>
       {headingContent}
     </Heading>
-    {errors.length > 0 ? (
+    {errors && errors.length > 0 ? (
       <Errors errors={errors} />
     ) : description ? (
       <Description>{description}</Description>

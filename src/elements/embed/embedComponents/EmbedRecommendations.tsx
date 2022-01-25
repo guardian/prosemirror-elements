@@ -3,14 +3,10 @@ import { buttonBrandAlt } from "@guardian/src-button";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../../editorial-source-components/Button";
-import { conversionMessage, message } from "./embedStyles";
+import { parseHtml } from "../../helpers/html";
+import { conversionMessage, message } from "../../helpers/messagingStyles";
 import type { TwitterUrl, YoutubeUrl } from "./embedUtils";
-import {
-  getEmbedSource,
-  isTwitterUrl,
-  isYoutubeUrl,
-  parseHtml,
-} from "./embedUtils";
+import { getEmbedSource, isTwitterUrl, isYoutubeUrl } from "./embedUtils";
 
 export const EmbedRecommendation = ({
   html,
