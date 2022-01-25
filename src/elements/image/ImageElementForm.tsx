@@ -80,6 +80,12 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                   ? [thumbnailOption]
                   : [...additionalRoleOptions, thumbnailOption];
 
+                /**
+                 * We must check our role when our role options change, to
+                 * ensure that the value we've selected exists within our list
+                 * of options. If it doesn't, we update our field value to the
+                 * first available option.
+                 */
                 useEffect(() => {
                   const roleHasBeenRemoved = !roleOptions.some(
                     ({ value }) => value === fieldValues.role
@@ -88,7 +94,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                   if (roleHasBeenRemoved) {
                     fields.role.update(roleOptions[0].value);
                   }
-                }, [additionalRoleOptions, fieldValues.mainImage]);
+                }, [roleOptions]);
 
                 return (
                   <CustomDropdownView
