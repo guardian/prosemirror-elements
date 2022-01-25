@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -39,7 +39,6 @@ type Props = {
 
 type ImageViewProps = {
   updateFields: SetMedia;
-  updateRole: (value: string) => void;
   errors: ValidationError[];
   field: CustomField<MainImageData, { openImageSelector: ImageSelector }>;
 };
@@ -73,18 +72,33 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
         <Column width={2 / 5}>
           <FieldLayoutVertical>
             <RoleOptionsStore>
-              {(additionalRoleOptions) => (
-                <CustomDropdownView
-                  field={fields.role}
-                  label="Weighting"
-                  errors={errors.role}
-                  options={
-                    minAssetValidation(fieldValues.mainImage, "").length
-                      ? [thumbnailOption]
-                      : [...additionalRoleOptions, thumbnailOption]
+              {(additionalRoleOptions) => {
+                const roleOptions = minAssetValidation(
+                  fieldValues.mainImage,
+                  ""
+                ).length
+                  ? [thumbnailOption]
+                  : [...additionalRoleOptions, thumbnailOption];
+
+                useEffect(() => {
+                  const roleHasBeenRemoved = !roleOptions.some(
+                    ({ value }) => value === fieldValues.role
+                  );
+
+                  if (roleHasBeenRemoved) {
+                    fields.role.update(roleOptions[0].value);
                   }
-                />
-              )}
+                }, [additionalRoleOptions, fieldValues.mainImage]);
+
+                return (
+                  <CustomDropdownView
+                    field={fields.role}
+                    label="Weighting"
+                    errors={errors.role}
+                    options={roleOptions}
+                  />
+                );
+              }}
             </RoleOptionsStore>
             <ImageView
               field={fields.mainImage}
@@ -93,7 +107,6 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 fields.source.update(source);
                 fields.photographer.update(photographer);
               }}
-              updateRole={(value) => fields.role.update(value)}
               errors={errors.mainImage}
             />
             <CustomDropdownView
@@ -182,12 +195,7 @@ const imageViewStyles = css`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
-const ImageView = ({
-  field,
-  updateFields,
-  updateRole,
-  errors,
-}: ImageViewProps) => {
+const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
 
   const setMedia = (previousMediaId: string | undefined) => (
@@ -200,10 +208,6 @@ const ImageView = ({
       assets,
       suppliersReference,
     });
-
-    if (minAssetValidation({ assets }, "").length) {
-      updateRole(thumbnailOption.value);
-    }
 
     if (previousMediaId && previousMediaId !== mediaId) {
       updateFields(mediaPayload);
