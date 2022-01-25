@@ -33,18 +33,13 @@ export const Preview = ({
   ...rest
 }: PreviewProps) => {
   const [height, setHeight] = useState("0px");
-  const [resize, setResize] = useState(false);
   const ref = useRef<HTMLIFrameElement>(null);
-  const maxHeight = 120; // In px
 
   const updateIframeHeight = () => {
     const heightOfContent = getDocHeight(ref.current?.contentWindow?.document);
-    if (heightOfContent && heightOfContent < maxHeight) {
+    if (heightOfContent) {
       setHeight((heightOfContent + 4).toString() + "px");
-    } else if (heightOfContent && heightOfContent > maxHeight) {
-      setHeight(maxHeight.toString() + "px");
-      setResize(true);
-    } else setResize(false);
+    }
   };
 
   const onLoad = () => {
@@ -55,7 +50,6 @@ export const Preview = ({
   };
 
   const iframe = css`
-    resize: ${resize || iframeUrl ? "vertical" : "none"};
     background-color: white;
     width: 100%;
     font-family: sans-serif;
