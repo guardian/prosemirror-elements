@@ -504,6 +504,9 @@ describe("ImageElement", () => {
       it(`should serialise state as field attributes on the appropriate node in the document when a new option is selected`, () => {
         addImageElement();
         getElementField("customDropdown").find("select").select("opt2");
+        // Wait for the document to be updated after the selection is made
+        cy.wait(100);
+
         assertDocHtml(getSerialisedHtml({ customDropdownValue: "opt2" }));
       });
     });

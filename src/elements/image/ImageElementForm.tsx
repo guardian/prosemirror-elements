@@ -28,7 +28,7 @@ import type {
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
-import { minAssetValidation, undefinedDropdownValue } from "./ImageElement";
+import { minAssetValidation } from "./ImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -170,6 +170,8 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   );
 };
 
+const thumbnailOnlyOptions = [thumbnailOption];
+
 const RoleOptionsDropdown = ({
   field,
   fieldValue,
@@ -183,9 +185,16 @@ const RoleOptionsDropdown = ({
   fieldValue: string;
   errors: ValidationError[];
 }) => {
+  // We memoise these options to ensure that this array does not change identity
+  // and re-trigger useEffect unless our additionalRoleOptions have changed.
+  const allOptions = useMemo(
+    () => [...additionalRoleOptions, thumbnailOption],
+    [additionalRoleOptions]
+  );
+
   const roleOptions = minAssetValidation(mainImage, "").length
-    ? [thumbnailOption]
-    : [...additionalRoleOptions, thumbnailOption];
+    ? thumbnailOnlyOptions
+    : allOptions;
 
   /**
    * We must check our role when our role options change, to
@@ -194,7 +203,7 @@ const RoleOptionsDropdown = ({
    * first available option.
    */
   useEffect(() => {
-    if (!fieldValue || fieldValue === undefinedDropdownValue) {
+    if (!fieldValue) {
       return;
     }
 
@@ -203,7 +212,8 @@ const RoleOptionsDropdown = ({
     );
 
     if (roleHasBeenRemoved) {
-      field.update(roleOptions[0].value);
+      const firstAvailableOption = roleOptions[0].value;
+      field.update(firstAvailableOption);
     }
   }, [roleOptions]);
 

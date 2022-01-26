@@ -103,7 +103,14 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
   }
 
   public update(value: Value) {
-    this.updateOuterEditor(value);
+    // We must wrap our update call in a setTimeout to avoid a bug. If update
+    // may be called synchronously as the field is initially rendered by a
+    // consumer, we will be calling `updateOuterEditor` in the middle of the
+    // ProseMirror dispatch lifecycle, which can produce odd results. Running
+    // our update asynchronously avoids this issue.
+    setTimeout(() => {
+      this.updateOuterEditor(value);
+    });
   }
 
   public destroy() {
