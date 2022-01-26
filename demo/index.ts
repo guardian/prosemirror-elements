@@ -16,6 +16,7 @@ import {
   richlinkElement,
 } from "../src";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
+import { undefinedDropdownValue } from "../src/elements/image/ImageElement";
 import { createInteractiveElement } from "../src/elements/interactive/InteractiveSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -67,7 +68,7 @@ const mockThirdPartyTracking = (html: string) =>
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 
 const additionalRoleOptions = [
-  { text: "inline (default)", value: "inline" },
+  { text: "inline (default)", value: undefinedDropdownValue },
   { text: "supporting", value: "supporting" },
   { text: "showcase", value: "showcase" },
   { text: "immersive", value: "immersive" },
