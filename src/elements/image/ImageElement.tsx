@@ -108,7 +108,7 @@ export const createImageFields = ({
 };
 
 export const createImageElement = (options: ImageElementOptions) => {
-  const { update: updateRoleOptions, Store: RoleStore } = createStore(
+  const { update: updateAdditionalRoleOptions, Store: RoleStore } = createStore(
     options.additionalRoleOptions
   );
 
@@ -126,5 +126,5 @@ export const createImageElement = (options: ImageElementOptions) => {
     }
   );
 
-  return { element, updateRoleOptions };
+  return { element, updateAdditionalRoleOptions };
 };

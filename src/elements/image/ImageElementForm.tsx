@@ -183,18 +183,9 @@ const RoleOptionsDropdown = ({
   value: string;
   errors: ValidationError[];
 }) => {
-  /**
-   * We must memoise here to preserve object identity on rerender,
-   * as an effect depends upon this value and without memoisation
-   * it will be triggered on each rerender.
-   */
-  const roleOptions = useMemo(
-    () =>
-      minAssetValidation(mainImage, "").length
-        ? [thumbnailOption]
-        : [...additionalRoleOptions, thumbnailOption],
-    [thumbnailOption, additionalRoleOptions]
-  );
+  const roleOptions = minAssetValidation(mainImage, "").length
+    ? [thumbnailOption]
+    : [...additionalRoleOptions, thumbnailOption];
 
   /**
    * We must check our role when our role options change, to

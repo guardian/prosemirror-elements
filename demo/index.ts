@@ -73,7 +73,10 @@ const additionalRoleOptions = [
   { text: "immersive", value: "immersive" },
 ];
 
-const { element: imageElement, updateRoleOptions } = createImageElement({
+const {
+  element: imageElement,
+  updateAdditionalRoleOptions,
+} = createImageElement({
   openImageSelector: onCropImage,
   createCaptionPlugins,
   additionalRoleOptions,
@@ -256,7 +259,7 @@ const createEditor = (server: CollabServer) => {
   toggleImageFields.innerHTML = "Randomise image role options";
 
   toggleImageFields.addEventListener("click", () => {
-    updateRoleOptions(
+    updateAdditionalRoleOptions(
       [...additionalRoleOptions].splice(Math.floor(Math.random() * 3), 2)
     );
   });
