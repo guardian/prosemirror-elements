@@ -76,7 +76,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 <RoleOptionsDropdown
                   additionalRoleOptions={additionalRoleOptions}
                   field={fields.role}
-                  value={fieldValues.role}
+                  fieldValue={fieldValues.role}
                   errors={errors.role}
                   mainImage={fieldValues.mainImage}
                 />
@@ -172,7 +172,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
 
 const RoleOptionsDropdown = ({
   field,
-  value,
+  fieldValue,
   mainImage,
   additionalRoleOptions,
   errors,
@@ -180,7 +180,7 @@ const RoleOptionsDropdown = ({
   field: CustomField<string, Options>;
   additionalRoleOptions: Options;
   mainImage: MainImageData;
-  value: string;
+  fieldValue: string;
   errors: ValidationError[];
 }) => {
   const roleOptions = minAssetValidation(mainImage, "").length
@@ -194,12 +194,12 @@ const RoleOptionsDropdown = ({
    * first available option.
    */
   useEffect(() => {
-    if (!value || value === undefinedDropdownValue) {
+    if (!fieldValue || fieldValue === undefinedDropdownValue) {
       return;
     }
 
     const roleHasBeenRemoved = !roleOptions.some(
-      ({ value }) => value === value
+      ({ value }) => fieldValue === value
     );
 
     if (roleHasBeenRemoved) {
