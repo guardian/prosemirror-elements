@@ -28,7 +28,7 @@ import type {
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
-import { minAssetValidation } from "./ImageElement";
+import { minAssetValidation, undefinedDropdownValue } from "./ImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -72,39 +72,15 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
         <Column width={2 / 5}>
           <FieldLayoutVertical>
             <RoleOptionsStore>
-              {(additionalRoleOptions) => {
-                const roleOptions = minAssetValidation(
-                  fieldValues.mainImage,
-                  ""
-                ).length
-                  ? [thumbnailOption]
-                  : [...additionalRoleOptions, thumbnailOption];
-
-                /**
-                 * We must check our role when our role options change, to
-                 * ensure that the value we've selected exists within our list
-                 * of options. If it doesn't, we update our field value to the
-                 * first available option.
-                 */
-                useEffect(() => {
-                  const roleHasBeenRemoved = !roleOptions.some(
-                    ({ value }) => value === fieldValues.role
-                  );
-
-                  if (roleHasBeenRemoved) {
-                    fields.role.update(roleOptions[0].value);
-                  }
-                }, [roleOptions]);
-
-                return (
-                  <CustomDropdownView
-                    field={fields.role}
-                    label="Weighting"
-                    errors={errors.role}
-                    options={roleOptions}
-                  />
-                );
-              }}
+              {(additionalRoleOptions) => (
+                <RoleOptionsDropdown
+                  additionalRoleOptions={additionalRoleOptions}
+                  field={fields.role}
+                  value={fieldValues.role}
+                  errors={errors.role}
+                  mainImage={fieldValues.mainImage}
+                />
+              )}
             </RoleOptionsStore>
             <ImageView
               field={fields.mainImage}
@@ -191,6 +167,62 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
         </Column>
       </Columns>
     </div>
+  );
+};
+
+const RoleOptionsDropdown = ({
+  field,
+  value,
+  mainImage,
+  additionalRoleOptions,
+  errors,
+}: {
+  field: CustomField<string, Options>;
+  additionalRoleOptions: Options;
+  mainImage: MainImageData;
+  value: string;
+  errors: ValidationError[];
+}) => {
+  /**
+   * We must memoise here to preserve object identity on rerender,
+   * as an effect depends upon this value and without memoisation
+   * it will be triggered on each rerender.
+   */
+  const roleOptions = useMemo(
+    () =>
+      minAssetValidation(mainImage, "").length
+        ? [thumbnailOption]
+        : [...additionalRoleOptions, thumbnailOption],
+    [thumbnailOption, additionalRoleOptions]
+  );
+
+  /**
+   * We must check our role when our role options change, to
+   * ensure that the value we've selected exists within our list
+   * of options. If it doesn't, we update our field value to the
+   * first available option.
+   */
+  useEffect(() => {
+    if (!value || value === undefinedDropdownValue) {
+      return;
+    }
+
+    const roleHasBeenRemoved = !roleOptions.some(
+      ({ value }) => value === value
+    );
+
+    if (roleHasBeenRemoved) {
+      field.update(roleOptions[0].value);
+    }
+  }, [roleOptions]);
+
+  return (
+    <CustomDropdownView
+      field={field}
+      label="Weighting"
+      errors={errors}
+      options={roleOptions}
+    />
   );
 };
 
