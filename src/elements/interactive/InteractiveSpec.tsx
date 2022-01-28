@@ -10,14 +10,13 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
+import { undefinedDropdownValue } from "../helpers/transform";
 import { InteractiveElementForm } from "./InteractiveForm";
 
 export type MainInteractiveProps = {
   checkThirdPartyTracking: (html: string) => Promise<EmbedStatus>;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
-
-export const undefinedDropdownValue = "none-selected";
 
 export const createInteractiveFields = ({
   createCaptionPlugins,
