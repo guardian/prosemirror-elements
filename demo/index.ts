@@ -15,8 +15,8 @@ import {
   pullquoteElement,
   richlinkElement,
 } from "../src";
+import { undefinedDropdownValue } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { undefinedDropdownValue } from "../src/elements/image/ImageElement";
 import { createInteractiveElement } from "../src/elements/interactive/InteractiveSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {

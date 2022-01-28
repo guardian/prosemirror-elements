@@ -1,6 +1,6 @@
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
-import { undefinedDropdownValue } from "./EmbedSpec";
 import type { createEmbedFields } from "./EmbedSpec";
 
 export type ExternalEmbedFields = {

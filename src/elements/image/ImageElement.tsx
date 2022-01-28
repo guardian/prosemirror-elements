@@ -10,6 +10,7 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { createStore } from "../../renderers/react/externalStore";
+import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
@@ -51,8 +52,6 @@ export type ImageElementOptions = {
   createCaptionPlugins?: (schema: Schema) => Plugin[];
   additionalRoleOptions: Options;
 };
-
-export const undefinedDropdownValue = "none-selected";
 
 export const minAssetValidation = largestAssetMinDimension(460);
 
