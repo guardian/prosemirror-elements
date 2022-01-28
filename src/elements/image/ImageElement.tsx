@@ -9,7 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { createStore } from "../../renderers/react/externalStore";
+import { createStore } from "../../renderers/react/store";
 import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { ImageElementForm } from "./ImageElementForm";

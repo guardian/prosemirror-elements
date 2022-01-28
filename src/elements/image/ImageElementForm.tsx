@@ -18,7 +18,7 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { Store } from "../../renderers/react/externalStore";
+import type { Store } from "../../renderers/react/store";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import type {
   Asset,
