@@ -1,5 +1,5 @@
 import { act, render, screen } from "@testing-library/react";
-import { createStore } from "../externalStore";
+import { createStore } from "../store";
 
 describe("createStore", () => {
   it("should provide an initial value", () => {
@@ -48,6 +48,19 @@ describe("createStore", () => {
     const { unmount } = render(<Store>{(value) => <>{value}</>}</Store>);
 
     expect(screen.getByText("1")).toBeTruthy();
+
+    unmount();
+
+    expect(update(1)).toBe(false);
+  });
+
+  it("should always provide the latest value to the store to a component mounted after updates have occurred", () => {
+    const { Store, update } = createStore(1);
+    update(2);
+
+    const { unmount } = render(<Store>{(value) => <>{value}</>}</Store>);
+
+    expect(screen.getByText("2")).toBeTruthy();
 
     unmount();
 
