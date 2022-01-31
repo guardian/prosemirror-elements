@@ -1,62 +1,55 @@
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
-import type { createEmbedFields } from "./EmbedSpec";
+import type { createInteractiveFields } from "./InteractiveSpec";
 
-export type ExternalEmbedFields = {
+export type ExternalInteractiveFields = {
   alt: string;
   caption: string;
   html: string;
   isMandatory: string;
-  url: string;
   role: string | undefined;
+  scriptUrl: string;
+  iframeUrl: string;
+  source: string;
 };
 
-export type ExternalEmbedData = {
-  fields: ExternalEmbedFields;
+export type ExternalInteractiveData = {
+  fields: ExternalInteractiveFields;
 };
 
-export type PartialEmbedData = {
-  fields: Partial<ExternalEmbedFields>;
+export type PartialInteractiveData = {
+  fields: Partial<ExternalInteractiveFields>;
 };
 
 export const transformElementIn: TransformIn<
-  PartialEmbedData,
-  ReturnType<typeof createEmbedFields>
+  PartialInteractiveData,
+  ReturnType<typeof createInteractiveFields>
 > = ({ fields }) => {
-  const { alt, caption, html, isMandatory, url, role } = fields;
+  const { isMandatory, role, ...rest } = fields;
 
   return {
-    alt,
-    caption,
-    html,
     isMandatory: isMandatory === "true",
-    url,
     role: role ?? undefinedDropdownValue,
+    ...rest,
   };
 };
 
 export const transformElementOut: TransformOut<
-  ExternalEmbedData,
-  ReturnType<typeof createEmbedFields>
+  ExternalInteractiveData,
+  ReturnType<typeof createInteractiveFields>
 > = ({
-  alt,
-  caption,
-  html,
   isMandatory,
-  url,
   role,
+  ...rest
 }: FieldNameToValueMap<
-  ReturnType<typeof createEmbedFields>
->): ExternalEmbedData => {
+  ReturnType<typeof createInteractiveFields>
+>): ExternalInteractiveData => {
   return {
     fields: {
-      alt,
-      caption,
-      html,
       isMandatory: isMandatory.toString(),
-      url,
       role: role === undefinedDropdownValue ? undefined : role,
+      ...rest,
     },
   };
 };

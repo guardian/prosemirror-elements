@@ -2,6 +2,12 @@ import { css } from "@emotion/react";
 import { border, space } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 
+export const conversionMessage = css`
+  background-color: #f7ebd4;
+  border: 1px solid #f0d8a8;
+  padding: ${space[1]}px;
+`;
+
 export const message = css`
   ${textSans.small({ fontWeight: "bold", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
@@ -14,12 +20,6 @@ export const message = css`
     width: 1.2rem;
     margin-bottom: -${space[1]}px;
   }
-`;
-
-export const conversionMessage = css`
-  background-color: #f7ebd4;
-  border: 1px solid #f0d8a8;
-  padding: ${space[1]}px;
 `;
 
 export const niceColours = css`

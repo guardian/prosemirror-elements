@@ -5,12 +5,15 @@ import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
+// A placeholder value for a dropdown option that represents no selection.
+export const undefinedDropdownValue = "none-selected";
+
 const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
   embed: embedElementTransform,
   image: imageElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
-  "rich-link": defaultElementTransform<typeof richlinkFields>(),
+  "rich-link": defaultElementTransform<typeof richlinkFields>(true),
 } as const;
 
 type TransformMap = typeof transformMap;

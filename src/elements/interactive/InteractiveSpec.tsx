@@ -11,17 +11,16 @@ import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
-import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
-import { EmbedElementForm } from "./EmbedForm";
+import { InteractiveElementForm } from "./InteractiveForm";
 
-export type MainEmbedProps = {
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
-  convertYouTube: (src: YoutubeUrl) => void;
-  convertTwitter: (src: TwitterUrl) => void;
+export type MainInteractiveProps = {
+  checkThirdPartyTracking: (html: string) => Promise<EmbedStatus>;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
 };
 
-export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
+export const createInteractiveFields = ({
+  createCaptionPlugins,
+}: MainInteractiveProps) => {
   return {
     role: createCustomDropdownField("inline", [
       { text: "inline (default)", value: undefinedDropdownValue },
@@ -30,18 +29,6 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
       { text: "thumbnail", value: "thumbnail" },
       { text: "immersive", value: "immersive" },
     ]),
-    url: createTextField({
-      placeholder: "Enter the source URL for this embed…",
-    }),
-    html: createTextField({
-      rows: 2,
-      isCode: true,
-      maxRows: 10,
-      isResizeable: true,
-      isMultiline: true,
-      validators: [htmlRequired(undefined, "WARN")],
-      placeholder: "Paste in the embed code…",
-    }),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
       marks: "em strong link strike",
@@ -54,22 +41,25 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
       validators: [htmlMaxLength(1000), htmlRequired()],
       placeholder: "Enter some alt text…",
     }),
+    html: createTextField(),
+    scriptUrl: createTextField(),
+    iframeUrl: createTextField(),
+    originalUrl: createTextField(),
+    source: createTextField(),
     isMandatory: createCustomField(true, true),
   };
 };
 
-export const createEmbedElement = (props: MainEmbedProps) =>
+export const createInteractiveElement = (props: MainInteractiveProps) =>
   createReactElementSpec(
-    createEmbedFields(props),
+    createInteractiveFields(props),
     ({ fields, errors, fieldValues }) => {
       return (
-        <EmbedElementForm
+        <InteractiveElementForm
           fields={fields}
           errors={errors}
           fieldValues={fieldValues}
-          checkEmbedTracking={props.checkEmbedTracking}
-          convertYouTube={props.convertYouTube}
-          convertTwitter={props.convertTwitter}
+          checkEmbedTracking={props.checkThirdPartyTracking}
         />
       );
     }

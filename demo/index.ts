@@ -7,7 +7,6 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import type { TwitterUrl, YoutubeUrl } from "../src";
 import {
   codeElement,
   createDemoImageElement,
@@ -16,7 +15,9 @@ import {
   pullquoteElement,
   richlinkElement,
 } from "../src";
+import { undefinedDropdownValue } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
+import { createInteractiveElement } from "../src/elements/interactive/InteractiveSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -38,6 +39,7 @@ const demoImageElementName = "demo-image-element";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 const richlinkElementName = "richlinkElement";
+const interactiveElementName = "interactiveElement";
 
 type Name =
   | typeof embedElementName
@@ -45,34 +47,54 @@ type Name =
   | typeof demoImageElementName
   | typeof codeElementName
   | typeof pullquoteElementName
-  | typeof richlinkElementName;
+  | typeof richlinkElementName
+  | typeof interactiveElementName;
+
+const mockThirdPartyTracking = (html: string) =>
+  html.includes("fail")
+    ? Promise.resolve({
+        tracking: {
+          tracks: "tracks",
+        },
+        reach: { unsupportedPlatforms: ["amp", "mobile"] },
+      })
+    : Promise.resolve({
+        tracking: {
+          tracks: "does-not-track",
+        },
+        reach: { unsupportedPlatforms: [] },
+      });
+
+const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
+
+const additionalRoleOptions = [
+  { text: "inline (default)", value: undefinedDropdownValue },
+  { text: "supporting", value: "supporting" },
+  { text: "showcase", value: "showcase" },
+  { text: "immersive", value: "immersive" },
+];
+
+const {
+  element: imageElement,
+  updateAdditionalRoleOptions,
+} = createImageElement({
+  openImageSelector: onCropImage,
+  createCaptionPlugins,
+  additionalRoleOptions,
+});
 
 const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement: createImageElement({
-    openImageSelector: onCropImage,
-    createCaptionPlugins: (schema) => exampleSetup({ schema }),
-  }),
+  imageElement,
   embedElement: createEmbedElement({
-    checkEmbedTracking: (html) =>
-      html.includes("fail")
-        ? Promise.resolve({
-            tracking: {
-              tracks: "tracks",
-            },
-            reach: { unsupportedPlatforms: ["amp", "mobile"] },
-          })
-        : Promise.resolve({
-            tracking: {
-              tracks: "does-not-track",
-            },
-            reach: { unsupportedPlatforms: [] },
-          }),
-    convertTwitter: (src: TwitterUrl) =>
-      console.log(`Add Twitter embed with src: ${src}`),
-    convertYouTube: (src: YoutubeUrl) =>
-      console.log(`Add youtube embed with src: ${src}`),
-    createCaptionPlugins: (schema) => exampleSetup({ schema }),
+    checkEmbedTracking: mockThirdPartyTracking,
+    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    createCaptionPlugins,
+  }),
+  interactiveElement: createInteractiveElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    createCaptionPlugins,
   }),
   codeElement,
   pullquoteElement,
@@ -94,8 +116,8 @@ const schema = new Schema({
 const { serializer, parser } = createParsers(schema);
 
 const editorsContainer = document.querySelector("#editor-container");
-
-if (!editorsContainer) {
+const btnContainer = document.getElementById("button-container");
+if (!editorsContainer || !btnContainer) {
   throw new Error("No #editor element present in DOM");
 }
 
@@ -165,35 +187,45 @@ const createEditor = (server: CollabServer) => {
     elementButton.addEventListener("click", () =>
       insertElement({ elementName, values })(view.state, view.dispatch)
     );
-    return elementButton;
+    btnContainer.appendChild(elementButton);
   };
 
-  editorElement.appendChild(
-    createElementButton("Add embed element", embedElementName, {
-      weighting: "",
-      sourceUrl: "",
-      embedCode: "",
-      caption: "",
-      altText: "",
-      required: false,
-    })
-  );
+  createElementButton("Add interactive element", interactiveElementName, {
+    iframeUrl:
+      "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+    scriptName: "iframe-wrapper",
+    source: "Guardian",
+    isMandatory: true,
+    role: "supporting",
+    originalUrl:
+      "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+    scriptUrl:
+      "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+    html: `<a href="https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html">Interactive</a>`,
+    caption: "",
+    altText: "",
+  });
 
-  editorElement.appendChild(
-    createElementButton("Add demo image element", demoImageElementName, {
-      altText: "",
-      caption: "",
-      useSrc: { value: false },
-    })
-  );
+  createElementButton("Add embed element", embedElementName, {
+    weighting: "",
+    sourceUrl: "",
+    embedCode: "",
+    caption: "",
+    altText: "",
+    required: false,
+  });
 
-  editorElement.appendChild(
-    createElementButton("Add rich-link element", richlinkElementName, {
-      linkText: "example",
-      url: "https://example.com",
-      weighting: "",
-    })
-  );
+  createElementButton("Add demo image element", demoImageElementName, {
+    altText: "",
+    caption: "",
+    useSrc: { value: false },
+  });
+
+  createElementButton("Add rich-link element", richlinkElementName, {
+    linkText: "example",
+    url: "https://example.com",
+    weighting: "",
+  });
 
   const imageElementButton = document.createElement("button");
   imageElementButton.innerHTML = "Add image element";
@@ -221,22 +253,29 @@ const createEditor = (server: CollabServer) => {
     };
     onCropImage(setMedia);
   });
-  editorElement.appendChild(imageElementButton);
 
-  editorElement.appendChild(
-    createElementButton("Add pullquote element", pullquoteElementName, {
-      pullquote: "",
-      attribution: "",
-      weighting: "supporting",
-    })
-  );
+  // Add a button allowing you to toggle the image role fields
+  btnContainer.appendChild(imageElementButton);
+  const toggleImageFields = document.createElement("button");
+  toggleImageFields.innerHTML = "Randomise image role options";
 
-  editorElement.appendChild(
-    createElementButton("Add code element", codeElementName, {
-      codeText: "",
-      language: "Plain text",
-    })
-  );
+  toggleImageFields.addEventListener("click", () => {
+    updateAdditionalRoleOptions(
+      [...additionalRoleOptions].splice(Math.floor(Math.random() * 3), 2)
+    );
+  });
+  btnContainer.appendChild(toggleImageFields);
+
+  createElementButton("Add pullquote element", pullquoteElementName, {
+    pullquote: "",
+    attribution: "",
+    weighting: "supporting",
+  });
+
+  createElementButton("Add code element", codeElementName, {
+    codeText: "",
+    language: "Plain text",
+  });
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     if (isFirstEditor) {
