@@ -83,7 +83,10 @@ export const createPlugin = <
             ...node.attrs,
             [elementSelectedNodeAttr]: isCurrentlySelected,
           });
+        }
 
+        // Do not descend into element nodes.
+        if (isProseMirrorElement(node)) {
           return false;
         }
       });
