@@ -6,6 +6,9 @@ import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as videoElementTransform } from "../video/videoDataTransformer";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
+// A placeholder value for a dropdown option that represents no selection.
+export const undefinedDropdownValue = "none-selected";
+
 const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
   embed: embedElementTransform,
@@ -52,5 +55,3 @@ export const transformElementOut = <Name extends keyof TransformMap>(
     return undefined;
   }
 };
-
-export const undefinedDropdownValue = "none-selected";

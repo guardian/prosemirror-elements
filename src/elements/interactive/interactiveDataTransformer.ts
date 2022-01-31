@@ -1,6 +1,6 @@
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
-import { undefinedDropdownValue } from "./InteractiveSpec";
 import type { createInteractiveFields } from "./InteractiveSpec";
 
 export type ExternalInteractiveFields = {

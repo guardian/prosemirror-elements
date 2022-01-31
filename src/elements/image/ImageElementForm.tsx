@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -13,33 +13,35 @@ import type {
   FieldValidationErrors,
   ValidationError,
 } from "../../plugin/elementSpec";
+import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
+import type { Store } from "../../renderers/react/store";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import { htmlLength } from "../helpers/validation";
 import type {
   Asset,
   createImageFields,
+  ImageSelector,
   MainImageData,
-  MainImageProps,
   MediaPayload,
   SetMedia,
 } from "./ImageElement";
-import { minAssetValidation, thumbnailOption } from "./ImageElement";
+import { minAssetValidation } from "./ImageElement";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createImageFields>>;
+  roleOptionsStore: Store<Options>;
 };
 
 type ImageViewProps = {
   updateFields: SetMedia;
-  updateRole: (value: string) => void;
   errors: ValidationError[];
-  field: CustomField<MainImageData, MainImageProps>;
+  field: CustomField<MainImageData, { openImageSelector: ImageSelector }>;
 };
 
 const AltText = styled.span`
@@ -48,26 +50,33 @@ const AltText = styled.span`
 
 export const ImageElementTestId = "ImageElement";
 
+export const thumbnailOption = {
+  text: "thumbnail",
+  value: "thumbnail",
+};
+
 export const ImageElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,
+  roleOptionsStore: RoleOptionsStore,
 }) => {
   return (
     <div data-cy={ImageElementTestId}>
       <Columns>
         <Column width={2 / 5}>
           <FieldLayoutVertical>
-            <CustomDropdownView
-              field={fields.role}
-              label="Weighting"
-              errors={errors.role}
-              options={
-                minAssetValidation(fieldValues.mainImage, "").length
-                  ? [thumbnailOption]
-                  : undefined
-              }
-            />
+            <RoleOptionsStore>
+              {(additionalRoleOptions) => (
+                <RoleOptionsDropdown
+                  additionalRoleOptions={additionalRoleOptions}
+                  field={fields.role}
+                  fieldValue={fieldValues.role}
+                  errors={errors.role}
+                  mainImage={fieldValues.mainImage}
+                />
+              )}
+            </RoleOptionsStore>
             <ImageView
               field={fields.mainImage}
               updateFields={({ caption, source, photographer }) => {
@@ -75,7 +84,6 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 fields.source.update(source);
                 fields.photographer.update(photographer);
               }}
-              updateRole={(value) => fields.role.update(value)}
               errors={errors.mainImage}
             />
             <CustomDropdownView
@@ -157,6 +165,63 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   );
 };
 
+const thumbnailOnlyOptions = [thumbnailOption];
+
+const RoleOptionsDropdown = ({
+  field,
+  fieldValue,
+  mainImage,
+  additionalRoleOptions,
+  errors,
+}: {
+  field: CustomField<string, Options>;
+  additionalRoleOptions: Options;
+  mainImage: MainImageData;
+  fieldValue: string;
+  errors: ValidationError[];
+}) => {
+  // We memoise these options to ensure that this array does not change identity
+  // and re-trigger useEffect unless our additionalRoleOptions have changed.
+  const allOptions = useMemo(
+    () => [...additionalRoleOptions, thumbnailOption],
+    [additionalRoleOptions]
+  );
+
+  const roleOptions = minAssetValidation(mainImage, "").length
+    ? thumbnailOnlyOptions
+    : allOptions;
+
+  /**
+   * We must check our role when our role options change, to
+   * ensure that the value we've selected exists within our list
+   * of options. If it doesn't, we update our field value to the
+   * first available option.
+   */
+  useEffect(() => {
+    if (!fieldValue) {
+      return;
+    }
+
+    const roleHasBeenRemoved = !roleOptions.some(
+      ({ value }) => fieldValue === value
+    );
+
+    if (roleHasBeenRemoved) {
+      const firstAvailableOption = roleOptions[0].value;
+      field.update(firstAvailableOption);
+    }
+  }, [roleOptions]);
+
+  return (
+    <CustomDropdownView
+      field={field}
+      label="Weighting"
+      errors={errors}
+      options={roleOptions}
+    />
+  );
+};
+
 const imageViewStyles = css`
   width: 100%;
 `;
@@ -164,12 +229,7 @@ const imageViewStyles = css`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
-const ImageView = ({
-  field,
-  updateFields,
-  updateRole,
-  errors,
-}: ImageViewProps) => {
+const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
 
   const setMedia = (previousMediaId: string | undefined) => (
@@ -182,10 +242,6 @@ const ImageView = ({
       assets,
       suppliersReference,
     });
-
-    if (minAssetValidation({ assets }, "").length) {
-      updateRole(thumbnailOption.value);
-    }
 
     if (previousMediaId && previousMediaId !== mediaId) {
       updateFields(mediaPayload);
