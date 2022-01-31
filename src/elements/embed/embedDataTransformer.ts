@@ -1,15 +1,18 @@
+import pickBy from "lodash/pickBy";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import { isHtmlSafe } from "../helpers/html";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { createEmbedFields } from "./EmbedSpec";
 
 export type ExternalEmbedFields = {
-  alt: string;
-  caption: string;
+  alt?: string;
+  caption?: string;
   html: string;
   isMandatory: string;
-  url: string;
+  url?: string;
   role: string | undefined;
+  isSafe: string;
 };
 
 export type ExternalEmbedData = {
@@ -49,14 +52,24 @@ export const transformElementOut: TransformOut<
 }: FieldNameToValueMap<
   ReturnType<typeof createEmbedFields>
 >): ExternalEmbedData => {
-  return {
-    fields: {
+  const optionalFields = pickBy(
+    {
       alt,
       caption,
+      url,
+    },
+    (field) => field.length > 0
+  );
+
+  const isSafe = isHtmlSafe(html);
+
+  return {
+    fields: {
       html,
       isMandatory: isMandatory.toString(),
-      url,
+      isSafe: isSafe.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
+      ...optionalFields,
     },
   };
 };
