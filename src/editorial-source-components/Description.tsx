@@ -6,6 +6,7 @@ export const descriptionStyles = css`
   ${textSans.small({ lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
   display: block;
+  user-select: none;
 `;
 
 export const Description = styled.div`

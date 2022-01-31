@@ -27,7 +27,11 @@ const fieldErrors = <FDesc extends FieldDescriptions<string>>(
 
 type IProps<FDesc extends FieldDescriptions<string>> = {
   subscribe: (
-    fn: (fields: FieldNameToValueMap<FDesc>, commands: Commands) => void
+    fn: (
+      fields: FieldNameToValueMap<FDesc>,
+      commands: Commands,
+      isSelected: boolean
+    ) => void
   ) => void;
   commands: Commands;
   fieldValues: FieldNameToValueMap<FDesc>;
@@ -40,6 +44,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
 type IState<FDesc extends FieldDescriptions<string>> = {
   commands: Commands;
   fieldValues: FieldNameToValueMap<FDesc>;
+  isSelected: boolean;
 };
 
 export class ElementProvider<
@@ -53,15 +58,17 @@ export class ElementProvider<
     this.state = {
       commands: this.props.commands,
       fieldValues: this.props.fieldValues,
+      isSelected: false,
     };
   }
 
   public componentDidMount() {
-    this.props.subscribe((fieldValues, commands) =>
+    this.props.subscribe((fieldValues, commands, isSelected) =>
       this.updateState(
         {
           commands,
           fieldValues,
+          isSelected,
         },
         false
       )
@@ -93,7 +100,10 @@ export class ElementProvider<
 
   public render() {
     return (
-      <ElementWrapper {...this.state.commands}>
+      <ElementWrapper
+        {...this.state.commands}
+        isSelected={this.state.isSelected}
+      >
         <this.Element
           fields={this.props.fields}
           fieldValues={this.state.fieldValues}

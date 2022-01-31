@@ -88,7 +88,8 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     commands: ReturnType<CommandCreator>
   ) => (
     fields: FieldNameToValueMap<FDesc>,
-    commands: ReturnType<CommandCreator>
+    commands: ReturnType<CommandCreator>,
+    isSelected: boolean
   ) => void;
 };
 

@@ -8,6 +8,7 @@ export const errorStyles = css`
   font-family: "Guardian Agate Sans";
   display: block;
   color: ${text.error};
+  user-select: none;
 `;
 
 export const Error = styled.div`

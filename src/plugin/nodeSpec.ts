@@ -7,8 +7,10 @@ import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
 // An attribute added to Element nodes to identify them as such.
 export const elementNodeAttr = "isProseMirrorElement";
+export const elementSelectedNodeAttr = "isSelected";
 
 export const elementTypeAttr = "pme-element-type";
+export const elementSelectedAttr = "pme-element-selected";
 export const fieldNameAttr = "pme-field-name";
 
 export const getNodeSpecFromFieldDescriptions = <
@@ -45,6 +47,7 @@ const getNodeSpecForElement = (
     ).join(" "),
     attrs: {
       [elementNodeAttr]: { default: true },
+      [elementSelectedNodeAttr]: { default: false },
       type: nodeName,
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
       addUpdateDecoration: { default: true },
@@ -305,3 +308,6 @@ export const getElementNameFromNode = (node: Node) =>
 
 export const isProseMirrorElement = (node: Node): boolean =>
   node.attrs[elementNodeAttr] === true;
+
+export const isProseMirrorElementSelected = (node: Node): boolean =>
+  node.attrs[elementSelectedNodeAttr] === true;

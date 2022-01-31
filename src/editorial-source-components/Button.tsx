@@ -6,6 +6,7 @@ import React from "react";
 export const buttonStyles = css`
   font-family: "Guardian Agate Sans";
   line-height: normal;
+  user-select: none;
 `;
 
 export const Button: React.FunctionComponent<ButtonProps> = ({

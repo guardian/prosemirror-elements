@@ -35,8 +35,9 @@ const Body = styled("div")`
   min-height: 134px;
 `;
 
-const Panel = styled("div")`
-  background: ${neutral[97]};
+const Panel = styled("div")<{ isSelected: boolean }>`
+  background-color: ${({ isSelected }) =>
+    isSelected ? "#b3d7fe" : neutral[97]};
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
@@ -158,6 +159,7 @@ const LeftActions = styled(Actions)`
 
 type Props = {
   children?: ReactElement;
+  isSelected: boolean;
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";
@@ -173,6 +175,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   moveTop,
   moveBottom,
   remove,
+  isSelected,
   children,
 }) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
@@ -203,7 +206,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
           </SeriousButton>
         </LeftActions>
-        <Panel>{children}</Panel>
+        <Panel isSelected={isSelected}>{children}</Panel>
         <RightActions className="actions">
           <Button
             type="button"

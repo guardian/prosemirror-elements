@@ -9,7 +9,8 @@ import type {
 
 type Subscriber<FDesc extends FieldDescriptions<string>> = (
   fields: FieldNameToValueMap<FDesc>,
-  commands: ReturnType<CommandCreator>
+  commands: ReturnType<CommandCreator>,
+  isSelected: boolean
 ) => void;
 
 type Updater<FDesc extends FieldDescriptions<string>> = {
@@ -25,7 +26,7 @@ const createUpdater = <
     subscribe: (fn) => {
       sub = fn;
     },
-    update: (fields, commands) => sub(fields, commands),
+    update: (fields, commands, isSelected) => sub(fields, commands, isSelected),
   };
 };
 
@@ -58,12 +59,7 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   updateState: (fields: FieldNameToValueMap<FDesc>) => void,
   fieldValues: FieldNameToValueMap<FDesc>,
   commands: Commands,
-  subscribe: (
-    fn: (
-      fields: FieldNameToValueMap<FDesc>,
-      commands: ReturnType<CommandCreator>
-    ) => void
-  ) => void
+  subscribe: (fn: Subscriber<FDesc>) => void
 ) => void;
 
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
