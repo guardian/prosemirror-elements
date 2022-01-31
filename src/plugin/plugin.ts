@@ -71,28 +71,23 @@ export const createPlugin = <
         }
       );
 
-      // Update nodes representing any elements that are no longer selected.
       newState.doc.descendants((node, pos) => {
         if (isProseMirrorElementSelected(node) && !elementNodeToPos.get(node)) {
+          // Update nodes representing any elements that are no longer selected.
           tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
             [elementSelectedNodeAttr]: false,
           });
 
           return false;
+        } else if (elementNodeToPos.get(node)) {
+          // Update nodes representing any elements that are now selected.
+          const newAttrs = {
+            ...node.attrs,
+            [elementSelectedNodeAttr]: true,
+          };
+          tr.setNodeMarkup(pos, undefined, newAttrs);
         }
-      });
-
-      // Update nodes representing any elements that are now selected.
-      elementNodeToPos.forEach((pos, node) => {
-        if (node.attrs[elementSelectedNodeAttr] === true) {
-          return;
-        }
-        const newAttrs = {
-          ...node.attrs,
-          [elementSelectedNodeAttr]: true,
-        };
-        tr.setNodeMarkup(pos, undefined, newAttrs);
       });
 
       return tr;
