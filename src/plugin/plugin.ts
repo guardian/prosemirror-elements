@@ -74,12 +74,11 @@ export const createPlugin = <
       // Update nodes representing any elements that are no longer selected.
       newState.doc.descendants((node, pos) => {
         if (isProseMirrorElementSelected(node) && !elementNodeToPos.get(node)) {
-          if (node.attrs[elementSelectedNodeAttr] === true) {
-            tr.setNodeMarkup(pos, undefined, {
-              ...node.attrs,
-              [elementSelectedNodeAttr]: false,
-            });
-          }
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            [elementSelectedNodeAttr]: false,
+          });
+
           return false;
         }
       });
