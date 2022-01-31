@@ -71,24 +71,18 @@ export const createPlugin = <
         }
       );
 
+      // Update every relevant node with the new selection state.
       newState.doc.descendants((node, pos) => {
-        // Update nodes representing any elements that are no longer selected.
-        if (isProseMirrorElementSelected(node) && !elementNodeToPos.get(node)) {
+        const isCurrentlySelected = elementNodeToPos.get(node) !== undefined;
+        const shouldUpdateNode =
+          (isProseMirrorElementSelected(node) && !isCurrentlySelected) ||
+          (!isProseMirrorElementSelected(node) && isCurrentlySelected);
+
+        if (shouldUpdateNode) {
           tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
-            [elementSelectedNodeAttr]: false,
+            [elementSelectedNodeAttr]: isCurrentlySelected,
           });
-
-          return false;
-        }
-
-        // Update nodes representing any elements that are now selected.
-        if (elementNodeToPos.get(node) !== undefined) {
-          const newAttrs = {
-            ...node.attrs,
-            [elementSelectedNodeAttr]: true,
-          };
-          tr.setNodeMarkup(pos, undefined, newAttrs);
 
           return false;
         }
