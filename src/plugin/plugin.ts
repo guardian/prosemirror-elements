@@ -72,21 +72,25 @@ export const createPlugin = <
       );
 
       newState.doc.descendants((node, pos) => {
+        // Update nodes representing any elements that are no longer selected.
         if (isProseMirrorElementSelected(node) && !elementNodeToPos.get(node)) {
-          // Update nodes representing any elements that are no longer selected.
           tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
             [elementSelectedNodeAttr]: false,
           });
 
           return false;
-        } else if (elementNodeToPos.get(node)) {
-          // Update nodes representing any elements that are now selected.
+        }
+
+        // Update nodes representing any elements that are now selected.
+        if (elementNodeToPos.get(node) !== undefined) {
           const newAttrs = {
             ...node.attrs,
             [elementSelectedNodeAttr]: true,
           };
           tr.setNodeMarkup(pos, undefined, newAttrs);
+
+          return false;
         }
       });
 
