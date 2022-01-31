@@ -18,6 +18,7 @@ import {
 import { undefinedDropdownValue } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { createInteractiveElement } from "../src/elements/interactive/InteractiveSpec";
+import { createVideoElement } from "../src/elements/video/VideoSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -39,6 +40,7 @@ const demoImageElementName = "demo-image-element";
 const codeElementName = "codeElement";
 const pullquoteElementName = "pullquoteElement";
 const richlinkElementName = "richlinkElement";
+const videoElementName = "videoElement";
 const interactiveElementName = "interactiveElement";
 
 type Name =
@@ -48,8 +50,10 @@ type Name =
   | typeof codeElementName
   | typeof pullquoteElementName
   | typeof richlinkElementName
-  | typeof interactiveElementName;
+  | typeof interactiveElementName
+  | typeof videoElementName;
 
+const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
   html.includes("fail")
     ? Promise.resolve({
@@ -64,8 +68,6 @@ const mockThirdPartyTracking = (html: string) =>
         },
         reach: { unsupportedPlatforms: [] },
       });
-
-const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 
 const additionalRoleOptions = [
   { text: "inline (default)", value: undefinedDropdownValue },
@@ -99,6 +101,10 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   codeElement,
   pullquoteElement,
   richlinkElement,
+  videoElement: createVideoElement({
+    createCaptionPlugins,
+    checkEmbedTracking: mockThirdPartyTracking,
+  }),
 });
 
 const strike: MarkSpec = {
@@ -225,6 +231,21 @@ const createEditor = (server: CollabServer) => {
     linkText: "example",
     url: "https://example.com",
     weighting: "",
+  });
+
+  createElementButton("Add video element", videoElementName, {
+    source: "YouTube",
+    isMandatory: "false",
+    role: "showcase",
+    url: "https://www.youtube.com/watch?v=BggrpKfqh1c",
+    description: "This ain't real Latin",
+    originalUrl: "https://www.youtube.com/watch?v=BggrpKfqh1c",
+    height: "259",
+    title: "Lorem Ipsum",
+    html:
+      '\n            <iframe\n                height="259"\n                width="460"\n                src="https://www.youtube.com/embed/jUghnM2qy9M?wmode=opaque&feature=oembed"\n                frameborder="0"\n                allowfullscreen\n            ></iframe>\n        ',
+    width: "460",
+    authorName: "Lorem Ipsum",
   });
 
   const imageElementButton = document.createElement("button");

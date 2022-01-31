@@ -23,7 +23,7 @@ export type MainEmbedProps = {
 
 export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
   return {
-    role: createCustomDropdownField("inline", [
+    role: createCustomDropdownField(undefinedDropdownValue, [
       { text: "inline (default)", value: undefinedDropdownValue },
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
