@@ -89,7 +89,7 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement,
   embedElement: createEmbedElement({
-    checkEmbedTracking: mockThirdPartyTracking,
+    checkThirdPartyTracking: mockThirdPartyTracking,
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
     convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins,

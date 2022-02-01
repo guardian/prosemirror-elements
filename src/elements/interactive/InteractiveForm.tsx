@@ -8,15 +8,15 @@ import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
-import { EmbedStatusChecks } from "../helpers/ThirdPartyStatusChecks";
-import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
+import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
+import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import type { createInteractiveFields } from "./InteractiveSpec";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createInteractiveFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createInteractiveFields>>;
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 
 export const InteractiveElementTestId = "InteractiveElement";
@@ -25,7 +25,7 @@ export const InteractiveElementForm: React.FunctionComponent<Props> = ({
   fieldValues,
   errors,
   fields,
-  checkEmbedTracking,
+  checkThirdPartyTracking,
 }) => (
   <FieldLayoutVertical data-cy={InteractiveElementTestId}>
     <Preview
@@ -58,10 +58,10 @@ export const InteractiveElementForm: React.FunctionComponent<Props> = ({
       errors={errors.isMandatory}
       label="This element is required for publication"
     />
-    <EmbedStatusChecks
+    <TrackingStatusChecks
       html={fieldValues.html}
       isMandatory={fieldValues.isMandatory}
-      checkEmbedTracking={checkEmbedTracking}
+      checkThirdPartyTracking={checkThirdPartyTracking}
     />
   </FieldLayoutVertical>
 );

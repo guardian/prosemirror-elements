@@ -7,8 +7,8 @@ import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
-import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
-import { EmbedStatusChecks } from "../helpers/ThirdPartyStatusChecks";
+import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
+import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import type { createEmbedFields } from "./EmbedSpec";
@@ -17,7 +17,7 @@ type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
 };
@@ -28,7 +28,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   fieldValues,
   errors,
   fields,
-  checkEmbedTracking,
+  checkThirdPartyTracking,
   convertYouTube,
   convertTwitter,
 }) => (
@@ -69,10 +69,10 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
       errors={errors.isMandatory}
       label="This element is required for publication"
     />
-    <EmbedStatusChecks
+    <TrackingStatusChecks
       html={fieldValues.html}
       isMandatory={fieldValues.isMandatory}
-      checkEmbedTracking={checkEmbedTracking}
+      checkThirdPartyTracking={checkThirdPartyTracking}
     />
   </FieldLayoutVertical>
 );
