@@ -7,6 +7,7 @@ import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
   SvgChevronRightDouble,
+  SvgExternal,
 } from "@guardian/src-icons";
 import type { ReactElement } from "react";
 import React, { useState } from "react";
@@ -35,7 +36,7 @@ const Body = styled("div")`
   min-height: 134px;
 `;
 
-const Panel = styled("div")<{ isSelected: boolean }>`
+const Panel = styled("div") <{ isSelected: boolean }>`
   background-color: ${({ isSelected }) =>
     isSelected ? "#b3d7fe" : neutral[97]};
   flex-grow: 1;
@@ -43,7 +44,7 @@ const Panel = styled("div")<{ isSelected: boolean }>`
   padding: ${space[3]}px;
 `;
 
-const Button = styled("button")<{ expanded?: boolean }>`
+const Button = styled("button") <{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
   border: none;
@@ -88,7 +89,7 @@ const Button = styled("button")<{ expanded?: boolean }>`
   }
 `;
 
-const SeriousButton = styled(Button)<{ activated?: boolean }>`
+const SeriousButton = styled(Button) <{ activated?: boolean }>`
   background-color: ${({ activated }) =>
     activated ? border.error : neutral[93]};
   div {
@@ -99,7 +100,7 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
   :hover {
     background-color: ${({ activated }) =>
-      activated ? neutral[0] : neutral[86]};
+    activated ? neutral[0] : neutral[86]};
     svg {
       fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
     }
@@ -168,6 +169,7 @@ export const moveBottomTestId = "ElementWrapper__moveBottom";
 export const moveUpTestId = "ElementWrapper__moveUp";
 export const moveDownTestId = "ElementWrapper__moveDown";
 export const removeTestId = "ElementWrapper__remove";
+export const selectTestId = "ElementWrapper__select";
 
 export const ElementWrapper: React.FunctionComponent<Props> = ({
   moveUp,
@@ -175,6 +177,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   moveTop,
   moveBottom,
   remove,
+  select,
   isSelected,
   children,
 }) => {
@@ -204,6 +207,14 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           >
             <SvgBin />
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
+          </SeriousButton>
+          <SeriousButton
+            type="button"
+            data-cy={selectTestId}
+            disabled={!select(false)}
+            onClick={() => select(true)}
+          >
+            <SvgExternal />
           </SeriousButton>
         </LeftActions>
         <Panel isSelected={isSelected}>{children}</Panel>

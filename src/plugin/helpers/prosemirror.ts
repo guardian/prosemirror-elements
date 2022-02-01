@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
-import type { EditorState, Transaction } from "prosemirror-state";
+import { EditorState, NodeSelection, Transaction } from "prosemirror-state";
 import { AllSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
@@ -173,12 +173,32 @@ const removeNode = (getPos: () => number | undefined) => (
   dispatch(state.tr.deleteRange(pos, to));
 };
 
+const selectNode = (getPos: () => number | undefined) => (
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false
+) => {
+  if (!dispatch) {
+    return true;
+  }
+  const pos = getPos();
+  if (pos === undefined) {
+    return;
+  }
+  // const { node } = state.doc.childAfter(pos);
+  const newSelection = NodeSelection.create(state.doc, pos);
+  const newTr = state.tr.setSelection(newSelection);
+  // const to = node ? pos + node.nodeSize : pos;
+
+  dispatch(newTr);
+};
+
 const buildCommands = (predicate: Predicate) => (
   getPos: () => number | undefined,
   view: EditorView
 ) => ({
   ...buildMoveCommands(predicate)(getPos, view),
   remove: (run = true) => removeNode(getPos)(view.state, run && view.dispatch),
+  select: (run = true) => selectNode(getPos)(view.state, run && view.dispatch),
 });
 
 // this forces our view to update every time an edit is made by inserting
