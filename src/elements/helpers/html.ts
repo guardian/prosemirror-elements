@@ -17,8 +17,8 @@ export const parseHtml = (html: string) => {
 export const isHtmlSafe = (html: string) => {
   const holder = document.createElement("div");
   holder.innerHTML = (html || "").trim();
-  const element = holder.children[0];
-  const isIframe = element.tagName === "IFRAME";
-  const singleChild = !element.nextSibling;
+  const element = holder.firstElementChild;
+  const isIframe = !!element && element.tagName === "IFRAME";
+  const singleChild = !!element && !element.nextSibling;
   return isIframe && singleChild;
 };
