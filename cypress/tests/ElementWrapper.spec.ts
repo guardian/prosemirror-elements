@@ -8,6 +8,7 @@ import {
 } from "../../src/renderers/react/ElementWrapper";
 import {
   addImageElement,
+  assertEditorFocus,
   getArrayOfBlockElementTypes,
   selectDataCy,
   visitRoot,
@@ -62,6 +63,13 @@ describe("ElementWrapper", () => {
       cy.get(selectDataCy(removeTestId)).click();
       const elementTypes = await getArrayOfBlockElementTypes();
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph"]);
+    });
+
+    it("should focus the editor after element removal", () => {
+      addImageElement();
+      cy.get(selectDataCy(removeTestId)).click();
+      cy.get(selectDataCy(removeTestId)).click();
+      assertEditorFocus(true);
     });
   });
 });

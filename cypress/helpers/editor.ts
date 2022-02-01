@@ -113,6 +113,13 @@ export const addImageElement = (values: Record<string, unknown> = {}) => {
   });
 };
 
+export const assertEditorFocus = (shouldBeFocused: boolean) => {
+  cy.window().then((win: WindowType) => {
+    const { view } = win.PM_ELEMENTS;
+    expect(view.hasFocus()).to.equal(shouldBeFocused);
+  });
+};
+
 type ElementFields = {
   altTextValue?: string;
   captionValue?: string;
