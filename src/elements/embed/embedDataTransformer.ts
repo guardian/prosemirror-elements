@@ -1,6 +1,6 @@
 import pickBy from "lodash/pickBy";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import { isHtmlSafe } from "../helpers/html";
+import { htmlContainsSingleIframe } from "../helpers/html";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { createEmbedFields } from "./EmbedSpec";
@@ -61,7 +61,7 @@ export const transformElementOut: TransformOut<
     (field) => field.length > 0
   );
 
-  const isSafe = isHtmlSafe(html);
+  const isSafe = htmlContainsSingleIframe(html);
 
   return {
     fields: {

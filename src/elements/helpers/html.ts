@@ -14,7 +14,7 @@ export const parseHtml = (html: string) => {
   return parsedHtml.body.firstElementChild;
 };
 
-export const isHtmlSafe = (html: string) => {
+export const htmlContainsSingleIframe = (html: string) => {
   const holder = document.createElement("div");
   holder.innerHTML = (html || "").trim();
   const element = holder.firstElementChild;
