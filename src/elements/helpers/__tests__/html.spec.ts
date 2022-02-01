@@ -1,4 +1,4 @@
-import { parseHtml, unescapeHtml } from "../html";
+import { htmlContainsSingleIframe, parseHtml, unescapeHtml } from "../html";
 
 describe("unescapeHtml", () => {
   it("should unescape HTML", () => {
@@ -24,5 +24,30 @@ describe("parseHtml", () => {
     const parsedHtml = parseHtml(escapedHtml);
 
     expect(parsedHtml).toEqual(identicalElement);
+  });
+});
+
+describe("htmlContainsSingleIframe", () => {
+  it("should return true for a single iframe", () => {
+    const iframeHtml = "<iframe srcdoc='<div>Hello world</div>'></iframe>";
+
+    const containsSingleIframe = htmlContainsSingleIframe(iframeHtml);
+
+    expect(containsSingleIframe).toEqual(true);
+  });
+  it("should return false for a single iframe alongside another element", () => {
+    const iframeHtml =
+      "<iframe srcdoc='<div>Hello world</div>'></iframe><p>Not an iframe<p>";
+
+    const containsSingleIframe = htmlContainsSingleIframe(iframeHtml);
+
+    expect(containsSingleIframe).toEqual(false);
+  });
+  it("should return false for a single non-iframe element", () => {
+    const iframeHtml = "<p>Not an iframe<p>";
+
+    const containsSingleIframe = htmlContainsSingleIframe(iframeHtml);
+
+    expect(containsSingleIframe).toEqual(false);
   });
 });
