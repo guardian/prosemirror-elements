@@ -1,9 +1,13 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
-import { EditorState, NodeSelection, Transaction } from "prosemirror-state";
-import { AllSelection } from "prosemirror-state";
+import type { EditorState, Transaction } from "prosemirror-state";
+import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
+import {
+  elementSelectedNodeAttr,
+  isProseMirrorElementSelected,
+} from "../nodeSpec";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -174,7 +178,7 @@ const removeNode = (getPos: () => number | undefined) => (
 };
 
 const selectNode = (getPos: () => number | undefined) => (
-  state: EditorState,
+  view: EditorView,
   dispatch: ((tr: Transaction) => void) | false
 ) => {
   if (!dispatch) {
@@ -184,12 +188,23 @@ const selectNode = (getPos: () => number | undefined) => (
   if (pos === undefined) {
     return;
   }
-  // const { node } = state.doc.childAfter(pos);
-  const newSelection = NodeSelection.create(state.doc, pos);
-  const newTr = state.tr.setSelection(newSelection);
-  // const to = node ? pos + node.nodeSize : pos;
 
-  dispatch(newTr);
+  const state = view.state;
+  const tr = state.tr;
+  const { node } = state.doc.childAfter(pos);
+
+  if (node) {
+    const nodeSelection = NodeSelection.create(state.doc, pos);
+    const newTr = tr
+      .setNodeMarkup(pos, undefined, {
+        ...node.attrs,
+        [elementSelectedNodeAttr]: true,
+      })
+      .setSelection(NodeSelection.create(tr.doc, nodeSelection.from));
+
+    dispatch(newTr);
+    view.focus();
+  }
 };
 
 const buildCommands = (predicate: Predicate) => (
@@ -198,7 +213,7 @@ const buildCommands = (predicate: Predicate) => (
 ) => ({
   ...buildMoveCommands(predicate)(getPos, view),
   remove: (run = true) => removeNode(getPos)(view.state, run && view.dispatch),
-  select: (run = true) => selectNode(getPos)(view.state, run && view.dispatch),
+  select: (run = true) => selectNode(getPos)(view, run && view.dispatch),
 });
 
 // this forces our view to update every time an edit is made by inserting
