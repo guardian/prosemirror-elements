@@ -261,7 +261,7 @@ const createNodeView = <
       }
       return false;
     },
-    stopEvent: () => true,
+    stopEvent: () => false,
     destroy: () => {
       Object.values(fields).map((field) => field.view.destroy());
     },
