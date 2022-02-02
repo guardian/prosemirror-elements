@@ -1,13 +1,10 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
+import { AllSelection, NodeSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
-import {
-  elementSelectedNodeAttr,
-  isProseMirrorElementSelected,
-} from "../nodeSpec";
+import { elementSelectedNodeAttr } from "../nodeSpec";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
