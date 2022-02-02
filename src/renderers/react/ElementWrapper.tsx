@@ -36,7 +36,7 @@ const Body = styled("div")`
   min-height: 134px;
 `;
 
-const Panel = styled("div") <{ isSelected: boolean }>`
+const Panel = styled("div")<{ isSelected: boolean }>`
   background-color: ${({ isSelected }) =>
     isSelected ? "#b3d7fe" : neutral[97]};
   flex-grow: 1;
@@ -44,7 +44,7 @@ const Panel = styled("div") <{ isSelected: boolean }>`
   padding: ${space[3]}px;
 `;
 
-const Button = styled("button") <{ expanded?: boolean }>`
+const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
   border: none;
@@ -89,7 +89,7 @@ const Button = styled("button") <{ expanded?: boolean }>`
   }
 `;
 
-const SeriousButton = styled(Button) <{ activated?: boolean }>`
+const SeriousButton = styled(Button)<{ activated?: boolean }>`
   background-color: ${({ activated }) =>
     activated ? border.error : neutral[93]};
   div {
@@ -100,7 +100,7 @@ const SeriousButton = styled(Button) <{ activated?: boolean }>`
   }
   :hover {
     background-color: ${({ activated }) =>
-    activated ? neutral[0] : neutral[86]};
+      activated ? neutral[0] : neutral[86]};
     svg {
       fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
     }
