@@ -103,7 +103,7 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   richlinkElement,
   videoElement: createVideoElement({
     createCaptionPlugins,
-    checkEmbedTracking: mockThirdPartyTracking,
+    checkThirdPartyTracking: mockThirdPartyTracking,
   }),
 });
 

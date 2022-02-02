@@ -9,7 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
+import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
 import { VideoForm } from "./VideoForm";
 
@@ -45,12 +45,12 @@ export const createVideoFields = (
 
 export type VideoElementOptions = {
   createCaptionPlugins: (schema: Schema) => Plugin[];
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 
 export const createVideoElement = ({
   createCaptionPlugins,
-  checkEmbedTracking,
+  checkThirdPartyTracking,
 }: VideoElementOptions) =>
   createReactElementSpec(
     createVideoFields(createCaptionPlugins),
@@ -60,7 +60,7 @@ export const createVideoElement = ({
           fields={fields}
           errors={errors}
           fieldValues={fieldValues}
-          checkEmbedTracking={checkEmbedTracking}
+          checkThirdPartyTracking={checkThirdPartyTracking}
         />
       );
     }

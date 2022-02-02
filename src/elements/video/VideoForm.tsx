@@ -9,8 +9,8 @@ import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { unescapeHtml } from "../helpers/html";
-import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
-import { EmbedStatusChecks } from "../helpers/ThirdPartyStatusChecks";
+import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
+import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { htmlLength } from "../helpers/validation";
 import type { createVideoFields } from "./VideoSpec";
 
@@ -18,7 +18,7 @@ type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createVideoFields>>;
   errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createVideoFields>>;
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 
 const IframeAspectRatioBox = styled.div<{
@@ -64,7 +64,7 @@ export const VideoForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,
-  checkEmbedTracking,
+  checkThirdPartyTracking,
 }) => (
   <div>
     <FieldLayoutVertical>
@@ -105,10 +105,10 @@ export const VideoForm: React.FunctionComponent<Props> = ({
         errors={errors.isMandatory}
         label="This element is required for publication"
       />
-      <EmbedStatusChecks
+      <TrackingStatusChecks
         html={fieldValues.html}
         isMandatory={fieldValues.isMandatory}
-        checkEmbedTracking={checkEmbedTracking}
+        checkThirdPartyTracking={checkThirdPartyTracking}
       />
     </FieldLayoutVertical>
   </div>
