@@ -52,7 +52,7 @@ const getNodeSpecForElement = (
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
       addUpdateDecoration: { default: true },
     },
-    draggable: true,
+    draggable: false,
     toDOM: (node: Node) => [
       "div",
       {

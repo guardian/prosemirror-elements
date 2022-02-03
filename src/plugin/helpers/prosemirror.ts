@@ -180,8 +180,9 @@ const removeNode = (getPos: () => number | undefined) => (
 };
 
 const selectNode = (getPos: () => number | undefined) => (
-  view: EditorView,
-  dispatch: ((tr: Transaction) => void) | false
+  state: EditorState,
+  dispatch: ((tr: Transaction) => void) | false,
+  view: EditorView
 ) => {
   if (!dispatch) {
     return true;
@@ -191,7 +192,6 @@ const selectNode = (getPos: () => number | undefined) => (
     return;
   }
 
-  const state = view.state;
   const tr = state.tr;
   const { node } = state.doc.childAfter(pos);
 
@@ -216,7 +216,8 @@ const buildCommands = (predicate: Predicate) => (
   ...buildMoveCommands(predicate)(getPos, view),
   remove: (run = true) =>
     removeNode(getPos)(view.state, run && view.dispatch, view),
-  select: (run = true) => selectNode(getPos)(view, run && view.dispatch),
+  select: (run = true) =>
+    selectNode(getPos)(view.state, run && view.dispatch, view),
 });
 
 // this forces our view to update every time an edit is made by inserting
