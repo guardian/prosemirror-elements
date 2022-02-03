@@ -9,13 +9,13 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import type { EmbedStatus } from "../helpers/ThirdPartyStatusChecks";
+import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { EmbedElementForm } from "./EmbedForm";
 
 export type MainEmbedProps = {
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
@@ -67,7 +67,7 @@ export const createEmbedElement = (props: MainEmbedProps) =>
           fields={fields}
           errors={errors}
           fieldValues={fieldValues}
-          checkEmbedTracking={props.checkEmbedTracking}
+          checkThirdPartyTracking={props.checkThirdPartyTracking}
           convertYouTube={props.convertYouTube}
           convertTwitter={props.convertTwitter}
         />

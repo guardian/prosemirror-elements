@@ -9,7 +9,7 @@ import {
   warningColours,
 } from "./messagingStyles";
 
-export type EmbedStatus = {
+export type TrackingStatus = {
   tracking: {
     tracks: string;
   };
@@ -19,20 +19,20 @@ export type EmbedStatus = {
 };
 
 type StatusProps = {
-  embedStatus: EmbedStatus;
+  trackingStatus: TrackingStatus;
 };
 
 type PlatformProps = {
-  embedStatus: EmbedStatus;
+  trackingStatus: TrackingStatus;
   isMandatory: boolean;
 };
 
-const elementDoesTrack = (embedStatus: EmbedStatus): boolean =>
-  embedStatus.tracking.tracks !== "does-not-track";
+const elementDoesTrack = (trackingStatus: TrackingStatus): boolean =>
+  trackingStatus.tracking.tracks !== "does-not-track";
 
 const TrackingChecker = (props: StatusProps) => {
   const centralProduction = "mailto:central.production@guardian.co.uk";
-  return elementDoesTrack(props.embedStatus) ? (
+  return elementDoesTrack(props.trackingStatus) ? (
     <p css={[message, naughtyColours]}>
       <SvgAlertTriangle />
       This element tracks readers, so it may not be visible by default in
@@ -52,12 +52,12 @@ const TrackingChecker = (props: StatusProps) => {
   );
 };
 
-const getUnsupportedPlatforms = (embedStatus: EmbedStatus): string[] =>
-  embedStatus.reach.unsupportedPlatforms;
+const getUnsupportedPlatforms = (trackingStatus: TrackingStatus): string[] =>
+  trackingStatus.reach.unsupportedPlatforms;
 
 const UnsupportedPlatforms = (props: PlatformProps) => {
   const audience = "mailto:audience.global.all@theguardian.com";
-  const unsupportedPlatforms = getUnsupportedPlatforms(props.embedStatus);
+  const unsupportedPlatforms = getUnsupportedPlatforms(props.trackingStatus);
   if (unsupportedPlatforms.length > 0 && props.isMandatory) {
     return (
       <p css={[message, warningColours]}>
@@ -75,21 +75,21 @@ const UnsupportedPlatforms = (props: PlatformProps) => {
   return null;
 };
 
-export const EmbedStatusChecks = ({
+export const TrackingStatusChecks = ({
   html,
   isMandatory,
-  checkEmbedTracking,
+  checkThirdPartyTracking,
 }: {
   html: string;
   isMandatory: boolean;
-  checkEmbedTracking: (html: string) => Promise<EmbedStatus>;
+  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 }) => {
-  const [embedStatus, updateEmbedStatus] = useState<EmbedStatus>();
+  const [trackingStatus, updateTrackingStatus] = useState<TrackingStatus>();
 
   const checkTrackingAndUpdate = (html: string) => {
-    checkEmbedTracking(unescapeHtml(html))
+    checkThirdPartyTracking(unescapeHtml(html))
       .then((response) => {
-        updateEmbedStatus(response);
+        updateTrackingStatus(response);
       })
       .catch((e) => console.log(e));
   };
@@ -107,12 +107,12 @@ export const EmbedStatusChecks = ({
     checkTrackingAndUpdate(html);
   }, []);
 
-  if (embedStatus != undefined) {
+  if (trackingStatus != undefined) {
     return (
       <>
-        <TrackingChecker embedStatus={embedStatus} />
+        <TrackingChecker trackingStatus={trackingStatus} />
         <UnsupportedPlatforms
-          embedStatus={embedStatus}
+          trackingStatus={trackingStatus}
           isMandatory={isMandatory}
         />
       </>
