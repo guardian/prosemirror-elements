@@ -156,10 +156,13 @@ const buildMoveCommands = (predicate: Predicate) => (
   moveBottom: (run = true) => moveNodeBottom(predicate)(getPos)(view, run),
 });
 
+/**
+ * Remove a node. If the view is passed, focus the editor after removal.
+ */
 const removeNode = (getPos: () => number | undefined) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false,
-  focusEditor: () => void
+  view?: EditorView
 ) => {
   if (!dispatch) {
     return true;
@@ -172,7 +175,7 @@ const removeNode = (getPos: () => number | undefined) => (
   const to = node ? pos + node.nodeSize : pos;
 
   dispatch(state.tr.deleteRange(pos, to));
-  focusEditor();
+  view?.focus();
 };
 
 const buildCommands = (predicate: Predicate) => (
@@ -181,7 +184,7 @@ const buildCommands = (predicate: Predicate) => (
 ) => ({
   ...buildMoveCommands(predicate)(getPos, view),
   remove: (run = true) =>
-    removeNode(getPos)(view.state, run && view.dispatch, () => view.focus()),
+    removeNode(getPos)(view.state, run && view.dispatch, view),
 });
 
 // this forces our view to update every time an edit is made by inserting
