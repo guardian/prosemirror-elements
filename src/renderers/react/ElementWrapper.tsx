@@ -195,6 +195,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             data-cy={selectTestId}
             disabled={!select(false)}
             onClick={() => select(true)}
+            aria-label="Select element"
           >
             <SvgHighlightAlt />
           </SeriousButton>
@@ -212,6 +213,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
                 }, 5000);
               }
             }}
+            aria-label="Delete element"
           >
             <SvgBin />
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
