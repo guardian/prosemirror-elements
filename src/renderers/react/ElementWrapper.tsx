@@ -7,11 +7,11 @@ import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
   SvgChevronRightDouble,
-  SvgExternal,
 } from "@guardian/src-icons";
 import type { ReactElement } from "react";
 import React, { useState } from "react";
 import { SvgBin } from "../../editorial-source-components/SvgBin";
+import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
 import type { CommandCreator } from "../../plugin/types/Commands";
 
 const buttonWidth = 32;
@@ -154,8 +154,8 @@ const RightActions = styled(Actions)`
 `;
 
 const LeftActions = styled(Actions)`
-  flex-direction: column-reverse;
   left: -${buttonWidth + 1}px;
+  justify-content: space-between;
 `;
 
 type Props = {
@@ -192,6 +192,14 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
         <LeftActions className="actions">
           <SeriousButton
             type="button"
+            data-cy={selectTestId}
+            disabled={!select(false)}
+            onClick={() => select(true)}
+          >
+            <SvgHighlightAlt />
+          </SeriousButton>
+          <SeriousButton
+            type="button"
             activated={closeClickedOnce}
             data-cy={removeTestId}
             disabled={!remove(false)}
@@ -207,14 +215,6 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           >
             <SvgBin />
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
-          </SeriousButton>
-          <SeriousButton
-            type="button"
-            data-cy={selectTestId}
-            disabled={!select(false)}
-            onClick={() => select(true)}
-          >
-            <SvgExternal />
           </SeriousButton>
         </LeftActions>
         <Panel isSelected={isSelected}>{children}</Panel>
