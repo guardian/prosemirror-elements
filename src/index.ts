@@ -17,5 +17,5 @@ export {
   undefinedDropdownValue,
 } from "./elements/helpers/transform";
 export { useTyperighterAttr } from "./elements/helpers/typerighter";
-export { fieldGroupName } from "./plugin/nodeSpec";
+export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
