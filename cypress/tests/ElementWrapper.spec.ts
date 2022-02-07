@@ -5,11 +5,16 @@ import {
   moveTopTestId,
   moveUpTestId,
   removeTestId,
+  selectTestId,
 } from "../../src/renderers/react/ElementWrapper";
 import {
   addImageElement,
   assertEditorFocus,
+  copyShortcut,
+  cutShortcut,
   getArrayOfBlockElementTypes,
+  pasteShortcut,
+  selectAllShortcut,
   selectDataCy,
   visitRoot,
 } from "../helpers/editor";
@@ -70,6 +75,15 @@ describe("ElementWrapper", () => {
       cy.get(selectDataCy(removeTestId)).click();
       cy.get(selectDataCy(removeTestId)).click();
       assertEditorFocus(true);
+    });
+  });
+
+  describe.only("Element selection", () => {
+    it("should delete the element after selecting and using backsapce", async () => {
+      addImageElement();
+      cy.wait(100).get(selectDataCy(selectTestId)).click().type(`{del}`);
+      const elementTypes = await getArrayOfBlockElementTypes();
+      expect(elementTypes).to.deep.equal(["paragraph", "paragraph"]);
     });
   });
 });
