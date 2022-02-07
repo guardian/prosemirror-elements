@@ -1,7 +1,7 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { AllSelection, NodeSelection } from "prosemirror-state";
+import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import { elementSelectedNodeAttr } from "../nodeSpec";
@@ -202,7 +202,9 @@ const selectNode = (getPos: () => number | undefined) => (
         ...node.attrs,
         [elementSelectedNodeAttr]: true,
       })
-      .setSelection(NodeSelection.create(tr.doc, nodeSelection.from));
+      .setSelection(
+        TextSelection.create(tr.doc, nodeSelection.anchor, nodeSelection.head)
+      );
 
     dispatch(newTr);
     view.focus();
