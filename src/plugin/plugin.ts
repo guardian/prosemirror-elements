@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
-import type { EditorState } from "prosemirror-state";
-import { Plugin, PluginKey, Selection } from "prosemirror-state";
+import type { EditorState, Transaction } from "prosemirror-state";
+import { Plugin, PluginKey, TextSelection } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
@@ -52,7 +52,8 @@ export const createPlugin = <
         return;
       }
 
-      const tr = newState.tr;
+      let tr = newState.tr;
+      const selection = tr.selection;
       const elementNodeToPos = new Map<Node, number>();
 
       // Find all the nodes within the current selection.
@@ -79,10 +80,14 @@ export const createPlugin = <
           (!isProseMirrorElementSelected(node) && isCurrentlySelected);
 
         if (shouldUpdateNode) {
-          tr.setNodeMarkup(pos, undefined, {
-            ...node.attrs,
-            [elementSelectedNodeAttr]: isCurrentlySelected,
-          });
+          tr = tr
+            .setNodeMarkup(pos, undefined, {
+              ...node.attrs,
+              [elementSelectedNodeAttr]: isCurrentlySelected,
+            })
+            .setSelection(
+              TextSelection.create(tr.doc, selection.anchor, selection.head)
+            ) as Transaction<Schema>;
         }
 
         // Do not descend into element nodes.
