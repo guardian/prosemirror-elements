@@ -100,9 +100,9 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
   :hover {
     background-color: ${({ activated }) =>
-      activated ? neutral[0] : neutral[86]};
+      activated ? border.error : neutral[46]};
     svg {
-      fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
+      fill: ${neutral[100]};
     }
     div {
       opacity: 1;
