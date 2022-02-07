@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { Plugin, PluginKey, TextSelection } from "prosemirror-state";
+import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
@@ -80,14 +80,16 @@ export const createPlugin = <
           (!isProseMirrorElementSelected(node) && isCurrentlySelected);
 
         if (shouldUpdateNode) {
-          tr = tr
-            .setNodeMarkup(pos, undefined, {
-              ...node.attrs,
-              [elementSelectedNodeAttr]: isCurrentlySelected,
-            })
-            .setSelection(
-              TextSelection.create(tr.doc, selection.anchor, selection.head)
+          tr.setNodeMarkup(pos, undefined, {
+            ...node.attrs,
+            [elementSelectedNodeAttr]: isCurrentlySelected,
+          });
+
+          if (selection instanceof NodeSelection) {
+            tr = tr.setSelection(
+              NodeSelection.create(tr.doc, selection.anchor)
             ) as Transaction<Schema>;
+          }
         }
 
         // Do not descend into element nodes.

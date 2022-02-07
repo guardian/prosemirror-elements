@@ -1,10 +1,9 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
+import { AllSelection, NodeSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
-import { elementSelectedNodeAttr } from "../nodeSpec";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -193,22 +192,8 @@ const selectNode = (getPos: () => number | undefined) => (
   }
 
   const tr = state.tr;
-  const { node } = state.doc.childAfter(pos);
-
-  if (node) {
-    const nodeSelection = NodeSelection.create(state.doc, pos);
-    const newTr = tr
-      .setNodeMarkup(pos, undefined, {
-        ...node.attrs,
-        [elementSelectedNodeAttr]: true,
-      })
-      .setSelection(
-        TextSelection.create(tr.doc, nodeSelection.anchor, nodeSelection.head)
-      );
-
-    dispatch(newTr);
-    view.focus();
-  }
+  dispatch(tr.setSelection(NodeSelection.create(tr.doc, pos)));
+  view.focus();
 };
 
 const buildCommands = (predicate: Predicate) => (

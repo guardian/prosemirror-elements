@@ -38,10 +38,25 @@ const Body = styled("div")`
 
 const Panel = styled("div")<{ isSelected: boolean }>`
   background-color: ${({ isSelected }) =>
-    isSelected ? "#b3d7fe" : neutral[97]};
+    isSelected ? "#b3d7fe !important" : neutral[97]};
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
+
+  * {
+    background-color: ${({ isSelected }) =>
+      isSelected ? "#b3d7fe !important" : undefined};
+
+    ::selection {
+      background: ${({ isSelected }) =>
+        isSelected ? "#b3d7fe !important" : undefined};
+    }
+
+    ::-moz-selection {
+      background: ${({ isSelected }) =>
+        isSelected ? "#b3d7fe !important" : undefined};
+    }
+  }
 `;
 
 const Button = styled("button")<{ expanded?: boolean }>`
