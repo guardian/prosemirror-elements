@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
-import { SvgCamera } from "@guardian/src-icons";
 import { Column, Columns } from "@guardian/src-layout";
 import React, { useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type {
@@ -278,7 +278,7 @@ const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
       <Button
         priority="secondary"
         size="xsmall"
-        icon={<SvgCamera />}
+        icon={<SvgCrop />}
         iconSide="left"
         onClick={() => {
           field.description.props.openImageSelector(
