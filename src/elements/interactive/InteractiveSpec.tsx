@@ -43,6 +43,7 @@ export const createInteractiveFields = ({
     }),
     html: createTextField(),
     scriptUrl: createTextField(),
+    scriptName: createTextField(),
     iframeUrl: createTextField(),
     originalUrl: createTextField(),
     source: createTextField(),

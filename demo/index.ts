@@ -12,12 +12,12 @@ import {
   createDemoImageElement,
   createEmbedElement,
   createImageElement,
+  createInteractiveElement,
   pullquoteElement,
   richlinkElement,
 } from "../src";
 import { undefinedDropdownValue } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { createInteractiveElement } from "../src/elements/interactive/InteractiveSpec";
 import { createVideoElement } from "../src/elements/video/VideoSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {

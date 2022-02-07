@@ -4,14 +4,16 @@ import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { createInteractiveFields } from "./InteractiveSpec";
 
 export type ExternalInteractiveFields = {
-  alt: string;
-  caption: string;
   html: string;
   isMandatory: string;
-  role: string | undefined;
   scriptUrl: string;
   iframeUrl: string;
+  originalUrl: string;
+  scriptName: string;
   source: string;
+  alt?: string;
+  caption?: string;
+  role: string | undefined;
 };
 
 export type ExternalInteractiveData = {
