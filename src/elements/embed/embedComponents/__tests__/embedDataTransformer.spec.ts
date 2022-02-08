@@ -37,7 +37,7 @@ const externalElement = (data: Partial<ExternalEmbedFields> = {}) => {
     fields: {
       html: "",
       isMandatory: "false",
-      isSafe: "false",
+      safeEmbedCode: "false",
       role: undefined,
       ...data,
     },
