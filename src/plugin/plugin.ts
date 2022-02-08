@@ -52,9 +52,10 @@ export const createPlugin = <
         return;
       }
 
-      let tr = newState.tr;
+      const tr = newState.tr;
       const selection = tr.selection;
       const elementNodeToPos = new Map<Node, number>();
+      let preserveNodeSelection = false;
 
       // Find all the nodes within the current selection.
       newState.doc.nodesBetween(
@@ -80,16 +81,11 @@ export const createPlugin = <
           (!isProseMirrorElementSelected(node) && isCurrentlySelected);
 
         if (shouldUpdateNode) {
+          preserveNodeSelection = true;
           tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
             [elementSelectedNodeAttr]: isCurrentlySelected,
           });
-
-          if (selection instanceof NodeSelection) {
-            tr = tr.setSelection(
-              NodeSelection.create(tr.doc, selection.anchor)
-            ) as Transaction<Schema>;
-          }
         }
 
         // Do not descend into element nodes.
@@ -97,6 +93,10 @@ export const createPlugin = <
           return false;
         }
       });
+
+      if (preserveNodeSelection && selection instanceof NodeSelection) {
+        tr.setSelection(NodeSelection.create(tr.doc, selection.anchor));
+      }
 
       return tr;
     },
