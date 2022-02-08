@@ -12,7 +12,7 @@ export type ExternalEmbedFields = {
   isMandatory: string;
   url?: string;
   role: string | undefined;
-  isSafe: string;
+  safeEmbedCode: string;
 };
 
 export type ExternalEmbedData = {
@@ -67,7 +67,7 @@ export const transformElementOut: TransformOut<
     fields: {
       html,
       isMandatory: isMandatory.toString(),
-      isSafe: isSafe.toString(),
+      safeEmbedCode: isSafe.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
       ...optionalFields,
     },
