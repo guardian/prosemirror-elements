@@ -45,11 +45,13 @@ const Panel = styled("div")<{ isSelected: boolean }>`
 
   * {
     ::selection {
-      background: ${({ isSelected }) => (isSelected ? "#ffffffff" : undefined)};
+      background: ${({ isSelected }) =>
+        isSelected ? "transparent" : undefined};
     }
 
     ::-moz-selection {
-      background: ${({ isSelected }) => (isSelected ? "#ffffffff" : undefined)};
+      background: ${({ isSelected }) =>
+        isSelected ? "transparent" : undefined};
     }
   }
 `;
@@ -62,8 +64,9 @@ const Overlay = styled("div")<{ isSelected: boolean }>`
   left: 0;
   z-index: 15;
   pointer-events: none;
+  mix-blend-mode: multiply;
   background-color: ${({ isSelected }) =>
-    isSelected ? "#b3d7fe8a" : undefined};
+    isSelected ? "#b3d7fe82" : undefined};
 `;
 
 const Button = styled("button")<{ expanded?: boolean }>`

@@ -1,5 +1,5 @@
 import type { Node, Schema } from "prosemirror-model";
-import type { EditorState, Transaction } from "prosemirror-state";
+import type { EditorState } from "prosemirror-state";
 import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
@@ -94,6 +94,7 @@ export const createPlugin = <
         }
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it's not always falsy.
       if (preserveNodeSelection && selection instanceof NodeSelection) {
         tr.setSelection(NodeSelection.create(tr.doc, selection.anchor));
       }
