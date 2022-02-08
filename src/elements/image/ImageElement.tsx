@@ -64,7 +64,7 @@ export const createImageFields = ({
     alt: createTextField({
       rows: 2,
       validators: [htmlMaxLength(1000), htmlRequired()],
-      placeholder: "Enter some alt text…",
+      placeholder: "Describe the image for visually impaired readers",
       isResizeable: true,
       attrs: useTyperighterAttrs,
     }),
