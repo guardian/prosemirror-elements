@@ -37,26 +37,33 @@ const Body = styled("div")`
 `;
 
 const Panel = styled("div")<{ isSelected: boolean }>`
-  background-color: ${({ isSelected }) =>
-    isSelected ? "#b3d7fe !important" : neutral[97]};
+  background-color: ${neutral[97]};
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
+  postion: relative;
 
   * {
-    background-color: ${({ isSelected }) =>
-      isSelected ? "#b3d7fe !important" : undefined};
-
     ::selection {
-      background: ${({ isSelected }) =>
-        isSelected ? "#b3d7fe !important" : undefined};
+      background: ${({ isSelected }) => (isSelected ? "#ffffffff" : undefined)};
     }
 
     ::-moz-selection {
-      background: ${({ isSelected }) =>
-        isSelected ? "#b3d7fe !important" : undefined};
+      background: ${({ isSelected }) => (isSelected ? "#ffffffff" : undefined)};
     }
   }
+`;
+
+const Overlay = styled("div")<{ isSelected: boolean }>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 15;
+  pointer-events: none;
+  background-color: ${({ isSelected }) =>
+    isSelected ? "#b3d7fe8a" : undefined};
 `;
 
 const Button = styled("button")<{ expanded?: boolean }>`
@@ -234,7 +241,10 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
           </SeriousButton>
         </LeftActions>
-        <Panel isSelected={isSelected}>{children}</Panel>
+        <Panel isSelected={isSelected}>
+          <Overlay isSelected={isSelected} />
+          {children}
+        </Panel>
         <RightActions className="actions">
           <Button
             type="button"
