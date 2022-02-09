@@ -97,11 +97,33 @@ h6 {
   background-color: #DCDCDC;
 }
 
+#content {
+  display: flex;
+}
+
+#editor-container, #content-data {
+  padding: 10px;
+}
+
+#content-data {
+  background: #eee;
+  display: none;
+  white-space: pre-wrap;
+  font-family: monospace;
+  flex-basis: 500px;
+  flex: 1 0 0;
+}
+
+#content-data.show-data {
+  display: block;
+}
+
 #editor-container {
   display: flex;
   width: 100%;
   /* Space for button container in fixed position */
   margin-top: 40px;
+  flex: 1 0 0;
 }
 
 #button-container {

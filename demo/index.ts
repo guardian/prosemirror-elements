@@ -16,7 +16,10 @@ import {
   pullquoteElement,
   richlinkElement,
 } from "../src";
-import { undefinedDropdownValue } from "../src/elements/helpers/transform";
+import {
+  transformElementOut,
+  undefinedDropdownValue,
+} from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { createVideoElement } from "../src/elements/video/VideoSpec";
 import { buildElementPlugin } from "../src/plugin/element";
@@ -28,7 +31,12 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onDemoCropImage, onSelectImage } from "./helpers";
+import {
+  onCropImage,
+  onDemoCropImage,
+  onSelectImage,
+  sideEffectPlugin,
+} from "./helpers";
 import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
@@ -85,7 +93,12 @@ const {
   additionalRoleOptions,
 });
 
-const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
+const {
+  plugin: elementPlugin,
+  insertElement,
+  nodeSpec,
+  getElementDataFromNode,
+} = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement,
   embedElement: createEmbedElement({
@@ -165,6 +178,49 @@ const createEditor = (server: CollabServer) => {
       ? (firstCollabPlugin.getState(firstEditor.state) as number)
       : 0;
   const collabPlugin = collab({ version: currentVersion, clientID });
+
+  const dataPane = document.getElementById("content-data");
+  const dataPaneOpenClass = "show-data";
+  const dataToggle = document.getElementById("content-data-toggle");
+
+  let paneOpen = false;
+
+  dataToggle?.addEventListener("click", () => {
+    paneOpen = !paneOpen;
+    if (paneOpen) {
+      dataPane?.classList.remove(dataPaneOpenClass);
+    } else {
+      dataPane?.classList.add(dataPaneOpenClass);
+    }
+  });
+
+  const getElementData = (state: EditorState) => {
+    const elementData: Array<ReturnType<typeof getElementDataFromNode>> = [];
+    state.doc.forEach((node) => {
+      const maybeElementData = getElementDataFromNode(node, serializer);
+      if (maybeElementData) {
+        elementData.push(
+          transformElementOut(
+            maybeElementData.elementName.replace("Element", "") as any,
+            maybeElementData.values
+          )
+        );
+      }
+    });
+    return elementData;
+  };
+
+  const updateElementDataPlugin = sideEffectPlugin((tr, _, state) => {
+    if (tr && !tr.docChanged) {
+      return;
+    }
+
+    const newData = getElementData(state);
+    if (dataPane) {
+      dataPane.innerText = JSON.stringify(newData, null, 2);
+    }
+  });
+
   const view = new EditorView(editorElement, {
     state: EditorState.create({
       doc: isFirstEditor ? get() : firstEditor?.state.doc,
@@ -173,6 +229,7 @@ const createEditor = (server: CollabServer) => {
         elementPlugin,
         testDecorationPlugin,
         collabPlugin,
+        updateElementDataPlugin,
         createSelectionCollabPlugin(clientID),
       ],
     }),
