@@ -1,3 +1,4 @@
+import { pickBy } from "lodash";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
@@ -43,14 +44,25 @@ export const transformElementOut: TransformOut<
 > = ({
   isMandatory,
   role,
+  alt,
+  caption,
   ...rest
 }: FieldNameToValueMap<
   ReturnType<typeof createInteractiveFields>
 >): ExternalInteractiveData => {
+  const optionalFields = pickBy(
+    {
+      alt,
+      caption,
+    },
+    (field) => field.length > 0
+  );
+
   return {
     fields: {
       isMandatory: isMandatory.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
+      ...optionalFields,
       ...rest,
     },
   };
