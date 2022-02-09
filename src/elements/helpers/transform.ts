@@ -1,6 +1,7 @@
 import type { codeFields } from "../code/CodeElementSpec";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
+import { transformElement as interactiveElementTransform } from "../interactive/interactiveDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as videoElementTransform } from "../video/videoDataTransformer";
@@ -13,6 +14,7 @@ const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
   embed: embedElementTransform,
   image: imageElementTransform,
+  interactive: interactiveElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
   "rich-link": defaultElementTransform<typeof richlinkFields>(true),
   video: videoElementTransform,

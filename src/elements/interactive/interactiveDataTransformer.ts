@@ -1,17 +1,20 @@
+import { pickBy } from "lodash";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { createInteractiveFields } from "./InteractiveSpec";
 
 export type ExternalInteractiveFields = {
-  alt: string;
-  caption: string;
   html: string;
   isMandatory: string;
-  role: string | undefined;
   scriptUrl: string;
   iframeUrl: string;
+  originalUrl: string;
+  scriptName: string;
   source: string;
+  alt?: string;
+  caption?: string;
+  role: string | undefined;
 };
 
 export type ExternalInteractiveData = {
@@ -41,14 +44,25 @@ export const transformElementOut: TransformOut<
 > = ({
   isMandatory,
   role,
+  alt,
+  caption,
   ...rest
 }: FieldNameToValueMap<
   ReturnType<typeof createInteractiveFields>
 >): ExternalInteractiveData => {
+  const optionalFields = pickBy(
+    {
+      alt,
+      caption,
+    },
+    (field) => field.length > 0
+  );
+
   return {
     fields: {
       isMandatory: isMandatory.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
+      ...optionalFields,
       ...rest,
     },
   };
