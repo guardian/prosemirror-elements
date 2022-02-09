@@ -56,7 +56,7 @@ const Panel = styled("div")<{ isSelected: boolean }>`
   }
 `;
 
-const Overlay = styled("div")<{ isSelected: boolean }>`
+const Overlay = styled("div")`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -65,8 +65,7 @@ const Overlay = styled("div")<{ isSelected: boolean }>`
   z-index: 15;
   pointer-events: none;
   mix-blend-mode: multiply;
-  background-color: ${({ isSelected }) =>
-    isSelected ? "#b3d7fe82" : undefined};
+  background-color: #b3d7fe82;
 `;
 
 const Button = styled("button")<{ expanded?: boolean }>`
@@ -245,7 +244,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
           </SeriousButton>
         </LeftActions>
         <Panel isSelected={isSelected}>
-          <Overlay isSelected={isSelected} />
+          {isSelected && <Overlay />}
           {children}
         </Panel>
         <RightActions className="actions">
