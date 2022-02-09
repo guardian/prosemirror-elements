@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
-import { Plugin, PluginKey, Selection } from "prosemirror-state";
+import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type {
   ElementSpec,
@@ -53,7 +53,9 @@ export const createPlugin = <
       }
 
       const tr = newState.tr;
+      const selection = tr.selection;
       const elementNodeToPos = new Map<Node, number>();
+      let preserveNodeSelection = false;
 
       // Find all the nodes within the current selection.
       newState.doc.nodesBetween(
@@ -79,6 +81,7 @@ export const createPlugin = <
           (!isProseMirrorElementSelected(node) && isCurrentlySelected);
 
         if (shouldUpdateNode) {
+          preserveNodeSelection = true;
           tr.setNodeMarkup(pos, undefined, {
             ...node.attrs,
             [elementSelectedNodeAttr]: isCurrentlySelected,
@@ -90,6 +93,11 @@ export const createPlugin = <
           return false;
         }
       });
+
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it's not always falsy.
+      if (preserveNodeSelection && selection instanceof NodeSelection) {
+        tr.setSelection(NodeSelection.create(tr.doc, selection.anchor));
+      }
 
       return tr;
     },

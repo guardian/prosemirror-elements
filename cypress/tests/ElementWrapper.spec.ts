@@ -5,6 +5,7 @@ import {
   moveTopTestId,
   moveUpTestId,
   removeTestId,
+  selectTestId,
 } from "../../src/renderers/react/ElementWrapper";
 import {
   addImageElement,
@@ -70,6 +71,26 @@ describe("ElementWrapper", () => {
       cy.get(selectDataCy(removeTestId)).click();
       cy.get(selectDataCy(removeTestId)).click();
       assertEditorFocus(true);
+    });
+  });
+
+  describe("Element selection", () => {
+    it("should delete the element after selecting and typing", async () => {
+      addImageElement();
+      cy.wait(100).get(selectDataCy(selectTestId)).click().type(`text`);
+      const elementTypes = await getArrayOfBlockElementTypes();
+      expect(elementTypes).to.deep.equal([
+        "paragraph",
+        "paragraph",
+        "paragraph",
+      ]);
+    });
+
+    it("should delete the element after selecting and using backsapce", async () => {
+      addImageElement();
+      cy.wait(100).get(selectDataCy(selectTestId)).click().type(`{del}`);
+      const elementTypes = await getArrayOfBlockElementTypes();
+      expect(elementTypes).to.deep.equal(["paragraph", "paragraph"]);
     });
   });
 });

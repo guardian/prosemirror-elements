@@ -11,6 +11,7 @@ import {
 import type { ReactElement } from "react";
 import React, { useState } from "react";
 import { SvgBin } from "../../editorial-source-components/SvgBin";
+import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
 import type { CommandCreator } from "../../plugin/types/Commands";
 
 const buttonWidth = 32;
@@ -36,11 +37,35 @@ const Body = styled("div")`
 `;
 
 const Panel = styled("div")<{ isSelected: boolean }>`
-  background-color: ${({ isSelected }) =>
-    isSelected ? "#b3d7fe" : neutral[97]};
+  background-color: ${neutral[97]};
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
+  postion: relative;
+
+  * {
+    ::selection {
+      background: ${({ isSelected }) =>
+        isSelected ? "transparent" : undefined};
+    }
+
+    ::-moz-selection {
+      background: ${({ isSelected }) =>
+        isSelected ? "transparent" : undefined};
+    }
+  }
+`;
+
+const Overlay = styled("div")`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 15;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background-color: #b3d7fe82;
 `;
 
 const Button = styled("button")<{ expanded?: boolean }>`
@@ -99,9 +124,9 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
   :hover {
     background-color: ${({ activated }) =>
-      activated ? neutral[0] : neutral[86]};
+      activated ? border.error : neutral[46]};
     svg {
-      fill: ${({ activated }) => (activated ? neutral[100] : neutral[20])};
+      fill: ${neutral[100]};
     }
     div {
       opacity: 1;
@@ -153,8 +178,8 @@ const RightActions = styled(Actions)`
 `;
 
 const LeftActions = styled(Actions)`
-  flex-direction: column-reverse;
   left: -${buttonWidth + 1}px;
+  justify-content: space-between;
 `;
 
 type Props = {
@@ -168,6 +193,7 @@ export const moveBottomTestId = "ElementWrapper__moveBottom";
 export const moveUpTestId = "ElementWrapper__moveUp";
 export const moveDownTestId = "ElementWrapper__moveDown";
 export const removeTestId = "ElementWrapper__remove";
+export const selectTestId = "ElementWrapper__select";
 
 export const ElementWrapper: React.FunctionComponent<Props> = ({
   moveUp,
@@ -175,6 +201,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   moveTop,
   moveBottom,
   remove,
+  select,
   isSelected,
   children,
 }) => {
@@ -189,6 +216,15 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
         <LeftActions className="actions">
           <SeriousButton
             type="button"
+            data-cy={selectTestId}
+            disabled={!select(false)}
+            onClick={() => select(true)}
+            aria-label="Select element"
+          >
+            <SvgHighlightAlt />
+          </SeriousButton>
+          <SeriousButton
+            type="button"
             activated={closeClickedOnce}
             data-cy={removeTestId}
             disabled={!remove(false)}
@@ -201,12 +237,16 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
                 }, 5000);
               }
             }}
+            aria-label="Delete element"
           >
             <SvgBin />
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
           </SeriousButton>
         </LeftActions>
-        <Panel isSelected={isSelected}>{children}</Panel>
+        <Panel isSelected={isSelected}>
+          {isSelected && <Overlay />}
+          {children}
+        </Panel>
         <RightActions className="actions">
           <Button
             type="button"

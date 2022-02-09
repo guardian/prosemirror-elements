@@ -385,3 +385,7 @@ h6 {
 .ProseMirror .ProseMirror {
   padding: 4px 8px;
 }
+
+.ProseMirror-selectednode {
+  outline: unset;
+}
