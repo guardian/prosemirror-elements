@@ -1,4 +1,5 @@
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
+import omit from "lodash/omit";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
@@ -42,14 +43,14 @@ import type { WindowType } from "./types";
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
-const embedElementName = "embedElement";
-const imageElementName = "imageElement";
+const embedElementName = "embed";
+const imageElementName = "image";
 const demoImageElementName = "demo-image-element";
-const codeElementName = "codeElement";
-const pullquoteElementName = "pullquoteElement";
-const richlinkElementName = "richlinkElement";
-const videoElementName = "videoElement";
-const interactiveElementName = "interactiveElement";
+const codeElementName = "code";
+const pullquoteElementName = "pullquote";
+const richlinkElementName = "rich-link";
+const videoElementName = "video";
+const interactiveElementName = "interactive";
 
 type Name =
   | typeof embedElementName
@@ -100,21 +101,21 @@ const {
   getElementDataFromNode,
 } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement,
-  embedElement: createEmbedElement({
+  image: imageElement,
+  embed: createEmbedElement({
     checkThirdPartyTracking: mockThirdPartyTracking,
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
     convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins,
   }),
-  interactiveElement: createInteractiveElement({
+  interactive: createInteractiveElement({
     checkThirdPartyTracking: mockThirdPartyTracking,
     createCaptionPlugins,
   }),
-  codeElement,
-  pullquoteElement,
-  richlinkElement,
-  videoElement: createVideoElement({
+  code: codeElement,
+  pullquote: pullquoteElement,
+  "rich-link": richlinkElement,
+  video: createVideoElement({
     createCaptionPlugins,
     checkThirdPartyTracking: mockThirdPartyTracking,
   }),
@@ -129,7 +130,7 @@ const strike: MarkSpec = {
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
-  marks: { ...marks, strike },
+  marks: { ...omit(marks, "code"), strike },
 });
 
 const { serializer, parser } = createParsers(schema);
@@ -201,7 +202,7 @@ const createEditor = (server: CollabServer) => {
       if (maybeElementData) {
         elementData.push(
           transformElementOut(
-            maybeElementData.elementName.replace("Element", "") as any,
+            maybeElementData.elementName as any,
             maybeElementData.values
           )
         );
@@ -376,7 +377,7 @@ const addEditorButton = document.createElement("button");
 addEditorButton.innerHTML = "Add another editor";
 addEditorButton.id = "add-editor";
 addEditorButton.addEventListener("click", () => createEditor(server));
-document.body.appendChild(addEditorButton);
+btnContainer.appendChild(addEditorButton);
 
 // Handy debugging tools. We assign a few things to window for our integration tests,
 // and to facilitate debugging.
