@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { neutral, space, text } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import React, { useEffect, useState } from "react";
+import { Error } from "../../editorial-source-components/Error";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
@@ -76,9 +77,15 @@ const calloutStyles = css`
     line-height: 14px;
     vertical-align: top;
   }
+  th {
+    text-align: right;
+  }
   p,
   p:first-child {
     margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  ul {
     margin-bottom: 0px;
   }
 `;
@@ -87,6 +94,101 @@ const targetingAnchor = css`
   display: inline-block;
   margin-bottom: ${space[2]}px;
 `;
+
+const marginBottom = css`
+  margin-bottom: ${space[2]}px !important;
+`;
+
+const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
+  return (
+    <div>
+      <a
+        css={targetingAnchor}
+        href={`https://targeting.gutools.co.uk/campaigns/${calloutData.id}`}
+      >
+        View this callout on Targeting
+      </a>
+      <Label>Callout content:</Label>
+      <table css={calloutStyles}>
+        <tbody>
+          <tr>
+            <th>Tag Name</th>
+            <td>{calloutData.fields.tagName}</td>
+          </tr>
+          <tr>
+            <th>Title</th>
+            <td>{calloutData.fields.callout}</td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td
+              dangerouslySetInnerHTML={{
+                __html: decodeHtml(calloutData.fields.description),
+              }}
+            ></td>
+          </tr>
+          <tr>
+            <th>Form URL</th>
+            <td>
+              <a href={calloutData.fields.formUrl}>
+                {calloutData.fields.formUrl}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const CalloutError = ({ tag }: { tag: string | undefined }) => {
+  return tag ? (
+    <div>
+      <Error css={marginBottom}>
+        A callout was not found matching tag <code>{tag}</code>.
+      </Error>
+      <p>Try refreshing the page. If the problem persists, you may wish to:</p>
+      <ul>
+        <li>
+          Check that the callout exists in{" "}
+          <a href="https://targeting.gutools.co.uk/campaigns/">Targeting</a>
+        </li>
+        <li>
+          Contact Central Production (
+          <a href="mailto:central.production@guardian.co.uk">
+            central.production@guardian.co.uk
+          </a>
+          ) and the Editorial Tools team (
+          <a href="mailto:editorial.tools.dev@guardian.co.uk">
+            editorial.tools.dev@guardian.co.uk
+          </a>
+          ) for assistance.
+        </li>
+      </ul>
+    </div>
+  ) : (
+    <div>
+      <Error css={marginBottom}>
+        Error: Composer was unable to extract a tag from this Callout.
+      </Error>
+      <p css={marginBottom}>
+        It is likely that the Callout element is malformed. Try deleting and
+        re-creating the the element.
+      </p>
+      <p>
+        If the problem persists, you may wish to contact Central Production (
+        <a href="mailto:central.production@guardian.co.uk">
+          central.production@guardian.co.uk
+        </a>
+        ) and the Editorial Tools team (
+        <a href="mailto:editorial.tools.dev@guardian.co.uk">
+          editorial.tools.dev@guardian.co.uk
+        </a>
+        ) for assistance.
+      </p>
+    </div>
+  );
+};
 
 export const CalloutForm: React.FunctionComponent<Props> = ({
   fieldValues,
@@ -117,67 +219,9 @@ export const CalloutForm: React.FunctionComponent<Props> = ({
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
-          <div>
-            <a
-              css={targetingAnchor}
-              href={`https://targeting.gutools.co.uk/campaigns/${callout.id}`}
-            >
-              View this callout on Targeting
-            </a>
-
-            <table css={calloutStyles}>
-              <tbody>
-                <tr>
-                  <th>Tag Name</th>
-                  <td>{callout.fields.tagName}</td>
-                </tr>
-                <tr>
-                  <th>Title</th>
-                  <td>{callout.fields.callout}</td>
-                </tr>
-                <tr>
-                  <th>Description</th>
-                  <td
-                    dangerouslySetInnerHTML={{
-                      __html: decodeHtml(callout.fields.description),
-                    }}
-                  ></td>
-                </tr>
-                <tr>
-                  <th>Form URL</th>
-                  <td>
-                    <a href={callout.fields.formUrl}>
-                      {callout.fields.formUrl}
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <CalloutTable calloutData={callout} />
         ) : (
-          <div>
-            <p>
-              A callout was not found matching tag{" "}
-              <code>{extractTag(fieldValues.html)}</code>.
-            </p>
-            <br />
-            <p>
-              Try refreshing the page. If the problem persists, you may wish to:
-            </p>
-            <ul>
-              <li>
-                Check that the callout exists in{" "}
-                <a href="https://targeting.gutools.co.uk/campaigns/">
-                  Targeting
-                </a>
-              </li>
-              <li>
-                Contact Central Production (central.production@guardian.co.uk)
-                and the Editorial Tools team (editorial.tools.dev@guardian.co.uk
-                ) for assistance.
-              </li>
-            </ul>
-          </div>
+          <CalloutError tag={tag} />
         )}
       </div>
     </FieldLayoutVertical>
