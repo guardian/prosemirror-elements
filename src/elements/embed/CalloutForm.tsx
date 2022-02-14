@@ -145,7 +145,7 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   return tag ? (
     <div>
       <Error css={marginBottom}>
-        A callout was not found matching tag <code>{tag}</code>.
+        Error: A callout was not found matching tag <code>{tag}</code>.
       </Error>
       <p>Try refreshing the page. If the problem persists, you may wish to:</p>
       <ul>
@@ -169,10 +169,10 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   ) : (
     <div>
       <Error css={marginBottom}>
-        Error: Composer was unable to extract a tag from this Callout.
+        Error: Composer was unable to extract a tag from this callout.
       </Error>
       <p css={marginBottom}>
-        It is likely that the Callout element is malformed. Try deleting and
+        It is likely that the callout element is malformed. Try deleting and
         re-creating the the element.
       </p>
       <p>
