@@ -11,14 +11,19 @@ import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
+import { CalloutForm } from "./CalloutForm";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
-import { EmbedElementForm } from "./EmbedForm";
+import { EmbedForm } from "./EmbedForm";
 
 export type MainEmbedProps = {
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
+};
+
+const isCallout = (html: string) => {
+  return html.includes("data-callout-tagname");
 };
 
 export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
@@ -62,15 +67,18 @@ export const createEmbedElement = (props: MainEmbedProps) =>
   createReactElementSpec(
     createEmbedFields(props),
     ({ fields, errors, fieldValues }) => {
-      return (
-        <EmbedElementForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-          checkThirdPartyTracking={props.checkThirdPartyTracking}
-          convertYouTube={props.convertYouTube}
-          convertTwitter={props.convertTwitter}
-        />
-      );
+      if (isCallout(fieldValues.html)) {
+        return <CalloutForm fieldValues={fieldValues} />;
+      } else
+        return (
+          <EmbedForm
+            fields={fields}
+            errors={errors}
+            fieldValues={fieldValues}
+            checkThirdPartyTracking={props.checkThirdPartyTracking}
+            convertYouTube={props.convertYouTube}
+            convertTwitter={props.convertTwitter}
+          />
+        );
     }
   );
