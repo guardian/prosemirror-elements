@@ -35,6 +35,7 @@ import type { WindowType } from "./types";
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embedElement";
+const calloutElementName = "embedElement";
 const imageElementName = "imageElement";
 const demoImageElementName = "demo-image-element";
 const codeElementName = "codeElement";
@@ -45,6 +46,7 @@ const interactiveElementName = "interactiveElement";
 
 type Name =
   | typeof embedElementName
+  | typeof calloutElementName
   | typeof imageElementName
   | typeof demoImageElementName
   | typeof codeElementName
@@ -89,6 +91,12 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   imageElement,
   embedElement: createEmbedElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    createCaptionPlugins,
+  }),
+  calloutElement: createEmbedElement({
     checkThirdPartyTracking: mockThirdPartyTracking,
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
     convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
@@ -219,6 +227,17 @@ const createEditor = (server: CollabServer) => {
     caption: "",
     altText: "",
     required: false,
+  });
+
+  createElementButton("Add callout element", calloutElementName, {
+    weighting: "",
+    sourceUrl: "",
+    embedCode: "",
+    caption: "",
+    altText: "",
+    required: false,
+    html:
+      '<div data-callout-tagname="callout-brexit"><h2>Callout<h2><p>callout-brexit</p></div>',
   });
 
   createElementButton("Add demo image element", demoImageElementName, {
