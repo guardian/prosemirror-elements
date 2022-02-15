@@ -34,7 +34,7 @@ const getCampaigns = (tag: string) => {
       return response.json();
     })
     .then((data: Callout[]) => {
-      return data.find((datum) => datum.fields.tagName === tag);
+      return data.find((callout) => callout.fields.tagName === tag);
     });
 };
 
@@ -102,7 +102,7 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
       >
         View this callout on Targeting
       </a>
-      <Label>Callout content:</Label>
+      <Label>Content:</Label>
       <table css={calloutStyles}>
         <tbody>
           <tr>
