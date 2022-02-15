@@ -1,4 +1,4 @@
-import { extractTag } from "../../CalloutForm";
+import { extractTag } from "../../Callout";
 
 const validCallout =
   '<div data-callout-tagname="ab-new-things-formatting"><h2>Callout<h2><p>ab-new-things-formatting</p></div>';

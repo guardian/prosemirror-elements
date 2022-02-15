@@ -11,7 +11,7 @@ import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { CalloutForm } from "./CalloutForm";
+import { Callout } from "./Callout";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { EmbedForm } from "./EmbedForm";
 
@@ -68,7 +68,7 @@ export const createEmbedElement = (props: MainEmbedProps) =>
     createEmbedFields(props),
     ({ fields, errors, fieldValues }) => {
       if (isCallout(fieldValues.html)) {
-        return <CalloutForm fieldValues={fieldValues} />;
+        return <Callout fieldValues={fieldValues} />;
       } else
         return (
           <EmbedForm

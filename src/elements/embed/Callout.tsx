@@ -7,6 +7,7 @@ import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { unescapeHtml } from "../helpers/html";
+import { EmbedTestId } from "./EmbedForm";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -26,24 +27,6 @@ type TagFields = {
   formUrl: string;
 };
 
-export const EmbedElementTestId = "EmbedElement";
-
-const getCampaigns = (tag: string) => {
-  return fetch("https://targeting.gutools.co.uk/api/campaigns")
-    .then((response) => {
-      return response.json();
-    })
-    .then((data: Callout[]) => {
-      return data.find((callout) => callout.fields.tagName === tag);
-    });
-};
-
-export const extractTag = (html: string) => {
-  const pattern = 'data-callout-tagname="(.*?)"';
-  const tag = RegExp(pattern).exec(html);
-  return tag ? tag[1] : undefined;
-};
-
 const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
@@ -57,7 +40,6 @@ const calloutStyles = css`
     padding: 1px 4px;
   }
   table {
-    /* table-layout: fixed; */
     width: 100%;
     border-collapse: collapse;
     border: 1px solid ${neutral[86]};
@@ -84,20 +66,34 @@ const calloutStyles = css`
   }
 `;
 
-const targetingAnchor = css`
-  display: inline-block;
-  margin-bottom: ${space[2]}px;
-`;
-
 const marginBottom = css`
   margin-bottom: ${space[2]}px !important;
 `;
+
+const getCampaigns = (tag: string) => {
+  return fetch("https://targeting.gutools.co.uk/api/campaigns")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data: Callout[]) => {
+      return data.find((callout) => callout.fields.tagName === tag);
+    });
+};
+
+export const extractTag = (html: string) => {
+  const pattern = 'data-callout-tagname="(.*?)"';
+  const tag = RegExp(pattern).exec(html);
+  return tag ? tag[1] : undefined;
+};
 
 const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
   return (
     <div>
       <a
-        css={targetingAnchor}
+        css={css`
+          display: inline-block;
+          margin-bottom: ${space[2]}px;
+        `}
         href={`https://targeting.gutools.co.uk/campaigns/${calloutData.id}`}
       >
         View this callout on Targeting
@@ -184,9 +180,7 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   );
 };
 
-export const CalloutForm: React.FunctionComponent<Props> = ({
-  fieldValues,
-}) => {
+export const Callout: React.FunctionComponent<Props> = ({ fieldValues }) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
   const [campaigns, setCampaigns] = useState<Promise<Callout | undefined>>(
     new Promise((resolve) => resolve(undefined))
@@ -209,7 +203,7 @@ export const CalloutForm: React.FunctionComponent<Props> = ({
     .catch((e) => console.log(e));
 
   return (
-    <FieldLayoutVertical data-cy={EmbedElementTestId}>
+    <FieldLayoutVertical data-cy={EmbedTestId}>
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
