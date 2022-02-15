@@ -6,6 +6,7 @@ import { Error } from "../../editorial-source-components/Error";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import { unescapeHtml } from "../helpers/html";
 import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
@@ -27,24 +28,17 @@ type TagFields = {
 
 export const EmbedElementTestId = "EmbedElement";
 
-const decodeHtml = (html: string) => {
-  const txt = document.createElement("textarea");
-  txt.innerHTML = html;
-  return txt.value;
-};
-
 const getCampaigns = (tag: string) => {
   return fetch("https://targeting.gutools.co.uk/api/campaigns")
     .then((response) => {
       return response.json();
     })
     .then((data: Callout[]) => {
-      console.log(data);
       return data.find((datum) => datum.fields.tagName === tag);
     });
 };
 
-const extractTag = (html: string) => {
+export const extractTag = (html: string) => {
   const pattern = 'data-callout-tagname="(.*?)"';
   const tag = RegExp(pattern).exec(html);
   return tag ? tag[1] : undefined;
@@ -123,7 +117,7 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
             <th>Description</th>
             <td
               dangerouslySetInnerHTML={{
-                __html: decodeHtml(calloutData.fields.description),
+                __html: unescapeHtml(calloutData.fields.description),
               }}
             ></td>
           </tr>
