@@ -54,7 +54,7 @@ const calloutStyles = css`
     vertical-align: top;
   }
   th {
-    text-align: right;
+    text-align: left;
   }
   p,
   p:first-child {
