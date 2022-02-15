@@ -20,6 +20,19 @@ type MessageData = {
   type: string;
 };
 
+const iframe = css`
+  background-color: white;
+  width: 100%;
+  font-family: sans-serif;
+`;
+
+const crossDomainIframe = css`
+  background-color: white;
+  width: 100%;
+  font-family: sans-serif;
+  resize: vertical;
+`;
+
 const getDocHeight = (doc: Document | undefined) => {
   if (doc) {
     const body = doc.body;
@@ -33,6 +46,28 @@ const getDocHeight = (doc: Document | undefined) => {
   }
   return undefined;
 };
+
+function isUntypedMessageData(data: unknown): data is UntypedMessageData {
+  if (
+    typeof data === "object" &&
+    data !== null &&
+    "value" in data &&
+    "type" in data
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function isMessageData(data: unknown): data is MessageData {
+  if (
+    isUntypedMessageData(data) &&
+    typeof data.value === "number" &&
+    typeof data.type === "string"
+  )
+    return true;
+  return false;
+}
 
 export const Preview = ({
   html,
@@ -49,28 +84,6 @@ export const Preview = ({
       setHeight((heightOfContent + 4).toString() + "px");
     }
   };
-
-  function isUntypedMessageData(data: unknown): data is UntypedMessageData {
-    if (
-      typeof data === "object" &&
-      data !== null &&
-      "value" in data &&
-      "type" in data
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  function isMessageData(data: unknown): data is MessageData {
-    if (
-      isUntypedMessageData(data) &&
-      typeof data.value === "number" &&
-      typeof data.type === "string"
-    )
-      return true;
-    return false;
-  }
 
   const listenToMessages = () => {
     window.addEventListener("message", (message) => {
@@ -98,19 +111,6 @@ export const Preview = ({
     setHeight("200px;");
     listenToMessages();
   };
-
-  const iframe = css`
-    background-color: white;
-    width: 100%;
-    font-family: sans-serif;
-  `;
-  listenToMessages();
-  const crossDomainIframe = css`
-    background-color: white;
-    width: 100%;
-    font-family: sans-serif;
-    resize: vertical;
-  `;
 
   let preview = null;
 
