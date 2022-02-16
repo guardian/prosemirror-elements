@@ -1,20 +1,20 @@
-import { extractTag } from "../../Callout";
+import { getCalloutTag } from "../../EmbedSpec";
 
 const validCallout =
-  '<div data-callout-tagname="ab-new-things-formatting"><h2>Callout<h2><p>ab-new-things-formatting</p></div>';
+  '&lt;div data-callout-tagname="ab-new-things-formatting"&gt;&lt;h2&gt;Callout&lt;h2&gt;&lt;p&gt;ab-new-things-formatting&lt;/p&gt;&lt;/div&gt;';
 
 const invalidCallout =
-  '<div data-callout-tagname="ab-new-things-formatting><h2>Callout<h2><p>ab-new-things-formatting</p></div>';
+  '&lt;div data-callout-tagname="ab-new-things-formatting&gt;&lt;h2&gt;Callout&lt;h2&gt;&lt;p&gt;ab-new-things-formatting&lt;/p&gt;&lt;/div&gt;';
 
-describe("extractTag", () => {
+describe("getCalloutTag", () => {
   it("should extract the tag from valid callout html", () => {
-    const tag = extractTag(validCallout);
+    const tag = getCalloutTag(validCallout);
 
     expect(tag).toEqual("ab-new-things-formatting");
   });
 
   it("should return undefined for invalid callout html", () => {
-    const tag = extractTag(invalidCallout);
+    const tag = getCalloutTag(invalidCallout);
 
     expect(tag).toEqual(undefined);
   });

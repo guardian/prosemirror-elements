@@ -9,7 +9,7 @@ import { unescapeHtml } from "../helpers/html";
 import { EmbedTestId } from "./EmbedForm";
 
 type Props = {
-  html: string;
+  tag: string;
 };
 
 type Callout = {
@@ -76,12 +76,6 @@ const getCampaigns = (tag: string) => {
     .then((data: Callout[]) => {
       return data.find((callout) => callout.fields.tagName === tag);
     });
-};
-
-export const extractTag = (html: string) => {
-  const pattern = 'data-callout-tagname="(.*?)"';
-  const tag = RegExp(pattern).exec(html);
-  return tag ? tag[1] : undefined;
 };
 
 const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
@@ -178,18 +172,14 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   );
 };
 
-export const Callout: React.FunctionComponent<Props> = ({ html }) => {
+export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
   const [campaigns, setCampaigns] = useState<Promise<Callout | undefined>>(
     new Promise((resolve) => resolve(undefined))
   );
 
-  const tag = extractTag(html);
-
   useEffect(() => {
-    if (tag) {
-      setCampaigns(getCampaigns(tag));
-    }
+    setCampaigns(getCampaigns(tag));
   }, []);
 
   campaigns
