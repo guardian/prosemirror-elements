@@ -5,13 +5,11 @@ import React, { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { unescapeHtml } from "../helpers/html";
 import { EmbedTestId } from "./EmbedForm";
-import type { createEmbedFields } from "./EmbedSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
+  html: string;
 };
 
 type Callout = {
@@ -180,13 +178,13 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   );
 };
 
-export const Callout: React.FunctionComponent<Props> = ({ fieldValues }) => {
+export const Callout: React.FunctionComponent<Props> = ({ html }) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
   const [campaigns, setCampaigns] = useState<Promise<Callout | undefined>>(
     new Promise((resolve) => resolve(undefined))
   );
 
-  const tag = extractTag(fieldValues.html);
+  const tag = extractTag(html);
 
   useEffect(() => {
     if (tag) {

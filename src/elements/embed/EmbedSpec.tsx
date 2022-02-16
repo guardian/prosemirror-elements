@@ -68,7 +68,7 @@ export const createEmbedElement = (props: MainEmbedProps) =>
     createEmbedFields(props),
     ({ fields, errors, fieldValues }) =>
       isCallout(fieldValues.html) ? (
-        <Callout fieldValues={fieldValues} />
+        <Callout html={fieldValues.html} />
       ) : (
         <EmbedForm
           fields={fields}
