@@ -124,6 +124,8 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
 };
 
 const CalloutError = ({ tag }: { tag: string | undefined }) => {
+  const edToolsEmail = "editorial.tools.dev@theguardian.com";
+  const centralProdEmail = "central.production@theguardian.com";
   return tag ? (
     <div>
       <Error css={marginBottom}>
@@ -137,14 +139,9 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
         </li>
         <li>
           Contact Central Production (
-          <a href="mailto:central.production@guardian.co.uk">
-            central.production@guardian.co.uk
-          </a>
-          ) and the Editorial Tools team (
-          <a href="mailto:editorial.tools.dev@guardian.co.uk">
-            editorial.tools.dev@guardian.co.uk
-          </a>
-          ) for assistance.
+          <a href={`mailto:${centralProdEmail}`}>{centralProdEmail}</a>) and the
+          Editorial Tools team (
+          <a href={`mailto:${edToolsEmail}`}>{edToolsEmail}</a>) for assistance.
         </li>
       </ul>
     </div>
@@ -159,14 +156,9 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
       </p>
       <p>
         If the problem persists, you may wish to contact Central Production (
-        <a href="mailto:central.production@guardian.co.uk">
-          central.production@guardian.co.uk
-        </a>
-        ) and the Editorial Tools team (
-        <a href="mailto:editorial.tools.dev@guardian.co.uk">
-          editorial.tools.dev@guardian.co.uk
-        </a>
-        ) for assistance.
+        <a href={`mailto:${centralProdEmail}`}>{centralProdEmail}</a>) and the
+        Editorial Tools team (
+        <a href={`mailto:${edToolsEmail}`}>{edToolsEmail}</a>) for assistance.
       </p>
     </div>
   );
