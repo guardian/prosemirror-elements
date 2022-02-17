@@ -221,6 +221,13 @@ const createEditor = (server: CollabServer) => {
     required: false,
   });
 
+  createElementButton("Add callout element", embedElementName, {
+    altText: "",
+    caption: "",
+    html:
+      '<div data-callout-tagname="callout-brexit"><h2>Callout<h2><p>callout-brexit</p></div>',
+  });
+
   createElementButton("Add demo image element", demoImageElementName, {
     altText: "",
     caption: "",

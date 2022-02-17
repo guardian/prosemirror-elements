@@ -9,16 +9,30 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { parseHtml } from "../helpers/html";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
+import { Callout } from "./Callout";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
-import { EmbedElementForm } from "./EmbedForm";
+import { EmbedForm } from "./EmbedForm";
 
 export type MainEmbedProps = {
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
+};
+
+export const getCalloutTag = (html: string) => {
+  const element = parseHtml(html);
+  if (element) {
+    const tagName = element.getAttribute("data-callout-tagname");
+
+    if (tagName) {
+      return tagName;
+    }
+  }
+  return undefined;
 };
 
 export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
@@ -62,8 +76,11 @@ export const createEmbedElement = (props: MainEmbedProps) =>
   createReactElementSpec(
     createEmbedFields(props),
     ({ fields, errors, fieldValues }) => {
-      return (
-        <EmbedElementForm
+      const calloutTag = getCalloutTag(fieldValues.html);
+      return calloutTag ? (
+        <Callout tag={calloutTag} />
+      ) : (
+        <EmbedForm
           fields={fields}
           errors={errors}
           fieldValues={fieldValues}

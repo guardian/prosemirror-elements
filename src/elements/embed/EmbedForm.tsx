@@ -22,9 +22,9 @@ type Props = {
   convertTwitter: (src: TwitterUrl) => void;
 };
 
-export const EmbedElementTestId = "EmbedElement";
+export const EmbedTestId = "EmbedElement";
 
-export const EmbedElementForm: React.FunctionComponent<Props> = ({
+export const EmbedForm: React.FunctionComponent<Props> = ({
   fieldValues,
   errors,
   fields,
@@ -32,7 +32,7 @@ export const EmbedElementForm: React.FunctionComponent<Props> = ({
   convertYouTube,
   convertTwitter,
 }) => (
-  <FieldLayoutVertical data-cy={EmbedElementTestId}>
+  <FieldLayoutVertical data-cy={EmbedTestId}>
     <EmbedRecommendation
       html={fieldValues.html}
       convertTwitter={convertTwitter}
