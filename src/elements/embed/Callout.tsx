@@ -68,15 +68,24 @@ const marginBottom = css`
   margin-bottom: ${space[2]}px !important;
 `;
 
-const getCampaigns = (tag: string) => {
-  return fetch("https://targeting.gutools.co.uk/api/campaigns")
-    .then((response) => {
-      return response.json();
-    })
-    .then((data: Callout[]) => {
-      return data.find((callout) => callout.fields.tagName === tag);
-    });
+const getCampaigns = () => {
+  let campaigns: Promise<Callout[]> | undefined = undefined;
+  return () => {
+    if (campaigns === undefined) {
+      campaigns = fetch(
+        "https://targeting.gutools.co.uk/api/campaigns"
+      ).then((response) => response.json());
+    }
+    return campaigns;
+  };
 };
+
+const memoisedGetCampaigns = getCampaigns();
+
+const getCalloutByTag = (tag: string) =>
+  memoisedGetCampaigns().then((data: Callout[]) => {
+    return data.find((callout) => callout.fields.tagName === tag);
+  });
 
 const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
   return (
@@ -166,21 +175,16 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
 
 export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
-  const [campaigns, setCampaigns] = useState<Promise<Callout | undefined>>(
-    new Promise((resolve) => resolve(undefined))
-  );
 
   useEffect(() => {
-    setCampaigns(getCampaigns(tag));
+    getCalloutByTag(tag)
+      .then((callout) => {
+        if (callout) {
+          setCallout(callout);
+        }
+      })
+      .catch((e) => console.log(e));
   }, []);
-
-  campaigns
-    .then((callout) => {
-      if (callout) {
-        setCallout(callout);
-      }
-    })
-    .catch((e) => console.log(e));
 
   return (
     <FieldLayoutVertical data-cy={EmbedTestId}>
