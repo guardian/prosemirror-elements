@@ -184,7 +184,8 @@ export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
         }
       })
       .catch((e) => console.log(e));
-  }, []);
+    return () => setCallout(undefined);
+  }, [tag]);
 
   return (
     <FieldLayoutVertical data-cy={EmbedTestId}>
