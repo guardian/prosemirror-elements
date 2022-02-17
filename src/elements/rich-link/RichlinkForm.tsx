@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
@@ -11,6 +12,10 @@ type Props = {
   errors: FieldValidationErrors;
   fields: FieldNameToField<typeof richlinkFields>;
 };
+
+const warningStyle = css`
+  background-color: purple;
+`;
 
 export const RichlinkElementForm: React.FunctionComponent<Props> = ({
   errors,
@@ -30,5 +35,12 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
       errors={errors.weighting}
       display="inline"
     />
+    <div css={warningStyle}>
+      {fieldValues.draftReference ? (
+        <div>TRUE DONE: {fieldValues.draftReference}</div>
+      ) : (
+        <div>TRY NOTER</div>
+      )}
+    </div>{" "}
   </FieldLayoutVertical>
 );
