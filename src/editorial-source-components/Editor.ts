@@ -6,7 +6,7 @@ import { inputBorder } from "./inputBorder";
 
 export const Editor = styled.div<{ hasValidationErrors: boolean }>`
   ${body.small()}
-  .ProseMirror {
+  .ProseMirrorElements__RichTextField, .ProseMirrorElements__TextField {
     background-color: ${background.primary};
     ${inputBorder}
     ${({ hasValidationErrors }) =>
