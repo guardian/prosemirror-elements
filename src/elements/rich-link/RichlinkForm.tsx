@@ -58,14 +58,14 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
       errors={errors.weighting}
       display="inline"
     />
-    <div css={warningContainer}>
-      {fieldValues.draftReference ? (
+    {fieldValues.draftReference ? (
+      <div css={warningContainer}>
         <span css={warningStyle}>
           <SvgAlertTriangle />
           This rich link references unpublished content. It will not appear
           until the target has been published.
         </span>
-      ) : null}
-    </div>
+      </div>
+    ) : null}
   </FieldLayoutVertical>
 );
