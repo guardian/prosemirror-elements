@@ -43,18 +43,13 @@ const getDocHeight = (doc: Document | undefined) => {
   return undefined;
 };
 
-const isMessageData = (data: unknown): data is MessageData => {
-  if (
-    typeof data === "object" &&
-    data !== null &&
-    hasOwnProperty(data, "value") &&
-    hasOwnProperty(data, "type") &&
-    typeof data.value === "number" &&
-    typeof data.type === "string"
-  )
-    return true;
-  return false;
-};
+const isMessageData = (data: unknown): data is MessageData =>
+  typeof data === "object" &&
+  data !== null &&
+  hasOwnProperty(data, "value") &&
+  hasOwnProperty(data, "type") &&
+  typeof data.value === "number" &&
+  typeof data.type === "string";
 
 export const Preview = ({
   html,
