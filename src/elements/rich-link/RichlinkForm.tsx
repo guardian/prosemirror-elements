@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { SvgAlertTriangle } from "@guardian/src-icons";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
@@ -14,7 +15,29 @@ type Props = {
 };
 
 const warningStyle = css`
-  background-color: purple;
+  font-family: "Guardian Agate Sans";
+  font-size: 0.9375em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1em;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #c7291c;
+  svg {
+    fill: #c7291c;
+    height: 1.2em;
+    top: 0.25em;
+    position: relative;
+    left: 0.045em;
+  }
+`;
+
+const warningContainer = css`
+  height: 1.25em;
+  width: 41.43em;
+  left: 1.25em;
+  top: 0em;
+  border-radius: nullpx;
 `;
 
 export const RichlinkElementForm: React.FunctionComponent<Props> = ({
@@ -35,12 +58,14 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
       errors={errors.weighting}
       display="inline"
     />
-    <div css={warningStyle}>
+    <div css={warningContainer}>
       {fieldValues.draftReference ? (
-        <div>TRUE DONE: {fieldValues.draftReference}</div>
-      ) : (
-        <div>TRY NOTER</div>
-      )}
-    </div>{" "}
+        <span css={warningStyle}>
+          <SvgAlertTriangle />
+          This rich link references unpublished content. It will not appear
+          until the tarket has been published.
+        </span>
+      ) : null}
+    </div>
   </FieldLayoutVertical>
 );
