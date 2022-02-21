@@ -235,9 +235,10 @@ const createEditor = (server: CollabServer) => {
   });
 
   createElementButton("Add rich-link element", richlinkElementName, {
-    linkText: "example",
+    linkText: "example2",
     url: "https://example.com",
     weighting: "",
+    draftReference: "",
   });
 
   createElementButton("Add video element", videoElementName, {
