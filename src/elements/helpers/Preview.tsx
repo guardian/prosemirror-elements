@@ -72,8 +72,12 @@ export const Preview = ({
     (message: MessageEvent) => {
       try {
         const data = JSON.parse(message.data) as unknown;
-
-        if (isMessageData(data) && data.type === "set-height") {
+        if (
+          isMessageData(data) &&
+          data.type === "set-height" &&
+          ref.current &&
+          ref.current.contentWindow === message.source
+        ) {
           const height = data.value;
           setHeight(`${height.toString()}px`);
         }
