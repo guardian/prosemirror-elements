@@ -86,26 +86,32 @@ export const TrackingStatusChecks = ({
 }) => {
   const [trackingStatus, updateTrackingStatus] = useState<TrackingStatus>();
 
-  const checkTrackingAndUpdate = (html: string) => {
+  const checkTrackingAndUpdate = (
+    html: string,
+    options: { isSubscribed: boolean }
+  ) => {
     checkThirdPartyTracking(unescapeHtml(html))
       .then((response) => {
-        updateTrackingStatus(response);
+        if (options.isSubscribed) {
+          updateTrackingStatus(response);
+        }
       })
       .catch((e) => console.log(e));
   };
 
   const checkTrackingAndUpdateDebounced = useCallback(
-    debounce(checkTrackingAndUpdate, 3000),
+    debounce(checkTrackingAndUpdate, 5000),
     []
   );
 
   useEffect(() => {
-    checkTrackingAndUpdateDebounced(html);
+    const options = { isSubscribed: true };
+    checkTrackingAndUpdateDebounced(html, options);
+    return () => {
+      options.isSubscribed = false;
+      checkTrackingAndUpdateDebounced.cancel();
+    };
   }, [html]);
-
-  useEffect(() => {
-    checkTrackingAndUpdate(html);
-  }, []);
 
   if (trackingStatus != undefined) {
     return (

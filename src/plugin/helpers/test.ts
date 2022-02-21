@@ -64,6 +64,7 @@ export const createNoopElement = <FDesc extends FieldDescriptions<string>>(
   createElementSpec(
     fieldDescriptions,
     () => null,
+    () => undefined,
     () => undefined
   );
 

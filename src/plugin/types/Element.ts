@@ -91,6 +91,7 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     commands: ReturnType<CommandCreator>,
     isSelected: boolean
   ) => void;
+  destroy: (dom: HTMLElement) => void;
 };
 
 export type ElementSpecMap<

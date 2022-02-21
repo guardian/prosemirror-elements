@@ -23,6 +23,7 @@ describe("createPlugin", () => {
       _commands,
       subscribe
     ) => subscribe(consumerRenderSpy),
+    () => undefined,
     () => undefined
   );
 
