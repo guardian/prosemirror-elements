@@ -100,7 +100,7 @@ export const TrackingStatusChecks = ({
   };
 
   const checkTrackingAndUpdateDebounced = useCallback(
-    debounce(checkTrackingAndUpdate, 5000),
+    debounce(checkTrackingAndUpdate, 1000),
     []
   );
 
