@@ -231,7 +231,7 @@ const createEditor = (server: CollabServer) => {
     linkText: "example2",
     url: "https://example.com",
     weighting: "",
-    draftReference: "ds",
+    draftReference: "",
   });
 
   createElementButton("Add video element", videoElementName, {

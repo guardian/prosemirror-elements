@@ -63,7 +63,7 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
         <span css={warningStyle}>
           <SvgAlertTriangle />
           This rich link references unpublished content. It will not appear
-          until the tarket has been published.
+          until the target has been published.
         </span>
       ) : null}
     </div>
