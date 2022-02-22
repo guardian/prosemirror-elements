@@ -272,6 +272,7 @@ const createNodeView = <
     stopEvent: () => true,
     destroy: () => {
       Object.values(fields).map((field) => field.view.destroy());
+      element.destroy(dom);
     },
     ignoreMutation: () => true,
   };
