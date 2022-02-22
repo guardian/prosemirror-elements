@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React from "react";
-import { render } from "react-dom";
+import { render, unmountComponentAtNode } from "react-dom";
 import { createElementSpec } from "../../plugin/elementSpec";
 import type { Renderer, Validator } from "../../plugin/elementSpec";
 import type { Consumer } from "../../plugin/types/Consumer";
@@ -33,6 +33,9 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
       />,
       dom
     );
+  const destroy = (dom: HTMLElement) => {
+    unmountComponentAtNode(dom);
+  };
 
-  return createElementSpec(fieldDescriptions, renderer, validate);
+  return createElementSpec(fieldDescriptions, renderer, validate, destroy);
 };

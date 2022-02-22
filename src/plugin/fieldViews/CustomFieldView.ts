@@ -114,7 +114,7 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
   }
 
   public destroy() {
-    this.subscribers = [];
+    // Do nothing
   }
 
   private updateSubscribers(fields: Value) {

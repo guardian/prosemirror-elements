@@ -65,7 +65,8 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   render: Renderer<FDesc>,
-  validateElement: Validator<FDesc> | undefined = undefined
+  validateElement: Validator<FDesc> | undefined = undefined,
+  destroy: (dom: HTMLElement) => void
 ): ElementSpec<FDesc> => {
   const validate = validateWithFieldAndElementValidators(
     fieldDescriptions,
@@ -88,5 +89,6 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
       );
       return updater.update;
     },
+    destroy,
   };
 };
