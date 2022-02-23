@@ -68,13 +68,24 @@ const marginBottom = css`
   margin-bottom: ${space[2]}px !important;
 `;
 
+const env =
+  document.location.hostname.includes("local") ||
+  document.location.hostname.includes("code")
+    ? "CODE"
+    : "PROD";
+
+const targetingDomain =
+  env === "CODE"
+    ? "https://targeting.code.dev-gutools.co.uk"
+    : "https://targeting.gutools.co.uk";
+
 const getCampaigns = () => {
   let campaigns: Promise<Callout[]> | undefined = undefined;
   return () => {
     if (campaigns === undefined) {
-      campaigns = fetch(
-        "https://targeting.gutools.co.uk/api/campaigns"
-      ).then((response) => response.json());
+      campaigns = fetch(`${targetingDomain}/api/campaigns`).then((response) =>
+        response.json()
+      );
     }
     return campaigns;
   };
@@ -95,7 +106,7 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
           display: inline-block;
           margin-bottom: ${space[2]}px;
         `}
-        href={`https://targeting.gutools.co.uk/campaigns/${calloutData.id}`}
+        href={`${targetingDomain}/campaigns/${calloutData.id}`}
       >
         View this callout on Targeting
       </a>
@@ -144,7 +155,7 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
       <ul>
         <li>
           Check that the callout exists in{" "}
-          <a href="https://targeting.gutools.co.uk/campaigns/">Targeting</a>
+          <a href={targetingDomain}>Targeting</a>
         </li>
         <li>
           Contact Central Production (

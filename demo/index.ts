@@ -225,7 +225,7 @@ const createEditor = (server: CollabServer) => {
     altText: "",
     caption: "",
     html:
-      '<div data-callout-tagname="callout-brexit"><h2>Callout<h2><p>callout-brexit</p></div>',
+      '<div data-callout-tagname="test-form-six"><h2>Callout<h2><p>test-form-six</p></div>',
   });
 
   createElementButton("Add demo image element", demoImageElementName, {
