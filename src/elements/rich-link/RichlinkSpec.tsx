@@ -13,7 +13,7 @@ export const richlinkFields = {
   url: createTextField(),
   originalUrl: createTextField(),
   linkPrefix: createTextField(),
-  draftReference: createTextField(),
+  draftReference: createTextField({ absentOnEmpty: true }),
 };
 
 export const richlinkElement = createReactElementSpec(

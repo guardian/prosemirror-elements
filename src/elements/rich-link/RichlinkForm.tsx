@@ -32,14 +32,6 @@ const warningStyle = css`
   }
 `;
 
-const warningContainer = css`
-  height: 1.25em;
-  width: 41.43em;
-  left: 1.25em;
-  top: 0em;
-  border-radius: nullpx;
-`;
-
 export const RichlinkElementForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
@@ -59,12 +51,10 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
       display="inline"
     />
     {fieldValues.draftReference ? (
-      <div css={warningContainer}>
-        <span css={warningStyle}>
-          <SvgAlertTriangle />
-          This rich link references unpublished content. It will not appear
-          until the target has been published.
-        </span>
+      <div css={warningStyle}>
+        <SvgAlertTriangle />
+        This rich link references unpublished content. It will not appear until
+        the target has been published.
       </div>
     ) : null}
   </FieldLayoutVertical>
