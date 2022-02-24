@@ -7,9 +7,11 @@ import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { unescapeHtml } from "../helpers/html";
 import { EmbedTestId } from "./EmbedForm";
+import type { TargetingUrls } from "./EmbedSpec";
 
 type Props = {
   tag: string;
+  targetingUrls: TargetingUrls;
 };
 
 type Callout = {
@@ -74,12 +76,7 @@ const env =
     ? "CODE"
     : "PROD";
 
-const targetingDomain =
-  env === "CODE"
-    ? "https://targeting.code.dev-gutools.co.uk"
-    : "https://targeting.gutools.co.uk";
-
-const getCampaigns = () => {
+const getCampaigns = (targetingDomain: string) => {
   let campaigns: Promise<Callout[]> | undefined = undefined;
   return () => {
     if (campaigns === undefined) {
@@ -91,14 +88,21 @@ const getCampaigns = () => {
   };
 };
 
-const memoisedGetCampaigns = getCampaigns();
+const memoisedGetCampaigns = (targetingDomain: string) =>
+  getCampaigns(targetingDomain);
 
-const getCalloutByTag = (tag: string) =>
-  memoisedGetCampaigns().then((data: Callout[]) => {
+const getCalloutByTag = (tag: string, targetingDomain: string) =>
+  memoisedGetCampaigns(targetingDomain)().then((data: Callout[]) => {
     return data.find((callout) => callout.fields.tagName === tag);
   });
 
-const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
+const CalloutTable = ({
+  calloutData,
+  targetingDomain,
+}: {
+  calloutData: Callout;
+  targetingDomain: string;
+}) => {
   return (
     <div>
       <a
@@ -143,7 +147,13 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
   );
 };
 
-const CalloutError = ({ tag }: { tag: string | undefined }) => {
+const CalloutError = ({
+  tag,
+  targetingDomain,
+}: {
+  tag: string | undefined;
+  targetingDomain: string;
+}) => {
   const edToolsEmail = "editorial.tools.dev@theguardian.com";
   const centralProdEmail = "central.production@theguardian.com";
   return tag ? (
@@ -184,11 +194,17 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   );
 };
 
-export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
+export const Callout: React.FunctionComponent<Props> = ({
+  tag,
+  targetingUrls,
+}) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
 
+  const targetingDomain =
+    env === "CODE" ? targetingUrls.code : targetingUrls.prod;
+
   useEffect(() => {
-    getCalloutByTag(tag)
+    getCalloutByTag(tag, targetingDomain)
       .then((callout) => {
         if (callout) {
           setCallout(callout);
@@ -203,9 +219,12 @@ export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
-          <CalloutTable calloutData={callout} />
+          <CalloutTable
+            calloutData={callout}
+            targetingDomain={targetingDomain}
+          />
         ) : (
-          <CalloutError tag={tag} />
+          <CalloutError tag={tag} targetingDomain={targetingDomain} />
         )}
       </div>
     </FieldLayoutVertical>
