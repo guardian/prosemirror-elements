@@ -58,6 +58,7 @@ export const Preview = ({
   ...rest
 }: PreviewProps) => {
   const [height, setHeight] = useState("0px");
+
   const ref = useRef<HTMLIFrameElement>(null);
 
   const updateIframeHeight = () => {
