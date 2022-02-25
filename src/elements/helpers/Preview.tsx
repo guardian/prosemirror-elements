@@ -123,7 +123,7 @@ export const Preview = ({
   if (iframeUrl) {
     preview = (
       <iframe
-        src={iframeUrl}
+        src={unescapeHtml(iframeUrl)}
         css={crossDomainIframe}
         height={height}
         ref={ref}
