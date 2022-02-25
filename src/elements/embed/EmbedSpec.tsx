@@ -21,6 +21,7 @@ export type MainEmbedProps = {
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
+  targetingUrl: string;
 };
 
 export const getCalloutTag = (html: string) => {
@@ -78,7 +79,7 @@ export const createEmbedElement = (props: MainEmbedProps) =>
     ({ fields, errors, fieldValues }) => {
       const calloutTag = getCalloutTag(fieldValues.html);
       return calloutTag ? (
-        <Callout tag={calloutTag} />
+        <Callout tag={calloutTag} targetingUrl={props.targetingUrl} />
       ) : (
         <EmbedForm
           fields={fields}

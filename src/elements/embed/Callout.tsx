@@ -10,6 +10,7 @@ import { EmbedTestId } from "./EmbedForm";
 
 type Props = {
   tag: string;
+  targetingUrl: string;
 };
 
 type Callout = {
@@ -68,26 +69,33 @@ const marginBottom = css`
   margin-bottom: ${space[2]}px !important;
 `;
 
-const getCampaigns = () => {
+const getCampaigns = (targetingDomain: string) => {
   let campaigns: Promise<Callout[]> | undefined = undefined;
   return () => {
     if (campaigns === undefined) {
-      campaigns = fetch(
-        "https://targeting.gutools.co.uk/api/campaigns"
-      ).then((response) => response.json());
+      campaigns = fetch(`${targetingDomain}/api/campaigns`).then((response) =>
+        response.json()
+      );
     }
     return campaigns;
   };
 };
 
-const memoisedGetCampaigns = getCampaigns();
+const memoisedGetCampaigns = (targetingDomain: string) =>
+  getCampaigns(targetingDomain);
 
-const getCalloutByTag = (tag: string) =>
-  memoisedGetCampaigns().then((data: Callout[]) => {
+const getCalloutByTag = (tag: string, targetingDomain: string) =>
+  memoisedGetCampaigns(targetingDomain)().then((data: Callout[]) => {
     return data.find((callout) => callout.fields.tagName === tag);
   });
 
-const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
+const CalloutTable = ({
+  calloutData,
+  targetingUrl,
+}: {
+  calloutData: Callout;
+  targetingUrl: string;
+}) => {
   return (
     <div>
       <a
@@ -95,7 +103,7 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
           display: inline-block;
           margin-bottom: ${space[2]}px;
         `}
-        href={`https://targeting.gutools.co.uk/campaigns/${calloutData.id}`}
+        href={`${targetingUrl}/campaigns/${calloutData.id}`}
       >
         View this callout on Targeting
       </a>
@@ -132,7 +140,13 @@ const CalloutTable = ({ calloutData }: { calloutData: Callout }) => {
   );
 };
 
-const CalloutError = ({ tag }: { tag: string | undefined }) => {
+const CalloutError = ({
+  tag,
+  targetingUrl,
+}: {
+  tag: string | undefined;
+  targetingUrl: string;
+}) => {
   const edToolsEmail = "editorial.tools.dev@theguardian.com";
   const centralProdEmail = "central.production@theguardian.com";
   return tag ? (
@@ -143,8 +157,7 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
       <p>Try refreshing the page. If the problem persists, you may wish to:</p>
       <ul>
         <li>
-          Check that the callout exists in{" "}
-          <a href="https://targeting.gutools.co.uk/campaigns/">Targeting</a>
+          Check that the callout exists in <a href={targetingUrl}>Targeting</a>
         </li>
         <li>
           Contact Central Production (
@@ -173,11 +186,14 @@ const CalloutError = ({ tag }: { tag: string | undefined }) => {
   );
 };
 
-export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
+export const Callout: React.FunctionComponent<Props> = ({
+  tag,
+  targetingUrl,
+}) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
 
   useEffect(() => {
-    getCalloutByTag(tag)
+    getCalloutByTag(tag, targetingUrl)
       .then((callout) => {
         if (callout) {
           setCallout(callout);
@@ -192,9 +208,9 @@ export const Callout: React.FunctionComponent<Props> = ({ tag }) => {
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
-          <CalloutTable calloutData={callout} />
+          <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
         ) : (
-          <CalloutError tag={tag} />
+          <CalloutError tag={tag} targetingUrl={targetingUrl} />
         )}
       </div>
     </FieldLayoutVertical>
