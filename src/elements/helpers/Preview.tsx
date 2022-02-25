@@ -54,7 +54,7 @@ const isMessageData = (data: unknown): data is MessageData =>
 // Prevent scrollbar appearing due to iframe size issue
 const extraPreviewSpace = 4;
 // Only allow the preview to occupy this proportion of space relative to the viewport height.
-const maxHeightRelativeToViewport = 0.75;
+const maxHeightRelativeToViewport = 0.5;
 
 export const Preview = ({
   html,
