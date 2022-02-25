@@ -93,7 +93,6 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
     convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins,
-    targetingUrl: "https://targeting.code.dev-gutools.co.uk",
   }),
   interactiveElement: createInteractiveElement({
     checkThirdPartyTracking: mockThirdPartyTracking,
@@ -226,7 +225,7 @@ const createEditor = (server: CollabServer) => {
     altText: "",
     caption: "",
     html:
-      '<div data-callout-tagname="test-form-six"><h2>Callout<h2><p>test-form-six</p></div>',
+      '<div data-callout-tagname="callout-brexit"><h2>Callout<h2><p>callout-brexit</p></div>',
   });
 
   createElementButton("Add demo image element", demoImageElementName, {
