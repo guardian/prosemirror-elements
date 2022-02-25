@@ -93,10 +93,7 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
     convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins,
-    targetingUrls: {
-      prod: "https://targeting.gutools.co.uk",
-      code: "https://targeting.code.dev-gutools.co.uk",
-    },
+    targetingUrl: "https://targeting.code.dev-gutools.co.uk",
   }),
   interactiveElement: createInteractiveElement({
     checkThirdPartyTracking: mockThirdPartyTracking,

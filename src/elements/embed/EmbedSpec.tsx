@@ -16,17 +16,12 @@ import { Callout } from "./Callout";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
 import { EmbedForm } from "./EmbedForm";
 
-export type TargetingUrls = {
-  prod: string;
-  code: string;
-};
-
 export type MainEmbedProps = {
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
   createCaptionPlugins?: (schema: Schema) => Plugin[];
-  targetingUrls: TargetingUrls;
+  targetingUrl: string;
 };
 
 export const getCalloutTag = (html: string) => {
@@ -84,7 +79,7 @@ export const createEmbedElement = (props: MainEmbedProps) =>
     ({ fields, errors, fieldValues }) => {
       const calloutTag = getCalloutTag(fieldValues.html);
       return calloutTag ? (
-        <Callout tag={calloutTag} targetingUrls={props.targetingUrls} />
+        <Callout tag={calloutTag} targetingUrl={props.targetingUrl} />
       ) : (
         <EmbedForm
           fields={fields}

@@ -7,11 +7,10 @@ import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { unescapeHtml } from "../helpers/html";
 import { EmbedTestId } from "./EmbedForm";
-import type { TargetingUrls } from "./EmbedSpec";
 
 type Props = {
   tag: string;
-  targetingUrls: TargetingUrls;
+  targetingUrl: string;
 };
 
 type Callout = {
@@ -70,12 +69,6 @@ const marginBottom = css`
   margin-bottom: ${space[2]}px !important;
 `;
 
-const env =
-  document.location.hostname.includes("local") ||
-  document.location.hostname.includes("code")
-    ? "CODE"
-    : "PROD";
-
 const getCampaigns = (targetingDomain: string) => {
   let campaigns: Promise<Callout[]> | undefined = undefined;
   return () => {
@@ -98,10 +91,10 @@ const getCalloutByTag = (tag: string, targetingDomain: string) =>
 
 const CalloutTable = ({
   calloutData,
-  targetingDomain,
+  targetingUrl,
 }: {
   calloutData: Callout;
-  targetingDomain: string;
+  targetingUrl: string;
 }) => {
   return (
     <div>
@@ -110,7 +103,7 @@ const CalloutTable = ({
           display: inline-block;
           margin-bottom: ${space[2]}px;
         `}
-        href={`${targetingDomain}/campaigns/${calloutData.id}`}
+        href={`${targetingUrl}/campaigns/${calloutData.id}`}
       >
         View this callout on Targeting
       </a>
@@ -149,10 +142,10 @@ const CalloutTable = ({
 
 const CalloutError = ({
   tag,
-  targetingDomain,
+  targetingUrl,
 }: {
   tag: string | undefined;
-  targetingDomain: string;
+  targetingUrl: string;
 }) => {
   const edToolsEmail = "editorial.tools.dev@theguardian.com";
   const centralProdEmail = "central.production@theguardian.com";
@@ -164,8 +157,7 @@ const CalloutError = ({
       <p>Try refreshing the page. If the problem persists, you may wish to:</p>
       <ul>
         <li>
-          Check that the callout exists in{" "}
-          <a href={targetingDomain}>Targeting</a>
+          Check that the callout exists in <a href={targetingUrl}>Targeting</a>
         </li>
         <li>
           Contact Central Production (
@@ -196,15 +188,12 @@ const CalloutError = ({
 
 export const Callout: React.FunctionComponent<Props> = ({
   tag,
-  targetingUrls,
+  targetingUrl,
 }) => {
   const [callout, setCallout] = useState<Callout | undefined>(undefined);
 
-  const targetingDomain =
-    env === "CODE" ? targetingUrls.code : targetingUrls.prod;
-
   useEffect(() => {
-    getCalloutByTag(tag, targetingDomain)
+    getCalloutByTag(tag, targetingUrl)
       .then((callout) => {
         if (callout) {
           setCallout(callout);
@@ -219,12 +208,9 @@ export const Callout: React.FunctionComponent<Props> = ({
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
-          <CalloutTable
-            calloutData={callout}
-            targetingDomain={targetingDomain}
-          />
+          <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
         ) : (
-          <CalloutError tag={tag} targetingDomain={targetingDomain} />
+          <CalloutError tag={tag} targetingUrl={targetingUrl} />
         )}
       </div>
     </FieldLayoutVertical>
