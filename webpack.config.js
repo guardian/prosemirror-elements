@@ -1,4 +1,5 @@
 import path from "path";
+import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
 
 const moduleURL = new URL(import.meta.url);
 export const dirName = path.dirname(moduleURL.pathname);
@@ -7,12 +8,17 @@ export default {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
+        test: /\.(ts|tsx)?$/,
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'tsx',
+          target: 'es2015'
+        },
+        exclude: /node_modules/
       },
     ],
   },
+  plugins: [new ForkTsCheckerPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },

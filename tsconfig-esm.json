@@ -8,7 +8,7 @@
     "sourceMap": true,
     "declaration": true,
     "strict": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "jsxImportSource": "@emotion/react",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
