@@ -17,13 +17,14 @@ import { StandardForm } from "./StandardForm";
  * A standard element represents every element covered by
  * https://github.com/guardian/flexible-model/blob/f9d30ad2bb19446a9226ab1bd8418b4aaa03d762/src/main/thrift/content.thrift#L696.
  *
- * In practice, it also covers the legacy (non-content-atom) audio and video elements.
+ * In practice, it also covers the legacy (non-content-atom) audio and video elements,
+ * which only use a subset of their flexible-model fields.
  */
 export const createStandardFields = (
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
   return {
-    source: createTextField(),
+    source: createTextField({ absentOnEmpty: true }),
     isMandatory: createCustomField(true, true),
     role: createCustomDropdownField(undefinedDropdownValue, [
       { text: "inline (default)", value: undefinedDropdownValue },
@@ -31,10 +32,10 @@ export const createStandardFields = (
       { text: "showcase", value: "showcase" },
       { text: "immersive", value: "immersive" },
     ]),
-    url: createTextField(),
-    description: createTextField(),
-    originalUrl: createTextField(),
-    height: createTextField(),
+    url: createTextField({ absentOnEmpty: true }),
+    description: createTextField({ absentOnEmpty: true }),
+    originalUrl: createTextField({ absentOnEmpty: true }),
+    height: createTextField({ absentOnEmpty: true }),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
       marks: "em strong link strike",
@@ -42,10 +43,10 @@ export const createStandardFields = (
       placeholder: "Enter a caption for this media…",
       absentOnEmpty: true,
     }),
-    title: createTextField(),
-    html: createTextField(),
-    width: createTextField(),
-    authorName: createTextField(),
+    title: createTextField({ absentOnEmpty: true }),
+    html: createTextField({ absentOnEmpty: true }),
+    width: createTextField({ absentOnEmpty: true }),
+    authorName: createTextField({ absentOnEmpty: true }),
   };
 };
 

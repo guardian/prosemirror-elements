@@ -47,11 +47,15 @@ FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embed";
 const imageElementName = "image";
 const demoImageElementName = "demo-image-element";
-const codeElementName = "code";
-const pullquoteElementName = "pullquote";
-const richlinkElementName = "rich-link";
-const videoElementName = "video";
-const interactiveElementName = "interactive";
+const codeElementName = "codeElement";
+const pullquoteElementName = "pullquoteElement";
+const richlinkElementName = "richlinkElement";
+const videoElementName = "videoElement";
+const mapElementName = "mapElement";
+const audioElementName = "audioElement";
+const documentElementName = "documentElement";
+const tableElementName = "tableElement";
+const interactiveElementName = "interactiveElement";
 const membershipElementName = "membership";
 
 type Name =
@@ -63,6 +67,10 @@ type Name =
   | typeof richlinkElementName
   | typeof interactiveElementName
   | typeof videoElementName
+  | typeof mapElementName
+  | typeof audioElementName
+  | typeof documentElementName
+  | typeof tableElementName
   | typeof membershipElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
@@ -97,6 +105,11 @@ const {
   additionalRoleOptions,
 });
 
+const standardElement = createStandardElement({
+  createCaptionPlugins,
+  checkThirdPartyTracking: mockThirdPartyTracking,
+});
+
 const {
   plugin: elementPlugin,
   insertElement,
@@ -116,13 +129,14 @@ const {
     checkThirdPartyTracking: mockThirdPartyTracking,
     createCaptionPlugins,
   }),
-  code: codeElement,
-  pullquote: pullquoteElement,
+  codeElement,
+  pullquoteElement,
   "rich-link": richlinkElement,
-  video: createStandardElement({
-    createCaptionPlugins,
-    checkThirdPartyTracking: mockThirdPartyTracking,
-  }),
+  videoElement: standardElement,
+  audioElement: standardElement,
+  mapElement: standardElement,
+  tableElement: standardElement,
+  documentElement: standardElement,
   membership: membershipElement,
 });
 
@@ -259,7 +273,7 @@ const createEditor = (server: CollabServer) => {
     btnContainer.appendChild(elementButton);
   };
 
-  createElementButton("Add interactive element", interactiveElementName, {
+  createElementButton("Interactive element", interactiveElementName, {
     iframeUrl:
       "https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4",
     scriptName: "iframe-wrapper",
@@ -273,7 +287,7 @@ const createEditor = (server: CollabServer) => {
     html: `<a href="https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4">Hostomel airbase</a>`,
   });
 
-  createElementButton("Add embed element", embedElementName, {
+  createElementButton("Embed element", embedElementName, {
     weighting: "",
     sourceUrl: "",
     embedCode: "",
@@ -282,27 +296,27 @@ const createEditor = (server: CollabServer) => {
     required: false,
   });
 
-  createElementButton("Add callout element", embedElementName, {
+  createElementButton("Callout element", embedElementName, {
     altText: "",
     caption: "",
     html:
       '<div data-callout-tagname="test-form-six"><h2>Callout<h2><p>test-form-six</p></div>',
   });
 
-  createElementButton("Add demo image element", demoImageElementName, {
+  createElementButton("Demo image element", demoImageElementName, {
     altText: "",
     caption: "",
     useSrc: { value: false },
   });
 
-  createElementButton("Add rich-link element", richlinkElementName, {
+  createElementButton("Rich-link element", richlinkElementName, {
     linkText: "example2",
     url: "https://example.com",
     weighting: "",
     draftReference: "",
   });
 
-  createElementButton("Add video element", videoElementName, {
+  createElementButton("Video element", videoElementName, {
     source: "YouTube",
     isMandatory: "false",
     role: "showcase",
@@ -315,6 +329,59 @@ const createEditor = (server: CollabServer) => {
       '\n            <iframe\n                height="259"\n                width="460"\n                src="https://www.youtube.com/embed/jUghnM2qy9M?wmode=opaque&feature=oembed"\n                frameborder="0"\n                allowfullscreen\n            ></iframe>\n        ',
     width: "460",
     authorName: "Lorem Ipsum",
+  });
+
+  createElementButton("Audio element", audioElementName, {
+    source: "SoundCloud",
+    isMandatory: "false",
+    description: `Brighton born and raised ArrDee has exploded onto the scene with his unique flow; venting the real relatable issues wrapped up in his signature "cheeky chappy" sound. Now amassing half a million views`,
+    originalUrl: "https://soundcloud.com/arrdee-music/oliver-twist",
+    height: "460",
+    title: "Oliver Twist by ArrDee",
+    html: `
+            <iframe
+                height="460"
+                width="460"
+                src="https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1056911326&show_artwork=true"
+                frameborder="0"
+                allowfullscreen
+            ></iframe>
+        `,
+    width: "460",
+    authorName: "ArrDee",
+  });
+
+  createElementButton("Map element", mapElementName, {
+    source: "Google Maps",
+    description:
+      "Find local businesses, view maps and get driving directions in Google Maps",
+    originalUrl:
+      "https://maps.google.com/maps?q=Cumbria,+United+Kingdom&hl=en&ll=54.27164,-3.032227&spn=5.930277,9.63501&sll=52.589701,-2.746582&sspn=6.169247,9.63501&oq=cumbria&hnear=Cumbria,+United+Kingdom&t=m&z=7",
+    height: "379",
+    title: "Cumbria, United Kingdom - Google Maps",
+    html: `<iframe width="460" height="379" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Cumbria,+United+Kingdom&hl=en&ll=54.27164,-3.032227&spn=5.930277,9.63501&sll=52.589701,-2.746582&sspn=6.169247,9.63501&oq=cumbria&hnear=Cumbria,+United+Kingdom&t=m&z=7&output=embed"></iframe>`,
+    width: "460",
+  });
+
+  createElementButton("Document element", mapElementName, {
+    source: "Google Docs",
+    isMandatory: "false",
+    description:
+      "Create a new document and edit with others at the same time -- from your computer, phone or tablet. Get stuff done with or without an internet connection. Use Docs to edit Word files. Free from Google.",
+    originalUrl:
+      "https://docs.google.com/document/d/11rMDXDUnirxA_RQGlMxrMJ39qFtC8rW4nA88lgxFaMQ/edit?ts=60f1608f",
+    height: "348",
+    title: "Google Docs - create and edit documents online, for free.",
+    html: `
+                <iframe
+                    height="348"
+                    width="460"
+                    src="https://docs.google.com/document/d/e/11rMDXDUnirxA_RQGlMxrMJ39qFtC8rW4nA88lgxFaMQ/pub?embedded=true"
+                    frameborder="0"
+                    allowfullscreen
+                ></iframe>
+            `,
+    width: "460",
   });
 
   createElementButton("Add membership element", membershipElementName, {
@@ -335,7 +402,7 @@ const createEditor = (server: CollabServer) => {
   });
 
   const imageElementButton = document.createElement("button");
-  imageElementButton.innerHTML = "Add image element";
+  imageElementButton.innerHTML = "Image element";
   imageElementButton.id = imageElementName;
   imageElementButton.addEventListener("click", () => {
     const setMedia = (mediaPayload: MediaPayload) => {
@@ -373,13 +440,13 @@ const createEditor = (server: CollabServer) => {
   });
   btnContainer.appendChild(toggleImageFields);
 
-  createElementButton("Add pullquote element", pullquoteElementName, {
+  createElementButton("Pullquote element", pullquoteElementName, {
     pullquote: "",
     attribution: "",
     weighting: "supporting",
   });
 
-  createElementButton("Add code element", codeElementName, {
+  createElementButton("Code element", codeElementName, {
     codeText: "",
     language: "Plain text",
   });
