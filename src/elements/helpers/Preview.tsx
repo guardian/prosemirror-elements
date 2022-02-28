@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Description } from "../../editorial-source-components/Description";
 import type { InputHeadingProps } from "../../editorial-source-components/InputHeading";
 import { InputHeading } from "../../editorial-source-components/InputHeading";

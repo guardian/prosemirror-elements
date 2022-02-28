@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { buttonBrandAlt } from "@guardian/src-button";
 import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "../../../editorial-source-components/Button";
 import { parseHtml } from "../../helpers/html";
 import { conversionMessage, message } from "../../helpers/messagingStyles";

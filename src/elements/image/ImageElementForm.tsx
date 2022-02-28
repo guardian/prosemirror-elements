@@ -117,6 +117,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                       <a
                         href="https://docs.google.com/document/d/1oW542iCRyKfI4DS22QU7AH0TQRWLYMm7bTlhJlX5_Ng/edit?usp=sharing"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         Find out more
                       </a>

@@ -40,7 +40,7 @@ export const RichlinkElementForm: React.FunctionComponent<Props> = ({
   <FieldLayoutVertical>
     <div>
       Related:{" "}
-      <a target="_blank" href={fieldValues.url}>
+      <a target="_blank" rel="noreferrer" href={fieldValues.url}>
         {fieldValues.linkText}
       </a>
     </div>

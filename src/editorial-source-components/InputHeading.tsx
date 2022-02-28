@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
+import React from "react";
 import { Description } from "./Description";
 import { Error } from "./Error";
 import { Label } from "./Label";

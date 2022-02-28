@@ -1,3 +1,4 @@
+import React from "react";
 import type { ValidationError } from "../plugin/elementSpec";
 import type { FieldView as TFieldView } from "../plugin/fieldViews/FieldView";
 import type { Field } from "../plugin/types/Element";

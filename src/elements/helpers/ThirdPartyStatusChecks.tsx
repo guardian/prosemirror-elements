@@ -1,6 +1,6 @@
 import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
 import debounce from "lodash/debounce";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { unescapeHtml } from "./html";
 import {
   message,
@@ -39,7 +39,7 @@ const TrackingChecker = (props: StatusProps) => {
       future.
       <br />
       Worried? Email{" "}
-      <a target="_blank" href={centralProduction}>
+      <a target="_blank" rel="noreferrer" href={centralProduction}>
         Central Production
       </a>
       .
@@ -64,7 +64,7 @@ const UnsupportedPlatforms = (props: PlatformProps) => {
         <SvgAlertTriangle />
         This element will not be available on all platforms.
         <br />
-        Making it required will mean this article won't be published to:
+        Making it required will mean this article won&apos;t be published to:
         <span> {unsupportedPlatforms.join(", ")}</span>
         <br />
         Please contact the <a href={audience}>Audience Team</a> for more

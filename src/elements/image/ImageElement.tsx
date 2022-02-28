@@ -1,5 +1,6 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
+import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,

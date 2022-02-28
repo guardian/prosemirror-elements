@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import { Checkbox, CheckboxGroup } from "@guardian/src-checkbox";
 import { space } from "@guardian/src-foundations";
+import React from "react";
 import { labelStyles } from "./Label";
 
 // These styles allow us to style the div elements in the Source Checkbox Component.

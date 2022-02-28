@@ -1,3 +1,4 @@
+import React from "react";
 import { CustomCheckbox } from "../../../editorial-source-components/CustomCheckbox";
 import type { ValidationError } from "../../../plugin/elementSpec";
 import type { CustomField } from "../../../plugin/types/Element";

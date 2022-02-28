@@ -1,3 +1,4 @@
+import React from "react";
 import { CustomDropdown } from "../../../editorial-source-components/CustomDropdown";
 import type { ValidationError } from "../../../plugin/elementSpec";
 import type { Options } from "../../../plugin/fieldViews/DropdownFieldView";

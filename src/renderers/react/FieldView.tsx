@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Editor } from "../../editorial-source-components/Editor";
 import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
 import type { Field } from "../../plugin/types/Element";
