@@ -18,7 +18,7 @@ import {
 } from "../src";
 import { undefinedDropdownValue } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { createVideoElement } from "../src/elements/video/VideoSpec";
+import { createStandardElement } from "../src/elements/standard/StandardSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -102,7 +102,7 @@ const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
   codeElement,
   pullquoteElement,
   richlinkElement,
-  videoElement: createVideoElement({
+  videoElement: createStandardElement({
     createCaptionPlugins,
     checkThirdPartyTracking: mockThirdPartyTracking,
   }),

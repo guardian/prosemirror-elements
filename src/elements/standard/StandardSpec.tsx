@@ -11,9 +11,15 @@ import { htmlMaxLength } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { VideoForm } from "./VideoForm";
+import { StandardForm } from "./StandardForm";
 
-export const createVideoFields = (
+/**
+ * A standard element represents every element covered by
+ * https://github.com/guardian/flexible-model/blob/f9d30ad2bb19446a9226ab1bd8418b4aaa03d762/src/main/thrift/content.thrift#L696.
+ *
+ * In practice, it also covers the legacy (non-content-atom) audio and video elements.
+ */
+export const createStandardFields = (
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
   return {
@@ -43,20 +49,20 @@ export const createVideoFields = (
   };
 };
 
-export type VideoElementOptions = {
+export type StandardElementOptions = {
   createCaptionPlugins: (schema: Schema) => Plugin[];
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 
-export const createVideoElement = ({
+export const createStandardElement = ({
   createCaptionPlugins,
   checkThirdPartyTracking,
-}: VideoElementOptions) =>
+}: StandardElementOptions) =>
   createReactElementSpec(
-    createVideoFields(createCaptionPlugins),
+    createStandardFields(createCaptionPlugins),
     ({ fields, errors, fieldValues }) => {
       return (
-        <VideoForm
+        <StandardForm
           fields={fields}
           errors={errors}
           fieldValues={fieldValues}

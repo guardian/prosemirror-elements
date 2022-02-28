@@ -12,12 +12,12 @@ import { unescapeHtml } from "../helpers/html";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { htmlLength } from "../helpers/validation";
-import type { createVideoFields } from "./VideoSpec";
+import type { createStandardFields } from "./StandardSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createVideoFields>>;
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createStandardFields>>;
   errors: FieldValidationErrors;
-  fields: FieldNameToField<ReturnType<typeof createVideoFields>>;
+  fields: FieldNameToField<ReturnType<typeof createStandardFields>>;
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 
@@ -60,7 +60,7 @@ const IframeFullFrameWrapper = styled.div`
   width: 100%;
 `;
 
-export const VideoForm: React.FunctionComponent<Props> = ({
+export const StandardForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,

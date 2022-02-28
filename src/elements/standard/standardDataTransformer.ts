@@ -1,7 +1,7 @@
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
-import type { createVideoFields } from "./VideoSpec";
+import type { createStandardFields } from "./StandardSpec";
 
 export type ExternalVideoFields = {
   source: string;
@@ -27,7 +27,7 @@ export type PartialVideoData = {
 
 export const transformElementIn: TransformIn<
   PartialVideoData,
-  ReturnType<typeof createVideoFields>
+  ReturnType<typeof createStandardFields>
 > = ({ fields: { isMandatory, role, ...rest } }) => {
   return {
     isMandatory: isMandatory === "true",
@@ -38,13 +38,13 @@ export const transformElementIn: TransformIn<
 
 export const transformElementOut: TransformOut<
   ExternalVideoData,
-  ReturnType<typeof createVideoFields>
+  ReturnType<typeof createStandardFields>
 > = ({
   isMandatory,
   role,
   ...rest
 }: FieldNameToValueMap<
-  ReturnType<typeof createVideoFields>
+  ReturnType<typeof createStandardFields>
 >): ExternalVideoData => {
   return {
     fields: {
