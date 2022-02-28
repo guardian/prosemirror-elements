@@ -23,7 +23,7 @@ import {
   undefinedDropdownValue,
 } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { createVideoElement } from "../src/elements/video/VideoSpec";
+import { createStandardElement } from "../src/elements/standard/StandardSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -119,7 +119,7 @@ const {
   code: codeElement,
   pullquote: pullquoteElement,
   "rich-link": richlinkElement,
-  video: createVideoElement({
+  video: createStandardElement({
     createCaptionPlugins,
     checkThirdPartyTracking: mockThirdPartyTracking,
   }),

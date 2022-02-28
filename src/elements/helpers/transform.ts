@@ -5,7 +5,7 @@ import { transformElement as interactiveElementTransform } from "../interactive/
 import { transformElement as membershipElementTransform } from "../membership/membershipDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
-import { transformElement as videoElementTransform } from "../video/videoDataTransformer";
+import { transformElement as videoElementTransform } from "../standard/standardDataTransformer";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
 // A placeholder value for a dropdown option that represents no selection.
