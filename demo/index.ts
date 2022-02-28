@@ -199,18 +199,16 @@ const createEditor = (server: CollabServer) => {
 
   createElementButton("Add interactive element", interactiveElementName, {
     iframeUrl:
-      "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+      "https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4",
     scriptName: "iframe-wrapper",
     source: "Guardian",
-    isMandatory: true,
-    role: "supporting",
+    isMandatory: "false",
     originalUrl:
-      "https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html",
+      "https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4",
     scriptUrl:
       "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
-    html: `<a href="https://interactive.guim.co.uk/maps/embed/may/2021-05-26T15:18:36.html">Interactive</a>`,
-    caption: "",
-    altText: "",
+    alt: "Hostomel airbase",
+    html: `<a href="https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4">Hostomel airbase</a>`,
   });
 
   createElementButton("Add embed element", embedElementName, {
