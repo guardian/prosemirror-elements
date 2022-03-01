@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: 'yarn'
       - run: yarn install
       - run: yarn ci:build
       - name: Semantic Release
