@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build and release
 
 on:
   push:
@@ -20,8 +20,7 @@ jobs:
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
       - run: yarn install
-      - run: yarn ci
-      - run: yarn build
+      - run: yarn ci:build
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@5982a02995853159735cb838992248c4f0f16166
         with:
