@@ -4,7 +4,7 @@ import { transformElement as imageElementTransform } from "../image/imageElement
 import { transformElement as interactiveElementTransform } from "../interactive/interactiveDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
-import { transformElement as videoElementTransform } from "../standard/standardDataTransformer";
+import { transformElement as standardElementTransform } from "../standard/standardDataTransformer";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
 // A placeholder value for a dropdown option that represents no selection.
@@ -17,7 +17,10 @@ const transformMap = {
   interactive: interactiveElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
   "rich-link": defaultElementTransform<typeof richlinkFields>(true),
-  video: videoElementTransform,
+  video: standardElementTransform,
+  audio: standardElementTransform,
+  document: standardElementTransform,
+  map: standardElementTransform,
 } as const;
 
 type TransformMap = typeof transformMap;

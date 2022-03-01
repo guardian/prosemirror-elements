@@ -307,14 +307,14 @@ const createEditor = (server: CollabServer) => {
     description:
       "Create a new document and edit with others at the same time -- from your computer, phone or tablet. Get stuff done with or without an internet connection. Use Docs to edit Word files. Free from Google.",
     originalUrl:
-      "https://docs.google.com/document/d/11rMDXDUnirxA_RQGlMxrMJ39qFtC8rW4nA88lgxFaMQ/edit?ts=60f1608f",
+      "https://docs.google.com/document/d/1OlZIz-72A2xI2uUOFE07L5ObQGP4JDcXZ2vdIs2P9BQ/edit?usp=sharing",
     height: "348",
     title: "Google Docs - create and edit documents online, for free.",
     html: `
                 <iframe
                     height="348"
                     width="460"
-                    src="https://docs.google.com/document/d/e/11rMDXDUnirxA_RQGlMxrMJ39qFtC8rW4nA88lgxFaMQ/pub?embedded=true"
+                    src="https://docs.google.com/document/d/1OlZIz-72A2xI2uUOFE07L5ObQGP4JDcXZ2vdIs2P9BQ/edit?usp=sharing"
                     frameborder="0"
                     allowfullscreen
                 ></iframe>
