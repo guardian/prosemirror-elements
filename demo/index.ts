@@ -14,6 +14,7 @@ import {
   createEmbedElement,
   createImageElement,
   createInteractiveElement,
+  membershipElement,
   pullquoteElement,
   richlinkElement,
 } from "../src";
@@ -51,6 +52,7 @@ const pullquoteElementName = "pullquote";
 const richlinkElementName = "rich-link";
 const videoElementName = "video";
 const interactiveElementName = "interactive";
+const membershipElementName = "membership";
 
 type Name =
   | typeof embedElementName
@@ -60,7 +62,8 @@ type Name =
   | typeof pullquoteElementName
   | typeof richlinkElementName
   | typeof interactiveElementName
-  | typeof videoElementName;
+  | typeof videoElementName
+  | typeof membershipElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -120,6 +123,7 @@ const {
     createCaptionPlugins,
     checkThirdPartyTracking: mockThirdPartyTracking,
   }),
+  membership: membershipElement,
 });
 
 const strike: MarkSpec = {
@@ -311,6 +315,23 @@ const createEditor = (server: CollabServer) => {
       '\n            <iframe\n                height="259"\n                width="460"\n                src="https://www.youtube.com/embed/jUghnM2qy9M?wmode=opaque&feature=oembed"\n                frameborder="0"\n                allowfullscreen\n            ></iframe>\n        ',
     width: "460",
     authorName: "Lorem Ipsum",
+  });
+
+  createElementButton("Add membership element", membershipElementName, {
+    linkText:
+      "Feminism in China: #MeToo, silenced women and the fight for equality",
+    isMandatory: "true",
+    identifier: "guardian-live",
+    image:
+      "https://media.guim.co.uk/c76308f105b589a7f8d6003231c6017e134be36e/0_0_1280_768/500.jpg",
+    originalUrl:
+      "https://membership.theguardian.com/event/feminism-in-china-metoo-silenced-women-and-the-fight-for-equality-226877896897",
+    price: "£7",
+    linkPrefix: "Membership Event: ",
+    end: "2022-03-02T21:00:00.000Z",
+    title:
+      "Feminism in China: #MeToo, silenced women and the fight for equality",
+    start: "2022-03-02T20:00:00.000Z",
   });
 
   const imageElementButton = document.createElement("button");
