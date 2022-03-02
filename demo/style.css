@@ -1,6 +1,9 @@
 html,
 body {
-  font-family: 'TE31 Text Egyptian'
+  font-family: 'TE31 Text Egyptian';
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
 html * {
@@ -97,11 +100,44 @@ h6 {
   background-color: #DCDCDC;
 }
 
+#content-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#content {
+  display: flex;
+  min-height: 0;
+}
+
+#editor-container, #content-data {
+  margin: 10px;
+  overflow-y: scroll;
+}
+
+#content-data {
+  background: #eee;
+  display: none;
+  padding: 10px;
+  white-space: pre-wrap;
+  font-family: monospace;
+  flex-basis: 500px;
+  flex: 1 0 0;
+}
+
+#content-data.show-data {
+  display: block;
+}
+
 #editor-container {
   display: flex;
   width: 100%;
   /* Space for button container in fixed position */
   margin-top: 40px;
+  flex: 1 0 0;
 }
 
 #button-container {

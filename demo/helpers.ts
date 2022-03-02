@@ -1,3 +1,5 @@
+import type { EditorState, Transaction } from "prosemirror-state";
+import { Plugin } from "prosemirror-state";
 import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
 import type { Asset, SetMedia } from "../src/elements/image/ImageElement";
 
@@ -156,3 +158,17 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
     { once: false }
   );
 };
+
+export type SideEffectCallback = (
+  tr: Transaction | null,
+  oldState: EditorState | null,
+  newState: EditorState
+) => void;
+
+export const sideEffectPlugin = (cb: SideEffectCallback): Plugin<void> =>
+  new Plugin({
+    state: {
+      init: (_, state) => cb(null, null, state),
+      apply: (tr, _, prev, state) => cb(tr, prev, state),
+    },
+  });

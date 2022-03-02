@@ -1,4 +1,5 @@
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
+import omit from "lodash/omit";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import { exampleSetup } from "prosemirror-example-setup";
@@ -16,7 +17,10 @@ import {
   pullquoteElement,
   richlinkElement,
 } from "../src";
-import { undefinedDropdownValue } from "../src/elements/helpers/transform";
+import {
+  transformElementOut,
+  undefinedDropdownValue,
+} from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { createVideoElement } from "../src/elements/video/VideoSpec";
 import { buildElementPlugin } from "../src/plugin/element";
@@ -28,20 +32,25 @@ import {
 import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
-import { onCropImage, onDemoCropImage, onSelectImage } from "./helpers";
+import {
+  onCropImage,
+  onDemoCropImage,
+  onSelectImage,
+  sideEffectPlugin,
+} from "./helpers";
 import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
-const embedElementName = "embedElement";
-const imageElementName = "imageElement";
+const embedElementName = "embed";
+const imageElementName = "image";
 const demoImageElementName = "demo-image-element";
-const codeElementName = "codeElement";
-const pullquoteElementName = "pullquoteElement";
-const richlinkElementName = "richlinkElement";
-const videoElementName = "videoElement";
-const interactiveElementName = "interactiveElement";
+const codeElementName = "code";
+const pullquoteElementName = "pullquote";
+const richlinkElementName = "rich-link";
+const videoElementName = "video";
+const interactiveElementName = "interactive";
 
 type Name =
   | typeof embedElementName
@@ -85,24 +94,29 @@ const {
   additionalRoleOptions,
 });
 
-const { plugin: elementPlugin, insertElement, nodeSpec } = buildElementPlugin({
+const {
+  plugin: elementPlugin,
+  insertElement,
+  nodeSpec,
+  getElementDataFromNode,
+} = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
-  imageElement,
-  embedElement: createEmbedElement({
+  image: imageElement,
+  embed: createEmbedElement({
     checkThirdPartyTracking: mockThirdPartyTracking,
     convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
     convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
     createCaptionPlugins,
     targetingUrl: "https://targeting.code.dev-gutools.co.uk",
   }),
-  interactiveElement: createInteractiveElement({
+  interactive: createInteractiveElement({
     checkThirdPartyTracking: mockThirdPartyTracking,
     createCaptionPlugins,
   }),
-  codeElement,
-  pullquoteElement,
-  richlinkElement,
-  videoElement: createVideoElement({
+  code: codeElement,
+  pullquote: pullquoteElement,
+  "rich-link": richlinkElement,
+  video: createVideoElement({
     createCaptionPlugins,
     checkThirdPartyTracking: mockThirdPartyTracking,
   }),
@@ -117,7 +131,7 @@ const strike: MarkSpec = {
 
 const schema = new Schema({
   nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
-  marks: { ...marks, strike },
+  marks: { ...omit(marks, "code"), strike },
 });
 
 const { serializer, parser } = createParsers(schema);
@@ -166,6 +180,49 @@ const createEditor = (server: CollabServer) => {
       ? (firstCollabPlugin.getState(firstEditor.state) as number)
       : 0;
   const collabPlugin = collab({ version: currentVersion, clientID });
+
+  const dataPane = document.getElementById("content-data");
+  const dataPaneOpenClass = "show-data";
+  const dataToggle = document.getElementById("content-data-toggle");
+
+  let paneOpen = false;
+
+  dataToggle?.addEventListener("click", () => {
+    paneOpen = !paneOpen;
+    if (paneOpen) {
+      dataPane?.classList.remove(dataPaneOpenClass);
+    } else {
+      dataPane?.classList.add(dataPaneOpenClass);
+    }
+  });
+
+  const getElementData = (state: EditorState) => {
+    const elementData: Array<ReturnType<typeof getElementDataFromNode>> = [];
+    state.doc.forEach((node) => {
+      const maybeElementData = getElementDataFromNode(node, serializer);
+      if (maybeElementData) {
+        elementData.push(
+          transformElementOut(
+            maybeElementData.elementName as any,
+            maybeElementData.values
+          )
+        );
+      }
+    });
+    return elementData;
+  };
+
+  const updateElementDataPlugin = sideEffectPlugin((tr, _, state) => {
+    if (tr && !tr.docChanged) {
+      return;
+    }
+
+    const newData = getElementData(state);
+    if (dataPane) {
+      dataPane.innerText = JSON.stringify(newData, null, 2);
+    }
+  });
+
   const view = new EditorView(editorElement, {
     state: EditorState.create({
       doc: isFirstEditor ? get() : firstEditor?.state.doc,
@@ -174,6 +231,7 @@ const createEditor = (server: CollabServer) => {
         elementPlugin,
         testDecorationPlugin,
         collabPlugin,
+        updateElementDataPlugin,
         createSelectionCollabPlugin(clientID),
       ],
     }),
@@ -326,7 +384,7 @@ const addEditorButton = document.createElement("button");
 addEditorButton.innerHTML = "Add another editor";
 addEditorButton.id = "add-editor";
 addEditorButton.addEventListener("click", () => createEditor(server));
-document.body.appendChild(addEditorButton);
+btnContainer.appendChild(addEditorButton);
 
 // Handy debugging tools. We assign a few things to window for our integration tests,
 // and to facilitate debugging.
