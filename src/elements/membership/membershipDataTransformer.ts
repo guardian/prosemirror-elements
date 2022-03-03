@@ -18,6 +18,7 @@ export type ExternalMembershipFields = {
 };
 
 export type ExternalMembershipData = {
+  assets: [];
   fields: ExternalMembershipFields;
 };
 
@@ -45,6 +46,7 @@ export const transformElementOut: TransformOut<
   ...rest
 }: FieldNameToValueMap<typeof membershipFields>): ExternalMembershipData => {
   return {
+    assets: [],
     fields: {
       isMandatory: "true",
       role: role === undefinedDropdownValue ? undefined : role,

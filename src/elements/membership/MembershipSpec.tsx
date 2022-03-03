@@ -24,6 +24,8 @@ export const membershipFields = {
   end: createTextField(),
   title: createTextField(),
   start: createTextField(),
+  location: createTextField({ absentOnEmpty: true }),
+  venue: createTextField({ absentOnEmpty: true }),
 };
 
 export const membershipElement = createReactElementSpec(

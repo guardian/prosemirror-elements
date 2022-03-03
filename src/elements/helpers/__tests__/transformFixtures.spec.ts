@@ -1,5 +1,9 @@
 import { flow, omit } from "lodash";
-import { buildElementPlugin, richlinkElement } from "../../..";
+import {
+  buildElementPlugin,
+  membershipElement,
+  richlinkElement,
+} from "../../..";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";
@@ -17,6 +21,7 @@ describe("Element fixtures", () => {
    */
   const elements = {
     "rich-link": richlinkElement,
+    membership: membershipElement,
   } as const;
 
   const {

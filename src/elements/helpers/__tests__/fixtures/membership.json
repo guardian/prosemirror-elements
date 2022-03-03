@@ -1,0 +1,402 @@
+[
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2018-05-02T19:30:00.000Z\", \"role\": \"supporting\", \"image\": \"https://media.guim.co.uk/917a61a78d45752d43fb4f0e3bd3b13f4eebdf4d/0_178_3992_2397/500.jpg\", \"price\": \"£15\", \"start\": \"2018-05-02T18:00:00.000Z\", \"title\": \"The New Arrivals: Is our asylum system broken?\", \"venue\": \"The Guardian\", \"linkText\": \"The New Arrivals: Is our asylum system broken?\", \"location\": \"Kings Place, York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-new-arrivals-is-our-asylum-system-broken-44149848385\"}, \"elementType\": \"membership\"}",
+    "created": "2018-02-28"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-03-19T21:30:00.000Z\", \"image\": \"https://media.guim.co.uk/16af4de3b8d356dae564b8cb5b3acafd690e0fd4/0_13_3400_2040/500.jpg\", \"price\": \"£20\", \"start\": \"2019-03-19T20:00:00.000Z\", \"title\": \"Brexit: What next for Remainers?\", \"venue\": \"Barbican Theatre\", \"linkText\": \"Brexit: What next for Remainers?\", \"location\": \"Barbican Centre, Silk Street, London, EC2Y 8DS\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/brexit-what-next-for-remainers-56638708903\"}, \"elementType\": \"membership\"}",
+    "created": "2019-02-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-11"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-11"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-11"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-07"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-10"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-07"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-05-26T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/c2a925f5553af5f76320ea33b7b5f65fadb52019/0_0_4068_2441/500.jpg\", \"price\": \"£15\", \"start\": \"2015-05-26T17:45:00.000Z\", \"title\": \"The True Cost: preview screening and talk\", \"venue\": \"Clapham Picturehouse\", \"linkText\": \"The True Cost: preview screening and talk\", \"location\": \"76 Venn Street, London, Greater London, SW4 0AT\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/the-true-cost-preview-screening-and-talk-16815683161\"}, \"elementType\": \"membership\"}",
+    "created": "2015-05-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-05-08T18:30:00.000Z\", \"image\": \"https://media.guim.co.uk/ee730ce21e982502f8ab28972383b03c9bdc48e2/0_0_2500_1500/500.jpg\", \"price\": \"£15\", \"start\": \"2015-05-08T17:00:00.000Z\", \"title\": \"Guardian Live: Election results special\", \"venue\": \"Kings Place\", \"linkText\": \"Guardian Live: Election results special\", \"location\": \"90 York Way, London, N1 9AG\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-election-results-special-16727611737\"}, \"elementType\": \"membership\"}",
+    "created": "2015-05-05"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-04-02T18:30:00.000Z\", \"image\": \"https://media.guim.co.uk/de7f3b5eeb56714a20b4d50b825fab0e0458f31e/0_62_1766_1059/500.jpg\", \"price\": \"£18\", \"start\": \"2017-04-02T17:00:00.000Z\", \"title\": \"Yuval Noah Harari: A brief history of tomorrow\", \"venue\": \"The Emmanuel Centre\", \"linkText\": \"Yuval Noah Harari: A brief history of tomorrow\", \"location\": \"Marsham Street, Westminster, London, SW1P 3DW\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/yuval-noah-harari-a-brief-history-of-tomorrow-32120009814\"}, \"elementType\": \"membership\"}",
+    "created": "2017-03-01"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-12-02T18:00:00.000Z\", \"image\": \"https://media.guim.co.uk/37e175387fb17c28e20bf51a483ba06002b66635/1_0_2910_1747/500.jpg\", \"price\": \"£50\", \"start\": \"2017-12-02T11:00:00.000Z\", \"title\": \"Guardian Weekend Live\", \"venue\": \"Stoke Newington Town Hall\", \"linkText\": \"Guardian Weekend Live\", \"location\": \"205B Stoke Newington Church Street, London, N16 9ES\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-weekend-live-18668666484\"}, \"elementType\": \"membership\"}",
+    "created": "2017-10-30"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2020-06-05T13:00:00.000Z\", \"image\": \"https://media.guim.co.uk/c3759127fd5dbb620d0bf014895f27d3658eac9e/0_0_1400_840/500.jpg\", \"price\": \"£5\", \"start\": \"2020-06-05T12:00:00.000Z\", \"title\": \"The Upside: Kind hearts and coronavirus\", \"linkText\": \"The Upside: Kind hearts and coronavirus\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-upside-kind-hearts-and-coronavirus-106222207482\"}, \"elementType\": \"membership\"}",
+    "created": "2020-05-28"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-10-09T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/fd12b89443b08e69fa5d4f23dab3799a32edd355/0_200_4815_2889/500.jpg\", \"price\": \"£20\", \"start\": \"2017-10-09T18:00:00.000Z\", \"title\": \"Is our democracy broken? A new politics in an age of crisis\", \"venue\": \"Kings Place\", \"linkText\": \"Is our democracy broken? A new politics in an age of crisis\", \"location\": \"Hall One, 90 York Way, London, N1 9AG\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/is-our-democracy-broken-a-new-politics-in-an-age-of-crisis-35969818696\"}, \"elementType\": \"membership\"}",
+    "created": "2017-09-07"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-11-17T16:00:00.000Z\", \"role\": \"supporting\", \"image\": \"https://media.guim.co.uk/6fe37d0f61c014bb26f9861b79be57230971a098/0_0_1700_1020/500.jpg\", \"price\": \"£129\", \"start\": \"2017-11-17T10:00:00.000Z\", \"title\": \"Learn to love public speaking and presentations\", \"venue\": \"The Guardian\", \"linkText\": \"Learn to love public speaking and presentations\", \"location\": \"Kings Place, 90 York Way, London, N1 9GU\", \"identifier\": \"masterclasses\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/learn-to-love-public-speaking-and-presentations-30719380494\"}, \"elementType\": \"membership\"}",
+    "created": "2017-09-15"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-05-14T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/15b197724cb0ca6fa2318e83ef7dd40dd863e32a/0_0_2000_1200/500.jpg\", \"price\": \"£20\", \"start\": \"2019-05-14T18:00:00.000Z\", \"title\": \"The new populism: A threat to democracy?\", \"venue\": \"Milton Court\", \"linkText\": \"The new populism: A threat to democracy?\", \"location\": \"1 Milton Street, London, EC2Y 9BH\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-new-populism-a-threat-to-democracy-58639363916\"}, \"elementType\": \"membership\"}",
+    "created": "2019-04-26"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-05-13T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/f2ae016f44567c42bbffc363fc568df7005e5db7/101_31_1864_1118/500.jpg\", \"price\": \"£20\", \"start\": \"2019-05-13T18:30:00.000Z\", \"title\": \"The new populism: In conversation with Tony Blair\", \"venue\": \"Central London\", \"linkText\": \"The new populism: In conversation with Tony Blair\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-new-populism-in-conversation-with-tony-blair-59043808621\"}, \"elementType\": \"membership\"}",
+    "created": "2019-04-26"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-03-13T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/918e9980be829fd149b4d6bd2861823304d47f81/0_437_5773_3464/500.jpg\", \"price\": \"£20\", \"start\": \"2019-03-13T19:00:00.000Z\", \"title\": \"Should we all work a four-day week?\", \"venue\": \"The Guardian\", \"linkText\": \"Should we all work a four-day week?\", \"location\": \"Kings Place, 90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/should-we-all-work-a-fourday-week-54585860779\"}, \"elementType\": \"membership\"}",
+    "created": "2019-03-11"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-07-06T16:00:00.000Z\", \"image\": \"https://media.guim.co.uk/e11cb2a7822ebfd8f137a6e289513d0231554fa6/0_0_1280_768/500.jpg\", \"price\": \"£8\", \"start\": \"2019-07-06T13:00:00.000Z\", \"title\": \"Rave, revolution and the spirit of 1989\", \"venue\": \"The Whitworth Art Gallery\", \"linkText\": \"Rave, revolution and the spirit of 1989\", \"location\": \"Oxford Road, Manchester, M15 6ER\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/rave-revolution-and-the-spirit-of-1989-61626967920\"}, \"elementType\": \"membership\"}",
+    "created": "2019-06-06"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-11-14T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/9e7c06eb5df25cbc80b619384926aff2943750bb/0_146_2186_1311/500.jpg\", \"price\": \"£15\", \"start\": \"2019-11-14T19:00:00.000Z\", \"title\": \"Guardian Sport: A year in review\", \"venue\": \"SamsungKX\", \"linkText\": \"Guardian Sport: A year in review\", \"location\": \"Coal Drops Yard, London, N1C 4DQ\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-sport-a-year-in-review-77283526107\"}, \"elementType\": \"membership\"}",
+    "created": "2019-11-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-12-02T18:00:00.000Z\", \"image\": \"https://media.guim.co.uk/37e175387fb17c28e20bf51a483ba06002b66635/1_0_2910_1747/500.jpg\", \"price\": \"£50\", \"start\": \"2017-12-02T11:00:00.000Z\", \"title\": \"Guardian Weekend Live\", \"venue\": \"Stoke Newington Town Hall\", \"linkText\": \"Guardian Weekend Live\", \"location\": \"205B Stoke Newington Church Street, London, N16 9ES\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-weekend-live-18668666484\"}, \"elementType\": \"membership\"}",
+    "created": "2017-10-17"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2018-11-15T22:00:00.000Z\", \"image\": \"https://media.guim.co.uk/b7fca2306a2beb34ae1eb5424ee9b1cffab39bec/0_417_4480_2688/500.jpg\", \"price\": \"£30\", \"start\": \"2018-11-15T20:30:00.000Z\", \"title\": \"John Kerry: A life in politics\", \"venue\": \"Central Hall\", \"linkText\": \"John Kerry: A life in politics\", \"location\": \"Storey's Gate, Westminster, London, SW1H 9NH\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/john-kerry-a-life-in-politics-49277690900\"}, \"elementType\": \"membership\"}",
+    "created": "2018-11-15"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-03-19T21:30:00.000Z\", \"image\": \"https://media.guim.co.uk/16af4de3b8d356dae564b8cb5b3acafd690e0fd4/0_13_3400_2040/500.jpg\", \"price\": \"£20\", \"start\": \"2019-03-19T20:00:00.000Z\", \"title\": \"Brexit: What next for Remainers?\", \"venue\": \"Barbican Theatre\", \"linkText\": \"Brexit: What next for Remainers?\", \"location\": \"Barbican Centre, Silk Street, London, EC2Y 8DS\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/brexit-what-next-for-remainers-56638708903\"}, \"elementType\": \"membership\"}",
+    "created": "2019-03-14"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2020-02-25T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/285c07d914da49ab939ca6c4538119a31af3b941/125_0_3750_2250/500.jpg\", \"price\": \"£15\", \"start\": \"2020-02-25T18:30:00.000Z\", \"title\": \"Labour leadership hustings: Manchester\", \"venue\": \"University Place\", \"linkText\": \"Labour leadership hustings: Manchester\", \"location\": \"176 Oxford Road, Manchester, M13 9PL\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/labour-leadership-hustings-manchester-91279993919\"}, \"elementType\": \"membership\"}",
+    "created": "2020-02-04"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-05-13T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/f2ae016f44567c42bbffc363fc568df7005e5db7/101_31_1864_1118/500.jpg\", \"price\": \"£20\", \"start\": \"2019-05-13T18:30:00.000Z\", \"title\": \"The new populism: In conversation with Tony Blair\", \"venue\": \"Central London\", \"linkText\": \"The new populism: In conversation with Tony Blair\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-new-populism-in-conversation-with-tony-blair-59043808621\"}, \"elementType\": \"membership\"}",
+    "created": "2019-04-26"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2020-07-31T13:00:00.000Z\", \"image\": \"https://media.guim.co.uk/eaf804d65191db9c8ff0bf39b6978a5c8710a13c/0_0_1400_840/500.jpg\", \"price\": \"£5\", \"start\": \"2020-07-31T12:00:00.000Z\", \"title\": \"The Upside: In conversation with Lily Cole\", \"linkText\": \"The Upside: In conversation with Lily Cole\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-upside-in-conversation-with-lily-cole-111811254472\"}, \"elementType\": \"membership\"}",
+    "created": "2020-07-13"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-12-02T17:30:00.000Z\", \"image\": \"https://media.guim.co.uk/da09c67bf56ff78c15da4a0550f3fb346212a1f7/0_0_2912_1747/500.jpg\", \"price\": \"£50\", \"start\": \"2017-12-02T11:00:00.000Z\", \"title\": \"Guardian Weekend Live\", \"venue\": \"Stoke Newington Town Hall\", \"linkText\": \"Guardian Weekend Live\", \"location\": \"205B Stoke Newington Church Street, London, N16 9ES\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-weekend-live-18668666484\"}, \"elementType\": \"membership\"}",
+    "created": "2017-11-02"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2020-07-31T13:00:00.000Z\", \"image\": \"https://media.guim.co.uk/eaf804d65191db9c8ff0bf39b6978a5c8710a13c/0_0_1400_840/500.jpg\", \"price\": \"£5\", \"start\": \"2020-07-31T12:00:00.000Z\", \"title\": \"The Upside: In conversation with Lily Cole\", \"linkText\": \"The Upside: In conversation with Lily Cole\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-upside-in-conversation-with-lily-cole-111811254472\"}, \"elementType\": \"membership\"}",
+    "created": "2020-07-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-12-02T17:30:00.000Z\", \"image\": \"https://media.guim.co.uk/da09c67bf56ff78c15da4a0550f3fb346212a1f7/0_0_2912_1747/500.jpg\", \"price\": \"£50\", \"start\": \"2017-12-02T11:00:00.000Z\", \"title\": \"Guardian Weekend Live\", \"venue\": \"Stoke Newington Town Hall\", \"linkText\": \"Guardian Weekend Live\", \"location\": \"205B Stoke Newington Church Street, London, N16 9ES\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-weekend-live-18668666484\"}, \"elementType\": \"membership\"}",
+    "created": "2017-11-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2020-06-05T13:00:00.000Z\", \"image\": \"https://media.guim.co.uk/c3759127fd5dbb620d0bf014895f27d3658eac9e/0_0_1400_840/500.jpg\", \"price\": \"£5\", \"start\": \"2020-06-05T12:00:00.000Z\", \"title\": \"The Upside: Kind hearts and coronavirus\", \"linkText\": \"The Upside: Kind hearts and coronavirus\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-upside-kind-hearts-and-coronavirus-106222207482\"}, \"elementType\": \"membership\"}",
+    "created": "2020-06-03"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2020-11-09T21:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£6\", \"start\": \"2020-11-09T19:30:00.000Z\", \"title\": \"Football Weekly Live online\", \"linkText\": \"Football Weekly Live online\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-online-125855871299\"}, \"elementType\": \"membership\"}",
+    "created": "2020-10-27"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-12-04T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/d688c9b9144099ccb145f06a679c19e1a8455867/0_67_2124_1275/500.jpg\", \"price\": \"£15\", \"start\": \"2017-12-04T19:00:00.000Z\", \"title\": \"Russia: The failure of democracy and the rise of totalitarianism\", \"venue\": \"The Guardian\", \"linkText\": \"Russia: The failure of democracy and the rise of totalitarianism\", \"location\": \"King's Place, 90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/russia-the-failure-of-democracy-and-the-rise-of-totalitarianism-39547235847\"}, \"elementType\": \"membership\"}",
+    "created": "2017-11-10"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2019-05-14T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/15b197724cb0ca6fa2318e83ef7dd40dd863e32a/0_0_2000_1200/500.jpg\", \"price\": \"£20\", \"start\": \"2019-05-14T18:00:00.000Z\", \"title\": \"The new populism: A threat to democracy?\", \"venue\": \"Milton Court\", \"linkText\": \"The new populism: A threat to democracy?\", \"location\": \"1 Milton Street, London, EC2Y 9BH\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-new-populism-a-threat-to-democracy-58639363916\"}, \"elementType\": \"membership\"}",
+    "created": "2019-03-25"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-17"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-08-02T19:15:00.000Z\", \"image\": \"https://media.guim.co.uk/8e370d046ba7c787237247288eaabcacffb73ca6/1_0_2665_1600/500.jpg\", \"price\": \"£5\", \"start\": \"2021-08-02T18:00:00.000Z\", \"title\": \"Summer of cricket, with Emma John and guests\", \"linkText\": \"Summer of cricket, with Emma John and guests\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/summer-of-cricket-with-emma-john-and-guests-161775983321\"}, \"elementType\": \"membership\"}",
+    "created": "2021-07-07"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-08-02T19:15:00.000Z\", \"image\": \"https://media.guim.co.uk/8e370d046ba7c787237247288eaabcacffb73ca6/1_0_2665_1600/500.jpg\", \"price\": \"£5\", \"start\": \"2021-08-02T18:00:00.000Z\", \"title\": \"Summer of cricket, with Emma John and guests\", \"linkText\": \"Summer of cricket, with Emma John and guests\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/summer-of-cricket-with-emma-john-and-guests-161775983321\"}, \"elementType\": \"membership\"}",
+    "created": "2021-07-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-03-23T21:00:00.000Z\", \"image\": \"https://media.guim.co.uk/9927eb07063ffc99ef13bd38fca134b6bfa47093/1_0_2665_1600/500.jpg\", \"price\": \"£5\", \"start\": \"2021-03-23T20:00:00.000Z\", \"title\": \"Mohamedou Ould Salahi: A Guantánamo detainee’s fight for freedom\", \"linkText\": \"Mohamedou Ould Salahi: A Guantánamo detainee’s fight for freedom\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/mohamedou-ould-salahi-a-guantanamo-detainees-fight-for-freedom-141951856825\"}, \"elementType\": \"membership\"}",
+    "created": "2021-02-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2018-05-02T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/917a61a78d45752d43fb4f0e3bd3b13f4eebdf4d/0_178_3992_2397/500.jpg\", \"price\": \"£15\", \"start\": \"2018-05-02T18:00:00.000Z\", \"title\": \"The New Arrivals: Is our asylum system broken?\", \"venue\": \"The Guardian\", \"linkText\": \"The New Arrivals: Is our asylum system broken?\", \"location\": \"Kings Place, York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-new-arrivals-is-our-asylum-system-broken-44149848385\"}, \"elementType\": \"membership\"}",
+    "created": "2018-03-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-02T19:00:00.000Z\", \"image\": \"https://media.guim.co.uk/196166aaa4f630b18d6e76554ab604c8372e0def/0_0_1280_768/500.jpg\", \"price\": \"£5\", \"start\": \"2021-06-02T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Sleaze, scandal and a headache for Boris Johnson\", \"linkText\": \"Guardian Newsroom: Sleaze, scandal and a headache for Boris Johnson\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-sleaze-scandal-and-a-headache-for-boris-johnson-153764456629\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-27"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-08-12T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/c05a24344a89c3538ec3aa5ec3dad9213b9ad510/1_0_2665_1600/500.png\", \"price\": \"£7\", \"start\": \"2021-08-12T18:30:00.000Z\", \"title\": \"Football Weekly Live: Premier League preview\", \"linkText\": \"Football Weekly Live: Premier League preview\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-premier-league-preview-161908425459\"}, \"elementType\": \"membership\"}",
+    "created": "2021-08-01"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-08-02T19:15:00.000Z\", \"image\": \"https://media.guim.co.uk/81fd41c718f63dc85c3db47cedb34f6af3a9bac8/1_0_2665_1600/500.png\", \"price\": \"£5\", \"start\": \"2021-08-02T18:00:00.000Z\", \"title\": \"Summer of cricket, with Emma John and guests\", \"linkText\": \"Summer of cricket, with Emma John and guests\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/summer-of-cricket-with-emma-john-and-guests-161775983321\"}, \"elementType\": \"membership\"}",
+    "created": "2021-08-01"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-17"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-04-27T17:00:00.000Z\", \"image\": \"https://media.guim.co.uk/2e31dfe1d890c7a8c78d2a298657ebe84e5bdcbc/0_0_1280_768/500.jpg\", \"price\": \"£5\", \"start\": \"2021-04-27T16:00:00.000Z\", \"title\": \"The Super League and the future of European football\", \"linkText\": \"The Super League and the future of European football\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/the-super-league-and-the-future-of-european-football-151647897945\"}, \"elementType\": \"membership\"}",
+    "created": "2021-04-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-19"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-22"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-07-12T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/38b31fe26025445b592fe80ff0c0a5934643ce56/0_0_1280_768/500.jpg\", \"price\": \"£5\", \"start\": \"2021-07-12T19:00:00.000Z\", \"title\": \"Hella Pick: A life in journalism\", \"linkText\": \"Hella Pick: A life in journalism\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/hella-pick-a-life-in-journalism-154242000977\"}, \"elementType\": \"membership\"}",
+    "created": "2021-04-12"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-06-10T20:15:00.000Z\", \"image\": \"https://media.guim.co.uk/3b547356afde5ff6de4ef65495922368046e2ad6/0_0_1800_1080/500.jpg\", \"price\": \"£7\", \"start\": \"2021-06-10T18:30:00.000Z\", \"title\": \"Football Weekly Live Euros preview special\", \"linkText\": \"Football Weekly Live Euros preview special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-euros-preview-special-155514525131\"}, \"elementType\": \"membership\"}",
+    "created": "2021-05-29"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-07-20T12:00:00.000Z\", \"image\": \"https://media.guim.co.uk/6a3c8d75400f09a7fa74dc147e7ddc1946374383/1_0_2665_1600/500.png\", \"price\": \"£5\", \"start\": \"2021-07-20T11:00:00.000Z\", \"title\": \"Tokyo 2020: With Mary Peters, Fatima Whitbread and Alistair Brownlee\", \"linkText\": \"Tokyo 2020: With Mary Peters, Fatima Whitbread and Alistair Brownlee\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/tokyo-2020-with-mary-peters-fatima-whitbread-and-alistair-brownlee-161203992481\"}, \"elementType\": \"membership\"}",
+    "created": "2021-07-13"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-07-20T12:00:00.000Z\", \"image\": \"https://media.guim.co.uk/6a3c8d75400f09a7fa74dc147e7ddc1946374383/1_0_2665_1600/500.png\", \"price\": \"£5\", \"start\": \"2021-07-20T11:00:00.000Z\", \"title\": \"Tokyo 2020: With Mary Peters, Fatima Whitbread and Alistair Brownlee\", \"linkText\": \"Tokyo 2020: With Mary Peters, Fatima Whitbread and Alistair Brownlee\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/tokyo-2020-with-mary-peters-fatima-whitbread-and-alistair-brownlee-161203992481\"}, \"elementType\": \"membership\"}",
+    "created": "2021-07-08"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-10-18T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/c60582f9e933292cc724303014c87f52c4adc9fd/0_0_1279_767/500.jpg\", \"price\": \"£7\", \"start\": \"2021-10-18T19:00:00.000Z\", \"title\": \"Guardian Newsroom: The Pandora papers\", \"linkText\": \"Guardian Newsroom: The Pandora papers\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-the-pandora-papers-181850909967\"}, \"elementType\": \"membership\"}",
+    "created": "2021-10-05"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-11-30T21:30:00.000Z\", \"image\": \"https://media.guim.co.uk/520c146d8914d22bfcd8f91b0364fb88bc8a1543/0_0_1280_768/500.jpg\", \"price\": \"£7\", \"start\": \"2021-11-30T19:30:00.000Z\", \"title\": \"Football Weekly Live: Christmas special\", \"linkText\": \"Football Weekly Live: Christmas special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-christmas-special-203029074427\"}, \"elementType\": \"membership\"}",
+    "created": "2021-11-23"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-11-30T21:30:00.000Z\", \"image\": \"https://media.guim.co.uk/520c146d8914d22bfcd8f91b0364fb88bc8a1543/0_0_1280_768/500.jpg\", \"price\": \"£7\", \"start\": \"2021-11-30T19:30:00.000Z\", \"title\": \"Football Weekly Live: Christmas special\", \"linkText\": \"Football Weekly Live: Christmas special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-christmas-special-203029074427\"}, \"elementType\": \"membership\"}",
+    "created": "2021-11-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-11-30T21:30:00.000Z\", \"image\": \"https://media.guim.co.uk/520c146d8914d22bfcd8f91b0364fb88bc8a1543/0_0_1280_768/500.jpg\", \"price\": \"£7\", \"start\": \"2021-11-30T19:30:00.000Z\", \"title\": \"Football Weekly Live: Christmas special\", \"linkText\": \"Football Weekly Live: Christmas special\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/football-weekly-live-christmas-special-203029074427\"}, \"elementType\": \"membership\"}",
+    "created": "2021-11-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2021-07-19T20:00:00.000Z\", \"image\": \"https://media.guim.co.uk/c685e57e4210ed7035821df2baefc698f4cece64/0_0_1800_1080/500.jpg\", \"price\": \"£5\", \"start\": \"2021-07-19T19:00:00.000Z\", \"title\": \"In conversation with former Obama White House adviser Ben Rhodes\", \"linkText\": \"In conversation with former Obama White House adviser Ben Rhodes\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/in-conversation-with-former-obama-white-house-adviser-ben-rhodes-156232438429\"}, \"elementType\": \"membership\"}",
+    "created": "2022-02-22"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-02-10T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/e10e09d0c178fee5329a1a6e65c3a2a2cec2cea9/0_42_3000_1800/500.jpg\", \"price\": \"£15\", \"start\": \"2016-02-10T19:00:00.000Z\", \"title\": \"Guardian Live | How do we pay for NHS we want?\", \"venue\": \"The Guardian\", \"linkText\": \"Guardian Live | How do we pay for NHS we want?\", \"location\": \"The Scott Room, Kings Place, 90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-how-do-we-pay-for-nhs-we-want-20974145233\"}, \"elementType\": \"membership\"}",
+    "created": "2016-01-25"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-08-25T19:30:00.000Z\", \"role\": \"supporting\", \"image\": \"https://media.guim.co.uk/74a0d0320dbca82aaa00aff1f77dfed3b95b655b/0_41_2400_1440/500.jpg\", \"price\": \"£9.50\", \"start\": \"2015-08-25T17:00:00.000Z\", \"title\": \"Guardian Local | At Home with Vanley Burke: Private view with the artist and curator\", \"venue\": \"Ikon Gallery\", \"linkText\": \"Guardian Local | At Home with Vanley Burke: Private view with the artist and curator\", \"location\": \"1 Oozells Square, Brindleyplace, Birmingham, West Midlands, B1 2HS\", \"identifier\": \"local\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-local-at-home-with-vanley-burke-private-view-with-the-artist-and-curator-17745995751\"}, \"elementType\": \"membership\"}",
+    "created": "2015-07-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-03-15T21:30:00.000Z\", \"image\": \"https://media.guim.co.uk/29384b31ad72a00eb6f225a9235d3b1f828fe873/0_0_1280_768/500.jpg\", \"price\": \"£15\", \"start\": \"2016-03-15T19:00:00.000Z\", \"title\": \"Guardian Live | EU referendum debate\", \"venue\": \"The London Palladium\", \"linkText\": \"Guardian Live | EU referendum debate\", \"location\": \"Argyll St, London, W1F 7TF\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-eu-referendum-debate-20860699915\"}, \"elementType\": \"membership\"}",
+    "created": "2016-03-15"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-16T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/f729b54a586dd25b513dfa4352eef4bb3b1080cb/0_171_3788_2272/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-16T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"venue\": \"The Guardian Media Group\", \"linkText\": \"Guardian Newsroom: Brexit - what would happen if Britain left the EU?\", \"location\": \"90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-brexit-what-would-happen-if-britain-left-the-eu-17274359073\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-11"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-02-10T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/e10e09d0c178fee5329a1a6e65c3a2a2cec2cea9/0_42_3000_1800/500.jpg\", \"price\": \"£15\", \"start\": \"2016-02-10T19:00:00.000Z\", \"title\": \"Guardian Live | How do we pay for NHS we want?\", \"venue\": \"The Guardian\", \"linkText\": \"Guardian Live | How do we pay for NHS we want?\", \"location\": \"The Scott Room, Kings Place, 90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-how-do-we-pay-for-nhs-we-want-20974145233\"}, \"elementType\": \"membership\"}",
+    "created": "2016-01-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-08-27T12:20:00.000Z\", \"image\": \"https://media.guim.co.uk/ce9a21868144efbe5bbc6e3d2a47e6cdcdea38cd/0_0_5616_3370/500.jpg\", \"price\": \"£5\", \"start\": \"2015-08-27T11:30:00.000Z\", \"title\": \"Guardian Live | The Cricket Pitch with Andrew Flintoff\", \"venue\": \"Spiegeltent Colombino\", \"linkText\": \"Guardian Live | The Cricket Pitch with Andrew Flintoff\", \"location\": \"Assembly George Square Gardens, Assembly George Square, Edinburgh, EH8 9LH\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-the-cricket-pitch-with-andrew-flintoff-17980419920\"}, \"elementType\": \"membership\"}",
+    "created": "2015-07-31"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-18"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-07-20T19:45:00.000Z\", \"image\": \"https://media.guim.co.uk/882c51f6a54191218933ced85325b73536966fe2/0_0_1917_1152/500.jpg\", \"price\": \"£15\", \"start\": \"2015-07-20T18:00:00.000Z\", \"title\": \"Guardian Live| The next London Mayor?\", \"venue\": \"Kings Place\", \"linkText\": \"Guardian Live| The next London Mayor?\", \"location\": \"Hall 1, 90 York Way, London, N1 9AG\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-the-next-london-mayor-17619164395\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-13"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-04-14T00:30:00.000Z\", \"image\": \"https://media.guim.co.uk/972823077d1d691f22efc9a32c6c830e5306f264/0_0_1920_1152/500.jpg\", \"price\": \"Free\", \"start\": \"2016-04-13T23:00:00.000Z\", \"title\": \"The next UN secretary general: meet the candidates\", \"venue\": \"Civic Hall\", \"linkText\": \"The next UN secretary general: meet the candidates\", \"location\": \"2, 156 5th Ave, New York, NY 10010\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/the-next-un-secretary-general-meet-the-candidates-24257038455\"}, \"elementType\": \"membership\"}",
+    "created": "2016-03-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"role\": \"supporting\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-19"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-19"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-19"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Can Greece be saved?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Can Greece be saved?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Can Greece be saved?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Can Greece be saved?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-can-greece-be-saved-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Can Greece be saved?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Can Greece be saved?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-can-greece-be-saved-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-09-24T09:00:00.000Z\", \"image\": \"https://media.guim.co.uk/56421b201fab54e0d4ebda999c34dc3832098436/0_102_6572_3945/500.jpg\", \"price\": \"£8\", \"start\": \"2016-09-24T07:30:00.000Z\", \"title\": \"Private view of Wonder Materials: Graphene and Beyond\", \"venue\": \"Museum of Science and Industry\", \"linkText\": \"Private view of Wonder Materials: Graphene and Beyond\", \"location\": \"Liverpool Road, Manchester, England, M3 4FP\", \"identifier\": \"local\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/private-view-of-wonder-materials-graphene-and-beyond-26637279821\"}, \"elementType\": \"membership\"}",
+    "created": "2016-07-25"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-20"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2017-03-10T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/aabb012361b4abd48659356149de09a20da36c17/0_54_770_462/500.jpg\", \"price\": \"£22\", \"start\": \"2017-03-10T19:00:00.000Z\", \"title\": \"Robot Surgery Live\", \"venue\": \"Science Museum\", \"linkText\": \"Robot Surgery Live\", \"location\": \"Special Exhibition Gallery 2, Exhibition Road, London, SW7 2DD\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"isMandatory\": \"true\", \"originalUrl\": \"https://membership.theguardian.com/event/robot-surgery-live-32321800375\"}, \"elementType\": \"membership\"}",
+    "created": "2017-03-09"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-02-10T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/e10e09d0c178fee5329a1a6e65c3a2a2cec2cea9/0_42_3000_1800/500.jpg\", \"price\": \"£15\", \"start\": \"2016-02-10T19:00:00.000Z\", \"title\": \"Guardian Live | How do we pay for NHS we want?\", \"venue\": \"The Guardian\", \"linkText\": \"Guardian Live | How do we pay for NHS we want?\", \"location\": \"The Scott Room, Kings Place, 90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-how-do-we-pay-for-nhs-we-want-20974145233\"}, \"elementType\": \"membership\"}",
+    "created": "2016-01-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-22"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Should Greece leave the Euro?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-should-greece-leave-the-euro-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-21"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-07-09T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/fc0a55bcb4203d928dc78391564f56f312525b3f/0_0_1917_1152/500.jpg\", \"price\": \"£5\", \"start\": \"2015-07-09T18:00:00.000Z\", \"title\": \"The Fight for Liberal Britain, with Tim Farron and Norman Lamb\", \"venue\": \"Arnolfini\", \"linkText\": \"The Fight for Liberal Britain, with Tim Farron and Norman Lamb\", \"location\": \"16 Narrow Quay, Bristol, BS1 4QA\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/the-fight-for-liberal-britain-with-tim-farron-and-norman-lamb-17479168664\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-24"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-07-03T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/d7fe0ef11de5c01369dd0e54bbd9155c90d0e15b/0_379_1501_900/500.jpg\", \"price\": \"£15\", \"start\": \"2015-07-03T18:00:00.000Z\", \"title\": \"Guardian Live: Hyeonseo Lee on escaping North Korea\", \"venue\": \"Amnesty International UK\", \"linkText\": \"Guardian Live: Hyeonseo Lee on escaping North Korea\", \"location\": \"25 New Inn Yard, London, Greater London, EC2A 3EA\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-hyeonseo-lee-on-escaping-north-korea-17096239312\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-22"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-06-25T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/6d2387d1dab5fee77ce845646d0c563b7b04b877/399_0_2900_1741/500.jpg\", \"price\": \"£10\", \"start\": \"2015-06-25T18:00:00.000Z\", \"title\": \"Guardian Newsroom: Can Greece be saved?\", \"venue\": \"The Guardian Scott Room\", \"linkText\": \"Guardian Newsroom: Can Greece be saved?\", \"location\": \"Cnr York Way and Crinan Street, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-newsroom-can-greece-be-saved-17456530954\"}, \"elementType\": \"membership\"}",
+    "created": "2015-06-22"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2015-08-27T19:30:00.000Z\", \"image\": \"https://media.guim.co.uk/637afe8408f2750395a1b8b361e827c265bddb32/0_0_2500_1500/500.jpg\", \"price\": \"£15\", \"start\": \"2015-08-27T18:00:00.000Z\", \"title\": \"Guardian Live | The future of Labour: meet the next leader\", \"venue\": \"Emmanuel Centre\", \"linkText\": \"Guardian Live | The future of Labour: meet the next leader\", \"location\": \"Marsham Street, London, SW1P 3DW\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-the-future-of-labour-meet-the-next-leader-17859804155\"}, \"elementType\": \"membership\"}",
+    "created": "2015-08-15"
+  },
+  {
+    "element": "{\"assets\": [], \"fields\": {\"end\": \"2016-02-10T20:30:00.000Z\", \"image\": \"https://media.guim.co.uk/e10e09d0c178fee5329a1a6e65c3a2a2cec2cea9/0_42_3000_1800/500.jpg\", \"price\": \"£15\", \"start\": \"2016-02-10T19:00:00.000Z\", \"title\": \"Guardian Live | How do we pay for NHS we want?\", \"venue\": \"The Guardian\", \"linkText\": \"Guardian Live | How do we pay for NHS we want?\", \"location\": \"The Scott Room, Kings Place, 90 York Way, London, N1 9GU\", \"identifier\": \"guardian-live\", \"linkPrefix\": \"Membership Event: \", \"originalUrl\": \"https://membership.theguardian.com/event/guardian-live-how-do-we-pay-for-nhs-we-want-20974145233\"}, \"elementType\": \"membership\"}",
+    "created": "2016-01-22"
+  }
+]

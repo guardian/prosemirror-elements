@@ -2,6 +2,7 @@ import type { codeFields } from "../code/CodeElementSpec";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
 import { transformElement as interactiveElementTransform } from "../interactive/interactiveDataTransformer";
+import { transformElement as membershipElementTransform } from "../membership/membershipDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as videoElementTransform } from "../video/videoDataTransformer";
@@ -18,6 +19,7 @@ const transformMap = {
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
   "rich-link": defaultElementTransform<typeof richlinkFields>(true),
   video: videoElementTransform,
+  membership: membershipElementTransform,
 } as const;
 
 type TransformMap = typeof transformMap;
