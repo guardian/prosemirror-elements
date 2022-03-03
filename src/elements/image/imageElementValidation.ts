@@ -1,5 +1,5 @@
 import type { FieldValidator } from "../../plugin/elementSpec";
-import type { Asset } from "./ImageElement";
+import type { Asset } from "../helpers/defaultTransform";
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === "object" && value !== null;

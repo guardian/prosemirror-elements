@@ -2,6 +2,17 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldDescriptions } from "../../plugin/types/Element";
 import type { TransformIn, TransformOut } from "./types/Transform";
 
+export type Asset = {
+  assetType: string;
+  mimeType: string;
+  url: string;
+  fields: {
+    width: number | string;
+    height: number | string;
+    isMaster: boolean | undefined;
+  };
+};
+
 type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
   fields: Partial<Omit<FieldNameToValueMap<FDesc>, "assets">> & {
     isMandatory?: string;

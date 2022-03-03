@@ -9,6 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import type { Asset } from "../helpers/defaultTransform";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
 import { StandardForm } from "./StandardForm";
@@ -21,7 +22,7 @@ import { StandardForm } from "./StandardForm";
  * which only use a subset of their flexible-model fields.
  */
 export const createStandardFields = (
-  createCaptionPlugins: (schema: Schema) => Plugin[]
+  createCaptionPlugins?: (schema: Schema) => Plugin[]
 ) => {
   return {
     source: createTextField({ absentOnEmpty: true }),
@@ -47,11 +48,12 @@ export const createStandardFields = (
     html: createTextField({ absentOnEmpty: true }),
     width: createTextField({ absentOnEmpty: true }),
     authorName: createTextField({ absentOnEmpty: true }),
+    assets: createCustomField<Asset[]>([], undefined),
   };
 };
 
 export type StandardElementOptions = {
-  createCaptionPlugins: (schema: Schema) => Plugin[];
+  createCaptionPlugins?: (schema: Schema) => Plugin[];
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 

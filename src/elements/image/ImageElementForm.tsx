@@ -20,9 +20,9 @@ import { CustomCheckboxView } from "../../renderers/react/customFieldViewCompone
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { Store } from "../../renderers/react/store";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
+import type { Asset } from "../helpers/defaultTransform";
 import { htmlLength } from "../helpers/validation";
 import type {
-  Asset,
   createImageFields,
   ImageSelector,
   MainImageData,
