@@ -47,15 +47,15 @@ FocusStyleManager.onlyShowFocusOnTabs();
 const embedElementName = "embed";
 const imageElementName = "image";
 const demoImageElementName = "demo-image-element";
-const codeElementName = "codeElement";
-const pullquoteElementName = "pullquoteElement";
-const richlinkElementName = "richlinkElement";
-const videoElementName = "videoElement";
-const mapElementName = "mapElement";
-const audioElementName = "audioElement";
-const documentElementName = "documentElement";
-const tableElementName = "tableElement";
-const interactiveElementName = "interactiveElement";
+const codeElementName = "code";
+const pullquoteElementName = "pullquote";
+const richlinkElementName = "rich-link";
+const videoElementName = "video";
+const mapElementName = "map";
+const audioElementName = "audio";
+const documentElementName = "document";
+const tableElementName = "table";
+const interactiveElementName = "interactive";
 const membershipElementName = "membership";
 
 type Name =
@@ -129,14 +129,14 @@ const {
     checkThirdPartyTracking: mockThirdPartyTracking,
     createCaptionPlugins,
   }),
-  codeElement,
-  pullquoteElement,
+  code: codeElement,
+  pullquote: pullquoteElement,
   "rich-link": richlinkElement,
-  videoElement: standardElement,
-  audioElement: standardElement,
-  mapElement: standardElement,
-  tableElement: standardElement,
-  documentElement: standardElement,
+  video: standardElement,
+  audio: standardElement,
+  map: standardElement,
+  table: standardElement,
+  document: standardElement,
   membership: membershipElement,
 });
 
