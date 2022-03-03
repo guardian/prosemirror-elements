@@ -5,6 +5,16 @@ import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";
 
 describe("Element fixtures", () => {
+  /**
+   * This spec runs every fixture declared in `./fixtures/index.ts` through
+   * prosemirror-elements' node representation, and out again. It's useful for
+   * spotting any discrepencies that we might inadvertently introduce as we use
+   * prosemirror-elements for more elements in our CMS.
+   *
+   * To add a new fixture, add the fixture JSON to `./fixtures/index.ts`, and
+   * add the relevant element to the `elements` object below, to ensure the
+   * prosemirror-elements plugin recognises the new element type.
+   */
   const elements = {
     "rich-link": richlinkElement,
   } as const;
@@ -43,10 +53,8 @@ describe("Element fixtures", () => {
           const roundTripElementData = createRoundTripElementData(
             elementName as keyof typeof elements
           );
-          elementFixtures.forEach(({ elements: elementJson }) => {
-            /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- we're asserting this data at runtime in the test */
-            const elementData = JSON.parse(elementJson);
-            const roundTrippedElementData = roundTripElementData(elementData);
+          elementFixtures.forEach(({ element }) => {
+            const roundTrippedElementData = roundTripElementData(element);
 
             /**
              * We expect certain differences in our elements, as both role and isMandatory
@@ -55,14 +63,14 @@ describe("Element fixtures", () => {
              * element data.
              */
             const ignoredFieldValues = [];
-            if (!elementData.fields.isMandatory) {
+            if (!element.fields.isMandatory) {
               ignoredFieldValues.push("fields.isMandatory");
             }
-            if (!elementData.fields.role) {
+            if (!element.fields.role) {
               ignoredFieldValues.push("fields.role");
             }
             const elementToCompare = omit(
-              elementData,
+              element,
               "elementType",
               ...ignoredFieldValues
             );
@@ -72,7 +80,6 @@ describe("Element fixtures", () => {
             );
 
             expect(roundTrippedElementToCompare).toEqual(elementToCompare);
-            /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
           });
         });
       });
