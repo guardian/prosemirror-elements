@@ -1,0 +1,2226 @@
+[
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Test",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/d/edit?mid=zX8qSO_-uUsg.ktStdamDhuM0&usp=sharing"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-09-16",
+    "contentid": "55f97e15e4b0b18640539a3b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "DFO Essendon airport",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.com.au/maps/search/DFO+Essendon+airport/@-37.7255971,144.896409,15z"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-02-20",
+    "contentid": "58ab6b8be4b030b6f7c8d717"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/place/Vanuatu/@-15.8565655,167.9304933,7z/data=!4m2!3m1!1s0x6e89605ec8926013:0x348339cfbed0266a"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-03-15",
+    "contentid": "5505f7bfe4b08cb82df0833a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "France shooting, Chevaline, Sept 2012 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=208697059156844486418.0004c903b4778f7803b96&msa=0&ll=45.855586,6.078186&spn=1.75223,3.526611"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "504861b8c0e327fb8f654207"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "NAMS",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.com/maps/d/viewer?mid=1WiYPKlbDJIeKhs4vxIGKF5FsIlA&ll=-28.147119883362333%2C138.63081340234373&z=5"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-02-28",
+    "contentid": "58b5da25e4b030b6f7c901d6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Umpqua Community College",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.co.uk/maps/place/Umpqua+Community+College/@43.290256,-123.3355303,1110m/data=!3m1!1e3!4m2!3m1!1s0x54c418d3b5f92c1b:0x2703c882ca90db91!6m1!1e1"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-10-02",
+    "contentid": "560e2e0be4b069fc2269d00d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Africa - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.ca/maps/ms?msid=213933455828185892737.0004b644aebd24343c2bb&msa=0"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-03-31",
+    "contentid": "53393eeee4b03f2475aef324"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Nairobi, Kenya - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Nairobi,+Kenya&hl=en&ll=-1.360803,36.853981&spn=0.207652,0.260925&sll=53.800651,-4.064941&sspn=7.855146,16.699219&oq=nairobi&hnear=Nairobi,+Nairobi+Province,+Kenya&t=m&z=12"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-02-17",
+    "contentid": "5301f8d9e4b0d376638b6e93"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "London WC1B 4DA, UK",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.com/maps/place/London+WC1B+4DA,+UK/@51.519139,-0.122347,15z/data=!4m2!3m1!1s0x48761b3414396731:0xbd80a1753adb908e?hl=en-US"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-10-02",
+    "contentid": "560e9348e4b06bd936f9c754"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Democratic Republic of the Congo",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.co.uk/maps/place/Democratic+Republic+of+the+Congo/@-3.9834936,12.7024497,5z/data=!3m1!4b1!4m5!3m4!1s0x1979facf9a7546bd:0x4c63e5eac93f141!8m2!3d-4.038333!4d21.758664"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-09-19",
+    "contentid": "57dff371e4b0ac5fd0e5dfbf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Crimea - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Crimea&hl=en&ll=44.972571,34.227905&spn=2.836862,5.20752&sll=48.379433,31.16558&sspn=10.656444,20.830078&hnear=Crimea,+Ukraine&t=m&z=8"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-02-28",
+    "contentid": "53103587e4b041a8248130eb"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Eurozone meetings, August 22-25 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msid=205126039135945070533.0004c7d741f178ad09550&msa=0&ll=46.649436,17.62207&spn=27.858881,67.631836"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "524ecb8ce4b0b103eb47f4c1"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Gare de Lille Flandres",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.co.uk/maps/place/Gare+de+Lille+Flandres/@50.636601,3.070538,15z/data=!4m5!3m4!1s0x0:0x2dd8c0c3f5f43032!8m2!3d50.636601!4d3.070538"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-06-15",
+    "contentid": "57619448e4b096841ef399b9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "27 North Ave, Leichhardt NSW 2040",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.com.au/maps/place/27+North+Ave,+Leichhardt+NSW+2040/@-33.884399,151.1621679,17z/data=!3m1!4b1!4m5!3m4!1s0x6b12b0226d8864d5:0x9a055b38f6cf2569!8m2!3d-33.8844035!4d151.1643619"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-06-17",
+    "contentid": "57638603e4b088b489cb2488"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "9 Οκτώβρη χάρτης απαγόρευσης Συγκεντρώσεων - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=217639035805361069839.0004cb8a5c78164cb581f&msa=0"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "507275b9c0e3aacd18e2f8e0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.939985,40.45166&spn=8.605647,16.907959&iwloc=0004a96e0f0c7d0de9e53"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5146d0dc95cb3037f5c829e3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=36.848994,40.089626&spn=0.124866,0.129948"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a5e837b579ba9bb5261d75"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Untitled - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msid=213088008173749374973.0004ce98b1c7027d21d21&msa=0&ll=31.363605,34.376907&spn=0.454391,0.874786"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a5e837b579ba9bb5261d75"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.98102,35.801697&spn=0.927337,0.822601&iwloc=A"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a364c395cb549b9c00dd0c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=36.155618,43.604736&spn=8.193127,16.907959&iwloc=0004ce71b872b9b672795"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a364c395cb549b9c00dd0c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=31.787719,34.83902&spn=1.115933,0.826721"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a497c195cb549b9c00de26"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=30.902225,36.535034&spn=4.505248,3.306885"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a497c195cb549b9c00de26"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=29.783449,34.985962&spn=4.285268,4.817505"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a9f81b95cbf3a893f33203"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=31.359501,34.785461&spn=1.054223,1.204376"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a9f81b95cbf3a893f33203"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=31.558644,34.799194&spn=1.051983,1.204376"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50a9f81b95cbf3a893f33203"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/place/Jinnah+International+Airport/@24.8508067,67.1204596,12z/data=!4m2!3m1!1s0x0:0xf409b7aee642259"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-06-08",
+    "contentid": "5394bbf5e4b0f97a3edbfe25"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Gaza leaflets - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=213088008173749374973.0004ceeeadd07dd1ed516&msa=0&ll=31.515337,34.433899&spn=0.875701,1.749573"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ab3de495cb1a2f39668074"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Al Kasr Al Eini, Al Azbakeyah, Cairo Governorate, Egypt - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Al+Kasr+Al+Eini,+Al+Azbakeyah,+Cairo+Governorate,+Egypt&hl=en&sll=30.037222,31.207778&sspn=0.007198,0.013669&oq=kasr+al-eini,&hnear=Al+Kasr+Al+Aini,+Egypt&t=m&z=16"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50af32ccb579714a8ffd36c2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Tishrin Dam - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=213088008173749374973.0004cf647ab2be9eec461&msa=0&ll=36.377068,38.17749&spn=6.852951,13.996582"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50b326bab579cb0f05974990"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Clermont QLD 4721 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/place/Clermont+QLD+4721/@-22.4150815,147.5217628,9z/data=!4m2!3m1!1s0x6bce650f1e1616f9:0x400eef17f2099c0"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-07-28",
+    "contentid": "53d5b18ce4b06826758f92b1"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Ras Al Ain, Al-Hasakah Governorate, Syria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Ras+Al+Ain,+Al-Hasakah+Governorate,+Syria&hl=en&sll=51.528642,-0.101599&sspn=0.662126,1.749573&oq=Ras+al-aIN&hnear=Ras+Al+Ain,+Al-Hasakah+Governorate,+Syria&t=m&z=15"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50bc6c22b57953a96fb90bb2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.161818,36.694336&spn=4.344789,3.433228"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50e6921e95cb94a7be21b717"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=35.146863,39.232178&spn=8.341291,16.907959"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ea85ba95cb94a7be21b8b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=35.692995,43.242188&spn=8.285128,6.558838&iwloc=0004d2b2e02fe7340da4b"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ea85ba95cb94a7be21b8b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=33.433733,36.355133&spn=1.064659,0.819855&iwloc=0004a96e0f0c7d0de9e53"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ea85ba95cb94a7be21b8b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/LdBXX"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ea85ba95cb94a7be21b8b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/o00Jm"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ea85ba95cb94a7be21b8b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/q50iI"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50ea85ba95cb94a7be21b8b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.804783,39.682617&spn=5.754077,8.569336"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50f6634495cb5d055131b4fc"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/colS7"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50f5146bb579240893bf4f3f"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "In Amenas, Illizi, Algeria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=In+Amenas,+Illizi,+Algeria&hl=en&ll=33.468108,6.987305&spn=34.332849,23.730469&sll=37.0625,-95.677068&sspn=64.409204,47.460937&oq=in+amena&t=h&hnear=In+Amenas,+Illizi,+Algeria&z=5&iwloc=A"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50f9032bb579240893bf51a7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Kings Cross, London N1",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.co.uk/maps/place/Kings+Cross,+London+N1/@51.5308999,-0.1225611,15z/data=!3m1!4b1!4m2!3m1!1s0x48761b10c73c4dcd:0x616f11fed05d6bb9"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-05-19",
+    "contentid": "555b0c89e4b02ba2113500a3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Dereliction - master - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=207327149283039286716.0004d2c7daf84c293b9ea&msa=0&ie=UTF8&ll=53.35236,-6.232862&spn=0.100578,0.178819&t=h&source=embed"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "510786e4b57913fd43cb76d3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=39.893934,33.004303&spn=0.486779,1.056747"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "510b7c63b579511a2998b6d5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/9qfzU"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "510b7c63b579511a2998b6d5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Flooding",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/d/u/1/edit?mid=zUfzoDg4aG3Q.kCIuxtVM6lZ4"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-12-30",
+    "contentid": "568331dae4b0629150aaf589"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=33.979809,14.853516&spn=15.731801,21.708984&iwloc=0004d5353cdce50cc77df"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5114b922b5790c5937938bb6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=33.507049,36.311874&spn=0.273673,0.528374"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5121e771b5796129ac9ed043"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Kaliningrad, Kaliningrad Oblast, Russia - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/place/Kaliningrad,+Kaliningrad+Oblast,+Russia/@54.7116095,20.46453,6z/data=!4m2!3m1!1s0x46e33d8d4b7c21a9:0x5050960016126ed3"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-08-28",
+    "contentid": "53ff070be4b0231e2167f045"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "wc1b 4da",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.co.uk/maps?espv=2&biw=1920&bih=947&q=wc1b+4da&bav=on.2,or.r_qf.&ion=1&gs_rn=58&gs_ri=psy-ab&tok=VamOOJMoapjBsP_8zEgP5A&pq=b1+location+house&cp=8&gs_id=8&xhr=t&um=1&ie=UTF-8&sa=X&ei=8-ppVNqaKsLuaqe5gvgN&sqi=2&ved=0CAYQ_AUoAQ"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-10-13",
+    "contentid": "57ff8362e4b01ffb8ffcb4a4"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.361403,36.219177&spn=2.122706,2.433472&iwloc=0004d4a68141925d9d75e"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5130679d95cb2be75ea3f47e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.962586,35.908813&spn=0.994358,1.127472"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5138519695cbcb6c863dd89c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Papal conclave, March 2013 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004d7bbe88176aa02cb5&msa=0&ll=41.903539,12.454526&spn=0.007227,0.007693"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "513f1a8fb5799f28f712f377"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=35.106428,37.529297&spn=4.295636,8.453979&iwloc=0004aa89ade9314f688af"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5142ddb695cb3037f5c827bf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.279914,36.158752&spn=2.180879,2.969055"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5142ddb695cb3037f5c827bf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "rome - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=rome&hl=en&ll=41.897745,12.498654&spn=0.002699,0.004128&sll=37.0625,-95.677068&sspn=65.047864,47.109375&t=h&hnear=Rome,+Province+of+Rome,+Lazio,+Italy&z=19"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "514184eb95cb3037f5c82669"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Meliandou, Guinea - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/place/Meliandou,+Guinea/@8.6160662,-10.061178,6z/data=!4m2!3m1!1s0xfa9a35f789a2f39:0xa99ff0f9fc6be611"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-10-08",
+    "contentid": "543538dfe4b055589a2e7d68"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "supporting",
+        "title": "Kings Place",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/place/Kings+Place/@51.5349345,-0.1217529,17z/data=!3m1!4b1!4m2!3m1!1s0x48761b3e69e594f5:0x4195eddad9c89a14?hl=en"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-06-05",
+    "contentid": "5571570ce4b0b82f8ee385a5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "28.4105863,-81.5868674",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/place/Disney’s+Grand+Floridian+Resort+%26+Spa/@28.4105863,-81.5868674,3a,34.6y,37.23h,100.95t/data=!3m8!1e1!3m6!1s-EVjlbUqRM7g%2FVzpYjDmjp5I%2FAAAAAAAAhaM%2FMSQI-sCs1a0M7ENCeL9t-Px1loMimMOKQCLIB!2e4!3e11!6s%2F%2Flh5.googleusercontent.com%2F-EVjlbUqRM7g%2FVzpYjDmjp5I%2FAAAAAAAAhaM%2FMSQI-sCs1a0M7ENCeL9t-Px1loMimMOKQCLIB%2Fw203-h101-n-k-no%2F!7i8704!8i4352!4m5!3m4!1s0x88dd7e1de85466d7:0x7477d584ef47a501!8m2!3d28.41092!4d-81.5880228!6m1!1e1"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-06-15",
+    "contentid": "5760c5f4e4b005ab05d211aa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps: Yosemite Street View",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/about/behind-the-scenes/streetview/treks/yosemite/embed/tommy-dawn-wall-pitch"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-06-24",
+    "contentid": "558ad4c3e4b024f829c5d2c5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps: Yosemite Street View",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/about/behind-the-scenes/streetview/treks/yosemite/embed/alex-texas-flake-lounging"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-06-24",
+    "contentid": "558ad4c3e4b024f829c5d2c5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Foster St, Leichhardt NSW 2040",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/place/Foster+St,+Leichhardt+NSW+2040/@-33.8830928,151.1453751,17z/data=!3m1!4b1!4m5!3m4!1s0x6b12b0058d4a6a77:0xe1cd43803a72b25!8m2!3d-33.8830973!4d151.1475638"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-06-27",
+    "contentid": "577094aee4b0f43038109f93"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Foster St, Sydney, New South Wales",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/search/Foster+St,+Sydney,+New+South+Wales/@-33.8796546,151.2103225,3a,75y,33.85h,90t/data=!3m6!1e1!3m4!1sJ46uaU4WT_MKNaw7Q01BnQ!2e0!7i13312!8i6656"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-06-27",
+    "contentid": "577094aee4b0f43038109f93"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "supporting",
+        "title": "Guam",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/place/Guam/@13.4913808,135.7127513,4z/data=!4m2!3m1!1s0x671f76ff930f24ef:0x5571ae91c5b3e5a6"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-08-17",
+    "contentid": "55d21d0ce4b0a6a3673c86a0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "2015 California Fire Map",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/d/u/0/viewer?mid=zp8nK_5H0MFQ.kzTmU5XK-qJQ"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-09-15",
+    "contentid": "55f84b63e4b0a1e0c61903ef"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "2015 California Fire Map",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/d/viewer?mid=zp8nK_5H0MFQ.kzTmU5XK-qJQ&ie=UTF8&hl=en&msa=0&ll=37.055177%2C-120.454102&spn=17.505593%2C18.720703&z=5&source=embed"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-09-21",
+    "contentid": "56003a66e4b0268b21985355"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Cavendish Rd, Shepperton, Sunbury-on-Thames TW16 7PL",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.co.uk/maps/place/Cavendish+Rd,+Shepperton,+Sunbury-on-Thames+TW16+7PL/@51.4259515,-0.4246497,17z/data=!3m1!4b1!4m5!3m4!1s0x48767480a0f6fbc9:0x708f6bea53152ea2!8m2!3d51.4259515!4d-0.422461"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-09-16",
+    "contentid": "59bcde75e4b06eeee7d810f8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "51.855,-0.889",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/place/51%C2%B051’18.0%22N+0%C2%B053’20.4%22W/@51.855,-0.889,12z/data=!4m2!3m1!1s0x0:0x0?hl=e"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-03-07",
+    "contentid": "56dd68a1e4b0a02aed206487"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "18.0536484,-65.844548",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.co.uk/maps/@18.0536484,-65.844548,10z"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-09-19",
+    "contentid": "59c173c2e4b0f6beafd39d88"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "28.4105863,-81.5868674",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.com.au/maps/place/Disney’s+Grand+Floridian+Resort+%26+Spa/@28.4105863,-81.5868674,3a,34.6y,35.83h,101.94t/data=!3m8!1e1!3m6!1s-EVjlbUqRM7g%2FVzpYjDmjp5I%2FAAAAAAAAhaM%2FMSQI-sCs1a0M7ENCeL9t-Px1loMimMOKQCLIB!2e4!3e11!6s%2F%2Flh5.googleusercontent.com%2F-EVjlbUqRM7g%2FVzpYjDmjp5I%2FAAAAAAAAhaM%2FMSQI-sCs1a0M7ENCeL9t-Px1loMimMOKQCLIB%2Fw203-h101-n-k-no%2F!7i8704!8i4352!4m5!3m4!1s0x88dd7e1de85466d7:0x7477d584ef47a501!8m2!3d28.41092!4d-81.5880228!6m1!1e1"
+      },
+      "elementType": "map"
+    },
+    "created": "2016-06-15",
+    "contentid": "5760b806e4b0505cd1bcbc7c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Lombardy, Italy - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Lombardy,+Italy&hl=en&ll=45.228481,12.414551&spn=14.515733,33.815918&sll=37.0625,-95.677068&sspn=61.153041,43.505859&oq=lombardy&hnear=Lombardy,+Italy&t=m&z=6"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "512b645395cb2146783227ef"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/@-40.6436755,172.6343172,10z"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-02-14",
+    "contentid": "54df25b1e4b052e5bf258cd2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Sandplace Road, United Kingdom - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Sandplace+Road,+United+Kingdom&hl=en&ll=50.365503,-4.454184&spn=0.048947,0.109005&sll=50.364169,-4.456705&sspn=0.006119,0.013626&t=h&hnear=Sandplace+Rd,+Cornwall+PL13,+United+Kingdom&z=14"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "514c2aa395cbbc3a59c25bf0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Women's March on London",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.com/maps/d/viewer?mid=1e_aGDEcGY9Lu3UMKQKhR-itRBDg&ll=51.509169810586876%2C-0.14141680000000179&z=15"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-01-18",
+    "contentid": "587fbbd8e4b01065cf597f03"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps/place/Aland+Islands/@60.199542,20.3711714,7z/data=!4m2!3m1!1s0x468ae468c4e1eb19:0xcd43f68373428eed"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-09-20",
+    "contentid": "541dfca5e4b0d3b78ab6650a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Cumbria, United Kingdom - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Cumbria,+United+Kingdom&hl=en&ll=54.27164,-3.032227&spn=5.930277,9.63501&sll=52.589701,-2.746582&sspn=6.169247,9.63501&oq=cumbria&hnear=Cumbria,+United+Kingdom&t=m&z=7"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50b33b0a95cbefa34ce3c8e9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Llanberis, United Kingdom - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Llanberis,+United+Kingdom&hl=en&ll=52.589701,-2.746582&spn=6.169247,9.63501&sll=50.718047,-3.5298&sspn=0.012607,0.018818&oq=llanberis&hnear=Llanberis,+Gwynedd,+United+Kingdom&t=m&z=7"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50b33b0a95cbefa34ce3c8e9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "immersive",
+        "title": "51.5347782,-0.1247179",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.com/maps/@51.5347782,-0.1247179,16.26z"
+      },
+      "elementType": "map"
+    },
+    "created": "2018-11-21",
+    "contentid": "5bf58061e4b0772932e24775"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Muslim Welfare House",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.co.uk/maps/place/Muslim+Welfare+House/@51.5635343,-0.1093456,17z/data=!3m1!4b1!4m5!3m4!1s0x48761b9b401d8e95:0x5f9f3d4904f0d6a7!8m2!3d51.5635343!4d-0.1071569"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-06-19",
+    "contentid": "59471af4e4b014a733d638a5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "supporting",
+        "title": "53.28537499999999,-4.804433",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.com/maps?ll=53.261666,-4.741553&z=10&t=h&hl=en-US&gl=SE&mapclient=embed&q=53%C2%B017%2707.3%22N+4%C2%B048%2716.0%22W@53.28537499999999,-4.804433"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-05-19",
+    "contentid": "555b3eece4b056ca182816b8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Westminster Abbey, Deans Yd, London",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://goo.gl/maps/iDvGHLZzkFq6qfwt5"
+      },
+      "elementType": "map"
+    },
+    "created": "2021-09-10",
+    "contentid": "613b16358f08d78b49872937"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Woodland, NC",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "originalUrl": "https://www.google.com/maps/place/Woodland,+NC/@36.3533202,-77.6039398,9z/data=!4m2!3m1!1s0x89ae34b8d043532f:0x89fedc52aca1aed2"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-12-18",
+    "contentid": "567426b7e4b0fcd39b5714e2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.966999,37.177734&spn=8.071918,16.907959"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "51555867b5791610ecc9c4cd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.754942,36.139526&spn=4.143242,8.453979&iwloc=A"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "51555867b5791610ecc9c4cd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?ll=40.747257,-73.959961&spn=15.369051,16.413574&t=8&z=6"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "515937cbb5791610ecc9c58c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=35.559043,42.033691&spn=8.254804,16.907959&iwloc=0004a96ed235f282e046c"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "515a8fb995cbd934fc4629aa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=33.548262,36.308441&spn=0.528771,0.547943&iwloc=0004d99a860d32153e81f"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-05",
+    "contentid": "515e816f95cbd0ecba5ec068"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "%D9%85%D8%B3%D8%AC%D8%AF %D8%B9%D8%AB%D9%85%D8%A7%D9%86 %D8%A8%D9%86 %D8%B9%D9%81%D8%A7%D9%86 %D8%B1%D8%B6%D9%8A %D8%A7%D9%84%D9%84%D9%87 %D8%B9%D9%86%D9%87 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=%D9%85%D8%B3%D8%AC%D8%AF+%D8%B9%D8%AB%D9%85%D8%A7%D9%86+%D8%A8%D9%86+%D8%B9%D9%81%D8%A7%D9%86+%D8%B1%D8%B6%D9%8A+%D8%A7%D9%84%D9%84%D9%87+%D8%B9%D9%86%D9%87&hl=en&ie=UTF8&ll=35.325982,40.152921&spn=0.00195,0.00353&cid=11903855206265974511&gl=GB&t=h&z=19&iwloc=A"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-12",
+    "contentid": "5167bface4b0566fd276be0a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Qamishli Airport, Syria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Qamishli++Airport,+Syria&hl=en&ie=UTF8&ll=37.030848,41.205951&spn=0.00358,0.01281&sll=33.471742,36.222439&sspn=0.016539,0.02562&t=h&doflg=ptk&hq=Airport,+Syria&hnear=Al+Qamishli,+%D8%A7%D9%84%D9%82%D8%A7%D9%85%D8%B4%D9%84%D9%8A,+Al-Hasakah+Governorate,+Syria&z=17&layer=c&cbll=37.027705,41.204867&cbp=11,0,,0,0&photoid=po-38813017"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-12",
+    "contentid": "5167bface4b0566fd276be0a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Halfaya, Muhradah, Hama Governorate, Syria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Halfaya,+Muhradah,+Hama+Governorate,+Syria&hl=en&ll=35.264035,36.606349&spn=0.000915,0.002551&sll=35.933333,36.633333&sspn=0.064215,0.081625&t=h&geocode=FawjGgIdy5IuAg&hnear=Halfaya,+Muhradah,+Hama+Governorate,+Syria&z=19&layer=c&cbll=35.264035,36.606349&cbp=11,0,,0,0&photoid=po-38202119"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-12",
+    "contentid": "5167bface4b0566fd276be0a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Boston explosions, 15 April 2013 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004da791e5cc874b8e11&msa=0&ll=42.348586,-71.077713&spn=0.007231,0.009141"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-16",
+    "contentid": "516d0b30e4b00f501f7c435e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Boston explosions, 15 April 2013, and subsequent police operations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004da791e5cc874b8e11&msa=0&ll=42.351947,-71.127548&spn=0.242559,0.22419"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-19",
+    "contentid": "5170e6c0e4b01ca5fdd81941"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Florida day 2 so far - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=216623050904272080934.0004db98c3bf955afb8eb&msa=0"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-30",
+    "contentid": "517f86d5e4b0974389713be7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Guardian road trip: Florida - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?ie=UTF8&hl=en&oe=UTF8&msa=0&msid=203466315978602604351.0004db2edef8b844fbbe3"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-30",
+    "contentid": "517f86d5e4b0974389713be7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "King Willem-Alexander's investiture, 30 April 2013 - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004db929d81ae4e45500&msa=0&ll=52.373805,4.891276&spn=0.003131,0.003455"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-04-30",
+    "contentid": "517f7b03e4b0974389713bda"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Deir ez-Zur, Deir ez-Zor Governorate, Syria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps?q=Deir+ez-Zur,+Deir+ez-Zor+Governorate,+Syria&hl=en&ll=35.324186,40.145105&spn=0.008333,0.006652&sll=33.275435,37.814941&sspn=8.482553,10.085449&oq=deir+ez&hnear=Deir+ez-Zur,+Deir+ez-Zor+District,+Deir+ez-Zor+Governorate,+Syria&t=h&z=17"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-01",
+    "contentid": "5180ca2fe4b0dd375c3552c7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Bayda, Tartus Governorate, Syria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Bayda,+Tartus+Governorate,+Syria&hl=en&ll=35.56798,36.474609&spn=4.302341,7.229004&sll=51.528642,-0.101599&sspn=0.822746,1.807251&oq=bayda,+sy&t=m&hnear=Bayda,+Baniyas,+Tartus+Governorate,+Syria&z=8"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-03",
+    "contentid": "518365f3e4b0bf65ade520a6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "wc1b 4da - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps?espv=2&biw=1920&bih=947&q=wc1b+4da&bav=on.2,or.r_qf.&ion=1&gs_rn=58&gs_ri=psy-ab&tok=VamOOJMoapjBsP_8zEgP5A&pq=b1+location+house&cp=8&gs_id=8&xhr=t&um=1&ie=UTF-8&sa=X&ei=8-ppVNqaKsLuaqe5gvgN&sqi=2&ved=0CAYQ_AUoAQ"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-11-20",
+    "contentid": "546de494e4b09665bae6b998"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "akm taksim square - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=akm+taksim+square&hl=en&ll=41.037129,28.988274&spn=0.003739,0.003803&oe=utf-8&client=firefox-a&channel=fflb&hq=akm+taksim+square&radius=15000&t=k&z=18"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-06-13",
+    "contentid": "51b97803e4b084fcd6b75d26"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.542762,39.188232&spn=8.646965,10.129395"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-30",
+    "contentid": "51a7085be4b071435a7619a4"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.995995,35.722046&spn=1.061943,1.895142"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-31",
+    "contentid": "51a85abde4b0a581942efffa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=34.393312,36.936035&spn=4.246645,3.345337"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-31",
+    "contentid": "51a85abde4b0a581942efffa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "12 Camley Street, London, N1C 4PW - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=12+Camley+Street,+London,+N1C+4PW&ll=51.535605,-0.127888&spn=0.020662,0.055747&oe=utf-8&client=firefox-a&hnear=12+Camley+St,+London+N1C+4PW,+United+Kingdom&gl=uk&t=m&z=15"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-06-05",
+    "contentid": "51af0864e4b0945f272d2301"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Woolwich/Greenwich - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004dd644fe988c7527ca&msa=0&ll=51.484697,0.04858&spn=0.098773,0.230541"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-23",
+    "contentid": "519db33be4b0371c681f9faa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "wc1b 4da - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.co.uk/maps?espv=2&biw=1920&bih=947&q=wc1b+4da&bav=on.2,or.r_qf.&ion=1&gs_rn=58&gs_ri=psy-ab&tok=VamOOJMoapjBsP_8zEgP5A&pq=b1+location+house&cp=8&gs_id=8&xhr=t&um=1&ie=UTF-8&sa=X&ei=8-ppVNqaKsLuaqe5gvgN&sqi=2&ved=0CAYQ_AUoAQ"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-11-20",
+    "contentid": "546dfd25e4b07e92ce82fef4"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Thames Street, London - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Thames+Street,+London&hl=en&ll=51.482332,-0.014076&spn=0.012027,0.022445&sll=51.456574,0.440826&sspn=0.783832,1.805878&oq=thames+st&hnear=Thames+St,+Royal+Borough+of+Greenwich,+London+SE10,+United+Kingdom&t=m&z=16"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-24",
+    "contentid": "519f0eb1e4b0371c681fa0a3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=35.135633,36.348267&spn=2.147239,2.287903"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-05-28",
+    "contentid": "51a45da0e4b0e39288861827"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Edward Snowden's progress - updated version - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/wtKfh"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-06-24",
+    "contentid": "51c80607e4b0c96151eab7c6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Edward Snowden's progress - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004dfe2ec8bb04fb2125&msa=0&ll=8.754795,56.25&spn=164.247159,14.414062"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-06-24",
+    "contentid": "51c80607e4b0c96151eab7c6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Bucklebury West Berkshire - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Bucklebury+West+Berkshire&ll=51.385495,-0.769043&spn=1.306145,1.724854&client=firefox-a&hnear=Bucklebury,+West+Berkshire,+United+Kingdom&t=m&z=9"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-09",
+    "contentid": "51dc1cabe4b0b7810a937e4f"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Skull Island",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "originalUrl": "https://www.google.com/maps/place/Skull+Island/@-18.235423,-113.379547,6720309m/data=!3m1!1e3!4m5!3m4!1s0x0:0x716f2a03bdff60bb!8m2!3d-3.8641601!4d-125.7724649?hl=en-US"
+      },
+      "elementType": "map"
+    },
+    "created": "2017-03-04",
+    "contentid": "58ba0f6ee4b09c1763ef5eda"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Belfast - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Belfast&hl=en&ll=54.605433,-5.962315&spn=0.018145,0.032659&sll=54.598373,-5.947638&sspn=0.036297,0.065317&hnear=Belfast,+United+Kingdom&t=m&z=15"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-12",
+    "contentid": "51e052f3e4b019f8d7037b01"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "belfast - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=belfast&hl=en&ll=54.599032,-5.908456&spn=0.009074,0.016329&sll=51.528642,-0.101599&sspn=0.623685,1.045074&hnear=Belfast,+United+Kingdom&t=m&z=16"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-12",
+    "contentid": "51e052f3e4b019f8d7037b01"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google maps belfast - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps?q=Google+maps+belfast&ll=54.606887,-5.926652&spn=0.009072,0.016329&oe=utf-8&client=firefox-a&hnear=Belfast,+United+Kingdom&gl=uk&t=m&z=16"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-12",
+    "contentid": "51e052f3e4b019f8d7037b01"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "White Sands National Monument",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/place/White+Sands+National+Monument/@34.5701018,-99.262607,5.79z/data=!4m2!3m1!1s0x0:0x36d1188767bf20c3!6m1!1e1"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-08-07",
+    "contentid": "55c40824e4b0ed492e4fa52c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.361403,36.221924&spn=4.22637,3.47168&iwloc=0004d4a68141925d9d75e"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-18",
+    "contentid": "51e7ed86e4b0a30e4b3df7bd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Middle East Live blog locations - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=209495235774282418880.0004a5a9b058f2989681a&msa=0&ll=32.361403,36.221924&spn=4.22637,3.47168&iwloc=0004d4a68141925d9d75e"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-18",
+    "contentid": "51e7ed86e4b0a30e4b3df7bd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Bugthorpe, United Kingdom - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/SoTHV"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-07-22",
+    "contentid": "51ed9efce4b0abd43a029655"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com.au/maps?q=48%C2%B007%2723.0%22N+38%C2%B031%2733.0%22E&ie=UTF8&ll=48.222843,38.51532&spn=1.504164,3.172302&cid=0&t=m&z=9"
+      },
+      "elementType": "map"
+    },
+    "created": "2014-07-17",
+    "contentid": "53c7ed27e4b0273e7e2633e8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/place/Beijing,+China/@39.9527187,116.3358968,16z/data=!4m2!3m1!1s0x35f05296e7142cb9:0xb9625620af0fa98a"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-01-05",
+    "contentid": "54aa8e32e4b048dfa4053e97"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "9 Οκτώβρη χάρτης απαγόρευσης Συγκεντρώσεων - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.com/maps/ms?msid=217639035805361069839.0004cb8a5c78164cb581f&msa=0"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "5073bd29c0e361310bc6ca39"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Machynlleth - Cross Foxes road closure - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msa=0&msid=208697059156844486418.0004cb15f027a82db14fe&ie=UTF8&t=m&ll=52.958566,-3.804016&spn=0.579084,1.263428&z=9&iwloc=0004cb15f533df04fe313&output=embed"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "506a9cdf58f99afdfd4eb3aa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Consulate General of Greece - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msid=205126039135945070533.0004ca0d49113d590805b&msa=0&ll=51.505604,-0.205017&spn=0.005102,0.009656"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "50596e85c0e3f46af969f8b8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "supporting",
+        "title": "2015 California Fire Map",
+        "width": "460",
+        "height": "345",
+        "source": "Google Maps",
+        "caption": "REDACTED",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps/d/viewer?mid=zp8nK_5H0MFQ.kzTmU5XK-qJQ&ie=UTF8&hl=en&msa=0&ll=37.055177%2C-120.454102&spn=17.505593%2C18.720703&z=5&source=embed"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-09-17",
+    "contentid": "55fadc8ce4b04bef224b07d7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Belvoir St Theatre - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com.au/maps/place/Belvoir+St+Theatre/@-33.8890843,151.2091312,15z/data=!4m5!1m2!2m1!1sgoogle+maps+belvoir!3m1!1s0x6b12ae2009fa4e57:0x107fbe29d3be93cb"
+      },
+      "elementType": "map"
+    },
+    "created": "2015-02-13",
+    "contentid": "54dd8530e4b0a79eae21d71d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Abu Duhur air base - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msid=200547086913577029119.0004c8f0161b789013bd6&msa=0&ll=35.793868,36.89621&spn=0.475081,0.55275"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "524ecba8e4b0b103eb47f4f5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Kensington Palace to St James's Palace - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://www.google.com/maps?saddr=Kensington+Palace,+Kensington+Gardens,+London+W8+4PX,+United+Kingdom&daddr=St+James's+Palace,+Marlborough+Rd,+London+SW1A+1BS,+United+Kingdom&ll=51.503186,-0.154753&spn=0.041994,0.046692&sll=51.50459489999419,-0.16285855603412872&sspn=0.04578638847746601,0.06334371730008939&t=m&z=14&geocode=FQDoEQMd8iL9_ynvD5Xnyg12SDGHPyy8KlzmiQ%3BFWHmEQMdNuj9_yk_hwcu2AR2SDH7KYJhjKIDAw"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-10-23",
+    "contentid": "52679ca4e4b027bac8ef9a01"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "http://goo.gl/maps/pAVkz"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-12-06",
+    "contentid": "52a17869e4b01127dc8a42f1"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Jaramana - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msid=200547086913577029119.0004c8c9a92c7332ec02d&msa=0&ll=33.484431,36.35067&spn=0.250837,0.265732"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "524ecba1e4b0b103eb47f4e9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "title": "Al-Bab, Syria - Google Maps",
+        "width": "460",
+        "height": "379",
+        "source": "Google Maps",
+        "description": "REDACTED",
+        "originalUrl": "https://maps.google.co.uk/maps/ms?msid=200547086913577029119.0004c8c83ea0bb6241334&msa=0&ll=36.363799,37.510071&spn=1.937439,2.125854"
+      },
+      "elementType": "map"
+    },
+    "created": "2013-08-15",
+    "contentid": "524ecba1e4b0b103eb47f4e9"
+  }
+]
