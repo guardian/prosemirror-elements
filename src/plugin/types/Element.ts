@@ -63,17 +63,17 @@ export interface Field<F> {
   update: (value: F extends FieldView<infer Value> ? Value : never) => void;
 }
 
-export interface CustomField<Data = unknown, Props = unknown>
-  extends Field<CustomFieldView<Data>> {
-  description: CustomFieldDescription<Data, Props>;
+export interface CustomField<Value = unknown, Config = unknown>
+  extends Field<CustomFieldView<Value>> {
+  description: CustomFieldDescription<Value, Config>;
 }
 
 export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
   [name in Extract<
     keyof FDesc,
     string
-  >]: FDesc[name] extends CustomFieldDescription<infer Data, infer Props>
-    ? CustomField<Data, Props>
+  >]: FDesc[name] extends CustomFieldDescription<infer Value, infer Config>
+    ? CustomField<Value, Config>
     : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 

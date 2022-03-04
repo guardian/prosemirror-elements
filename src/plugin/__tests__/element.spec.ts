@@ -96,13 +96,10 @@ describe("buildElementPlugin", () => {
           field2: {
             type: "custom",
             defaultValue: { arbitraryValue: "hai" },
-            props: {
+            config: {
               callback,
             },
-          } as CustomFieldDescription<
-            { arbitraryValue: string },
-            { callback: () => void }
-          >,
+          },
         } as const;
       };
 

@@ -24,7 +24,7 @@ export const CustomDropdownView = ({
   return (
     <CustomDropdown
       display={display}
-      options={options ?? field.description.props}
+      options={options ?? field.description.config}
       selected={selectedElement}
       label={label}
       onChange={(event) => {

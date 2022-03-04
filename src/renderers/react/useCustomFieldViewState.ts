@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { CustomFieldView } from "../../plugin/fieldViews/CustomFieldView";
 import type { CustomField } from "../../plugin/types/Element";
 
-export const useCustomFieldState = <Data extends unknown>({
+export const useCustomFieldState = <Value extends unknown>({
   description,
   view,
-}: CustomField<Data>): [Data, (fields: Data) => void] => {
+}: CustomField<Value>): [Value, (fields: Value) => void] => {
   const [fieldValue, setFieldValue] = useState(description.defaultValue);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const useCustomFieldState = <Data extends unknown>({
 
   return [
     fieldValue,
-    (fields: Data) => {
+    (fields: Value) => {
       view.update(fields);
     },
   ];

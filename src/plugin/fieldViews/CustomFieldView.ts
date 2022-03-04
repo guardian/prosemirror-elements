@@ -5,32 +5,36 @@ import type { Options } from "./DropdownFieldView";
 import type { BaseFieldDescription, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
 
-export interface CustomFieldDescription<Data = unknown, Props = unknown>
-  extends BaseFieldDescription<Data> {
+export interface CustomFieldDescription<
+  // The type of value that this field will represent.
+  Value = unknown,
+  // Additional configuration passed to instances of this field.
+  Config = unknown
+> extends BaseFieldDescription<Value> {
   type: typeof CustomFieldView.fieldName;
-  defaultValue: Data;
-  props: Props;
+  defaultValue: Value;
+  config: Config;
 }
 
-export const createCustomField = <Data, Props>(
-  defaultValue: Data,
-  props: Props,
+export const createCustomField = <Values, Config>(
+  defaultValue: Values,
+  config: Config,
   validators?: FieldValidator[]
-): CustomFieldDescription<Data, Props> => ({
+): CustomFieldDescription<Values, Config> => ({
   type: "custom" as const,
   defaultValue,
-  props,
+  config,
   validators,
 });
 
 export const createCustomDropdownField = (
   defaultValue: string,
-  props: Options,
+  config: Options,
   validators?: FieldValidator[]
 ): CustomFieldDescription<string, Options> => ({
   type: "custom" as const,
   defaultValue,
-  props,
+  config,
   validators,
 });
 
@@ -117,7 +121,7 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
     // Do nothing
   }
 
-  private updateSubscribers(fields: Value) {
+  protected updateSubscribers(fields: Value) {
     this.subscribers.forEach((subscriber) => {
       subscriber(fields);
     });

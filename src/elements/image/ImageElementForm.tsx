@@ -281,7 +281,7 @@ const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
         icon={<SvgCrop />}
         iconSide="left"
         onClick={() => {
-          field.description.props.openImageSelector(
+          field.description.config.openImageSelector(
             setMedia(imageFields.mediaId),
             imageFields.mediaId
           );

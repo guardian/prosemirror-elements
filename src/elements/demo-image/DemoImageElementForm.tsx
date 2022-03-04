@@ -122,19 +122,21 @@ const ImageView = ({ field, onChange }: ImageViewProps) => {
         <button
           onClick={() => {
             if (imageFields.mediaId) {
-              field.description.props.onCropImage(
+              field.description.config.onCropImage(
                 imageFields.mediaId,
                 setMedia
               );
             } else {
-              field.description.props.onSelectImage(setMedia);
+              field.description.config.onSelectImage(setMedia);
             }
           }}
         >
           Crop Image
         </button>
       ) : (
-        <button onClick={() => field.description.props.onSelectImage(setMedia)}>
+        <button
+          onClick={() => field.description.config.onSelectImage(setMedia)}
+        >
           Choose Image
         </button>
       )}
