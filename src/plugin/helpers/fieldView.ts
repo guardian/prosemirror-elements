@@ -5,6 +5,11 @@ import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
+import {
+  repeaterFieldName,
+  RepeaterFieldView,
+} from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import { getFieldNameFromNode } from "../nodeSpec";
@@ -21,6 +26,7 @@ export const fieldTypeToViewMap = {
   [CheckboxFieldView.fieldName]: CheckboxFieldView,
   [DropdownFieldView.fieldName]: DropdownFieldView,
   [CustomFieldView.fieldName]: CustomFieldView,
+  [RepeaterFieldView.fieldName]: RepeaterFieldView,
 };
 
 export type FieldTypeToViewMap<Field> = {
@@ -30,6 +36,11 @@ export type FieldTypeToViewMap<Field> = {
   [DropdownFieldView.fieldName]: DropdownFieldView;
   [CustomFieldView.fieldName]: Field extends CustomFieldDescription<infer Data>
     ? CustomFieldView<Data>
+    : never;
+  [RepeaterFieldView.fieldName]: Field extends RepeaterFieldDescription<
+    infer FDesc
+  >
+    ? RepeaterFieldView
     : never;
 };
 
@@ -48,6 +59,11 @@ export type FieldTypeToValueMap<
     infer Data
   >
     ? Data
+    : never;
+  [RepeaterFieldView.fieldName]: FDesc[Name] extends RepeaterFieldDescription<
+    infer NestedFDesc
+  >
+    ? Array<FieldTypeToValueMap<NestedFDesc, keyof NestedFDesc>>
     : never;
 };
 
@@ -121,6 +137,8 @@ export const getElementFieldViewFromType = (
         field.defaultValue ?? DropdownFieldView.defaultValue,
         field.options
       );
+    case repeaterFieldName:
+      return new RepeaterFieldView(node, offset, innerDecos);
   }
 };
 
@@ -133,12 +151,30 @@ export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
   // as the Node's name value is loosely typed as `string`, and so we
   // cannot index into the element `fieldDescription` to discover the appropriate type.
   const fieldValues: Record<string, unknown> = {};
-  node.forEach((node) => {
+  node.forEach((nestedNode) => {
     const fieldName = getFieldNameFromNode(
-      node
+      nestedNode
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    fieldValues[fieldName] = field.view.getNodeValue(node);
+    console.log(fields, field);
+    if (
+      field.description.type === repeaterFieldName &&
+      field.view instanceof RepeaterFieldView
+    ) {
+      console.log({ nestedNode });
+      const repeaterValues = [];
+      nestedNode.forEach((repeaterNode) => {
+        repeaterValues.push(getFieldValuesFromNode(field.fields, repeaterNode));
+      });
+      fieldValues[fieldName] = repeaterValues;
+    } else if (!(field.view instanceof RepeaterFieldView)) {
+      fieldValues[fieldName] = field.view.getNodeValue(nestedNode);
+    } else {
+      console.warn(
+        "We've got a mismatch betwen field description and view.",
+        field
+      );
+    }
   });
 
   return fieldValues as FieldNameToValueMap<FDesc>;

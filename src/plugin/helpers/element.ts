@@ -66,6 +66,16 @@ export const createGetNodeFromElementData = <
     nodeName
   );
 
+  console.log(schema.nodes[nodeName]);
+
+  console.log(
+    "init",
+    {
+      type: nodeName,
+    },
+    nodes
+  );
+
   return schema.nodes[nodeName].createAndFill(
     {
       type: nodeName,

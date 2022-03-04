@@ -23,6 +23,7 @@ import {
   undefinedDropdownValue,
 } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
+import { photoGalleryElement } from "../src/elements/photoGallery/PhotoGallery";
 import { createVideoElement } from "../src/elements/video/VideoSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
@@ -53,6 +54,7 @@ const richlinkElementName = "rich-link";
 const videoElementName = "video";
 const interactiveElementName = "interactive";
 const membershipElementName = "membership";
+const photoGalleryElementName = "photoGallery";
 
 type Name =
   | typeof embedElementName
@@ -63,7 +65,8 @@ type Name =
   | typeof richlinkElementName
   | typeof interactiveElementName
   | typeof videoElementName
-  | typeof membershipElementName;
+  | typeof membershipElementName
+  | typeof photoGalleryElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -124,6 +127,7 @@ const {
     checkThirdPartyTracking: mockThirdPartyTracking,
   }),
   membership: membershipElement,
+  photoGallery: photoGalleryElement,
 });
 
 const strike: MarkSpec = {
@@ -291,8 +295,9 @@ const createEditor = (server: CollabServer) => {
 
   createElementButton("Add demo image element", demoImageElementName, {
     altText: "",
-    caption: "",
     useSrc: { value: false },
+    caption: "",
+    repeater: { field1: "hai" },
   });
 
   createElementButton("Add rich-link element", richlinkElementName, {
@@ -332,6 +337,10 @@ const createEditor = (server: CollabServer) => {
     title:
       "Feminism in China: #MeToo, silenced women and the fight for equality",
     start: "2022-03-02T20:00:00.000Z",
+  });
+
+  createElementButton("Add photo gallery", photoGalleryElementName, {
+    images: [{ caption: "Example caption" }],
   });
 
   const imageElementButton = document.createElement("button");

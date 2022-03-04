@@ -17,6 +17,8 @@ export enum FieldType {
   ATTRIBUTES = "ATTRIBUTES",
   // Uses node content to store field data.
   CONTENT = "CONTENT",
+  // Represents a node that contains nested fields.
+  REPEATER = "REPEATER",
 }
 
 /**

@@ -1,6 +1,11 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
+import { FieldType } from "./fieldViews/FieldView";
+import {
+  repeaterFieldName,
+  RepeaterFieldView,
+} from "./fieldViews/RepeaterFieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
@@ -171,6 +176,31 @@ export const getNodeSpecForField = (
           },
         },
       };
+    case "repeater": {
+      const extraFields = Object.entries(field.fields).reduce<NodeSpec>(
+        (acc, [nestedFieldName, nestedField]) => ({
+          ...acc,
+          ...getNodeSpecForField(elementName, nestedFieldName, nestedField),
+        }),
+        {}
+      );
+
+      // The repeater nodes content will be these fields, in order
+      const content = getDeterministicFieldOrder(Object.keys(extraFields)).join(
+        " "
+      );
+
+      return {
+        [nodeName]: {
+          group: fieldGroupName,
+          content,
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
+          attrs: {},
+        },
+        ...extraFields,
+      };
+    }
   }
 };
 
@@ -232,29 +262,86 @@ export const createNodesForFieldValues = <
     Object.keys(fieldDescriptions)
   );
 
-  return orderedFieldNames.map((fieldName) => {
+  return orderedFieldNames.flatMap((fieldName) => {
     const field = fieldDescriptions[fieldName];
     const fieldView = fieldTypeToViewMap[field.type];
-    const nodeType = schema.nodes[getNodeNameFromField(fieldName, nodeName)];
-    const fieldValue =
-      fieldValues[fieldName] ?? // The value supplied when the element is inserted
-      fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
-      fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
+    const nodeNameForField = getNodeNameFromField(fieldName, nodeName);
+    const nodeType = schema.nodes[nodeNameForField];
+    console.log({ nodeNameForField });
+    if (fieldView === RepeaterFieldView && field.type === "repeater") {
+      const fieldValueArray = fieldValues[fieldName];
+      return fieldValueArray.flatMap((nestedFieldValues) => {
+        const childNodes = createNodesForFieldValues(
+          schema,
+          field.fields,
+          nestedFieldValues,
+          nodeName
+        );
 
-    if (fieldView.fieldType === "CONTENT") {
-      const content = fieldValue as string;
+        const repeaterNode = createRepeaterNode(
+          schema,
+          childNodes,
+          fieldName,
+          nodeName
+        );
 
-      return field.type === "richText"
-        ? createContentNodeFromRichText(
-            schema,
-            content,
-            nodeType.create({ type: field.type })
-          )
-        : createContentNodeFromText(content, field, nodeType);
-    } else {
-      return nodeType.create({ type: field.type, fields: fieldValue });
+        if (!repeaterNode) {
+          throw new Error(
+            "Failed to create repeater node",
+            childNodes,
+            fieldName,
+            nodeName
+          );
+        }
+
+        return repeaterNode;
+      });
     }
+
+    if (
+      !(fieldView === RepeaterFieldView) &&
+      field.type !== repeaterFieldName
+    ) {
+      const fieldValue =
+        fieldValues[fieldName] ?? // The value supplied when the element is inserted
+        fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
+        fieldView.defaultValue; // The default value supplied by the FieldView
+
+      if (fieldView.fieldType === "CONTENT") {
+        const content = fieldValue as string;
+
+        return field.type === "richText"
+          ? createContentNodeFromRichText(
+              schema,
+              content,
+              nodeType.create({ type: field.type })
+            )
+          : createContentNodeFromText(content, field, nodeType);
+      } else {
+        return nodeType.create({ type: field.type, fields: fieldValue });
+      }
+    }
+
+    console.log(
+      fieldView === RepeaterFieldView,
+      field.type !== repeaterFieldName,
+      fieldView,
+      field.type
+    );
+    throw new Error(`Cannot create node for ${fieldName}`);
   });
+};
+
+const createRepeaterNode = (
+  schema: Schema,
+  nodes: Node[],
+  fieldName: string,
+  nodeName: string
+): Node | undefined => {
+  const nodeNameForField = getNodeNameFromField(fieldName, nodeName);
+  const nodeType = schema.nodes[nodeNameForField];
+  console.log({ type: nodeNameForField }, nodes);
+  return nodeType.createAndFill({ type: nodeNameForField }, nodes) ?? undefined;
 };
 
 const createContentNodeFromText = (
@@ -292,8 +379,14 @@ export const getDeterministicFieldOrder = (fieldNames: string[]): string[] =>
 export const getNodeNameFromField = (fieldName: string, nodeName: string) =>
   `${nodeName}__${fieldName}`;
 
-export const getFieldNameFromNode = (node: Node) =>
-  node.type.name.split("__")[1];
+export const getFieldNameFromNode = (node: Node) => {
+  try {
+    return node.type.name.split("__")[1];
+  } catch (e) {
+    console.log(node);
+    throw new Error("wups");
+  }
+};
 
 /**
  * Node names must not include hyphens, as they're a reserved character in the content spec,

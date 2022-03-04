@@ -6,6 +6,7 @@ import {
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
+import { createRepeaterField } from "../../plugin/fieldViews/RepeaterFieldView";
 import {
   createDefaultRichTextField,
   createFlatRichTextField,

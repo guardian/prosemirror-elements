@@ -1,13 +1,23 @@
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
 import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
-import type { EditorProps } from "prosemirror-view";
+import type {
+  Decoration,
+  DecorationSet,
+  EditorProps,
+  EditorView,
+} from "prosemirror-view";
 import type {
   ElementSpec,
   ElementSpecMap,
   FieldDescriptions,
   FieldNameToField,
 } from "../plugin/types/Element";
+import { FieldType } from "./fieldViews/FieldView";
+import {
+  repeaterFieldName,
+  RepeaterFieldView,
+} from "./fieldViews/RepeaterFieldView";
 import {
   getElementFieldViewFromType,
   getFieldValuesFromNode,
@@ -147,47 +157,12 @@ const createNodeView = <
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const fields = {} as FieldNameToField<FDesc>;
-
-  initNode.forEach((node, offset) => {
-    const fieldName = getFieldNameFromNode(
-      node
-    ) as keyof FieldNameToField<FDesc>;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (fields[fieldName]) {
-      throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but another instance with that name has already been created.`
-      );
-    }
-    const fieldDescriptions = element.fieldDescriptions[fieldName];
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
-    if (!fieldDescriptions) {
-      throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associate field`
-      );
-    }
-
-    const fieldView = getElementFieldViewFromType(fieldDescriptions, {
-      node,
-      view,
-      getPos,
-      offset,
-      innerDecos,
-    });
-
-    fields[fieldName] = ({
-      description: fieldDescriptions,
-      name: fieldName,
-      view: fieldView,
-      // We coerce types here: it's difficult to prove we've the right shape here
-      // to the compiler, and we're already beholden to runtime behaviour as there's
-      // no guarantee that the node's `name` matches our spec. The errors above should
-      // help to defend when something's wrong.
-      update: (value: unknown) =>
-        (fieldView.update as (value: unknown) => void)(value),
-    } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
+  const fields = createField(initNode, element, {
+    view,
+    getPos,
+    offset: 0,
+    innerDecos,
   });
-
   const initValues = getFieldValuesFromNode(fields, initNode);
   const initCommands = commands(getPos, view);
 
@@ -271,11 +246,82 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fields).map((field) => field.view.destroy());
+      Object.values(fields).map(
+        (field) =>
+          !(field.view instanceof RepeaterFieldView) && field.view.destroy()
+      );
       element.destroy(dom);
     },
     ignoreMutation: () => true,
   };
+};
+
+const createField = <FDesc extends FieldDescriptions<string>>(
+  node: Node,
+  element: ElementSpec<FDesc>,
+  {
+    view,
+    getPos,
+    offset,
+    innerDecos,
+  }: {
+    view: EditorView;
+    getPos: () => number;
+    offset: number;
+    innerDecos: DecorationSet | Decoration[];
+  }
+) => {
+  const fields = {} as FieldNameToField<FDesc>;
+
+  node.forEach((nestedNode, nestedOffset) => {
+    const innerOffset = offset + nestedOffset;
+    console.log({ nestedNode });
+    const fieldName = getFieldNameFromNode(
+      nestedNode
+    ) as keyof FieldNameToField<FDesc>;
+
+    const fieldDescriptions = element.fieldDescriptions[fieldName];
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
+    if (!fieldDescriptions) {
+      throw new Error(
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associate field`
+      );
+    }
+
+    const fieldView = getElementFieldViewFromType(fieldDescriptions, {
+      node: nestedNode,
+      view,
+      getPos,
+      offset: innerOffset,
+      innerDecos,
+    });
+
+    const field = ({
+      description: fieldDescriptions,
+      name: fieldName,
+      view: fieldView,
+      // We coerce types here: it's difficult to prove we've the right shape here
+      // to the compiler, and we're already beholden to runtime behaviour as there's
+      // no guarantee that the node's `name` matches our spec. The errors above should
+      // help to defend when something's wrong.
+      update: (value: unknown) =>
+        !(fieldView instanceof RepeaterFieldView) &&
+        (fieldView.update as (value: unknown) => void)(value),
+    } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
+
+    if (field.description.type === repeaterFieldName) {
+      field.fields = createField(nestedNode, element, {
+        view,
+        getPos,
+        offset: innerOffset,
+        innerDecos,
+      });
+    }
+
+    fields[fieldName] = field;
+  });
+
+  return fields;
 };
 
 const getCommandValues = (commands: ReturnType<Commands>) => ({
