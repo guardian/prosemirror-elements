@@ -18,6 +18,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
+import { isRepeaterField } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -156,16 +157,11 @@ export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
       nestedNode
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    console.log(fields, field);
-    if (
-      field.description.type === repeaterFieldName &&
-      field.view instanceof RepeaterFieldView
-    ) {
+    console.log({ fields, nestedNode, fieldName, field });
+    if (isRepeaterField(field)) {
       console.log({ nestedNode });
       const repeaterValues = [];
-      nestedNode.forEach((repeaterNode) => {
-        repeaterValues.push(getFieldValuesFromNode(field.fields, repeaterNode));
-      });
+      repeaterValues.push(getFieldValuesFromNode(field.fields, nestedNode));
       fieldValues[fieldName] = repeaterValues;
     } else if (!(field.view instanceof RepeaterFieldView)) {
       fieldValues[fieldName] = field.view.getNodeValue(nestedNode);

@@ -157,7 +157,7 @@ const createNodeView = <
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const fields = createField(initNode, element, {
+  const fields = createField(initNode, element.fieldDescriptions, {
     view,
     getPos,
     offset: 0,
@@ -256,9 +256,12 @@ const createNodeView = <
   };
 };
 
-const createField = <FDesc extends FieldDescriptions<string>>(
+const createField = <
+  FDesc extends FieldDescriptions<Name>,
+  Name extends string
+>(
   node: Node,
-  element: ElementSpec<FDesc>,
+  fieldDescriptions: FDesc,
   {
     view,
     getPos,
@@ -280,15 +283,15 @@ const createField = <FDesc extends FieldDescriptions<string>>(
       nestedNode
     ) as keyof FieldNameToField<FDesc>;
 
-    const fieldDescriptions = element.fieldDescriptions[fieldName];
+    const fieldDescription = fieldDescriptions[fieldName];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
-    if (!fieldDescriptions) {
+    if (!fieldDescription) {
       throw new Error(
         `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associate field`
       );
     }
 
-    const fieldView = getElementFieldViewFromType(fieldDescriptions, {
+    const fieldView = getElementFieldViewFromType(fieldDescription, {
       node: nestedNode,
       view,
       getPos,
@@ -297,7 +300,7 @@ const createField = <FDesc extends FieldDescriptions<string>>(
     });
 
     const field = ({
-      description: fieldDescriptions,
+      description: fieldDescription,
       name: fieldName,
       view: fieldView,
       // We coerce types here: it's difficult to prove we've the right shape here
@@ -310,7 +313,7 @@ const createField = <FDesc extends FieldDescriptions<string>>(
     } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
 
     if (field.description.type === repeaterFieldName) {
-      field.fields = createField(nestedNode, element, {
+      field.fields = createField(nestedNode, field.description.fields, {
         view,
         getPos,
         offset: innerOffset,

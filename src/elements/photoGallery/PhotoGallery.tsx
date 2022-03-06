@@ -8,5 +8,5 @@ export const photoGalleryElement = createReactElementSpec(
       caption: createTextField(),
     }),
   },
-  () => <div></div>
+  ({ fields, fieldValues }) => <div>{JSON.stringify(fieldValues)}</div>
 );

@@ -1,3 +1,4 @@
+import { descriptionId } from "@guardian/src-foundations/dist/types/accessibility";
 import type { Schema } from "prosemirror-model";
 import type { Validator } from "../elementSpec";
 import type {
@@ -38,16 +39,7 @@ export type FieldDescription =
   | CheckboxFieldDescription
   | CustomFieldDescription
   | DropdownFieldDescription
-  | RepeaterFieldDescription<
-      Record<
-        string,
-        | TextFieldDescription
-        | RichTextFieldDescription
-        | CheckboxFieldDescription
-        | CustomFieldDescription
-        | DropdownFieldDescription
-      >
-    >;
+  | RepeaterFieldDescription<Record<string, FieldDescription>>;
 
 export type FieldDescriptions<Names extends string> = Record<
   Names,
@@ -83,6 +75,15 @@ export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
   name: string;
   fields: FieldNameToField<FDesc>;
 }
+
+export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(
+  field: Field<unknown> | RepeaterField<FDesc>
+): field is RepeaterField<FDesc> => {
+  if (field.description.type === "repeater") {
+    return true;
+  }
+  return false;
+};
 
 export interface CustomField<Data = unknown, Props = unknown>
   extends Field<CustomFieldView<Data>> {
