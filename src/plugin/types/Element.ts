@@ -73,7 +73,7 @@ export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
   view: RepeaterFieldView;
   description: RepeaterFieldDescription<FDesc>;
   name: string;
-  fields: FieldNameToField<FDesc>;
+  children: Array<FieldNameToField<FDesc>>;
 }
 
 export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(

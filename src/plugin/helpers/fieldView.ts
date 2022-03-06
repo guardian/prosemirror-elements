@@ -161,7 +161,7 @@ export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
     if (isRepeaterField(field)) {
       console.log({ nestedNode });
       const repeaterValues = [];
-      repeaterValues.push(getFieldValuesFromNode(field.fields, nestedNode));
+      repeaterValues.push(getFieldValuesFromNode(field.children, nestedNode));
       fieldValues[fieldName] = repeaterValues;
     } else if (!(field.view instanceof RepeaterFieldView)) {
       fieldValues[fieldName] = field.view.getNodeValue(nestedNode);
