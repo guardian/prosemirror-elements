@@ -84,20 +84,6 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     }
   }
 
-  public getNodeValue(node: Node) {
-    const dom = this.serialiser.serializeFragment(node.content);
-    const e = document.createElement("div");
-    e.appendChild(dom);
-    return e.innerHTML;
-  }
-
-  public getNodeFromValue(htmlContent: string) {
-    const element = document.createElement("div");
-    element.innerHTML = htmlContent;
-    const content = this.parser.parse(element);
-    return this.node.type.create({ type: this.fieldName }, content);
-  }
-
   public onUpdate(
     node: Node,
     elementOffset: number,
@@ -348,5 +334,12 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     this.innerEditorView.destroy();
     this.innerEditorView = undefined;
     this.fieldViewElement.textContent = "";
+  }
+
+  private getNodeFromValue(htmlContent: string) {
+    const element = document.createElement("div");
+    element.innerHTML = htmlContent;
+    const content = this.parser.parse(element);
+    return this.node.type.create({ type: this.fieldName }, content);
   }
 }

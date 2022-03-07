@@ -63,14 +63,6 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
     protected offset: number
   ) {}
 
-  public getNodeValue(node: Node): Value {
-    return node.attrs.fields as Value;
-  }
-
-  public getNodeFromValue(fields: Value): Node {
-    return this.node.type.create({ fields });
-  }
-
   /**
    * @returns A function that can be called to update the node fields.
    */
