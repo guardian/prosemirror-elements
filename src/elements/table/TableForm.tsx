@@ -4,7 +4,6 @@ import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { unescapeHtml } from "../helpers/html";
 import type { tableFields } from "./TableSpec";
 
 type Props = {
@@ -22,7 +21,7 @@ export const TableForm: React.FunctionComponent<Props> = ({
     <FieldLayoutVertical>
       <div
         dangerouslySetInnerHTML={{
-          __html: unescapeHtml(fieldValues.html),
+          __html: fieldValues.html,
         }}
       />
       <CustomDropdownView
