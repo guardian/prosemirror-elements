@@ -4,10 +4,7 @@ import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import { createElementSpec } from "../elementSpec";
 import { ProseMirrorFieldView } from "../fieldViews/ProseMirrorFieldView";
-import {
-  createDefaultRichTextField,
-  createRichTextField,
-} from "../fieldViews/RichTextFieldView";
+import { createDefaultRichTextField } from "../fieldViews/RichTextFieldView";
 import { createTextField } from "../fieldViews/TextFieldView";
 import type { FieldNameToValueMapWithEmptyValues } from "../helpers/fieldView";
 import { createEditorWithElements } from "../helpers/test";
