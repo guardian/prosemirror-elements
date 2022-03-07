@@ -11,6 +11,7 @@ export { createImageElement } from "./elements/image/ImageElement";
 export { createStandardElement } from "./elements/standard/StandardSpec";
 export { richlinkElement } from "./elements/rich-link/RichlinkSpec";
 export { createInteractiveElement } from "./elements/interactive/InteractiveSpec";
+export { tableElement } from "./elements/table/TableSpec";
 export {
   transformElementIn,
   transformElementOut,
