@@ -1,11 +1,13 @@
 import OrderedMap from "orderedmap";
 import type { NodeSpec, ResolvedPos, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
+import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import {
   createElementDataValidator,
   createGetElementDataFromNode,
   createGetNodeFromElementData,
 } from "./helpers/element";
+import type { Predicate } from "./helpers/prosemirror";
 import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
 import { getNodeSpecFromFieldDescriptions } from "./nodeSpec";
 import { createPlugin } from "./plugin";
@@ -29,6 +31,12 @@ const findValidInsertPosition = ($pos: ResolvedPos): number | undefined => {
   }
 };
 
+export type BuildElementPluginOptions = {
+  groupName: string;
+  predicate: Predicate;
+  sendTelemetryEvent: SendTelemetryEvent;
+};
+
 /**
  * Build an element plugin with the given element specs, along with the schema required
  * by those elements, and a method to insert elements into the document.
@@ -39,12 +47,18 @@ export const buildElementPlugin = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementSpecs: ESpecMap,
-  groupName = "block",
-  predicate = defaultPredicate
+  options: Partial<BuildElementPluginOptions> | undefined = undefined
 ) => {
   const getNodeFromElementData = createGetNodeFromElementData(elementSpecs);
   const getElementDataFromNode = createGetElementDataFromNode(elementSpecs);
   const validateElementData = createElementDataValidator(elementSpecs);
+
+  const { groupName, predicate, sendTelemetryEvent } = {
+    groupName: "block",
+    predicate: defaultPredicate,
+    sendTelemetryEvent: undefined,
+    ...options,
+  };
 
   const insertElement = (
     elementData: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>
@@ -69,7 +83,10 @@ export const buildElementPlugin = <
     }
   };
 
-  const plugin = createPlugin(elementSpecs, buildCommands(predicate));
+  const plugin = createPlugin(
+    elementSpecs,
+    buildCommands(predicate, sendTelemetryEvent)
+  );
   let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});
   for (const elementName in elementSpecs) {
     nodeSpec = nodeSpec.append(

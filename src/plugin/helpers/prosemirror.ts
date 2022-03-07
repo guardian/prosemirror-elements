@@ -4,6 +4,8 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { AllSelection, NodeSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
+import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
+import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEvents";
 
 type NodesBetweenArgs = [Node, number, Node, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -27,7 +29,7 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   return arr;
 };
 
-type Predicate = (
+export type Predicate = (
   node: Node,
   pos: number,
   parent: Node,
@@ -84,7 +86,10 @@ const nextPosFinder = (consumerPredicate: Predicate) => (
   }
 };
 
-const moveNode = (consumerPredicate: Predicate) => (
+const moveNode = (
+  consumerPredicate: Predicate,
+  sendTelemetryEvent: () => void
+) => (
   getPos: () => number | undefined,
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false,
@@ -104,6 +109,8 @@ const moveNode = (consumerPredicate: Predicate) => (
   if (!dispatch) {
     return true;
   }
+
+  sendTelemetryEvent();
 
   const { node } = state.doc.childAfter(pos);
   const to = node ? pos + node.nodeSize : pos;
@@ -126,40 +133,82 @@ const moveNode = (consumerPredicate: Predicate) => (
   return true;
 };
 
-const moveNodeUp = (predicate: Predicate) => (
-  getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "up");
+const moveNodeUp = (
+  predicate: Predicate,
+  sendTelemetryEvent: SendTelemetryEvent
+) => (getPos: () => number | undefined) => (view: EditorView, run = true) => {
+  const sendEvent = () =>
+    sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed);
+  return moveNode(predicate, sendEvent)(
+    getPos,
+    view.state,
+    run && view.dispatch,
+    "up"
+  );
+};
 
-const moveNodeDown = (predicate: Predicate) => (
-  getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "down");
+const moveNodeDown = (
+  predicate: Predicate,
+  sendTelemetryEvent: SendTelemetryEvent
+) => (getPos: () => number | undefined) => (view: EditorView, run = true) => {
+  const sendEvent = () =>
+    sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed);
+  return moveNode(predicate, sendEvent)(
+    getPos,
+    view.state,
+    run && view.dispatch,
+    "down"
+  );
+};
 
-const moveNodeTop = (predicate: Predicate) => (
-  getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "top");
+const moveNodeTop = (
+  predicate: Predicate,
+  sendTelemetryEvent: SendTelemetryEvent
+) => (getPos: () => number | undefined) => (view: EditorView, run = true) => {
+  const sendEvent = () =>
+    sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed);
+  return moveNode(predicate, sendEvent)(
+    getPos,
+    view.state,
+    run && view.dispatch,
+    "top"
+  );
+};
 
-const moveNodeBottom = (predicate: Predicate) => (
-  getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "bottom");
+const moveNodeBottom = (
+  predicate: Predicate,
+  sendTelemetryEvent: SendTelemetryEvent
+) => (getPos: () => number | undefined) => (view: EditorView, run = true) => {
+  const sendEvent = () =>
+    sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed);
+  return moveNode(predicate, sendEvent)(
+    getPos,
+    view.state,
+    run && view.dispatch,
+    "bottom"
+  );
+};
 
-const buildMoveCommands = (predicate: Predicate) => (
-  getPos: () => number | undefined,
-  view: EditorView
-) => ({
-  moveUp: (run = true) => moveNodeUp(predicate)(getPos)(view, run),
-  moveDown: (run = true) => moveNodeDown(predicate)(getPos)(view, run),
-  moveTop: (run = true) => moveNodeTop(predicate)(getPos)(view, run),
-  moveBottom: (run = true) => moveNodeBottom(predicate)(getPos)(view, run),
+const buildMoveCommands = (
+  predicate: Predicate,
+  sendTelemetryEvent: SendTelemetryEvent
+) => (getPos: () => number | undefined, view: EditorView) => ({
+  moveUp: (run = true) =>
+    moveNodeUp(predicate, sendTelemetryEvent)(getPos)(view, run),
+  moveDown: (run = true) =>
+    moveNodeDown(predicate, sendTelemetryEvent)(getPos)(view, run),
+  moveTop: (run = true) =>
+    moveNodeTop(predicate, sendTelemetryEvent)(getPos)(view, run),
+  moveBottom: (run = true) =>
+    moveNodeBottom(predicate, sendTelemetryEvent)(getPos)(view, run),
 });
 
 /**
  * Remove a node. If the view is passed, focus the editor after removal.
  */
-const removeNode = (getPos: () => number | undefined) => (
+const removeNode = (sendTelemetryEvent: SendTelemetryEvent) => (
+  getPos: () => number | undefined
+) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false,
   view?: EditorView
@@ -167,6 +216,9 @@ const removeNode = (getPos: () => number | undefined) => (
   if (!dispatch) {
     return true;
   }
+
+  sendTelemetryEvent?.(CommandTelemetryType.PMERemoveButtonPressed);
+
   const pos = getPos();
   if (pos === undefined) {
     return;
@@ -178,7 +230,9 @@ const removeNode = (getPos: () => number | undefined) => (
   view?.focus();
 };
 
-const selectNode = (getPos: () => number | undefined) => (
+const selectNode = (sendTelemetryEvent: SendTelemetryEvent) => (
+  getPos: () => number | undefined
+) => (
   state: EditorState,
   dispatch: ((tr: Transaction) => void) | false,
   view: EditorView
@@ -186,6 +240,9 @@ const selectNode = (getPos: () => number | undefined) => (
   if (!dispatch) {
     return true;
   }
+
+  sendTelemetryEvent?.(CommandTelemetryType.PMESelectButtonPressed);
+
   const pos = getPos();
   if (pos === undefined) {
     return;
@@ -196,15 +253,23 @@ const selectNode = (getPos: () => number | undefined) => (
   view.focus();
 };
 
-const buildCommands = (predicate: Predicate) => (
-  getPos: () => number | undefined,
-  view: EditorView
-) => ({
-  ...buildMoveCommands(predicate)(getPos, view),
+const buildCommands = (
+  predicate: Predicate,
+  sendTelemetryEvent: SendTelemetryEvent
+) => (getPos: () => number | undefined, view: EditorView) => ({
+  ...buildMoveCommands(predicate, sendTelemetryEvent)(getPos, view),
   remove: (run = true) =>
-    removeNode(getPos)(view.state, run && view.dispatch, view),
+    removeNode(sendTelemetryEvent)(getPos)(
+      view.state,
+      run && view.dispatch,
+      view
+    ),
   select: (run = true) =>
-    selectNode(getPos)(view.state, run && view.dispatch, view),
+    selectNode(sendTelemetryEvent)(getPos)(
+      view.state,
+      run && view.dispatch,
+      view
+    ),
 });
 
 // this forces our view to update every time an edit is made by inserting

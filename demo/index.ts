@@ -1,4 +1,5 @@
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
+import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
@@ -97,34 +98,53 @@ const {
   additionalRoleOptions,
 });
 
+const telemetryEventService = new UserTelemetryEventSender("example.com");
+
 const {
   plugin: elementPlugin,
   insertElement,
   nodeSpec,
   getElementDataFromNode,
-} = buildElementPlugin({
-  "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
-  image: imageElement,
-  embed: createEmbedElement({
-    checkThirdPartyTracking: mockThirdPartyTracking,
-    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
-    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
-    createCaptionPlugins,
-    targetingUrl: "https://targeting.code.dev-gutools.co.uk",
-  }),
-  interactive: createInteractiveElement({
-    checkThirdPartyTracking: mockThirdPartyTracking,
-    createCaptionPlugins,
-  }),
-  code: codeElement,
-  pullquote: pullquoteElement,
-  "rich-link": richlinkElement,
-  video: createVideoElement({
-    createCaptionPlugins,
-    checkThirdPartyTracking: mockThirdPartyTracking,
-  }),
-  membership: membershipElement,
-});
+} = buildElementPlugin(
+  {
+    "demo-image-element": createDemoImageElement(
+      onSelectImage,
+      onDemoCropImage
+    ),
+    image: imageElement,
+    embed: createEmbedElement({
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      convertTwitter: (src) =>
+        console.log(`Add Twitter embed with src: ${src}`),
+      convertYouTube: (src) =>
+        console.log(`Add youtube embed with src: ${src}`),
+      createCaptionPlugins,
+      targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+    }),
+    interactive: createInteractiveElement({
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      createCaptionPlugins,
+    }),
+    code: codeElement,
+    pullquote: pullquoteElement,
+    "rich-link": richlinkElement,
+    video: createVideoElement({
+      createCaptionPlugins,
+      checkThirdPartyTracking: mockThirdPartyTracking,
+    }),
+    membership: membershipElement,
+  },
+  {
+    sendTelemetryEvent: (type: string) =>
+      telemetryEventService.addEvent({
+        app: "ProseMirrorElements",
+        stage: "TEST",
+        eventTime: new Date().toISOString(),
+        type,
+        value: true,
+      }),
+  }
+);
 
 const strike: MarkSpec = {
   parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
