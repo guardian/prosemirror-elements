@@ -46,14 +46,4 @@ export abstract class FieldView<NodeValue> {
    * Destroy this fieldView, cleaning up any resources it has instantiated.
    */
   public abstract destroy(): void;
-
-  /**
-   * Get the value from a given node that's represented by this fieldView.
-   */
-  public abstract getNodeValue(node: Node): NodeValue;
-
-  /**
-   * Create a node for this fieldView with the given value.
-   */
-  public abstract getNodeFromValue(data: NodeValue): Node;
 }

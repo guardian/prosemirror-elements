@@ -175,8 +175,4 @@ export class TextFieldView extends ProseMirrorFieldView {
 
     this.fieldViewElement.classList.add("ProseMirrorElements__TextField");
   }
-
-  public getNodeValue(node: Node) {
-    return node.textContent;
-  }
 }

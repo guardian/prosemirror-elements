@@ -28,14 +28,6 @@ export abstract class AttributeFieldView<Value extends unknown>
     this.nodeType = node.type;
   }
 
-  public getNodeValue(node: Node): Value {
-    return node.attrs.fields as Value;
-  }
-
-  public getNodeFromValue(fields: Value): Node {
-    return this.nodeType.create({ fields });
-  }
-
   // Classes extending AttributeFieldView should call e.g. this.createInnerView(node.attrs.fields || defaultFields)
   // in their constructor
   protected abstract createInnerView(fields: Value): void;
