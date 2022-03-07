@@ -4,28 +4,19 @@ import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import { createElementSpec } from "../elementSpec";
 import { ProseMirrorFieldView } from "../fieldViews/ProseMirrorFieldView";
+import {
+  createDefaultRichTextField,
+  createRichTextField,
+} from "../fieldViews/RichTextFieldView";
 import { createTextField } from "../fieldViews/TextFieldView";
+import type { FieldNameToValueMapWithEmptyValues } from "../helpers/fieldView";
 import { createEditorWithElements } from "../helpers/test";
 import { elementSelectedNodeAttr } from "../nodeSpec";
+import type { FieldDescriptions } from "../types/Element";
 
 describe("createPlugin", () => {
   // Called when our consumer is updated by the plugin.
   const consumerRenderSpy = jest.fn();
-
-  const testElement = createElementSpec(
-    { field1: createTextField() },
-    (
-      _validate,
-      _dom,
-      _fields,
-      _updateFields,
-      _fieldValues,
-      _commands,
-      subscribe
-    ) => subscribe(consumerRenderSpy),
-    () => undefined,
-    () => undefined
-  );
 
   // Called when our fieldView is updated by the plugin.
   let fieldViewRenderSpy: jest.SpyInstance<unknown>;
@@ -42,7 +33,48 @@ describe("createPlugin", () => {
     consumerRenderSpy.mockReset();
   });
 
-  const createEditorWithSingleElementPresent = (plugins: Plugin[] = []) => {
+  type CreateEditorOptions<FDesc extends FieldDescriptions<string>> = {
+    plugins: Plugin[];
+    element: FDesc;
+    initialData: FieldNameToValueMapWithEmptyValues<FDesc>;
+  };
+
+  const defaultEditorOptions = {
+    plugins: [],
+    element: {
+      textField: createTextField(),
+    },
+    initialData: {
+      textField: "Example content",
+    },
+  };
+
+  const createEditorWithSingleElementPresent = <
+    FDesc extends FieldDescriptions<string>
+  >({
+    plugins,
+    element,
+    initialData,
+  }: CreateEditorOptions<FDesc>) => {
+    const testElement = createElementSpec(
+      element,
+      (
+        _validate,
+        _dom,
+        _fields,
+        _updateFields,
+        fieldValues,
+        commands,
+        subscribe
+      ) => {
+        // We call our spy once for the initial render, and then subscribe for update.
+        consumerRenderSpy(fieldValues, commands, false);
+        subscribe(consumerRenderSpy);
+      },
+      () => undefined,
+      () => undefined
+    );
+
     const helpers = createEditorWithElements(
       {
         testElement,
@@ -56,15 +88,18 @@ describe("createPlugin", () => {
 
     helpers.insertElement({
       elementName: "testElement",
-      values: { field1: "Element content" },
+      values: initialData,
     })(helpers.view.state, helpers.view.dispatch);
 
     return { ...helpers, exampleText };
   };
 
+  const createDefaultEditor = () =>
+    createEditorWithSingleElementPresent(defaultEditorOptions);
+
   describe("Response to content changes", () => {
     it("should not update consumers or fieldViews when the element content has not changed", () => {
-      const { view, exampleText } = createEditorWithSingleElementPresent();
+      const { view, exampleText } = createDefaultEditor();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
@@ -86,7 +121,7 @@ describe("createPlugin", () => {
     });
 
     it("should call the consumer and FieldView when the element content has changed", () => {
-      const { view, exampleText } = createEditorWithSingleElementPresent();
+      const { view, exampleText } = createDefaultEditor();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
@@ -109,7 +144,7 @@ describe("createPlugin", () => {
     });
 
     it("should provide the consumer with new field values when element content has changed", () => {
-      const { view, exampleText } = createEditorWithSingleElementPresent();
+      const { view, exampleText } = createDefaultEditor();
 
       // This edit covers the whole of the element field, replacing its content
       const positionInsideElement = 2;
@@ -122,7 +157,28 @@ describe("createPlugin", () => {
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access -- waive type for mock
       const newFieldValues = consumerRenderSpy.mock.calls.pop()[0];
-      expect(newFieldValues).toEqual({ field1: "New content" });
+      expect(newFieldValues).toEqual({ textField: "New content" });
+    });
+
+    it("should only escape rich text content", () => {
+      createEditorWithSingleElementPresent({
+        plugins: [],
+        element: {
+          textField: createTextField(),
+          richTextField: createDefaultRichTextField(),
+        },
+        initialData: {
+          textField: "<>",
+          richTextField: "<>",
+        },
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access -- waive type for mock
+      const newFieldValues = consumerRenderSpy.mock.calls.pop()[0];
+      expect(newFieldValues).toEqual({
+        textField: "<>",
+        richTextField: "<p>&lt;&gt;</p>",
+      });
     });
   });
 
@@ -135,7 +191,10 @@ describe("createPlugin", () => {
           decorations: () => decos,
         },
       });
-      const { view } = createEditorWithSingleElementPresent([decoPlugin]);
+      const { view } = createEditorWithSingleElementPresent({
+        ...defaultEditorOptions,
+        plugins: [decoPlugin],
+      });
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
@@ -170,7 +229,10 @@ describe("createPlugin", () => {
           },
         },
       });
-      const { view } = createEditorWithSingleElementPresent([decoPlugin]);
+      const { view } = createEditorWithSingleElementPresent({
+        ...defaultEditorOptions,
+        plugins: [decoPlugin],
+      });
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
@@ -206,7 +268,10 @@ describe("createPlugin", () => {
         },
       });
 
-      const { view } = createEditorWithSingleElementPresent([decoPlugin]);
+      const { view } = createEditorWithSingleElementPresent({
+        ...defaultEditorOptions,
+        plugins: [decoPlugin],
+      });
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
@@ -228,7 +293,7 @@ describe("createPlugin", () => {
 
   describe("Response to command changes", () => {
     it("should update the consumer when the command output changes", () => {
-      const { view } = createEditorWithSingleElementPresent();
+      const { view } = createDefaultEditor();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
@@ -269,7 +334,7 @@ describe("createPlugin", () => {
 
     describe("when selection does not affect element", () => {
       it("should not update the consumer", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
         applyNoopSelection(view);
@@ -280,7 +345,7 @@ describe("createPlugin", () => {
       });
 
       it("should not update the fieldView", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         const initialFieldViewUpdateCount =
           fieldViewRenderSpy.mock.calls.length;
@@ -293,7 +358,7 @@ describe("createPlugin", () => {
       });
 
       it("should not update the element node", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         applyNoopSelection(view);
 
@@ -305,7 +370,7 @@ describe("createPlugin", () => {
 
     describe("when selection includes element", () => {
       it("should update the consumer", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
         applyWholeDocSelection(view);
@@ -316,7 +381,7 @@ describe("createPlugin", () => {
       });
 
       it("should not update the fieldView", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         const initialFieldViewUpdateCount =
           fieldViewRenderSpy.mock.calls.length;
@@ -329,7 +394,7 @@ describe("createPlugin", () => {
       });
 
       it("should update the element node", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         applyWholeDocSelection(view);
 
@@ -341,7 +406,7 @@ describe("createPlugin", () => {
 
     describe("when selection no longer includes element", () => {
       it("should update the consumer", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         applyWholeDocSelection(view);
 
@@ -355,7 +420,7 @@ describe("createPlugin", () => {
       });
 
       it("should not update the fieldView", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         applyWholeDocSelection(view);
 
@@ -370,7 +435,7 @@ describe("createPlugin", () => {
       });
 
       it("should update the element node", () => {
-        const { view } = createEditorWithSingleElementPresent();
+        const { view } = createDefaultEditor();
 
         applyWholeDocSelection(view);
         applyNoopSelection(view);
