@@ -4,6 +4,7 @@ import {
   createStandardElement,
   membershipElement,
   richlinkElement,
+  tableElement,
 } from "../../..";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
@@ -29,6 +30,7 @@ describe("Element fixtures", () => {
     audio: standardElement,
     map: standardElement,
     document: standardElement,
+    table: tableElement,
   } as const;
 
   const {

@@ -3,6 +3,7 @@ import document from "./document.json";
 import map from "./map.json";
 import membership from "./membership.json";
 import richLink from "./rich-link.json";
+import table from "./table.json";
 
 /**
  * A map of our element fixtures, where the key represents the element name that
@@ -14,4 +15,5 @@ export const allElementFixtures = {
   audio,
   map,
   document,
+  table,
 };
