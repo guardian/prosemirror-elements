@@ -39,6 +39,20 @@ import {
   onSelectImage,
   sideEffectPlugin,
 } from "./helpers";
+import {
+  sampleAudio,
+  sampleCallout,
+  sampleCode,
+  sampleDocument,
+  sampleEmbed,
+  sampleImage,
+  sampleInteractive,
+  sampleMap,
+  sampleMembership,
+  samplePullquote,
+  sampleRichLink,
+  sampleVideo,
+} from "./sampleElements";
 import type { WindowType } from "./types";
 
 // Only show focus when the user is keyboard navigating, not when
@@ -265,7 +279,7 @@ const createEditor = (server: CollabServer) => {
     values: Record<string, unknown>
   ) => {
     const elementButton = document.createElement("button");
-    elementButton.innerHTML = buttonText;
+    elementButton.innerHTML = `Add ${buttonText}`;
     elementButton.id = elementName;
     elementButton.addEventListener("click", () =>
       insertElement({ elementName, values })(view.state, view.dispatch)
@@ -273,133 +287,35 @@ const createEditor = (server: CollabServer) => {
     btnContainer.appendChild(elementButton);
   };
 
-  createElementButton("Interactive element", interactiveElementName, {
-    iframeUrl:
-      "https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4",
-    scriptName: "iframe-wrapper",
-    source: "Guardian",
-    isMandatory: "false",
-    originalUrl:
-      "https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4",
-    scriptUrl:
-      "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
-    alt: "Hostomel airbase",
-    html: `<a href="https://interactive.guim.co.uk/embed/from-tool/looping-video/index.html?poster-image=https%3A%2F%2Fmedia.gutools.co.uk%2Fimages%2F6abeae73a94789a596acb1146d5df554695536ba%3Fcrop%3D60_0_1800_1080&mp4-video=https%3A%2F%2Fuploads.guim.co.uk%2F2022%2F02%2F24%2F220224_Helicopters_3.mp4">Hostomel airbase</a>`,
-  });
+  const buttonData = [
+    { label: "Embed", name: embedElementName, values: sampleEmbed },
+    { label: "Callout", name: embedElementName, values: sampleCallout },
+    { label: "Demo image", name: demoImageElementName, values: sampleImage },
+    { label: "Rich-link", name: richlinkElementName, values: sampleRichLink },
+    { label: "Video", name: videoElementName, values: sampleVideo },
+    { label: "Audio", name: audioElementName, values: sampleAudio },
+    { label: "Map", name: mapElementName, values: sampleMap },
+    { label: "Document", name: documentElementName, values: sampleDocument },
+    { label: "Audio", name: audioElementName, values: sampleAudio },
+    { label: "Map", name: mapElementName, values: sampleMap },
+    { label: "Document", name: documentElementName, values: sampleDocument },
+    {
+      label: "Membership",
+      name: membershipElementName,
+      values: sampleMembership,
+    },
+    {
+      label: "Interactive",
+      name: interactiveElementName,
+      values: sampleInteractive,
+    },
+    { label: "Pullquote", name: pullquoteElementName, values: samplePullquote },
+    { label: "Code", name: codeElementName, values: sampleCode },
+  ] as const;
 
-  createElementButton("Embed element", embedElementName, {
-    weighting: "",
-    sourceUrl: "",
-    embedCode: "",
-    caption: "",
-    altText: "",
-    required: false,
-  });
-
-  createElementButton("Callout element", embedElementName, {
-    altText: "",
-    caption: "",
-    html:
-      '<div data-callout-tagname="test-form-six"><h2>Callout<h2><p>test-form-six</p></div>',
-  });
-
-  createElementButton("Demo image element", demoImageElementName, {
-    altText: "",
-    caption: "",
-    useSrc: { value: false },
-  });
-
-  createElementButton("Rich-link element", richlinkElementName, {
-    linkText: "example2",
-    url: "https://example.com",
-    weighting: "",
-    draftReference: "",
-  });
-
-  createElementButton("Video element", videoElementName, {
-    source: "YouTube",
-    isMandatory: "false",
-    role: "showcase",
-    url: "https://www.youtube.com/watch?v=BggrpKfqh1c",
-    description: "This ain't real Latin",
-    originalUrl: "https://www.youtube.com/watch?v=BggrpKfqh1c",
-    height: "259",
-    title: "Lorem Ipsum",
-    html:
-      '\n            <iframe\n                height="259"\n                width="460"\n                src="https://www.youtube.com/embed/jUghnM2qy9M?wmode=opaque&feature=oembed"\n                frameborder="0"\n                allowfullscreen\n            ></iframe>\n        ',
-    width: "460",
-    authorName: "Lorem Ipsum",
-  });
-
-  createElementButton("Audio element", audioElementName, {
-    source: "SoundCloud",
-    isMandatory: "false",
-    description: `Brighton born and raised ArrDee has exploded onto the scene with his unique flow; venting the real relatable issues wrapped up in his signature "cheeky chappy" sound. Now amassing half a million views`,
-    originalUrl: "https://soundcloud.com/arrdee-music/oliver-twist",
-    height: "460",
-    title: "Oliver Twist by ArrDee",
-    html: `
-            <iframe
-                height="460"
-                width="460"
-                src="https://w.soundcloud.com/player/?visual=true&url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1056911326&show_artwork=true"
-                frameborder="0"
-                allowfullscreen
-            ></iframe>
-        `,
-    width: "460",
-    authorName: "ArrDee",
-  });
-
-  createElementButton("Map element", mapElementName, {
-    source: "Google Maps",
-    description:
-      "Find local businesses, view maps and get driving directions in Google Maps",
-    originalUrl:
-      "https://maps.google.com/maps?q=Cumbria,+United+Kingdom&hl=en&ll=54.27164,-3.032227&spn=5.930277,9.63501&sll=52.589701,-2.746582&sspn=6.169247,9.63501&oq=cumbria&hnear=Cumbria,+United+Kingdom&t=m&z=7",
-    height: "379",
-    title: "Cumbria, United Kingdom - Google Maps",
-    html: `<iframe width="460" height="379" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Cumbria,+United+Kingdom&hl=en&ll=54.27164,-3.032227&spn=5.930277,9.63501&sll=52.589701,-2.746582&sspn=6.169247,9.63501&oq=cumbria&hnear=Cumbria,+United+Kingdom&t=m&z=7&output=embed"></iframe>`,
-    width: "460",
-  });
-
-  createElementButton("Document element", mapElementName, {
-    source: "Google Docs",
-    isMandatory: "false",
-    description:
-      "Create a new document and edit with others at the same time -- from your computer, phone or tablet. Get stuff done with or without an internet connection. Use Docs to edit Word files. Free from Google.",
-    originalUrl:
-      "https://docs.google.com/document/d/1OlZIz-72A2xI2uUOFE07L5ObQGP4JDcXZ2vdIs2P9BQ/edit?usp=sharing",
-    height: "348",
-    title: "Google Docs - create and edit documents online, for free.",
-    html: `
-                <iframe
-                    height="348"
-                    width="460"
-                    src="https://docs.google.com/document/d/1OlZIz-72A2xI2uUOFE07L5ObQGP4JDcXZ2vdIs2P9BQ/edit?usp=sharing"
-                    frameborder="0"
-                    allowfullscreen
-                ></iframe>
-            `,
-    width: "460",
-  });
-
-  createElementButton("Add membership element", membershipElementName, {
-    linkText:
-      "Feminism in China: #MeToo, silenced women and the fight for equality",
-    isMandatory: "true",
-    identifier: "guardian-live",
-    image:
-      "https://media.guim.co.uk/c76308f105b589a7f8d6003231c6017e134be36e/0_0_1280_768/500.jpg",
-    originalUrl:
-      "https://membership.theguardian.com/event/feminism-in-china-metoo-silenced-women-and-the-fight-for-equality-226877896897",
-    price: "£7",
-    linkPrefix: "Membership Event: ",
-    end: "2022-03-02T21:00:00.000Z",
-    title:
-      "Feminism in China: #MeToo, silenced women and the fight for equality",
-    start: "2022-03-02T20:00:00.000Z",
-  });
+  buttonData.map(({ label, name, values }) =>
+    createElementButton(label, name, values)
+  );
 
   const imageElementButton = document.createElement("button");
   imageElementButton.innerHTML = "Image element";
@@ -439,17 +355,6 @@ const createEditor = (server: CollabServer) => {
     );
   });
   btnContainer.appendChild(toggleImageFields);
-
-  createElementButton("Pullquote element", pullquoteElementName, {
-    pullquote: "",
-    attribution: "",
-    weighting: "supporting",
-  });
-
-  createElementButton("Code element", codeElementName, {
-    codeText: "",
-    language: "Plain text",
-  });
 
   new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
     if (isFirstEditor) {
