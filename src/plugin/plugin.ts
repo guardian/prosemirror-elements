@@ -1,3 +1,4 @@
+import { DOMSerializer } from "prosemirror-model";
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
 import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
@@ -188,7 +189,8 @@ const createNodeView = <
     } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
   });
 
-  const initValues = getFieldValuesFromNode(fields, initNode);
+  const serializer = DOMSerializer.fromSchema(initNode.type.schema);
+  const initValues = getFieldValuesFromNode(fields, initNode, serializer);
   const initCommands = commands(getPos, view);
 
   // Because nodes and decorations are immutable in ProseMirror, we can compare
@@ -246,7 +248,7 @@ const createNodeView = <
 
         // Only recalculate our field values if our node content has changed.
         const newFieldValues = fieldValuesChanged
-          ? getFieldValuesFromNode(fields, newNode)
+          ? getFieldValuesFromNode(fields, newNode, serializer)
           : currentValues;
 
         // Only update our FieldViews if their content or decorations have changed.

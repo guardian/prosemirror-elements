@@ -104,7 +104,7 @@ export const createGetElementDataFromNode = <
       node
     ) as keyof FieldNameToField<FDesc>;
     const fieldDescription = element.fieldDescriptions[fieldName];
-    const value = getValuesFromNode(node, fieldDescription, serializer);
+    const value = getFieldValueFromNode(node, fieldDescription, serializer);
 
     if (
       (fieldDescription.type === "richText" ||
@@ -124,7 +124,7 @@ export const createGetElementDataFromNode = <
   } as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
 };
 
-const getValuesFromNode = (
+export const getFieldValueFromNode = (
   node: Node,
   fieldDescription: FieldDescription,
   serializer: DOMSerializer

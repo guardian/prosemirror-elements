@@ -1,4 +1,4 @@
-import type { Node } from "prosemirror-model";
+import type { DOMSerializer, Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
@@ -13,6 +13,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
+import { getFieldValueFromNode } from "./element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -126,7 +127,8 @@ export const getElementFieldViewFromType = (
 
 export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
   fields: FieldNameToField<FDesc>,
-  node: Node
+  node: Node,
+  serializer: DOMSerializer
 ) => {
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -138,7 +140,12 @@ export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
       node
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    fieldValues[fieldName] = field.view.getNodeValue(node);
+
+    fieldValues[fieldName] = getFieldValueFromNode(
+      node,
+      field.description,
+      serializer
+    );
   });
 
   return fieldValues as FieldNameToValueMap<FDesc>;
