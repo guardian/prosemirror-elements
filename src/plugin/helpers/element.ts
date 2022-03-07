@@ -22,6 +22,17 @@ import type {
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
 
+export type GetNodeFromElementData = (
+  {
+    elementName,
+    values,
+  }: {
+    elementName: string;
+    values: unknown;
+  },
+  schema: Schema
+) => Node<Schema> | undefined;
+
 /**
  * Creates a function that will attempt to create a Prosemirror node from
  * the given element data. If it does not recognise the element type,
@@ -33,16 +44,7 @@ export const createGetNodeFromElementData = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
-) => (
-  {
-    elementName,
-    values,
-  }: {
-    elementName: string;
-    values: unknown;
-  },
-  schema: Schema
-) => {
+): GetNodeFromElementData => ({ elementName, values }, schema) => {
   const element = elementTypeMap[elementName as keyof ESpecMap];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
@@ -66,11 +68,13 @@ export const createGetNodeFromElementData = <
     nodeName
   );
 
-  return schema.nodes[nodeName].createAndFill(
-    {
-      type: nodeName,
-    },
-    nodes
+  return (
+    schema.nodes[nodeName].createAndFill(
+      {
+        type: nodeName,
+      },
+      nodes
+    ) ?? undefined
   );
 };
 

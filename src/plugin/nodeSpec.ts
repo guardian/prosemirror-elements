@@ -233,28 +233,53 @@ export const createNodesForFieldValues = <
   );
 
   return orderedFieldNames.map((fieldName) => {
-    const field = fieldDescriptions[fieldName];
-    const fieldView = fieldTypeToViewMap[field.type];
-    const nodeType = schema.nodes[getNodeNameFromField(fieldName, nodeName)];
-    const fieldValue =
-      fieldValues[fieldName] ?? // The value supplied when the element is inserted
-      fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
-      fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
+    const fieldDescription = fieldDescriptions[fieldName];
+    const fieldValue = fieldValues[fieldName];
 
-    if (fieldView.fieldType === "CONTENT") {
-      const content = fieldValue as string;
-
-      return field.type === "richText"
-        ? createContentNodeFromRichText(
-            schema,
-            content,
-            nodeType.create({ type: field.type })
-          )
-        : createContentNodeFromText(content, field, nodeType);
-    } else {
-      return nodeType.create({ type: field.type, fields: fieldValue });
-    }
+    return fieldValueToNode(
+      schema,
+      nodeName,
+      fieldName,
+      fieldDescription,
+      fieldValue
+    );
   });
+};
+
+const fieldValueToNode = <S extends Schema>(
+  schema: S,
+  nodeName: string,
+  fieldName: string,
+  fieldDescription: FieldDescription,
+  fieldValue: unknown
+) => {
+  const nodeType = schema.nodes[getNodeNameFromField(fieldName, nodeName)];
+
+  const resolvedFieldValue = (fieldValue ?? // The value supplied when the element is inserted
+    fieldDescription.defaultValue ?? // The default value supplied by the element field spec
+    fieldTypeToViewMap[fieldDescription.type].defaultValue) as string; // The default value supplied by the FieldView
+
+  if (
+    fieldDescription.type === "richText" ||
+    fieldDescription.type === "text"
+  ) {
+    return fieldDescription.type === "richText"
+      ? createContentNodeFromRichText(
+          schema,
+          resolvedFieldValue,
+          nodeType.create({ type: fieldDescription.type })
+        )
+      : createContentNodeFromText(
+          resolvedFieldValue,
+          fieldDescription,
+          nodeType
+        );
+  } else {
+    return nodeType.create({
+      type: fieldDescription.type,
+      fields: resolvedFieldValue,
+    });
+  }
 };
 
 const createContentNodeFromText = (
