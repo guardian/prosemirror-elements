@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
@@ -5,6 +6,10 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { tableFields } from "./TableSpec";
+
+const TableWrapper = styled.div`
+  white-space: initial;
+`;
 
 type Props = {
   fieldValues: FieldNameToValueMap<typeof tableFields>;
@@ -19,7 +24,7 @@ export const TableForm: React.FunctionComponent<Props> = ({
 }) => (
   <div>
     <FieldLayoutVertical>
-      <div
+      <TableWrapper
         dangerouslySetInnerHTML={{
           __html: fieldValues.html,
         }}
