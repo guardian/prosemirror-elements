@@ -14,7 +14,8 @@
     "build": "yarn tsc --build ./tsconfig-cjs.json && yarn tsc --build ./tsconfig-esm.json",
     "test:integration": "cypress open",
     "test:unit": "jest",
-    "ci": "yarn lint && yarn test:unit && (webpack serve & (wait-on http://localhost:7890 && cypress run))",
+    "ci:build": "yarn lint && yarn test:unit && yarn build",
+    "ci:integration": "webpack serve & (wait-on http://localhost:7890 && cypress run)",
     "postci": "kill $(lsof -t -i:7890)",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "yalc": "yarn build && yalc push"
