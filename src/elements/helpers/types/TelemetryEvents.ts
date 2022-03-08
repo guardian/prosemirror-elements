@@ -7,14 +7,6 @@ export enum CommandTelemetryType {
   PMESelectButtonPressed = "PME_SELECT_BUTTON_PRESSED",
 }
 
-export interface IProseMirrorElementCommandTelemetryEvent
-  extends IUserTelemetryEvent {
-  type: CommandTelemetryType;
-  tags: IUserTelemetryEvent["tags"] & {
-    jump: boolean;
-  };
-}
-
 export type SendTelemetryEvent =
   | undefined
   | ((type: string, tags?: IUserTelemetryEvent["tags"]) => void);
