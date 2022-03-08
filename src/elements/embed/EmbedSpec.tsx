@@ -7,7 +7,11 @@ import {
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
+import {
+  htmlMaxLength,
+  maxLength,
+  required,
+} from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { parseHtml } from "../helpers/html";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
@@ -54,7 +58,7 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
       maxRows: 10,
       isResizeable: true,
       isMultiline: true,
-      validators: [htmlRequired(undefined, "WARN")],
+      validators: [required(undefined, "WARN")],
       placeholder: "Paste in the embed code…",
     }),
     caption: createFlatRichTextField({
@@ -66,7 +70,7 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
     alt: createTextField({
       rows: 2,
       isResizeable: true,
-      validators: [htmlMaxLength(1000), htmlRequired()],
+      validators: [maxLength(1000), required()],
       placeholder: "Enter some alt text…",
     }),
     isMandatory: createCustomField(true, true),
