@@ -135,13 +135,14 @@ const {
     membership: membershipElement,
   },
   {
-    sendTelemetryEvent: (type: string) =>
+    sendTelemetryEvent: (type: string, tags) =>
       telemetryEventService.addEvent({
         app: "ProseMirrorElements",
         stage: "TEST",
         eventTime: new Date().toISOString(),
         type,
         value: true,
+        tags,
       }),
   }
 );

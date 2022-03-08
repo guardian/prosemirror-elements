@@ -1,3 +1,4 @@
+import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { validateWithFieldAndElementValidators } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
@@ -59,7 +60,8 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   updateState: (fields: FieldNameToValueMap<FDesc>) => void,
   fieldValues: FieldNameToValueMap<FDesc>,
   commands: Commands,
-  subscribe: (fn: Subscriber<FDesc>) => void
+  subscribe: (fn: Subscriber<FDesc>) => void,
+  sendTelemetryEvent: SendTelemetryEvent | undefined
 ) => void;
 
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
@@ -76,7 +78,14 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   return {
     fieldDescriptions,
     validate,
-    createUpdator: (dom, fields, updateState, fieldValues, commands) => {
+    createUpdator: (
+      dom,
+      fields,
+      updateState,
+      fieldValues,
+      commands,
+      sendTelemetryEvent
+    ) => {
       const updater = createUpdater<FDesc>();
       render(
         validate,
@@ -85,7 +94,8 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
         (fields) => updateState(fields),
         fieldValues,
         commands,
-        updater.subscribe
+        updater.subscribe,
+        sendTelemetryEvent
       );
       return updater.update;
     },

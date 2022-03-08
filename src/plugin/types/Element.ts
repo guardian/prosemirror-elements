@@ -1,4 +1,5 @@
 import type { Schema } from "prosemirror-model";
+import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 import type { Validator } from "../elementSpec";
 import type {
   CheckboxFieldDescription,
@@ -85,7 +86,8 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     initFields: FieldNameToValueMap<FDesc>,
-    commands: ReturnType<CommandCreator>
+    commands: ReturnType<CommandCreator>,
+    sendTelemetryEvent: SendTelemetryEvent | undefined
   ) => (
     fields: FieldNameToValueMap<FDesc>,
     commands: ReturnType<CommandCreator>,
