@@ -52,6 +52,22 @@ jobs:
     needs: [build, integration-tests]
     if: github.ref == 'refs/heads/main' ||  github.ref == 'refs/heads/beta'
     steps:
+      - uses: actions/checkout@v3
+      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        id: nvm
+
+      - name: Use Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
       - name: Release
         uses: cycjimmy/semantic-release-action@5982a02995853159735cb838992248c4f0f16166
         with:
