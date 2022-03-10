@@ -63,6 +63,8 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   fieldValues,
   roleOptionsStore: RoleOptionsStore,
 }) => {
+  const sendTelemetryEvent = useContext(TelemetryContext);
+
   return (
     <div data-cy={ImageElementTestId}>
       <Columns>
@@ -128,7 +130,12 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                     priority="secondary"
                     size="xsmall"
                     iconSide="left"
-                    onClick={() => fields.alt.update(fieldValues.caption)}
+                    onClick={() => {
+                      sendTelemetryEvent?.(
+                        ImageElementTelemetryType.CopyFromCaptionButtonPressed
+                      );
+                      fields.alt.update(fieldValues.caption);
+                    }}
                   >
                     Copy from caption
                   </Button>
