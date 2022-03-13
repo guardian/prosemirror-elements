@@ -2,7 +2,7 @@ import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
 import type { FieldDescriptions } from "../types/Element";
 import type { BaseFieldDescription } from "./FieldView";
-import { FieldType } from "./FieldView";
+import { FieldType, FieldView } from "./FieldView";
 
 export const repeaterFieldName = "repeater" as const;
 
@@ -26,15 +26,19 @@ export interface RepeaterFieldDescription<
  *
  * Offers methods to add, remove, and move nodes.
  */
-export class RepeaterFieldView {
+export class RepeaterFieldView extends FieldView<unknown> {
   public static fieldName = repeaterFieldName;
   public static fieldType = FieldType.REPEATER;
+  public static defaultValue = undefined;
+  public fieldViewElement = undefined;
 
   public constructor(
     private node: Node,
     private elementOffset: number,
     private decorations: DecorationSet | Decoration[]
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * Called when the fieldView is updated from the parent editor.
@@ -57,5 +61,13 @@ export class RepeaterFieldView {
 
   public removeNode() {
     console.log("Remove a node!");
+  }
+
+  public update() {
+    throw new Error("Cannot update a repeater view directly");
+  }
+
+  public destroy() {
+    // No-op
   }
 }

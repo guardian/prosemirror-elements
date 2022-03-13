@@ -6,7 +6,10 @@ import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
 import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
-import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
+import {
+  repeaterFieldName,
+  RepeaterFieldView,
+} from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import { getFieldNameFromNode } from "../nodeSpec";
@@ -36,7 +39,8 @@ export type FieldTypeToViewMap<Field> = {
     ? CustomFieldView<Data>
     : never;
   [RepeaterFieldView.fieldName]: Field extends RepeaterFieldDescription<
-    infer FDesc
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we don't need this type here
+    infer _FDesc
   >
     ? RepeaterFieldView
     : never;
@@ -135,6 +139,8 @@ export const getElementFieldViewFromType = (
         field.defaultValue ?? DropdownFieldView.defaultValue,
         field.options
       );
+    case repeaterFieldName:
+      return new RepeaterFieldView(node, offset, innerDecos);
   }
 };
 

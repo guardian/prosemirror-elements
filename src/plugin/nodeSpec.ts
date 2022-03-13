@@ -171,6 +171,31 @@ export const getNodeSpecForField = (
           },
         },
       };
+    case "repeater": {
+      const extraFields = Object.entries(field.children).reduce<NodeSpec>(
+        (acc, [nestedFieldName, nestedField]) => ({
+          ...acc,
+          ...getNodeSpecForField(elementName, nestedFieldName, nestedField),
+        }),
+        {}
+      );
+
+      // The repeater nodes content will be these fields, in order
+      const content = getDeterministicFieldOrder(Object.keys(extraFields)).join(
+        " "
+      );
+
+      return {
+        [nodeName]: {
+          group: fieldGroupName,
+          content,
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
+          attrs: {},
+        },
+        ...extraFields,
+      };
+    }
   }
 };
 
