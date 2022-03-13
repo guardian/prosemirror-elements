@@ -17,6 +17,8 @@ export enum FieldType {
   ATTRIBUTES = "ATTRIBUTES",
   // Uses node content to store field data.
   CONTENT = "CONTENT",
+  // Represents a node that contains nested fields.
+  REPEATER = "REPEATER",
 }
 
 /**
@@ -40,10 +42,10 @@ export abstract class FieldView<NodeValue> {
   /**
    * Programmatically update this fieldView with the given value.
    */
-  public abstract update(value: NodeValue): void;
+  public abstract update?(value: NodeValue): void;
 
   /**
    * Destroy this fieldView, cleaning up any resources it has instantiated.
    */
-  public abstract destroy(): void;
+  public abstract destroy?(): void;
 }
