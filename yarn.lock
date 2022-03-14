@@ -665,6 +665,13 @@
     "@guardian/src-helpers" "^3.8.0"
     "@guardian/src-icons" "^3.8.0"
 
+"@guardian/user-telemetry-client@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@guardian/user-telemetry-client/-/user-telemetry-client-1.0.1.tgz#1529d660dfdcd3ca1424fef2d5509a11c53bbbc3"
+  integrity sha512-kgJfdiTqhFeYvHbw9ca6tY5sgodOtPp3qZRekWNk+ARbubTxyH3KBh5KRt226Cqy017Rbm1ujNKgXsZ/eDenqw==
+  dependencies:
+    lodash "^4.17.20"
+
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"

@@ -113,7 +113,10 @@ describe("mount", () => {
 
     it("should add a custom group if specified", () => {
       const testElement1 = createNoopElement({});
-      const { nodeSpec } = buildElementPlugin({ testElement1 }, "customGroup");
+      const { nodeSpec } = buildElementPlugin(
+        { testElement1 },
+        { groupName: "customGroup" }
+      );
       expect(nodeSpec.get("testElement1")).toMatchObject({
         group: "customGroup",
       });
