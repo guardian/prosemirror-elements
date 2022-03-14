@@ -21,6 +21,21 @@
     "yalc": "yarn build && yalc push",
     "release": "semantic-release"
   },
+  "release": {
+    "branches": [
+      "main",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommit"
+      }
+    ]
+  },
   "dependencies": {
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.1.5",
