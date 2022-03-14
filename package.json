@@ -22,6 +22,7 @@
     "release": "semantic-release"
   },
   "release": {
+    "debug": true,
     "branches": [
       "main",
       {
