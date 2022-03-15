@@ -8,7 +8,6 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { unescapeHtml } from "../helpers/html";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { htmlLength } from "../helpers/validation";
@@ -77,7 +76,7 @@ export const StandardForm: React.FunctionComponent<Props> = ({
             >
               <IframeFullFrameWrapper
                 dangerouslySetInnerHTML={{
-                  __html: unescapeHtml(fieldValues.html),
+                  __html: fieldValues.html,
                 }}
               />
             </IframeAspectRatioContainer>
