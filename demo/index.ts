@@ -27,6 +27,7 @@ import {
 } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { createStandardElement } from "../src/elements/standard/StandardSpec";
+import { createTweetElement } from "../src/elements/tweet/TweetSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,
@@ -55,6 +56,7 @@ import {
   samplePullquote,
   sampleRichLink,
   sampleTable,
+  sampleTweet,
   sampleVideo,
   sampleVine,
 } from "./sampleElements";
@@ -79,6 +81,7 @@ const membershipElementName = "membership";
 const witnessElementName = "witness";
 const instagramElementName = "instagram";
 const vineElementName = "vine";
+const tweetElementName = "tweet";
 
 type Name =
   | typeof embedElementName
@@ -96,7 +99,8 @@ type Name =
   | typeof membershipElementName
   | typeof witnessElementName
   | typeof instagramElementName
-  | typeof vineElementName;
+  | typeof vineElementName
+  | typeof tweetElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -179,6 +183,10 @@ const {
     witness: deprecatedElement,
     vine: deprecatedElement,
     instagram: deprecatedElement,
+    tweet: createTweetElement({
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      createCaptionPlugins,
+    }),
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -349,6 +357,7 @@ const createEditor = (server: CollabServer) => {
     { label: "Pullquote", name: pullquoteElementName, values: samplePullquote },
     { label: "Code", name: codeElementName, values: sampleCode },
     { label: "Vine", name: vineElementName, values: sampleVine },
+    { label: "Tweet", name: tweetElementName, values: sampleTweet },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>

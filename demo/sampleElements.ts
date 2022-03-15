@@ -340,3 +340,15 @@ export const sampleVine = {
   type: "vine",
   data: `{"fields": {"alt":"Clinton shimmying","html":"<<REDACTED>>","title":"💃 #HillaryClinton #DebateNight #cnn","width":"600","height":"600","source":"Vine","authorUrl":"https://vine.co/u/1038266807917965312","authorName":"<<REDACTED>>","isMandatory":"true","originalUrl":"https://vine.co/v/5rz0naaaEJP"},"assets":[{"url":"https://v.cdn.vine.co/r/thumbs/FE1264FB421392386538297552896_54f5af670bb.31.0.C52609C2-9D12-40AB-BDAD-6B628DE40259.mp4.jpg?versionId=Doo_Qq2hMbJZGgI44BU5RbfRouNNZQSY","fields":{"width":"480","height":"480"},"mimeType":"image/jpeg","assetType":"image"}]}`,
 };
+
+export const sampleTweet = {
+  source: "Twitter",
+  isMandatory: "true",
+  role: "inline",
+  url: "https://twitter.com/js_herbert/status/1495470075062767627",
+  originalUrl:
+    "https://twitter.com/js_herbert/status/1495470075062767627?ref_src=twsrc%5Etfw",
+  id: "1495470075062767627",
+  html: `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Gosh Github support for <a href="https://t.co/Giw3LjKthH">https://t.co/Giw3LjKthH</a> is lovely :)))</p>&mdash; Jonathon Herbert (@js_herbert) <a href="https://twitter.com/js_herbert/status/1495470075062767627?ref_src=twsrc%5Etfw">February 20, 2022</a></blockquote>`,
+  authorName: "Jonathan Herbert",
+};

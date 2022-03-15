@@ -8,6 +8,7 @@ import type { pullquoteFields } from "../pullquote/PullquoteSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as standardElementTransform } from "../standard/standardDataTransformer";
 import type { tableFields } from "../table/TableSpec";
+import { transformElement as tweetElementTransform } from "../tweet/tweetDataTransformer";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
 // A placeholder value for a dropdown option that represents no selection.
@@ -34,6 +35,7 @@ const transformMap = {
   vine: deprecatedElementTransform,
   instagram: deprecatedElementTransform,
   witness: deprecatedElementTransform,
+  tweet: tweetElementTransform,
 } as const;
 
 type TransformMap = typeof transformMap;
