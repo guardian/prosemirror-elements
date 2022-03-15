@@ -69,16 +69,4 @@ jobs:
         run: yarn build
 
       - name: Release
-        uses: cycjimmy/semantic-release-action@5982a02995853159735cb838992248c4f0f16166
-        with:
-          branches: |
-            [
-              'main',
-              {
-                name: 'beta',
-                prerelease: true
-              }
-            ]
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn release
