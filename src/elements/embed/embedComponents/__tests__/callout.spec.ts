@@ -1,10 +1,10 @@
 import { getCalloutTag } from "../../EmbedSpec";
 
 const validCallout =
-  '&lt;div data-callout-tagname="ab-new-things-formatting"&gt;&lt;h2&gt;Callout&lt;h2&gt;&lt;p&gt;ab-new-things-formatting&lt;/p&gt;&lt;/div&gt;';
+  '<div data-callout-tagname="ab-new-things-formatting"><h2>Callout<h2><p>ab-new-things-formatting</p></div>';
 
 const invalidCallout =
-  '&lt;div data-callout-tagname="ab-new-things-formatting&gt;&lt;h2&gt;Callout&lt;h2&gt;&lt;p&gt;ab-new-things-formatting&lt;/p&gt;&lt;/div&gt;';
+  '<div data-callout-tagname="ab-new-things-formatting><h2>Callout<h2><p>ab-new-things-formatting</p></div>';
 
 describe("getCalloutTag", () => {
   it("should extract the tag from valid callout html", () => {

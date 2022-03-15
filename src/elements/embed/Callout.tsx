@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import { unescapeHtml } from "../helpers/html";
 import { EmbedTestId } from "./EmbedForm";
 
 type Props = {
@@ -122,7 +121,7 @@ const CalloutTable = ({
             <th>Description</th>
             <td
               dangerouslySetInnerHTML={{
-                __html: unescapeHtml(calloutData.fields.description),
+                __html: calloutData.fields.description,
               }}
             ></td>
           </tr>

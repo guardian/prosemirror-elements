@@ -6,11 +6,7 @@ export const unescapeHtml = (html: string): string => {
 };
 
 export const parseHtml = (html: string) => {
-  const unescapedHtml = unescapeHtml(html);
-  const parsedHtml = new DOMParser().parseFromString(
-    unescapedHtml,
-    "text/html"
-  );
+  const parsedHtml = new DOMParser().parseFromString(html, "text/html");
   return parsedHtml.body.firstElementChild;
 };
 
