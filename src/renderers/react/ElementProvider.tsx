@@ -39,7 +39,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   fieldValues: FieldNameToValueMap<FDesc>;
   onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
   validate: Validator<FDesc>;
-  consumer: Consumer<ReactElement, FDesc>;
+  consumer: Consumer<ReactElement | null, FDesc>;
   fields: FieldNameToField<FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
 };

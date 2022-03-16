@@ -1,0 +1,1263 @@
+[
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/291915/2/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/291915/2/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/376065/65/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/376065/65/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "role": "supporting",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/top",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "role": "supporting",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/top",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/408890/5/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/408890/5/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/5/14",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/5/14"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/bottom",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/440095/19/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/440095/19/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/top#",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/top#"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "role": "supporting",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/bottom",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/top",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/bottom",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/bottom",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/408268/38/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/408268/38/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/243973/12/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/243973/12/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/433813/29/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/433813/29/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/433813/29/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/433813/29/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/goalkeeper/402019/38/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/goalkeeper/402019/38/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/317578/9/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/317578/9/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/goalkeeper/248757/42/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/goalkeeper/248757/42/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/344501/1006/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/344501/1006/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/428608/11/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/428608/11/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/293382/14/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/293382/14/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/449744/42/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/449744/42/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/top",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/bottom",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/317314/29/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/317314/29/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/bottom",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/281546/4/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/281546/4/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/101/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/101/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "role": "immersive",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/312242/43/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/312242/43/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "role": "immersive",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/308294/5/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/assist/308294/5/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/101/top",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/101/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/193388/39/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/193388/39/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/500/group-e",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/500/group-e"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/500/group-f",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/500/group-f"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/283379/26/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/283379/26/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/466552/11/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/466552/11/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/428115/1006/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/428115/1006/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/415799/8/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/415799/8/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620#",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620#"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/bottom",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/bottom"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/447968/12/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/447968/12/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/389502/5/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/389502/5/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/408268/38/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/408268/38/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/438082/18/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/438082/18/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620#",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620#"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/620"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "role": "supporting",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/370300/4/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/attack/370300/4/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/233054/8/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/233054/8/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/362810/39/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/player/card/competition/defence/362810/39/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/101/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/101/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/102/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/103/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/650"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/top",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100/top"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/100"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635#",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/635#"
+      },
+      "elementType": "table"
+    }
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<<REDACTED>>",
+        "source": "Guardian",
+        "tableUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625",
+        "isMandatory": "true",
+        "originalUrl": "https://frontend.gutools.co.uk/admin/football/tables/league/625"
+      },
+      "elementType": "table"
+    }
+  }
+]

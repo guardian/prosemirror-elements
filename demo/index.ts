@@ -18,6 +18,7 @@ import {
   membershipElement,
   pullquoteElement,
   richlinkElement,
+  tableElement,
 } from "../src";
 import {
   transformElementOut,
@@ -52,6 +53,7 @@ import {
   sampleMembership,
   samplePullquote,
   sampleRichLink,
+  sampleTable,
   sampleVideo,
 } from "./sampleElements";
 import type { WindowType } from "./types";
@@ -158,7 +160,7 @@ const {
     video: standardElement,
     audio: standardElement,
     map: standardElement,
-    table: standardElement,
+    table: tableElement,
     document: standardElement,
     membership: membershipElement,
   },
@@ -317,6 +319,7 @@ const createEditor = (server: CollabServer) => {
     { label: "Audio", name: audioElementName, values: sampleAudio },
     { label: "Map", name: mapElementName, values: sampleMap },
     { label: "Document", name: documentElementName, values: sampleDocument },
+    { label: "Table", name: tableElementName, values: sampleTable },
     { label: "Audio", name: audioElementName, values: sampleAudio },
     { label: "Map", name: mapElementName, values: sampleMap },
     { label: "Document", name: documentElementName, values: sampleDocument },

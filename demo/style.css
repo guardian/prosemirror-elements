@@ -425,3 +425,29 @@ h6 {
 .ProseMirror-selectednode {
   outline: unset;
 }
+
+/* Match Composer styling */
+
+.table {
+  background: #F6F6F6;
+  border-collapse: collapse;
+  border-top: 2px solid #00ADEE;
+  width: 100%;
+}
+.table th {
+  font-weight: bold;
+  padding: 7px;
+  text-align: left;
+  vertical-align: top;
+}
+.table tbody td {
+  border-top: 1px solid #EDEDED;
+  padding: 7px;
+}
+.table .table-row--highlight {
+  background: #F6F6F6;
+  font-weight: bold;
+}
+.table .table-row--divider td {
+  border-top: 1px solid #2B2B29;
+}
