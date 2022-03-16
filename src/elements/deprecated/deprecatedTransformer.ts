@@ -22,9 +22,7 @@ export const transformElementIn: TransformIn<
 export const transformElementOut: TransformOut<
   Omit<ExternalDeprecatedFields, "elementType">,
   typeof fields
-> = ({ data }) => ({
-  ...(JSON.parse(data) as Data),
-});
+> = ({ data }) => JSON.parse(data) as Data;
 
 export const transformElement = {
   in: transformElementIn,
