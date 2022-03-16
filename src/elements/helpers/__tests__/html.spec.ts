@@ -15,8 +15,7 @@ describe("unescapeHtml", () => {
 
 describe("parseHtml", () => {
   it("should return an object", () => {
-    const escapedHtml =
-      "&lt;a href=&quot;https://www.example.com&quot;&gt;Example website&lt;/a&gt;";
+    const escapedHtml = `<a href="https://www.example.com">Example website</a>`;
     const identicalElement = document.createElement("a");
     identicalElement.setAttribute("href", "https://www.example.com");
     identicalElement.appendChild(document.createTextNode("Example website"));

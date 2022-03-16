@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import { Column, Columns } from "@guardian/src-layout";
-import React, { useEffect, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -19,6 +19,7 @@ import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { Store } from "../../renderers/react/store";
+import { TelemetryContext } from "../../renderers/react/TelemetryContext";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import type { Asset } from "../helpers/defaultTransform";
 import { htmlLength } from "../helpers/validation";
@@ -30,6 +31,7 @@ import type {
   SetMedia,
 } from "./ImageElement";
 import { minAssetValidation } from "./ImageElement";
+import { ImageElementTelemetryType } from "./imageElementTelemetryEvents";
 
 type Props = {
   fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
@@ -61,6 +63,8 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
   fieldValues,
   roleOptionsStore: RoleOptionsStore,
 }) => {
+  const sendTelemetryEvent = useContext(TelemetryContext);
+
   return (
     <div data-cy={ImageElementTestId}>
       <Columns>
@@ -126,7 +130,12 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                     priority="secondary"
                     size="xsmall"
                     iconSide="left"
-                    onClick={() => fields.alt.update(fieldValues.caption)}
+                    onClick={() => {
+                      sendTelemetryEvent?.(
+                        ImageElementTelemetryType.CopyFromCaptionButtonPressed
+                      );
+                      fields.alt.update(fieldValues.caption);
+                    }}
                   >
                     Copy from caption
                   </Button>
@@ -232,6 +241,8 @@ const Errors = ({ errors }: { errors: string[] }) =>
 const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
 
+  const sendTelemetryEvent = useContext(TelemetryContext);
+
   const setMedia = (previousMediaId: string | undefined) => (
     mediaPayload: MediaPayload
   ) => {
@@ -281,6 +292,7 @@ const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
         icon={<SvgCrop />}
         iconSide="left"
         onClick={() => {
+          sendTelemetryEvent?.(ImageElementTelemetryType.CropButtonPressed);
           field.description.props.openImageSelector(
             setMedia(imageFields.mediaId),
             imageFields.mediaId
