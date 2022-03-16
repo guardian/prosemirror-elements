@@ -82,6 +82,9 @@ export const StandardForm: React.FunctionComponent<Props> = ({
                 }}
               />
             </IframeAspectRatioContainer>
+            <Link target="_blank" rel="noopener" href={fieldValues.originalUrl}>
+              Go to content ↪
+            </Link>
           </FieldLayoutVertical>
         </Column>
         <Column width={2 / 3}>
@@ -98,17 +101,14 @@ export const StandardForm: React.FunctionComponent<Props> = ({
               errors={errors.role}
               display="inline"
             />
-            <CustomCheckboxView
-              field={fields.isMandatory}
-              errors={errors.isMandatory}
-              label="This element is required for publication"
-            />
-            <Link target="_blank" rel="noopener" href={fieldValues.originalUrl}>
-              Go to content ↪
-            </Link>
           </FieldLayoutVertical>
         </Column>
       </Columns>
+      <CustomCheckboxView
+        field={fields.isMandatory}
+        errors={errors.isMandatory}
+        label="This element is required for publication"
+      />
       <TrackingStatusChecks
         html={fieldValues.html}
         isMandatory={fieldValues.isMandatory}
