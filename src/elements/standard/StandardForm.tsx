@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { Link } from "../../editorial-source-components/Link";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
@@ -90,20 +91,23 @@ export const StandardForm: React.FunctionComponent<Props> = ({
               headingLabel="Caption"
               description={`${htmlLength(fieldValues.caption)}/1000 characters`}
             />
+            <CustomDropdownView
+              field={fields.role}
+              label="Weighting"
+              errors={errors.role}
+              display="inline"
+            />
+            <CustomCheckboxView
+              field={fields.isMandatory}
+              errors={errors.isMandatory}
+              label="This element is required for publication"
+            />
+            <Link target="_blank" rel="noopener" href={fieldValues.originalUrl}>
+              Go to content ↪
+            </Link>
           </FieldLayoutVertical>
         </Column>
       </Columns>
-      <CustomDropdownView
-        field={fields.role}
-        label="Weighting"
-        errors={errors.role}
-        display="inline"
-      />
-      <CustomCheckboxView
-        field={fields.isMandatory}
-        errors={errors.isMandatory}
-        label="This element is required for publication"
-      />
       <TrackingStatusChecks
         html={fieldValues.html}
         isMandatory={fieldValues.isMandatory}
