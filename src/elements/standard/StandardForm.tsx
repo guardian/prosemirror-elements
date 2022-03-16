@@ -58,6 +58,7 @@ const IframeAspectRatioContainer: React.FunctionComponent<{
 const IframeFullFrameWrapper = styled.div`
   height: 100%;
   width: 100%;
+  white-space: initial;
 `;
 
 export const StandardForm: React.FunctionComponent<Props> = ({
