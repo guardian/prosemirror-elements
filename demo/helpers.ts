@@ -1,7 +1,8 @@
 import type { EditorState, Transaction } from "prosemirror-state";
 import { Plugin } from "prosemirror-state";
 import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
-import type { Asset, SetMedia } from "../src/elements/image/ImageElement";
+import type { Asset } from "../src/elements/helpers/defaultTransform";
+import type { SetMedia } from "../src/elements/image/ImageElement";
 
 type GridAsset = {
   mimeType: string;

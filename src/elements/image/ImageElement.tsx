@@ -10,6 +10,7 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { createStore } from "../../renderers/react/store";
+import type { Asset } from "../helpers/defaultTransform";
 import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { ImageElementForm } from "./ImageElementForm";
@@ -26,17 +27,6 @@ export type MediaPayload = {
 };
 
 export type SetMedia = (mediaPayload: MediaPayload) => void;
-
-export type Asset = {
-  assetType: string;
-  mimeType: string;
-  url: string;
-  fields: {
-    width: number | string;
-    height: number | string;
-    isMaster: boolean | undefined;
-  };
-};
 
 export type MainImageData = {
   mediaId?: string | undefined;

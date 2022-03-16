@@ -1,3 +1,6 @@
+import audio from "./audio.json";
+import document from "./document.json";
+import map from "./map.json";
 import membership from "./membership.json";
 import richLink from "./rich-link.json";
 
@@ -8,4 +11,7 @@ import richLink from "./rich-link.json";
 export const allElementFixtures = {
   "rich-link": richLink,
   membership,
+  audio,
+  map,
+  document,
 };

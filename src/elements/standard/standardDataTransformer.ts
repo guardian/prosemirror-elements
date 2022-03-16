@@ -1,9 +1,10 @@
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import type { Asset } from "../helpers/defaultTransform";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
-import type { createVideoFields } from "./VideoSpec";
+import type { createStandardFields } from "./StandardSpec";
 
-export type ExternalVideoFields = {
+export type ExternalFields = {
   source: string;
   isMandatory: string;
   url: string;
@@ -17,36 +18,41 @@ export type ExternalVideoFields = {
   role: string | undefined;
 };
 
-export type ExternalVideoData = {
-  fields: ExternalVideoFields;
+export type ExternalData = {
+  assets: Asset[];
+  fields: ExternalFields;
 };
 
-export type PartialVideoData = {
-  fields: Partial<ExternalVideoFields>;
+export type PartialData = {
+  assets: Asset[];
+  fields: Partial<ExternalFields>;
 };
 
 export const transformElementIn: TransformIn<
-  PartialVideoData,
-  ReturnType<typeof createVideoFields>
-> = ({ fields: { isMandatory, role, ...rest } }) => {
+  PartialData,
+  ReturnType<typeof createStandardFields>
+> = ({ assets, fields: { isMandatory, role, ...rest } }) => {
   return {
     isMandatory: isMandatory === "true",
     role: role ?? undefinedDropdownValue,
+    assets,
     ...rest,
   };
 };
 
 export const transformElementOut: TransformOut<
-  ExternalVideoData,
-  ReturnType<typeof createVideoFields>
+  ExternalData,
+  ReturnType<typeof createStandardFields>
 > = ({
   isMandatory,
   role,
+  assets,
   ...rest
 }: FieldNameToValueMap<
-  ReturnType<typeof createVideoFields>
->): ExternalVideoData => {
+  ReturnType<typeof createStandardFields>
+>): ExternalData => {
   return {
+    assets,
     fields: {
       isMandatory: isMandatory.toString(),
       role: role === undefinedDropdownValue ? undefined : role,

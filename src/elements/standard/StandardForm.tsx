@@ -2,22 +2,22 @@ import styled from "@emotion/styled";
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { Link } from "../../editorial-source-components/Link";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { unescapeHtml } from "../helpers/html";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { htmlLength } from "../helpers/validation";
-import type { createVideoFields } from "./VideoSpec";
+import type { createStandardFields } from "./StandardSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createVideoFields>>;
+  fieldValues: FieldNameToValueMap<ReturnType<typeof createStandardFields>>;
   errors: FieldValidationErrors;
-  fields: FieldNameToField<ReturnType<typeof createVideoFields>>;
+  fields: FieldNameToField<ReturnType<typeof createStandardFields>>;
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
 
@@ -60,7 +60,7 @@ const IframeFullFrameWrapper = styled.div`
   width: 100%;
 `;
 
-export const VideoForm: React.FunctionComponent<Props> = ({
+export const StandardForm: React.FunctionComponent<Props> = ({
   errors,
   fields,
   fieldValues,
@@ -77,7 +77,7 @@ export const VideoForm: React.FunctionComponent<Props> = ({
             >
               <IframeFullFrameWrapper
                 dangerouslySetInnerHTML={{
-                  __html: unescapeHtml(fieldValues.html),
+                  __html: fieldValues.html,
                 }}
               />
             </IframeAspectRatioContainer>
@@ -91,20 +91,23 @@ export const VideoForm: React.FunctionComponent<Props> = ({
               headingLabel="Caption"
               description={`${htmlLength(fieldValues.caption)}/1000 characters`}
             />
+            <CustomDropdownView
+              field={fields.role}
+              label="Weighting"
+              errors={errors.role}
+              display="inline"
+            />
+            <CustomCheckboxView
+              field={fields.isMandatory}
+              errors={errors.isMandatory}
+              label="This element is required for publication"
+            />
+            <Link target="_blank" rel="noopener" href={fieldValues.originalUrl}>
+              Go to content ↪
+            </Link>
           </FieldLayoutVertical>
         </Column>
       </Columns>
-      <CustomDropdownView
-        field={fields.role}
-        label="Weighting"
-        errors={errors.role}
-        display="inline"
-      />
-      <CustomCheckboxView
-        field={fields.isMandatory}
-        errors={errors.isMandatory}
-        label="This element is required for publication"
-      />
       <TrackingStatusChecks
         html={fieldValues.html}
         isMandatory={fieldValues.isMandatory}

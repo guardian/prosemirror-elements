@@ -1,6 +1,7 @@
 import { flow, omit } from "lodash";
 import {
   buildElementPlugin,
+  createStandardElement,
   membershipElement,
   richlinkElement,
 } from "../../..";
@@ -19,9 +20,15 @@ describe("Element fixtures", () => {
    * add the relevant element to the `elements` object below, to ensure the
    * prosemirror-elements plugin recognises the new element type.
    */
+  const standardElement = createStandardElement({
+    checkThirdPartyTracking: Promise.resolve,
+  });
   const elements = {
     "rich-link": richlinkElement,
     membership: membershipElement,
+    audio: standardElement,
+    map: standardElement,
+    document: standardElement,
   } as const;
 
   const {

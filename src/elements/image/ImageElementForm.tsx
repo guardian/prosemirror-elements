@@ -21,9 +21,9 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import type { Store } from "../../renderers/react/store";
 import { TelemetryContext } from "../../renderers/react/TelemetryContext";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
+import type { Asset } from "../helpers/defaultTransform";
 import { htmlLength } from "../helpers/validation";
 import type {
-  Asset,
   createImageFields,
   ImageSelector,
   MainImageData,

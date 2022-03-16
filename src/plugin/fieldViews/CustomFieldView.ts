@@ -12,7 +12,7 @@ export interface CustomFieldDescription<Data = unknown, Props = unknown>
   props: Props;
 }
 
-export const createCustomField = <Data, Props>(
+export const createCustomField = <Data, Props = unknown>(
   defaultValue: Data,
   props: Props,
   validators?: FieldValidator[]
