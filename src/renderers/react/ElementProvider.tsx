@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
+import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 import type {
   FieldValidationErrors,
   Validator,
@@ -12,6 +13,7 @@ import type {
   FieldNameToField,
 } from "../../plugin/types/Element";
 import { ElementWrapper } from "./ElementWrapper";
+import { TelemetryContext } from "./TelemetryContext";
 
 const fieldErrors = <FDesc extends FieldDescriptions<string>>(
   fields: FieldNameToValueMap<FDesc>,
@@ -39,6 +41,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   validate: Validator<FDesc>;
   consumer: Consumer<ReactElement | null, FDesc>;
   fields: FieldNameToField<FDesc>;
+  sendTelemetryEvent: SendTelemetryEvent;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -46,7 +49,6 @@ type IState<FDesc extends FieldDescriptions<string>> = {
   fieldValues: FieldNameToValueMap<FDesc>;
   isSelected: boolean;
 };
-
 export class ElementProvider<
   FDesc extends FieldDescriptions<string>
 > extends Component<IProps<FDesc>, IState<FDesc>> {
@@ -100,16 +102,18 @@ export class ElementProvider<
 
   public render() {
     return (
-      <ElementWrapper
-        {...this.state.commands}
-        isSelected={this.state.isSelected}
-      >
-        <this.Element
-          fields={this.props.fields}
-          fieldValues={this.state.fieldValues}
-          updateFields={this.updateFields}
-        />
-      </ElementWrapper>
+      <TelemetryContext.Provider value={this.props.sendTelemetryEvent}>
+        <ElementWrapper
+          {...this.state.commands}
+          isSelected={this.state.isSelected}
+        >
+          <this.Element
+            fields={this.props.fields}
+            fieldValues={this.state.fieldValues}
+            updateFields={this.updateFields}
+          />
+        </ElementWrapper>
+      </TelemetryContext.Provider>
     );
   }
 

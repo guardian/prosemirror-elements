@@ -9,10 +9,12 @@ import {
   SvgChevronRightDouble,
 } from "@guardian/src-icons";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SvgBin } from "../../editorial-source-components/SvgBin";
 import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
+import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEvents";
 import type { CommandCreator } from "../../plugin/types/Commands";
+import { TelemetryContext } from "./TelemetryContext";
 
 const buttonWidth = 32;
 
@@ -206,6 +208,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   children,
 }) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
+  const sendTelemetryEvent = useContext(TelemetryContext);
 
   return (
     <Container
@@ -218,7 +221,10 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             type="button"
             data-cy={selectTestId}
             disabled={!select(false)}
-            onClick={() => select(true)}
+            onClick={() => {
+              sendTelemetryEvent?.(CommandTelemetryType.PMESelectButtonPressed);
+              select(true);
+            }}
             aria-label="Select element"
           >
             <SvgHighlightAlt />
@@ -229,8 +235,12 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             data-cy={removeTestId}
             disabled={!remove(false)}
             onClick={() => {
-              if (closeClickedOnce) remove(true);
-              else {
+              if (closeClickedOnce) {
+                sendTelemetryEvent?.(
+                  CommandTelemetryType.PMERemoveButtonPressed
+                );
+                remove(true);
+              } else {
                 setCloseClickedOnce(true);
                 setTimeout(() => {
                   setCloseClickedOnce(false);
@@ -252,7 +262,12 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             type="button"
             data-cy={moveTopTestId}
             disabled={!moveTop(false)}
-            onClick={() => moveTop(true)}
+            onClick={() => {
+              sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
+                jump: true,
+              });
+              moveTop(true);
+            }}
             aria-label="Move element to top"
           >
             <div
@@ -268,7 +283,12 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             data-cy={moveUpTestId}
             expanded
             disabled={!moveUp(false)}
-            onClick={() => moveUp(true)}
+            onClick={() => {
+              sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
+                jump: false,
+              });
+              moveUp(true);
+            }}
             aria-label="Move element up"
           >
             <SvgArrowUpStraight />
@@ -278,7 +298,12 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             data-cy={moveDownTestId}
             expanded
             disabled={!moveDown(false)}
-            onClick={() => moveDown(true)}
+            onClick={() => {
+              sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
+                jump: false,
+              });
+              moveDown(true);
+            }}
             aria-label="Move element down"
           >
             <SvgArrowDownStraight />
@@ -287,7 +312,12 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             type="button"
             data-cy={moveBottomTestId}
             disabled={!moveBottom(false)}
-            onClick={() => moveBottom(true)}
+            onClick={() => {
+              sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
+                jump: true,
+              });
+              moveBottom(true);
+            }}
             aria-label="Move element to bottom"
           >
             <div

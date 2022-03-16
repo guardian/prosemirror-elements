@@ -27,7 +27,7 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   return arr;
 };
 
-type Predicate = (
+export type Predicate = (
   node: Node,
   pos: number,
   parent: Node,

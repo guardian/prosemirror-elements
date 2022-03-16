@@ -78,3 +78,9 @@ const mySchema = new Schema({
   marks
 });
 ```
+
+## Element-specific docs – for Guardian users only
+
+It's useful to write fixture tests to ensure that the element you're creating doesn't disrupt existing data – see the fixture tests in `src/elements/helpers/__tests__/transformFixtures.spec.ts` for more details.
+
+There's a script available at `./fixtures/parse-element.js` to facilitate transforming element data from the Guardian CMS into a redacted form suitable for fixtures.

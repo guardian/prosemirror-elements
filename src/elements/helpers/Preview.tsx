@@ -4,7 +4,6 @@ import { Description } from "../../editorial-source-components/Description";
 import type { InputHeadingProps } from "../../editorial-source-components/InputHeading";
 import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { hasOwnProperty } from "./hasOwnProperty";
-import { unescapeHtml } from "./html";
 
 type PreviewProps = Partial<InputHeadingProps> & {
   html?: string;
@@ -123,7 +122,7 @@ export const Preview = ({
   if (iframeUrl) {
     preview = (
       <iframe
-        src={unescapeHtml(iframeUrl)}
+        src={iframeUrl}
         css={crossDomainIframe}
         height={height}
         ref={ref}
@@ -133,7 +132,7 @@ export const Preview = ({
   } else if (html) {
     preview = (
       <iframe
-        srcDoc={unescapeHtml(html)}
+        srcDoc={html}
         css={iframe}
         height={height}
         ref={ref}

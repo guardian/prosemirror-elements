@@ -1,4 +1,5 @@
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
+import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
@@ -52,7 +53,10 @@ import {
   sampleMembership,
   samplePullquote,
   sampleRichLink,
+<<<<<<< HEAD
   sampleTable,
+=======
+>>>>>>> main
   sampleVideo,
 } from "./sampleElements";
 import type { WindowType } from "./types";
@@ -126,11 +130,17 @@ const standardElement = createStandardElement({
   checkThirdPartyTracking: mockThirdPartyTracking,
 });
 
+<<<<<<< HEAD
+=======
+const telemetryEventService = new UserTelemetryEventSender("example.com");
+
+>>>>>>> main
 const {
   plugin: elementPlugin,
   insertElement,
   nodeSpec,
   getElementDataFromNode,
+<<<<<<< HEAD
 } = buildElementPlugin({
   "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
   image: imageElement,
@@ -155,6 +165,50 @@ const {
   document: standardElement,
   membership: membershipElement,
 });
+=======
+} = buildElementPlugin(
+  {
+    "demo-image-element": createDemoImageElement(
+      onSelectImage,
+      onDemoCropImage
+    ),
+    image: imageElement,
+    embed: createEmbedElement({
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      convertTwitter: (src) =>
+        console.log(`Add Twitter embed with src: ${src}`),
+      convertYouTube: (src) =>
+        console.log(`Add youtube embed with src: ${src}`),
+      createCaptionPlugins,
+      targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+    }),
+    interactive: createInteractiveElement({
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      createCaptionPlugins,
+    }),
+    code: codeElement,
+    pullquote: pullquoteElement,
+    "rich-link": richlinkElement,
+    video: standardElement,
+    audio: standardElement,
+    map: standardElement,
+    table: standardElement,
+    document: standardElement,
+    membership: membershipElement,
+  },
+  {
+    sendTelemetryEvent: (type: string, tags) =>
+      telemetryEventService.addEvent({
+        app: "ProseMirrorElements",
+        stage: "TEST",
+        eventTime: new Date().toISOString(),
+        type,
+        value: true,
+        tags,
+      }),
+  }
+);
+>>>>>>> main
 
 const strike: MarkSpec = {
   parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
@@ -298,7 +352,10 @@ const createEditor = (server: CollabServer) => {
     { label: "Audio", name: audioElementName, values: sampleAudio },
     { label: "Map", name: mapElementName, values: sampleMap },
     { label: "Document", name: documentElementName, values: sampleDocument },
+<<<<<<< HEAD
     { label: "Table", name: tableElementName, values: sampleTable },
+=======
+>>>>>>> main
     { label: "Audio", name: audioElementName, values: sampleAudio },
     { label: "Map", name: mapElementName, values: sampleMap },
     { label: "Document", name: documentElementName, values: sampleDocument },
