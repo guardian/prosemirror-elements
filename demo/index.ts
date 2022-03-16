@@ -341,9 +341,9 @@ const createEditor = (server: CollabServer) => {
     source: "YouTube",
     isMandatory: "false",
     role: "showcase",
-    url: "https://www.youtube.com/watch?v=BggrpKfqh1c",
+    url: "https://www.youtube.com/watch?v=jUghnM2qy9M",
     description: "This ain't real Latin",
-    originalUrl: "https://www.youtube.com/watch?v=BggrpKfqh1c",
+    originalUrl: "https://www.youtube.com/watch?v=jUghnM2qy9M",
     height: "259",
     title: "Lorem Ipsum",
     html:
