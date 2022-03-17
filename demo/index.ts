@@ -125,6 +125,7 @@ const {
 const standardElement = createStandardElement({
   createCaptionPlugins,
   checkThirdPartyTracking: mockThirdPartyTracking,
+  useLargePreview: false,
 });
 
 const telemetryEventService = new UserTelemetryEventSender("example.com");
@@ -161,7 +162,11 @@ const {
     audio: standardElement,
     map: standardElement,
     table: tableElement,
-    document: standardElement,
+    document: createStandardElement({
+      createCaptionPlugins,
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      useLargePreview: true,
+    }),
     membership: membershipElement,
   },
   {
@@ -322,7 +327,6 @@ const createEditor = (server: CollabServer) => {
     { label: "Table", name: tableElementName, values: sampleTable },
     { label: "Audio", name: audioElementName, values: sampleAudio },
     { label: "Map", name: mapElementName, values: sampleMap },
-    { label: "Document", name: documentElementName, values: sampleDocument },
     {
       label: "Membership",
       name: membershipElementName,

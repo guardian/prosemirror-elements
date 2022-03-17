@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { Link } from "../../editorial-source-components/Link";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldValidationErrors } from "../../plugin/elementSpec";
@@ -49,10 +50,28 @@ const IframeAspectRatioBoxContents = styled.div`
 const IframeAspectRatioContainer: React.FunctionComponent<{
   height: string;
   width: string;
-}> = ({ height, width, children }) => (
-  <IframeAspectRatioBox containerHeight={height} containerWidth={width}>
-    <IframeAspectRatioBoxContents>{children}</IframeAspectRatioBoxContents>
-  </IframeAspectRatioBox>
+  html: string;
+  originalUrl: string;
+}> = ({ height, width, html, originalUrl }) => (
+  <div>
+    <InputHeading
+      headingLabel="Preview"
+      headingContent={
+        <span>
+          &nbsp;<Link href={originalUrl}>(original url ↪)</Link>
+        </span>
+      }
+    />
+    <IframeAspectRatioBox containerHeight={height} containerWidth={width}>
+      <IframeAspectRatioBoxContents>
+        <IframeFullFrameWrapper
+          dangerouslySetInnerHTML={{
+            __html: html,
+          }}
+        />
+      </IframeAspectRatioBoxContents>
+    </IframeAspectRatioBox>
+  </div>
 );
 
 const IframeFullFrameWrapper = styled.div`
@@ -71,21 +90,12 @@ export const StandardForm: React.FunctionComponent<Props> = ({
     <FieldLayoutVertical>
       <Columns>
         <Column width={1 / 3}>
-          <FieldLayoutVertical>
-            <IframeAspectRatioContainer
-              height={fieldValues.height}
-              width={fieldValues.width}
-            >
-              <IframeFullFrameWrapper
-                dangerouslySetInnerHTML={{
-                  __html: fieldValues.html,
-                }}
-              />
-            </IframeAspectRatioContainer>
-            <Link target="_blank" rel="noopener" href={fieldValues.originalUrl}>
-              Go to content ↪
-            </Link>
-          </FieldLayoutVertical>
+          <IframeAspectRatioContainer
+            height={fieldValues.height}
+            width={fieldValues.width}
+            html={fieldValues.html}
+            originalUrl={fieldValues.originalUrl}
+          />
         </Column>
         <Column width={2 / 3}>
           <FieldLayoutVertical>
@@ -104,6 +114,46 @@ export const StandardForm: React.FunctionComponent<Props> = ({
           </FieldLayoutVertical>
         </Column>
       </Columns>
+      <CustomCheckboxView
+        field={fields.isMandatory}
+        errors={errors.isMandatory}
+        label="This element is required for publication"
+      />
+      <TrackingStatusChecks
+        html={fieldValues.html}
+        isMandatory={fieldValues.isMandatory}
+        checkThirdPartyTracking={checkThirdPartyTracking}
+      />
+    </FieldLayoutVertical>
+  </div>
+);
+
+export const StandardFormLargePreview: React.FunctionComponent<Props> = ({
+  errors,
+  fields,
+  fieldValues,
+  checkThirdPartyTracking,
+}) => (
+  <div>
+    <FieldLayoutVertical>
+      <IframeAspectRatioContainer
+        height={fieldValues.height}
+        width={fieldValues.width}
+        html={fieldValues.html}
+        originalUrl={fieldValues.originalUrl}
+      />
+      <FieldWrapper
+        field={fields.caption}
+        errors={errors.caption}
+        headingLabel="Caption"
+        description={`${htmlLength(fieldValues.caption)}/1000 characters`}
+      />
+      <CustomDropdownView
+        field={fields.role}
+        label="Weighting"
+        errors={errors.role}
+        display="inline"
+      />
       <CustomCheckboxView
         field={fields.isMandatory}
         errors={errors.isMandatory}
