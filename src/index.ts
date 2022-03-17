@@ -13,6 +13,7 @@ export { richlinkElement } from "./elements/rich-link/RichlinkSpec";
 export { createInteractiveElement } from "./elements/interactive/InteractiveSpec";
 export { tableElement } from "./elements/table/TableSpec";
 export { deprecatedElement } from "./elements/deprecated/DeprecatedSpec";
+export { createTweetElement } from "./elements/tweet/TweetSpec";
 export {
   transformElementIn,
   transformElementOut,
