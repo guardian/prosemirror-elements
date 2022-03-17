@@ -2,6 +2,7 @@ import { flow, omit } from "lodash";
 import {
   buildElementPlugin,
   createStandardElement,
+  createTweetElement,
   membershipElement,
   richlinkElement,
   tableElement,
@@ -35,6 +36,10 @@ describe("Element fixtures", () => {
     witness: deprecatedElement,
     vine: deprecatedElement,
     instagram: deprecatedElement,
+    tweet: createTweetElement({
+      checkThirdPartyTracking: Promise.resolve,
+      createCaptionPlugins: undefined,
+    }),
   } as const;
 
   const {
