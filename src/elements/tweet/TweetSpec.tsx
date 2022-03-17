@@ -9,6 +9,7 @@ import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldVi
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import type { Asset } from "../helpers/defaultTransform";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { StandardElementOptions } from "../standard/StandardSpec";
 import { TweetForm } from "./TweetForm";
@@ -39,6 +40,9 @@ export const createTweetFields = (
     }),
     html: createTextField({ absentOnEmpty: true }),
     authorName: createTextField({ absentOnEmpty: true }),
+    hideMedia: createTextField({ absentOnEmpty: true }),
+    hideThread: createTextField({ absentOnEmpty: true }),
+    assets: createCustomField<Asset[]>([], undefined),
   };
 };
 

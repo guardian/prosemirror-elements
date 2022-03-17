@@ -1,4 +1,5 @@
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import type { Asset } from "../helpers/defaultTransform";
 import { undefinedDropdownValue } from "../helpers/transform";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { createTweetFields } from "./TweetSpec";
@@ -13,23 +14,28 @@ export type ExternalTweetFields = {
   caption: string;
   html: string;
   authorName: string;
+  hideMedia?: string;
+  hideThread?: string;
 };
 
 export type ExternalData = {
+  assets: Asset[];
   fields: ExternalTweetFields;
 };
 
 export type PartialData = {
+  assets: Asset[];
   fields: Partial<ExternalTweetFields>;
 };
 
 export const transformElementIn: TransformIn<
   PartialData,
   ReturnType<typeof createTweetFields>
-> = ({ fields: { isMandatory, role, ...rest } }) => {
+> = ({ assets, fields: { isMandatory, role, ...rest } }) => {
   return {
     isMandatory: isMandatory === "true",
     role: role ?? undefinedDropdownValue,
+    assets,
     ...rest,
   };
 };
@@ -40,9 +46,11 @@ export const transformElementOut: TransformOut<
 > = ({
   isMandatory,
   role,
+  assets,
   ...rest
 }: FieldNameToValueMap<ReturnType<typeof createTweetFields>>): ExternalData => {
   return {
+    assets,
     fields: {
       isMandatory: isMandatory.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
