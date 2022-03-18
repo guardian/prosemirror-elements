@@ -32,7 +32,10 @@ export const InteractiveElementForm: React.FunctionComponent<Props> = ({
       headingLabel="Interactive"
       headingContent={
         <span>
-          &nbsp;<Link href={fieldValues.originalUrl}>(original url ↪)</Link>
+          &nbsp;
+          <Link target="_blank" rel="noopener" href={fieldValues.originalUrl}>
+            (original url ↪)
+          </Link>
         </span>
       }
       html={fieldValues.html}

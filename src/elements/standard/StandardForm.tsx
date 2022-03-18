@@ -136,9 +136,10 @@ export const StandardFormLargePreview: React.FunctionComponent<Props> = ({
 }) => (
   <div>
     <FieldLayoutVertical>
+      {/* A fixed width and height gives us a fixed aspect ratio */}
       <IframeAspectRatioContainer
-        height={fieldValues.height}
-        width={fieldValues.width}
+        height="150"
+        width="300"
         html={fieldValues.html}
         originalUrl={fieldValues.originalUrl}
       />
