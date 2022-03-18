@@ -12,7 +12,7 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import type { Asset } from "../helpers/defaultTransform";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { StandardForm } from "./StandardForm";
+import { StandardForm, StandardFormLargePreview } from "./StandardForm";
 
 /**
  * A standard element represents every element covered by
@@ -55,22 +55,20 @@ export const createStandardFields = (
 export type StandardElementOptions = {
   createCaptionPlugins?: (schema: Schema) => Plugin[];
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
+  useLargePreview?: boolean;
 };
 
 export const createStandardElement = ({
   createCaptionPlugins,
   checkThirdPartyTracking,
+  useLargePreview,
 }: StandardElementOptions) =>
   createReactElementSpec(
     createStandardFields(createCaptionPlugins),
-    ({ fields, errors, fieldValues }) => {
+    (props) => {
+      const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
       return (
-        <StandardForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-          checkThirdPartyTracking={checkThirdPartyTracking}
-        />
+        <Form {...props} checkThirdPartyTracking={checkThirdPartyTracking} />
       );
     }
   );
