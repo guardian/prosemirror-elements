@@ -6,7 +6,7 @@ export interface ExternalDeprecatedFields extends Data {
   elementType: string;
 }
 
-interface Data {
+export interface Data {
   fields: Record<string, unknown>;
   assets: Asset[];
 }
@@ -19,10 +19,9 @@ export const transformElementIn: TransformIn<
   type: elementType,
 });
 
-export const transformElementOut: TransformOut<
-  Omit<ExternalDeprecatedFields, "elementType">,
-  typeof fields
-> = ({ data }) => JSON.parse(data) as Data;
+export const transformElementOut: TransformOut<Data, typeof fields> = ({
+  data,
+}) => JSON.parse(data) as Data;
 
 export const transformElement = {
   in: transformElementIn,
