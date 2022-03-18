@@ -325,8 +325,6 @@ const createEditor = (server: CollabServer) => {
     { label: "Map", name: mapElementName, values: sampleMap },
     { label: "Document", name: documentElementName, values: sampleDocument },
     { label: "Table", name: tableElementName, values: sampleTable },
-    { label: "Audio", name: audioElementName, values: sampleAudio },
-    { label: "Map", name: mapElementName, values: sampleMap },
     {
       label: "Membership",
       name: membershipElementName,
