@@ -6,6 +6,7 @@ import {
   richlinkElement,
   tableElement,
 } from "../../..";
+import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";
@@ -31,6 +32,9 @@ describe("Element fixtures", () => {
     map: standardElement,
     document: standardElement,
     table: tableElement,
+    witness: deprecatedElement,
+    vine: deprecatedElement,
+    instagram: deprecatedElement,
   } as const;
 
   const {
@@ -77,10 +81,11 @@ describe("Element fixtures", () => {
              * element data.
              */
             const ignoredFieldValues = [];
+
             if (!element.fields.isMandatory) {
               ignoredFieldValues.push("fields.isMandatory");
             }
-            if (!element.fields.role) {
+            if (!(element.fields as { role: string }).role) {
               ignoredFieldValues.push("fields.role");
             }
             const elementToCompare = omit(
