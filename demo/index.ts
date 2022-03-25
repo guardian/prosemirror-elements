@@ -12,6 +12,7 @@ import { EditorView } from "prosemirror-view";
 import {
   codeElement,
   commentElement,
+  contentAtomElement,
   createDemoImageElement,
   createEmbedElement,
   createImageElement,
@@ -49,6 +50,7 @@ import {
   sampleCallout,
   sampleCode,
   sampleComment,
+  sampleContentAtom,
   sampleDocument,
   sampleEmbed,
   sampleImage,
@@ -84,6 +86,7 @@ const witnessElementName = "witness";
 const instagramElementName = "instagram";
 const vineElementName = "vine";
 const tweetElementName = "tweet";
+const contentAtomName = "content-atom";
 const commentElementName = "comment";
 
 type Name =
@@ -104,6 +107,7 @@ type Name =
   | typeof instagramElementName
   | typeof vineElementName
   | typeof tweetElementName
+  | typeof contentAtomName
   | typeof commentElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
@@ -196,6 +200,7 @@ const {
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
     }),
+    "content-atom": contentAtomElement,
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -367,6 +372,7 @@ const createEditor = (server: CollabServer) => {
     { label: "Code", name: codeElementName, values: sampleCode },
     { label: "Vine", name: vineElementName, values: sampleVine },
     { label: "Tweet", name: tweetElementName, values: sampleTweet },
+    { label: "Content-atom", name: contentAtomName, values: sampleContentAtom },
     { label: "Comment", name: commentElementName, values: sampleComment },
   ] as const;
 
