@@ -352,3 +352,8 @@ export const sampleTweet = {
   html: `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Gosh Github support for <a href="https://t.co/Giw3LjKthH">https://t.co/Giw3LjKthH</a> is lovely :)))</p>&mdash; Jonathon Herbert (@js_herbert) <a href="https://twitter.com/js_herbert/status/1495470075062767627?ref_src=twsrc%5Etfw">February 20, 2022</a></blockquote>`,
   authorName: "Jonathan Herbert",
 };
+
+export const sampleContentAtom = {
+  id: "",
+  atomType: "",
+};
