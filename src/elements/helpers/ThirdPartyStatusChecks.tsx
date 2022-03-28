@@ -1,7 +1,6 @@
 import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useState } from "react";
-import { unescapeHtml } from "./html";
 import {
   message,
   naughtyColours,
