@@ -1,10 +1,3 @@
-export const unescapeHtml = (html: string): string => {
-  return (
-    new DOMParser().parseFromString(html, "text/html").documentElement
-      .textContent ?? ""
-  );
-};
-
 export const parseHtml = (html: string) => {
   const parsedHtml = new DOMParser().parseFromString(html, "text/html");
   return parsedHtml.body.firstElementChild;

@@ -1,7 +1,6 @@
 import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useState } from "react";
-import { unescapeHtml } from "./html";
 import {
   message,
   naughtyColours,
@@ -90,7 +89,7 @@ export const TrackingStatusChecks = ({
     html: string,
     options: { isSubscribed: boolean }
   ) => {
-    checkThirdPartyTracking(unescapeHtml(html))
+    checkThirdPartyTracking(html)
       .then((response) => {
         if (options.isSubscribed) {
           updateTrackingStatus(response);

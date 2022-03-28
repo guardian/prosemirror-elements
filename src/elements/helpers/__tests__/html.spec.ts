@@ -1,17 +1,4 @@
-import { htmlContainsSingleIframe, parseHtml, unescapeHtml } from "../html";
-
-describe("unescapeHtml", () => {
-  it("should unescape HTML", () => {
-    const escapedHtml =
-      "&lt;a href=&quot;https://www.example.com&quot;&gt;Example website&lt;/a&gt;";
-
-    const unescapedHtml = unescapeHtml(escapedHtml);
-
-    expect(unescapedHtml).toEqual(
-      '<a href="https://www.example.com">Example website</a>'
-    );
-  });
-});
+import { htmlContainsSingleIframe, parseHtml } from "../html";
 
 describe("parseHtml", () => {
   it("should return an object", () => {
