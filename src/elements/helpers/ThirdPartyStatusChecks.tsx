@@ -90,7 +90,7 @@ export const TrackingStatusChecks = ({
     html: string,
     options: { isSubscribed: boolean }
   ) => {
-    checkThirdPartyTracking(unescapeHtml(html))
+    checkThirdPartyTracking(html)
       .then((response) => {
         if (options.isSubscribed) {
           updateTrackingStatus(response);
