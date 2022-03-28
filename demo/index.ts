@@ -12,7 +12,7 @@ import { EditorView } from "prosemirror-view";
 import {
   codeElement,
   commentElement,
-  contentAtomElement,
+  createContentAtomElement,
   createDemoImageElement,
   createEmbedElement,
   createImageElement,
@@ -200,7 +200,11 @@ const {
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
     }),
-    "content-atom": contentAtomElement,
+    "content-atom": createContentAtomElement(() => ({
+      title: "hello",
+      html: "<p> hello </p>",
+      published: true,
+    })),
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
