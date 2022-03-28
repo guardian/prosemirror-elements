@@ -18,24 +18,36 @@ const elementTypeToName = {
 
 export const DeprecatedForm: React.FunctionComponent<Props> = ({
   fieldValues,
-}) => (
-  <div>
-    <FieldLayoutVertical>
-      <InputHeading
-        headingLabel={`Content from ${
-          elementTypeToName[fieldValues.type] || upperFirst(fieldValues.type)
-        }`}
-      />
-      <Description>
-        <p>
-          This way of representing content of this type is no longer used, and
-          may not appear on some or all platforms.
-        </p>
-        <details>
-          <summary>Show content data</summary>
-          <pre>{JSON.stringify(JSON.parse(fieldValues.data), null, 2)}</pre>
-        </details>
-      </Description>
-    </FieldLayoutVertical>
-  </div>
-);
+}) => {
+  const elementType =
+    elementTypeToName[fieldValues.type] || upperFirst(fieldValues.type);
+  return (
+    <div>
+      <FieldLayoutVertical>
+        <InputHeading headingLabel={`Content from ${elementType}`} />
+        <Description>
+          <p>
+            This element represents content from {elementType}. It was added in
+            an older version of Composer and may no longer be supported by all
+            of our platforms.
+          </p>
+          <p>
+            Please contact{" "}
+            <a
+              target="_blank"
+              rel="noopener"
+              href="central.production@guardian.co.uk"
+            >
+              Central Production
+            </a>{" "}
+            if you need more information.
+          </p>
+          <details>
+            <summary>Show content data</summary>
+            <pre>{JSON.stringify(JSON.parse(fieldValues.data), null, 2)}</pre>
+          </details>
+        </Description>
+      </FieldLayoutVertical>
+    </div>
+  );
+};
