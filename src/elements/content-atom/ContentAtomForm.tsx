@@ -2,10 +2,15 @@ import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import type { contentAtomFields } from "./ContentAtomSpec";
+import { Preview } from "../helpers/Preview";
+import type {
+  contentAtomFields,
+  FetchContentAtomData,
+} from "./ContentAtomSpec";
 
 type Props = {
   fieldValues: FieldNameToValueMap<typeof contentAtomFields>;
+  fetchContentAtomData: FetchContentAtomData;
 };
 
 export const ContentAtomForm: React.FunctionComponent<Props> = ({
@@ -15,12 +20,7 @@ export const ContentAtomForm: React.FunctionComponent<Props> = ({
     <FieldLayoutVertical>
       <Columns>
         <Column width={1 / 3}>
-          {/* <IframeAspectRatioContainer
-            height={fieldValues.height}
-            width={fieldValues.width}
-            html={fieldValues.html}
-            originalUrl={fieldValues.originalUrl}
-          /> */}
+          <Preview />
         </Column>
         <Column width={2 / 3}>
           <FieldLayoutVertical>
