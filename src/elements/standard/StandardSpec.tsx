@@ -32,6 +32,7 @@ export const createStandardFields = (
       { text: "supporting", value: "supporting" },
       { text: "showcase", value: "showcase" },
       { text: "immersive", value: "immersive" },
+      { text: "thumbnail", value: "thumbnail" },
     ]),
     url: createTextField({ absentOnEmpty: true }),
     description: createTextField({ absentOnEmpty: true }),
