@@ -23,7 +23,7 @@ type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
 
 export const transformElementDataIn = <FDesc extends FieldDescriptions<string>>(
   transformRole: boolean
-): TransformIn<FlexibleModelElement<FDesc>, FDesc> => ({ fields }) => {
+): TransformIn<FlexibleModelElement<FDesc>, FDesc> => ({ fields, assets }) => {
   const transformedFields = { ...fields } as FieldNameToValueMap<FDesc>;
 
   if (transformRole) {
@@ -32,6 +32,10 @@ export const transformElementDataIn = <FDesc extends FieldDescriptions<string>>(
     };
     (transformedFields as FieldWithRole).role =
       (transformedFields.role as string | undefined) ?? undefinedDropdownValue;
+  }
+
+  if (assets?.length) {
+    return { ...transformedFields, assets };
   }
 
   return transformedFields;
