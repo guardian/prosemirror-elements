@@ -22,17 +22,24 @@ import { StandardForm, StandardFormLargePreview } from "./StandardForm";
  * which only use a subset of their flexible-model fields.
  */
 export const createStandardFields = (
-  createCaptionPlugins?: (schema: Schema) => Plugin[]
+  createCaptionPlugins?: (schema: Schema) => Plugin[],
+  hasThumbnailRole = true
 ) => {
+  const roles = [
+    { text: "inline (default)", value: undefinedDropdownValue },
+    { text: "supporting", value: "supporting" },
+    { text: "showcase", value: "showcase" },
+    { text: "immersive", value: "immersive" },
+  ];
+
+  if (hasThumbnailRole) {
+    roles.push({ text: "thumbnail", value: "thumbnail" });
+  }
+
   return {
     source: createTextField({ absentOnEmpty: true }),
     isMandatory: createCustomField(true, true),
-    role: createCustomDropdownField(undefinedDropdownValue, [
-      { text: "inline (default)", value: undefinedDropdownValue },
-      { text: "supporting", value: "supporting" },
-      { text: "showcase", value: "showcase" },
-      { text: "immersive", value: "immersive" },
-    ]),
+    role: createCustomDropdownField(undefinedDropdownValue, roles),
     url: createTextField({ absentOnEmpty: true }),
     description: createTextField({ absentOnEmpty: true }),
     originalUrl: createTextField({ absentOnEmpty: true }),
@@ -56,15 +63,17 @@ export type StandardElementOptions = {
   createCaptionPlugins?: (schema: Schema) => Plugin[];
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   useLargePreview?: boolean;
+  hasThumbnailRole?: boolean;
 };
 
 export const createStandardElement = ({
   createCaptionPlugins,
   checkThirdPartyTracking,
   useLargePreview,
+  hasThumbnailRole,
 }: StandardElementOptions) =>
   createReactElementSpec(
-    createStandardFields(createCaptionPlugins),
+    createStandardFields(createCaptionPlugins, hasThumbnailRole),
     (props) => {
       const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
       return (

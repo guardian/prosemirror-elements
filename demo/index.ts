@@ -166,7 +166,11 @@ const {
     code: codeElement,
     pullquote: pullquoteElement,
     "rich-link": richlinkElement,
-    video: standardElement,
+    video: createStandardElement({
+      createCaptionPlugins,
+      checkThirdPartyTracking: mockThirdPartyTracking,
+      hasThumbnailRole: false,
+    }),
     audio: standardElement,
     map: standardElement,
     table: tableElement,

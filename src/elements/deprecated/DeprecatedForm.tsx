@@ -28,8 +28,8 @@ export const DeprecatedForm: React.FunctionComponent<Props> = ({
         <Description>
           <p>
             This element represents content from {elementType}. It was added in
-            an older version of Composer and may no longer be supported by all
-            of our platforms.
+            an older version of Composer and may not be supported or render
+            correctly on all platforms.
           </p>
           <p>
             Please contact{" "}
