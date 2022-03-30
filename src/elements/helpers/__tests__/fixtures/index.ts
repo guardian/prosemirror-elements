@@ -5,6 +5,7 @@ import map from "./map.json";
 import membership from "./membership.json";
 import richLink from "./rich-link.json";
 import table from "./table.json";
+import tweet from "./tweet.json";
 import vine from "./vine.json";
 import witness from "./witness.json";
 
@@ -22,4 +23,5 @@ export const allElementFixtures = {
   witness,
   vine,
   instagram,
+  tweet,
 };
