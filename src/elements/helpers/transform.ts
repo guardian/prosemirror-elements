@@ -1,4 +1,5 @@
 import type { codeFields } from "../code/CodeElementSpec";
+import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
 import { transformElement as deprecatedElementTransform } from "../deprecated/deprecatedTransformer";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
@@ -16,6 +17,7 @@ export const undefinedDropdownValue = "none-selected";
 
 const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
+  "content-atom": defaultElementTransform<typeof contentAtomFields>(),
   embed: embedElementTransform,
   image: imageElementTransform,
   interactive: interactiveElementTransform,

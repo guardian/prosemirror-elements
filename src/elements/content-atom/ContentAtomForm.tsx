@@ -40,7 +40,7 @@ export const ContentAtomForm: React.FunctionComponent<Props> = ({
               </Label>
               {editorLink && (
                 <Label>
-                  <a href={editorLink}>edit link</a>
+                  <a href={editorLink}>Edit atom</a>
                 </Label>
               )}
               <Label>

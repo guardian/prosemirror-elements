@@ -7,6 +7,7 @@ import {
   richlinkElement,
   tableElement,
 } from "../../..";
+import { createContentAtomElement } from "../../content-atom/ContentAtomSpec";
 import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
@@ -27,6 +28,13 @@ describe("Element fixtures", () => {
     checkThirdPartyTracking: Promise.resolve,
   });
   const elements = {
+    "content-atom": createContentAtomElement(() => ({
+      title: "",
+      html: "",
+      published: true,
+      embedLink: "",
+      editorLink: "",
+    })),
     "rich-link": richlinkElement,
     membership: membershipElement,
     audio: standardElement,
@@ -87,7 +95,7 @@ describe("Element fixtures", () => {
              */
             const ignoredFieldValues = [];
 
-            if (!element.fields.isMandatory) {
+            if (!(element.fields as { isMandatory: string }).isMandatory) {
               ignoredFieldValues.push("fields.isMandatory");
             }
             if (!(element.fields as { role: string }).role) {
