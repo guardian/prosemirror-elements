@@ -28,6 +28,7 @@ export interface RepeaterFieldDescription<
 export class RepeaterFieldView {
   public static fieldName = repeaterFieldName;
   public static fieldType = FieldType.REPEATER;
+  public static defaultValue = [];
 
   public constructor(
     private node: Node,
@@ -56,5 +57,9 @@ export class RepeaterFieldView {
 
   public removeNode() {
     console.log("To be implemented: remove a node");
+  }
+
+  public destroy() {
+    console.log("To be implemented: destroy");
   }
 }

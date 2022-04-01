@@ -5,6 +5,8 @@ import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
+import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import { getFieldNameFromNode } from "../nodeSpec";
@@ -22,6 +24,7 @@ export const fieldTypeToViewMap = {
   [CheckboxFieldView.fieldName]: CheckboxFieldView,
   [DropdownFieldView.fieldName]: DropdownFieldView,
   [CustomFieldView.fieldName]: CustomFieldView,
+  [RepeaterFieldView.fieldName]: RepeaterFieldView,
 };
 
 export type FieldTypeToViewMap<Field> = {
@@ -32,6 +35,7 @@ export type FieldTypeToViewMap<Field> = {
   [CustomFieldView.fieldName]: Field extends CustomFieldDescription<infer Data>
     ? CustomFieldView<Data>
     : never;
+  [RepeaterFieldView.fieldName]: RepeaterFieldView;
 };
 
 /**
@@ -49,6 +53,11 @@ export type FieldTypeToValueMap<
     infer Data
   >
     ? Data
+    : never;
+  [RepeaterFieldView.fieldName]: FDesc[Name] extends RepeaterFieldDescription<
+    infer NestedFDesc
+  >
+    ? FieldTypeToValueMap<NestedFDesc, keyof NestedFDesc>
     : never;
 };
 
