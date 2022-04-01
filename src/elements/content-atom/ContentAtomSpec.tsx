@@ -7,6 +7,8 @@ export type ContentAtomData = {
   html: string;
   published: boolean;
   title: string;
+  embedLink: string;
+  editorLink: string;
 };
 
 export type FetchContentAtomData = (
@@ -30,9 +32,3 @@ export const createContentAtomElement = (
       />
     );
   });
-
-// isAtomPublished // Doesn't see to be used
-// hasAtomEditor // = atomType !== "interactive";
-// elementTitle // atom.title
-// elementPublished // atom.contentChangeDetails.published
-// defaultHtml // if not quiz atom  // !previewAtom.defaultHtml

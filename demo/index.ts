@@ -201,9 +201,16 @@ const {
       createCaptionPlugins,
     }),
     "content-atom": createContentAtomElement(() => ({
-      title: "hello",
-      html: "<p> hello </p>",
+      title: "Test Atom",
+      html: `<div class="atom-Profile">
+          <p><strong>Test item</strong></p>
+          <p><p>-here is a test item</p></p>
+          <p><strong>second post</strong></p>
+          <p><p>- test</p></p>
+        </div>`,
       published: true,
+      embedLink: "https://example.com",
+      editorLink: "https://example.com",
     })),
   },
   {
