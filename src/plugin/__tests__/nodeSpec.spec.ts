@@ -4,18 +4,39 @@ import { getNodeSpecForField } from "../nodeSpec";
 
 describe("NodeSpec generation", () => {
   describe("Repeater fields", () => {
-    it("should create a NodeSpec for the repeater field node", () => {
+    it("should create a NodeSpec for the repeater field node that permits the nested content, and a NodeSpec for the nested field", () => {
       const nodeSpec = getNodeSpecForField(
-        "example-element",
-        "example-repeater",
+        "exampleElement",
+        "exampleRepeater",
         createRepeaterField({
           exampleField: createTextField(),
         })
       );
 
-      expect(nodeSpec).toBe({});
+      expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
+        content: "exampleElement__exampleField",
+      });
+      expect(nodeSpec["exampleElement__exampleField"]).toBeTruthy();
     });
 
-    it("should create a NodeSpec for each child field of the repeater field node", () => {});
+    it("should handle nested repeater fields", () => {
+      const nodeSpec = getNodeSpecForField(
+        "exampleElement",
+        "exampleRepeater",
+        createRepeaterField({
+          nestedRepeaterField: createRepeaterField({
+            exampleField: createTextField(),
+          }),
+        })
+      );
+
+      expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
+        content: "exampleElement__nestedRepeaterField",
+      });
+      expect(nodeSpec["exampleElement__nestedRepeaterField"]).toMatchObject({
+        content: "exampleElement__exampleField",
+      });
+      expect(nodeSpec["exampleElement__exampleField"]).toBeTruthy();
+    });
   });
 });
