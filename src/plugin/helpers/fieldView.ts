@@ -57,7 +57,7 @@ export type FieldTypeToValueMap<
   [RepeaterFieldView.fieldName]: FDesc[Name] extends RepeaterFieldDescription<
     infer NestedFDesc
   >
-    ? FieldTypeToValueMap<NestedFDesc, keyof NestedFDesc>
+    ? Array<FieldNameToValueMap<NestedFDesc>>
     : never;
 };
 

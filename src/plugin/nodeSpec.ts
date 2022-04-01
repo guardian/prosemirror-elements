@@ -1,6 +1,9 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
+import { FieldType } from "./fieldViews/FieldView";
+import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
+import { repeaterFieldName } from "./fieldViews/RepeaterFieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
@@ -40,11 +43,7 @@ const getNodeSpecForElement = (
   [nodeName]: {
     defining: true,
     group: groupName,
-    content: getDeterministicFieldOrder(
-      Object.keys(fieldDescription).map((fieldName) =>
-        getNodeNameFromField(fieldName, nodeName)
-      )
-    ).join(" "),
+    content: getContentStringFromFields(fieldDescription, nodeName),
     attrs: {
       [elementNodeAttr]: { default: true },
       [elementSelectedNodeAttr]: { default: false },
@@ -180,13 +179,7 @@ export const getNodeSpecForField = (
         {}
       );
 
-      // The repeater nodes content will be the immediate child fields of this repeater, in order
-      const immediateChildFields = Object.keys(field.fields).map((fieldName) =>
-        getNodeNameFromField(fieldName, elementName)
-      );
-      const content = getDeterministicFieldOrder(immediateChildFields).join(
-        " "
-      );
+      const content = getContentStringFromFields(field.fields, elementName);
 
       return {
         [nodeName]: {
@@ -260,7 +253,7 @@ export const createNodesForFieldValues = <
     Object.keys(fieldDescriptions)
   );
 
-  return orderedFieldNames.map((fieldName) => {
+  return orderedFieldNames.flatMap((fieldName) => {
     const field = fieldDescriptions[fieldName];
     const fieldView = fieldTypeToViewMap[field.type];
     const nodeType = schema.nodes[getNodeNameFromField(fieldName, nodeName)];
@@ -269,21 +262,56 @@ export const createNodesForFieldValues = <
       fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
-    if (fieldView.fieldType === "CONTENT") {
-      const content = fieldValue as string;
+    switch (fieldView.fieldType) {
+      case FieldType.CONTENT: {
+        let content = fieldValue as string;
 
-      return field.type === "richText"
-        ? createContentNodeFromRichText(
-            schema,
-            content,
-            nodeType.create({ type: field.type })
-          )
-        : createContentNodeFromText(content, field, nodeType);
-    } else {
-      return nodeType.create({ type: field.type, fields: fieldValue });
+        return [
+          field.type === "richText"
+            ? createContentNodeFromRichText(
+                schema,
+                content,
+                nodeType.create({ type: field.type })
+              )
+            : createContentNodeFromText(content, field, nodeType),
+        ];
+      }
+      case FieldType.ATTRIBUTES: {
+        return [nodeType.create({ type: field.type, fields: fieldValue })];
+      }
+      case FieldType.REPEATER: {
+        const content = fieldValue as [];
+        return createRepeaterNode(
+          content,
+          field as RepeaterFieldDescription<Record<string, never>>,
+          nodeType,
+          fieldName,
+          nodeName
+        );
+      }
     }
   });
 };
+
+const createRepeaterNode = <
+  Name extends string,
+  FDesc extends FieldDescriptions<Name>
+>(
+  valuesArray: unknown[],
+  fieldDesc: RepeaterFieldDescription<FDesc>,
+  nodeType: NodeType,
+  fieldName: string,
+  nodeName: string
+): Node[] =>
+  valuesArray.map((fieldValues) => {
+    const fieldNodes = createNodesForFieldValues(
+      nodeType.schema,
+      fieldDesc.fields,
+      fieldValues as any,
+      nodeName
+    );
+    return nodeType.createAndFill({ type: fieldDesc.type }, fieldNodes) as Node;
+  });
 
 const createContentNodeFromText = (
   content: string,
@@ -308,6 +336,19 @@ const createContentNodeFromRichText = <S extends Schema>(
     preserveWhitespace: false,
   });
 };
+
+export const getContentStringFromFields = (
+  fieldDesc: FieldDescriptions<string>,
+  nodeName: string
+): string =>
+  getDeterministicFieldOrder(
+    Object.keys(fieldDesc).map(
+      (fieldName) =>
+        `${getNodeNameFromField(fieldName, nodeName)}${
+          fieldDesc[fieldName].type === repeaterFieldName ? "*" : ""
+        }`
+    )
+  ).join(" ");
 
 /**
  * It doesn't really matter which order we add our fields to our NodeSpec –

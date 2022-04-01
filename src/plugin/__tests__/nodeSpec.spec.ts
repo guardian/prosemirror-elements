@@ -197,6 +197,9 @@ describe("nodeSpec generation", () => {
           })
         );
 
+        expect(nodeSpec["exampleElement"]).toMatchObject({
+          content: "exampleElement__exampleRepeater*",
+        });
         expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
           content: "exampleElement__exampleField",
         });
@@ -215,7 +218,7 @@ describe("nodeSpec generation", () => {
         );
 
         expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
-          content: "exampleElement__nestedRepeaterField",
+          content: "exampleElement__nestedRepeaterField*",
         });
         expect(nodeSpec["exampleElement__nestedRepeaterField"]).toMatchObject({
           content: "exampleElement__exampleField",
