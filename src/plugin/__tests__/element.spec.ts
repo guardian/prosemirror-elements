@@ -190,7 +190,7 @@ describe("buildElementPlugin", () => {
     });
   });
 
-  describe("Element creation and serialisation", () => {
+  describe("Element creation", () => {
     it("should create an element with default content when no fields are supplied", () => {
       const testElement = createNoopElement({
         field1: { type: "checkbox", defaultValue: false },
@@ -337,7 +337,7 @@ describe("buildElementPlugin", () => {
     });
   });
 
-  describe("Serialisation/deserialisation", () => {
+  describe("Handling element data", () => {
     const testElementHTML = `
           <div pme-element-type="testElement">
           <div pme-field-name="testElement__field1"><p></p></div>
@@ -432,7 +432,7 @@ describe("buildElementPlugin", () => {
       },
     } as const;
 
-    describe("Element parsing", () => {
+    describe("Parsing HTML representing element data", () => {
       it("should parse fields of all types, respecting values against defaults", () => {
         const elementHTML = `
           <div pme-element-type="testElement">
@@ -747,107 +747,104 @@ describe("buildElementPlugin", () => {
           // @ts-expect-error -- we should not be able to access non-element properties
           element.notAField;
         });
+      });
+    });
 
-        describe("validateElementData", () => {
-          it("should output found errors", () => {
-            const { validateElementData } = createEditorWithElements({
-              testElementWithValidation,
-              testElementWithDifferentValidation,
-            });
+    describe("Validation", () => {
+      it("should output found errors", () => {
+        const { validateElementData } = createEditorWithElements({
+          testElementWithValidation,
+          testElementWithDifferentValidation,
+        });
 
-            const errors = validateElementData({
-              elementName: "testElementWithValidation",
-              values: {
-                field1: "Some text",
-              },
-            });
+        const errors = validateElementData({
+          elementName: "testElementWithValidation",
+          values: {
+            field1: "Some text",
+          },
+        });
 
-            expect(errors).toEqual({
-              field1: [{ error: "Some error", message: "", level: "ERROR" }],
-            });
+        expect(errors).toEqual({
+          field1: [{ error: "Some error", message: "", level: "ERROR" }],
+        });
 
-            const otherErrors = validateElementData({
-              elementName: "testElementWithDifferentValidation",
-              values: { checkbox: true },
-            });
+        const otherErrors = validateElementData({
+          elementName: "testElementWithDifferentValidation",
+          values: { checkbox: true },
+        });
 
-            expect(otherErrors).toEqual({
-              checkbox: [
-                {
-                  error: "Some other error",
-                  message: "A human readable message",
-                  level: "ERROR",
-                },
-              ],
-            });
-          });
+        expect(otherErrors).toEqual({
+          checkbox: [
+            {
+              error: "Some other error",
+              message: "A human readable message",
+              level: "ERROR",
+            },
+          ],
+        });
+      });
 
-          it("should output undefined if there are no errors", () => {
-            const { validateElementData } = createEditorWithElements({
-              testElement,
-            });
+      it("should output undefined if there are no errors", () => {
+        const { validateElementData } = createEditorWithElements({
+          testElement,
+        });
 
-            const errors = validateElementData({
-              elementName: "testElement",
-              values: testElementValues.values,
-            });
+        const errors = validateElementData({
+          elementName: "testElement",
+          values: testElementValues.values,
+        });
 
-            expect(errors).toEqual(undefined);
-          });
+        expect(errors).toEqual(undefined);
+      });
 
-          it("should not allow values which don't match the element", () => {
-            const { validateElementData } = createEditorWithElements({
-              testElement,
-            });
+      it("should not allow values which don't match the element", () => {
+        const { validateElementData } = createEditorWithElements({
+          testElement,
+        });
 
-            // @ts-expect-error -- values need to match the expected shape
-            const errors = validateElementData("testElement", { a: 123 });
+        // @ts-expect-error -- values need to match the expected shape
+        const errors = validateElementData("testElement", { a: 123 });
 
-            expect(errors).toEqual(undefined);
-          });
+        expect(errors).toEqual(undefined);
+      });
 
-          it("should not allow non-existent elements", () => {
-            const { validateElementData } = createEditorWithElements({
-              testElement,
-            });
-            validateElementData({
-              // @ts-expect-error -- we should not be able to check a non-existent element
-              elementName: "non-existing-element",
-              values: testElementValues.values,
-            });
-          });
+      it("should not allow non-existent elements", () => {
+        const { validateElementData } = createEditorWithElements({
+          testElement,
+        });
+        validateElementData({
+          // @ts-expect-error -- we should not be able to check a non-existent element
+          elementName: "non-existing-element",
+          values: testElementValues.values,
+        });
+      });
 
-          it("should accept the getElementDataFromNode output", () => {
-            const {
-              insertElement,
-              getElementDataFromNode,
-              validateElementData,
-              view,
-              serializer,
-            } = createEditorWithElements({
-              testElementWithValidation,
-              testElementWithDifferentValidation,
-            });
+      it("should accept the getElementDataFromNode output", () => {
+        const {
+          insertElement,
+          getElementDataFromNode,
+          validateElementData,
+          view,
+          serializer,
+        } = createEditorWithElements({
+          testElementWithValidation,
+          testElementWithDifferentValidation,
+        });
 
-            const elementName = "testElementWithValidation";
+        const elementName = "testElementWithValidation";
 
-            insertElement({
-              elementName,
-              values: { field1: "Some text" },
-            })(view.state, view.dispatch);
+        insertElement({
+          elementName,
+          values: { field1: "Some text" },
+        })(view.state, view.dispatch);
 
-            const errors = validateElementData(
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion  -- We know this exists for the purposes of the test
-              getElementDataFromNode(
-                view.state.doc.firstChild as Node,
-                serializer
-              )!
-            );
+        const errors = validateElementData(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion  -- We know this exists for the purposes of the test
+          getElementDataFromNode(view.state.doc.firstChild as Node, serializer)!
+        );
 
-            expect(errors).toEqual({
-              field1: [{ error: "Some error", message: "", level: "ERROR" }],
-            });
-          });
+        expect(errors).toEqual({
+          field1: [{ error: "Some error", message: "", level: "ERROR" }],
         });
       });
     });
