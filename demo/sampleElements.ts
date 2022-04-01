@@ -354,6 +354,6 @@ export const sampleTweet = {
 };
 
 export const sampleContentAtom = {
-  id: "",
-  atomType: "",
+  id: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
+  atomType: "recipe",
 };

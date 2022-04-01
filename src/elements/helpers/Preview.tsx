@@ -146,7 +146,7 @@ export const Preview = ({
 
   return (
     <div>
-      <InputHeading headingLabel={headingLabel} {...rest} />
+      {headingLabel && <InputHeading headingLabel={headingLabel} {...rest} />}
       {preview}
     </div>
   );
