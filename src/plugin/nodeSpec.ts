@@ -1,6 +1,11 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
+import { FieldType } from "./fieldViews/FieldView";
+import {
+  repeaterFieldName,
+  RepeaterFieldView,
+} from "./fieldViews/RepeaterFieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
@@ -171,6 +176,31 @@ export const getNodeSpecForField = (
           },
         },
       };
+    case "repeater": {
+      const extraFields = Object.entries(field.fields).reduce<NodeSpec>(
+        (acc, [nestedFieldName, nestedField]) => ({
+          ...acc,
+          ...getNodeSpecForField(elementName, nestedFieldName, nestedField),
+        }),
+        {}
+      );
+
+      // The repeater nodes content will be these fields, in order
+      const content = getDeterministicFieldOrder(Object.keys(extraFields)).join(
+        " "
+      );
+
+      return {
+        [nodeName]: {
+          group: fieldGroupName,
+          content,
+          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          parseDOM: getDefaultParseDOMForLeafNode(nodeName),
+          attrs: {},
+        },
+        ...extraFields,
+      };
+    }
   }
 };
 
