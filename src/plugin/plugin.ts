@@ -194,6 +194,11 @@ const createNodeView = <
   const initValues = getFieldValuesFromNode(fields, initNode, serializer);
   const initCommands = commands(getPos, view);
 
+  console.log({
+    initValues,
+    value: (serializer.serializeNode(initNode) as any).innerHTML,
+  });
+
   // Because nodes and decorations are immutable in ProseMirror, we can compare
   // current nodes to new nodes to determine whether node content has changed.
   // We therefore cache the current node and field values here to enable this

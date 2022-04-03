@@ -185,7 +185,7 @@ export const getNodeSpecForField = (
         [nodeName]: {
           group: fieldGroupName,
           content,
-          toDOM: getDefaultToDOMForLeafNode(nodeName),
+          toDOM: getDefaultToDOMForRepeaterNode(nodeName),
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {},
         },
@@ -220,6 +220,14 @@ const getDefaultToDOMForLeafNode = (nodeName: string) => (node: Node) => [
     [fieldNameAttr]: nodeName,
     fields: JSON.stringify(node.attrs.fields),
   },
+];
+
+const getDefaultToDOMForRepeaterNode = (nodeName: string) => [
+  "div",
+  {
+    [fieldNameAttr]: nodeName,
+  },
+  0,
 ];
 
 const getDefaultParseDOMForLeafNode = (nodeName: string) => [

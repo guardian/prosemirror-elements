@@ -46,6 +46,29 @@ describe("nodeSpec generation", () => {
     });
   });
 
+  it("should create child nodes for repeater fields, and the parent node should allow zero-many of these nodes in its content expression", () => {
+    const testElement1 = createNoopElement({
+      fieldRepeater: {
+        type: "repeater",
+        fields: {
+          field1: { type: "richText" },
+        },
+      },
+    });
+    const nodeSpec = getNodeSpecFromFieldDescriptions(
+      "testElement1",
+      "group1",
+      testElement1.fieldDescriptions
+    );
+
+    expect(nodeSpec.get("testElement1")).toMatchObject({
+      content: "testElement1__fieldRepeater*",
+    });
+    expect(nodeSpec.get("testElement1__field1")).toMatchObject({
+      content: "paragraph+",
+    });
+  });
+
   describe("fields", () => {
     describe("richText", () => {
       it("should allow the user to specify content, attribute and marks properties", () => {
@@ -197,9 +220,6 @@ describe("nodeSpec generation", () => {
           })
         );
 
-        expect(nodeSpec["exampleElement"]).toMatchObject({
-          content: "exampleElement__exampleRepeater*",
-        });
         expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
           content: "exampleElement__exampleField",
         });
