@@ -139,6 +139,19 @@ export const getFieldValueFromNode = (
   if (fieldDescription.type === "text") {
     return getValuesFromTextContentNode(node);
   }
+  if (fieldDescription.type === "repeater") {
+    type ContentType = FieldNameToValueMap<typeof fieldDescription.fields>;
+    const content = [] as ContentType[];
+
+    node.content.forEach((child) => {
+      const fieldName = getFieldNameFromNode(child);
+      const childDesc = fieldDescription.fields[fieldName];
+      content.push(
+        getFieldValueFromNode(child, childDesc, serializer) as ContentType
+      );
+    });
+    return content;
+  }
   return undefined;
 };
 

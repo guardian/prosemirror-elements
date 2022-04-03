@@ -160,17 +160,12 @@ const createNodeView = <
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- unsure why this triggers
-    if (fields[fieldName]) {
-      throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but another instance with that name has already been created.`
-      );
-    }
     const fieldDescriptions = element.fieldDescriptions[fieldName];
+
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldDescriptions) {
       throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associate field`
+        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associated field`
       );
     }
 
