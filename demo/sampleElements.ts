@@ -352,3 +352,23 @@ export const sampleTweet = {
   html: `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Gosh Github support for <a href="https://t.co/Giw3LjKthH">https://t.co/Giw3LjKthH</a> is lovely :)))</p>&mdash; Jonathon Herbert (@js_herbert) <a href="https://twitter.com/js_herbert/status/1495470075062767627?ref_src=twsrc%5Etfw">February 20, 2022</a></blockquote>`,
   authorName: "Jonathan Herbert",
 };
+
+export const sampleComment = {
+  source: "Guardian Discussion",
+  discussionKey: "/p/6ey2y",
+  isMandatory: "true",
+  commentUrl:
+    "https://discussion.guardianapis.com/discussion-api/comment/99054411",
+  originalUrl:
+    "https://www.theguardian.com/books/live/2017/may/18/lucy-worsley-webchat-jane-austen-at-home#comment-99054411",
+  height: "460",
+  sourceUrl: "http://www.theguardian.com",
+  discussionUrl:
+    "https://www.theguardian.com/books/live/2017/may/18/lucy-worsley-webchat-jane-austen-at-home",
+  authorUrl: "http://www.theguardian.com/discussion/user/id/17773745",
+  html:
+    '\n<div class="d2-comment-embedded" itemscope itemtype="http://schema.org/Comment">\n  <div class="d2-left-col">\n    <a href="https://profile.theguardian.com/user/id/17773745" title="View lucyworsley’s profile">\n      <img class="d2-avatar" src="https://avatar.guim.co.uk/user/17773745" height="40" width="40" alt="User avatar for lucyworsley">\n    </a>\n      </div>\n  <div class="d2-right-col">\n    <div itemscope itemprop="author" itemtype="http://schema.org/Person">\n      <a class="d2-username" href="https://profile.theguardian.com/user/id/17773745" title="View lucyworsley’s profile" itemprop="url">\n        <span itemprop="givenName">lucyworsley</span>\n      </a>\n    </div>\n    <div class="d2-permalink">\n      <a class="d2-datetime" href="https://discussion.theguardian.com/comment-permalink/99054411" title="Link to this comment" itemprop="datePublished">22 May 2017 2:04pm</a>\n    </div>\n        <div class="d2-body" itemprop="text"><p>Thanks for the questions. And I see some of you have already read my book Jane Austen At Home. You are people with taste and intelligence, and I salute you. The rest of you, you know what to do.</p> <p>Watch out for our BBC2 documentary on Saturday night - Jane Austen: Behind Closed Doors at 9pm. I\'ve heard there is some football on, but you don\'t want to watch that.</p> <p>Bye!</p></div>\n  </div>\n</div>\n',
+  width: "460",
+  authorName: "lucyworsley",
+  commentId: "99054411",
+};

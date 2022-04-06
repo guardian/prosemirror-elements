@@ -7,6 +7,7 @@ import {
   richlinkElement,
   tableElement,
 } from "../../..";
+import { commentElement } from "../../comment/CommentSpec";
 import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
@@ -40,6 +41,7 @@ describe("Element fixtures", () => {
       checkThirdPartyTracking: Promise.resolve,
       createCaptionPlugins: undefined,
     }),
+    comment: commentElement,
   } as const;
 
   const {

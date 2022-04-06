@@ -1,4 +1,5 @@
 import audio from "./audio.json";
+import comment from "./comment.json";
 import document from "./document.json";
 import instagram from "./instagram.json";
 import map from "./map.json";
@@ -24,4 +25,5 @@ export const allElementFixtures = {
   vine,
   instagram,
   tweet,
+  comment,
 };

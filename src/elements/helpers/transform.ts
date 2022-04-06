@@ -1,4 +1,5 @@
 import type { codeFields } from "../code/CodeElementSpec";
+import type { commentFields } from "../comment/CommentSpec";
 import { transformElement as deprecatedElementTransform } from "../deprecated/deprecatedTransformer";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
@@ -38,6 +39,9 @@ const transformMap = {
   tweet: defaultElementTransform<ReturnType<typeof createTweetFields>>({
     isMandatory: true,
     transformRole: true,
+  }),
+  comment: defaultElementTransform<typeof commentFields>({
+    isMandatory: true,
   }),
 } as const;
 
