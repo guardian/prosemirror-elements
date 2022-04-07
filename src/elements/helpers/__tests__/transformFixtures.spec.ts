@@ -7,7 +7,6 @@ import {
   richlinkElement,
   tableElement,
 } from "../../..";
-import { fieldNameAttr } from "../../../plugin/nodeSpec";
 import { commentElement } from "../../comment/CommentSpec";
 import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
 import { createTestSchema } from "../test";
