@@ -42,6 +42,7 @@ const transformMap = {
   }),
   comment: defaultElementTransform<typeof commentFields>({
     isMandatory: true,
+    transformRole: true,
   }),
 } as const;
 
