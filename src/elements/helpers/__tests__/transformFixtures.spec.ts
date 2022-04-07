@@ -7,6 +7,7 @@ import {
   richlinkElement,
   tableElement,
 } from "../../..";
+import { commentElement } from "../../comment/CommentSpec";
 import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
@@ -40,6 +41,7 @@ describe("Element fixtures", () => {
       checkThirdPartyTracking: Promise.resolve,
       createCaptionPlugins: undefined,
     }),
+    comment: commentElement,
   } as const;
 
   const {
@@ -69,44 +71,40 @@ describe("Element fixtures", () => {
     );
 
   // Run fixtures for each element specified in `./fixtures/index.ts` through our round-trip tests.
-  Object.entries(allElementFixtures).forEach(
-    ([elementName, elementFixtures]) => {
-      describe(`round-tripping data for the ${elementName} element fixtures in and out of prosemirror-elements' node representation`, () => {
-        it("should not change element data, unless we are knowingly supplying new defaults", () => {
-          const roundTripElementData = createRoundTripElementData(
-            elementName as keyof typeof elements
+  allElementFixtures.forEach(({ name, fixtures, defaults }) => {
+    describe(`round-tripping data for the ${name} element fixtures in and out of prosemirror-elements' node representation`, () => {
+      it("should not change element data, unless we are knowingly supplying new defaults", () => {
+        const roundTripElementData = createRoundTripElementData(
+          name as keyof typeof elements
+        );
+        fixtures.forEach(({ element }) => {
+          const roundTrippedElementData = roundTripElementData(element);
+
+          /**
+           * We expect certain differences in our elements, as both role and isMandatory
+           * properties may historically be absent but will now be added as default.
+           * If our element data does not have these properties, we ignore them in the new
+           * element data.
+           */
+          const ignoredFieldValues = [];
+
+          if (!element.fields.isMandatory) {
+            ignoredFieldValues.push("fields.isMandatory");
+          }
+
+          const elementToCompare = omit(
+            { ...element, fields: { ...(defaults ?? {}), ...element.fields } },
+            "elementType",
+            ...ignoredFieldValues
           );
-          elementFixtures.forEach(({ element }) => {
-            const roundTrippedElementData = roundTripElementData(element);
+          const roundTrippedElementToCompare = omit(
+            roundTrippedElementData,
+            ...ignoredFieldValues
+          );
 
-            /**
-             * We expect certain differences in our elements, as both role and isMandatory
-             * properties may historically be absent but will now be added as default.
-             * If our element data does not have these properties, we ignore them in the new
-             * element data.
-             */
-            const ignoredFieldValues = [];
-
-            if (!element.fields.isMandatory) {
-              ignoredFieldValues.push("fields.isMandatory");
-            }
-            if (!(element.fields as { role: string }).role) {
-              ignoredFieldValues.push("fields.role");
-            }
-            const elementToCompare = omit(
-              element,
-              "elementType",
-              ...ignoredFieldValues
-            );
-            const roundTrippedElementToCompare = omit(
-              roundTrippedElementData,
-              ...ignoredFieldValues
-            );
-
-            expect(roundTrippedElementToCompare).toEqual(elementToCompare);
-          });
+          expect(roundTrippedElementToCompare).toEqual(elementToCompare);
         });
       });
-    }
-  );
+    });
+  });
 });

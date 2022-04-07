@@ -1,4 +1,5 @@
 import audio from "./audio.json";
+import comment from "./comment.json";
 import document from "./document.json";
 import instagram from "./instagram.json";
 import map from "./map.json";
@@ -13,15 +14,16 @@ import witness from "./witness.json";
  * A map of our element fixtures, where the key represents the element name that
  * corresponds to the fixture, and the value is the fixture object.
  */
-export const allElementFixtures = {
-  "rich-link": richLink,
-  membership,
-  audio,
-  map,
-  document,
-  table,
-  witness,
-  vine,
-  instagram,
-  tweet,
-};
+export const allElementFixtures = [
+  { name: "rich-link", fixtures: richLink, defaults: { role: "thumbnail" } },
+  { name: "membership", fixtures: membership },
+  { name: "audio", fixtures: audio },
+  { name: "map", fixtures: map },
+  { name: "document", fixtures: document },
+  { name: "table", fixtures: table },
+  { name: "witness", fixtures: witness },
+  { name: "vine", fixtures: vine },
+  { name: "instagram", fixtures: instagram },
+  { name: "tweet", fixtures: tweet },
+  { name: "comment", fixtures: comment },
+];
