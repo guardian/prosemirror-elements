@@ -288,12 +288,11 @@ export const createNodesForFieldValues = <
         return [nodeType.create({ type: field.type, fields: fieldValue })];
       }
       case FieldType.REPEATER: {
-        const content = fieldValue as [];
+        const content = fieldValue as unknown[];
         return createRepeaterNode(
           content,
-          field as RepeaterFieldDescription<Record<string, never>>,
+          field as RepeaterFieldDescription<FieldDescriptions<string>>,
           nodeType,
-          fieldName,
           nodeName
         );
       }
@@ -308,14 +307,13 @@ const createRepeaterNode = <
   valuesArray: unknown[],
   fieldDesc: RepeaterFieldDescription<FDesc>,
   nodeType: NodeType,
-  fieldName: string,
   nodeName: string
 ): Node[] =>
   valuesArray.map((fieldValues) => {
     const fieldNodes = createNodesForFieldValues(
       nodeType.schema,
       fieldDesc.fields,
-      fieldValues as any,
+      fieldValues as Partial<FieldNameToValueMap<FDesc>>,
       nodeName
     );
     return nodeType.createAndFill({ type: fieldDesc.type }, fieldNodes) as Node;
