@@ -257,6 +257,10 @@ export const sampleImage = {
   altText: "",
   caption: "",
   useSrc: { value: false },
+  repeater: [
+    { text: "Example repeater text 1" },
+    { text: "Example repeater text 2" },
+  ],
 };
 
 export const sampleCallout = {
