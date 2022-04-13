@@ -259,7 +259,7 @@ describe("buildElementPlugin", () => {
       expect(getElementAsHTML()).toBe(expected);
     });
 
-    it.only("should fill out content in REPEATER nodes", () => {
+    it("should fill out content in REPEATER nodes", () => {
       const testElement = createNoopElement({
         repeater1: {
           type: "repeater",
@@ -294,6 +294,76 @@ describe("buildElementPlugin", () => {
           <div pme-field-name="testElement__repeater1">
             <div pme-field-name="testElement__field1">
               <p>Content 2</p>
+            </div>
+          </div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should fill out content in nested REPEATER nodes", () => {
+      const testElement = createNoopElement({
+        repeater1: {
+          type: "repeater",
+          fields: {
+            repeater2: {
+              type: "repeater",
+              fields: {
+                field1: { type: "richText" },
+              },
+            },
+          },
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ testElement });
+
+      insertElement({
+        elementName: "testElement",
+        values: {
+          repeater1: [
+            {
+              repeater2: [
+                { field1: "<p>Content 1</p>" },
+                { field1: "<p>Content 2</p>" },
+              ],
+            },
+            {
+              repeater2: [
+                { field1: "<p>Content 3</p>" },
+                { field1: "<p>Content 4</p>" },
+              ],
+            },
+          ],
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="testElement">
+          <div pme-field-name="testElement__repeater1">
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 1</p>
+              </div>
+            </div>
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 2</p>
+              </div>
+            </div>
+          </div>
+          <div pme-field-name="testElement__repeater1">
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 3</p>
+              </div>
+            </div>
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 4</p>
+              </div>
             </div>
           </div>
         </div>`);

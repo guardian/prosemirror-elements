@@ -222,7 +222,7 @@ const getDefaultToDOMForLeafNode = (nodeName: string) => (node: Node) => [
   },
 ];
 
-const getDefaultToDOMForRepeaterNode = (nodeName: string) => [
+const getDefaultToDOMForRepeaterNode = (nodeName: string) => () => [
   "div",
   {
     [fieldNameAttr]: nodeName,
