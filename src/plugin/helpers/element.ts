@@ -118,6 +118,18 @@ export const createGetElementDataFromNode = <
     values[fieldName] = value;
   });
 
+  // Backfill empty repeater fields with an empty array.
+  Object.entries(element.fieldDescriptions).forEach(
+    ([fieldName, fieldDesc]) => {
+      if (
+        (fieldDesc as FieldDescription).type === "repeater" &&
+        !values[fieldName]
+      ) {
+        values[fieldName] = [];
+      }
+    }
+  );
+
   return {
     elementName,
     values,
