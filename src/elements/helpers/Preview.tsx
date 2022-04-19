@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Description } from "../../editorial-source-components/Description";
 import type { InputHeadingProps } from "../../editorial-source-components/InputHeading";
 import { InputHeading } from "../../editorial-source-components/InputHeading";
@@ -54,6 +54,12 @@ const isMessageData = (data: unknown): data is MessageData =>
 const extraPreviewSpace = 4;
 // Only allow the preview to occupy this proportion of space relative to the viewport height.
 const maxHeightRelativeToViewport = 0.5;
+
+const hasInnerText = (html: string) => {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return !!div.innerText.trim().length;
+};
 
 export const Preview = ({
   html,
@@ -117,6 +123,8 @@ export const Preview = ({
     };
   }, []);
 
+  const showPreviewHtml = useMemo(() => !!html && hasInnerText(html), [html]);
+
   let preview = null;
 
   if (iframeUrl) {
@@ -129,7 +137,7 @@ export const Preview = ({
         onLoad={onInteractiveLoad}
       />
     );
-  } else if (html) {
+  } else if (showPreviewHtml) {
     preview = (
       <iframe
         srcDoc={html}
