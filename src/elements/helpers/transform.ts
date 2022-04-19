@@ -18,7 +18,10 @@ export const undefinedDropdownValue = "none-selected";
 
 const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
-  "content-atom": defaultElementTransform<typeof contentAtomFields>(),
+  "content-atom": defaultElementTransform<typeof contentAtomFields>({
+    isMandatory: true,
+    transformRole: true,
+  }),
   embed: embedElementTransform,
   image: imageElementTransform,
   interactive: interactiveElementTransform,

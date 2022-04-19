@@ -1,12 +1,15 @@
 import React from "react";
-import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { undefinedDropdownValue } from "../helpers/transform";
 import { ContentAtomForm } from "./ContentAtomForm";
 
 export type ContentAtomData = {
-  html: string;
+  defaultHtml: string;
   published: boolean;
   title: string;
   embedLink: string;
@@ -14,9 +17,9 @@ export type ContentAtomData = {
 };
 
 export type FetchContentAtomData = (
-  id: string,
-  atomType: string
-) => ContentAtomData;
+  atomType: string,
+  id: string
+) => Promise<ContentAtomData>;
 
 export const contentAtomFields = {
   id: createTextField(),
@@ -25,16 +28,22 @@ export const contentAtomFields = {
     { text: "inline (default)", value: undefinedDropdownValue },
     { text: "Immersive", value: "immersive" },
   ]),
+  isMandatory: createCustomField(true, true),
 };
 
 export const createContentAtomElement = (
   fetchContentAtomData: FetchContentAtomData
 ) =>
-  createReactElementSpec(contentAtomFields, ({ fieldValues }) => {
-    return (
-      <ContentAtomForm
-        fieldValues={fieldValues}
-        fetchContentAtomData={fetchContentAtomData}
-      />
-    );
-  });
+  createReactElementSpec(
+    contentAtomFields,
+    ({ fields, errors, fieldValues }) => {
+      return (
+        <ContentAtomForm
+          fields={fields}
+          errors={errors}
+          fieldValues={fieldValues}
+          fetchContentAtomData={fetchContentAtomData}
+        />
+      );
+    }
+  );

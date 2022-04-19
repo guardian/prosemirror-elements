@@ -29,13 +29,15 @@ describe("Element fixtures", () => {
     checkThirdPartyTracking: Promise.resolve,
   });
   const elements = {
-    "content-atom": createContentAtomElement(() => ({
-      title: "",
-      html: "",
-      published: true,
-      embedLink: "",
-      editorLink: "",
-    })),
+    "content-atom": createContentAtomElement(() =>
+      Promise.resolve({
+        title: "",
+        defaultHtml: "",
+        published: true,
+        embedLink: "",
+        editorLink: "",
+      })
+    ),
     "rich-link": richlinkElement,
     membership: membershipElement,
     audio: standardElement,
