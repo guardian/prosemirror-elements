@@ -353,6 +353,11 @@ export const sampleTweet = {
   authorName: "Jonathan Herbert",
 };
 
+export const sampleContentAtom = {
+  id: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
+  atomType: "recipe",
+};
+
 export const sampleComment = {
   source: "Guardian Discussion",
   discussionKey: "/p/6ey2y",

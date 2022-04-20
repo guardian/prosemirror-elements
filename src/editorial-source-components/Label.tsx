@@ -12,3 +12,7 @@ export const labelStyles = css`
 export const Label = styled.label`
   ${labelStyles}
 `;
+
+export const NonBoldLabel = styled(Label)`
+  font-weight: normal;
+`;

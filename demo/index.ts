@@ -12,6 +12,7 @@ import { EditorView } from "prosemirror-view";
 import {
   codeElement,
   commentElement,
+  createContentAtomElement,
   createDemoImageElement,
   createEmbedElement,
   createImageElement,
@@ -49,6 +50,7 @@ import {
   sampleCallout,
   sampleCode,
   sampleComment,
+  sampleContentAtom,
   sampleDocument,
   sampleEmbed,
   sampleImage,
@@ -84,6 +86,7 @@ const witnessElementName = "witness";
 const instagramElementName = "instagram";
 const vineElementName = "vine";
 const tweetElementName = "tweet";
+const contentAtomName = "content-atom";
 const commentElementName = "comment";
 
 type Name =
@@ -104,6 +107,7 @@ type Name =
   | typeof instagramElementName
   | typeof vineElementName
   | typeof tweetElementName
+  | typeof contentAtomName
   | typeof commentElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
@@ -196,6 +200,20 @@ const {
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
     }),
+    "content-atom": createContentAtomElement(() =>
+      Promise.resolve({
+        title: "Test Atom",
+        defaultHtml: `<div class="atom-Profile">
+          <p><strong>Test item</strong></p>
+          <p><p>-here is a test item</p></p>
+          <p><strong>second post</strong></p>
+          <p><p>- test</p></p>
+        </div>`,
+        published: true,
+        embedLink: "https://example.com",
+        editorLink: "https://example.com",
+      })
+    ),
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -367,6 +385,7 @@ const createEditor = (server: CollabServer) => {
     { label: "Code", name: codeElementName, values: sampleCode },
     { label: "Vine", name: vineElementName, values: sampleVine },
     { label: "Tweet", name: tweetElementName, values: sampleTweet },
+    { label: "Content-atom", name: contentAtomName, values: sampleContentAtom },
     { label: "Comment", name: commentElementName, values: sampleComment },
   ] as const;
 
