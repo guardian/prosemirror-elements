@@ -38,7 +38,7 @@ export const ContentAtomForm: React.FunctionComponent<Props> = ({
     void fetchContentAtomData(atomType, id).then((data) => {
       setContentAtomData(data);
     });
-  }, []);
+  }, [atomType, id]);
 
   return (
     <div>
