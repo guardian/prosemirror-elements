@@ -1372,7 +1372,7 @@
         "scriptUrl": "https://s3-eu-west-1.amazonaws.com/aws-frontend-static/CODE/frontend-static/compiled/javascripts/vendor/interactive-boot-script.js",
         "scriptName": "iframe-wrapper",
         "originalUrl": "https://www.formstack.com/forms/?1719546-fXi1C6MRgR",
-        "signedOutAltText": "<b>Sign in to show us your map</b>"
+        "signedOutAltText": "<strong>Sign in to show us your map</strong>"
       },
       "elementType": "form"
     },
@@ -2112,7 +2112,7 @@
         "scriptUrl": "https://s3-eu-west-1.amazonaws.com/aws-frontend-static/CODE/frontend-static/compiled/javascripts/vendor/interactive-boot-script.js",
         "scriptName": "iframe-wrapper",
         "originalUrl": "https://www.formstack.com/forms/?1725638-tOfqZ3Kxj2",
-        "signedOutAltText": "  Can't see the entry form? <b>You'll need to sign in or register</b>. It only takes a minute and then you'll be directed back to entering.   "
+        "signedOutAltText": "Can't see the entry form? <strong>You'll need to sign in or register</strong>. It only takes a minute and then you'll be directed back to entering."
       },
       "elementType": "form"
     },
@@ -2432,7 +2432,7 @@
         "scriptUrl": "https://s3-eu-west-1.amazonaws.com/aws-frontend-static/CODE/frontend-static/compiled/javascripts/vendor/interactive-boot-script.js",
         "scriptName": "iframe-wrapper",
         "originalUrl": "https://www.formstack.com/forms/?1726685-tOfqZ3Kxj2",
-        "signedOutAltText": "<i>Sign in to be with a chance of winning the tickets </i>"
+        "signedOutAltText": "<em>Sign in to be with a chance of winning the tickets</em>"
       },
       "elementType": "form"
     },
@@ -3012,7 +3012,7 @@
         "scriptUrl": "https://assets-secure.guim.co.uk/javascripts/vendor/formstack-interactive/0.1/boot.03e0d0dfd005f551febc8caa63566ca4.js",
         "scriptName": "iframe-wrapper",
         "originalUrl": "https://www.formstack.com/forms/?1779808-tOfqZ3Kxj2",
-        "signedOutAltText": "To participate you will need to register or sign in by using the button below.   "
+        "signedOutAltText": "To participate you will need to register or sign in by using the button below."
       },
       "elementType": "form"
     },
@@ -7372,7 +7372,7 @@
         "scriptUrl": "https://assets-secure.guim.co.uk/javascripts/vendor/formstack-interactive/0.1/boot.03e0d0dfd005f551febc8caa63566ca4.js",
         "scriptName": "iframe-wrapper",
         "originalUrl": "https://www.formstack.com/forms/?1997531-fdFSMcWSDs-v3",
-        "signedOutAltText": "Sign in to vote "
+        "signedOutAltText": "Sign in to vote"
       },
       "elementType": "form"
     },

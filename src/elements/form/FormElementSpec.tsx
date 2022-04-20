@@ -8,7 +8,7 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { FormElementForm } from "./FormElementForm";
 
-type FormData = {
+export type ExtraFormData = {
   iframeUrl?: string;
   scriptName?: string;
   source?: string;
@@ -17,6 +17,13 @@ type FormData = {
   scriptUrl?: string;
   alt?: string;
   signedOutAltText?: string;
+};
+
+export type FormData = {
+  signedOutAltText: string;
+  html: string;
+  originalUrl: string;
+  isMandatory: boolean;
 };
 
 export type MainFormProps = {
@@ -36,7 +43,7 @@ export const createFormFields = ({ createCaptionPlugins }: MainFormProps) => ({
   html: createTextField(),
   originalUrl: createTextField(),
   isMandatory: createCustomField(true, true),
-  data: createCustomField<FormData>({}, undefined),
+  data: createCustomField("", undefined),
 });
 
 export const createFormElement = (formProps: MainFormProps) =>

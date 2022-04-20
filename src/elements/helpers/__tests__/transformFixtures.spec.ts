@@ -10,6 +10,7 @@ import {
 import { commentElement } from "../../comment/CommentSpec";
 import { createContentAtomElement } from "../../content-atom/ContentAtomSpec";
 import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
+import { createFormElement } from "../../form/FormElementSpec";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";
@@ -26,6 +27,9 @@ describe("Element fixtures", () => {
    * prosemirror-elements plugin recognises the new element type.
    */
   const standardElement = createStandardElement({
+    checkThirdPartyTracking: Promise.resolve,
+  });
+  const formElement = createFormElement({
     checkThirdPartyTracking: Promise.resolve,
   });
   const elements = {
@@ -54,6 +58,7 @@ describe("Element fixtures", () => {
       createCaptionPlugins: undefined,
     }),
     comment: commentElement,
+    form: formElement,
   } as const;
 
   const {
