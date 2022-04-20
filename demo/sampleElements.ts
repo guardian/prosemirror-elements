@@ -336,6 +336,11 @@ export const sampleCode = {
   language: "Plain text",
 };
 
+export const sampleForm = {
+  signedOutAltText: "",
+  originalUrl: "https://www.formstack.com/forms/?2353564-tOfqZ3Kxj2/",
+};
+
 export const sampleVine = {
   type: "vine",
   data: `{"fields": {"alt":"Clinton shimmying","html":"<<REDACTED>>","title":"💃 #HillaryClinton #DebateNight #cnn","width":"600","height":"600","source":"Vine","authorUrl":"https://vine.co/u/1038266807917965312","authorName":"<<REDACTED>>","isMandatory":"true","originalUrl":"https://vine.co/v/5rz0naaaEJP"},"assets":[{"url":"https://v.cdn.vine.co/r/thumbs/FE1264FB421392386538297552896_54f5af670bb.31.0.C52609C2-9D12-40AB-BDAD-6B628DE40259.mp4.jpg?versionId=Doo_Qq2hMbJZGgI44BU5RbfRouNNZQSY","fields":{"width":"480","height":"480"},"mimeType":"image/jpeg","assetType":"image"}]}`,
