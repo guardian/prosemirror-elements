@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "main": "dist/cjs/index.js",
+  "repository": "github:guardian/prosemirror-elements",
   "module": "dist/esm/index.js",
   "types": "dist/declaration/index.d.ts",
   "publishConfig": {
