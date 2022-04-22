@@ -10,7 +10,8 @@ import { ContentAtomForm } from "./ContentAtomForm";
 
 export type ContentAtomData = {
   defaultHtml: string;
-  published: boolean;
+  hasUnpublishedChanges: boolean;
+  isPublished: boolean;
   title: string;
   embedLink: string;
   editorLink: string;

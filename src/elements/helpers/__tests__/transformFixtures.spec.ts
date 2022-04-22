@@ -36,6 +36,8 @@ describe("Element fixtures", () => {
         published: true,
         embedLink: "",
         editorLink: "",
+        isPublished: true,
+        hasUnpublishedChanges: false,
       })
     ),
     "rich-link": richlinkElement,
