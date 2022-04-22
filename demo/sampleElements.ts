@@ -339,6 +339,9 @@ export const sampleCode = {
 export const sampleForm = {
   signedOutAltText: "",
   originalUrl: "https://www.formstack.com/forms/?2353564-tOfqZ3Kxj2/",
+  html: "<<REDACTED>>",
+  isMandatory: false,
+  data: `{"id": "1956117", "alt": "Formstack form embed", "source": "Formstack", "viewKey": "tOfqZ3Kxj2", "iframeUrl": "https://profile.theguardian.com/form/embed/1956117-tOfqZ3Kxj2", "scriptUrl": "https://assets-secure.guim.co.uk/javascripts/vendor/formstack-interactive/0.1/boot.03e0d0dfd005f551febc8caa63566ca4.js", "scriptName": "iframe-wrapper"}`,
 };
 
 export const sampleVine = {

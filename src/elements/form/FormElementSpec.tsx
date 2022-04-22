@@ -16,7 +16,6 @@ export type ExtraFormData = {
   id?: string;
   scriptUrl?: string;
   alt?: string;
-  signedOutAltText?: string;
 };
 
 export type FormData = {
