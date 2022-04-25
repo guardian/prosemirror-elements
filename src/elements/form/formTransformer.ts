@@ -15,8 +15,9 @@ export const transformElementIn: TransformIn<
   ExternalFormData,
   ReturnType<typeof createFormFields>
 > = ({
-  fields: { html, originalUrl, isMandatory, signedOutAltText, ...rest },
+  fields: { id, html, originalUrl, isMandatory, signedOutAltText, ...rest },
 }) => ({
+  id,
   html,
   originalUrl,
   isMandatory,
@@ -27,9 +28,10 @@ export const transformElementIn: TransformIn<
 export const transformElementOut: TransformOut<
   ExternalFormData,
   ReturnType<typeof createFormFields>
-> = ({ html, originalUrl, isMandatory, signedOutAltText, data }) => {
+> = ({ id, html, originalUrl, isMandatory, signedOutAltText, data }) => {
   return {
     fields: {
+      id,
       html,
       originalUrl,
       isMandatory,

@@ -23,7 +23,12 @@ export const FormElementForm: React.FunctionComponent<Props> = ({
   checkThirdPartyTracking,
 }) => (
   <FieldLayoutVertical>
-    <a href={fieldValues.originalUrl}>Edit on Formstack</a>
+    <a
+      target="_blank"
+      href={`https://www.formstack.com/admin/form/overview/${fieldValues.id}`}
+    >
+      Edit on Formstack
+    </a>
     <FieldWrapper
       headingLabel="Signed out text"
       field={fields.signedOutAltText}
