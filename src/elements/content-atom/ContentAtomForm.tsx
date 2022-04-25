@@ -43,9 +43,13 @@ export const ContentAtomForm: React.FunctionComponent<Props> = ({
   return (
     <div>
       <FieldLayoutVertical>
-        {!contentAtomData?.published && (
-          <Error>This {atomType} has unpublished changes.</Error>
+        {!contentAtomData?.isPublished && (
+          <Error>This {atomType} is not published.</Error>
         )}
+        {contentAtomData?.isPublished &&
+          contentAtomData.hasUnpublishedChanges && (
+            <Error>This {atomType} has unpublished changes.</Error>
+          )}
         <FieldLayoutVertical>
           <Label>
             Content atom (
