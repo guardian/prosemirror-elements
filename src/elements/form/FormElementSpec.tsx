@@ -13,12 +13,12 @@ export type ExtraFormData = {
   scriptName?: string;
   source?: string;
   viewKey?: string;
-  id?: string;
   scriptUrl?: string;
   alt?: string;
 };
 
 export type FormData = {
+  id?: string;
   signedOutAltText: string;
   html: string;
   originalUrl: string;
@@ -43,6 +43,7 @@ export const createFormFields = ({ createCaptionPlugins }: MainFormProps) => ({
     placeholder: "Text to show users if they aren't signed in",
   }),
   html: createTextField(),
+  id: createTextField(),
   originalUrl: createTextField(),
   isMandatory: createCustomField(true, true),
   data: createCustomField("", undefined),
