@@ -23,6 +23,7 @@ import {
   tableElement,
 } from "../src";
 import { deprecatedElement } from "../src/elements/deprecated/DeprecatedSpec";
+import { createFormElement } from "../src/elements/form/FormElementSpec";
 import {
   transformElementOut,
   undefinedDropdownValue,
@@ -53,6 +54,7 @@ import {
   sampleContentAtom,
   sampleDocument,
   sampleEmbed,
+  sampleForm,
   sampleImage,
   sampleInteractive,
   sampleMap,
@@ -73,6 +75,7 @@ const embedElementName = "embed";
 const imageElementName = "image";
 const demoImageElementName = "demo-image-element";
 const codeElementName = "code";
+const formElementName = "form";
 const pullquoteElementName = "pullquote";
 const richlinkElementName = "rich-link";
 const videoElementName = "video";
@@ -94,6 +97,7 @@ type Name =
   | typeof imageElementName
   | typeof demoImageElementName
   | typeof codeElementName
+  | typeof formElementName
   | typeof pullquoteElementName
   | typeof richlinkElementName
   | typeof interactiveElementName
@@ -176,6 +180,10 @@ const {
       createCaptionPlugins,
     }),
     code: codeElement,
+    form: createFormElement({
+      createCaptionPlugins,
+      checkThirdPartyTracking: mockThirdPartyTracking,
+    }),
     pullquote: pullquoteElement,
     "rich-link": richlinkElement,
     video: createStandardElement({
@@ -384,6 +392,7 @@ const createEditor = (server: CollabServer) => {
     },
     { label: "Pullquote", name: pullquoteElementName, values: samplePullquote },
     { label: "Code", name: codeElementName, values: sampleCode },
+    { label: "Form", name: formElementName, values: sampleForm },
     { label: "Vine", name: vineElementName, values: sampleVine },
     { label: "Tweet", name: tweetElementName, values: sampleTweet },
     { label: "Content-atom", name: contentAtomName, values: sampleContentAtom },

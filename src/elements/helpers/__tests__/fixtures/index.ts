@@ -2,6 +2,7 @@ import audio from "./audio.json";
 import comment from "./comment.json";
 import contentAtom from "./content-atom.json";
 import document from "./document.json";
+import form from "./form.json";
 import instagram from "./instagram.json";
 import map from "./map.json";
 import membership from "./membership.json";
@@ -28,4 +29,5 @@ export const allElementFixtures = [
   { name: "instagram", fixtures: instagram },
   { name: "tweet", fixtures: tweet },
   { name: "comment", fixtures: comment },
+  { name: "form", fixtures: form },
 ];
