@@ -37,7 +37,7 @@ export const createFormFields = ({ createCaptionPlugins }: MainFormProps) => ({
     createPlugins: createCaptionPlugins,
     marks: "em strong link strike",
     validators: [htmlMaxLength(signedOutAltTextMaxLength, undefined, "WARN")],
-    placeholder: "Text to show users if they aren't signed in...",
+    placeholder: "Text to show users if they aren't signed in",
   }),
   html: createTextField(),
   originalUrl: createTextField(),
