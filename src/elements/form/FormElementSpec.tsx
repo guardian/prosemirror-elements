@@ -3,7 +3,7 @@ import type { Plugin } from "prosemirror-state";
 import { createCustomField } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { htmlMaxLength } from "../../plugin/helpers/validation";
+import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { FormElementForm } from "./FormElementForm";
@@ -36,7 +36,10 @@ export const createFormFields = ({ createCaptionPlugins }: MainFormProps) => ({
   signedOutAltText: createFlatRichTextField({
     createPlugins: createCaptionPlugins,
     marks: "em strong link strike",
-    validators: [htmlMaxLength(signedOutAltTextMaxLength, undefined, "WARN")],
+    validators: [
+      htmlRequired(undefined, "WARN"),
+      htmlMaxLength(signedOutAltTextMaxLength, undefined, "WARN"),
+    ],
     placeholder: "Text to show users if they aren't signed in",
   }),
   html: createTextField(),
