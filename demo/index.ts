@@ -209,7 +209,8 @@ const {
           <p><strong>second post</strong></p>
           <p><p>- test</p></p>
         </div>`,
-        published: true,
+        isPublished: false,
+        hasUnpublishedChanges: true,
         embedLink: "https://example.com",
         editorLink: "https://example.com",
       })
