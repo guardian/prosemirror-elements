@@ -23,7 +23,6 @@ import {
   tableElement,
 } from "../src";
 import { deprecatedElement } from "../src/elements/deprecated/DeprecatedSpec";
-import { createFormElement } from "../src/elements/form/FormElementSpec";
 import {
   transformElementOut,
   undefinedDropdownValue,
@@ -180,10 +179,7 @@ const {
       createCaptionPlugins,
     }),
     code: codeElement,
-    form: createFormElement({
-      createCaptionPlugins,
-      checkThirdPartyTracking: mockThirdPartyTracking,
-    }),
+    form: deprecatedElement,
     pullquote: pullquoteElement,
     "rich-link": richlinkElement,
     video: createStandardElement({

@@ -3,7 +3,6 @@ import type { commentFields } from "../comment/CommentSpec";
 import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
 import { transformElement as deprecatedElementTransform } from "../deprecated/deprecatedTransformer";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
-import { transformElement as formElementTransform } from "../form/formTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
 import { transformElement as interactiveElementTransform } from "../interactive/interactiveDataTransformer";
 import { transformElement as membershipElementTransform } from "../membership/membershipDataTransformer";
@@ -50,7 +49,7 @@ const transformMap = {
     isMandatory: true,
     transformRole: true,
   }),
-  form: formElementTransform,
+  form: deprecatedElementTransform,
 } as const;
 
 type TransformMap = typeof transformMap;
