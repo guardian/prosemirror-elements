@@ -14,7 +14,7 @@ const elementTypeToName = {
   instagram: "Instagram",
   vine: "Vine",
   witness: "Guardian Witness",
-  form: "FormStack",
+  form: "Formstack",
 } as Record<string, string>;
 
 export const DeprecatedForm: React.FunctionComponent<Props> = ({
