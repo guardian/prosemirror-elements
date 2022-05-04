@@ -96,14 +96,8 @@ export class TextFieldView extends ProseMirrorFieldView {
       isResizeable,
     }: TextFieldDescription
   ) {
-    const {
-      /* eslint-disable @typescript-eslint/no-unused-vars -- remove commands from keycaps list */
-      Enter,
-      "Mod-Enter": ModEnter,
-      "Mod-a": ModA,
-      /* eslint-enable @typescript-eslint/no-unused-vars */
-      ...modifiedBaseKeymap
-    } = baseKeymap;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove 'enter' commands from keymap
+    const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
     const keymapping: Record<string, Command> = {
       ...modifiedBaseKeymap,
       "Mod-z": () => undo(outerView.state, outerView.dispatch),
