@@ -4,6 +4,7 @@ import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
+import { TextSelection } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
@@ -96,7 +97,12 @@ export class TextFieldView extends ProseMirrorFieldView {
     }: TextFieldDescription
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- remove 'enter' commands from keymap
-    const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
+    const {
+      Enter,
+      "Mod-Enter": ModEnter,
+      "Mod-a": ModA,
+      ...modifiedBaseKeymap
+    } = baseKeymap;
     const keymapping: Record<string, Command> = {
       ...modifiedBaseKeymap,
       "Mod-z": () => undo(outerView.state, outerView.dispatch),
@@ -119,6 +125,18 @@ export class TextFieldView extends ProseMirrorFieldView {
           };
       keymapping["Enter"] = newLineCommand;
     }
+
+    keymapping["Mod-a"] = (
+      state: EditorState,
+      dispatch?: (tr: Transaction) => void
+    ) => {
+      dispatch?.(
+        state.tr.setSelection(
+          TextSelection.create(state.doc, 0, state.doc.content.size)
+        )
+      );
+      return true;
+    };
 
     super(
       node,
