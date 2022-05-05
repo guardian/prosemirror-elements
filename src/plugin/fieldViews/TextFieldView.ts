@@ -8,6 +8,7 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
+import { selectAllText } from "../helpers/prosemirror";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -119,6 +120,8 @@ export class TextFieldView extends ProseMirrorFieldView {
           };
       keymapping["Enter"] = newLineCommand;
     }
+
+    keymapping["Mod-a"] = selectAllText;
 
     super(
       node,

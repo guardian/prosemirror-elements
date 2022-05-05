@@ -275,6 +275,19 @@ describe("ImageElement", () => {
           "The remaining field."
         );
       });
+
+      it("should select the correct range in ProseMirror when the select all shortcut is used within the field", () => {
+        addImageElement({
+          caption: "Hello, world.",
+          src: "Foobar.",
+        });
+        typeIntoElementField("caption", `${selectAllShortcut()}`);
+
+        getDocSelection().then(([from, to]) => {
+          expect(from).to.equal(5);
+          expect(to).to.equal(18);
+        });
+      });
     });
 
     describe("Text field", () => {
@@ -423,6 +436,20 @@ describe("ImageElement", () => {
           "have.text",
           "The remaining field."
         );
+      });
+
+      it("should select the correct range in ProseMirror when the select all shortcut is used within the field", () => {
+        addImageElement({
+          caption: "Hello, world.",
+          src: "Foobar.",
+        });
+        typeIntoElementField("src", `${selectAllShortcut()}`);
+
+        getDocSelection().then(([from, to]) => {
+          // The selection should be at the first field of the element
+          expect(from).to.equal(30);
+          expect(to).to.equal(37);
+        });
       });
     });
 

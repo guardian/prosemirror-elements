@@ -7,6 +7,7 @@ import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
+import { selectAllText } from "../helpers/prosemirror";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -133,6 +134,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
         keymap({
           "Mod-z": () => undo(outerView.state, outerView.dispatch),
           "Mod-y": () => redo(outerView.state, outerView.dispatch),
+          "Mod-a": selectAllText,
           ...filteredKeymap,
         }),
         ...(createPlugins ? createPlugins(node.type.schema) : []),
