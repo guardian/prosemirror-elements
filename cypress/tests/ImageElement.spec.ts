@@ -438,7 +438,7 @@ describe("ImageElement", () => {
         );
       });
 
-      it.only("should select the correct range in ProseMirror when the select all shortcut is used within the field", () => {
+      it("should select the correct range in ProseMirror when the select all shortcut is used within the field", () => {
         addImageElement({
           caption: "Hello, world.",
           src: "Foobar.",
