@@ -438,7 +438,7 @@ describe("ImageElement", () => {
         );
       });
 
-      it("should select the correct range in ProseMirror when the select all shortcut is used within the field", () => {
+      it.only("should select the correct range in ProseMirror when the select all shortcut is used within the field", () => {
         addImageElement({
           caption: "Hello, world.",
           src: "Foobar.",
@@ -447,8 +447,8 @@ describe("ImageElement", () => {
 
         getDocSelection().then(([from, to]) => {
           // The selection should be at the first field of the element
-          expect(from).to.equal(5);
-          expect(to).to.equal(5);
+          expect(from).to.equal(30);
+          expect(to).to.equal(37);
         });
       });
     });
