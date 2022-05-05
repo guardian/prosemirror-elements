@@ -4,11 +4,11 @@ import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { TextSelection } from "prosemirror-state";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
+import { selectAllText } from "../helpers/prosemirror";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -121,17 +121,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       keymapping["Enter"] = newLineCommand;
     }
 
-    keymapping["Mod-a"] = (
-      state: EditorState,
-      dispatch?: (tr: Transaction) => void
-    ) => {
-      dispatch?.(
-        state.tr.setSelection(
-          TextSelection.create(state.doc, 0, state.doc.content.size)
-        )
-      );
-      return true;
-    };
+    keymapping["Mod-a"] = selectAllText;
 
     super(
       node,

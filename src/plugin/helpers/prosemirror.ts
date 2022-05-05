@@ -1,7 +1,7 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
-import { AllSelection, NodeSelection } from "prosemirror-state";
+import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 
@@ -250,6 +250,22 @@ const htmlToDoc = (parser: DOMParser, html: string) => {
   return parser.parse(dom);
 };
 
+// Select all text within a node, as opposed to AllSelection
+const selectAllText = (
+  state: EditorState,
+  dispatch?: (tr: Transaction) => void
+) => {
+  dispatch?.(
+    state.tr.setSelection(
+      TextSelection.between(
+        state.doc.resolve(0),
+        state.doc.resolve(state.doc.content.size)
+      )
+    )
+  );
+  return true;
+};
+
 export {
   buildCommands,
   defaultPredicate,
@@ -257,4 +273,5 @@ export {
   createParsers,
   docToHtml,
   htmlToDoc,
+  selectAllText,
 };
