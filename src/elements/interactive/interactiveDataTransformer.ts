@@ -19,6 +19,7 @@ export type ExternalInteractiveFields = {
 
 export type ExternalInteractiveData = {
   fields: ExternalInteractiveFields;
+  assets: [];
 };
 
 export type PartialInteractiveData = {
@@ -59,6 +60,7 @@ export const transformElementOut: TransformOut<
   );
 
   return {
+    assets: [],
     fields: {
       isMandatory: isMandatory.toString(),
       role: role === undefinedDropdownValue ? undefined : role,

@@ -41,6 +41,8 @@ const fullPmeElement = (
     photographer: "",
     role: "none-selected",
     source: "",
+    copyright: "",
+    picdarUrn: "",
     ...data,
   };
 };

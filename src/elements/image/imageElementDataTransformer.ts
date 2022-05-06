@@ -11,12 +11,14 @@ export type ImageFields = {
   displayCredit: string;
   imageType: string;
   isMandatory: string;
-  mediaApiUri: string;
+  mediaApiUri?: string;
   mediaId: string;
   photographer?: string;
   role: string | undefined;
   source?: string;
-  suppliersReference: string;
+  suppliersReference?: string;
+  copyright?: string;
+  picdarUrn?: string;
 };
 
 type ExternalImageData = {
@@ -78,6 +80,8 @@ export const transformElementOut: TransformOut<
       source,
       alt,
       caption,
+      suppliersReference: mainImage.suppliersReference,
+      mediaApiUri: mainImage.mediaApiUri ?? "",
     },
     (field) => field.length > 0
   );
@@ -87,10 +91,8 @@ export const transformElementOut: TransformOut<
     fields: {
       displayCredit: displayCredit.toString(),
       isMandatory: "true",
-      mediaApiUri: mainImage.mediaApiUri ?? "",
       mediaId: mainImage.mediaId ?? "",
       role: role === undefinedDropdownValue ? undefined : role,
-      suppliersReference: mainImage.suppliersReference,
       ...optionalFields,
       ...rest,
     },

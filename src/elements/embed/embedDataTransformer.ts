@@ -17,6 +17,7 @@ export type ExternalEmbedFields = {
 
 export type ExternalEmbedData = {
   fields: ExternalEmbedFields;
+  assets: [];
 };
 
 export type PartialEmbedData = {
@@ -64,6 +65,7 @@ export const transformElementOut: TransformOut<
   const isSafe = htmlContainsSingleIframe(html);
 
   return {
+    assets: [],
     fields: {
       html,
       isMandatory: isMandatory.toString(),
