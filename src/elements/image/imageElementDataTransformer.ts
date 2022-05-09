@@ -70,6 +70,8 @@ export const transformElementOut: TransformOut<
   source,
   alt,
   caption,
+  copyright,
+  picdarUrn,
   ...rest
 }: FieldNameToValueMap<
   ReturnType<typeof createImageFields>
@@ -80,6 +82,8 @@ export const transformElementOut: TransformOut<
       source,
       alt,
       caption,
+      copyright,
+      picdarUrn,
       suppliersReference: mainImage.suppliersReference,
       mediaApiUri: mainImage.mediaApiUri ?? "",
     },

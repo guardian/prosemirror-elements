@@ -34,6 +34,7 @@ const fullPmeElement = (
 
 const externalElement = (data: Partial<ExternalEmbedFields> = {}) => {
   return {
+    assets: [],
     fields: {
       html: "",
       isMandatory: "false",

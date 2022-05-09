@@ -54,10 +54,8 @@ const externalElement = (data: Partial<ImageFields> = {}) => {
       displayCredit: "true",
       imageType: "",
       isMandatory: "true",
-      mediaApiUri: "",
       mediaId: "",
       role: undefined,
-      suppliersReference: "",
       ...data,
     },
   };
