@@ -2,10 +2,14 @@ import audio from "./audio.json";
 import comment from "./comment.json";
 import contentAtom from "./content-atom.json";
 import document from "./document.json";
+import embed from "./embed.json";
 import form from "./form.json";
+import image from "./image.json";
 import instagram from "./instagram.json";
+import interactive from "./interactive.json";
 import map from "./map.json";
 import membership from "./membership.json";
+import pullquote from "./pullquote.json";
 import richLink from "./rich-link.json";
 import table from "./table.json";
 import tweet from "./tweet.json";
@@ -30,4 +34,8 @@ export const allElementFixtures = [
   { name: "tweet", fixtures: tweet },
   { name: "comment", fixtures: comment },
   { name: "form", fixtures: form },
+  { name: "image", fixtures: image },
+  { name: "pullquote", fixtures: pullquote, defaults: { role: "supporting" } },
+  { name: "embed", fixtures: embed, defaults: { role: undefined } },
+  { name: "interactive", fixtures: interactive },
 ];

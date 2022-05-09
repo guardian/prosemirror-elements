@@ -1,0 +1,1799 @@
+[
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "hi",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/this-wide-brown-land/thanks/epic.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/this-wide-brown-land/thanks/epic.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-03-26",
+    "contentid": "5ab92393e4b00fa05512485a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "alt",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/2016/06/brexit-companion/embed/embed.html?sheet=beginner&id=who_can_vote",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "true",
+        "originalUrl": "https://interactive.guim.co.uk/2016/06/brexit-companion/embed/embed.html?sheet=beginner&id=who_can_vote"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-03-13",
+    "contentid": "5aa7dafee4b0f431ce6e882a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Ticks",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2017/08/ticks_lyme_disease/giv-3902DdVd63hb2z2v/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2017/08/ticks_lyme_disease/giv-3902DdVd63hb2z2v/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69c17fe4b0473d0bc10196"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Police recorded crime",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T11:35:29/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T11:35:29/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69a48be4b0ff7aa1a42395"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Crime survey figures",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T13:31:26/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T13:31:26/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69a48be4b0ff7aa1a42395"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "GDF graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/nuclearwaste-zip/giv-39028RbTAl4vuGI5/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/nuclearwaste-zip/giv-39028RbTAl4vuGI5/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69a476e4b0ff7aa1a42394"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Rough sleepers in London",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T10:37:46/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T10:37:46/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69a107e4b0ff7aa1a42382"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "10 worst local authorities for homelessness",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T10:38:03/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-25T10:38:03/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69a107e4b0ff7aa1a42382"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Proportion of women nominated and awarded honours of the Order of Australia",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/chart-1516850543674.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/chart-1516850543674.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a695c29e4b0473d0bc0ff57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Proportion of Order of Australia awards by category and gender, 2018",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/category-2018.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/category-2018.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a695c29e4b0473d0bc0ff57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Proportion of Order of Australia awards by category and gender, 1975 t0 2017",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/category-all.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/category-all.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a695c29e4b0473d0bc0ff57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Proportion of Order of Australia awards by category, 2018",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/just-category-2018.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/just-category-2018.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a695c29e4b0473d0bc0ff57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Proportion of Order of Australia awards by category, 1975 to 2017",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/just-category-all.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/aus/2018/jan/aus-day/just-category-all.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a695c29e4b0473d0bc0ff57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Syira map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/archive-zip/giv-39026Y3rW4DLwfmN/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/archive-zip/giv-39026Y3rW4DLwfmN/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68d07fe4b0ff7aa1a41fa7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Somatic cell nuclear transfer",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/monkey-clone-zip/giv-3902ogezOPxbaJZW/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/monkey-clone-zip/giv-3902ogezOPxbaJZW/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a687025e4b08c014718206a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "locator",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/stratford-venue-zip/giv-3902LHWvRldBewlK/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/stratford-venue-zip/giv-3902LHWvRldBewlK/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68629ee4b04cea3dc7aa0f"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Wages growth",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-24T10:07:36/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-24T10:07:36/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682ea8e4b08c0147181e57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Australia Dat",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/2016/03/comics-master-2016/embed/embed.html?srcs-mobile=https://media.guim.co.uk/1aae5f294f5d2c17197551f9a594a4375712ec7e/0_0_1835_3328/551.jpg+https://media.guim.co.uk/1aae5f294f5d2c17197551f9a594a4375712ec7e/0_3338_1835_3159/581.jpg+https://media.guim.co.uk/1aae5f294f5d2c17197551f9a594a4375712ec7e/0_6497_1835_3243/566.jpg&ratios-mobile=181.15942028985506+172.41379310344826+176.67844522968196&srcs-desktop=https://media.guim.co.uk/5c8964780e72a1bd626173e438ba6908f21860bf/0_0_3508_5208/1347.jpg&ratios-desktop=148.3679525222552&credit=Cartoon%20by%20First%20Dog%20on%20the%20Moon&background=99cccc&vpadding=0",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/2016/03/comics-master-2016/embed/embed.html?srcs-mobile=https://media.guim.co.uk/1aae5f294f5d2c17197551f9a594a4375712ec7e/0_0_1835_3328/551.jpg+https://media.guim.co.uk/1aae5f294f5d2c17197551f9a594a4375712ec7e/0_3338_1835_3159/581.jpg+https://media.guim.co.uk/1aae5f294f5d2c17197551f9a594a4375712ec7e/0_6497_1835_3243/566.jpg&ratios-mobile=181.15942028985506+172.41379310344826+176.67844522968196&srcs-desktop=https://media.guim.co.uk/5c8964780e72a1bd626173e438ba6908f21860bf/0_0_3508_5208/1347.jpg&ratios-desktop=148.3679525222552&credit=Cartoon%20by%20First%20Dog%20on%20the%20Moon&background=99cccc&vpadding=0"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682915e4b01fba01150ad9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Jalalabad map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T09:07:22.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T09:07:22.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a6814ece4b04cea3dc7a87f"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Construction commitments to new large-scale renewable energy capacity",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-23T04:26:47/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-23T04:26:47/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a67f75ee4b04cea3dc7a81a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Average annual power generation",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-23T04:27:09/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-23T04:27:09/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a67f75ee4b04cea3dc7a81a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Squires on the E-League",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/2016/03/comics-master-2016/embed/embed.html?srcs-mobile=https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/161_116_961_801/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/1123_116_953_801/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/157_913_965_851/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/1119_909_957_851/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/157_1760_962_805/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/1119_1752_961_822/500.jpg&ratios-mobile=83.57142857142857+84.28571428571429+87.85714285714286+88.57142857142857+83.57142857142857+85.71428571428571&srcs-desktop=https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/145_99_1940_2495/1555.jpg&ratios-desktop=128.53470437017995&credit=&background=FFFFFF&vpadding=1",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/2016/03/comics-master-2016/embed/embed.html?srcs-mobile=https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/161_116_961_801/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/1123_116_953_801/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/157_913_965_851/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/1119_909_957_851/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/157_1760_962_805/500.jpg+https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/1119_1752_961_822/500.jpg&ratios-mobile=83.57142857142857+84.28571428571429+87.85714285714286+88.57142857142857+83.57142857142857+85.71428571428571&srcs-desktop=https://media.guim.co.uk/b5689197e1138dcd7e884ff0b9a8a02150c5db55/145_99_1940_2495/1555.jpg&ratios-desktop=128.53470437017995&credit=&background=FFFFFF&vpadding=1"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a67d83ee4b04cea3dc7a76a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "about",
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2017/02/outside-in-america/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2017/02/outside-in-america/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a678e7be4b04cea3dc7a60a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "speakable",
+        "scriptUrl": "https://embed.actionbutton.co/widget/boot.js",
+        "originalUrl": "https://embed.actionbutton.co/widget/boot.js"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a678e7be4b04cea3dc7a60a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "public lands map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/public-land-geographical-zip/giv-3902k0jUStnSr93b/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/public-land-geographical-zip/giv-3902k0jUStnSr93b/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a678271e4b08c0147181b13"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "public lands graph",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/public-land-dorling-zip/giv-3902WORRas3Q0ntX/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/public-land-dorling-zip/giv-3902WORRas3Q0ntX/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a678271e4b08c0147181b13"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Simone 28 Jan",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/2016/03/comics-master-2016/embed/embed.html?srcs-mobile=https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/14_14_1090_612/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/1105_18_576_607/474.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/1678_16_701_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/2382_18_946_607/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/3330_16_781_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/14_629_801_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/823_638_645_600/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/1494_631_963_607/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/2496_628_1018_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/3519_628_596_612/487.jpg&ratios-mobile=56.42857142857143+105.48523206751055+87.14285714285714+64.28571428571429+77.85714285714286+75.71428571428571+92.85714285714286+62.857142857142854+60+102.66940451745378&srcs-desktop=https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/0_0_4129_1254/1000.jpg&ratios-desktop=30.714285714285715&credit=&background=FFFFFF&vpadding=20",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/2016/03/comics-master-2016/embed/embed.html?srcs-mobile=https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/14_14_1090_612/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/1105_18_576_607/474.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/1678_16_701_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/2382_18_946_607/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/3330_16_781_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/14_629_801_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/823_638_645_600/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/1494_631_963_607/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/2496_628_1018_609/500.jpg+https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/3519_628_596_612/487.jpg&ratios-mobile=56.42857142857143+105.48523206751055+87.14285714285714+64.28571428571429+77.85714285714286+75.71428571428571+92.85714285714286+62.857142857142854+60+102.66940451745378&srcs-desktop=https://media.guim.co.uk/50cb60304005c40b3aa641e4b82c51998e536d43/0_0_4129_1254/1000.jpg&ratios-desktop=30.714285714285715&credit=&background=FFFFFF&vpadding=20"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a675a4ce4b08c01471818cd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/london-propertyprices/giv-3902qET6AbtwxPBP/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/london-propertyprices/giv-3902qET6AbtwxPBP/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a6757c0e4b04cea3dc7a396"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Bohemian Paradise map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T14:43:46.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T14:43:46.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a66468fe4b08fab9e89e67a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Afrin region map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "caption": "REDACTED",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/syria-zip/giv-3902YEwJWSW2Zdcz/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/syria-zip/giv-3902YEwJWSW2Zdcz/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65c3e1e4b0307acc1211fb"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Prevalence of child obesity",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:39:52/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:39:52/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65bef8e4b0307acc1211c8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Obesity by deprivation index",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:39:36/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:39:36/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65bef8e4b0307acc1211c8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Obesity by region",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:40:26/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:40:26/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65bef8e4b0307acc1211c8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "World economic activity in 2018",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:55:54/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T13:55:54/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65b395e4b0ff81ba7268b8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Chart showing the length of time the last five Ukip leaders have occupied in the role",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "caption": "REDACTED",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T15:41:29/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T15:41:29/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65b0f1e4b0307acc121164"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "A chart showing the declining vote for Ukip's leaders",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "caption": "REDACTED",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T12:21:00/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-22T12:21:00/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65b0f1e4b0307acc121164"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Australian Ethical – Invest for a Better World",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/01/australian-ethical-invest-for-a-better-world-2/index.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/01/australian-ethical-invest-for-a-better-world-2/index.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a656356e4b0307acc12100e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Kurdish areas in Syria",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/syria-zip/giv-3902YEwJWSW2Zdcz/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/syria-zip/giv-3902YEwJWSW2Zdcz/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-21",
+    "contentid": "5a64678fe4b0ff81ba7260e6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "womens march mother load",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/01/the-mother-load/epic--march.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/01/the-mother-load/epic--march.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-20",
+    "contentid": "5a63afa5e4b0ff81ba725e70"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "The hotel's location in Kabul.",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "caption": "REDACTED",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/kabul-intercontinental-map/giv-3902RRKs9uWPLikm/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/kabul-intercontinental-map/giv-3902RRKs9uWPLikm/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-20",
+    "contentid": "5a638bd8e4b0307acc1206e0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "interactive",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/01/the-mother-load/epic--march.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/01/the-mother-load/epic--march.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a6238c6e4b0307acc120090"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "interactive",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/01/the-mother-load/epic--march.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/01/the-mother-load/epic--march.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a62219ae4b0307acc11ff63"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Boris bridge graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a620b4be4b0ff81ba7254cf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Boris bridge graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61d559e4b063d00a112ade"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sunlight hours – map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/sunlight_hours/giv-3902lRl3zraDVOn0/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/sunlight_hours/giv-3902lRl3zraDVOn0/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61d444e4b0307acc11fb79"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Syria",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/syria-map-zip/giv-3902l7aAFmlYDT2v/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/syria-map-zip/giv-3902l7aAFmlYDT2v/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61c3ebe4b0821a80180892"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "how a GDF could work – graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/nuclearwaste-zip/giv-39028RbTAl4vuGI5/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/nuclearwaste-zip/giv-39028RbTAl4vuGI5/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61bfa6e4b063d00a1129f1"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Large bridges around the world - graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61bf8ae4b0ff81ba725148"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "sales graph",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-19T14:58:12/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-19T14:58:12/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61bc3be4b063d00a1129db"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Boris's bridge graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/bridges-zip/giv-3902Ue6fxzsXFD3J/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6131a9e4b063d00a1127aa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "EHRP",
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2017/05/americas-unequal-future/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2017/05/americas-unequal-future/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a610fa4e4b063d00a1126f5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Gallup poll",
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/archive-zip/giv-3902O7VEVpcWiCO7/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/archive-zip/giv-3902O7VEVpcWiCO7/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a610827e4b0307acc11f786"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Florida Map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T12:59:24.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T12:59:24.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60e4c1e4b0175646049b0b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "essex map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T14:00:51.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-24T14:00:51.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60ca04e4b0175646049aea"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Graph",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-18T16:49:24/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-18T16:49:24/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60bfd5e4b063d00a1123fe"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "GP rates",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/flu-rates-map-zip/giv-39022ZGYJOPZI6kn/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/flu-rates-map-zip/giv-39022ZGYJOPZI6kn/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60bfd5e4b063d00a1123fe"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Map showing the location of Quetta, in south-western Pakistan",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-18T16:00:12.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-18T16:00:12.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60bd08e4b063d00a1123d3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "2017 was the warmest year on record without an El Niño",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/warmyear-zip/giv-3902d3DxM4tLjTgv",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/warmyear-zip/giv-3902d3DxM4tLjTgv"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60b126e4b063d00a11234b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sydney map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/sydney-map-zip/giv-3902788ogFyq2Fn6/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/sydney-map-zip/giv-3902788ogFyq2Fn6/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a608fc6e4b058527754a3b5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "NHS graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-18T10:18:51/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-18T10:18:51/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6077a6e4b01e0d7f97110d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Graph",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/spending-zip/giv-3902XfcrqjzrJwqZ/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/spending-zip/giv-3902XfcrqjzrJwqZ/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a606c54e4b092da99aa79f2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Graph",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-18T16:03:29/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-18T16:03:29/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a606c54e4b092da99aa79f2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Quotator",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/2018/01/quotator/embed/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/2018/01/quotator/embed/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6019e3e4b01e0d7f970f5a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Have Australia's environmental protections gone backwards since the fight to save the Franklin?",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "caption": "REDACTED",
+        "iframeUrl": "https://interactive.guim.co.uk/2018/01/quotator/embed/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/2018/01/quotator/embed/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a601853e4b0baadb5f4c602"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Australians care about the environment but protections are being eroded according to those on the front line",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "caption": "REDACTED",
+        "iframeUrl": "https://interactive.guim.co.uk/2018/01/quotator/embed/embed.html?batch=Sheet2",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/2018/01/quotator/embed/embed.html?batch=Sheet2"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a601853e4b0baadb5f4c602"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "franklin",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-23T05:03:34/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-23T05:03:34/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a601853e4b0baadb5f4c602"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Franklin",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-24T01:29:30/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-24T01:29:30/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a601853e4b0baadb5f4c602"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Donation",
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/this-wide-brown-land/epic/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/this-wide-brown-land/epic/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a601853e4b0baadb5f4c602"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Powershop – The Communities of Power",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/01/powershop-natimuk-comic-strip/index.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/01/powershop-natimuk-comic-strip/index.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a5ff9b4e4b01e0d7f970ee2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Powershop – The Communities of Power",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2018/01/powershop-ceres-comic-strip/index.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2018/01/powershop-ceres-comic-strip/index.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5fe112e4b01e0d7f970e54"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "gin graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-17T18:12:55/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-17T18:12:55/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5f7d81e4b09493ee450c14"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "map",
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/archive-zip/giv-3902O7VEVpcWiCO7/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/archive-zip/giv-3902O7VEVpcWiCO7/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5f7af0e4b0091abd8c8f30"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-17T18:12:55/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-17T18:12:55/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5f692ae4b0cb50d2972f88"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "All airlines chart",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-16T04:27:54/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-16T04:27:54/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-16",
+    "contentid": "5a5d82cbe4b003d428b09108"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sydney-LA chart",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-16T04:36:54/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-16T04:36:54/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-16",
+    "contentid": "5a5d82cbe4b003d428b09108"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "LA-Tokyo chart",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-16T04:35:23/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-16T04:35:23/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-16",
+    "contentid": "5a5d82cbe4b003d428b09108"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Air strikes graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/airstrikes-zip/giv-3902jFrEf89yCtTF/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/airstrikes-zip/giv-3902jFrEf89yCtTF/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-16",
+    "contentid": "5a5d65dfe4b0fe5e06bfab5b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Civilian deaths graphic",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/deaths-zip/giv-3902PhwEDv8tw6G7/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/deaths-zip/giv-3902PhwEDv8tw6G7/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-16",
+    "contentid": "5a5d65dfe4b0fe5e06bfab5b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "key=1rfY4Q7hjK_gvR2hMuiDUwL99FJk8UcuGvGQBnN0Uo5o",
+        "scriptUrl": "https://interactive.guim.co.uk/2017/01/essential-poll/boot.js",
+        "originalUrl": "https://interactive.guim.co.uk/2017/01/essential-poll/boot.js"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-16",
+    "contentid": "5a5d4f01e4b0cb50d2971ed7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "outside in america epic",
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/2017/02/outside-in-america/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/2017/02/outside-in-america/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5d2496e4b0fe5e06bfaa4d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Widget",
+        "scriptUrl": "https://embed.actionbutton.co/widget/boot.js",
+        "originalUrl": "https://embed.actionbutton.co/widget/boot.js"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5d2496e4b0fe5e06bfaa4d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Thailand map.",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/travel_thailand_beaches/giv-39021LeCnnVz8rRU/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/travel_thailand_beaches/giv-39021LeCnnVz8rRU/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5ce42de4b042c34eda6d1e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Brecon Beacons",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/travel_brecon/giv-39027EkipulweD3u/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/travel_brecon/giv-39027EkipulweD3u/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5cb2bce4b046e0befbeaaa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Knife crime figures",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T13:40:17/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T13:40:17/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5cae77e4b003d428b08b8c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "UK total consumer debt",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T16:17:16/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T16:17:16/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5c8defe4b003d428b08a17"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-15T09:47:30.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-15T09:47:30.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5c78bae4b0fe5e06bfa430"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "REDACTED",
+        "role": "supporting",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-15T09:47:30.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-15T09:47:30.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-15",
+    "contentid": "5a5c78bae4b0fe5e06bfa430"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Mayon volcano map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-14T16:43:12.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/maps/embed/jan/2018-01-14T16:43:12.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b8183e4b046e0befbe95b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Drug use Venn diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/venn-zip/giv-3902Xv1wcAJbwYxJ/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/venn-zip/giv-3902Xv1wcAJbwYxJ/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Other drug use diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:12:27/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:12:27/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Drug use motivation diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:13:08/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:13:08/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Age of first drug use diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:13:23/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:13:23/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Source of IPEDs diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:13:46/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:13:46/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "IPED effects diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:14:03/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:14:03/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "IPED effects diagram",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:14:28/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-21T18:14:28/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-14",
+    "contentid": "5a5b0b8de4b003d428b08162"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "sdf",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/embed/from-tool/generic/index.html?vertical=News&opinion-tint=false&title=Covid-19%3A%20help%20us%20investigate&description=The%20Guardian%20is%20investigating%20how%20the%20UK%20government%20prepared%20for%20%E2%80%93%20and%20is%20responding%20to%20%E2%80%93%20the%20coronavirus%20pandemic.%20We%20want%20to%20learn%20more%20about%20recent%20decisions%20taken%20at%20the%20heart%20of%20government.%20If%20you%E2%80%99re%20a%20whistleblower%20or%20source%20and%20with%20new%20information%2C%20you%20can%20email%20%3Ca%20style%3D%22color%3A%23ab0613%22%20href%3D%22mailto%3Acovid19.investigations%40theguardian.com%22%3Ecovid19.investigations%40theguardian.com%3C%2Fa%3E%2C%20or%20(using%20a%20non-work%20phone)%20use%20Signal%20or%20%3Ca%20style%3D%22color%3A%23ab0613%22%20href%3D%22https%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D447584640566%22%3EWhatsApp%3C%2Fa%3E%20to%20message%20(UK)%20%2B44%207584%20640566.%20(The%20number%20does%20not%20take%20calls.)%20For%20the%20most%20secure%20communications%2C%20use%20%3Ca%20href%3D%22https%3A%2F%2Fwww.theguardian.com%2Fsecuredrop%22%20style%3D%22color%3A%23ab0613%22%3ESecureDrop%3C%2Fa%3E.%20For%20general%20advice%20on%20confidentially%20contacting%20the%20Guardian%2C%20see%20%3Ca%20href%3D%22https%3A%2F%2Fwww.theguardian.com%2Fhelp%2Fng-interactive%2F2017%2Fmar%2F17%2Fcontact-the-guardian-securely%22%20style%3D%22color%3A%23ab0613%22%3Eour%20guide%3C%2Fa%3E.%20&link=false",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/embed/from-tool/generic/index.html?vertical=News&opinion-tint=false&title=Covid-19%3A%20help%20us%20investigate&description=The%20Guardian%20is%20investigating%20how%20the%20UK%20government%20prepared%20for%20%E2%80%93%20and%20is%20responding%20to%20%E2%80%93%20the%20coronavirus%20pandemic.%20We%20want%20to%20learn%20more%20about%20recent%20decisions%20taken%20at%20the%20heart%20of%20government.%20If%20you%E2%80%99re%20a%20whistleblower%20or%20source%20and%20with%20new%20information%2C%20you%20can%20email%20%3Ca%20style%3D%22color%3A%23ab0613%22%20href%3D%22mailto%3Acovid19.investigations%40theguardian.com%22%3Ecovid19.investigations%40theguardian.com%3C%2Fa%3E%2C%20or%20(using%20a%20non-work%20phone)%20use%20Signal%20or%20%3Ca%20style%3D%22color%3A%23ab0613%22%20href%3D%22https%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D447584640566%22%3EWhatsApp%3C%2Fa%3E%20to%20message%20(UK)%20%2B44%207584%20640566.%20(The%20number%20does%20not%20take%20calls.)%20For%20the%20most%20secure%20communications%2C%20use%20%3Ca%20href%3D%22https%3A%2F%2Fwww.theguardian.com%2Fsecuredrop%22%20style%3D%22color%3A%23ab0613%22%3ESecureDrop%3C%2Fa%3E.%20For%20general%20advice%20on%20confidentially%20contacting%20the%20Guardian%2C%20see%20%3Ca%20href%3D%22https%3A%2F%2Fwww.theguardian.com%2Fhelp%2Fng-interactive%2F2017%2Fmar%2F17%2Fcontact-the-guardian-securely%22%20style%3D%22color%3A%23ab0613%22%3Eour%20guide%3C%2Fa%3E.%20&link=false"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-13",
+    "contentid": "5a5a48ffe4b0fe5e06bf9923"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "idlib map",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/idlib-zip/giv-39024EWGBx5spiF1/",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/uploader/embed/2018/01/idlib-zip/giv-39024EWGBx5spiF1/"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-13",
+    "contentid": "5a5a44fee4b042c34eda6a51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Tooth decay chart",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-12T16:36:41/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-12T16:36:41/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-12",
+    "contentid": "5a58d6d4e4b003d428b075bd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Top 10 low-to mid-budget films in 2017",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T14:13:45/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T14:13:45/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-12",
+    "contentid": "5a58bab1e4b0fe5e06bf8f17"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Darkest Hour and Three Billboards",
+        "html": "REDACTED",
+        "source": "Guardian",
+        "iframeUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T14:14:04/embed.html",
+        "scriptUrl": "https://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
+        "scriptName": "iframe-wrapper",
+        "isMandatory": "false",
+        "originalUrl": "https://interactive.guim.co.uk/charts/embed/jan/2018-01-15T14:14:04/embed.html"
+      },
+      "elementType": "interactive"
+    },
+    "created": "2018-01-12",
+    "contentid": "5a58bab1e4b0fe5e06bf8f17"
+  }
+]

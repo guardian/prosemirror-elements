@@ -1,9 +1,13 @@
-import { flow, omit } from "lodash";
+import { flow, noop, omit } from "lodash";
 import {
   buildElementPlugin,
+  createEmbedElement,
+  createImageElement,
+  createInteractiveElement,
   createStandardElement,
   createTweetElement,
   membershipElement,
+  pullquoteElement,
   richlinkElement,
   tableElement,
 } from "../../..";
@@ -25,22 +29,26 @@ describe("Element fixtures", () => {
    * add the relevant element to the `elements` object below, to ensure the
    * prosemirror-elements plugin recognises the new element type.
    */
+
+  const fetchContentAtom = () =>
+    Promise.resolve({
+      title: "",
+      defaultHtml: "",
+      published: true,
+      embedLink: "",
+      editorLink: "",
+      isPublished: true,
+      hasUnpublishedChanges: false,
+    });
+
+  const checkThirdPartyTracking = Promise.resolve;
+
   const standardElement = createStandardElement({
-    checkThirdPartyTracking: Promise.resolve,
+    checkThirdPartyTracking,
   });
 
   const elements = {
-    "content-atom": createContentAtomElement(() =>
-      Promise.resolve({
-        title: "",
-        defaultHtml: "",
-        published: true,
-        embedLink: "",
-        editorLink: "",
-        isPublished: true,
-        hasUnpublishedChanges: false,
-      })
-    ),
+    "content-atom": createContentAtomElement(fetchContentAtom),
     "rich-link": richlinkElement,
     membership: membershipElement,
     audio: standardElement,
@@ -56,6 +64,19 @@ describe("Element fixtures", () => {
     }),
     comment: commentElement,
     form: deprecatedElement,
+    image: createImageElement({
+      openImageSelector: noop,
+      createCaptionPlugins: () => [],
+      additionalRoleOptions: [],
+    }).element,
+    embed: createEmbedElement({
+      checkThirdPartyTracking,
+      convertYouTube: noop,
+      convertTwitter: noop,
+      targetingUrl: "",
+    }),
+    interactive: createInteractiveElement({ checkThirdPartyTracking }),
+    pullquote: pullquoteElement,
   } as const;
 
   const {

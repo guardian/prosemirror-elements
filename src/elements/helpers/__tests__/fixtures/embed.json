@@ -1,0 +1,1435 @@
+[
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Jump to me",
+        "html": "<span id=\"jumptome\"></span>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-04-13",
+    "contentid": "5ad06aeae4b0b88ec628f915"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "asd",
+        "html": "<video preload=\"none\" class=\"share-video\" id=\"share-video\" poster=\"https://thumbs.gfycat.com/HandmadeHopefulGartersnake-mobile.jpg\" controls muted=\"\" loop=\"\" style=\"width: 100%;\"><source id=\"mp4Source\" src=\"https://thumbs.gfycat.com/HandmadeHopefulGartersnake-mobile.mp4\" type=\"video/mp4\"><img title=\"Sorry, your browser doesn't support HTML5 video.\" src=\"https://thumbs.gfycat.com/HandmadeHopefulGartersnake.jpg\"></video>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-03-13",
+    "contentid": "5aa7b096e4b0bc82966617f3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "jjjj",
+        "html": "<div class='wrapper'> <img class='logo' src=' https://uploads.guim.co.uk/2018/03/05/Screen_Shot_2017-09-22_at_10.15.26.png ' />\n    <div class='boxout-primary-content'>\n        <h1><span class='intro'>An extract from...</span>Lorem ipsum dolom<span class='byline'>Steve Jobs</span><span class='publisher'>Apple/Alt-right</span></h1><a href='https://www.hachettebookgroup.com/titles/vegas-tenold/everything-you-love-will-burn/9781568589947/' target='_parent'\n            class='button'>Learn more <svg viewBox=\"0 0 50 50\" class=\"arrow\"> <path class=\"cls-1\" d=\"M38.65,25.58L37,27.21h0L26.79,37.44l-1.1-1.11,8.53-10.19H12.5V23.86H34.22L25.69,13.67l1.1-1.1L37,22.79h0l1.63,1.63v1.16Z\"/> </svg></a>        </div>\n</div>\n    <style>\n    .wrapper{\n        padding: 4px 0;\n        position: relative;\n        display: flex;\n        max-width: 380px;\n        border-top: 1px solid #dfdfdf;\n        border-bottom: 1px solid #dfdfdf;\n        background-color: #fff;\n    }\n\n    .copyright {\n        font-family: 'Guardian Text Sans Web';\n        font-size: 14px;\n        line-height: 1.3;\n        color: #676767;\n        max-width: 380px;\n    }\n\n     h1{\n        font-family: 'Guardian Egyptian Web', Georgia, serif;\n         font-weight: 900;\n         color: #00000;\n         font-style: normal;\n         font-size: 22px;\n         line-height: 1.1;\n         margin: 0;\n    }\n\n    .intro {\n         color: #454545;\n         display: block;\n    }\n\n    .byline {\n        font-style: italic;\n        display: block;\n    }\n\n    .boxout-primary-content{\n        margin-bottom: 24px;\n        font-family: 'Guardian Text Sans Web', sans-serif;\n        color: #33333;\n        font-size: 14px;\n        line-height: 1.3;\n    }\n\n    .logo {\n        max-width: 140px;\n        width: 100%;\n        height: auto;\n        margin-right: 10px;\n        align-self: start;\n    }\n\n    body, html {\n        margin: 0 \n    }\n\n    .arrow {\n        position: absolute;\n        right: 4px;\n        top: 0;\n        bottom: 0;\n        height: 100%;\n        transition: all 0.2s ease-out;\n    }\n\n    .arrow path {\n        fill: #333;\n    }\n\n    .button {\n        position: absolute;\n        bottom: 4px;\n        font-family: 'Guardian Text Sans Web';\n        font-weight: 900;\n        font-size: 16px;\n        text-decoration: none;\n        background-color: #ffe500;\n        color: #333;\n        border-radius: 24px;\n        padding: 8px 42px 8px 12px;\n        transition: background 0.2s ease-out;\n    }\n\n    .button:hover {\n        background-color: #e8d209;\n    }\n\n.publisher {\ncolor: #999;\nfont-family: 'Guardian Text Sans Web';\nfont-size: 16px;\nfont-weight: normal;\nline-height: 18px;\n}\n\n    .button:hover .arrow {\n        right: 0px;\n    }\n\n    @font-face {\n        font-family: \"Guardian Egyptian Web\";\n        src: url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-Semibold.woff2\") format(\"woff2\"),\n        url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-Semibold.woff\") format(\"woff\"),\n        url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-Semibold.ttf\") format(\"truetype\");\n        font-weight: 900;\n        font-style: normal;\n    }\n\n    @font-face {\n        font-family: \"Guardian Egyptian Web\";\n        src: url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-LightItalic.woff\") format(\"woff2\"),\n        url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-LightItalic.woff\") format(\"woff\"),\n        url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-LightItalic.ttf\") format(\"truetype\");\n        font-weight: 900;\n        font-style: italic;\n    }\n\n    @font-face {\n        font-family: \"Guardian Text Sans Web\";\n        src: url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot\");\n        src: url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot?#iefix\") format(\"embedded-opentype\"), url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff2\") format(\"woff2\"), url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff\") format(\"woff\"), url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.ttf\") format(\"truetype\"), url(\"https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.svg#GuardianTextSansWeb-Regular\") format(\"svg\");\n        font-weight: normal;\n        font-style: normal;\n        font-stretch: normal;\n    }\n</style>",
+        "role": "supporting",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-03-05",
+    "contentid": "5a9db22be4b0e7e2b69a28e0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "b",
+        "html": "<blockquote class=\"twitter-video\" data-lang=\"en\">&mdash; Chris Salmon 🚡 (@chrissalmon) <a href=\"https://twitter.com/chrissalmon/status/969225817921343489?ref_src=twsrc%5Etfw\">March 1, 2018</a></blockquote><script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-02-26",
+    "contentid": "5a946adbe4b088746caf2508"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "alt text",
+        "html": "<blockquote class=\"twitter-tweet\" data-lang=\"en-gb\"><p lang=\"en\" dir=\"ltr\">Say hello to Bruin. He’s currently lost in exestential wintry bliss. 13/10 would not disturb <a href=\"https://t.co/XAhCpqeziL\">pic.twitter.com/XAhCpqeziL</a></p>&mdash; WeRateDogs™ (@dog_rates) <a href=\"https://twitter.com/dog_rates/status/960561900684791812?ref_src=twsrc%5Etfw\">5 February 2018</a></blockquote><script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-02-05",
+    "contentid": "5a78a834e4b0da811e145bc5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Test",
+        "html": "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftheguardian%2Fposts%2F10156438199056323&width=500\" width=\"500\" height=\"453\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-02-02",
+    "contentid": "5a7486f90dc4910577dfc0b7"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftheguardian%2Fposts%2F10156518280256323&width=500\" width=\"500\" height=\"501\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-02-01",
+    "contentid": "5a731878e4b0d2e741a26b51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/home_office_asylum_claims\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/home_office_asylum_claims\" title=\"Online Form\">Online Form - home office asylum claims</a></noscript>",
+        "isMandatory": "true",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69ef12e4b0473d0bc103c3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "The World We Want email sign up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/4197\" height=\"52px\" data-form-title=\"Sign up for The World We Want weekly report\" data-form-description=\"Get our editors' pick of journalism offering real solutions\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69e30fe4b00f225a1c7b0f"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Guardian business email sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69d002e4b00f225a1c79d3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "wifi form",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/first_time_you_used_wifi\"></script>",
+        "caption": "REDACTED",
+        "isMandatory": "true",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69cc9ee4b00f225a1c79a8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69ba64e4b0ff7aa1a42455"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Guardian business email sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69b246e4b0473d0bc100f9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "sexual harassment form",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/sexual_harassment_in_the_development_sector\"></script>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a69a969e4b0ff7aa1a423b6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Theresa May's speech",
+        "html": "<iframe src=\"https://webcasts.weforum.org/widget/1/davos2018?p=1&th=1&hl=english&id=a0W0X00000AeguJUAR\" width=\"460px\" height=\"276px\" frameborder=\"0\" scrolling=\"no\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-25",
+    "contentid": "5a697ec7e4b0ff7aa1a422d8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Guardian business email sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68c7d1e4b00f225a1c7398"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "b",
+        "html": "<div class='wrapper'> <img class='logo' src='https://prodimage.images-bn.com/pimages/9780807060100_p0_v1_s550x406.jpg' />\n<div class='boxout-primary-content'>\n<h1><span class='intro'></span>Man's Search for Meaning<span class='byline'>Viktor Frankl</span></h1> <a href=’https://www.guardianbookshop.com/man-s-search-for-meaning-2.html’ target=’_parent’\nclass=’button’> Bookshop <svg viewBox=\"0 0 50 50\" class=\"arrow\"> <path class=\"cls-1\" d=\"M38.65,25.58L37,27.21h0L26.79,37.44l-1.1-1.11,8.53-10.19H12.5V23.86H34.22L25.69,13.67l1.1-1.1L37,22.79h0l1.63,1.63v1.16Z\"/> </svg></a> </div>\n</div>\n<style>\n.wrapper{\npadding: 4px 0;\nposition: relative;\ndisplay: flex;\nmax-width: 380px;\nborder-top: 1px solid #dfdfdf;\nborder-bottom: 1px solid #dfdfdf;\nbackground-color: #fff;\n}\n\n.copyright {\nfont-family: ‘Guardian Text Sans Web’;\nfont-size: 14px;\nline-height: 1.3;\ncolor: #676767;\nmax-width: 380px;\n}\n\nh1{\nfont-family: ‘Guardian Egyptian Web’, Georgia, serif;\nfont-weight: 900;\ncolor: #ab8958;\nfont-style: normal;\nfont-size: 22px;\nline-height: 1.1;\nmargin: 0;\n}\n\n.intro {\ncolor: #bb3b80;\ndisplay: block;\n}\n\n.byline {\nfont-style: italic;\ndisplay: block;\ncolor: #000000\n}\n\n.boxout-primary-content{\nmargin-bottom: 24px;\nfont-family: ‘Guardian Text Sans Web’, sans-serif;\ncolor: #333;\nfont-size: 14px;\nline-height: 1.3;\n}\n\n.logo {\nmax-width: 140px;\nwidth: 100%;\nheight: auto;\nmargin-right: 10px;\nalign-self: start;\n}\n\nbody, html {\nmargin: 0 \n}\n\n.arrow {\nposition: absolute;\nright: 4px;\ntop: 0;\nbottom: 0;\nheight: 100%;\ntransition: all 0.2s ease-out;\n}\n\n.arrow path {\nfill: #333;\n}\n\n.button {\nposition: absolute;\nbottom: 4px;\nfont-family: ‘Guardian Text Sans Web’;\nfont-weight: 900;\nfont-size: 16px;\ntext-decoration: none;\nbackground-color: #ffe500;\ncolor: #333;\nborder-radius: 24px;\npadding: 8px 42px 8px 12px;\ntransition: background 0.2s ease-out;\n}\n\n.button:hover {\nbackground-color: #e8d209;\n}\n\n.button:hover .arrow {\nright: 0px;\n}\n\n@font-face {\nfont-family: “Guardian Egyptian Web”;\nsrc: url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-Semibold.woff2”) format(“woff2”),\nurl(“https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-Semibold.woff”) format(“woff”),\nurl(“https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-Semibold.ttf”) format(“truetype”);\nfont-weight: 900;\nfont-style: normal;\n}\n\n@font-face {\nfont-family: “Guardian Egyptian Web”;\nsrc: url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-LightItalic.woff”) format(“woff2”),\nurl(“https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-LightItalic.woff”) format(“woff”),\nurl(“https://interactive.guim.co.uk/fonts/guss-webfonts/GHGuardianHeadline/GHGuardianHeadline-LightItalic.ttf”) format(“truetype”);\nfont-weight: 900;\nfont-style: italic;\n}\n\n@font-face {\nfont-family: “Guardian Text Sans Web”;\nsrc: url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot”);\nsrc: url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot?#iefix”) format(“embedded-opentype”), url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff2”) format(“woff2”), url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff”) format(“woff”), url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.ttf”) format(“truetype”), url(“https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.svg#GuardianTextSansWeb-Regular”) format(“svg”);\nfont-weight: normal;\nfont-style: normal;\nfont-stretch: normal;\n}\n</style>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68c44ce4b00f225a1c734a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68b243e4b00f225a1c7231"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "suffrage",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/100_years_since_suffrage_movement\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/100_years_since_suffrage_movement\" title=\"Online Form\">Online Form - 100 years since suffrage movement</a></noscript>",
+        "isMandatory": "true",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68a2d8e4b01fba01150fd1"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "The full guest list for the President’s Club dinner.",
+        "html": "<iframe class=\"scribd_iframe_embed\" title=\"The Presidents Club - 33rd Annual Dinner\" src=\"https://www.scribd.com/embeds/369959563/content?start_page=1&view_mode=scroll&access_key=key-3xXcsLZja4l46cHuE7gO&show_recommendations=true\" data-auto-height=\"false\" data-aspect-ratio=\"1.4146341463414633\" scrolling=\"no\" id=\"doc_49602\" width=\"100%\" height=\"900\" frameborder=\"0\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68a287e4b08c0147182340"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Programme and menu for the 33rd Presidents Club’s annual gala dinner.",
+        "html": "<iframe class=\"scribd_iframe_embed\" title=\"The Presidents Club - 33rd Annual Dinner \" src=\"https://www.scribd.com/embeds/369959605/content?start_page=1&view_mode=scroll&access_key=key-s0nR9SpX9p70r0OBRXhx&show_recommendations=true\" data-auto-height=\"false\" data-aspect-ratio=\"1.4146341463414633\" scrolling=\"no\" id=\"doc_43081\" width=\"100%\" height=\"900\" frameborder=\"0\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68a287e4b08c0147182340"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Guardian business email sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68a287e4b08c0147182340"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to receive pictorial updates from fashion week.",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/4132\" height=\"52px\" data-form-title=\"Sign up for Fashion Week image of the day\" data-form-description=\"Get our editors' pick of the shows direct to your inbox\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a689fd7e4b01fba01150fa0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Trevor Noah",
+        "html": "<iframe src=\"https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fthedailyshow%2Fvideos%2F10156210487396800%2F&show_text=0&width=560\" width=\"560\" height=\"315\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\" allowFullScreen=\"true\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a689c68e4b01fba01150f5e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68950be4b04cea3dc7acd0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a686f7ce4b01fba01150ce9"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Rugby Six Nations",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsampampmedia.formstack.com/forms/js.php/rugby_six_nations\"></script>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a6861dae4b01fba01150c1b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a685d9fe4b01fba01150bfa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "slim volume",
+        "html": "<html><head></head><body style=\"padding: 0px; margin: 0px; overflow: hidden;\"><style type=\"text/css\">.left-rule:before,.right-rule:before{content:'';float:left;width:43%;height:1px;border-top:1px dotted #bdbdbd;margin-top:12px}.right-rule:before{content:'';float:right}svg{display:block;margin:auto}p{margin:0px}#wrapper{margin:0px}</style><div id=\"wrapper\"><p class=\"left-rule\"></p><p class=\"right-rule\"></p> <svg version=\"1.1\" width=\"30px\" height=\"24px\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 30 24.8\" enable-background=\"new 0 0 30 24.8\" xml:space=\"preserve\" fill=\"#fdadba\"> <path d=\"M29.3,1.4C26.2,0.5,23.4,0,21.2,0c-3.4,0-5.2,1-6.2,1.9C14,1,12.2,0,8.8,0c-2.3,0-5,0.5-8.1,1.4L0,1.6v23l1.3-0.4 C4.2,23.4,6.7,23,8.8,23c4.2,0,5.2,1.8,5.2,1.9l1.9,0c0,0,0.9-1.9,5.2-1.9c2.1,0,4.6,0.4,7.5,1.3l1.3,0.4v-23L29.3,1.4z M8.8,20.9 c-2,0-4.2,0.3-6.8,1V3.1C4.6,2.4,6.9,2,8.8,2c3.7,0,4.9,1.4,5.2,1.8v18.3C12.9,21.5,11.3,20.9,8.8,20.9z M28,21.9 c-2.6-0.7-4.9-1-6.8-1c-2.5,0-4.1,0.5-5.2,1.1V3.8C16.3,3.4,17.5,2,21.2,2c1.9,0,4.2,0.4,6.8,1.1V21.9z\"/> </svg></div></body></html>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a685700e4b04cea3dc7a9c6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "women in city",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/city_women\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/city_women\" title=\"Online Form\">Online Form - Sexual harassment city</a></noscript><div style=\"text-align:right; font-size:x-small;\"><a href=\"http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,2943054\" title=\"Web Form Creator\">Web Form Creator</a></div>",
+        "isMandatory": "true",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a685070e4b04cea3dc7a99a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "prescription drugs",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/prescription_drugs\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/prescription_drugs\" title=\"Online Form\">Online Form - prescription drugs</a></noscript><div style=\"text-align:right; font-size:x-small;\"><a href=\"http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,2943038\" title=\"Online Form Builder\">Online Form Builder</a></div>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a68412fe4b01fba01150b40"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Multi-factor and labour productivity growth - market sector",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/PVdxp/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Labour, capital and multi-factor productivity",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/iHsXZ/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Multi-factor productivity - mining, electricity industries",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/XXlSi/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Output, productivity & labour input growth 2013-14 to 2016-17",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/w3YvK/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"600\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Output, productivity & labour input growth 2016-17",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/WxVDc/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Annual industry labour input growth and multi-factor productivity 1994-95 to 2016-17",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/5s2cr/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Productivity and hours worked - annual growth 1994-2017",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/SEdwz/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-24",
+    "contentid": "5a682d4ce4b08c0147181e51"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "counter",
+        "html": "<img src=\"https://counter.theconversation.com/content/90453/count.gif?distributor=republish-lightbox-advanced\" alt=\"The Conversation\" width=\"1\" height=\"1\" />",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a67c334e4b08c0147181c89"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a67ad91e4b08c0147181c2e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "newsletter",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3833\" height=\"52px\" data-form-title=\"Sign up for The Guardian Today - Australia edition\" data-form-description=\"Get our daily email of editors' picks and the biggest headlines each afternoon.\" data-form-campaign-code=\"AU_signup_page\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a678e7be4b04cea3dc7a60a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a6768e4e4b08c01471819b6"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a675faae4b01fba011505a5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "true",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a67580ae4b01fba0115052d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a6757c0e4b04cea3dc7a396"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to receive pictorial updates from the couture shows in Paris this week.",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/4132\" height=\"52px\" data-form-title=\"Sign up for Fashion Week image of the day\" data-form-description=\"Get our editors' pick of the shows direct to your inbox\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a67574fe4b04cea3dc7a392"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a6755e4e4b01fba0115050e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Trevor Noah on the government shutdown.",
+        "html": "<blockquote class=\"twitter-video\" data-lang=\"en\"><p lang=\"en\" dir=\"ltr\">The government shutdown meant the president had to pretend-work and miss his big party: <a href=\"https://t.co/PMbFDXzCiZ\">https://t.co/PMbFDXzCiZ</a> <a href=\"https://t.co/iewjiEU6PN\">pic.twitter.com/iewjiEU6PN</a></p>&mdash; The Daily Show (@TheDailyShow) <a href=\"https://twitter.com/TheDailyShow/status/955802351155134465?ref_src=twsrc%5Etfw\">January 23, 2018</a></blockquote><script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a674f30e4b01fba0115049a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-23",
+    "contentid": "5a674725e4b0cc5bf291c134"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "book clinic question box",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/observer_book_clinic\"></script>",
+        "isMandatory": "true",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a6600b8e4b021ee33dc5ad2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Guardian business email sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\"\n height=\"52px\" data-form-title=\"Sign up for Business Today\" \ndata-form-description=\"Get the headlines and editors' picks every \nweekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" \nclass=\"iframed--overflow-hidden email-sub__iframe \njs-email-sub__iframe js-email-sub__iframe--article\" \ndata-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65fd8fe4b0307acc121492"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "perfectionism",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/perfectionism_experiences\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/perfectionism_experiences\" title=\"Online Form\">Online Form - Perfectionism</a></noscript><div style=\"text-align:right; font-size:x-small;\"><a href=\"http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,2939680\" title=\"Web Form Builder\">Web Form Builder</a></div>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65c0abe4b0307acc1211e0"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Guardian business email sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65b395e4b0ff81ba7268b8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a65a0dbe4b0ff81ba726829"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Unemployment rate",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/wnvSE/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "State employment growth - calendar year",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/dfoUT/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "true",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Unemployment rate",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/wnvSE/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "true",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Underemployment rate",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/JuHpj/2/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Full-time employment growth - calendar year",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/8mSks/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "2017 employment growth by industry and gender",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/L9o44/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Full-time employment to population ration - youth",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/GuCcf/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Full-time employment to population ration - 25-64yo",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/H4fWT/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Percent of women aged 25-64 working full-time",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/YQ5Kx/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "1 million jobs in 5 years",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/pMSyd/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nwidth=\"640\" height=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-22",
+    "contentid": "5a657d7ae4b0307acc121055"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "The Opposition",
+        "html": "<div style=\"background-color:#000000;width:520px;\"><div style=\"padding:4px;\"><iframe src=\"//media.mtvnservices.com/embed/mgid:arc:video:comedycentral.com:b1f6e19c-4291-4318-858e-236dfa114829\" width=\"512\" height=\"288\" frameborder=\"0\" allowfullscreen=\"true\"></iframe></div></div>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a626dc6e4b063d00a1130cf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3820\" height=\"52px\" data-form-title=\"Sign up for The Guardian Today - Australia edition\" data-form-description=\"Get our daily email of editors' picks and the biggest headlines each afternoon.\" data-form-campaign-code=\"AU_signup_page\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a626dc6e4b063d00a1130cf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a625f11e4b0307acc12015c"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our email of the latest opinion articles each weekday\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday \"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a623043e4b0926a54457151"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a6228f8e4b063d00a112f0b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Ardern Facebook post",
+        "html": "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fjacindaardern%2Fposts%2F10154987366582441%3A0&width=500\" width=\"500\" height=\"606\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a6210fae4b0307acc11fe57"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a620884e4b0307acc11fdd8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Trevor Noah",
+        "html": "<iframe src=\"https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fthedailyshow%2Fvideos%2F10156193704186800%2F&show_text=0&width=560\" width=\"560\" height=\"315\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\" allowFullScreen=\"true\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a620343e4b0ff81ba725462"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61dd54e4b063d00a112b45"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61d0c7e4b0ff81ba725201"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "true",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a61bc3be4b063d00a1129db"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-19",
+    "contentid": "5a6138e6e4b063d00a1127ca"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6111e2e4b0307acc11f7bd"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "The Recap",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3888\" height=\"52px\" data-form-title=\"Sign up to The Recap\" data-form-description=\"Get our weekly email of editors' picks and the biggest sports stories\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6109f3e4b0926a54457014"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "resistance now email sign up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3830\" height=\"52px\" data-form-title=\"Sign up for The Resistance Now newsletter\" data-form-description=\"Get our weekly email about protests and activism in America\" data-form-campaign-code=\"trn_signup_page\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60e98be4b063d00a1125fa"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60e798e4b063d00a1125ea"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60ddc6e4b0307acc11f60f"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Email sign up form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our email of the latest opinion articles each weekday\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday \"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60dcbce4b0175646049afe"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "The Recap",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3888\" height=\"52px\" data-form-title=\"Sign up to The Recap\" data-form-description=\"Get our weekly email of editors' picks and the biggest sports stories\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60d1aee4b0821a8018079b"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60cb00e4b0307acc11f524"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "eating disorder treatment",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/eatingdisorders\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/eatingdisorders\" title=\"Online Form\">Online Form - Eating disorders</a></noscript><div style=\"text-align:right; font-size:x-small;\"><a href=\"http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,2936744\" title=\"Contact Form Generator\">Contact Form Generator</a></div>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60c8bfe4b0ff81ba724bba"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "FORM",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our daily email of the latest opinion articles each evening\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday evening\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a58e892e4b0fe5e06bf91d5"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "biz email click-through sign-up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60b417e4b0307acc11f3f2"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email or follow Guardian Business on Twitter at @BusinessDesk",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a60aae3e4b01e0d7f97138a"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "sexual harassment university",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/sexual_misconduct_university\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/sexual_misconduct_university\" title=\"Online Form\">Online Form - Sexual harassment student uni</a></noscript><div style=\"text-align:right; font-size:x-small;\"><a href=\"http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,2939712\" title=\"Online Form Generator\">Online Form Generator</a></div>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a609976e4b01e0d7f9712a3"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Romania",
+        "html": "<script type=\"text/javascript\" src=\"https://guardiannewsandmedia.formstack.com/forms/js.php/romania_protest\"></script><noscript><a href=\"https://guardiannewsandmedia.formstack.com/forms/romania_protest\" title=\"Online Form\">Online Form - Romania protest</a></noscript><div style=\"text-align:right; font-size:x-small;\"><a href=\"http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,2938214\" title=\"Online Form Builder\">Online Form Builder</a></div>",
+        "isMandatory": "true",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a607d95e4b01e0d7f97114d"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Sign up to the daily Business Today email",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3887\" height=\"52px\" data-form-title=\"Sign up for Business Today\" data-form-description=\"Get the headlines and editors' picks every weekday morning.\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"Thanks for signing up\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a607320e4b0baadb5f4c7cf"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Underground cavern video - Hong Kong",
+        "html": "<iframe src=\"https://drive.google.com/file/d/1tJkSRNEKjRL2uVqK8FDTe7OhpImx8XdE/preview\" width=\"640\" height=\"480\"></iframe>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a605e1de4b0baadb5f4c728"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "A video of the burning bus posted on Instagram by the local journalist Askar Aktileu",
+        "html": "<blockquote class=\"instagram-media\" data-instgrm-captioned data-instgrm-permalink=\"https://www.instagram.com/p/BeFMfm-nEhV/\" data-instgrm-version=\"8\" style=\" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);\"><div style=\"padding:8px;\"> <div style=\" background:#F8F8F8; line-height:0; margin-top:40px; padding:50.0% 0; text-align:center; width:100%;\"> <div style=\" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAMUExURczMzPf399fX1+bm5mzY9AMAAADiSURBVDjLvZXbEsMgCES5/P8/t9FuRVCRmU73JWlzosgSIIZURCjo/ad+EQJJB4Hv8BFt+IDpQoCx1wjOSBFhh2XssxEIYn3ulI/6MNReE07UIWJEv8UEOWDS88LY97kqyTliJKKtuYBbruAyVh5wOHiXmpi5we58Ek028czwyuQdLKPG1Bkb4NnM+VeAnfHqn1k4+GPT6uGQcvu2h2OVuIf/gWUFyy8OWEpdyZSa3aVCqpVoVvzZZ2VTnn2wU8qzVjDDetO90GSy9mVLqtgYSy231MxrY6I2gGqjrTY0L8fxCxfCBbhWrsYYAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;\"></div></div> <p style=\" margin:8px 0 0 0; padding:0 4px;\"> <a href=\"https://www.instagram.com/p/BeFMfm-nEhV/\" style=\" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;\" target=\"_blank\">#ақтөбеоблысы #ырғыз #автобус #өрт #52қаза #өзбеказаматтары</a></p> <p style=\" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;\">A post shared by <a href=\"https://www.instagram.com/askar_aktileu/\" style=\" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;\" target=\"_blank\"> Асқар Ақтілеу</a> (@askar_aktileu) on <time style=\" font-family:Arial,sans-serif; font-size:14px; line-height:17px;\" datetime=\"2018-01-18T06:44:24+00:00\">Jan 17, 2018 at 10:44pm PST</time></p></div></blockquote> <script async defer src=\"//platform.instagram.com/en_US/embeds.js\"></script>",
+        "caption": "REDACTED",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6053c5e4b031518fefe05e"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Counter",
+        "html": "<p>This article was originally published on <a href=\"http://theconversation.com\">The Conversation</a>. Read the <a href=\"https://theconversation.com/all-the-racquet-what-science-tells-us-about-the-pros-and-cons-of-grunting-in-tennis-90225\">original article</a>.</p>",
+        "isMandatory": "false",
+        "safeEmbedCode": "false"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a602b9ae4b01e0d7f970f95"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Email sign up form",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3830\" height=\"52px\" data-form-title=\"Sign up for The Resistance Now newsletter\" data-form-description=\"Get our weekly email about protests and activism in America\" data-form-campaign-code=\"trn_signup_page\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-18",
+    "contentid": "5a6014d9e4b01e0d7f970f44"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Email sign up",
+        "html": "<iframe src=\"https://www.theguardian.com/email/form/plaintone/3228\" height=\"218px\" data-form-title=\"Sign up for the Guardian US opinion email\" data-form-description=\"Get our email of the latest opinion articles each weekday\" data-form-campaign-code=\"US_opinion\" scrolling=\"no\" seamless frameborder=\"0\" class=\"iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article\" data-form-success-desc=\"We will send you the latest opinion articles every weekday \"></iframe> ",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5fcf29e4b01e0d7f970df8"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Men's top 200 players' earnings in 2017: golf and tennis",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/GfFWi/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nallowfullscreen=\"allowfullscreen\"\nwebkitallowfullscreen=\"webkitallowfullscreen\"\nmozallowfullscreen=\"mozallowfullscreen\"\noallowfullscreen=\"oallowfullscreen\"\nmsallowfullscreen=\"msallowfullscreen\" width=\"640\"\nheight=\"400\"></iframe>",
+        "isMandatory": "true",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5fb2a5e4b0baadb5f4c449"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "Women's top 200 players' earnings in 2017: golf and tennis",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/n5sZn/2/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nallowfullscreen=\"allowfullscreen\"\nwebkitallowfullscreen=\"webkitallowfullscreen\"\nmozallowfullscreen=\"mozallowfullscreen\"\noallowfullscreen=\"oallowfullscreen\"\nmsallowfullscreen=\"msallowfullscreen\" width=\"640\"\nheight=\"400\"></iframe>",
+        "isMandatory": "true",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5fb2a5e4b0baadb5f4c449"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "2017 tennis prize money earnings by gender",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/anLrQ/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nallowfullscreen=\"allowfullscreen\"\nwebkitallowfullscreen=\"webkitallowfullscreen\"\nmozallowfullscreen=\"mozallowfullscreen\"\noallowfullscreen=\"oallowfullscreen\"\nmsallowfullscreen=\"msallowfullscreen\" width=\"640\"\nheight=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5fb2a5e4b0baadb5f4c449"
+  },
+  {
+    "element": {
+      "assets": [],
+      "fields": {
+        "alt": "2017 golf prize money earnings by gender",
+        "html": "<iframe\nsrc=\"//datawrapper.dwcdn.net/Epije/1/\" scrolling=\"no\"\nframeborder=\"0\" allowtransparency=\"true\"\nallowfullscreen=\"allowfullscreen\"\nwebkitallowfullscreen=\"webkitallowfullscreen\"\nmozallowfullscreen=\"mozallowfullscreen\"\noallowfullscreen=\"oallowfullscreen\"\nmsallowfullscreen=\"msallowfullscreen\" width=\"640\"\nheight=\"400\"></iframe>",
+        "isMandatory": "false",
+        "safeEmbedCode": "true"
+      },
+      "elementType": "embed"
+    },
+    "created": "2018-01-17",
+    "contentid": "5a5fb2a5e4b0baadb5f4c449"
+  }
+]
