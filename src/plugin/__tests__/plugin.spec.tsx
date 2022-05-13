@@ -146,7 +146,7 @@ describe("createPlugin", () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access -- waive type for mock
       const newFieldValues = consumerRenderSpy.mock.calls.pop()[0];
       expect(newFieldValues).toMatchObject({
-        textField: { values: "New content" },
+        textField: { value: "New content" },
       });
     });
 

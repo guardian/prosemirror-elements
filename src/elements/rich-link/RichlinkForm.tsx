@@ -2,15 +2,11 @@ import { css } from "@emotion/react";
 import { SvgAlertTriangle } from "@guardian/src-icons";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { richlinkFields } from "./RichlinkSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<typeof richlinkFields>;
-  errors: FieldValidationErrors;
   fields: FieldNameToField<typeof richlinkFields>;
 };
 
@@ -33,24 +29,21 @@ const warningStyle = css`
 `;
 
 export const RichlinkElementForm: React.FunctionComponent<Props> = ({
-  errors,
   fields,
-  fieldValues,
 }) => (
   <FieldLayoutVertical>
     <div>
       Related:{" "}
-      <a target="_blank" href={fieldValues.url}>
-        {fieldValues.linkText}
+      <a target="_blank" href={fields.url.value}>
+        {fields.linkText.value}
       </a>
     </div>
     <CustomDropdownView
       field={fields.role}
       label="Weighting"
-      errors={errors.weighting}
       display="inline"
     />
-    {fieldValues.draftReference ? (
+    {fields.draftReference.value ? (
       <div css={warningStyle}>
         <SvgAlertTriangle />
         This rich link references unpublished content. It will not appear until

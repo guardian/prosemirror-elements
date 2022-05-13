@@ -52,16 +52,11 @@ export const createInteractiveFields = ({
 };
 
 export const createInteractiveElement = (props: MainInteractiveProps) =>
-  createReactElementSpec(
-    createInteractiveFields(props),
-    ({ fields, errors, fieldValues }) => {
-      return (
-        <InteractiveElementForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-          checkThirdPartyTracking={props.checkThirdPartyTracking}
-        />
-      );
-    }
-  );
+  createReactElementSpec(createInteractiveFields(props), ({ fields }) => {
+    return (
+      <InteractiveElementForm
+        fields={fields}
+        checkThirdPartyTracking={props.checkThirdPartyTracking}
+      />
+    );
+  });

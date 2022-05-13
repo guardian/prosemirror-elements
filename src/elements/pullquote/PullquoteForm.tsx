@@ -2,28 +2,25 @@ import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { pullquoteFields } from "./PullquoteSpec";
 
 type Props = {
-  errors: FieldValidationErrors;
   fields: FieldNameToField<typeof pullquoteFields>;
 };
 
 export const PullquoteElementTestId = "PullquoteElement";
 
 export const PullquoteElementForm: React.FunctionComponent<Props> = ({
-  errors,
   fields,
 }) => {
   //It is necessary to filter errors for the HTML field as we have two overlapping length check validators.
   //We only want to show the smaller length check "warning" instead of the higher length check "error".
   //The desired behaviour is to display a "WARN" level error if there is one, otherwise show what's found.
-  const htmlErrors = errors.html.length
+  const htmlErrors = fields.html.errors.length
     ? [
-        errors.html.reduce((acc, cur) => {
+        fields.html.errors.reduce((acc, cur) => {
           if (acc.level === "WARN") {
             return acc;
           } else {
@@ -48,7 +45,6 @@ export const PullquoteElementForm: React.FunctionComponent<Props> = ({
             <FieldWrapper
               headingLabel="Attribution"
               field={fields.attribution}
-              errors={errors.attribution}
             />
             <CustomDropdownView label="Weighting" field={fields.role} />
           </FieldLayoutVertical>

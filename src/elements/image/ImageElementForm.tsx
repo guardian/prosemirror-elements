@@ -9,12 +9,7 @@ import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type {
-  FieldValidationErrors,
-  ValidationError,
-} from "../../plugin/elementSpec";
 import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -34,15 +29,12 @@ import { minAssetValidation } from "./ImageElement";
 import { ImageElementTelemetryType } from "./imageElementTelemetryEvents";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
-  errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createImageFields>>;
   roleOptionsStore: Store<Options>;
 };
 
 type ImageViewProps = {
   updateFields: SetMedia;
-  errors: ValidationError[];
   field: CustomField<MainImageData, { openImageSelector: ImageSelector }>;
 };
 
@@ -58,9 +50,7 @@ export const thumbnailOption = {
 };
 
 export const ImageElementForm: React.FunctionComponent<Props> = ({
-  errors,
   fields,
-  fieldValues,
   roleOptionsStore: RoleOptionsStore,
 }) => {
   const sendTelemetryEvent = useContext(TelemetryContext);
@@ -75,9 +65,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 <RoleOptionsDropdown
                   additionalRoleOptions={additionalRoleOptions}
                   field={fields.role}
-                  fieldValue={fieldValues.role}
-                  errors={errors.role}
-                  mainImage={fieldValues.mainImage}
+                  mainImage={fields.mainImage.value}
                 />
               )}
             </RoleOptionsStore>
@@ -88,26 +76,19 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                 fields.source.update(source);
                 fields.photographer.update(photographer);
               }}
-              errors={errors.mainImage}
             />
-            <CustomDropdownView
-              field={fields.imageType}
-              label={"Image type"}
-              errors={errors.imageType}
-            />
+            <CustomDropdownView field={fields.imageType} label={"Image type"} />
           </FieldLayoutVertical>
         </Column>
         <Column width={3 / 5}>
           <FieldLayoutVertical>
             <FieldWrapper
               field={fields.caption}
-              errors={errors.caption}
               headingLabel="Caption"
-              description={`${htmlLength(fieldValues.caption)}/600 characters`}
+              description={`${htmlLength(fields.caption.value)}/600 characters`}
             />
             <FieldWrapper
               field={fields.alt}
-              errors={errors.alt}
               headingLabel={<AltText>Alt text</AltText>}
               headingContent={
                 <>
@@ -134,7 +115,7 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
                       sendTelemetryEvent?.(
                         ImageElementTelemetryType.CopyFromCaptionButtonPressed
                       );
-                      fields.alt.update(fieldValues.caption);
+                      fields.alt.update(fields.caption.value);
                     }}
                   >
                     Copy from caption
@@ -146,23 +127,17 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
               <Column width={1 / 2}>
                 <FieldWrapper
                   field={fields.photographer}
-                  errors={errors.photographer}
                   headingLabel="Photographer"
                 />
               </Column>
               <Column width={1 / 2}>
-                <FieldWrapper
-                  field={fields.source}
-                  errors={errors.source}
-                  headingLabel="Source"
-                />
+                <FieldWrapper field={fields.source} headingLabel="Source" />
               </Column>
             </Columns>
             <Columns>
               <Column width={1 / 2}>
                 <CustomCheckboxView
                   field={fields.displayCredit}
-                  errors={errors.displayCredit}
                   label="Display credit information"
                 />
               </Column>
@@ -178,16 +153,12 @@ const thumbnailOnlyOptions = [thumbnailOption];
 
 const RoleOptionsDropdown = ({
   field,
-  fieldValue,
   mainImage,
   additionalRoleOptions,
-  errors,
 }: {
   field: CustomField<string, Options>;
   additionalRoleOptions: Options;
   mainImage: MainImageData;
-  fieldValue: string;
-  errors: ValidationError[];
 }) => {
   // We memoise these options to ensure that this array does not change identity
   // and re-trigger useEffect unless our additionalRoleOptions have changed.
@@ -207,12 +178,12 @@ const RoleOptionsDropdown = ({
    * first available option.
    */
   useEffect(() => {
-    if (!fieldValue) {
+    if (!field.value) {
       return;
     }
 
     const roleHasBeenRemoved = !roleOptions.some(
-      ({ value }) => fieldValue === value
+      ({ value }) => field.value === value
     );
 
     if (roleHasBeenRemoved) {
@@ -222,12 +193,7 @@ const RoleOptionsDropdown = ({
   }, [roleOptions]);
 
   return (
-    <CustomDropdownView
-      field={field}
-      label="Weighting"
-      errors={errors}
-      options={roleOptions}
-    />
+    <CustomDropdownView field={field} label="Weighting" options={roleOptions} />
   );
 };
 
@@ -238,7 +204,7 @@ const imageViewStyles = css`
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
-const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
+const ImageView = ({ field, updateFields }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);
 
   const sendTelemetryEvent = useContext(TelemetryContext);
@@ -282,7 +248,7 @@ const ImageView = ({ field, updateFields, errors }: ImageViewProps) => {
 
   return (
     <div>
-      <Errors errors={errors.map((e) => e.error)} />
+      <Errors errors={field.errors.map((e) => e.error)} />
       <div>
         <img css={imageViewStyles} src={imageSrc} />
       </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -33,13 +32,5 @@ export const commentFields = {
 
 export const commentElement = createReactElementSpec(
   commentFields,
-  ({ fields, errors, fieldValues }) => {
-    return (
-      <CommentElementForm
-        fields={fields}
-        errors={errors}
-        fieldValues={fieldValues}
-      />
-    );
-  }
+  CommentElementForm
 );

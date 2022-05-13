@@ -78,21 +78,16 @@ export const createEmbedFields = ({ createCaptionPlugins }: MainEmbedProps) => {
 };
 
 export const createEmbedElement = (props: MainEmbedProps) =>
-  createReactElementSpec(
-    createEmbedFields(props),
-    ({ fields, errors, fieldValues }) => {
-      const calloutTag = getCalloutTag(fieldValues.html);
-      return calloutTag ? (
-        <Callout tag={calloutTag} targetingUrl={props.targetingUrl} />
-      ) : (
-        <EmbedForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-          checkThirdPartyTracking={props.checkThirdPartyTracking}
-          convertYouTube={props.convertYouTube}
-          convertTwitter={props.convertTwitter}
-        />
-      );
-    }
-  );
+  createReactElementSpec(createEmbedFields(props), ({ fields }) => {
+    const calloutTag = getCalloutTag(fields.html.value);
+    return calloutTag ? (
+      <Callout tag={calloutTag} targetingUrl={props.targetingUrl} />
+    ) : (
+      <EmbedForm
+        fields={fields}
+        checkThirdPartyTracking={props.checkThirdPartyTracking}
+        convertYouTube={props.convertYouTube}
+        convertTwitter={props.convertTwitter}
+      />
+    );
+  });

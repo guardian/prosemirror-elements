@@ -105,15 +105,8 @@ export const createImageElement = (options: ImageElementOptions) => {
 
   const element = createReactElementSpec(
     createImageFields(options),
-    ({ fields, errors, fieldValues }) => {
-      return (
-        <ImageElementForm
-          fieldValues={fieldValues}
-          errors={errors}
-          fields={fields}
-          roleOptionsStore={RoleStore}
-        />
-      );
+    ({ fields }) => {
+      return <ImageElementForm fields={fields} roleOptionsStore={RoleStore} />;
     }
   );
 

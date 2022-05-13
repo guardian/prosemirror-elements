@@ -3,11 +3,11 @@ import React from "react";
 import { Description } from "../../editorial-source-components/Description";
 import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
+import type { FieldNameToField } from "../../plugin/types/Element";
 import type { fields } from "./DeprecatedSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<typeof fields>;
+  fields: FieldNameToField<typeof fields>;
 };
 
 const elementTypeToName = {
@@ -17,11 +17,9 @@ const elementTypeToName = {
   form: "Formstack",
 } as Record<string, string>;
 
-export const DeprecatedForm: React.FunctionComponent<Props> = ({
-  fieldValues,
-}) => {
+export const DeprecatedForm: React.FunctionComponent<Props> = ({ fields }) => {
   const elementType =
-    elementTypeToName[fieldValues.type] || upperFirst(fieldValues.type);
+    elementTypeToName[fields.type.value] || upperFirst(fields.type.value);
   return (
     <div>
       <FieldLayoutVertical>
@@ -45,7 +43,7 @@ export const DeprecatedForm: React.FunctionComponent<Props> = ({
           </p>
           <details>
             <summary>Show content data</summary>
-            <pre>{JSON.stringify(JSON.parse(fieldValues.data), null, 2)}</pre>
+            <pre>{JSON.stringify(JSON.parse(fields.data.value), null, 2)}</pre>
           </details>
         </Description>
       </FieldLayoutVertical>

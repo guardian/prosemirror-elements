@@ -1,5 +1,4 @@
 import { exampleSetup } from "prosemirror-example-setup";
-import React from "react";
 import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import {
   createCustomDropdownField,
@@ -106,15 +105,4 @@ export const createDemoImageElement = (
   onSelect: (setSrc: DemoSetMedia) => void,
   onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
 ) =>
-  createReactElementSpec(
-    createImageFields(onSelect, onCrop),
-    ({ fields, errors, fieldValues }) => {
-      return (
-        <ImageElementForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-        />
-      );
-    }
-  );
+  createReactElementSpec(createImageFields(onSelect, onCrop), ImageElementForm);

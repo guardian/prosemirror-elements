@@ -1,4 +1,3 @@
-import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { maxLength, required } from "../../plugin/helpers/validation";
@@ -33,7 +32,5 @@ export const pullquoteFields = {
 
 export const pullquoteElement = createReactElementSpec(
   pullquoteFields,
-  ({ fields, errors }) => {
-    return <PullquoteElementForm errors={errors} fields={fields} />;
-  }
+  PullquoteElementForm
 );

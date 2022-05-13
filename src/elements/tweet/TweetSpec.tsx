@@ -52,12 +52,10 @@ export const createTweetElement = ({
 }: StandardElementOptions) =>
   createReactElementSpec(
     createTweetFields(createCaptionPlugins),
-    ({ fields, errors, fieldValues }) => {
+    ({ fields }) => {
       return (
         <TweetForm
           fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
           checkThirdPartyTracking={checkThirdPartyTracking}
         />
       );

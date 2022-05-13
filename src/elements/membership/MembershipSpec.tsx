@@ -1,5 +1,3 @@
-import type { Plugin } from "prosemirror-state";
-import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
@@ -30,13 +28,5 @@ export const membershipFields = {
 
 export const membershipElement = createReactElementSpec(
   membershipFields,
-  ({ fields, errors, fieldValues }) => {
-    return (
-      <MembershipElementForm
-        fields={fields}
-        errors={errors}
-        fieldValues={fieldValues}
-      />
-    );
-  }
+  MembershipElementForm
 );

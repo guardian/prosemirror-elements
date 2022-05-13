@@ -1,4 +1,3 @@
-import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";
@@ -25,9 +24,4 @@ export const codeFields = {
   ]),
 };
 
-export const codeElement = createReactElementSpec(
-  codeFields,
-  ({ fields, errors }) => {
-    return <CodeElementForm errors={errors} fields={fields} />;
-  }
-);
+export const codeElement = createReactElementSpec(codeFields, CodeElementForm);

@@ -1,4 +1,3 @@
-import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
@@ -20,13 +19,5 @@ export const richlinkFields = {
 
 export const richlinkElement = createReactElementSpec(
   richlinkFields,
-  ({ fields, errors, fieldValues }) => {
-    return (
-      <RichlinkElementForm
-        fields={fields}
-        errors={errors}
-        fieldValues={fieldValues}
-      />
-    );
-  }
+  RichlinkElementForm
 );
