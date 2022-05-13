@@ -1,6 +1,6 @@
 # Adding a new element using ProseMirror Elements
 ## Description
-The purpose of this document is to give a quick and easy guide to creating an element for a rich text editor using prosemirror-elements.
+The purpose of this document is to give a quick and easy guide to creating an `Element` using prosemirror-elements.
 
 We'll do this using React and Typescript, with the functions, types and React components that prosemirror-elements gives us for free.
 
