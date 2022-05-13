@@ -51,6 +51,10 @@ export class RepeaterFieldView {
     return true;
   }
 
+  public update() {
+    console.warn("You cannot update a repeater node's values directly");
+  }
+
   public addNode() {
     console.log("To be implemented: add a node");
   }

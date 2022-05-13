@@ -131,6 +131,8 @@ export const getElementFieldViewFromType = (
         field.defaultValue ?? DropdownFieldView.defaultValue,
         field.options
       );
+    case "repeater":
+      return new RepeaterFieldView(node, offset, innerDecos);
   }
 };
 
