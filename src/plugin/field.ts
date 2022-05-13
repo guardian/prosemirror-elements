@@ -56,12 +56,20 @@ export const getFieldsFromElementNode = <
       innerDecos,
     });
 
+    const value = getFieldValueFromNode(
+      fieldNode,
+      fieldDescription,
+      serializer
+    );
+
+    const errors = validateValue(fieldDescription.validators, fieldName, value);
+
     fields[fieldName] = ({
       description: fieldDescription,
       name: fieldName,
       view: fieldView,
-      value: getFieldValueFromNode(fieldNode, fieldDescription, serializer),
-      errors: [],
+      value,
+      errors,
       // We coerce types here: it's difficult to prove we've the right shape here
       // to the compiler, and we're already beholden to runtime behaviour as there's
       // no guarantee that the node's `name` matches our spec. The errors above should
@@ -112,6 +120,7 @@ export const updateFieldsAndErrorsFromNode = <
       fieldName,
       newValue
     );
+
     newFields = set(`${fieldName}.errors`)(newErrors)(newFields);
   });
 

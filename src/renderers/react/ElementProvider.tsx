@@ -50,16 +50,12 @@ export class ElementProvider<
 
   public componentDidMount() {
     this.props.subscribe((fields, commands, isSelected) =>
-      this.updateState({
+      this.setState({
         commands,
         fields,
         isSelected,
       })
     );
-  }
-
-  private updateState(newState: Partial<IState<FDesc>>): void {
-    this.setState({ ...this.state, ...newState });
   }
 
   private updateFields(fields: FieldNameToValueMap<FDesc>): void {
@@ -74,7 +70,7 @@ export class ElementProvider<
           isSelected={this.state.isSelected}
         >
           <this.Element
-            fields={this.props.fields}
+            fields={this.state.fields}
             updateFields={this.updateFields}
           />
         </ElementWrapper>
@@ -85,9 +81,5 @@ export class ElementProvider<
   /**
    * This element is memoised to prevent rerenders when our fields have not changed.
    */
-  private Element = React.memo<Omit<ConsumerOptions<FDesc>, "errors">>(
-    (props) => {
-      return this.props.consumer(props);
-    }
-  );
+  private Element = React.memo<ConsumerOptions<FDesc>>(this.props.consumer);
 }
