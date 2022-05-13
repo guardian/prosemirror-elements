@@ -47,9 +47,9 @@ const getNodeSpecForElement = (
     attrs: {
       [elementNodeAttr]: { default: true },
       [elementSelectedNodeAttr]: { default: false },
-      type: nodeName,
       // Used to determine which nodes should receive update decorations, which force them to update when the document changes. See `createUpdateDecorations` in prosemirror.ts.
       addUpdateDecoration: { default: true },
+      type: { default: nodeName },
     },
     draggable: false,
     toDOM: (node: Node) => [

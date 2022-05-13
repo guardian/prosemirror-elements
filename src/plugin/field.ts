@@ -7,6 +7,7 @@ import { validateValue } from "./helpers/validation";
 import { getFieldNameFromNode } from "./nodeSpec";
 import type {
   ElementSpec,
+  Field,
   FieldDescriptions,
   FieldNameToField,
 } from "./types/Element";
@@ -112,6 +113,10 @@ export const updateFieldsAndErrorsFromNode = <
       fields[fieldName].description,
       serializer
     );
+
+    if (newValue === (fields[fieldName] as Field<unknown>).value) {
+      return;
+    }
 
     newFields = set(`${fieldName}.value`)(newValue)(newFields);
 
