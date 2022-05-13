@@ -17,7 +17,6 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
     dom,
     fields,
     updateState,
-    fieldValues,
     commands,
     subscribe,
     sendTelemetryEvent
@@ -30,7 +29,6 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
         validate={validate}
         commands={commands}
         consumer={consumer}
-        fieldValues={fieldValues}
         sendTelemetryEvent={sendTelemetryEvent}
       />,
       dom
