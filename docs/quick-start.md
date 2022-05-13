@@ -2,7 +2,7 @@
 ## Description
 The purpose of this document is to give a quick and easy guide to creating an element for a rich text editor using prosemirror-elements.
 
-In this example we will demonstrating this using React with Typescript and utilising the array of functions, types and design patterns that prosemirror-elements gives us for free.
+We'll do this using React and Typescript, with the functions, types and React components that prosemirror-elements gives us for free.
 
 ### What is an Element?
 Modelling non-text content in Prosemirror can be tricky. Prosemirror-elements provides a new kind of entity, an Element, that makes this task easier. Elements contain user-defined Fields that can model many different kinds of content, including rich text fields and arbitrary data.
