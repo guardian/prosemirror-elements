@@ -8,12 +8,9 @@ import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { createStore } from "../../renderers/react/store";
 import type { Asset } from "../helpers/defaultTransform";
 import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
-import { ImageElementForm } from "./ImageElementForm";
 import { largestAssetMinDimension } from "./imageElementValidation";
 
 export type MediaPayload = {
@@ -96,19 +93,4 @@ export const createImageFields = ({
     copyright: createTextField(),
     picdarUrn: createTextField(),
   };
-};
-
-export const createImageElement = (options: ImageElementOptions) => {
-  const { update: updateAdditionalRoleOptions, Store: RoleStore } = createStore(
-    options.additionalRoleOptions
-  );
-
-  const element = createReactElementSpec(
-    createImageFields(options),
-    ({ fields }) => {
-      return <ImageElementForm fields={fields} roleOptionsStore={RoleStore} />;
-    }
-  );
-
-  return { element, updateAdditionalRoleOptions };
 };

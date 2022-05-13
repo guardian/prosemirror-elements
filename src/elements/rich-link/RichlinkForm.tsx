@@ -2,13 +2,9 @@ import { css } from "@emotion/react";
 import { SvgAlertTriangle } from "@guardian/src-icons";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { richlinkFields } from "./RichlinkSpec";
-
-type Props = {
-  fields: FieldNameToField<typeof richlinkFields>;
-};
+import { richlinkFields } from "./RichlinkSpec";
 
 const warningStyle = css`
   font-family: "Guardian Agate Sans";
@@ -28,27 +24,28 @@ const warningStyle = css`
   }
 `;
 
-export const RichlinkElementForm: React.FunctionComponent<Props> = ({
-  fields,
-}) => (
-  <FieldLayoutVertical>
-    <div>
-      Related:{" "}
-      <a target="_blank" href={fields.url.value}>
-        {fields.linkText.value}
-      </a>
-    </div>
-    <CustomDropdownView
-      field={fields.role}
-      label="Weighting"
-      display="inline"
-    />
-    {fields.draftReference.value ? (
-      <div css={warningStyle}>
-        <SvgAlertTriangle />
-        This rich link references unpublished content. It will not appear until
-        the target has been published.
+export const richlinkElement = createReactElementSpec(
+  richlinkFields,
+  ({ fields }) => (
+    <FieldLayoutVertical>
+      <div>
+        Related:{" "}
+        <a target="_blank" href={fields.url.value}>
+          {fields.linkText.value}
+        </a>
       </div>
-    ) : null}
-  </FieldLayoutVertical>
+      <CustomDropdownView
+        field={fields.role}
+        label="Weighting"
+        display="inline"
+      />
+      {fields.draftReference.value ? (
+        <div css={warningStyle}>
+          <SvgAlertTriangle />
+          This rich link references unpublished content. It will not appear
+          until the target has been published.
+        </div>
+      ) : null}
+    </FieldLayoutVertical>
+  )
 );

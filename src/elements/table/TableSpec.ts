@@ -3,9 +3,7 @@ import {
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { TableForm } from "./TableForm";
 
 export const tableFields = {
   source: createTextField({ absentOnEmpty: true }),
@@ -22,5 +20,3 @@ export const tableFields = {
   html: createTextField({ absentOnEmpty: true }),
   tableUrl: createTextField({ absentOnEmpty: true }),
 };
-
-export const tableElement = createReactElementSpec(tableFields, TableForm);

@@ -1,6 +1,5 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
-import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -8,11 +7,8 @@ import {
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { Asset } from "../helpers/defaultTransform";
 import { undefinedDropdownValue } from "../helpers/transform";
-import type { StandardElementOptions } from "../standard/StandardSpec";
-import { TweetForm } from "./TweetForm";
 
 export const createTweetFields = (
   createCaptionPlugins?: (schema: Schema) => Plugin[]
@@ -45,19 +41,3 @@ export const createTweetFields = (
     assets: createCustomField<Asset[]>([], undefined),
   };
 };
-
-export const createTweetElement = ({
-  checkThirdPartyTracking,
-  createCaptionPlugins,
-}: StandardElementOptions) =>
-  createReactElementSpec(
-    createTweetFields(createCaptionPlugins),
-    ({ fields }) => {
-      return (
-        <TweetForm
-          fields={fields}
-          checkThirdPartyTracking={checkThirdPartyTracking}
-        />
-      );
-    }
-  );

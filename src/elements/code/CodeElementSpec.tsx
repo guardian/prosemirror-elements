@@ -1,8 +1,6 @@
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { CodeElementForm } from "./CodeElementForm";
 
 export const codeFields = {
   html: createTextField({
@@ -23,5 +21,3 @@ export const codeFields = {
     { text: "YAML", value: "yaml" },
   ]),
 };
-
-export const codeElement = createReactElementSpec(codeFields, CodeElementForm);

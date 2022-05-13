@@ -3,9 +3,7 @@ import {
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { undefinedDropdownValue } from "../membership/MembershipSpec";
-import { CommentElementForm } from "./CommentForm";
 
 export const commentFields = {
   source: createTextField(),
@@ -29,8 +27,3 @@ export const commentFields = {
   commentId: createTextField(),
   isMandatory: createCustomField(true, true),
 };
-
-export const commentElement = createReactElementSpec(
-  commentFields,
-  CommentElementForm
-);

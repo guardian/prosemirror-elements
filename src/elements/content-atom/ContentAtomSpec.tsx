@@ -1,12 +1,9 @@
-import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { ContentAtomForm } from "./ContentAtomForm";
 
 export type ContentAtomData = {
   defaultHtml: string;
@@ -31,20 +28,3 @@ export const contentAtomFields = {
   ]),
   isMandatory: createCustomField(true, true),
 };
-
-export const createContentAtomElement = (
-  fetchContentAtomData: FetchContentAtomData
-) =>
-  createReactElementSpec(
-    contentAtomFields,
-    ({ fields, errors, fieldValues }) => {
-      return (
-        <ContentAtomForm
-          fields={fields}
-          errors={errors}
-          fieldValues={fieldValues}
-          fetchContentAtomData={fetchContentAtomData}
-        />
-      );
-    }
-  );

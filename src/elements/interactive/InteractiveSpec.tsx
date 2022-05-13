@@ -1,6 +1,5 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
-import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -8,10 +7,8 @@ import {
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { InteractiveElementForm } from "./InteractiveForm";
 
 export type MainInteractiveProps = {
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
@@ -50,13 +47,3 @@ export const createInteractiveFields = ({
     isMandatory: createCustomField(true, true),
   };
 };
-
-export const createInteractiveElement = (props: MainInteractiveProps) =>
-  createReactElementSpec(createInteractiveFields(props), ({ fields }) => {
-    return (
-      <InteractiveElementForm
-        fields={fields}
-        checkThirdPartyTracking={props.checkThirdPartyTracking}
-      />
-    );
-  });

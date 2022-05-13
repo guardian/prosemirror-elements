@@ -1,7 +1,5 @@
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { MembershipElementForm } from "./MembershipForm";
 
 export const undefinedDropdownValue = "none-selected";
 
@@ -25,8 +23,3 @@ export const membershipFields = {
   location: createTextField({ absentOnEmpty: true }),
   venue: createTextField({ absentOnEmpty: true }),
 };
-
-export const membershipElement = createReactElementSpec(
-  membershipFields,
-  MembershipElementForm
-);

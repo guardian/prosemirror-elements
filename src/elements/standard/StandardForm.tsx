@@ -6,12 +6,14 @@ import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { Link } from "../../editorial-source-components/Link";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { htmlLength } from "../helpers/validation";
-import type { createStandardFields } from "./StandardSpec";
+import type { StandardElementOptions } from "./StandardSpec";
+import { createStandardFields } from "./StandardSpec";
 
 type Props = {
   fields: FieldNameToField<ReturnType<typeof createStandardFields>>;
@@ -75,6 +77,22 @@ const IframeFullFrameWrapper = styled.div`
   width: 100%;
   white-space: initial;
 `;
+
+export const createStandardElement = ({
+  createCaptionPlugins,
+  checkThirdPartyTracking,
+  useLargePreview,
+  hasThumbnailRole,
+}: StandardElementOptions) =>
+  createReactElementSpec(
+    createStandardFields(createCaptionPlugins, hasThumbnailRole),
+    (props) => {
+      const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
+      return (
+        <Form {...props} checkThirdPartyTracking={checkThirdPartyTracking} />
+      );
+    }
+  );
 
 export const StandardForm: React.FunctionComponent<Props> = ({
   fields,

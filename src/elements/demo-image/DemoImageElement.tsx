@@ -13,8 +13,6 @@ import {
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { placeholderTestAttribute } from "../../plugin/helpers/placeholder";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { ImageElementForm } from "./DemoImageElementForm";
 
 export type DemoSetMedia = (
   mediaId: string,
@@ -100,9 +98,3 @@ export const createImageFields = (
     }),
   };
 };
-
-export const createDemoImageElement = (
-  onSelect: (setSrc: DemoSetMedia) => void,
-  onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
-) =>
-  createReactElementSpec(createImageFields(onSelect, onCrop), ImageElementForm);

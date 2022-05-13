@@ -1,7 +1,5 @@
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { RichlinkElementForm } from "./RichlinkForm";
 
 export const richlinkFields = {
   linkText: createTextField(),
@@ -16,8 +14,3 @@ export const richlinkFields = {
   sponsorName: createTextField({ absentOnEmpty: true }),
   sponsorshipType: createTextField({ absentOnEmpty: true }),
 };
-
-export const richlinkElement = createReactElementSpec(
-  richlinkFields,
-  RichlinkElementForm
-);

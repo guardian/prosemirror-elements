@@ -1,19 +1,19 @@
 import { flow, noop, omit } from "lodash";
 import {
   buildElementPlugin,
+  commentElement,
+  createContentAtomElement,
   createEmbedElement,
   createImageElement,
   createInteractiveElement,
   createStandardElement,
   createTweetElement,
+  deprecatedElement,
   membershipElement,
   pullquoteElement,
   richlinkElement,
   tableElement,
 } from "../../..";
-import { commentElement } from "../../comment/CommentSpec";
-import { createContentAtomElement } from "../../content-atom/ContentAtomSpec";
-import { deprecatedElement } from "../../deprecated/DeprecatedSpec";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";
