@@ -9,7 +9,7 @@ import type {
 } from "./types/Element";
 
 type Subscriber<FDesc extends FieldDescriptions<string>> = (
-  fields: FieldNameToValueMap<FDesc>,
+  fields: FieldNameToField<FDesc>,
   commands: ReturnType<CommandCreator>,
   isSelected: boolean
 ) => void;
@@ -58,7 +58,6 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   // choose to append this node if it needs to render children.
   fields: FieldNameToField<FDesc>,
   updateState: (fields: FieldNameToValueMap<FDesc>) => void,
-  fieldValues: FieldNameToValueMap<FDesc>,
   commands: Commands,
   subscribe: (fn: Subscriber<FDesc>) => void,
   sendTelemetryEvent: SendTelemetryEvent | undefined
@@ -78,21 +77,13 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   return {
     fieldDescriptions,
     validate,
-    createUpdator: (
-      dom,
-      fields,
-      updateState,
-      fieldValues,
-      commands,
-      sendTelemetryEvent
-    ) => {
+    createUpdator: (dom, fields, updateState, commands, sendTelemetryEvent) => {
       const updater = createUpdater<FDesc>();
       render(
         validate,
         dom,
         fields,
         (fields) => updateState(fields),
-        fieldValues,
         commands,
         updater.subscribe,
         sendTelemetryEvent

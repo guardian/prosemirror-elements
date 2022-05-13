@@ -8,18 +8,16 @@ import type {
   ElementSpec,
   ElementSpecMap,
   FieldDescriptions,
-  FieldNameToField,
 } from "../plugin/types/Element";
 import {
-  getElementFieldViewFromType,
-  getFieldValuesFromNode,
-  updateFieldViewsFromNode,
-} from "./helpers/fieldView";
+  getFieldsFromElementNode,
+  updateFieldsAndErrorsFromNode,
+} from "./field";
+import { updateFieldViewsFromNode } from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import {
   elementSelectedNodeAttr,
-  getFieldNameFromNode,
   getNodeNameFromElementName,
   isProseMirrorElement,
   isProseMirrorElementSelected,
@@ -149,50 +147,21 @@ const createNodeView = <
   element: ElementSpec<FDesc>,
   commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent
-): NodeViewCreator => (initNode, view, _getPos, _, innerDecos) => {
+): NodeViewCreator => (initElementNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
-  const fields = {} as FieldNameToField<FDesc>;
-
-  initNode.forEach((node, offset) => {
-    const fieldName = getFieldNameFromNode(
-      node
-    ) as keyof FieldNameToField<FDesc>;
-    const fieldDescriptions = element.fieldDescriptions[fieldName];
-
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
-    if (!fieldDescriptions) {
-      throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associated field`
-      );
-    }
-
-    const fieldView = getElementFieldViewFromType(fieldDescriptions, {
-      node,
-      view,
-      getPos,
-      offset,
-      innerDecos,
-    });
-
-    fields[fieldName] = ({
-      description: fieldDescriptions,
-      name: fieldName,
-      view: fieldView,
-      // We coerce types here: it's difficult to prove we've the right shape here
-      // to the compiler, and we're already beholden to runtime behaviour as there's
-      // no guarantee that the node's `name` matches our spec. The errors above should
-      // help to defend when something's wrong.
-      update: (value: unknown) =>
-        fieldView && (fieldView.update as (value: unknown) => void)(value),
-    } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
-  });
-
-  const serializer = DOMSerializer.fromSchema(initNode.type.schema);
-  const initValues = getFieldValuesFromNode(fields, initNode, serializer);
+  const serializer = DOMSerializer.fromSchema(initElementNode.type.schema);
   const initCommands = commands(getPos, view);
+  const fields = getFieldsFromElementNode({
+    elementNode: initElementNode,
+    element,
+    view,
+    getPos,
+    innerDecos,
+    serializer,
+  });
 
   // Because nodes and decorations are immutable in ProseMirror, we can compare
   // current nodes to new nodes to determine whether node content has changed.
@@ -207,8 +176,8 @@ const createNodeView = <
   //     changed.
   //   - we only update consumers when the fieldValues, decorations or command
   //     values have changed.
-  let currentNode = initNode;
-  let currentValues = initValues;
+  let currentNode = initElementNode;
+  let currentFields = fields;
   let currentDecos = innerDecos;
   let currentIsSelected = false;
   let currentCommandValues = getCommandValues(initCommands);
@@ -219,12 +188,11 @@ const createNodeView = <
     (fields) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
-          ...initNode.attrs,
+          ...initElementNode.attrs,
           fields,
         })
       );
     },
-    initValues,
     initCommands,
     sendTelemetryEvent
   );
@@ -234,7 +202,7 @@ const createNodeView = <
     update: (newNode, _, innerDecos) => {
       if (
         newNode.type.name === nodeName &&
-        newNode.attrs.type === initNode.attrs.type
+        newNode.attrs.type === initElementNode.attrs.type
       ) {
         const newIsSelected = isProseMirrorElementSelected(newNode);
         const newCommands = commands(getPos, view);
@@ -249,9 +217,13 @@ const createNodeView = <
         );
 
         // Only recalculate our field values if our node content has changed.
-        const newFieldValues = fieldValuesChanged
-          ? getFieldValuesFromNode(fields, newNode, serializer)
-          : currentValues;
+        const newFields = fieldValuesChanged
+          ? updateFieldsAndErrorsFromNode({
+              elementNode: newNode,
+              fields,
+              serializer,
+            })
+          : currentFields;
 
         // Only update our FieldViews if their content or decorations have changed.
         if (fieldValuesChanged || innerDecosChanged) {
@@ -260,13 +232,13 @@ const createNodeView = <
 
         // Only update our consumer if anything internal to the field has changed.
         if (fieldValuesChanged || commandsChanged || isSelectedChanged) {
-          update(newFieldValues, newCommands, newIsSelected);
+          update(newFields, newCommands, newIsSelected);
         }
 
         currentNode = newNode;
         currentIsSelected = newIsSelected;
         currentDecos = innerDecos;
-        currentValues = newFieldValues;
+        currentFields = newFields;
         currentCommandValues = newCommandValues;
 
         return true;

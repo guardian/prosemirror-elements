@@ -55,17 +55,9 @@ describe("createPlugin", () => {
   }: CreateEditorOptions<FDesc>) => {
     const testElement = createElementSpec(
       element,
-      (
-        _validate,
-        _dom,
-        _fields,
-        _updateFields,
-        fieldValues,
-        commands,
-        subscribe
-      ) => {
+      (_validate, _dom, fields, _updateFields, commands, subscribe) => {
         // We call our spy once for the initial render, and then subscribe for update.
-        consumerRenderSpy(fieldValues, commands, false);
+        consumerRenderSpy(fields, commands, false);
         subscribe(consumerRenderSpy);
       },
       () => undefined,
@@ -151,10 +143,11 @@ describe("createPlugin", () => {
         exampleText
       );
       view.dispatch(tr);
-
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access -- waive type for mock
       const newFieldValues = consumerRenderSpy.mock.calls.pop()[0];
-      expect(newFieldValues).toEqual({ textField: "New content" });
+      expect(newFieldValues).toMatchObject({
+        textField: { values: "New content" },
+      });
     });
 
     it("should only escape rich text content", () => {
@@ -172,9 +165,9 @@ describe("createPlugin", () => {
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access -- waive type for mock
       const newFieldValues = consumerRenderSpy.mock.calls.pop()[0];
-      expect(newFieldValues).toEqual({
-        textField: "<>",
-        richTextField: "<p>&lt;&gt;</p>",
+      expect(newFieldValues).toMatchObject({
+        textField: { value: "<>" },
+        richTextField: { value: "<p>&lt;&gt;</p>" },
       });
     });
   });
