@@ -48,6 +48,9 @@ Setup:
 
 Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). Don't forget to run `yarn yalc` again!
 
+### Adding a new element using ProseMirror Elements: 
+[Quick-Start Guide](https://github.com/guardian/prosemirror-elements/blob/main/docs/quick-start.md)
+
 ## Troubleshooting when developing this library
 
 ### Problems with `yarn link`
@@ -84,3 +87,4 @@ const mySchema = new Schema({
 It's useful to write fixture tests to ensure that the element you're creating doesn't disrupt existing data – see the fixture tests in `src/elements/helpers/__tests__/transformFixtures.spec.ts` for more details.
 
 There's a script available at `./fixtures/parse-element.js` to facilitate transforming element data from the Guardian CMS into a redacted form suitable for fixtures.
+
