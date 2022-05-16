@@ -9,10 +9,7 @@ import type {
   ElementSpecMap,
   FieldDescriptions,
 } from "../plugin/types/Element";
-import {
-  getFieldsFromNode,
-  updateFieldsFromNode,
-} from "./field";
+import { getFieldsFromNode, updateFieldsFromNode } from "./field";
 import { updateFieldViewsFromNode } from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";

@@ -25,7 +25,7 @@ const schema = new Schema({
   marks: basicSchema.spec.marks,
 });
 
-const { example, example__caption, example__html } = builders(schema, {});
+const { example, example__caption, example__html, p } = builders(schema, {});
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
@@ -67,6 +67,19 @@ describe("Field helpers", () => {
 
       expect(fields.caption.errors.length).toEqual(1);
       expect(fields.html.errors.length).toEqual(1);
+    });
+
+    it("should throw when it cannot find the correct child nodes", () => {
+      expect(() =>
+        getFieldsFromNode({
+          node: p(),
+          element: elements.example,
+          view,
+          getPos: () => 0,
+          innerDecos: [],
+          serializer,
+        })
+      ).toThrowError();
     });
   });
 
@@ -133,6 +146,16 @@ describe("Field helpers", () => {
       });
 
       expect(originalFields === newFields).toBe(true);
+    });
+
+    it("should throw when it cannot find the correct child nodes", () => {
+      expect(() =>
+        updateFieldsFromNode({
+          node: p(),
+          fields: originalFields,
+          serializer,
+        })
+      ).toThrowError();
     });
   });
 });

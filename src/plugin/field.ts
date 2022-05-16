@@ -43,7 +43,10 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldDescription) {
       throw new Error(
-        `[prosemirror-elements]: Attempted to instantiate a nodeView with type ${fieldName}, but could not find the associated field`
+        getErrorMessageForAbsentField(
+          fieldName,
+          Object.keys(element.fieldDescriptions)
+        )
       );
     }
 
@@ -74,7 +77,7 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       // no guarantee that the node's `name` matches our spec. The errors above should
       // help to defend when something's wrong.
       update: (value: unknown) =>
-        fieldView && (fieldView.update as (value: unknown) => void)(value),
+        (fieldView.update as (value: unknown) => void)(value),
     } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
   });
 
@@ -103,21 +106,29 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
+    const field = fields[fieldName];
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this is possible at runtime.
+    if (!field) {
+      throw new Error(
+        getErrorMessageForAbsentField(fieldName, Object.keys(fields))
+      );
+    }
 
     const newValue = getFieldValueFromNode(
       fieldNode,
-      fields[fieldName].description,
+      field.description,
       serializer
     );
 
-    if (newValue === (fields[fieldName] as Field<unknown>).value) {
+    if (newValue === (field as Field<unknown>).value) {
       return;
     }
 
     newFields = set(`${fieldName}.value`)(newValue)(newFields);
 
     const newErrors = validateValue(
-      fields[fieldName].description.validators,
+      field.description.validators,
       fieldName,
       newValue
     );
@@ -127,3 +138,11 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
 
   return newFields;
 };
+
+const getErrorMessageForAbsentField = (
+  absentFieldName: string,
+  possibleFieldNames: string[]
+) =>
+  `[prosemirror-elements]: Attempted to get values for a node with type ${absentFieldName} from fields ${Object.keys(
+    possibleFieldNames
+  ).join("")}, but field was not present.`;
