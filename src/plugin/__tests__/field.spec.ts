@@ -1,10 +1,7 @@
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { builders } from "prosemirror-test-builder";
-import {
-  getFieldsFromElementNode,
-  updateFieldsAndErrorsFromNode,
-} from "../field";
+import { getFieldsFromNode, updateFieldsFromNode } from "../field";
 import { createTextField } from "../fieldViews/TextFieldView";
 import { createEditorWithElements, createNoopElement } from "../helpers/test";
 import { maxLength, required } from "../helpers/validation";
@@ -38,8 +35,8 @@ describe("Field helpers", () => {
         example__html("html")
       );
 
-      const fields = getFieldsFromElementNode({
-        elementNode,
+      const fields = getFieldsFromNode({
+        node: elementNode,
         element: elements.example,
         view,
         getPos: () => 0,
@@ -59,8 +56,8 @@ describe("Field helpers", () => {
         example__html("")
       );
 
-      const fields = getFieldsFromElementNode({
-        elementNode,
+      const fields = getFieldsFromNode({
+        node: elementNode,
         element: elements.example,
         view,
         getPos: () => 0,
@@ -79,8 +76,8 @@ describe("Field helpers", () => {
       example__html("html")
     );
 
-    const originalFields = getFieldsFromElementNode({
-      elementNode: originalNode,
+    const originalFields = getFieldsFromNode({
+      node: originalNode,
       element: elements.example,
       view,
       getPos: () => 0,
@@ -94,8 +91,8 @@ describe("Field helpers", () => {
         example__html("html new")
       );
 
-      const newFields = updateFieldsAndErrorsFromNode({
-        elementNode: newElementNode,
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
         fields: originalFields,
         serializer,
       });
@@ -112,8 +109,8 @@ describe("Field helpers", () => {
         example__html("html new")
       );
 
-      const newFields = updateFieldsAndErrorsFromNode({
-        elementNode: newElementNode,
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
         fields: originalFields,
         serializer,
       });
@@ -129,8 +126,8 @@ describe("Field helpers", () => {
         example__html("html")
       );
 
-      const newFields = updateFieldsAndErrorsFromNode({
-        elementNode: newElementNode,
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
         fields: originalFields,
         serializer,
       });

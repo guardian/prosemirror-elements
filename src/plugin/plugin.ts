@@ -10,8 +10,8 @@ import type {
   FieldDescriptions,
 } from "../plugin/types/Element";
 import {
-  getFieldsFromElementNode,
-  updateFieldsAndErrorsFromNode,
+  getFieldsFromNode,
+  updateFieldsFromNode,
 } from "./field";
 import { updateFieldViewsFromNode } from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
@@ -154,8 +154,8 @@ const createNodeView = <
 
   const serializer = DOMSerializer.fromSchema(initElementNode.type.schema);
   const initCommands = commands(getPos, view);
-  const fields = getFieldsFromElementNode({
-    elementNode: initElementNode,
+  const fields = getFieldsFromNode({
+    node: initElementNode,
     element,
     view,
     getPos,
@@ -218,8 +218,8 @@ const createNodeView = <
 
         // Only recalculate our field values if our node content has changed.
         const newFields = fieldValuesChanged
-          ? updateFieldsAndErrorsFromNode({
-              elementNode: newNode,
+          ? updateFieldsFromNode({
+              node: newNode,
               fields,
               serializer,
             })

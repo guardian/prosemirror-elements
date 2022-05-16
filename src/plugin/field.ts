@@ -13,7 +13,7 @@ import type {
 } from "./types/Element";
 
 type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
-  elementNode: Node;
+  node: Node;
   element: ElementSpec<FDesc>;
   view: EditorView;
   getPos: () => number;
@@ -24,10 +24,8 @@ type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
 /**
  * Get the fields for an element from a Node representing that element in Prosemirror.
  */
-export const getFieldsFromElementNode = <
-  FDesc extends FieldDescriptions<string>
->({
-  elementNode,
+export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
+  node,
   element,
   view,
   getPos,
@@ -36,7 +34,7 @@ export const getFieldsFromElementNode = <
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
 
-  elementNode.forEach((fieldNode, offset) => {
+  node.forEach((fieldNode, offset) => {
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
@@ -84,26 +82,24 @@ export const getFieldsFromElementNode = <
 };
 
 type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
-  elementNode: Node;
+  node: Node;
   fields: FieldNameToField<FDesc>;
   serializer: DOMSerializer;
 };
 
 /**
  * Calculate new field values and errors for an element from a Node representing
- * that element in Prosemirror, returning a new Fields object containing the new
- * values.
+ * a set of fields in Prosemirror, returning a new Fields object containing the
+ * new values.
  */
-export const updateFieldsAndErrorsFromNode = <
-  FDesc extends FieldDescriptions<string>
->({
-  elementNode,
+export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
+  node,
   fields,
   serializer,
 }: UpdateFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   let newFields = fields;
 
-  elementNode.forEach((fieldNode) => {
+  node.forEach((fieldNode) => {
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
