@@ -22,8 +22,6 @@ export interface RepeaterFieldDescription<
 
 /**
  * A FieldView representing a node that contains user-defined child nodes.
- *
- * Offers methods to add, remove, and move nodes.
  */
 export class RepeaterFieldView {
   public static fieldName = repeaterFieldName;
@@ -49,14 +47,6 @@ export class RepeaterFieldView {
     this.decorations = decorations;
 
     return true;
-  }
-
-  public addNode() {
-    console.log("To be implemented: add a node");
-  }
-
-  public removeNode() {
-    console.log("To be implemented: remove a node");
   }
 
   public destroy() {
