@@ -41,12 +41,12 @@ export const createInteractiveFields = ({
       validators: [htmlMaxLength(1000), htmlRequired()],
       placeholder: "Enter some alt text…",
     }),
-    html: createTextField(),
+    html: createTextField({ absentOnEmpty: true }),
     scriptUrl: createTextField(),
-    scriptName: createTextField(),
-    iframeUrl: createTextField(),
+    scriptName: createTextField({ absentOnEmpty: true }),
+    iframeUrl: createTextField({ absentOnEmpty: true }),
     originalUrl: createTextField(),
-    source: createTextField(),
+    source: createTextField({ absentOnEmpty: true }),
     isMandatory: createCustomField(true, true),
   };
 };

@@ -18,7 +18,7 @@ if (!csFileNames) {
 const fileNames = csFileNames.split(",")
 
 const processFile = (fileName) => {
-  const sensitiveFields = ["caption", "description", "html", "authorName"];
+  const sensitiveFields = ["caption", "description", "authorName"];
   const filePath = `./${fileName}`;
 
   let redactCount = 0;

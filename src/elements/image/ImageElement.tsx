@@ -93,6 +93,8 @@ export const createImageFields = ({
       placeholder: "Enter the source…",
     }),
     role: createCustomDropdownField(undefinedDropdownValue, roleOptions),
+    copyright: createTextField(),
+    picdarUrn: createTextField(),
   };
 };
 

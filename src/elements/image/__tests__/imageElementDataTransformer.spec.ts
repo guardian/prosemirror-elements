@@ -41,6 +41,8 @@ const fullPmeElement = (
     photographer: "",
     role: "none-selected",
     source: "",
+    copyright: "",
+    picdarUrn: "",
     ...data,
   };
 };
@@ -52,10 +54,8 @@ const externalElement = (data: Partial<ImageFields> = {}) => {
       displayCredit: "true",
       imageType: "",
       isMandatory: "true",
-      mediaApiUri: "",
       mediaId: "",
       role: undefined,
-      suppliersReference: "",
       ...data,
     },
   };

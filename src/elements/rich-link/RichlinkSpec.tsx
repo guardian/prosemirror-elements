@@ -14,6 +14,8 @@ export const richlinkFields = {
   originalUrl: createTextField(),
   linkPrefix: createTextField(),
   draftReference: createTextField({ absentOnEmpty: true }),
+  sponsorName: createTextField({ absentOnEmpty: true }),
+  sponsorshipType: createTextField({ absentOnEmpty: true }),
 };
 
 export const richlinkElement = createReactElementSpec(

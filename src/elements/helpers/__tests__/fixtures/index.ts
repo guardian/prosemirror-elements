@@ -1,16 +1,20 @@
-import audio from "./audio.json";
-import comment from "./comment.json";
-import contentAtom from "./content-atom.json";
-import document from "./document.json";
-import form from "./form.json";
-import instagram from "./instagram.json";
-import map from "./map.json";
-import membership from "./membership.json";
-import richLink from "./rich-link.json";
-import table from "./table.json";
-import tweet from "./tweet.json";
-import vine from "./vine.json";
-import witness from "./witness.json";
+import audio from "./audio.fixture.json";
+import comment from "./comment.fixture.json";
+import contentAtom from "./content-atom.fixture.json";
+import document from "./document.fixture.json";
+import embed from "./embed.fixture.json";
+import form from "./form.fixture.json";
+import image from "./image.fixture.json";
+import instagram from "./instagram.fixture.json";
+import interactive from "./interactive.fixture.json";
+import map from "./map.fixture.json";
+import membership from "./membership.fixture.json";
+import pullquote from "./pullquote.fixture.json";
+import richLink from "./rich-link.fixture.json";
+import table from "./table.fixture.json";
+import tweet from "./tweet.fixture.json";
+import vine from "./vine.fixture.json";
+import witness from "./witness.fixture.json";
 
 /**
  * A map of our element fixtures, where the key represents the element name that
@@ -30,4 +34,8 @@ export const allElementFixtures = [
   { name: "tweet", fixtures: tweet },
   { name: "comment", fixtures: comment },
   { name: "form", fixtures: form },
+  { name: "image", fixtures: image },
+  { name: "pullquote", fixtures: pullquote, defaults: { role: "supporting" } },
+  { name: "embed", fixtures: embed, defaults: { role: undefined } },
+  { name: "interactive", fixtures: interactive },
 ];
