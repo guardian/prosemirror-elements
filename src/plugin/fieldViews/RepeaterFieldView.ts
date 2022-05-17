@@ -2,7 +2,7 @@ import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
 import type { FieldDescriptions } from "../types/Element";
 import type { BaseFieldDescription } from "./FieldView";
-import { FieldType } from "./FieldView";
+import { FieldType, FieldView } from "./FieldView";
 
 export const repeaterFieldName = "repeater" as const;
 
@@ -23,16 +23,19 @@ export interface RepeaterFieldDescription<
 /**
  * A FieldView representing a node that contains user-defined child nodes.
  */
-export class RepeaterFieldView {
+export class RepeaterFieldView extends FieldView<unknown> {
   public static fieldName = repeaterFieldName;
   public static fieldType = FieldType.REPEATER;
   public static defaultValue = [];
+  public fieldViewElement?: undefined;
 
   public constructor(
     private node: Node,
     private elementOffset: number,
     private decorations: DecorationSet | Decoration[]
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * Called when the fieldView is updated from the parent editor.
@@ -47,6 +50,10 @@ export class RepeaterFieldView {
     this.decorations = decorations;
 
     return true;
+  }
+
+  public update() {
+    console.log("To be implemented: update");
   }
 
   public destroy() {
