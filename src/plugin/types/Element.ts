@@ -15,6 +15,10 @@ import type {
 } from "../fieldViews/DropdownFieldView";
 import type { FieldView } from "../fieldViews/FieldView";
 import type {
+  RepeaterFieldDescription,
+  RepeaterFieldView,
+} from "../fieldViews/RepeaterFieldView";
+import type {
   RichTextFieldDescription,
   RichTextFieldView,
 } from "../fieldViews/RichTextFieldView";
@@ -34,7 +38,8 @@ export type FieldDescription =
   | RichTextFieldDescription
   | CheckboxFieldDescription
   | CustomFieldDescription
-  | DropdownFieldDescription;
+  | DropdownFieldDescription
+  | RepeaterFieldDescription<Record<string, FieldDescription>>;
 
 export type FieldDescriptions<Names extends string> = Record<
   Names,
@@ -64,6 +69,22 @@ export interface Field<F> {
   update: (value: F extends FieldView<infer Value> ? Value : never) => void;
 }
 
+export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
+  view: RepeaterFieldView;
+  description: RepeaterFieldDescription<FDesc>;
+  name: string;
+  children: Array<FieldNameToField<FDesc>>;
+}
+
+export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(
+  field: Field<unknown> | RepeaterField<FDesc>
+): field is RepeaterField<FDesc> => {
+  if (field.description.type === "repeater") {
+    return true;
+  }
+  return false;
+};
+
 export interface CustomField<Data = unknown, Props = unknown>
   extends Field<CustomFieldView<Data>> {
   description: CustomFieldDescription<Data, Props>;
@@ -75,6 +96,8 @@ export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
     string
   >]: FDesc[name] extends CustomFieldDescription<infer Data, infer Props>
     ? CustomField<Data, Props>
+    : FDesc[name] extends RepeaterFieldDescription<infer FDesc>
+    ? RepeaterField<FDesc>
     : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 
