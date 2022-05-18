@@ -94,6 +94,25 @@ export const createGetElementDataFromNode = <
     return undefined;
   }
 
+  const values = getFieldValuesFromNode(
+    node,
+    element.fieldDescriptions,
+    serializer
+  );
+
+  return {
+    elementName,
+    values,
+  } as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
+};
+
+export const getFieldValuesFromNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
+>(
+  node: Node,
+  fieldDescriptions: FDesc,
+  serializer: DOMSerializer
+) => {
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
   // as the Node's name value is loosely typed as `string`, and so we
@@ -103,7 +122,7 @@ export const createGetElementDataFromNode = <
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
-    const fieldDescription = element.fieldDescriptions[fieldName];
+    const fieldDescription = fieldDescriptions[fieldName];
     const value = getFieldValueFromNode(node, fieldDescription, serializer);
 
     if (
@@ -115,25 +134,28 @@ export const createGetElementDataFromNode = <
       return;
     }
 
-    values[fieldName] = value;
+    if (fieldDescription.type === "repeater") {
+      values[fieldName] = values[fieldName]
+        ? (values[fieldName] as unknown[]).concat(value)
+        : [value];
+
+      console.log({ value, values: values[fieldName] });
+    } else {
+      values[fieldName] = value;
+    }
   });
 
   // Backfill empty repeater fields with an empty array.
-  Object.entries(element.fieldDescriptions).forEach(
-    ([fieldName, fieldDesc]) => {
-      if (
-        (fieldDesc as FieldDescription).type === "repeater" &&
-        !values[fieldName]
-      ) {
-        values[fieldName] = [];
-      }
+  Object.entries(fieldDescriptions).forEach(([fieldName, fieldDesc]) => {
+    if (
+      (fieldDesc as FieldDescription).type === "repeater" &&
+      !values[fieldName]
+    ) {
+      values[fieldName] = [];
     }
-  );
+  });
 
-  return {
-    elementName,
-    values,
-  } as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
+  return values;
 };
 
 export const getFieldValueFromNode = (
@@ -152,17 +174,7 @@ export const getFieldValueFromNode = (
     return getValuesFromTextContentNode(node);
   }
   if (fieldDescription.type === "repeater") {
-    type ContentType = FieldNameToValueMap<typeof fieldDescription.fields>;
-    const content = [] as ContentType[];
-
-    node.content.forEach((child) => {
-      const fieldName = getFieldNameFromNode(child);
-      const childDesc = fieldDescription.fields[fieldName];
-      content.push(
-        getFieldValueFromNode(child, childDesc, serializer) as ContentType
-      );
-    });
-    return content;
+    return getFieldValuesFromNode(node, fieldDescription.fields, serializer);
   }
   return undefined;
 };

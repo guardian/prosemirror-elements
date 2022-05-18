@@ -186,7 +186,7 @@ const createNodeView = <
       // no guarantee that the node's `name` matches our spec. The errors above should
       // help to defend when something's wrong.
       update: (value: unknown) =>
-        fieldView && (fieldView.update as (value: unknown) => void)(value),
+        (fieldView.update as (value: unknown) => void)(value),
     } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
   });
 
