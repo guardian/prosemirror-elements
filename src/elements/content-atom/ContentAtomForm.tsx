@@ -9,6 +9,7 @@ import type { FieldNameToField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
+import { undefinedDropdownValue } from "../helpers/transform";
 import type {
   ContentAtomData,
   contentAtomFields,
@@ -21,6 +22,14 @@ type Props = {
   errors: FieldValidationErrors;
   fetchContentAtomData: FetchContentAtomData;
 };
+
+const interactiveOptions = [
+  { text: "inline (default)", value: undefinedDropdownValue },
+  { text: "supporting", value: "supporting" },
+  { text: "showcase", value: "showcase" },
+  { text: "thumbnail", value: "thumbnail" },
+  { text: "immersive", value: "immersive" },
+];
 
 export const ContentAtomForm: React.FunctionComponent<Props> = ({
   fields,
@@ -39,6 +48,11 @@ export const ContentAtomForm: React.FunctionComponent<Props> = ({
       setContentAtomData(data);
     });
   }, [atomType, id]);
+
+  const weightingOptions =
+    atomType === "interactive"
+      ? interactiveOptions
+      : fields.role.description.props;
 
   return (
     <div>
@@ -82,6 +96,7 @@ export const ContentAtomForm: React.FunctionComponent<Props> = ({
           field={fields.role}
           label="Weighting"
           errors={errors.role}
+          options={weightingOptions}
         />
         <CustomCheckboxView
           field={fields.isMandatory}
