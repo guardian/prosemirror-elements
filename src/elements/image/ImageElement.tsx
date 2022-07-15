@@ -29,7 +29,7 @@ export type MainImageData = {
   mediaId?: string | undefined;
   mediaApiUri?: string | undefined;
   assets: Asset[];
-  suppliersReference: string;
+  suppliersReference?: string;
 };
 
 export type ImageSelector = (setMedia: SetMedia, mediaId?: string) => void;

@@ -165,7 +165,7 @@ export const getNodeSpecForField = (
           parseDOM: getDefaultParseDOMForLeafNode(nodeName),
           attrs: {
             fields: {
-              default: { value: field.defaultValue },
+              default: field.defaultValue,
             },
           },
         },

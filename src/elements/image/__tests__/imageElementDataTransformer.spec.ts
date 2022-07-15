@@ -175,5 +175,14 @@ describe("image element transform", () => {
       const result = transformElement.out(element);
       expect(result).toEqual(externalElement());
     });
+    it("should be able to handle undefined fields in `mainImage` data", () => {
+      const element = fullPmeElement({
+        mainImage: {
+          assets: [],
+        },
+      });
+      const result = transformElement.out(element);
+      expect(result).toEqual(externalElement());
+    });
   });
 });

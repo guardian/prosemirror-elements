@@ -56,6 +56,7 @@ import {
   sampleForm,
   sampleImage,
   sampleInteractive,
+  sampleInteractiveAtom,
   sampleMap,
   sampleMembership,
   samplePullquote,
@@ -391,7 +392,12 @@ const createEditor = (server: CollabServer) => {
     { label: "Form", name: formElementName, values: sampleForm },
     { label: "Vine", name: vineElementName, values: sampleVine },
     { label: "Tweet", name: tweetElementName, values: sampleTweet },
-    { label: "Content-atom", name: contentAtomName, values: sampleContentAtom },
+    { label: "Recipe atom", name: contentAtomName, values: sampleContentAtom },
+    {
+      label: "Interactive atom",
+      name: contentAtomName,
+      values: sampleInteractiveAtom,
+    },
     { label: "Comment", name: commentElementName, values: sampleComment },
   ] as const;
 

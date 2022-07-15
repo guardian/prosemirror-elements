@@ -87,7 +87,7 @@ export const transformElementOut: TransformOut<
       suppliersReference: mainImage.suppliersReference,
       mediaApiUri: mainImage.mediaApiUri ?? "",
     },
-    (field) => field.length > 0
+    (field) => field && field.length > 0
   );
 
   return {

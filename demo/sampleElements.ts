@@ -367,6 +367,13 @@ export const sampleContentAtom = {
   atomType: "recipe",
 };
 
+export const sampleInteractiveAtom = {
+  id: "interactives/2022/03/erdington-byelection-slope-chart/slope",
+  role: "supporting",
+  atomType: "interactive",
+  isMandatory: "true",
+};
+
 export const sampleComment = {
   source: "Guardian Discussion",
   discussionKey: "/p/6ey2y",

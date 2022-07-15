@@ -1,5 +1,5 @@
 import { upperFirst } from "lodash";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label, NonBoldLabel } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
@@ -7,8 +7,17 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
+import { undefinedDropdownValue } from "../helpers/transform";
 import type { ContentAtomData, FetchContentAtomData } from "./ContentAtomSpec";
 import { contentAtomFields } from "./ContentAtomSpec";
+
+const interactiveOptions = [
+  { text: "inline (default)", value: undefinedDropdownValue },
+  { text: "supporting", value: "supporting" },
+  { text: "showcase", value: "showcase" },
+  { text: "thumbnail", value: "thumbnail" },
+  { text: "immersive", value: "immersive" },
+];
 
 export const createContentAtomElement = (
   fetchContentAtomData: FetchContentAtomData
@@ -18,25 +27,31 @@ export const createContentAtomElement = (
       ContentAtomData | undefined
     >(undefined);
 
+    const {
+      atomType: { value: atomType },
+      id: { value: id },
+    } = fields;
+
     useEffect(() => {
-      void fetchContentAtomData(fields.atomType.value, fields.id.value).then(
-        (data) => {
-          setContentAtomData(data);
-        }
-      );
-    }, [fields.atomType.value, fields.id.value]);
+      void fetchContentAtomData(atomType, id).then((data) => {
+        setContentAtomData(data);
+      });
+    }, [atomType, id]);
+
+    const weightingOptions =
+      atomType === "interactive"
+        ? interactiveOptions
+        : fields.role.description.props;
 
     return (
       <div>
         <FieldLayoutVertical>
           {!contentAtomData?.isPublished && (
-            <Error>This {fields.atomType.value} is not published.</Error>
+            <Error>This {atomType} is not published.</Error>
           )}
           {contentAtomData?.isPublished &&
             contentAtomData.hasUnpublishedChanges && (
-              <Error>
-                This {fields.atomType.value} has unpublished changes.
-              </Error>
+              <Error>This {atomType} has unpublished changes.</Error>
             )}
           <FieldLayoutVertical>
             <Label>
@@ -57,7 +72,7 @@ export const createContentAtomElement = (
               )
             </Label>
             <NonBoldLabel>
-              {upperFirst(fields.atomType.value)}{" "}
+              {upperFirst(atomType)}{" "}
               {contentAtomData?.title && ` - ${contentAtomData.title}`}
             </NonBoldLabel>
           </FieldLayoutVertical>
@@ -66,7 +81,11 @@ export const createContentAtomElement = (
             headingLabel={null}
             minHeight={100}
           />
-          <CustomDropdownView field={fields.role} label="Weighting" />
+          <CustomDropdownView
+            field={fields.role}
+            label="Weighting"
+            options={weightingOptions}
+          />
           <CustomCheckboxView
             field={fields.isMandatory}
             label="This element is required for publication"
