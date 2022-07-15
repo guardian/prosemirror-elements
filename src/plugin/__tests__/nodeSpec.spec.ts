@@ -200,9 +200,7 @@ describe("nodeSpec generation", () => {
           attrs: {
             fields: {
               default: {
-                value: {
-                  arbitraryField: "hai",
-                },
+                arbitraryField: "hai",
               },
             },
           },
