@@ -1,5 +1,8 @@
 import React from "react";
-import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { RichlinkElementForm } from "./RichlinkForm";
@@ -16,6 +19,7 @@ export const richlinkFields = {
   draftReference: createTextField({ absentOnEmpty: true }),
   sponsorName: createTextField({ absentOnEmpty: true }),
   sponsorshipType: createTextField({ absentOnEmpty: true }),
+  isMandatory: createCustomField(true, true),
 };
 
 export const richlinkElement = createReactElementSpec(
