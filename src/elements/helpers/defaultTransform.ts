@@ -60,7 +60,7 @@ export const transformElementDataOut = <
   if (isMandatory !== undefined) {
     transformedFields = {
       ...transformedFields,
-      isMandatory: isMandatory ? "true" : "false",
+      isMandatory: fields.isMandatory ? "true" : "false",
     };
   }
 
