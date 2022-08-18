@@ -34,6 +34,14 @@ export const transformElementDataIn = <FDesc extends FieldDescriptions<string>>(
       (transformedFields.role as string | undefined) ?? undefinedDropdownValue;
   }
 
+  if (transformedFields.isMandatory) {
+    type FieldWithIsMandatory = FieldNameToValueMap<FDesc> & {
+      isMandatory: boolean;
+    };
+    (transformedFields as FieldWithIsMandatory).isMandatory =
+      fields.isMandatory === "true";
+  }
+
   if (assets?.length) {
     return { ...transformedFields, assets };
   }
@@ -60,7 +68,7 @@ export const transformElementDataOut = <
   if (isMandatory !== undefined) {
     transformedFields = {
       ...transformedFields,
-      isMandatory: isMandatory ? "true" : "false",
+      isMandatory: fields.isMandatory ? "true" : "false",
     };
   }
 
