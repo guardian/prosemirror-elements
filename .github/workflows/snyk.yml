@@ -14,7 +14,7 @@ jobs:
     uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@main
     with:
       DEBUG: true
-      ORG: guardian-ed-tools
+      ORG: guardian
       SKIP_NODE: false
     secrets:
        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
