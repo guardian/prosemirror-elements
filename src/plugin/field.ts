@@ -6,7 +6,6 @@ import { getElementFieldViewFromType } from "./helpers/fieldView";
 import { validateValue } from "./helpers/validation";
 import { getFieldNameFromNode } from "./nodeSpec";
 import type {
-  ElementSpec,
   Field,
   FieldDescriptions,
   FieldNameToField,
@@ -14,7 +13,7 @@ import type {
 
 type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   node: Node;
-  element: ElementSpec<FDesc>;
+  fieldDescriptions: FDesc;
   view: EditorView;
   getPos: () => number;
   innerDecos: Array<Decoration<Record<string, unknown>>> | DecorationSet;
@@ -26,7 +25,7 @@ type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
  */
 export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,
-  element,
+  fieldDescriptions,
   view,
   getPos,
   innerDecos,
@@ -38,15 +37,11 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
-    const fieldDescription = element.fieldDescriptions[fieldName];
-
+    const fieldDescription = fieldDescriptions[fieldName];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldDescription) {
       throw new Error(
-        getErrorMessageForAbsentField(
-          fieldName,
-          Object.keys(element.fieldDescriptions)
-        )
+        getErrorMessageForAbsentField(fieldName, Object.keys(fieldDescriptions))
       );
     }
 
@@ -57,6 +52,35 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       offset,
       innerDecos,
     });
+
+    if (fieldDescription.type === "repeater") {
+      const children = [] as unknown[];
+      fieldNode.forEach((repeaterChildNode, localOffset) => {
+        // We offset by two positions here to account for the additional depth
+        // of the parent and child repeater nodes.
+        const depthOffset = 2;
+        const localGetPos = () => getPos() + offset + localOffset + depthOffset;
+        children.push(
+          getFieldsFromNode({
+            node: repeaterChildNode,
+            fieldDescriptions: fieldDescription.fields,
+            view,
+            getPos: localGetPos,
+            innerDecos,
+            serializer,
+          })
+        );
+      });
+
+      fields[fieldName] = ({
+        description: fieldDescription,
+        name: fieldName,
+        view: fieldView,
+        children,
+      } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
+
+      return;
+    }
 
     const value = getFieldValueFromNode(
       fieldNode,
@@ -88,6 +112,9 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   node: Node;
   fields: FieldNameToField<FDesc>;
   serializer: DOMSerializer;
+  // If we're updating nested fields (e.g from repeaters), include
+  // the preceding path to ensure updates to nested objects are applied correctly.
+  path?: string;
 };
 
 /**
@@ -99,6 +126,7 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,
   fields,
   serializer,
+  path = ""
 }: UpdateFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   let newFields = fields;
 
@@ -125,7 +153,7 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       return;
     }
 
-    newFields = set(`${fieldName}.value`)(newValue)(newFields);
+    newFields = set(`${path}${fieldName}.value`)(newValue)(newFields);
 
     const newErrors = validateValue(
       field.description.validators,

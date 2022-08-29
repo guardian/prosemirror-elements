@@ -153,7 +153,7 @@ const createNodeView = <
   const initCommands = commands(getPos, view);
   const fields = getFieldsFromNode({
     node: initElementNode,
-    element,
+    fieldDescriptions: element.fieldDescriptions,
     view,
     getPos,
     innerDecos,

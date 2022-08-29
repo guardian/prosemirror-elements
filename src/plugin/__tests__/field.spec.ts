@@ -37,7 +37,7 @@ describe("Field helpers", () => {
 
       const fields = getFieldsFromNode({
         node: elementNode,
-        element: elements.example,
+        fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
         innerDecos: [],
@@ -58,7 +58,7 @@ describe("Field helpers", () => {
 
       const fields = getFieldsFromNode({
         node: elementNode,
-        element: elements.example,
+        fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
         innerDecos: [],
@@ -73,7 +73,7 @@ describe("Field helpers", () => {
       expect(() =>
         getFieldsFromNode({
           node: p(),
-          element: elements.example,
+          fieldDescriptions: elements.example.fieldDescriptions,
           view,
           getPos: () => 0,
           innerDecos: [],
@@ -91,7 +91,7 @@ describe("Field helpers", () => {
 
     const originalFields = getFieldsFromNode({
       node: originalNode,
-      element: elements.example,
+      fieldDescriptions: elements.example.fieldDescriptions,
       view,
       getPos: () => 0,
       innerDecos: [],

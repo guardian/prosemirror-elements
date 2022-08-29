@@ -134,25 +134,7 @@ export const getFieldValuesFromNode = <
       return;
     }
 
-    if (fieldDescription.type === "repeater") {
-      values[fieldName] = values[fieldName]
-        ? (values[fieldName] as unknown[]).concat(value)
-        : [value];
-
-      console.log({ value, values: values[fieldName] });
-    } else {
-      values[fieldName] = value;
-    }
-  });
-
-  // Backfill empty repeater fields with an empty array.
-  Object.entries(fieldDescriptions).forEach(([fieldName, fieldDesc]) => {
-    if (
-      (fieldDesc as FieldDescription).type === "repeater" &&
-      !values[fieldName]
-    ) {
-      values[fieldName] = [];
-    }
+    values[fieldName] = value;
   });
 
   return values;
@@ -174,7 +156,13 @@ export const getFieldValueFromNode = (
     return getValuesFromTextContentNode(node);
   }
   if (fieldDescription.type === "repeater") {
-    return getFieldValuesFromNode(node, fieldDescription.fields, serializer);
+    const values = [] as unknown[];
+    node.forEach((childNode) => {
+      values.push(
+        getFieldValuesFromNode(childNode, fieldDescription.fields, serializer)
+      );
+    });
+    return values;
   }
   return undefined;
 };
