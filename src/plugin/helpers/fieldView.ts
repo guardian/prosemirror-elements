@@ -15,6 +15,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
+import { isRepeaterField } from "../types/Element";
 import { getFieldValueFromNode } from "./element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
@@ -167,13 +168,25 @@ export const updateFieldViewsFromNode = <
 >(
   fields: FieldNameToField<FDesc>,
   node: Node,
-  decos: DecorationSet | Decoration[]
+  decos: DecorationSet | Decoration[],
+  offset = 0
 ) => {
-  node.forEach((node, offset) => {
+  node.forEach((node, localOffset) => {
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    field.view.onUpdate(node, offset, decos);
+    field.view.onUpdate(node, offset + localOffset, decos);
+
+    if (isRepeaterField(field)) {
+      node.forEach((childNode, repeaterOffset, index) => {
+        updateFieldViewsFromNode(
+          field.children[index],
+          childNode,
+          decos,
+          offset + localOffset + repeaterOffset
+        );
+      });
+    }
   });
 };
