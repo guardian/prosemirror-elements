@@ -17,6 +17,7 @@ export { createTweetElement } from "./elements/tweet/TweetForm";
 export { commentElement } from "./elements/comment/CommentForm";
 export { membershipElement } from "./elements/membership/MembershipForm";
 export { createContentAtomElement } from "./elements/content-atom/ContentAtomForm";
+export { repeaterElement } from "./elements/demo-repeater/DemoRepeaterElement";
 export {
   transformElementIn,
   transformElementOut,
