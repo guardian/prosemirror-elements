@@ -149,7 +149,9 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
           serializer,
         });
 
-        newFields = set(pathToChild)(newFieldsForChild)(newFields);
+        if (newFieldsForChild !== field.children[index]) {
+          newFields = set(pathToChild)(newFieldsForChild)(newFields);
+        }
       });
 
       return;

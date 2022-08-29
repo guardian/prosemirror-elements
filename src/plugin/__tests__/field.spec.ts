@@ -131,7 +131,7 @@ describe("Field helpers", () => {
       expect(newFields.html.errors.length).toEqual(0);
     });
 
-    it.only("should update a repeater node with the correct value and error information", () => {
+    it("should update a repeater node with the correct value and error information", () => {
       const newElementNode = example(
         example__caption("caption new"),
         example__html("html new"),
