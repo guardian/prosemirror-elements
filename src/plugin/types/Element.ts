@@ -74,7 +74,7 @@ export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
 }
 
 export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(
-  field: Field<unknown> | RepeaterField<FDesc>
+  field: Field<unknown> | RepeaterField<FDesc> | CustomField
 ): field is RepeaterField<FDesc> => {
   if (field.description.type === "repeater") {
     return true;

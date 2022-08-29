@@ -10,6 +10,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "./types/Element";
+import { isRepeaterField } from "./types/Element";
 
 type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   node: Node;
@@ -112,9 +113,6 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   node: Node;
   fields: FieldNameToField<FDesc>;
   serializer: DOMSerializer;
-  // If we're updating nested fields (e.g from repeaters), include
-  // the preceding path to ensure updates to nested objects are applied correctly.
-  path?: string;
 };
 
 /**
@@ -126,7 +124,6 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,
   fields,
   serializer,
-  path = ""
 }: UpdateFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   let newFields = fields;
 
@@ -143,6 +140,21 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       );
     }
 
+    if (isRepeaterField(field)) {
+      fieldNode.forEach((childNode, _, index) => {
+        const pathToChild = `${fieldName}.children[${index}]`;
+        const newFieldsForChild = updateFieldsFromNode({
+          node: childNode,
+          fields: field.children[index],
+          serializer,
+        });
+
+        newFields = set(pathToChild)(newFieldsForChild)(newFields);
+      });
+
+      return;
+    }
+
     const newValue = getFieldValueFromNode(
       fieldNode,
       field.description,
@@ -153,7 +165,7 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       return;
     }
 
-    newFields = set(`${path}${fieldName}.value`)(newValue)(newFields);
+    newFields = set(`${fieldName}.value`)(newValue)(newFields);
 
     const newErrors = validateValue(
       field.description.validators,
