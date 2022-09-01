@@ -1,4 +1,4 @@
-import type { DOMSerializer, Node } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
@@ -16,7 +16,6 @@ import type {
   FieldNameToField,
 } from "../types/Element";
 import { isRepeaterField } from "../types/Element";
-import { getFieldValueFromNode } from "./element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
