@@ -19,6 +19,7 @@ type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   getPos: () => number;
   innerDecos: Array<Decoration<Record<string, unknown>>> | DecorationSet;
   serializer: DOMSerializer;
+  offset?: number;
 };
 
 /**
@@ -31,10 +32,11 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   getPos,
   innerDecos,
   serializer,
+  offset = 0,
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
 
-  node.forEach((fieldNode, offset) => {
+  node.forEach((fieldNode, localOffset) => {
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
@@ -50,17 +52,17 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       node: fieldNode,
       view,
       getPos,
-      offset,
+      offset: offset + localOffset,
       innerDecos,
     });
 
     if (fieldDescription.type === "repeater") {
       const children = [] as unknown[];
-      fieldNode.forEach((repeaterChildNode, localOffset) => {
+      fieldNode.forEach((repeaterChildNode, repeaterOffset) => {
         // We offset by two positions here to account for the additional depth
         // of the parent and child repeater nodes.
         const depthOffset = 2;
-        const localGetPos = () => getPos() + offset + localOffset + depthOffset;
+        const localGetPos = () => getPos();
         children.push(
           getFieldsFromNode({
             node: repeaterChildNode,
@@ -69,6 +71,7 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
             getPos: localGetPos,
             innerDecos,
             serializer,
+            offset: offset + localOffset + repeaterOffset + depthOffset,
           })
         );
       });
@@ -119,6 +122,10 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
  * Calculate new field values and errors for an element from a Node representing
  * a set of fields in Prosemirror, returning a new Fields object containing the
  * new values.
+ *
+ * Does not update the FieldViews associated with each field. This is best done
+ * in a separate pass for optimisation and hygiene reasons, as it keeps this
+ * function pure.
  */
 export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,

@@ -163,6 +163,10 @@ export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
   return fieldValues as FieldNameToValueMap<FDesc>;
 };
 
+/**
+ * Given a node and a set of fields associated with that node, update the
+ * corresponding fieldViews.
+ */
 export const updateFieldViewsFromNode = <
   FDesc extends FieldDescriptions<string>
 >(
@@ -178,15 +182,20 @@ export const updateFieldViewsFromNode = <
     const field = fields[fieldName];
     field.view.onUpdate(node, offset + localOffset, decos);
 
-    if (isRepeaterField(field)) {
-      node.forEach((childNode, repeaterOffset, index) => {
-        updateFieldViewsFromNode(
-          field.children[index],
-          childNode,
-          decos,
-          offset + localOffset + repeaterOffset
-        );
-      });
+    if (!isRepeaterField(field)) {
+      return;
     }
+
+    // We offset by two positions here to account for the additional depth
+    // of the parent and child repeater nodes.
+    const depthOffset = 2;
+    node.forEach((childNode, repeaterOffset, index) => {
+      updateFieldViewsFromNode(
+        field.children[index],
+        childNode,
+        decos,
+        offset + localOffset + repeaterOffset + depthOffset
+      );
+    });
   });
 };
