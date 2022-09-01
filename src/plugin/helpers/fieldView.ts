@@ -137,35 +137,9 @@ export const getElementFieldViewFromType = (
   }
 };
 
-export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
-  fields: FieldNameToField<FDesc>,
-  node: Node,
-  serializer: DOMSerializer
-) => {
-  // We gather the values from each child as we iterate over the
-  // node, to update the renderer. It's difficult to be typesafe here,
-  // as the Node's name value is loosely typed as `string`, and so we
-  // cannot index into the element `fieldDescription` to discover the appropriate type.
-  const fieldValues: Record<string, unknown> = {};
-  node.forEach((node) => {
-    const fieldName = getFieldNameFromNode(
-      node
-    ) as keyof FieldNameToField<FDesc>;
-    const field = fields[fieldName];
-
-    fieldValues[fieldName] = getFieldValueFromNode(
-      node,
-      field.description,
-      serializer
-    );
-  });
-
-  return fieldValues as FieldNameToValueMap<FDesc>;
-};
-
 /**
  * Given a node and a set of fields associated with that node, update the
- * corresponding fieldViews.
+ * corresponding FieldView instances in place.
  */
 export const updateFieldViewsFromNode = <
   FDesc extends FieldDescriptions<string>
