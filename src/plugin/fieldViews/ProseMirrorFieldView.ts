@@ -58,7 +58,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
-    private offset: number,
+    public offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
     // The ProseMirror node type name

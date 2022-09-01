@@ -1,43 +1,16 @@
-import { Schema } from "prosemirror-model";
-import { schema as basicSchema } from "prosemirror-schema-basic";
-import { builders } from "prosemirror-test-builder";
 import { getFieldsFromNode, updateFieldsFromNode } from "../field";
-import { createRepeaterField } from "../fieldViews/RepeaterFieldView";
-import { createTextField } from "../fieldViews/TextFieldView";
-import { createEditorWithElements, createNoopElement } from "../helpers/test";
-import { maxLength, required } from "../helpers/validation";
-
-const elements = {
-  example: createNoopElement({
-    caption: createTextField({
-      validators: [required(), maxLength(7)],
-    }),
-    html: createTextField({
-      validators: [required()],
-    }),
-    repeated: createRepeaterField({
-      nestedText: createTextField(),
-    }),
-  }),
-};
-
-const { view, nodeSpec, serializer } = createEditorWithElements(elements);
-
-const schema = new Schema({
-  // eslint-disable-next-line -- the basic schema types should guarantee this is a NodeSpec
-  nodes: (basicSchema.spec.nodes as any).append(nodeSpec),
-  marks: basicSchema.spec.marks,
-});
-
-const {
+import {
+  elements,
   example,
   example__caption,
   example__html,
-  example__repeated__parent,
-  example__repeated__child,
   example__nestedText,
+  example__repeated__child,
+  example__repeated__parent,
   p,
-} = builders(schema, {});
+  serializer,
+  view,
+} from "../helpers/__tests__/fixtures";
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {

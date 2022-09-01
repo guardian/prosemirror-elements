@@ -31,7 +31,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
 
   public constructor(
     private node: Node,
-    private elementOffset: number,
+    public offset: number,
     private decorations: DecorationSet | Decoration[]
   ) {
     super();
@@ -42,11 +42,11 @@ export class RepeaterFieldView extends FieldView<unknown> {
    */
   public onUpdate(
     node: Node,
-    elementOffset: number,
+    offset: number,
     decorations: DecorationSet | Decoration[]
   ): boolean {
     this.node = node;
-    this.elementOffset = elementOffset;
+    this.offset = offset;
     this.decorations = decorations;
 
     return true;
