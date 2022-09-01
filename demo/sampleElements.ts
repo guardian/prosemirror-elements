@@ -393,25 +393,3 @@ export const sampleComment = {
   authorName: "lucyworsley",
   commentId: "99054411",
 };
-
-export const sampleRepeater = {
-  textField: "Non-nested text",
-  repeaterField: [
-    {
-      textField: "Example text, field 1, depth 1",
-      nestedRepeaterField: [
-        {
-          anotherTextField: "Example text, field 1, depth 2",
-        },
-      ],
-    },
-    {
-      textField: "Example text, field 2, depth 1",
-      nestedRepeaterField: [
-        {
-          anotherTextField: "Example text, field 2, depth 2",
-        },
-      ],
-    },
-  ],
-};

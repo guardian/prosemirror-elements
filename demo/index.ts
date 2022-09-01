@@ -22,7 +22,6 @@ import {
   deprecatedElement,
   membershipElement,
   pullquoteElement,
-  repeaterElement,
   richlinkElement,
   tableElement,
 } from "../src";
@@ -61,7 +60,6 @@ import {
   sampleMap,
   sampleMembership,
   samplePullquote,
-  sampleRepeater,
   sampleRichLink,
   sampleTable,
   sampleTweet,
@@ -93,7 +91,6 @@ const vineElementName = "vine";
 const tweetElementName = "tweet";
 const contentAtomName = "content-atom";
 const commentElementName = "comment";
-const repeaterElementName = "repeater-element";
 
 type Name =
   | typeof embedElementName
@@ -115,8 +112,7 @@ type Name =
   | typeof vineElementName
   | typeof tweetElementName
   | typeof contentAtomName
-  | typeof commentElementName
-  | typeof repeaterElementName;
+  | typeof commentElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -209,7 +205,6 @@ const {
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
     }),
-    "repeater-element": repeaterElement,
     "content-atom": createContentAtomElement(() =>
       Promise.resolve({
         title: "Test Atom",
@@ -404,11 +399,6 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
-    {
-      label: "Demo repeater",
-      name: repeaterElementName,
-      values: sampleRepeater,
-    },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>
