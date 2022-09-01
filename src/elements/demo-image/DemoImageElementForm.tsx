@@ -46,6 +46,26 @@ export const createDemoImageElement = (
         }}
       />
       <CustomDropdownView label="Options" field={fields.customDropdown} />
+      <ul>
+        {fields.repeater.children.map((repeater) => (
+          <li>
+            <FieldWrapper
+              headingLabel="Repeater text"
+              field={repeater.repeaterText}
+            />
+            <ul>
+              {repeater.nestedRepeater.children.map((nestedRepeater) => (
+                <li>
+                  <FieldWrapper
+                    headingLabel="Nested repeater text"
+                    field={nestedRepeater.nestedRepeaterText}
+                  />
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </FieldLayoutVertical>
   ));
 
