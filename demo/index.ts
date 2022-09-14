@@ -72,48 +72,6 @@ import type { WindowType } from "./types";
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
-const embedElementName = "embed";
-const imageElementName = "image";
-const demoImageElementName = "demo-image-element";
-const codeElementName = "code";
-const formElementName = "form";
-const pullquoteElementName = "pullquote";
-const richlinkElementName = "rich-link";
-const videoElementName = "video";
-const mapElementName = "map";
-const audioElementName = "audio";
-const documentElementName = "document";
-const tableElementName = "table";
-const interactiveElementName = "interactive";
-const membershipElementName = "membership";
-const witnessElementName = "witness";
-const instagramElementName = "instagram";
-const vineElementName = "vine";
-const tweetElementName = "tweet";
-const contentAtomName = "content-atom";
-const commentElementName = "comment";
-
-type Name =
-  | typeof embedElementName
-  | typeof imageElementName
-  | typeof demoImageElementName
-  | typeof codeElementName
-  | typeof formElementName
-  | typeof pullquoteElementName
-  | typeof richlinkElementName
-  | typeof interactiveElementName
-  | typeof videoElementName
-  | typeof mapElementName
-  | typeof audioElementName
-  | typeof documentElementName
-  | typeof tableElementName
-  | typeof membershipElementName
-  | typeof witnessElementName
-  | typeof instagramElementName
-  | typeof vineElementName
-  | typeof tweetElementName
-  | typeof contentAtomName
-  | typeof commentElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -155,85 +113,79 @@ const standardElement = createStandardElement({
 
 const telemetryEventService = new UserTelemetryEventSender("example.com");
 
+const elements = {
+  "demo-image-element": createDemoImageElement(onSelectImage, onDemoCropImage),
+  image: imageElement,
+  embed: createEmbedElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    createCaptionPlugins,
+    targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+  }),
+  interactive: createInteractiveElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    createCaptionPlugins,
+  }),
+  code: codeElement,
+  form: deprecatedElement,
+  pullquote: pullquoteElement,
+  "rich-link": richlinkElement,
+  video: createStandardElement({
+    createCaptionPlugins,
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    hasThumbnailRole: false,
+  }),
+  audio: standardElement,
+  map: standardElement,
+  table: tableElement,
+  document: createStandardElement({
+    createCaptionPlugins,
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    useLargePreview: true,
+  }),
+  membership: membershipElement,
+  witness: deprecatedElement,
+  vine: deprecatedElement,
+  instagram: deprecatedElement,
+  comment: commentElement,
+  tweet: createTweetElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    createCaptionPlugins,
+  }),
+  "content-atom": createContentAtomElement(() =>
+    Promise.resolve({
+      title: "Test Atom",
+      defaultHtml: `<div class="atom-Profile">
+        <p><strong>Test item</strong></p>
+        <p><p>-here is a test item</p></p>
+        <p><strong>second post</strong></p>
+        <p><p>- test</p></p>
+      </div>`,
+      isPublished: false,
+      hasUnpublishedChanges: true,
+      embedLink: "https://example.com",
+      editorLink: "https://example.com",
+    })
+  ),
+};
+
 const {
   plugin: elementPlugin,
   insertElement,
   nodeSpec,
   getElementDataFromNode,
-} = buildElementPlugin(
-  {
-    "demo-image-element": createDemoImageElement(
-      onSelectImage,
-      onDemoCropImage
-    ),
-    image: imageElement,
-    embed: createEmbedElement({
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      convertTwitter: (src) =>
-        console.log(`Add Twitter embed with src: ${src}`),
-      convertYouTube: (src) =>
-        console.log(`Add youtube embed with src: ${src}`),
-      createCaptionPlugins,
-      targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+} = buildElementPlugin(elements, {
+  sendTelemetryEvent: (type: string, tags) =>
+    telemetryEventService.addEvent({
+      app: "ProseMirrorElements",
+      stage: "TEST",
+      eventTime: new Date().toISOString(),
+      type,
+      value: true,
+      tags,
     }),
-    interactive: createInteractiveElement({
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      createCaptionPlugins,
-    }),
-    code: codeElement,
-    form: deprecatedElement,
-    pullquote: pullquoteElement,
-    "rich-link": richlinkElement,
-    video: createStandardElement({
-      createCaptionPlugins,
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      hasThumbnailRole: false,
-    }),
-    audio: standardElement,
-    map: standardElement,
-    table: tableElement,
-    document: createStandardElement({
-      createCaptionPlugins,
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      useLargePreview: true,
-    }),
-    membership: membershipElement,
-    witness: deprecatedElement,
-    vine: deprecatedElement,
-    instagram: deprecatedElement,
-    comment: commentElement,
-    tweet: createTweetElement({
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      createCaptionPlugins,
-    }),
-    "content-atom": createContentAtomElement(() =>
-      Promise.resolve({
-        title: "Test Atom",
-        defaultHtml: `<div class="atom-Profile">
-          <p><strong>Test item</strong></p>
-          <p><p>-here is a test item</p></p>
-          <p><strong>second post</strong></p>
-          <p><p>- test</p></p>
-        </div>`,
-        isPublished: false,
-        hasUnpublishedChanges: true,
-        embedLink: "https://example.com",
-        editorLink: "https://example.com",
-      })
-    ),
-  },
-  {
-    sendTelemetryEvent: (type: string, tags) =>
-      telemetryEventService.addEvent({
-        app: "ProseMirrorElements",
-        stage: "TEST",
-        eventTime: new Date().toISOString(),
-        type,
-        value: true,
-        tags,
-      }),
-  }
-);
+});
 
 const strike: MarkSpec = {
   parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
@@ -356,7 +308,7 @@ const createEditor = (server: CollabServer) => {
 
   const createElementButton = (
     buttonText: string,
-    elementName: Name,
+    elementName: keyof typeof elements,
     values: Record<string, unknown>
   ) => {
     const elementButton = document.createElement("button");
@@ -369,37 +321,37 @@ const createEditor = (server: CollabServer) => {
   };
 
   const buttonData = [
-    { label: "Embed", name: embedElementName, values: sampleEmbed },
-    { label: "Callout", name: embedElementName, values: sampleCallout },
-    { label: "Demo image", name: demoImageElementName, values: sampleImage },
-    { label: "Rich-link", name: richlinkElementName, values: sampleRichLink },
-    { label: "Video", name: videoElementName, values: sampleVideo },
-    { label: "Audio", name: audioElementName, values: sampleAudio },
-    { label: "Map", name: mapElementName, values: sampleMap },
-    { label: "Document", name: documentElementName, values: sampleDocument },
-    { label: "Table", name: tableElementName, values: sampleTable },
+    { label: "Embed", name: "embed", values: sampleEmbed },
+    { label: "Callout", name: "embed", values: sampleCallout },
+    { label: "Demo image", name: "demo-image-element", values: sampleImage },
+    { label: "Rich-link", name: "rich-link", values: sampleRichLink },
+    { label: "Video", name: "video", values: sampleVideo },
+    { label: "Audio", name: "audio", values: sampleAudio },
+    { label: "Map", name: "map", values: sampleMap },
+    { label: "Document", name: "document", values: sampleDocument },
+    { label: "Table", name: "table", values: sampleTable },
     {
       label: "Membership",
-      name: membershipElementName,
+      name: "membership",
       values: sampleMembership,
     },
     {
       label: "Interactive",
-      name: interactiveElementName,
+      name: "interactive",
       values: sampleInteractive,
     },
-    { label: "Pullquote", name: pullquoteElementName, values: samplePullquote },
-    { label: "Code", name: codeElementName, values: sampleCode },
-    { label: "Form", name: formElementName, values: sampleForm },
-    { label: "Vine", name: vineElementName, values: sampleVine },
-    { label: "Tweet", name: tweetElementName, values: sampleTweet },
-    { label: "Recipe atom", name: contentAtomName, values: sampleContentAtom },
+    { label: "Pullquote", name: "pullquote", values: samplePullquote },
+    { label: "Code", name: "code", values: sampleCode },
+    { label: "Form", name: "form", values: sampleForm },
+    { label: "Vine", name: "vine", values: sampleVine },
+    { label: "Tweet", name: "tweet", values: sampleTweet },
+    { label: "Recipe atom", name: "content-atom", values: sampleContentAtom },
     {
       label: "Interactive atom",
-      name: contentAtomName,
+      name: "content-atom",
       values: sampleInteractiveAtom,
     },
-    { label: "Comment", name: commentElementName, values: sampleComment },
+    { label: "Comment", name: "comment", values: sampleComment },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>
@@ -408,7 +360,7 @@ const createEditor = (server: CollabServer) => {
 
   const imageElementButton = document.createElement("button");
   imageElementButton.innerHTML = "Image element";
-  imageElementButton.id = imageElementName;
+  imageElementButton.id = "image";
   imageElementButton.addEventListener("click", () => {
     const setMedia = (mediaPayload: MediaPayload) => {
       const {
@@ -421,7 +373,7 @@ const createEditor = (server: CollabServer) => {
         source,
       } = mediaPayload;
       insertElement({
-        elementName: imageElementName,
+        elementName: "image",
         values: {
           caption,
           photographer,
