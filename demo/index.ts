@@ -13,6 +13,7 @@ import { EditorView } from "prosemirror-view";
 import {
   codeElement,
   commentElement,
+  createCampaignCalloutListElement,
   createContentAtomElement,
   createDemoImageElement,
   createEmbedElement,
@@ -49,6 +50,7 @@ import {
 import {
   sampleAudio,
   sampleCallout,
+  sampleCampaignCalloutList,
   sampleCode,
   sampleComment,
   sampleContentAtom,
@@ -92,6 +94,7 @@ const vineElementName = "vine";
 const tweetElementName = "tweet";
 const contentAtomName = "content-atom";
 const commentElementName = "comment";
+const campaignCalloutListElementName = "campaign-callout-list";
 
 type Name =
   | typeof embedElementName
@@ -113,23 +116,24 @@ type Name =
   | typeof vineElementName
   | typeof tweetElementName
   | typeof contentAtomName
-  | typeof commentElementName;
+  | typeof commentElementName
+  | typeof campaignCalloutListElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
   html.includes("fail")
     ? Promise.resolve({
-        tracking: {
-          tracks: "tracks",
-        },
-        reach: { unsupportedPlatforms: ["amp", "mobile"] },
-      })
+      tracking: {
+        tracks: "tracks",
+      },
+      reach: { unsupportedPlatforms: ["amp", "mobile"] },
+    })
     : Promise.resolve({
-        tracking: {
-          tracks: "does-not-track",
-        },
-        reach: { unsupportedPlatforms: [] },
-      });
+      tracking: {
+        tracks: "does-not-track",
+      },
+      reach: { unsupportedPlatforms: [] },
+    });
 
 const additionalRoleOptions = [
   { text: "inline (default)", value: undefinedDropdownValue },
@@ -175,6 +179,9 @@ const {
         console.log(`Add youtube embed with src: ${src}`),
       createCaptionPlugins,
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+    }),
+    "campaign-callout-list": createCampaignCalloutListElement({
+      campaignList: []
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
@@ -260,9 +267,9 @@ const get = () => {
   return state
     ? htmlToDoc(parser, state)
     : htmlToDoc(
-        parser,
-        document.getElementById("content-template")?.innerHTML ?? ""
-      );
+      parser,
+      document.getElementById("content-template")?.innerHTML ?? ""
+    );
 };
 
 const set = (doc: Node) =>
@@ -369,6 +376,7 @@ const createEditor = (server: CollabServer) => {
   };
 
   const buttonData = [
+    { label: "Campaign Callout List", name: campaignCalloutListElementName, values: sampleCampaignCalloutList },
     { label: "Embed", name: embedElementName, values: sampleEmbed },
     { label: "Callout", name: embedElementName, values: sampleCallout },
     { label: "Demo image", name: demoImageElementName, values: sampleImage },
@@ -473,7 +481,7 @@ btnContainer.appendChild(addEditorButton);
 export { insertElement }; // Necessary to ensure the type is available in the global namespace
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
-  interface Window extends WindowType {}
+  interface Window extends WindowType { }
 }
 
 applyDevTools(firstEditor);
