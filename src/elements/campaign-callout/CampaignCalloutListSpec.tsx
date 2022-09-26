@@ -1,6 +1,5 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
-import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CampaignCalloutList } from "./CampaignCalloutList";
 import { undefinedDropdownValue } from "../helpers/transform";
@@ -12,20 +11,22 @@ type Props = {
 };
 
 const getCampaignList = ({ campaignList }: Props) => {
-  const res = campaignList.map((campaign) => {
+  const campaigns = campaignList.map((campaign) => {
     return { text: campaign.id, value: campaign.id };
   });
 
-  return [{ text: "something", value: "something" }, ...res];
-
-  return res;
+  return [
+    { text: "Please select a campaign...", value: undefinedDropdownValue },
+    ...campaigns,
+  ];
 };
 
 export const createCampaignCalloutListFields = (props: Props) => {
-  const campaigns = getCampaignList(props);
-  console.log(campaigns);
   return {
-    campaignList: createCustomDropdownField("something", campaigns),
+    campaignList: createCustomDropdownField(
+      undefinedDropdownValue,
+      getCampaignList(props)
+    ),
   };
 };
 
