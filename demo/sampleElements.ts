@@ -270,6 +270,11 @@ export const sampleCallout = {
     '<div data-callout-tagname="test-form-six"><h2>Callout<h2><p>test-form-six</p></div>',
 };
 
+export const sampleCampaignCalloutList = {
+  campaignList: [
+    { id: "callout 1" }
+  ]
+}
 export const sampleEmbed = {
   weighting: "",
   sourceUrl: "",
