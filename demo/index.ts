@@ -123,17 +123,17 @@ const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
   html.includes("fail")
     ? Promise.resolve({
-      tracking: {
-        tracks: "tracks",
-      },
-      reach: { unsupportedPlatforms: ["amp", "mobile"] },
-    })
+        tracking: {
+          tracks: "tracks",
+        },
+        reach: { unsupportedPlatforms: ["amp", "mobile"] },
+      })
     : Promise.resolve({
-      tracking: {
-        tracks: "does-not-track",
-      },
-      reach: { unsupportedPlatforms: [] },
-    });
+        tracking: {
+          tracks: "does-not-track",
+        },
+        reach: { unsupportedPlatforms: [] },
+      });
 
 const additionalRoleOptions = [
   { text: "inline (default)", value: undefinedDropdownValue },
@@ -181,7 +181,7 @@ const {
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
     }),
     "campaign-callout-list": createCampaignCalloutListElement({
-      campaignList: []
+      campaignList: [{ id: "callout-1" }, { id: "callout-2" }],
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
@@ -267,9 +267,9 @@ const get = () => {
   return state
     ? htmlToDoc(parser, state)
     : htmlToDoc(
-      parser,
-      document.getElementById("content-template")?.innerHTML ?? ""
-    );
+        parser,
+        document.getElementById("content-template")?.innerHTML ?? ""
+      );
 };
 
 const set = (doc: Node) =>
@@ -376,7 +376,11 @@ const createEditor = (server: CollabServer) => {
   };
 
   const buttonData = [
-    { label: "Campaign Callout List", name: campaignCalloutListElementName, values: sampleCampaignCalloutList },
+    {
+      label: "Campaign Callout List",
+      name: campaignCalloutListElementName,
+      values: sampleCampaignCalloutList,
+    },
     { label: "Embed", name: embedElementName, values: sampleEmbed },
     { label: "Callout", name: embedElementName, values: sampleCallout },
     { label: "Demo image", name: demoImageElementName, values: sampleImage },
@@ -481,7 +485,7 @@ btnContainer.appendChild(addEditorButton);
 export { insertElement }; // Necessary to ensure the type is available in the global namespace
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
-  interface Window extends WindowType { }
+  interface Window extends WindowType {}
 }
 
 applyDevTools(firstEditor);
