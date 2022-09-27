@@ -34,11 +34,12 @@ type Props = {
 
 const getCampaignList = ({ campaignList }: Props) => {
   const campaigns = campaignList.map((campaign) => {
-    return { text: campaign.id, value: campaign.id };
+    const name = campaign.name.replace("CALLOUT:", "").trimStart();
+    return { text: name, value: campaign.id };
   });
 
   return [
-    { text: "Please select a campaign...", value: undefinedDropdownValue },
+    { text: "Select from open callouts", value: undefinedDropdownValue },
     ...campaigns,
   ];
 };
