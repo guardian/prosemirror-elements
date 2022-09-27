@@ -1,8 +1,9 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
+import { Callout } from "../embed/Callout";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { CampaignCalloutList } from "./CampaignCalloutList";
 
 type Fields = {
   callout: string;
@@ -46,7 +47,7 @@ const getCampaignList = ({ campaignList }: Props) => {
 
 export const createCampaignCalloutListFields = (props: Props) => {
   return {
-    campaignList: createCustomDropdownField(
+    campaignId: createCustomDropdownField(
       undefinedDropdownValue,
       getCampaignList(props)
     ),
@@ -56,9 +57,25 @@ export const createCampaignCalloutListFields = (props: Props) => {
 export const createCampaignCalloutListElement = (props: Props) =>
   createReactElementSpec(
     createCampaignCalloutListFields(props),
-    ({ fields }) => {
-      return (
-        <CampaignCalloutList fields={fields} campaigns={props.campaignList} />
+    ({ fields, fieldValues }) => {
+      const { campaignId } = fieldValues;
+
+      const getTag = (id: string) => {
+        const campaign = props.campaignList.find(
+          (campaign) => campaign.id === id
+        );
+        return campaign?.fields.tagName ?? "";
+      };
+
+      return campaignId && campaignId != "none-selected" ? (
+        <Callout
+          tag={getTag(campaignId)}
+          targetingUrl={"https://targeting.code.dev-gutools.co.uk/"}
+        />
+      ) : (
+        <div>
+          <CustomDropdownView label="Callout" field={fields.campaignId} />
+        </div>
       );
     }
   );
