@@ -1,5 +1,6 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
+import { dropDownRequired, required } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Callout } from "../embed/Callout";
@@ -49,7 +50,8 @@ export const createCampaignCalloutListFields = (props: Props) => {
   return {
     campaignId: createCustomDropdownField(
       undefinedDropdownValue,
-      getCampaignList(props)
+      getCampaignList(props),
+      [dropDownRequired(undefined, "WARN")]
     ),
   };
 };
@@ -57,7 +59,7 @@ export const createCampaignCalloutListFields = (props: Props) => {
 export const createCampaignCalloutListElement = (props: Props) =>
   createReactElementSpec(
     createCampaignCalloutListFields(props),
-    ({ fields, fieldValues }) => {
+    ({ fields, fieldValues, errors }) => {
       const { campaignId } = fieldValues;
 
       const getTag = (id: string) => {
@@ -74,7 +76,11 @@ export const createCampaignCalloutListElement = (props: Props) =>
         />
       ) : (
         <div>
-          <CustomDropdownView label="Callout" field={fields.campaignId} />
+          <CustomDropdownView
+            label="Callout"
+            field={fields.campaignId}
+            errors={errors.campaignId}
+          />
         </div>
       );
     }

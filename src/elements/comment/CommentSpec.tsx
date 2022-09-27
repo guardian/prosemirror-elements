@@ -5,7 +5,7 @@ import {
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { undefinedDropdownValue } from "../membership/MembershipSpec";
+import { undefinedDropdownValue } from "../helpers/transform";
 import { CommentElementForm } from "./CommentForm";
 
 export const commentFields = {
