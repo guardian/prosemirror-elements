@@ -11,7 +11,7 @@ export const CampaignCalloutList: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <div>
-      <CustomDropdownView label="campaign list" field={fields.campaignList} />
+      <CustomDropdownView label="Callout" field={fields.campaignList} />
     </div>
   );
 };
