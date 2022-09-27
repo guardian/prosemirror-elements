@@ -57,7 +57,7 @@ export type FieldTypeToValueMap<
   [RepeaterFieldView.fieldName]: FDesc[Name] extends RepeaterFieldDescription<
     infer NestedFDesc
   >
-    ? FieldTypeToValueMap<NestedFDesc, keyof NestedFDesc>
+    ? Array<FieldNameToValueMap<NestedFDesc>>
     : never;
 };
 
@@ -131,6 +131,8 @@ export const getElementFieldViewFromType = (
         field.defaultValue ?? DropdownFieldView.defaultValue,
         field.options
       );
+    case "repeater":
+      return new RepeaterFieldView(node, offset, innerDecos);
   }
 };
 

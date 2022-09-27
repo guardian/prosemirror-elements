@@ -259,6 +259,117 @@ describe("buildElementPlugin", () => {
       expect(getElementAsHTML()).toBe(expected);
     });
 
+    it("should fill out content in REPEATER nodes", () => {
+      const testElement = createNoopElement({
+        repeater1: {
+          type: "repeater",
+          fields: {
+            field1: { type: "richText" },
+          },
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ testElement });
+
+      insertElement({
+        elementName: "testElement",
+        values: {
+          repeater1: [
+            { field1: "<p>Content 1</p>" },
+            { field1: "<p>Content 2</p>" },
+          ],
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="testElement">
+          <div pme-field-name="testElement__repeater1">
+            <div pme-field-name="testElement__field1">
+              <p>Content 1</p>
+            </div>
+          </div>
+          <div pme-field-name="testElement__repeater1">
+            <div pme-field-name="testElement__field1">
+              <p>Content 2</p>
+            </div>
+          </div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should fill out content in nested REPEATER nodes", () => {
+      const testElement = createNoopElement({
+        repeater1: {
+          type: "repeater",
+          fields: {
+            repeater2: {
+              type: "repeater",
+              fields: {
+                field1: { type: "richText" },
+              },
+            },
+          },
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ testElement });
+
+      insertElement({
+        elementName: "testElement",
+        values: {
+          repeater1: [
+            {
+              repeater2: [
+                { field1: "<p>Content 1</p>" },
+                { field1: "<p>Content 2</p>" },
+              ],
+            },
+            {
+              repeater2: [
+                { field1: "<p>Content 3</p>" },
+                { field1: "<p>Content 4</p>" },
+              ],
+            },
+          ],
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="testElement">
+          <div pme-field-name="testElement__repeater1">
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 1</p>
+              </div>
+            </div>
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 2</p>
+              </div>
+            </div>
+          </div>
+          <div pme-field-name="testElement__repeater1">
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 3</p>
+              </div>
+            </div>
+            <div pme-field-name="testElement__repeater2">
+              <div pme-field-name="testElement__field1">
+                <p>Content 4</p>
+              </div>
+            </div>
+          </div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
     it("should fill out all fields", () => {
       const testElement = createNoopElement({
         field1: { type: "richText" },
@@ -362,6 +473,12 @@ describe("buildElementPlugin", () => {
         isCode: false,
       },
       field3: { type: "checkbox" },
+      repeater1: {
+        type: "repeater",
+        fields: {
+          field4: { type: "richText" },
+        },
+      },
     });
 
     const testElement2 = createNoopElement({
@@ -420,8 +537,9 @@ describe("buildElementPlugin", () => {
         field1: "<p></p>",
         field2: "",
         field3: true,
+        repeater1: [],
       },
-    } as const;
+    };
 
     const testElement2Values = {
       elementName: "testElement2",
@@ -430,15 +548,18 @@ describe("buildElementPlugin", () => {
         field4: "<p></p>",
         field5: "",
       },
-    } as const;
+    };
 
     describe("Parsing HTML representing element data", () => {
       it("should parse fields of all types, respecting values against defaults", () => {
         const elementHTML = `
           <div pme-element-type="testElement">
-          <div pme-field-name="testElement__field1"><p>Content</p></div>
-          <div pme-field-name="testElement__field2">Content</div>
-          <div pme-field-name="testElement__field3" fields="true"></div>
+            <div pme-field-name="testElement__field1"><p>Content</p></div>
+            <div pme-field-name="testElement__field2">Content</div>
+            <div pme-field-name="testElement__field3" fields="true"></div>
+            <div pme-field-name="testElement__repeater1">
+              <div pme-field-name="testElement__field4"><p>Repeater content</p></div>
+            </div>
           </div>
         `;
 
