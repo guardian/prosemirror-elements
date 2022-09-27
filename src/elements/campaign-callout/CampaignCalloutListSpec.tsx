@@ -32,6 +32,7 @@ export type Campaign = {
 };
 type Props = {
   fetchCampaignList: () => Promise<Campaign[]>;
+  targetingUrl: string;
 };
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
@@ -56,6 +57,7 @@ export const campaignCalloutListFields = {
 
 export const createCampaignCalloutListElement = ({
   fetchCampaignList,
+  targetingUrl,
 }: Props) =>
   createReactElementSpec(
     campaignCalloutListFields,
@@ -77,10 +79,7 @@ export const createCampaignCalloutListElement = ({
       const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
 
       return campaignId && campaignId != "none-selected" ? (
-        <Callout
-          tag={getTag(campaignId)}
-          targetingUrl={"https://targeting.code.dev-gutools.co.uk/"}
-        />
+        <Callout tag={getTag(campaignId)} targetingUrl={targetingUrl} />
       ) : (
         <div>
           <CustomDropdownView

@@ -245,6 +245,7 @@ const {
     }),
     "campaign-callout-list": createCampaignCalloutListElement({
       fetchCampaignList: () => Promise.resolve(mockCampaignList),
+      targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
