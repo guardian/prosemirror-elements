@@ -237,7 +237,7 @@ const {
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
     }),
     "campaign-callout-list": createCampaignCalloutListElement({
-      campaignList: mockCampaignList,
+      fetchCampaignList: () => Promise.resolve(mockCampaignList),
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
