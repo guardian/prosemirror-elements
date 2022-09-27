@@ -1,8 +1,8 @@
 import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
-import { CampaignCalloutList } from "./CampaignCalloutList";
 import { undefinedDropdownValue } from "../helpers/transform";
+import { CampaignCalloutList } from "./CampaignCalloutList";
 
 type Fields = {
   callout: string;
