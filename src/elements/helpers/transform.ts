@@ -1,3 +1,4 @@
+import type { campaignCalloutListFields } from "../campaign-callout/CampaignCalloutListSpec";
 import type { codeFields } from "../code/CodeElementSpec";
 import type { commentFields } from "../comment/CommentSpec";
 import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
@@ -23,6 +24,9 @@ const transformMap = {
     transformRole: true,
   }),
   embed: embedElementTransform,
+  "campaign-callout-list": defaultElementTransform<
+    typeof campaignCalloutListFields
+  >(),
   image: imageElementTransform,
   interactive: interactiveElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
