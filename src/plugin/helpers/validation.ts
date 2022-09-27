@@ -1,3 +1,4 @@
+import { undefinedDropdownValue } from "../../elements/helpers/transform";
 import type {
   ErrorLevel,
   FieldValidationErrors,
@@ -165,4 +166,21 @@ export const required = (
     ];
   }
   return [];
+};
+
+export const dropDownRequired = (
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
+): FieldValidator => (value, field) => {
+  if (value === undefinedDropdownValue) {
+    return [
+      {
+        error: "Required",
+        message: customMessage ?? `${field} is required`,
+        level,
+      },
+    ];
+  } else {
+    return [];
+  }
 };
