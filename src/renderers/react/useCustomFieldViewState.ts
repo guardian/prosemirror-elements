@@ -15,7 +15,6 @@ export const useCustomFieldState = <Data extends unknown>({
       );
       return;
     }
-    console.log("inside useCustomFieldState useEffect", view);
     view.subscribe(setFieldValue);
 
     return () => view.unsubscribe(setFieldValue);
@@ -24,7 +23,6 @@ export const useCustomFieldState = <Data extends unknown>({
   return [
     fieldValue,
     (fields: Data) => {
-      console.log("fields:: ", fields);
       view.update(fields);
     },
   ];
