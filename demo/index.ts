@@ -135,6 +135,48 @@ const mockThirdPartyTracking = (html: string) =>
         reach: { unsupportedPlatforms: [] },
       });
 
+const mockCampaignList = [
+  {
+    id: "1234",
+    name: "CALLOUT: callout-1",
+    rules: [],
+    priority: 0,
+    activeFrom: 1645488000000,
+    activeUntil: 1645488000001,
+    displayOnSensitive: false,
+    fields: [
+      {
+        callout: 'callout-1',
+        formId: 11111,
+        tagName: 'callout-1-tag',
+        description: "this is callout 1",
+        formFields: [],
+        formUrl: 'formstack.co.uk',
+        _type: 'callout',
+      }
+    ]
+  },
+  {
+    id: "1235",
+    name: "callout-2",
+    rules: [],
+    priority: 0,
+    activeFrom: 1645488000000,
+    activeUntil: 1645488000001,
+    displayOnSensitive: false,
+    fields: [
+      {
+        callout: 'callout-2',
+        formId: 11121,
+        tagName: 'callout-2-tag',
+        description: "this is callout 2",
+        formFields: [],
+        formUrl: 'formstack.co.uk',
+        _type: 'callout',
+      }
+    ]
+  }
+]
 const additionalRoleOptions = [
   { text: "inline (default)", value: undefinedDropdownValue },
   { text: "supporting", value: "supporting" },
@@ -181,7 +223,7 @@ const {
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
     }),
     "campaign-callout-list": createCampaignCalloutListElement({
-      campaignList: [{ id: "callout-1" }, { id: "callout-2" }],
+      campaignList: mockCampaignList,
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
