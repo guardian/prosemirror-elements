@@ -137,26 +137,32 @@ const mockThirdPartyTracking = (html: string) =>
 
 const mockCampaignList = [
   {
-    id: "1234",
-    name: "CALLOUT: fake callout",
-    rules: [],
-    priority: 0,
+    id: "1fc53dab-1c76-4258-8194-b4b3d8399052",
+    name: "CALLOUT: Callout demo",
+    rules: [
+      {
+        requiredTags: ["campaign/callout/callout-demo-2"],
+        lackingTags: [],
+        matchAllTags: false,
+      },
+    ],
     activeFrom: 1645488000000,
     activeUntil: 1645488000001,
+    priority: 0,
     displayOnSensitive: false,
     fields: {
-      callout: "callout-1",
-      formId: 11111,
-      tagName: "fake-tag-name",
-      description: "this is callout 1",
+      callout: "This is my title",
+      formId: 4762955,
+      tagName: "callout-demo-2",
+      description: "<p>This is my description</p>",
       formFields: [],
-      formUrl: "formstack.co.uk",
+      formUrl: "https://guardiannewsandmedia.formstack.com/",
       _type: "callout",
     },
   },
   {
     id: "1235",
-    name: "real callout",
+    name: "Broken callout",
     rules: [],
     priority: 0,
     activeFrom: 1645488000000,
@@ -165,16 +171,17 @@ const mockCampaignList = [
     fields: {
       callout: "callout-2",
       formId: 11121,
-      tagName: "callout-demo-2",
+      tagName: "broken-callout",
       description: "this is callout 2",
       formFields: [],
       formUrl: "formstack.co.uk",
       _type: "callout",
     },
   },
+
   {
     id: "1236",
-    name: "empty tag callout",
+    name: "empty tag name callout",
     rules: [],
     priority: 0,
     activeFrom: 1645488000000,
