@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
-import { dropDownRequired, required } from "../../plugin/helpers/validation";
+import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Callout } from "../embed/Callout";
@@ -31,10 +31,10 @@ export type Campaign = {
   name: string;
 };
 type Props = {
-  campaignList: Campaign[];
+  fetchCampaignList: () => Promise<Campaign[]>;
 };
 
-const getCampaignList = ({ campaignList }: Props) => {
+const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
   const campaigns = campaignList.map((campaign) => {
     const name = campaign.name.replace("CALLOUT:", "").trimStart();
     return { text: name, value: campaign.id };
@@ -46,28 +46,35 @@ const getCampaignList = ({ campaignList }: Props) => {
   ];
 };
 
-export const createCampaignCalloutListFields = (props: Props) => {
-  return {
-    campaignId: createCustomDropdownField(
-      undefinedDropdownValue,
-      getCampaignList(props),
-      [dropDownRequired(undefined, "WARN")]
-    ),
-  };
+export const campaignCalloutListFields = {
+  campaignId: createCustomDropdownField(
+    undefinedDropdownValue,
+    [],
+    [dropDownRequired(undefined, "WARN")]
+  ),
 };
 
-export const createCampaignCalloutListElement = (props: Props) =>
+export const createCampaignCalloutListElement = ({
+  fetchCampaignList,
+}: Props) =>
   createReactElementSpec(
-    createCampaignCalloutListFields(props),
+    campaignCalloutListFields,
     ({ fields, fieldValues, errors }) => {
       const { campaignId } = fieldValues;
 
+      const [campaignList, setCampaignList] = useState<Campaign[]>([]);
+      useEffect(() => {
+        void fetchCampaignList().then((campaignList) => {
+          setCampaignList(campaignList);
+        });
+      }, []);
+
       const getTag = (id: string) => {
-        const campaign = props.campaignList.find(
-          (campaign) => campaign.id === id
-        );
+        const campaign = campaignList.find((campaign) => campaign.id === id);
         return campaign?.fields.tagName ?? "";
       };
+
+      const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
 
       return campaignId && campaignId != "none-selected" ? (
         <Callout
@@ -80,6 +87,7 @@ export const createCampaignCalloutListElement = (props: Props) =>
             label="Callout"
             field={fields.campaignId}
             errors={errors.campaignId}
+            options={dropdownOptions}
           />
         </div>
       );
