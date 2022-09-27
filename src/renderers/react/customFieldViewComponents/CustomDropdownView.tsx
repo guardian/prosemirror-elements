@@ -11,7 +11,6 @@ type CustomDropdownViewProps = {
   errors?: ValidationError[];
   label: string;
   display?: "inline" | "block";
-  changeHandler?: (id: string) => void;
 };
 
 export const CustomDropdownView = ({
@@ -20,7 +19,6 @@ export const CustomDropdownView = ({
   errors = [],
   label,
   display = "block",
-  changeHandler,
 }: CustomDropdownViewProps) => {
   const [selectedElement, setSelectedElement] = useCustomFieldState(field);
   return (
@@ -31,7 +29,6 @@ export const CustomDropdownView = ({
       label={label}
       onChange={(event) => {
         setSelectedElement(event.target.value);
-        if (changeHandler) changeHandler(event.target.value);
       }}
       error={errors.map((e) => e.error).join(", ")}
       dataCy={getFieldViewTestId(field.name)}
