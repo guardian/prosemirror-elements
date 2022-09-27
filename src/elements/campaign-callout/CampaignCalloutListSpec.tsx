@@ -18,9 +18,9 @@ type Rules = {
   lackingTags: string[];
   matchAllTags: boolean;
 };
-type Campaign = {
+export type Campaign = {
   id: string;
-  fields: Fields[];
+  fields: Fields;
   rules: Rules[];
   priority: number;
   displayOnSensitive: boolean;
@@ -57,6 +57,8 @@ export const createCampaignCalloutListElement = (props: Props) =>
   createReactElementSpec(
     createCampaignCalloutListFields(props),
     ({ fields }) => {
-      return <CampaignCalloutList fields={fields} />;
+      return (
+        <CampaignCalloutList fields={fields} campaigns={props.campaignList} />
+      );
     }
   );

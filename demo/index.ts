@@ -123,58 +123,75 @@ const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
   html.includes("fail")
     ? Promise.resolve({
-        tracking: {
-          tracks: "tracks",
-        },
-        reach: { unsupportedPlatforms: ["amp", "mobile"] },
-      })
+      tracking: {
+        tracks: "tracks",
+      },
+      reach: { unsupportedPlatforms: ["amp", "mobile"] },
+    })
     : Promise.resolve({
-        tracking: {
-          tracks: "does-not-track",
-        },
-        reach: { unsupportedPlatforms: [] },
-      });
+      tracking: {
+        tracks: "does-not-track",
+      },
+      reach: { unsupportedPlatforms: [] },
+    });
 
 const mockCampaignList = [
   {
     id: "1234",
-    name: "CALLOUT: callout-1",
+    name: "CALLOUT: fake callout",
     rules: [],
     priority: 0,
     activeFrom: 1645488000000,
     activeUntil: 1645488000001,
     displayOnSensitive: false,
-    fields: [
-      {
-        callout: 'callout-1',
-        formId: 11111,
-        tagName: 'callout-1-tag',
-        description: "this is callout 1",
-        formFields: [],
-        formUrl: 'formstack.co.uk',
-        _type: 'callout',
-      }
-    ]
+    fields:
+    {
+      callout: 'callout-1',
+      formId: 11111,
+      tagName: 'fake-tag-name',
+      description: "this is callout 1",
+      formFields: [],
+      formUrl: 'formstack.co.uk',
+      _type: 'callout',
+    }
   },
   {
     id: "1235",
-    name: "callout-2",
+    name: "real callout",
     rules: [],
     priority: 0,
     activeFrom: 1645488000000,
     activeUntil: 1645488000001,
     displayOnSensitive: false,
-    fields: [
-      {
-        callout: 'callout-2',
-        formId: 11121,
-        tagName: 'callout-2-tag',
-        description: "this is callout 2",
-        formFields: [],
-        formUrl: 'formstack.co.uk',
-        _type: 'callout',
-      }
-    ]
+    fields:
+    {
+      callout: 'callout-2',
+      formId: 11121,
+      tagName: 'callout-demo-2',
+      description: "this is callout 2",
+      formFields: [],
+      formUrl: 'formstack.co.uk',
+      _type: 'callout',
+    }
+  },
+  {
+    id: "1236",
+    name: "empty tag callout",
+    rules: [],
+    priority: 0,
+    activeFrom: 1645488000000,
+    activeUntil: 1645488000001,
+    displayOnSensitive: false,
+    fields:
+    {
+      callout: 'callout-2',
+      formId: 11121,
+      tagName: '',
+      description: "this is callout 2",
+      formFields: [],
+      formUrl: 'formstack.co.uk',
+      _type: 'callout',
+    }
   }
 ]
 const additionalRoleOptions = [
@@ -309,9 +326,9 @@ const get = () => {
   return state
     ? htmlToDoc(parser, state)
     : htmlToDoc(
-        parser,
-        document.getElementById("content-template")?.innerHTML ?? ""
-      );
+      parser,
+      document.getElementById("content-template")?.innerHTML ?? ""
+    );
 };
 
 const set = (doc: Node) =>
@@ -527,7 +544,7 @@ btnContainer.appendChild(addEditorButton);
 export { insertElement }; // Necessary to ensure the type is available in the global namespace
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
-  interface Window extends WindowType {}
+  interface Window extends WindowType { }
 }
 
 applyDevTools(firstEditor);
