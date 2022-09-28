@@ -24,9 +24,7 @@ const transformMap = {
     transformRole: true,
   }),
   embed: embedElementTransform,
-  "campaign-callout-list": defaultElementTransform<
-    typeof campaignCalloutListFields
-  >(),
+  callout: defaultElementTransform<typeof campaignCalloutListFields>(),
   image: imageElementTransform,
   interactive: interactiveElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),

@@ -94,7 +94,7 @@ const vineElementName = "vine";
 const tweetElementName = "tweet";
 const contentAtomName = "content-atom";
 const commentElementName = "comment";
-const campaignCalloutListElementName = "campaign-callout-list";
+const campaignCalloutListElementName = "callout";
 
 type Name =
   | typeof embedElementName
@@ -243,7 +243,7 @@ const {
       createCaptionPlugins,
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
     }),
-    "campaign-callout-list": createCampaignCalloutListElement({
+    callout: createCampaignCalloutListElement({
       fetchCampaignList: () => Promise.resolve(mockCampaignList),
       targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
     }),
