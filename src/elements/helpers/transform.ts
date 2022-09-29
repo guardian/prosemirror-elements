@@ -1,4 +1,4 @@
-import type { campaignCalloutListFields } from "../campaign-callout/CampaignCalloutListSpec";
+import type { campaignCalloutListFields } from "../callout/CampaignCalloutListSpec";
 import type { codeFields } from "../code/CodeElementSpec";
 import type { commentFields } from "../comment/CommentSpec";
 import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
