@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { Label } from "../../editorial-source-components/Label";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
+import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { Callout } from "../embed/Callout";
+import { CalloutError, calloutStyles, CalloutTable } from "../embed/Callout";
 import { undefinedDropdownValue } from "../helpers/transform";
 
 type Fields = {
@@ -55,6 +58,7 @@ export const campaignCalloutListFields = {
     [],
     [dropDownRequired(undefined, "WARN")]
   ),
+  campaignTitle: createTextField({ absentOnEmpty: true }),
 };
 
 export const createCampaignCalloutListElement = ({
@@ -79,9 +83,28 @@ export const createCampaignCalloutListElement = ({
       };
 
       const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
+      const callout = campaignList.find(
+        (campaign) => campaign.id === fieldValues.campaignId
+      );
 
       return campaignId && campaignId != "none-selected" ? (
-        <Callout tag={getTag(campaignId)} targetingUrl={targetingUrl} />
+        <div css={calloutStyles}>
+          <Label>Callout</Label>
+          {callout ? (
+            <>
+              <FieldWrapper
+                headingLabel="Campaign title"
+                field={fields.campaignTitle}
+              />
+              <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+            </>
+          ) : (
+            <CalloutError
+              tag={getTag(campaignId)}
+              targetingUrl={targetingUrl}
+            />
+          )}
+        </div>
       ) : (
         <div>
           <CustomDropdownView

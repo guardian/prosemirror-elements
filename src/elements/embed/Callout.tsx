@@ -21,11 +21,11 @@ type Callout = {
 type TagFields = {
   tagName: string;
   callout: string;
-  description: string;
-  formUrl: string;
+  description?: string;
+  formUrl?: string;
 };
 
-const calloutStyles = css`
+export const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
   a {
@@ -88,7 +88,7 @@ const getCalloutByTag = (tag: string, targetingDomain: string) =>
     return data.find((callout) => callout.fields.tagName === tag);
   });
 
-const CalloutTable = ({
+export const CalloutTable = ({
   calloutData,
   targetingUrl,
 }: {
@@ -121,7 +121,7 @@ const CalloutTable = ({
             <th>Description</th>
             <td
               dangerouslySetInnerHTML={{
-                __html: calloutData.fields.description,
+                __html: calloutData.fields.description ?? "",
               }}
             ></td>
           </tr>
@@ -139,7 +139,7 @@ const CalloutTable = ({
   );
 };
 
-const CalloutError = ({
+export const CalloutError = ({
   tag,
   targetingUrl,
 }: {
@@ -207,7 +207,9 @@ export const Callout: React.FunctionComponent<Props> = ({
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
-          <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+          <>
+            <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+          </>
         ) : (
           <CalloutError tag={tag} targetingUrl={targetingUrl} />
         )}
