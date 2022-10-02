@@ -9,7 +9,7 @@ import type { FieldDescriptions } from "../types/Element";
 
 export const createValidator = (
   fieldValidationMap: Record<string, FieldValidator[]>
-) => <FDesc extends FieldDescriptions<string>>(
+) => <FDesc extends FieldDescriptions>(
   fieldValues: Partial<FieldNameToValueMap<FDesc>>
 ): FieldValidationErrors => {
   const errors: FieldValidationErrors = {};
@@ -26,7 +26,7 @@ export const createValidator = (
 };
 
 export const validateWithFieldAndElementValidators = <
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions
 >(
   fieldDescriptions: FDesc,
   validateElement: Validator<FDesc> | undefined = undefined

@@ -8,20 +8,18 @@ import type {
   FieldNameToField,
 } from "./types/Element";
 
-type Subscriber<FDesc extends FieldDescriptions<string>> = (
+type Subscriber<FDesc extends FieldDescriptions> = (
   fields: FieldNameToValueMap<FDesc>,
   commands: ReturnType<CommandCreator>,
   isSelected: boolean
 ) => void;
 
-type Updater<FDesc extends FieldDescriptions<string>> = {
+type Updater<FDesc extends FieldDescriptions> = {
   update: Subscriber<FDesc>;
   subscribe: (s: Subscriber<FDesc>) => void;
 };
 
-const createUpdater = <
-  FDesc extends FieldDescriptions<string>
->(): Updater<FDesc> => {
+const createUpdater = <FDesc extends FieldDescriptions>(): Updater<FDesc> => {
   let sub: Subscriber<FDesc> = () => undefined;
   return {
     subscribe: (fn) => {
@@ -40,7 +38,7 @@ export type ValidationError = {
 };
 export type FieldValidationErrors = Record<string, ValidationError[]>;
 
-export type Validator<FDesc extends FieldDescriptions<string>> = (
+export type Validator<FDesc extends FieldDescriptions> = (
   // Fields is partial to allow for validating an incomplete element representation
   fields: Partial<FieldNameToValueMap<FDesc>>
 ) => undefined | FieldValidationErrors;
@@ -50,7 +48,7 @@ export type FieldValidator = (
   fieldName: string
 ) => ValidationError[];
 
-export type Renderer<FDesc extends FieldDescriptions<string>> = (
+export type Renderer<FDesc extends FieldDescriptions> = (
   validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
@@ -64,7 +62,7 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   sendTelemetryEvent: SendTelemetryEvent | undefined
 ) => void;
 
-export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
+export const createElementSpec = <FDesc extends FieldDescriptions>(
   fieldDescriptions: FDesc,
   render: Renderer<FDesc>,
   validateElement: Validator<FDesc> | undefined = undefined,

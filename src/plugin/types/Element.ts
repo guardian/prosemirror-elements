@@ -41,13 +41,10 @@ export type FieldDescription =
   | DropdownFieldDescription
   | RepeaterFieldDescription<Record<string, FieldDescription>>;
 
-export type FieldDescriptions<Names extends string> = Record<
-  Names,
-  FieldDescription
->;
+export type FieldDescriptions = Record<string, FieldDescription>;
 
 export type SchemaFromElementFieldDescriptions<
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions
 > = Schema<Extract<keyof FDesc, string>>;
 
 export type FieldViews =
@@ -57,11 +54,6 @@ export type FieldViews =
   | CustomFieldView
   | DropdownFieldView;
 
-export type NonCustomFieldViews =
-  | TextFieldView
-  | RichTextFieldView
-  | CheckboxFieldView;
-
 export interface Field<F> {
   view: F;
   description: FieldDescription;
@@ -69,14 +61,14 @@ export interface Field<F> {
   update: (value: F extends FieldView<infer Value> ? Value : never) => void;
 }
 
-export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
+export interface RepeaterField<FDesc extends FieldDescriptions> {
   view: RepeaterFieldView;
   description: RepeaterFieldDescription<FDesc>;
   name: string;
   children: Array<FieldNameToField<FDesc>>;
 }
 
-export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(
+export const isRepeaterField = <FDesc extends FieldDescriptions>(
   field: Field<unknown> | RepeaterField<FDesc>
 ): field is RepeaterField<FDesc> => {
   if (field.description.type === "repeater") {
@@ -90,7 +82,7 @@ export interface CustomField<Data = unknown, Props = unknown>
   description: CustomFieldDescription<Data, Props>;
 }
 
-export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
+export type FieldNameToField<FDesc extends FieldDescriptions> = {
   [name in Extract<
     keyof FDesc,
     string
@@ -101,7 +93,7 @@ export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
     : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 
-export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
+export type ElementSpec<FDesc extends FieldDescriptions> = {
   fieldDescriptions: FDesc;
   validate: Validator<FDesc>;
   createUpdator: (
@@ -120,7 +112,7 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
 };
 
 export type ElementSpecMap<
-  FDesc extends FieldDescriptions<string>,
+  FDesc extends FieldDescriptions,
   ElementNames extends string
 > = Record<ElementNames, ElementSpec<FDesc>>;
 

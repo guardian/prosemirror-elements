@@ -35,7 +35,7 @@ const selectionIsZeroWidth = (state: EditorState) =>
 
 export const createPlugin = <
   ElementNames extends string,
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions
 >(
   elementsSpec: {
     [elementName in ElementNames]: ElementSpec<FDesc>;
@@ -119,7 +119,7 @@ type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
 const createNodeViews = <
   ElementNames extends string,
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions
 >(
   elementsSpec: ElementSpecMap<FDesc, ElementNames>,
   commands: Commands,
@@ -142,7 +142,7 @@ const createNodeViews = <
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
 const createNodeView = <
-  FDesc extends FieldDescriptions<string>,
+  FDesc extends FieldDescriptions,
   NodeName extends string
 >(
   nodeName: NodeName,

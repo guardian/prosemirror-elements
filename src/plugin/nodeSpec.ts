@@ -14,7 +14,7 @@ export const elementSelectedAttr = "pme-element-selected";
 export const fieldNameAttr = "pme-field-name";
 
 export const getNodeSpecFromFieldDescriptions = <
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions
 >(
   elementName: string,
   groupName: string,
@@ -35,7 +35,7 @@ export const getNodeSpecFromFieldDescriptions = <
 const getNodeSpecForElement = (
   nodeName: string,
   groupName: string,
-  fieldDescription: FieldDescriptions<string>
+  fieldDescription: FieldDescriptions
 ): NodeSpec => ({
   [nodeName]: {
     defining: true,
@@ -249,7 +249,7 @@ const getDefaultParseDOMForLeafNode = (nodeName: string) => [
 
 export const createNodesForFieldValues = <
   S extends Schema,
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions
 >(
   schema: S,
   fieldDescriptions: FDesc,

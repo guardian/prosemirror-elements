@@ -42,7 +42,7 @@ export type FieldTypeToViewMap<Field> = {
  * A map from all FieldView types to the serialised values they create at runtime.
  */
 export type FieldTypeToValueMap<
-  FDesc extends FieldDescriptions<string>,
+  FDesc extends FieldDescriptions,
   Name extends keyof FDesc
 > = {
   [TextFieldView.fieldName]: string;
@@ -71,9 +71,7 @@ export type FieldTypeToValueMap<
  *
  * `{ altText: string }, { isVisible: { value: boolean }}`
  */
-export type FieldNameToValueMap<
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
-> = {
+export type FieldNameToValueMap<FDesc extends FieldDescriptions> = {
   [Name in keyof FDesc]: FieldTypeToValueMap<FDesc, Name>[FDesc[Name]["type"]];
 };
 
@@ -82,7 +80,7 @@ export type FieldNameToValueMap<
  * to produce a result that reflects the output type of `getElementDataFromNode`.
  */
 export type FieldNameToValueMapWithEmptyValues<
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
+  FDesc extends FieldDescriptions
 > = Optional<
   FieldNameToValueMap<FDesc>,
   KeysWithValsOfType<FDesc, { absentOnEmpty: true }>
@@ -134,7 +132,7 @@ export const getElementFieldViewFromType = (
   }
 };
 
-export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
+export const getFieldValuesFromNode = <FDesc extends FieldDescriptions>(
   fields: FieldNameToField<FDesc>,
   node: Node,
   serializer: DOMSerializer
@@ -160,9 +158,7 @@ export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
   return fieldValues as FieldNameToValueMap<FDesc>;
 };
 
-export const updateFieldViewsFromNode = <
-  FDesc extends FieldDescriptions<string>
->(
+export const updateFieldViewsFromNode = <FDesc extends FieldDescriptions>(
   fields: FieldNameToField<FDesc>,
   node: Node,
   decos: DecorationSet | Decoration[]

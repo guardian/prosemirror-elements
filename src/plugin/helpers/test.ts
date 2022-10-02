@@ -58,7 +58,7 @@ export const trimHtml = (html: string) => html.replace(/>\s+</g, "><").trim();
 /**
  * Create an element which renders nothing. Useful when testing schema output.
  */
-export const createNoopElement = <FDesc extends FieldDescriptions<string>>(
+export const createNoopElement = <FDesc extends FieldDescriptions>(
   fieldDescriptions: FDesc
 ) =>
   createElementSpec(
@@ -69,7 +69,7 @@ export const createNoopElement = <FDesc extends FieldDescriptions<string>>(
   );
 
 export const createEditorWithElements = <
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  FDesc extends FieldDescriptions,
   ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(

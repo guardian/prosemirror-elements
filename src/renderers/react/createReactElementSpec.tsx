@@ -7,7 +7,7 @@ import type { Consumer } from "../../plugin/types/Consumer";
 import type { FieldDescriptions } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
 
-export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
+export const createReactElementSpec = <FDesc extends FieldDescriptions>(
   fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement | null, FDesc>,
   validate: Validator<FDesc> | undefined = undefined

@@ -15,7 +15,7 @@ import type {
 import { ElementWrapper } from "./ElementWrapper";
 import { TelemetryContext } from "./TelemetryContext";
 
-const fieldErrors = <FDesc extends FieldDescriptions<string>>(
+const fieldErrors = <FDesc extends FieldDescriptions>(
   fields: FieldNameToValueMap<FDesc>,
   errors: FieldValidationErrors | undefined
 ) =>
@@ -27,7 +27,7 @@ const fieldErrors = <FDesc extends FieldDescriptions<string>>(
     {}
   );
 
-type IProps<FDesc extends FieldDescriptions<string>> = {
+type IProps<FDesc extends FieldDescriptions> = {
   subscribe: (
     fn: (
       fields: FieldNameToValueMap<FDesc>,
@@ -44,14 +44,15 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   sendTelemetryEvent: SendTelemetryEvent;
 };
 
-type IState<FDesc extends FieldDescriptions<string>> = {
+type IState<FDesc extends FieldDescriptions> = {
   commands: Commands;
   fieldValues: FieldNameToValueMap<FDesc>;
   isSelected: boolean;
 };
-export class ElementProvider<
-  FDesc extends FieldDescriptions<string>
-> extends Component<IProps<FDesc>, IState<FDesc>> {
+export class ElementProvider<FDesc extends FieldDescriptions> extends Component<
+  IProps<FDesc>,
+  IState<FDesc>
+> {
   public constructor(props: IProps<FDesc>) {
     super(props);
 

@@ -14,14 +14,14 @@ export type Asset = {
   };
 };
 
-type FlexibleModelElement<FDesc extends FieldDescriptions<string>> = {
+type FlexibleModelElement<FDesc extends FieldDescriptions> = {
   fields: Partial<Omit<FieldNameToValueMap<FDesc>, "assets">> & {
     isMandatory?: string;
   };
   assets?: string[];
 };
 
-export const transformElementDataIn = <FDesc extends FieldDescriptions<string>>(
+export const transformElementDataIn = <FDesc extends FieldDescriptions>(
   transformRole: boolean
 ): TransformIn<FlexibleModelElement<FDesc>, FDesc> => ({ fields, assets }) => {
   const transformedFields = { ...fields } as FieldNameToValueMap<FDesc>;
@@ -49,9 +49,7 @@ export const transformElementDataIn = <FDesc extends FieldDescriptions<string>>(
   return transformedFields;
 };
 
-export const transformElementDataOut = <
-  FDesc extends FieldDescriptions<string>
->(
+export const transformElementDataOut = <FDesc extends FieldDescriptions>(
   isMandatory: boolean | undefined,
   transformRole: boolean
 ): TransformOut<FlexibleModelElement<FDesc>, FDesc> => ({
@@ -90,7 +88,7 @@ interface TransformOptions {
   transformRole?: boolean;
 }
 
-export const transformElement = <FDesc extends FieldDescriptions<string>>({
+export const transformElement = <FDesc extends FieldDescriptions>({
   isMandatory,
   transformRole,
 }: TransformOptions = {}) => {

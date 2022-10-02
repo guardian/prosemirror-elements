@@ -42,7 +42,7 @@ export type BuildElementPluginOptions = {
  * by those elements, and a method to insert elements into the document.
  */
 export const buildElementPlugin = <
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  FDesc extends FieldDescriptions,
   ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(

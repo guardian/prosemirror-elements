@@ -6,16 +6,15 @@ import { FieldType, FieldView } from "./FieldView";
 
 export const repeaterFieldName = "repeater" as const;
 
-export const createRepeaterField = <FDesc extends FieldDescriptions<string>>(
+export const createRepeaterField = <FDesc extends FieldDescriptions>(
   fields: FDesc
 ) => ({
   type: repeaterFieldName,
   fields,
 });
 
-export interface RepeaterFieldDescription<
-  FDesc extends FieldDescriptions<string>
-> extends BaseFieldDescription<unknown> {
+export interface RepeaterFieldDescription<FDesc extends FieldDescriptions>
+  extends BaseFieldDescription<unknown> {
   type: typeof repeaterFieldName;
   fields: FDesc;
 }

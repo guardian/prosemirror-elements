@@ -30,7 +30,7 @@ describe("createPlugin", () => {
     consumerRenderSpy.mockReset();
   });
 
-  type CreateEditorOptions<FDesc extends FieldDescriptions<string>> = {
+  type CreateEditorOptions<FDesc extends FieldDescriptions> = {
     plugins: Plugin[];
     element: FDesc;
     initialData: FieldNameToValueMapWithEmptyValues<FDesc>;
@@ -47,7 +47,7 @@ describe("createPlugin", () => {
   };
 
   const createEditorWithSingleElementPresent = <
-    FDesc extends FieldDescriptions<string>
+    FDesc extends FieldDescriptions
   >({
     plugins,
     element,
