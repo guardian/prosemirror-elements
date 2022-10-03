@@ -54,18 +54,19 @@ const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
 };
 
 const generatePreviewHtml = (title: string) => {
-  return `<div data-callout-tagname="${title}">
-                            <h2>Callout</h2>
-                            <p>${title}</p>
-                        </div>`;
+  return `<div>
+              <h2>Callout preview</h2>
+              <p>${title}</p>
+          </div>`;
 };
+
 export const campaignCalloutListFields = {
   campaignId: createCustomDropdownField(
     undefinedDropdownValue,
     [],
     [dropDownRequired(undefined, "WARN")]
   ),
-  html: createCustomField<string, string>("html", "default"),
+  html: createCustomField<string, string>("", ""),
 };
 
 export const createCampaignCalloutListElement = ({
