@@ -1,5 +1,6 @@
 import type { Node } from "prosemirror-model";
-import { Plugin } from "prosemirror-state";
+import type { EditorState } from "prosemirror-state";
+import { Plugin, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
 
 export const placeholderTestAttribute = "placeholder";
@@ -38,26 +39,47 @@ const getFirstPlaceholderPosition = (node: Node, currentPos = 0): number =>
 
 export type PlaceholderOption = string | (() => HTMLElement);
 
-export const createPlaceholderDecos = (placeholder: PlaceholderOption) => {
-  const getPlaceholder =
-    typeof placeholder === "string"
-      ? getDefaultPlaceholder(placeholder)
-      : placeholder;
+const placeholderPluginKey = new PluginKey<PlaceholderOption>(
+  "pme_placeholder_plugin"
+);
 
-  return ({ doc }: { doc: Node }) => {
-    if (doc.textContent) {
-      return DecorationSet.empty;
-    }
-
-    // If the document contains inline content only, just place the widget at its start.
-    const pos = doc.inlineContent ? 0 : getFirstPlaceholderPosition(doc);
-    return DecorationSet.create(doc, [Decoration.widget(pos, getPlaceholder)]);
-  };
-};
+export const PME_UPDATE_PLACEHOLDER = "PME_UPDATE_PLACEHOLDER";
 
 export const createPlaceholderPlugin = (text: PlaceholderOption) =>
-  new Plugin({
+  new Plugin<PlaceholderOption>({
+    key: placeholderPluginKey,
+    state: {
+      init() {
+        return text;
+      },
+      apply(tr, oldPlaceholder) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- getMeta always returns an any value
+        const newPlaceholder: PlaceholderOption | undefined = tr.getMeta(
+          PME_UPDATE_PLACEHOLDER
+        );
+
+        return newPlaceholder ? newPlaceholder : oldPlaceholder;
+      },
+    },
     props: {
-      decorations: createPlaceholderDecos(text),
+      decorations: (state: EditorState) => {
+        const placeholder = placeholderPluginKey.getState(state);
+        if (!placeholder || state.doc.textContent) {
+          return DecorationSet.empty;
+        }
+
+        const getPlaceholder =
+          typeof placeholder === "string"
+            ? getDefaultPlaceholder(placeholder)
+            : placeholder;
+
+        // If the document contains inline content only, just place the widget at its start.
+        const pos = state.doc.inlineContent
+          ? 0
+          : getFirstPlaceholderPosition(state.doc);
+        return DecorationSet.create(state.doc, [
+          Decoration.widget(pos, getPlaceholder),
+        ]);
+      },
     },
   });

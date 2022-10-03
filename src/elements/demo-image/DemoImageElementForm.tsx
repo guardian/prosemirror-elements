@@ -30,6 +30,11 @@ export const ImageElementForm: React.FunctionComponent<Props> = ({
       field={fields.caption}
       errors={errors.caption}
     />
+    <button
+      onClick={() => fields.caption.view.updatePlaceholder("A new placeholder")}
+    >
+      Update caption placeholder
+    </button>
     <FieldWrapper
       headingLabel="Alt text"
       field={fields.altText}

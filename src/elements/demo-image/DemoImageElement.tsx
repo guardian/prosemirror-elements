@@ -6,6 +6,7 @@ import {
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createDropDownField } from "../../plugin/fieldViews/DropdownFieldView";
+import { createRepeaterField } from "../../plugin/fieldViews/RepeaterFieldView";
 import {
   createDefaultRichTextField,
   createFlatRichTextField,
@@ -95,6 +96,9 @@ export const createImageFields = (
       { text: "Option 2", value: "opt2" },
       { text: "Option 3", value: "opt3" },
     ]),
+    repeater: createRepeaterField({
+      text: createTextField(),
+    }),
   };
 };
 
