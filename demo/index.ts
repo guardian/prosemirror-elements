@@ -51,6 +51,7 @@ import {
   sampleAudio,
   sampleCallout,
   sampleCampaignCalloutList,
+  sampleCampaignList,
   sampleCode,
   sampleComment,
   sampleContentAtom,
@@ -135,69 +136,6 @@ const mockThirdPartyTracking = (html: string) =>
         reach: { unsupportedPlatforms: [] },
       });
 
-const mockCampaignList = [
-  {
-    id: "1fc53dab-1c76-4258-8194-b4b3d8399052",
-    name: "CALLOUT: Callout demo",
-    rules: [
-      {
-        requiredTags: ["campaign/callout/callout-demo-2"],
-        lackingTags: [],
-        matchAllTags: false,
-      },
-    ],
-    activeFrom: 1645488000000,
-    activeUntil: 1645488000001,
-    priority: 0,
-    displayOnSensitive: false,
-    fields: {
-      callout: "This is my title",
-      formId: 4762955,
-      tagName: "callout-demo-2",
-      description: "<p>This is my description</p>",
-      formFields: [],
-      formUrl: "https://guardiannewsandmedia.formstack.com/",
-      _type: "callout",
-    },
-  },
-  {
-    id: "1235",
-    name: "Broken callout",
-    rules: [],
-    priority: 0,
-    activeFrom: 1645488000000,
-    activeUntil: 1645488000001,
-    displayOnSensitive: false,
-    fields: {
-      callout: "callout-2",
-      formId: 11121,
-      tagName: "broken-callout",
-      description: "this is callout 2",
-      formFields: [],
-      formUrl: "formstack.co.uk",
-      _type: "callout",
-    },
-  },
-
-  {
-    id: "1236",
-    name: "empty tag name callout",
-    rules: [],
-    priority: 0,
-    activeFrom: 1645488000000,
-    activeUntil: 1645488000001,
-    displayOnSensitive: false,
-    fields: {
-      callout: "callout-2",
-      formId: 11121,
-      tagName: "",
-      description: "this is callout 2",
-      formFields: [],
-      formUrl: "formstack.co.uk",
-      _type: "callout",
-    },
-  },
-];
 const additionalRoleOptions = [
   { text: "inline (default)", value: undefinedDropdownValue },
   { text: "supporting", value: "supporting" },
@@ -244,7 +182,7 @@ const {
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
     }),
     callout: createCalloutElement({
-      fetchCampaignList: () => Promise.resolve(mockCampaignList),
+      fetchCampaignList: () => Promise.resolve(sampleCampaignList),
       targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
     }),
     interactive: createInteractiveElement({
