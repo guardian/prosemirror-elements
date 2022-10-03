@@ -138,8 +138,6 @@ export const getFieldValuesFromNode = <
       values[fieldName] = values[fieldName]
         ? (values[fieldName] as unknown[]).concat(value)
         : [value];
-
-      console.log({ value, values: values[fieldName] });
     } else {
       values[fieldName] = value;
     }

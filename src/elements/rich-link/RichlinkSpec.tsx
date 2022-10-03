@@ -1,4 +1,7 @@
-import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 
 export const richlinkFields = {
@@ -13,4 +16,5 @@ export const richlinkFields = {
   draftReference: createTextField({ absentOnEmpty: true }),
   sponsorName: createTextField({ absentOnEmpty: true }),
   sponsorshipType: createTextField({ absentOnEmpty: true }),
+  isMandatory: createCustomField(true, true),
 };

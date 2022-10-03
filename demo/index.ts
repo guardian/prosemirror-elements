@@ -3,6 +3,7 @@ import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
+import applyDevTools from "prosemirror-dev-tools";
 import { exampleSetup } from "prosemirror-example-setup";
 import type { MarkSpec, Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
@@ -475,9 +476,7 @@ declare global {
   interface Window extends WindowType {}
 }
 
-window.ProseMirrorDevTools.applyDevTools(firstEditor, {
-  EditorState,
-});
+applyDevTools(firstEditor);
 
 window.PM_ELEMENTS = {
   view: firstEditor,
