@@ -64,7 +64,7 @@ export const createPlaceholderPlugin = (text: PlaceholderOption) =>
     props: {
       decorations: (state: EditorState) => {
         const placeholder = placeholderPluginKey.getState(state);
-        if (!placeholder) {
+        if (!placeholder || state.doc.textContent) {
           return DecorationSet.empty;
         }
 
@@ -72,10 +72,6 @@ export const createPlaceholderPlugin = (text: PlaceholderOption) =>
           typeof placeholder === "string"
             ? getDefaultPlaceholder(placeholder)
             : placeholder;
-
-        if (state.doc.textContent) {
-          return DecorationSet.empty;
-        }
 
         // If the document contains inline content only, just place the widget at its start.
         const pos = state.doc.inlineContent
