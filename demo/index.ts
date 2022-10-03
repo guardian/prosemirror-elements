@@ -13,7 +13,7 @@ import { EditorView } from "prosemirror-view";
 import {
   codeElement,
   commentElement,
-  createCampaignCalloutListElement,
+  createCalloutElement,
   createContentAtomElement,
   createDemoImageElement,
   createEmbedElement,
@@ -243,7 +243,7 @@ const {
       createCaptionPlugins,
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
     }),
-    callout: createCampaignCalloutListElement({
+    callout: createCalloutElement({
       fetchCampaignList: () => Promise.resolve(mockCampaignList),
       targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
     }),

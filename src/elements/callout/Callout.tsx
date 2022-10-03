@@ -60,7 +60,7 @@ const generatePreviewHtml = (title: string) => {
           </div>`;
 };
 
-export const campaignCalloutListFields = {
+export const calloutFields = {
   campaignId: createCustomDropdownField(
     undefinedDropdownValue,
     [],
@@ -69,59 +69,53 @@ export const campaignCalloutListFields = {
   html: createCustomField<string, string>("", ""),
 };
 
-export const createCampaignCalloutListElement = ({
+export const createCalloutElement = ({
   fetchCampaignList,
   targetingUrl,
 }: Props) =>
-  createReactElementSpec(
-    campaignCalloutListFields,
-    ({ fields, fieldValues, errors }) => {
-      const { campaignId } = fieldValues;
-      const [campaignList, setCampaignList] = useState<Campaign[]>([]);
-      useEffect(() => {
-        void fetchCampaignList().then((campaignList) => {
-          setCampaignList(campaignList);
-        });
-      }, []);
+  createReactElementSpec(calloutFields, ({ fields, fieldValues, errors }) => {
+    const { campaignId } = fieldValues;
+    const [campaignList, setCampaignList] = useState<Campaign[]>([]);
+    useEffect(() => {
+      void fetchCampaignList().then((campaignList) => {
+        setCampaignList(campaignList);
+      });
+    }, []);
 
-      useEffect(() => {
-        if (callout) {
-          const previewHtml = generatePreviewHtml(callout.name);
-          fields.html.view.update(previewHtml);
-        }
-      }, [campaignId]);
+    useEffect(() => {
+      if (callout) {
+        const previewHtml = generatePreviewHtml(callout.name);
+        fields.html.view.update(previewHtml);
+      }
+    }, [campaignId]);
 
-      const getTag = (id: string) => {
-        const campaign = campaignList.find((campaign) => campaign.id === id);
-        return campaign?.fields.tagName ?? "";
-      };
+    const getTag = (id: string) => {
+      const campaign = campaignList.find((campaign) => campaign.id === id);
+      return campaign?.fields.tagName ?? "";
+    };
 
-      const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
-      const callout = campaignList.find(
-        (campaign) => campaign.id === fieldValues.campaignId
-      );
+    const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
+    const callout = campaignList.find(
+      (campaign) => campaign.id === fieldValues.campaignId
+    );
 
-      return campaignId && campaignId != "none-selected" ? (
-        <div css={calloutStyles}>
-          <Label>Callout</Label>
-          {callout ? (
-            <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
-          ) : (
-            <CalloutError
-              tag={getTag(campaignId)}
-              targetingUrl={targetingUrl}
-            />
-          )}
-        </div>
-      ) : (
-        <div>
-          <CustomDropdownView
-            label="Callout"
-            field={fields.campaignId}
-            errors={errors.campaignId}
-            options={dropdownOptions}
-          />
-        </div>
-      );
-    }
-  );
+    return campaignId && campaignId != "none-selected" ? (
+      <div css={calloutStyles}>
+        <Label>Callout</Label>
+        {callout ? (
+          <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+        ) : (
+          <CalloutError tag={getTag(campaignId)} targetingUrl={targetingUrl} />
+        )}
+      </div>
+    ) : (
+      <div>
+        <CustomDropdownView
+          label="Callout"
+          field={fields.campaignId}
+          errors={errors.campaignId}
+          options={dropdownOptions}
+        />
+      </div>
+    );
+  });
