@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
-import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
-import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -52,13 +53,19 @@ const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
   ];
 };
 
+const generatePreviewHtml = (title: string) => {
+  return `<div data-callout-tagname="${title}">
+                            <h2>Callout</h2>
+                            <p>${title}</p>
+                        </div>`;
+};
 export const campaignCalloutListFields = {
   campaignId: createCustomDropdownField(
     undefinedDropdownValue,
     [],
     [dropDownRequired(undefined, "WARN")]
   ),
-  campaignTitle: createTextField({ absentOnEmpty: true }),
+  html: createCustomField<string, string>("html", "default"),
 };
 
 export const createCampaignCalloutListElement = ({
@@ -69,13 +76,19 @@ export const createCampaignCalloutListElement = ({
     campaignCalloutListFields,
     ({ fields, fieldValues, errors }) => {
       const { campaignId } = fieldValues;
-
       const [campaignList, setCampaignList] = useState<Campaign[]>([]);
       useEffect(() => {
         void fetchCampaignList().then((campaignList) => {
           setCampaignList(campaignList);
         });
       }, []);
+
+      useEffect(() => {
+        if (callout) {
+          const previewHtml = generatePreviewHtml(callout.name);
+          fields.html.view.update(previewHtml);
+        }
+      }, [campaignId]);
 
       const getTag = (id: string) => {
         const campaign = campaignList.find((campaign) => campaign.id === id);
@@ -91,13 +104,7 @@ export const createCampaignCalloutListElement = ({
         <div css={calloutStyles}>
           <Label>Callout</Label>
           {callout ? (
-            <>
-              <FieldWrapper
-                headingLabel="Campaign title"
-                field={fields.campaignTitle}
-              />
-              <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
-            </>
+            <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
           ) : (
             <CalloutError
               tag={getTag(campaignId)}
