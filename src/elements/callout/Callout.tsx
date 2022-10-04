@@ -7,7 +7,7 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import { CalloutError, calloutStyles, CalloutTable } from "../embed/Callout";
 import { undefinedDropdownValue } from "../helpers/transform";
 
-type Fields = {
+export type Fields = {
   callout: string;
   formId: number;
   tagName: string;
@@ -16,7 +16,7 @@ type Fields = {
   _type: string;
 };
 
-type Rules = {
+export type Rules = {
   requiredTags: string[];
   lackingTags: string[];
   matchAllTags: boolean;

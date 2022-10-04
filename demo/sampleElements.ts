@@ -267,7 +267,7 @@ export const sampleCallout = {
   altText: "",
   caption: "",
   html:
-    '<div data-callout-tagname="test-form-six"><h2>Callout<h2><p>test-form-six</p></div>',
+    '<div data-callout-tagname="callout-demo-2"><h2>Callout<h2><p>callout-demo-2</p></div>',
 };
 
 export const sampleCampaignCalloutList = {};
