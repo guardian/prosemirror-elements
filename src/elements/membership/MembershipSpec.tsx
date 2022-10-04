@@ -3,9 +3,8 @@ import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { undefinedDropdownValue } from "../helpers/transform";
 import { MembershipElementForm } from "./MembershipForm";
-
-export const undefinedDropdownValue = "none-selected";
 
 export const membershipFields = {
   role: createCustomDropdownField("inline", [

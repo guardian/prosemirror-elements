@@ -1,3 +1,4 @@
+import type { calloutFields } from "../callout/Callout";
 import type { codeFields } from "../code/CodeElementSpec";
 import type { commentFields } from "../comment/CommentSpec";
 import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
@@ -23,6 +24,7 @@ const transformMap = {
     transformRole: true,
   }),
   embed: embedElementTransform,
+  callout: defaultElementTransform<typeof calloutFields>(),
   image: imageElementTransform,
   interactive: interactiveElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
