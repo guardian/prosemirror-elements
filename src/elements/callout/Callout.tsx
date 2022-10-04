@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Label } from "../../editorial-source-components/Label";
-import {
-  createCustomDropdownField,
-  createCustomField,
-} from "../../plugin/fieldViews/CustomFieldView";
+import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -53,20 +50,12 @@ const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
   ];
 };
 
-const generatePreviewHtml = (title: string) => {
-  return `<div>
-              <h2>Callout preview</h2>
-              <p>${title}</p>
-          </div>`;
-};
-
 export const calloutFields = {
   campaignId: createCustomDropdownField(
     undefinedDropdownValue,
     [],
     [dropDownRequired(undefined, "WARN")]
   ),
-  html: createCustomField<string, string>("", ""),
 };
 
 export const createCalloutElement = ({
@@ -81,13 +70,6 @@ export const createCalloutElement = ({
         setCampaignList(campaignList);
       });
     }, []);
-
-    useEffect(() => {
-      if (callout) {
-        const previewHtml = generatePreviewHtml(callout.name);
-        fields.html.view.update(previewHtml);
-      }
-    }, [campaignId]);
 
     const getTag = (id: string) => {
       const campaign = campaignList.find((campaign) => campaign.id === id);
