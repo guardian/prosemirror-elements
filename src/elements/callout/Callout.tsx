@@ -36,6 +36,7 @@ export type Campaign = {
 type Props = {
   fetchCampaignList: () => Promise<Campaign[]>;
   targetingUrl: string;
+  applyTag: (tagId: string) => void;
 };
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
@@ -61,6 +62,7 @@ export const calloutFields = {
 export const createCalloutElement = ({
   fetchCampaignList,
   targetingUrl,
+  applyTag,
 }: Props) =>
   createReactElementSpec(calloutFields, ({ fields, fieldValues, errors }) => {
     const { campaignId } = fieldValues;
@@ -70,6 +72,13 @@ export const createCalloutElement = ({
         setCampaignList(campaignList);
       });
     }, []);
+
+    useEffect(() => {
+      if (campaignId === undefinedDropdownValue || campaignList.length === 0) {
+        return;
+      }
+      applyTag(getTag(campaignId));
+    }, [campaignId]);
 
     const getTag = (id: string) => {
       const campaign = campaignList.find((campaign) => campaign.id === id);
