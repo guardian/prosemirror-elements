@@ -60,7 +60,7 @@ export const calloutFields = {
     [],
     [dropDownRequired(undefined, "WARN")]
   ),
-  isNonCollapsable: createCustomField(false, false),
+  isNonCollapsible: createCustomField(false, true),
 };
 
 export const createCalloutElement = ({
@@ -100,8 +100,8 @@ export const createCalloutElement = ({
             resetCampaign={() => fields.campaignId.update("none-selected")}
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
-            isNonCollapsable={fields.isNonCollapsable}
-            isNonCollapsableError={errors.isNonCollapsable}
+            isNonCollapsible={fields.isNonCollapsible}
+            isNonCollapsibleError={errors.isNonCollapsible}
           />
         ) : (
           <CalloutError

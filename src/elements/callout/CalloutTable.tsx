@@ -80,14 +80,14 @@ export const CalloutTable = ({
   calloutData,
   targetingUrl,
   resetCampaign,
-  isNonCollapsable,
-  isNonCollapsableError,
+  isNonCollapsible,
+  isNonCollapsibleError,
 }: {
   calloutData: Campaign;
   targetingUrl: string;
   resetCampaign: () => void;
-  isNonCollapsable: CustomField<boolean, boolean>;
-  isNonCollapsableError: ValidationError[];
+  isNonCollapsible: CustomField<boolean, boolean>;
+  isNonCollapsibleError: ValidationError[];
 }) => {
   const { tagName, callout, description, formUrl } = calloutData.fields;
   return (
@@ -133,8 +133,8 @@ export const CalloutTable = ({
         </span>
       </div>
       <CustomCheckboxView
-        field={isNonCollapsable}
-        errors={isNonCollapsableError}
+        field={isNonCollapsible}
+        errors={isNonCollapsibleError}
         label="Show as non-collapsable"
       />
     </div>
