@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Label } from "../../editorial-source-components/Label";
-import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
+import {
+  createCustomDropdownField,
+  createCustomField,
+} from "../../plugin/fieldViews/CustomFieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { CalloutError, calloutStyles, CalloutTable } from "../embed/Callout";
+import { CalloutError, calloutStyles } from "../embed/Callout";
 import { undefinedDropdownValue } from "../helpers/transform";
+import { CalloutTable } from "./CalloutTable";
 
 export type Fields = {
   callout: string;
@@ -57,6 +60,7 @@ export const calloutFields = {
     [],
     [dropDownRequired(undefined, "WARN")]
   ),
+  isNonCollapsable: createCustomField(false, false),
 };
 
 export const createCalloutElement = ({
@@ -88,13 +92,22 @@ export const createCalloutElement = ({
     const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
     const callout = campaignList.find((campaign) => campaign.id === campaignId);
 
+    const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
     return campaignId && campaignId != "none-selected" ? (
       <div css={calloutStyles}>
-        <Label>Callout</Label>
         {callout ? (
-          <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+          <CalloutTable
+            resetCampaign={() => fields.campaignId.update("none-selected")}
+            calloutData={callout}
+            targetingUrl={trimmedTargetingUrl}
+            isNonCollapsable={fields.isNonCollapsable}
+            isNonCollapsableError={errors.isNonCollapsable}
+          />
         ) : (
-          <CalloutError tag={getTag(campaignId)} targetingUrl={targetingUrl} />
+          <CalloutError
+            tag={getTag(campaignId)}
+            targetingUrl={trimmedTargetingUrl}
+          />
         )}
       </div>
     ) : (
