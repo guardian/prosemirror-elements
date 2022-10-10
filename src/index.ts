@@ -6,6 +6,7 @@ export type {
   TwitterUrl,
 } from "./elements/embed/embedComponents/embedUtils";
 export { pullquoteElement } from "./elements/pullquote/PullquoteForm";
+export { createCalloutElement } from "./elements/callout/Callout";
 export { codeElement } from "./elements/code/CodeElementForm";
 export { createImageElement } from "./elements/image/ImageElementForm";
 export { createStandardElement } from "./elements/standard/StandardForm";

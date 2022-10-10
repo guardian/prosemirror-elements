@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
+import type { Campaign } from "../callout/Callout";
 import { EmbedTestId } from "./EmbedForm";
 
 type Props = {
@@ -12,20 +13,7 @@ type Props = {
   targetingUrl: string;
 };
 
-type Callout = {
-  id: string;
-  name: string;
-  fields: TagFields;
-};
-
-type TagFields = {
-  tagName: string;
-  callout: string;
-  description: string;
-  formUrl: string;
-};
-
-const calloutStyles = css`
+export const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
   a {
@@ -69,7 +57,7 @@ const marginBottom = css`
 `;
 
 const getCampaigns = (targetingDomain: string) => {
-  let campaigns: Promise<Callout[]> | undefined = undefined;
+  let campaigns: Promise<Campaign[]> | undefined = undefined;
   return () => {
     if (campaigns === undefined) {
       campaigns = fetch(`${targetingDomain}/api/campaigns`).then((response) =>
@@ -84,15 +72,15 @@ const memoisedGetCampaigns = (targetingDomain: string) =>
   getCampaigns(targetingDomain);
 
 const getCalloutByTag = (tag: string, targetingDomain: string) =>
-  memoisedGetCampaigns(targetingDomain)().then((data: Callout[]) => {
+  memoisedGetCampaigns(targetingDomain)().then((data: Campaign[]) => {
     return data.find((callout) => callout.fields.tagName === tag);
   });
 
-const CalloutTable = ({
+export const CalloutTable = ({
   calloutData,
   targetingUrl,
 }: {
-  calloutData: Callout;
+  calloutData: Campaign;
   targetingUrl: string;
 }) => {
   return (
@@ -121,7 +109,7 @@ const CalloutTable = ({
             <th>Description</th>
             <td
               dangerouslySetInnerHTML={{
-                __html: calloutData.fields.description,
+                __html: calloutData.fields.description ?? "",
               }}
             ></td>
           </tr>
@@ -139,7 +127,7 @@ const CalloutTable = ({
   );
 };
 
-const CalloutError = ({
+export const CalloutError = ({
   tag,
   targetingUrl,
 }: {
@@ -189,7 +177,7 @@ export const Callout: React.FunctionComponent<Props> = ({
   tag,
   targetingUrl,
 }) => {
-  const [callout, setCallout] = useState<Callout | undefined>(undefined);
+  const [callout, setCallout] = useState<Campaign | undefined>(undefined);
 
   useEffect(() => {
     getCalloutByTag(tag, targetingUrl)
@@ -207,7 +195,9 @@ export const Callout: React.FunctionComponent<Props> = ({
       <div css={calloutStyles}>
         <Label>Callout</Label>
         {callout ? (
-          <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+          <>
+            <CalloutTable calloutData={callout} targetingUrl={targetingUrl} />
+          </>
         ) : (
           <CalloutError tag={tag} targetingUrl={targetingUrl} />
         )}
