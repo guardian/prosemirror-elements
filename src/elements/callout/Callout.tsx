@@ -97,7 +97,6 @@ export const createCalloutElement = ({
       <div css={calloutStyles}>
         {callout ? (
           <CalloutTable
-            resetCampaign={() => fields.campaignId.update("none-selected")}
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
             isNonCollapsible={fields.isNonCollapsible}

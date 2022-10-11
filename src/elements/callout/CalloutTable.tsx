@@ -15,19 +15,8 @@ const headerStyle = css`
   justify-content: space-between;
 `;
 
-const headerTitleStyle = css`
-  display: flex;
-  column-gap: ${space[2]}px;
-`;
 const headerLinkStyle = css`
   margin-right: ${space[4]}px;
-`;
-
-const changeStyle = css`
-  all: unset;
-  cursor: pointer;
-  color: #007abc;
-  text-decoration: underline;
 `;
 
 const tagRowStyle = css`
@@ -76,16 +65,15 @@ const campaignTitleStyle = css`
 const strongStyle = css`
   font-weight: 700;
 `;
+
 export const CalloutTable = ({
   calloutData,
   targetingUrl,
-  resetCampaign,
   isNonCollapsible,
   isNonCollapsibleError,
 }: {
   calloutData: Campaign;
   targetingUrl: string;
-  resetCampaign: () => void;
   isNonCollapsible: CustomField<boolean, boolean>;
   isNonCollapsibleError: ValidationError[];
 }) => {
@@ -93,12 +81,7 @@ export const CalloutTable = ({
   return (
     <div css={containerStyle}>
       <div css={headerStyle}>
-        <span css={headerTitleStyle}>
-          <Label>CALLOUT: {tagName}</Label>
-          <button css={changeStyle} onClick={resetCampaign}>
-            Change
-          </button>
-        </span>
+        <Label>CALLOUT: {tagName}</Label>
         <span>
           <a
             css={headerLinkStyle}
