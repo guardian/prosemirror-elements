@@ -1,47 +1,35 @@
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { EmbedTestId } from "../embed/EmbedForm";
 import { Preview } from "../helpers/Preview";
-import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
-import type { createTweetFields } from "./TweetSpec";
+import type { StandardElementOptions } from "../standard/StandardSpec";
+import { createTweetFields } from "./TweetSpec";
 
-type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createTweetFields>>;
-  errors: FieldValidationErrors;
-  fields: FieldNameToField<ReturnType<typeof createTweetFields>>;
-  checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
-};
-
-export const TweetForm: React.FunctionComponent<Props> = ({
-  errors,
-  fields,
-  fieldValues,
+export const createTweetElement = ({
   checkThirdPartyTracking,
-}) => (
-  <div>
-    <FieldLayoutVertical data-cy={EmbedTestId}>
-      <Preview html={fieldValues.html} />
-      <CustomDropdownView
-        field={fields.role}
-        label="Weighting"
-        errors={errors.role}
-      />
-      <CustomCheckboxView
-        field={fields.isMandatory}
-        errors={errors.isMandatory}
-        label="This element is required for publication"
-      />
-      <TrackingStatusChecks
-        html={fieldValues.html}
-        isMandatory={fieldValues.isMandatory}
-        checkThirdPartyTracking={checkThirdPartyTracking}
-      />
-    </FieldLayoutVertical>
-  </div>
-);
+  createCaptionPlugins,
+}: StandardElementOptions) =>
+  createReactElementSpec(
+    createTweetFields(createCaptionPlugins),
+    ({ fields }) => (
+      <div>
+        <FieldLayoutVertical data-cy={EmbedTestId}>
+          <Preview html={fields.html.value} />
+          <CustomDropdownView field={fields.role} label="Weighting" />
+          <CustomCheckboxView
+            field={fields.isMandatory}
+            label="This element is required for publication"
+          />
+          <TrackingStatusChecks
+            html={fields.html.value}
+            isMandatory={fields.isMandatory.value}
+            checkThirdPartyTracking={checkThirdPartyTracking}
+          />
+        </FieldLayoutVertical>
+      </div>
+    )
+  );

@@ -1,6 +1,5 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
-import React from "react";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -8,11 +7,9 @@ import {
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import type { Asset } from "../helpers/defaultTransform";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { undefinedDropdownValue } from "../helpers/transform";
-import { StandardForm, StandardFormLargePreview } from "./StandardForm";
 
 /**
  * A standard element represents every element covered by
@@ -65,19 +62,3 @@ export type StandardElementOptions = {
   useLargePreview?: boolean;
   hasThumbnailRole?: boolean;
 };
-
-export const createStandardElement = ({
-  createCaptionPlugins,
-  checkThirdPartyTracking,
-  useLargePreview,
-  hasThumbnailRole,
-}: StandardElementOptions) =>
-  createReactElementSpec(
-    createStandardFields(createCaptionPlugins, hasThumbnailRole),
-    (props) => {
-      const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
-      return (
-        <Form {...props} checkThirdPartyTracking={checkThirdPartyTracking} />
-      );
-    }
-  );

@@ -1,27 +1,15 @@
 import { upperFirst } from "lodash";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label, NonBoldLabel } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
 import { undefinedDropdownValue } from "../helpers/transform";
-import type {
-  ContentAtomData,
-  contentAtomFields,
-  FetchContentAtomData,
-} from "./ContentAtomSpec";
-
-type Props = {
-  fields: FieldNameToField<typeof contentAtomFields>;
-  fieldValues: FieldNameToValueMap<typeof contentAtomFields>;
-  errors: FieldValidationErrors;
-  fetchContentAtomData: FetchContentAtomData;
-};
+import type { ContentAtomData, FetchContentAtomData } from "./ContentAtomSpec";
+import { contentAtomFields } from "./ContentAtomSpec";
 
 const interactiveOptions = [
   { text: "inline (default)", value: undefinedDropdownValue },
@@ -31,79 +19,78 @@ const interactiveOptions = [
   { text: "immersive", value: "immersive" },
 ];
 
-export const ContentAtomForm: React.FunctionComponent<Props> = ({
-  fields,
-  fieldValues,
-  errors,
-  fetchContentAtomData,
-}) => {
-  const { id, atomType } = fieldValues;
+export const createContentAtomElement = (
+  fetchContentAtomData: FetchContentAtomData
+) =>
+  createReactElementSpec(contentAtomFields, ({ fields }) => {
+    const [contentAtomData, setContentAtomData] = useState<
+      ContentAtomData | undefined
+    >(undefined);
 
-  const [contentAtomData, setContentAtomData] = useState<
-    ContentAtomData | undefined
-  >(undefined);
+    const {
+      atomType: { value: atomType },
+      id: { value: id },
+    } = fields;
 
-  useEffect(() => {
-    void fetchContentAtomData(atomType, id).then((data) => {
-      setContentAtomData(data);
-    });
-  }, [atomType, id]);
+    useEffect(() => {
+      void fetchContentAtomData(atomType, id).then((data) => {
+        setContentAtomData(data);
+      });
+    }, [atomType, id]);
 
-  const weightingOptions =
-    atomType === "interactive"
-      ? interactiveOptions
-      : fields.role.description.props;
+    const weightingOptions =
+      atomType === "interactive"
+        ? interactiveOptions
+        : fields.role.description.props;
 
-  return (
-    <div>
-      <FieldLayoutVertical>
-        {!contentAtomData?.isPublished && (
-          <Error>This {atomType} is not published.</Error>
-        )}
-        {contentAtomData?.isPublished &&
-          contentAtomData.hasUnpublishedChanges && (
-            <Error>This {atomType} has unpublished changes.</Error>
-          )}
+    return (
+      <div>
         <FieldLayoutVertical>
-          <Label>
-            Content atom (
-            {contentAtomData?.embedLink && (
-              <a target="_blank" href={contentAtomData.embedLink}>
-                embed link
-              </a>
+          {!contentAtomData?.isPublished && (
+            <Error>This {atomType} is not published.</Error>
+          )}
+          {contentAtomData?.isPublished &&
+            contentAtomData.hasUnpublishedChanges && (
+              <Error>This {atomType} has unpublished changes.</Error>
             )}
-            {contentAtomData?.editorLink && (
-              <>
-                <span>, </span>
-                <a target="_blank" href={contentAtomData.editorLink}>
-                  edit link
+          <FieldLayoutVertical>
+            <Label>
+              Content atom (
+              {contentAtomData?.embedLink && (
+                <a target="_blank" href={contentAtomData.embedLink}>
+                  embed link
                 </a>
-              </>
-            )}
-            )
-          </Label>
-          <NonBoldLabel>
-            {upperFirst(atomType)}{" "}
-            {contentAtomData?.title && ` - ${contentAtomData.title}`}
-          </NonBoldLabel>
+              )}
+              {contentAtomData?.editorLink && (
+                <>
+                  <span>, </span>
+                  <a target="_blank" href={contentAtomData.editorLink}>
+                    edit link
+                  </a>
+                </>
+              )}
+              )
+            </Label>
+            <NonBoldLabel>
+              {upperFirst(atomType)}{" "}
+              {contentAtomData?.title && ` - ${contentAtomData.title}`}
+            </NonBoldLabel>
+          </FieldLayoutVertical>
+          <Preview
+            html={contentAtomData?.defaultHtml}
+            headingLabel={null}
+            minHeight={100}
+          />
+          <CustomDropdownView
+            field={fields.role}
+            label="Weighting"
+            options={weightingOptions}
+          />
+          <CustomCheckboxView
+            field={fields.isMandatory}
+            label="This element is required for publication"
+          />
         </FieldLayoutVertical>
-        <Preview
-          html={contentAtomData?.defaultHtml}
-          headingLabel={null}
-          minHeight={100}
-        />
-        <CustomDropdownView
-          field={fields.role}
-          label="Weighting"
-          errors={errors.role}
-          options={weightingOptions}
-        />
-        <CustomCheckboxView
-          field={fields.isMandatory}
-          errors={errors.isMandatory}
-          label="This element is required for publication"
-        />
-      </FieldLayoutVertical>
-    </div>
-  );
-};
+      </div>
+    );
+  });

@@ -64,8 +64,8 @@ export const createCalloutElement = ({
   targetingUrl,
   applyTag,
 }: Props) =>
-  createReactElementSpec(calloutFields, ({ fields, fieldValues, errors }) => {
-    const { campaignId } = fieldValues;
+  createReactElementSpec(calloutFields, ({ fields }) => {
+    const campaignId = fields.campaignId.value;
     const [campaignList, setCampaignList] = useState<Campaign[]>([]);
     useEffect(() => {
       void fetchCampaignList().then((campaignList) => {
@@ -86,9 +86,7 @@ export const createCalloutElement = ({
     };
 
     const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
-    const callout = campaignList.find(
-      (campaign) => campaign.id === fieldValues.campaignId
-    );
+    const callout = campaignList.find((campaign) => campaign.id === campaignId);
 
     return campaignId && campaignId != "none-selected" ? (
       <div css={calloutStyles}>
@@ -104,7 +102,6 @@ export const createCalloutElement = ({
         <CustomDropdownView
           label="Callout"
           field={fields.campaignId}
-          errors={errors.campaignId}
           options={dropdownOptions}
         />
       </div>

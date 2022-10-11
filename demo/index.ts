@@ -19,19 +19,19 @@ import {
   createEmbedElement,
   createImageElement,
   createInteractiveElement,
+  createStandardElement,
+  createTweetElement,
+  deprecatedElement,
   membershipElement,
   pullquoteElement,
   richlinkElement,
   tableElement,
 } from "../src";
-import { deprecatedElement } from "../src/elements/deprecated/DeprecatedSpec";
 import {
   transformElementOut,
   undefinedDropdownValue,
 } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { createStandardElement } from "../src/elements/standard/StandardSpec";
-import { createTweetElement } from "../src/elements/tweet/TweetSpec";
 import { buildElementPlugin } from "../src/plugin/element";
 import {
   createParsers,

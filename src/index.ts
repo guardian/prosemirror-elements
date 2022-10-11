@@ -1,28 +1,28 @@
 export { buildElementPlugin } from "./plugin/element";
-export { createDemoImageElement } from "./elements/demo-image/DemoImageElement";
-export { createEmbedElement } from "./elements/embed/EmbedSpec";
+export { createDemoImageElement } from "./elements/demo-image/DemoImageElementForm";
+export { createEmbedElement } from "./elements/embed/EmbedForm";
 export type {
   YoutubeUrl,
   TwitterUrl,
 } from "./elements/embed/embedComponents/embedUtils";
-export { pullquoteElement } from "./elements/pullquote/PullquoteSpec";
+export { pullquoteElement } from "./elements/pullquote/PullquoteForm";
 export { createCalloutElement } from "./elements/callout/Callout";
-export { codeElement } from "./elements/code/CodeElementSpec";
-export { createImageElement } from "./elements/image/ImageElement";
-export { createStandardElement } from "./elements/standard/StandardSpec";
-export { richlinkElement } from "./elements/rich-link/RichlinkSpec";
-export { createInteractiveElement } from "./elements/interactive/InteractiveSpec";
-export { tableElement } from "./elements/table/TableSpec";
-export { createContentAtomElement } from "./elements/content-atom/ContentAtomSpec";
-export { deprecatedElement } from "./elements/deprecated/DeprecatedSpec";
-export { createTweetElement } from "./elements/tweet/TweetSpec";
+export { codeElement } from "./elements/code/CodeElementForm";
+export { createImageElement } from "./elements/image/ImageElementForm";
+export { createStandardElement } from "./elements/standard/StandardForm";
+export { richlinkElement } from "./elements/rich-link/RichlinkForm";
+export { createInteractiveElement } from "./elements/interactive/InteractiveForm";
+export { tableElement } from "./elements/table/TableForm";
+export { deprecatedElement } from "./elements/deprecated/DeprecatedForm";
+export { createTweetElement } from "./elements/tweet/TweetForm";
+export { commentElement } from "./elements/comment/CommentForm";
+export { membershipElement } from "./elements/membership/MembershipForm";
+export { createContentAtomElement } from "./elements/content-atom/ContentAtomForm";
 export {
   transformElementIn,
   transformElementOut,
   undefinedDropdownValue,
 } from "./elements/helpers/transform";
-export { membershipElement } from "./elements/membership/MembershipSpec";
 export { useTyperighterAttr } from "./elements/helpers/typerighter";
 export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
-export { commentElement } from "./elements/comment/CommentSpec";

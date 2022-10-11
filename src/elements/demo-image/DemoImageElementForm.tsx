@@ -1,93 +1,53 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import type { CustomField, FieldNameToField } from "../../plugin/types/Element";
+import type { CustomField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getFieldViewTestId } from "../../renderers/react/FieldView";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
-import type { createImageFields, DemoSetMedia } from "./DemoImageElement";
-
-type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createImageFields>>;
-  errors: FieldValidationErrors;
-  fields: FieldNameToField<ReturnType<typeof createImageFields>>;
-};
+import { createImageFields } from "./DemoImageElement";
+import type { DemoSetMedia } from "./DemoImageElement";
 
 export const ImageElementTestId = "ImageElement";
 export const UpdateAltTextButtonId = "UpdateAltTextButton";
 
-export const ImageElementForm: React.FunctionComponent<Props> = ({
-  fields,
-  errors,
-  fieldValues,
-}) => (
-  <FieldLayoutVertical data-cy={ImageElementTestId}>
-    <FieldWrapper
-      headingLabel="Caption"
-      field={fields.caption}
-      errors={errors.caption}
-    />
-    <button
-      onClick={() => fields.caption.view.updatePlaceholder("A new placeholder")}
-    >
-      Update caption placeholder
-    </button>
-    <FieldWrapper
-      headingLabel="Alt text"
-      field={fields.altText}
-      errors={errors.altText}
-    />
-    <button
-      data-cy={UpdateAltTextButtonId}
-      onClick={() => fields.altText.update("Default alt text")}
-    >
-      Programmatically update alt text
-    </button>
-    <FieldWrapper
-      headingLabel="Resizeable Text Field"
-      field={fields.resizeable}
-      errors={errors.resizeable}
-    />
-    <FieldWrapper
-      field={fields.restrictedTextField}
-      headingLabel="Restricted Text Field"
-      errors={errors.restrictedTextField}
-    />
-    <FieldWrapper headingLabel="Src" field={fields.src} errors={errors.src} />
-    <FieldWrapper
-      headingLabel="Code"
-      field={fields.code}
-      errors={errors.code}
-    />
-    <FieldWrapper
-      headingLabel="Use image source?"
-      field={fields.useSrc}
-      errors={errors.useSrc}
-    />
-    <FieldWrapper
-      headingLabel="Options"
-      field={fields.optionDropdown}
-      errors={errors.optionDropdown}
-    />
-    <ImageView
-      field={fields.mainImage}
-      onChange={(_, __, ___, description) => {
-        fields.altText.update(description);
-        fields.caption.update(description);
-      }}
-    />
-    <CustomDropdownView label="Options" field={fields.customDropdown} />
-    <hr />
-    <Label>Element errors</Label>
-    <pre>{JSON.stringify(errors)}</pre>
-    <hr />
-    <Label>Element values</Label>
-    <pre>{JSON.stringify(fieldValues)}</pre>
-  </FieldLayoutVertical>
-);
+export const createDemoImageElement = (
+  onSelect: (setSrc: DemoSetMedia) => void,
+  onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
+) =>
+  createReactElementSpec(createImageFields(onSelect, onCrop), ({ fields }) => (
+    <FieldLayoutVertical data-cy={ImageElementTestId}>
+      <FieldWrapper headingLabel="Caption" field={fields.caption} />
+      <FieldWrapper headingLabel="Alt text" field={fields.altText} />
+      <button
+        data-cy={UpdateAltTextButtonId}
+        onClick={() => fields.altText.update("Default alt text")}
+      >
+        Programmatically update alt text
+      </button>
+      <FieldWrapper
+        headingLabel="Resizeable Text Field"
+        field={fields.resizeable}
+      />
+      <FieldWrapper
+        field={fields.restrictedTextField}
+        headingLabel="Restricted Text Field"
+      />
+      <FieldWrapper headingLabel="Src" field={fields.src} />
+      <FieldWrapper headingLabel="Code" field={fields.code} />
+      <FieldWrapper headingLabel="Use image source?" field={fields.useSrc} />
+      <FieldWrapper headingLabel="Options" field={fields.optionDropdown} />
+      <ImageView
+        field={fields.mainImage}
+        onChange={(_, __, ___, description) => {
+          fields.altText.update(description);
+          fields.caption.update(description);
+        }}
+      />
+      <CustomDropdownView label="Options" field={fields.customDropdown} />
+    </FieldLayoutVertical>
+  ));
 
 type ImageViewProps = {
   onChange: DemoSetMedia;

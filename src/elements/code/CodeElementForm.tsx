@@ -1,32 +1,19 @@
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { codeFields } from "./CodeElementSpec";
-
-type Props = {
-  errors: FieldValidationErrors;
-  fields: FieldNameToField<typeof codeFields>;
-};
+import { codeFields } from "./CodeElementSpec";
 
 export const CodeElementTestId = "CodeElement";
 
-export const CodeElementForm: React.FunctionComponent<Props> = ({
-  errors,
-  fields,
-}) => (
+export const codeElement = createReactElementSpec(codeFields, ({ fields }) => (
   <FieldLayoutVertical data-cy={CodeElementTestId}>
-    <FieldWrapper
-      headingLabel="Code"
-      field={fields.html}
-      errors={errors.html}
-    />
+    <FieldWrapper headingLabel="Code" field={fields.html} />
     <CustomDropdownView
       label="Language"
       field={fields.language}
       display="inline"
     />
   </FieldLayoutVertical>
-);
+));

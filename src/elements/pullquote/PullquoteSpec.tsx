@@ -1,10 +1,7 @@
-import React from "react";
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { maxLength, required } from "../../plugin/helpers/validation";
-import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { useTyperighterAttrs } from "../helpers/typerighter";
-import { PullquoteElementForm } from "./PullquoteForm";
 
 export const pullquoteFields = {
   html: createTextField({
@@ -30,10 +27,3 @@ export const pullquoteFields = {
     { text: "showcase", value: "showcase" },
   ]),
 };
-
-export const pullquoteElement = createReactElementSpec(
-  pullquoteFields,
-  ({ fields, errors }) => {
-    return <PullquoteElementForm errors={errors} fields={fields} />;
-  }
-);

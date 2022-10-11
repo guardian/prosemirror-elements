@@ -6,6 +6,7 @@ import { InputHeading } from "./InputHeading";
 
 type Props<F> = {
   field: F;
+  // If provided, these errors override the errors in the field.
   errors?: ValidationError[];
   headingLabel: React.ReactNode;
   headingContent?: React.ReactNode;
@@ -15,7 +16,7 @@ type Props<F> = {
 
 export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
   field,
-  errors = [],
+  errors,
   headingLabel,
   headingContent = null,
   description,
@@ -27,8 +28,8 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
       headingLabel={headingLabel}
       headingContent={headingContent}
       description={description}
-      errors={errors.map((e) => e.error)}
+      errors={(errors ? errors : field.errors).map((e) => e.error)}
     />
-    <FieldView field={field} hasValidationErrors={!!errors.length} />
+    <FieldView field={field} hasValidationErrors={!!field.errors.length} />
   </div>
 );

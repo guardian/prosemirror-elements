@@ -1,5 +1,4 @@
 import { CustomDropdown } from "../../../editorial-source-components/CustomDropdown";
-import type { ValidationError } from "../../../plugin/elementSpec";
 import type { Options } from "../../../plugin/fieldViews/DropdownFieldView";
 import type { CustomField } from "../../../plugin/types/Element";
 import { getFieldViewTestId } from "../FieldView";
@@ -8,7 +7,6 @@ import { useCustomFieldState } from "../useCustomFieldViewState";
 type CustomDropdownViewProps = {
   field: CustomField<string, Options>;
   options?: Options;
-  errors?: ValidationError[];
   label: string;
   display?: "inline" | "block";
 };
@@ -16,7 +14,6 @@ type CustomDropdownViewProps = {
 export const CustomDropdownView = ({
   field,
   options,
-  errors = [],
   label,
   display = "block",
 }: CustomDropdownViewProps) => {
@@ -30,7 +27,7 @@ export const CustomDropdownView = ({
       onChange={(event) => {
         setSelectedElement(event.target.value);
       }}
-      error={errors.map((e) => e.error).join(", ")}
+      error={field.errors.map((e) => e.error).join(", ")}
       dataCy={getFieldViewTestId(field.name)}
     />
   );

@@ -118,6 +118,7 @@ export const createEditorWithElements = <
 
   return {
     view,
+    nodeSpec,
     schema,
     insertElement,
     getElementAsHTML,

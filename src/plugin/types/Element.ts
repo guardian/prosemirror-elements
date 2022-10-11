@@ -1,6 +1,6 @@
 import type { Schema } from "prosemirror-model";
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
-import type { Validator } from "../elementSpec";
+import type { ValidationError, Validator } from "../elementSpec";
 import type {
   CheckboxFieldDescription,
   CheckboxFieldView,
@@ -57,15 +57,12 @@ export type FieldViews =
   | CustomFieldView
   | DropdownFieldView;
 
-export type NonCustomFieldViews =
-  | TextFieldView
-  | RichTextFieldView
-  | CheckboxFieldView;
-
 export interface Field<F> {
   view: F;
   description: FieldDescription;
   name: string;
+  value: F extends FieldView<infer Value> ? Value : never;
+  errors: ValidationError[];
   update: (value: F extends FieldView<infer Value> ? Value : never) => void;
 }
 
@@ -108,11 +105,10 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     dom: HTMLElement,
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
-    initFields: FieldNameToValueMap<FDesc>,
     commands: ReturnType<CommandCreator>,
     sendTelemetryEvent: SendTelemetryEvent | undefined
   ) => (
-    fields: FieldNameToValueMap<FDesc>,
+    fields: FieldNameToField<FDesc>,
     commands: ReturnType<CommandCreator>,
     isSelected: boolean
   ) => void;

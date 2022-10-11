@@ -1,9 +1,9 @@
+import type { Schema } from "prosemirror-model";
+import type { Plugin } from "prosemirror-state";
 import React from "react";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
@@ -11,68 +11,40 @@ import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { EmbedRecommendation } from "./embedComponents/EmbedRecommendations";
 import type { TwitterUrl, YoutubeUrl } from "./embedComponents/embedUtils";
-import type { createEmbedFields } from "./EmbedSpec";
+import { createEmbedFields } from "./EmbedSpec";
 
-type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createEmbedFields>>;
-  errors: FieldValidationErrors;
-  fields: FieldNameToField<ReturnType<typeof createEmbedFields>>;
+export type MainEmbedOptions = {
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
   convertYouTube: (src: YoutubeUrl) => void;
   convertTwitter: (src: TwitterUrl) => void;
+  createCaptionPlugins?: (schema: Schema) => Plugin[];
+  targetingUrl: string;
 };
 
 export const EmbedTestId = "EmbedElement";
 
-export const EmbedForm: React.FunctionComponent<Props> = ({
-  fieldValues,
-  errors,
-  fields,
-  checkThirdPartyTracking,
-  convertYouTube,
-  convertTwitter,
-}) => (
-  <FieldLayoutVertical data-cy={EmbedTestId}>
-    <EmbedRecommendation
-      html={fieldValues.html}
-      convertTwitter={convertTwitter}
-      convertYouTube={convertYouTube}
-    />
-    <Preview html={fieldValues.html} />
-    <CustomDropdownView
-      field={fields.role}
-      label="Weighting"
-      errors={errors.role}
-    />
-    <FieldWrapper
-      field={fields.url}
-      errors={errors.url}
-      headingLabel="Source URL"
-    />
-    <FieldWrapper
-      field={fields.html}
-      errors={errors.html}
-      headingLabel="Embed code"
-    />
-    <FieldWrapper
-      field={fields.caption}
-      errors={errors.caption}
-      headingLabel="Caption"
-    />
-    <FieldWrapper
-      field={fields.alt}
-      errors={errors.alt}
-      headingLabel="Alt text"
-    />
-    <CustomCheckboxView
-      field={fields.isMandatory}
-      errors={errors.isMandatory}
-      label="This element is required for publication"
-    />
-    <TrackingStatusChecks
-      html={fieldValues.html}
-      isMandatory={fieldValues.isMandatory}
-      checkThirdPartyTracking={checkThirdPartyTracking}
-    />
-  </FieldLayoutVertical>
-);
+export const createEmbedElement = (options: MainEmbedOptions) =>
+  createReactElementSpec(createEmbedFields(options), ({ fields }) => (
+    <FieldLayoutVertical data-cy={EmbedTestId}>
+      <EmbedRecommendation
+        html={fields.html.value}
+        convertTwitter={options.convertTwitter}
+        convertYouTube={options.convertYouTube}
+      />
+      <Preview html={fields.html.value} />
+      <CustomDropdownView field={fields.role} label="Weighting" />
+      <FieldWrapper field={fields.url} headingLabel="Source URL" />
+      <FieldWrapper field={fields.html} headingLabel="Embed code" />
+      <FieldWrapper field={fields.caption} headingLabel="Caption" />
+      <FieldWrapper field={fields.alt} headingLabel="Alt text" />
+      <CustomCheckboxView
+        field={fields.isMandatory}
+        label="This element is required for publication"
+      />
+      <TrackingStatusChecks
+        html={fields.html.value}
+        isMandatory={fields.isMandatory.value}
+        checkThirdPartyTracking={options.checkThirdPartyTracking}
+      />
+    </FieldLayoutVertical>
+  ));

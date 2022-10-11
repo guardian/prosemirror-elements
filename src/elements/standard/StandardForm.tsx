@@ -5,19 +5,17 @@ import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { Link } from "../../editorial-source-components/Link";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { FieldValidationErrors } from "../../plugin/elementSpec";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldNameToField } from "../../plugin/types/Element";
+import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
 import { TrackingStatusChecks } from "../helpers/ThirdPartyStatusChecks";
 import { htmlLength } from "../helpers/validation";
-import type { createStandardFields } from "./StandardSpec";
+import type { StandardElementOptions } from "./StandardSpec";
+import { createStandardFields } from "./StandardSpec";
 
 type Props = {
-  fieldValues: FieldNameToValueMap<ReturnType<typeof createStandardFields>>;
-  errors: FieldValidationErrors;
   fields: FieldNameToField<ReturnType<typeof createStandardFields>>;
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;
 };
@@ -80,10 +78,24 @@ const IframeFullFrameWrapper = styled.div`
   white-space: initial;
 `;
 
+export const createStandardElement = ({
+  createCaptionPlugins,
+  checkThirdPartyTracking,
+  useLargePreview,
+  hasThumbnailRole,
+}: StandardElementOptions) =>
+  createReactElementSpec(
+    createStandardFields(createCaptionPlugins, hasThumbnailRole),
+    (props) => {
+      const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
+      return (
+        <Form {...props} checkThirdPartyTracking={checkThirdPartyTracking} />
+      );
+    }
+  );
+
 export const StandardForm: React.FunctionComponent<Props> = ({
-  errors,
   fields,
-  fieldValues,
   checkThirdPartyTracking,
 }) => (
   <div>
@@ -91,24 +103,24 @@ export const StandardForm: React.FunctionComponent<Props> = ({
       <Columns>
         <Column width={1 / 3}>
           <IframeAspectRatioContainer
-            height={fieldValues.height}
-            width={fieldValues.width}
-            html={fieldValues.html}
-            originalUrl={fieldValues.originalUrl}
+            height={fields.height.value}
+            width={fields.width.value}
+            html={fields.html.value}
+            originalUrl={fields.originalUrl.value}
           />
         </Column>
         <Column width={2 / 3}>
           <FieldLayoutVertical>
             <FieldWrapper
               field={fields.caption}
-              errors={errors.caption}
               headingLabel="Caption"
-              description={`${htmlLength(fieldValues.caption)}/1000 characters`}
+              description={`${htmlLength(
+                fields.caption.value
+              )}/1000 characters`}
             />
             <CustomDropdownView
               field={fields.role}
               label="Weighting"
-              errors={errors.role}
               display="inline"
             />
           </FieldLayoutVertical>
@@ -116,12 +128,11 @@ export const StandardForm: React.FunctionComponent<Props> = ({
       </Columns>
       <CustomCheckboxView
         field={fields.isMandatory}
-        errors={errors.isMandatory}
         label="This element is required for publication"
       />
       <TrackingStatusChecks
-        html={fieldValues.html}
-        isMandatory={fieldValues.isMandatory}
+        html={fields.html.value}
+        isMandatory={fields.isMandatory.value}
         checkThirdPartyTracking={checkThirdPartyTracking}
       />
     </FieldLayoutVertical>
@@ -129,9 +140,7 @@ export const StandardForm: React.FunctionComponent<Props> = ({
 );
 
 export const StandardFormLargePreview: React.FunctionComponent<Props> = ({
-  errors,
   fields,
-  fieldValues,
   checkThirdPartyTracking,
 }) => (
   <div>
@@ -140,29 +149,26 @@ export const StandardFormLargePreview: React.FunctionComponent<Props> = ({
       <IframeAspectRatioContainer
         height="150"
         width="300"
-        html={fieldValues.html}
-        originalUrl={fieldValues.originalUrl}
+        html={fields.html.value}
+        originalUrl={fields.originalUrl.value}
       />
       <FieldWrapper
         field={fields.caption}
-        errors={errors.caption}
         headingLabel="Caption"
-        description={`${htmlLength(fieldValues.caption)}/1000 characters`}
+        description={`${htmlLength(fields.caption.value)}/1000 characters`}
       />
       <CustomDropdownView
         field={fields.role}
         label="Weighting"
-        errors={errors.role}
         display="inline"
       />
       <CustomCheckboxView
         field={fields.isMandatory}
-        errors={errors.isMandatory}
         label="This element is required for publication"
       />
       <TrackingStatusChecks
-        html={fieldValues.html}
-        isMandatory={fieldValues.isMandatory}
+        html={fields.html.value}
+        isMandatory={fields.isMandatory.value}
         checkThirdPartyTracking={checkThirdPartyTracking}
       />
     </FieldLayoutVertical>

@@ -1,10 +1,7 @@
 import type { ReactElement } from "react";
 import React, { Component } from "react";
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
-import type {
-  FieldValidationErrors,
-  Validator,
-} from "../../plugin/elementSpec";
+import type { Validator } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { Commands } from "../../plugin/types/Commands";
 import type { Consumer, ConsumerOptions } from "../../plugin/types/Consumer";
@@ -15,38 +12,25 @@ import type {
 import { ElementWrapper } from "./ElementWrapper";
 import { TelemetryContext } from "./TelemetryContext";
 
-const fieldErrors = <FDesc extends FieldDescriptions<string>>(
-  fields: FieldNameToValueMap<FDesc>,
-  errors: FieldValidationErrors | undefined
-) =>
-  Object.keys(fields).reduce(
-    (acc, key) => ({
-      ...acc,
-      [key]: errors?.[key] ? errors[key] : [],
-    }),
-    {}
-  );
-
 type IProps<FDesc extends FieldDescriptions<string>> = {
   subscribe: (
     fn: (
-      fields: FieldNameToValueMap<FDesc>,
+      fields: FieldNameToField<FDesc>,
       commands: Commands,
       isSelected: boolean
     ) => void
   ) => void;
   commands: Commands;
-  fieldValues: FieldNameToValueMap<FDesc>;
+  fields: FieldNameToField<FDesc>;
   onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
   validate: Validator<FDesc>;
   consumer: Consumer<ReactElement | null, FDesc>;
-  fields: FieldNameToField<FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
   commands: Commands;
-  fieldValues: FieldNameToValueMap<FDesc>;
+  fields: FieldNameToField<FDesc>;
   isSelected: boolean;
 };
 export class ElementProvider<
@@ -59,45 +43,23 @@ export class ElementProvider<
 
     this.state = {
       commands: this.props.commands,
-      fieldValues: this.props.fieldValues,
+      fields: this.props.fields,
       isSelected: false,
     };
   }
 
   public componentDidMount() {
-    this.props.subscribe((fieldValues, commands, isSelected) =>
-      this.updateState(
-        {
-          commands,
-          fieldValues,
-          isSelected,
-        },
-        false
-      )
+    this.props.subscribe((fields, commands, isSelected) =>
+      this.setState({
+        commands,
+        fields,
+        isSelected,
+      })
     );
   }
 
-  public onStateChange(): void {
-    this.props.onStateChange(this.state.fieldValues);
-  }
-
-  private updateState(
-    newState: Partial<IState<FDesc>>,
-    notifyListeners: boolean
-  ): void {
-    this.setState(
-      { ...this.state, ...newState },
-      () => notifyListeners && this.onStateChange()
-    );
-  }
-
-  private updateFields(fieldValues: FieldNameToValueMap<FDesc>): void {
-    this.updateState(
-      {
-        fieldValues,
-      },
-      true
-    );
+  private updateFields(fields: FieldNameToValueMap<FDesc>): void {
+    this.props.onStateChange(fields);
   }
 
   public render() {
@@ -108,8 +70,7 @@ export class ElementProvider<
           isSelected={this.state.isSelected}
         >
           <this.Element
-            fields={this.props.fields}
-            fieldValues={this.state.fieldValues}
+            fields={this.state.fields}
             updateFields={this.updateFields}
           />
         </ElementWrapper>
@@ -118,15 +79,7 @@ export class ElementProvider<
   }
 
   /**
-   * This element is memoised to prevent rerenders when our fieldValues have not changed.
+   * This element is memoised to prevent rerenders when our fields have not changed.
    */
-  private Element = React.memo<Omit<ConsumerOptions<FDesc>, "errors">>(
-    (options) => {
-      const errors = fieldErrors(
-        this.state.fieldValues,
-        this.props.validate(this.state.fieldValues)
-      );
-      return this.props.consumer({ ...options, errors });
-    }
-  );
+  private Element = React.memo<ConsumerOptions<FDesc>>(this.props.consumer);
 }
