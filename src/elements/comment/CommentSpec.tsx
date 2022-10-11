@@ -3,7 +3,7 @@ import {
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { undefinedDropdownValue } from "../membership/MembershipSpec";
+import { undefinedDropdownValue } from "../helpers/transform";
 
 export const commentFields = {
   source: createTextField(),

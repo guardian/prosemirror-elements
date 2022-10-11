@@ -3,6 +3,7 @@ import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
+import applyDevTools from "prosemirror-dev-tools";
 import { exampleSetup } from "prosemirror-example-setup";
 import type { MarkSpec, Node, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
@@ -12,6 +13,7 @@ import { EditorView } from "prosemirror-view";
 import {
   codeElement,
   commentElement,
+  createCalloutElement,
   createContentAtomElement,
   createDemoImageElement,
   createEmbedElement,
@@ -48,6 +50,8 @@ import {
 import {
   sampleAudio,
   sampleCallout,
+  sampleCampaignCalloutList,
+  sampleCampaignList,
   sampleCode,
   sampleComment,
   sampleContentAtom,
@@ -91,6 +95,7 @@ const vineElementName = "vine";
 const tweetElementName = "tweet";
 const contentAtomName = "content-atom";
 const commentElementName = "comment";
+const campaignCalloutListElementName = "callout";
 
 type Name =
   | typeof embedElementName
@@ -112,7 +117,8 @@ type Name =
   | typeof vineElementName
   | typeof tweetElementName
   | typeof contentAtomName
-  | typeof commentElementName;
+  | typeof commentElementName
+  | typeof campaignCalloutListElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -174,6 +180,11 @@ const {
         console.log(`Add youtube embed with src: ${src}`),
       createCaptionPlugins,
       targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+    }),
+    callout: createCalloutElement({
+      fetchCampaignList: () => Promise.resolve(sampleCampaignList),
+      targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
+      applyTag: (tag: string) => console.log(`Apply ${tag} tag`),
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
@@ -368,6 +379,11 @@ const createEditor = (server: CollabServer) => {
   };
 
   const buttonData = [
+    {
+      label: "Campaign Callout List",
+      name: campaignCalloutListElementName,
+      values: sampleCampaignCalloutList,
+    },
     { label: "Embed", name: embedElementName, values: sampleEmbed },
     { label: "Callout", name: embedElementName, values: sampleCallout },
     { label: "Demo image", name: demoImageElementName, values: sampleImage },
@@ -475,9 +491,7 @@ declare global {
   interface Window extends WindowType {}
 }
 
-window.ProseMirrorDevTools.applyDevTools(firstEditor, {
-  EditorState,
-});
+applyDevTools(firstEditor);
 
 window.PM_ELEMENTS = {
   view: firstEditor,

@@ -6,7 +6,10 @@ import { Mapping, StepMap } from "prosemirror-transform";
 import type { Decoration } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import type { PlaceholderOption } from "../helpers/placeholder";
-import { createPlaceholderPlugin } from "../helpers/placeholder";
+import {
+  createPlaceholderPlugin,
+  PME_UPDATE_PLACEHOLDER,
+} from "../helpers/placeholder";
 import type { BaseFieldDescription, FieldView } from "./FieldView";
 import { FieldType } from "./FieldView";
 
@@ -107,6 +110,12 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const tr = this.innerEditorView.state.tr;
     tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
     this.dispatchTransaction(tr);
+  }
+
+  public updatePlaceholder(value: PlaceholderOption) {
+    this.innerEditorView?.dispatch(
+      this.innerEditorView.state.tr.setMeta(PME_UPDATE_PLACEHOLDER, value)
+    );
   }
 
   public destroy() {
