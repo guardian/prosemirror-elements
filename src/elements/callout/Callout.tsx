@@ -100,7 +100,6 @@ export const createCalloutElement = ({
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
             isNonCollapsible={fields.isNonCollapsible}
-            isNonCollapsibleError={errors.isNonCollapsible}
           />
         ) : (
           <CalloutError

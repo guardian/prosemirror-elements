@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import { neutral, space } from "@guardian/src-foundations";
 import { Label } from "../../editorial-source-components/Label";
-import type { ValidationError } from "../../plugin/elementSpec";
 import type { CustomField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import type { Campaign } from "./Callout";
@@ -63,12 +62,10 @@ export const CalloutTable = ({
   calloutData,
   targetingUrl,
   isNonCollapsible,
-  isNonCollapsibleError,
 }: {
   calloutData: Campaign;
   targetingUrl: string;
   isNonCollapsible: CustomField<boolean, boolean>;
-  isNonCollapsibleError: ValidationError[];
 }) => {
   const { tagName, callout, description, formUrl } = calloutData.fields;
   return (
@@ -111,7 +108,6 @@ export const CalloutTable = ({
       </div>
       <CustomCheckboxView
         field={isNonCollapsible}
-        errors={isNonCollapsibleError}
         label="Show as non-collapsable"
       />
     </div>
