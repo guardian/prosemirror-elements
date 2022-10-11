@@ -6,11 +6,7 @@ import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
 import { repeaterFieldName } from "./fieldViews/RepeaterFieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
-import {
-  FieldDescription,
-  FieldDescriptions,
-  isRepeaterField,
-} from "./types/Element";
+import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
 // An attribute added to Element nodes to identify them as such.
 export const elementNodeAttr = "isProseMirrorElement";
