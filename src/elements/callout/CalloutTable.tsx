@@ -10,16 +10,13 @@ const containerStyle = css`
   display: flex;
   flex-direction: column;
 `;
+
 const headerStyle = css`
   display: flex;
   justify-content: space-between;
 `;
 
-const headerLinkStyle = css`
-  margin-right: ${space[4]}px;
-`;
-
-const tagRowStyle = css`
+const tagStyle = css`
   background-color: ${neutral[93]};
   display: flex;
   align-items: center;
@@ -39,7 +36,7 @@ const cellStyle = css`
   }
 `;
 
-const tagStyle = css`
+const tagTypeStyle = css`
   background-color: ${neutral[100]};
   padding: 2px 6px;
   width: fit-content;
@@ -51,11 +48,7 @@ const tagNameStyle = css`
   width: 50%;
 `;
 
-const tagSectionStyle = css`
-  width: 35%;
-`;
-
-const campaignTitleStyle = css`
+const bodyStyle = css`
   display: flex;
   flex-direction: column;
   margin-bottom: ${space[9]}px;
@@ -84,7 +77,9 @@ export const CalloutTable = ({
         <Label>CALLOUT: {tagName}</Label>
         <span>
           <a
-            css={headerLinkStyle}
+            css={css`
+              margin-right: ${space[4]}px;
+            `}
             href={`${targetingUrl}/campaigns/${calloutData.id}`}
           >
             Open in targeting tool
@@ -93,14 +88,13 @@ export const CalloutTable = ({
         </span>
       </div>
 
-      <div css={tagRowStyle}>
+      <div css={tagStyle}>
         <span css={cellStyle}>
-          <p css={tagStyle}>CAMPAIGN</p>
+          <p css={tagTypeStyle}>CAMPAIGN</p>
         </span>
         <span css={[cellStyle, tagNameStyle]}>{tagName}</span>
-        <span css={[cellStyle, tagSectionStyle]}>Global</span>
       </div>
-      <div css={campaignTitleStyle}>
+      <div css={bodyStyle}>
         <span>
           <span css={strongStyle}>Callout title: </span>
           {callout}
