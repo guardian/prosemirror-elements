@@ -26,7 +26,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   validate: Validator<FDesc>;
   consumer: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
-  onRemove?: () => void;
+  onRemove?: (fields: Record<string, unknown>) => void;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -63,13 +63,32 @@ export class ElementProvider<
     this.props.onStateChange(fields);
   }
 
+  private extractValuesFromFields(
+    fields: FieldNameToField<FDesc>
+  ): Record<string, unknown> {
+    if (typeof fields === "object") {
+      const objectKeys = Object.keys(fields);
+      const res = objectKeys.reduce((obj, item) => {
+        return {
+          ...obj,
+          [item]: fields[item].value,
+        };
+      }, {});
+      return res;
+    }
+    return {};
+    // return fields;
+  }
+
   public render() {
+    const fieldValues = this.extractValuesFromFields(this.state.fields);
     return (
       <TelemetryContext.Provider value={this.props.sendTelemetryEvent}>
         <ElementWrapper
           {...this.state.commands}
           isSelected={this.state.isSelected}
           onRemove={this.props.onRemove}
+          fieldValues={fieldValues}
         >
           <this.Element
             fields={this.state.fields}

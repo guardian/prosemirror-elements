@@ -11,7 +11,7 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement | null, FDesc>,
   validate: Validator<FDesc> | undefined = undefined,
-  onRemove?: () => void
+  onRemove?: (fields: Record<string, unknown>) => void
 ) => {
   const renderer: Renderer<FDesc> = (
     validate,

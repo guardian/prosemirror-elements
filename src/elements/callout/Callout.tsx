@@ -40,7 +40,7 @@ type Props = {
   fetchCampaignList: () => Promise<Campaign[]>;
   targetingUrl: string;
   applyTag: (tagId: string) => void;
-  onRemove: () => void;
+  onRemove: (fields: Record<string, unknown>) => void;
 };
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
@@ -70,53 +70,63 @@ export const createCalloutElement = ({
   applyTag,
   onRemove,
 }: Props) =>
-  createReactElementSpec(calloutFields, ({ fields }) => {
-    const campaignId = fields.campaignId.value;
-    const [campaignList, setCampaignList] = useState<Campaign[]>([]);
-    useEffect(() => {
-      void fetchCampaignList().then((campaignList) => {
-        setCampaignList(campaignList);
-      });
-    }, []);
+  createReactElementSpec(
+    calloutFields,
+    ({ fields }) => {
+      const campaignId = fields.campaignId.value;
+      const [campaignList, setCampaignList] = useState<Campaign[]>([]);
+      useEffect(() => {
+        void fetchCampaignList().then((campaignList) => {
+          setCampaignList(campaignList);
+        });
+      }, []);
 
-    useEffect(() => {
-      if (campaignId === undefinedDropdownValue || campaignList.length === 0) {
-        return;
-      }
-      applyTag(getTag(campaignId));
-    }, [campaignId]);
+      useEffect(() => {
+        if (
+          campaignId === undefinedDropdownValue ||
+          campaignList.length === 0
+        ) {
+          return;
+        }
+        applyTag(getTag(campaignId));
+      }, [campaignId]);
 
-    const getTag = (id: string) => {
-      const campaign = campaignList.find((campaign) => campaign.id === id);
-      return campaign?.fields.tagName ?? "";
-    };
+      const getTag = (id: string) => {
+        const campaign = campaignList.find((campaign) => campaign.id === id);
+        return campaign?.fields.tagName ?? "";
+      };
 
-    const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
-    const callout = campaignList.find((campaign) => campaign.id === campaignId);
+      const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
+      const callout = campaignList.find(
+        (campaign) => campaign.id === campaignId
+      );
 
-    const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
-    return campaignId && campaignId != "none-selected" ? (
-      <div css={calloutStyles}>
-        {callout ? (
-          <CalloutTable
-            calloutData={callout}
-            targetingUrl={trimmedTargetingUrl}
-            isNonCollapsible={fields.isNonCollapsible}
+      const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
+      return campaignId && campaignId != "none-selected" ? (
+        <div css={calloutStyles}>
+          {callout ? (
+            <CalloutTable
+              calloutData={callout}
+              targetingUrl={trimmedTargetingUrl}
+              isNonCollapsible={fields.isNonCollapsible}
+            />
+          ) : (
+            <CalloutError
+              tag={getTag(campaignId)}
+              targetingUrl={trimmedTargetingUrl}
+            />
+          )}
+        </div>
+      ) : (
+        <div>
+          <CustomDropdownView
+            label="Callout"
+            field={fields.campaignId}
+            options={dropdownOptions}
           />
-        ) : (
-          <CalloutError
-            tag={getTag(campaignId)}
-            targetingUrl={trimmedTargetingUrl}
-          />
-        )}
-      </div>
-    ) : (
-      <div>
-        <CustomDropdownView
-          label="Callout"
-          field={fields.campaignId}
-          options={dropdownOptions}
-        />
-      </div>
-    );
-  });
+        </div>
+      );
+    },
+    undefined,
+    (fields) => onRemove(fields)
+  );
