@@ -27,7 +27,6 @@ import {
   richlinkElement,
   tableElement,
 } from "../src";
-import type { calloutFields } from "../src/elements/callout/Callout";
 import {
   transformElementOut,
   undefinedDropdownValue,
@@ -186,7 +185,7 @@ const {
       fetchCampaignList: () => Promise.resolve(sampleCampaignList),
       targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
       applyTag: (tag: string) => console.log(`Apply ${tag} tag`),
-      onRemove: (fields: typeof calloutFields) =>
+      onRemove: (fields: Record<string, unknown>) =>
         console.log("Remove callout", fields),
     }),
     interactive: createInteractiveElement({
