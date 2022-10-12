@@ -40,6 +40,7 @@ type Props = {
   fetchCampaignList: () => Promise<Campaign[]>;
   targetingUrl: string;
   applyTag: (tagId: string) => void;
+  onRemove: () => void;
 };
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
@@ -67,6 +68,7 @@ export const createCalloutElement = ({
   fetchCampaignList,
   targetingUrl,
   applyTag,
+  onRemove,
 }: Props) =>
   createReactElementSpec(calloutFields, ({ fields }) => {
     const campaignId = fields.campaignId.value;

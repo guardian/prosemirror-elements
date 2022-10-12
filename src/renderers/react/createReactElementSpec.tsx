@@ -10,7 +10,8 @@ import { ElementProvider } from "./ElementProvider";
 export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement | null, FDesc>,
-  validate: Validator<FDesc> | undefined = undefined
+  validate: Validator<FDesc> | undefined = undefined,
+  onRemove?: () => void
 ) => {
   const renderer: Renderer<FDesc> = (
     validate,
@@ -30,6 +31,7 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
         commands={commands}
         consumer={consumer}
         sendTelemetryEvent={sendTelemetryEvent}
+        onRemove={onRemove}
       />,
       dom
     );

@@ -187,6 +187,7 @@ const LeftActions = styled(Actions)`
 type Props = {
   children?: ReactElement;
   isSelected: boolean;
+  onRemove?: () => void;
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";
@@ -205,6 +206,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   remove,
   select,
   isSelected,
+  onRemove,
   children,
 }) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
@@ -240,6 +242,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
                   CommandTelemetryType.PMERemoveButtonPressed
                 );
                 remove(true);
+                onRemove?.();
               } else {
                 setCloseClickedOnce(true);
                 setTimeout(() => {
