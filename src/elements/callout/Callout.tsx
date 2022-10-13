@@ -3,6 +3,7 @@ import {
   createCustomDropdownField,
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
+import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -36,13 +37,6 @@ export type Campaign = {
   activeUntil?: number;
 };
 
-type Props = {
-  fetchCampaignList: () => Promise<Campaign[]>;
-  targetingUrl: string;
-  applyTag: (tagId: string) => void;
-  onRemove: (fields: Record<string, unknown>) => void;
-};
-
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
   const campaigns = campaignList.map((campaign) => {
     const name = campaign.name.replace("CALLOUT:", "").trimStart();
@@ -62,6 +56,13 @@ export const calloutFields = {
     [dropDownRequired(undefined, "WARN")]
   ),
   isNonCollapsible: createCustomField(false, true),
+};
+
+type Props = {
+  fetchCampaignList: () => Promise<Campaign[]>;
+  targetingUrl: string;
+  applyTag: (tagId: string) => void;
+  onRemove: (fields: FieldNameToValueMap<typeof calloutFields>) => void;
 };
 
 export const createCalloutElement = ({

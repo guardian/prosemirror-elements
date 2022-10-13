@@ -184,11 +184,10 @@ const LeftActions = styled(Actions)`
   justify-content: space-between;
 `;
 
-type Props<T> = {
+type Props = {
   children?: ReactElement;
   isSelected: boolean;
-  onRemove?: (fieldValues: T) => void;
-  fieldValues: T;
+  onRemove?: () => void;
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";
@@ -199,7 +198,7 @@ export const moveDownTestId = "ElementWrapper__moveDown";
 export const removeTestId = "ElementWrapper__remove";
 export const selectTestId = "ElementWrapper__select";
 
-export function ElementWrapper<T>({
+export function ElementWrapper({
   moveUp,
   moveDown,
   moveTop,
@@ -208,9 +207,8 @@ export function ElementWrapper<T>({
   select,
   isSelected,
   onRemove,
-  fieldValues,
   children,
-}: Props<T>) {
+}: Props) {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
   const sendTelemetryEvent = useContext(TelemetryContext);
 
@@ -244,7 +242,7 @@ export function ElementWrapper<T>({
                   CommandTelemetryType.PMERemoveButtonPressed
                 );
                 remove(true);
-                onRemove?.(fieldValues);
+                onRemove?.();
               } else {
                 setCloseClickedOnce(true);
                 setTimeout(() => {
