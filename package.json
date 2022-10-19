@@ -54,6 +54,7 @@
     "react-popper": "^2.2.5"
   },
   "devDependencies": {
+    "@cypress/webpack-batteries-included-preprocessor": "^2.2.3",
     "@cypress/webpack-preprocessor": "^5.15.0",
     "@guardian/eslint-config-typescript": "^0.5.0",
     "@testing-library/react": "^12.1.2",

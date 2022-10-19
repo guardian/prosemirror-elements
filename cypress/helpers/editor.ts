@@ -173,6 +173,7 @@ export const getSerialisedHtml = ({
     <div pme-field-name="demo_image_element__customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
     <div pme-field-name="demo_image_element__mainImage" fields="{${mainImageFields}}"></div>
     <div pme-field-name="demo_image_element__optionDropdown" fields="&quot;${optionValue}&quot;"></div>
+    <div pme-field-name="demo_image_element__repeater__parent"></div>
     <div pme-field-name="demo_image_element__resizeable"></div>
     <div pme-field-name="demo_image_element__restrictedTextField">${restrictedTextValue}</div>
     <div pme-field-name="demo_image_element__src">${srcValue}</div>

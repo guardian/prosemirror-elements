@@ -10,6 +10,8 @@
     "../node_modules/cypress",
     "../declarations",
     "../webpack.config.js",
+    "../cypress.config.ts",
     "./**/*.cy.ts"
-  ]
+  ],
+  "exclude": ["node_modules"],
 }

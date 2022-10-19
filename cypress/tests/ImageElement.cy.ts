@@ -447,8 +447,8 @@ describe("ImageElement", () => {
 
         getDocSelection().then(([from, to]) => {
           // The selection should be at the first field of the element
-          expect(from).to.equal(30);
-          expect(to).to.equal(37);
+          expect(from).to.equal(32);
+          expect(to).to.equal(39);
         });
       });
     });

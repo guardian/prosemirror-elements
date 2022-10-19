@@ -4,7 +4,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.json"],
   },
-  ignorePatterns: ["**/*.js"],
+  ignorePatterns: ["**/*.js", "cypress.config.ts"],
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
