@@ -94,7 +94,10 @@ export const createImageFields = (
       { text: "Option 3", value: "opt3" },
     ]),
     repeater: createRepeaterField({
-      text: createTextField(),
+      repeaterText: createTextField(),
+      nestedRepeater: createRepeaterField({
+        nestedRepeaterText: createTextField(),
+      }),
     }),
   };
 };

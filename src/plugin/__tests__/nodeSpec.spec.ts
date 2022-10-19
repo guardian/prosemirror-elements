@@ -62,7 +62,7 @@ describe("nodeSpec generation", () => {
     );
 
     expect(nodeSpec.get("testElement1")).toMatchObject({
-      content: "testElement1__fieldRepeater*",
+      content: "testElement1__fieldRepeater__parent*",
     });
     expect(nodeSpec.get("testElement1__field1")).toMatchObject({
       content: "paragraph+",
@@ -218,7 +218,15 @@ describe("nodeSpec generation", () => {
           })
         );
 
-        expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
+        expect(
+          nodeSpec["exampleElement__exampleRepeater__parent"]
+        ).toMatchObject({
+          content: "exampleElement__exampleRepeater__child*",
+        });
+
+        expect(
+          nodeSpec["exampleElement__exampleRepeater__child"]
+        ).toMatchObject({
           content: "exampleElement__exampleField",
         });
         expect(nodeSpec["exampleElement__exampleField"]).toBeTruthy();
@@ -235,10 +243,19 @@ describe("nodeSpec generation", () => {
           })
         );
 
-        expect(nodeSpec["exampleElement__exampleRepeater"]).toMatchObject({
-          content: "exampleElement__nestedRepeaterField*",
+        expect(
+          nodeSpec["exampleElement__exampleRepeater__child"]
+        ).toMatchObject({
+          content: "exampleElement__nestedRepeaterField__parent*",
         });
-        expect(nodeSpec["exampleElement__nestedRepeaterField"]).toMatchObject({
+        expect(
+          nodeSpec["exampleElement__nestedRepeaterField__parent"]
+        ).toMatchObject({
+          content: "exampleElement__nestedRepeaterField__child*",
+        });
+        expect(
+          nodeSpec["exampleElement__nestedRepeaterField__child"]
+        ).toMatchObject({
           content: "exampleElement__exampleField",
         });
         expect(nodeSpec["exampleElement__exampleField"]).toBeTruthy();

@@ -9,6 +9,7 @@ import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
+import { waitForNextLayout } from "../helpers/util";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -143,7 +144,7 @@ export class TextFieldView extends ProseMirrorFieldView {
 
     if (enableMultiline || maxRows) {
       // We wait to ensure that the browser has applied the appropriate styles.
-      setTimeout(() => {
+      void waitForNextLayout().then(() => {
         if (!this.innerEditorView) {
           return;
         }

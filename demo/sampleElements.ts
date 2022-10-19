@@ -258,8 +258,13 @@ export const sampleImage = {
   caption: "",
   useSrc: { value: false },
   repeater: [
-    { text: "Example repeater text 1" },
-    { text: "Example repeater text 2" },
+    {
+      repeaterText: "Example repeater text 1",
+      nestedRepeater: [
+        { nestedRepeaterText: "Example nested repeater text 1" },
+      ],
+    },
+    { repeaterText: "Example repeater text 2" },
   ],
 };
 

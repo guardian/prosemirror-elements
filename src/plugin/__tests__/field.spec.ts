@@ -1,31 +1,16 @@
-import { Schema } from "prosemirror-model";
-import { schema as basicSchema } from "prosemirror-schema-basic";
-import { builders } from "prosemirror-test-builder";
 import { getFieldsFromNode, updateFieldsFromNode } from "../field";
-import { createTextField } from "../fieldViews/TextFieldView";
-import { createEditorWithElements, createNoopElement } from "../helpers/test";
-import { maxLength, required } from "../helpers/validation";
-
-const elements = {
-  example: createNoopElement({
-    caption: createTextField({
-      validators: [required(), maxLength(7)],
-    }),
-    html: createTextField({
-      validators: [required()],
-    }),
-  }),
-};
-
-const { view, nodeSpec, serializer } = createEditorWithElements(elements);
-
-const schema = new Schema({
-  // eslint-disable-next-line -- the basic schema types should guarantee this is a NodeSpec
-  nodes: (basicSchema.spec.nodes as any).append(nodeSpec),
-  marks: basicSchema.spec.marks,
-});
-
-const { example, example__caption, example__html, p } = builders(schema, {});
+import {
+  elements,
+  example,
+  example__caption,
+  example__html,
+  example__nestedText,
+  example__repeated__child,
+  example__repeated__parent,
+  p,
+  serializer,
+  view,
+} from "../helpers/__tests__/fixtures";
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
@@ -37,7 +22,7 @@ describe("Field helpers", () => {
 
       const fields = getFieldsFromNode({
         node: elementNode,
-        element: elements.example,
+        fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
         innerDecos: [],
@@ -58,7 +43,7 @@ describe("Field helpers", () => {
 
       const fields = getFieldsFromNode({
         node: elementNode,
-        element: elements.example,
+        fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
         innerDecos: [],
@@ -73,7 +58,7 @@ describe("Field helpers", () => {
       expect(() =>
         getFieldsFromNode({
           node: p(),
-          element: elements.example,
+          fieldDescriptions: elements.example.fieldDescriptions,
           view,
           getPos: () => 0,
           innerDecos: [],
@@ -86,12 +71,15 @@ describe("Field helpers", () => {
   describe("updateFieldsAndErrorsFromNode", () => {
     const originalNode = example(
       example__caption("caption"),
-      example__html("html")
+      example__html("html"),
+      example__repeated__parent(
+        example__repeated__child(example__nestedText("Nested text"))
+      )
     );
 
     const originalFields = getFieldsFromNode({
       node: originalNode,
-      element: elements.example,
+      fieldDescriptions: elements.example.fieldDescriptions,
       view,
       getPos: () => 0,
       innerDecos: [],
@@ -116,10 +104,38 @@ describe("Field helpers", () => {
       expect(newFields.html.errors.length).toEqual(0);
     });
 
+    it("should update a repeater node with the correct value and error information", () => {
+      const newElementNode = example(
+        example__caption("caption new"),
+        example__html("html new"),
+        example__repeated__parent(
+          example__repeated__child(example__nestedText("New nested text"))
+        )
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
+        fields: originalFields,
+        serializer,
+      });
+
+      expect(newFields.caption.value).toBe("caption new");
+      expect(newFields.html.value).toBe("html new");
+      expect(newFields.caption.errors.length).toEqual(1);
+      expect(newFields.html.errors.length).toEqual(0);
+
+      expect(newFields.repeated.children[0].nestedText.value).toEqual(
+        "New nested text"
+      );
+    });
+
     it("should create a new object identity when changes are made", () => {
       const newElementNode = example(
         example__caption("caption new"),
-        example__html("html new")
+        example__html("html new"),
+        example__repeated__parent(
+          example__repeated__child(example__nestedText("Nested text"))
+        )
       );
 
       const newFields = updateFieldsFromNode({
@@ -136,7 +152,10 @@ describe("Field helpers", () => {
       // no-op update.
       const newElementNode = example(
         example__caption("caption"),
-        example__html("html")
+        example__html("html"),
+        example__repeated__parent(
+          example__repeated__child(example__nestedText("Nested text"))
+        )
       );
 
       const newFields = updateFieldsFromNode({

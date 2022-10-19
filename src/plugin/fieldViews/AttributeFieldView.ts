@@ -23,7 +23,7 @@ export abstract class AttributeFieldView<Value extends unknown>
     // Returns the current position of the parent FieldView in the document.
     private getPos: () => number,
     // The offset of this node relative to its parent FieldView.
-    private offset: number
+    public offset: number
   ) {
     this.nodeType = node.type;
   }

@@ -1,4 +1,4 @@
-import type { DOMSerializer, Node } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
 import { CheckboxFieldView } from "../fieldViews/CheckboxFieldView";
 import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
@@ -15,7 +15,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../types/Element";
-import { getFieldValueFromNode } from "./element";
+import { isRepeaterField } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -136,44 +136,39 @@ export const getElementFieldViewFromType = (
   }
 };
 
-export const getFieldValuesFromNode = <FDesc extends FieldDescriptions<string>>(
-  fields: FieldNameToField<FDesc>,
-  node: Node,
-  serializer: DOMSerializer
-) => {
-  // We gather the values from each child as we iterate over the
-  // node, to update the renderer. It's difficult to be typesafe here,
-  // as the Node's name value is loosely typed as `string`, and so we
-  // cannot index into the element `fieldDescription` to discover the appropriate type.
-  const fieldValues: Record<string, unknown> = {};
-  node.forEach((node) => {
-    const fieldName = getFieldNameFromNode(
-      node
-    ) as keyof FieldNameToField<FDesc>;
-    const field = fields[fieldName];
-
-    fieldValues[fieldName] = getFieldValueFromNode(
-      node,
-      field.description,
-      serializer
-    );
-  });
-
-  return fieldValues as FieldNameToValueMap<FDesc>;
-};
-
+/**
+ * Given a node and a set of fields associated with that node, update the
+ * corresponding FieldView instances in place.
+ */
 export const updateFieldViewsFromNode = <
   FDesc extends FieldDescriptions<string>
 >(
   fields: FieldNameToField<FDesc>,
   node: Node,
-  decos: DecorationSet | Decoration[]
+  decos: DecorationSet | Decoration[],
+  offset = 0
 ) => {
-  node.forEach((node, offset) => {
+  node.forEach((node, localOffset) => {
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    field.view.onUpdate(node, offset, decos);
+    field.view.onUpdate(node, offset + localOffset, decos);
+
+    if (!isRepeaterField(field)) {
+      return;
+    }
+
+    // We offset by two positions here to account for the additional depth
+    // of the parent and child repeater nodes.
+    const depthOffset = 2;
+    node.forEach((childNode, repeaterOffset, index) => {
+      updateFieldViewsFromNode(
+        field.children[index],
+        childNode,
+        decos,
+        offset + localOffset + repeaterOffset + depthOffset
+      );
+    });
   });
 };

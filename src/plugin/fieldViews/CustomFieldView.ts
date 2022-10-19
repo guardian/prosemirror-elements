@@ -60,7 +60,7 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
     // Returns the current position of the parent FieldView in the document.
     protected getPos: () => number,
     // The offset of this node relative to its parent FieldView.
-    protected offset: number
+    public offset: number
   ) {}
 
   /**

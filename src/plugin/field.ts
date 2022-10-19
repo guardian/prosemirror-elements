@@ -6,19 +6,20 @@ import { getElementFieldViewFromType } from "./helpers/fieldView";
 import { validateValue } from "./helpers/validation";
 import { getFieldNameFromNode } from "./nodeSpec";
 import type {
-  ElementSpec,
   Field,
   FieldDescriptions,
   FieldNameToField,
 } from "./types/Element";
+import { isRepeaterField } from "./types/Element";
 
 type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   node: Node;
-  element: ElementSpec<FDesc>;
+  fieldDescriptions: FDesc;
   view: EditorView;
   getPos: () => number;
   innerDecos: Array<Decoration<Record<string, unknown>>> | DecorationSet;
   serializer: DOMSerializer;
+  offset?: number;
 };
 
 /**
@@ -26,27 +27,24 @@ type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
  */
 export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,
-  element,
+  fieldDescriptions,
   view,
   getPos,
   innerDecos,
   serializer,
+  offset = 0,
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
 
-  node.forEach((fieldNode, offset) => {
+  node.forEach((fieldNode, localOffset) => {
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
-    const fieldDescription = element.fieldDescriptions[fieldName];
-
+    const fieldDescription = fieldDescriptions[fieldName];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldDescription) {
       throw new Error(
-        getErrorMessageForAbsentField(
-          fieldName,
-          Object.keys(element.fieldDescriptions)
-        )
+        getErrorMessageForAbsentField(fieldName, Object.keys(fieldDescriptions))
       );
     }
 
@@ -54,9 +52,39 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       node: fieldNode,
       view,
       getPos,
-      offset,
+      offset: offset + localOffset,
       innerDecos,
     });
+
+    if (fieldDescription.type === "repeater") {
+      const children = [] as unknown[];
+      fieldNode.forEach((repeaterChildNode, repeaterOffset) => {
+        // We offset by two positions here to account for the additional depth
+        // of the parent and child repeater nodes.
+        const depthOffset = 2;
+        const localGetPos = () => getPos();
+        children.push(
+          getFieldsFromNode({
+            node: repeaterChildNode,
+            fieldDescriptions: fieldDescription.fields,
+            view,
+            getPos: localGetPos,
+            innerDecos,
+            serializer,
+            offset: offset + localOffset + repeaterOffset + depthOffset,
+          })
+        );
+      });
+
+      fields[fieldName] = ({
+        description: fieldDescription,
+        name: fieldName,
+        view: fieldView,
+        children,
+      } as unknown) as FieldNameToField<FDesc>[typeof fieldName];
+
+      return;
+    }
 
     const value = getFieldValueFromNode(
       fieldNode,
@@ -94,6 +122,10 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
  * Calculate new field values and errors for an element from a Node representing
  * a set of fields in Prosemirror, returning a new Fields object containing the
  * new values.
+ *
+ * Does not update the FieldViews associated with each field. This is best done
+ * in a separate pass for optimisation and hygiene reasons, as it keeps this
+ * function pure.
  */
 export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,
@@ -113,6 +145,23 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       throw new Error(
         getErrorMessageForAbsentField(fieldName, Object.keys(fields))
       );
+    }
+
+    if (isRepeaterField(field)) {
+      fieldNode.forEach((childNode, _, index) => {
+        const pathToChild = `${fieldName}.children[${index}]`;
+        const newFieldsForChild = updateFieldsFromNode({
+          node: childNode,
+          fields: field.children[index],
+          serializer,
+        });
+
+        if (newFieldsForChild !== field.children[index]) {
+          newFields = set(pathToChild)(newFieldsForChild)(newFields);
+        }
+      });
+
+      return;
     }
 
     const newValue = getFieldValueFromNode(

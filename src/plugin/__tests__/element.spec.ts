@@ -286,14 +286,16 @@ describe("buildElementPlugin", () => {
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement__repeater1">
-            <div pme-field-name="testElement__field1">
-              <p>Content 1</p>
+          <div pme-field-name="testElement__repeater1__parent">
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <p>Content 1</p>
+              </div>
             </div>
-          </div>
-          <div pme-field-name="testElement__repeater1">
-            <div pme-field-name="testElement__field1">
-              <p>Content 2</p>
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <p>Content 2</p>
+              </div>
             </div>
           </div>
         </div>`);
@@ -341,32 +343,38 @@ describe("buildElementPlugin", () => {
       })(view.state, view.dispatch);
 
       const expected = trimHtml(`
-        <div pme-element-type="testElement">
-          <div pme-field-name="testElement__repeater1">
-            <div pme-field-name="testElement__repeater2">
+      <div pme-element-type="testElement">
+      <div pme-field-name="testElement__repeater1__parent">
+        <div pme-field-name="testElement__repeater1__child">
+          <div pme-field-name="testElement__repeater2__parent">
+            <div pme-field-name="testElement__repeater2__child">
               <div pme-field-name="testElement__field1">
                 <p>Content 1</p>
               </div>
             </div>
-            <div pme-field-name="testElement__repeater2">
+            <div pme-field-name="testElement__repeater2__child">
               <div pme-field-name="testElement__field1">
                 <p>Content 2</p>
               </div>
             </div>
           </div>
-          <div pme-field-name="testElement__repeater1">
-            <div pme-field-name="testElement__repeater2">
+        </div>
+        <div pme-field-name="testElement__repeater1__child">
+          <div pme-field-name="testElement__repeater2__parent">
+            <div pme-field-name="testElement__repeater2__child">
               <div pme-field-name="testElement__field1">
                 <p>Content 3</p>
               </div>
             </div>
-            <div pme-field-name="testElement__repeater2">
+            <div pme-field-name="testElement__repeater2__child">
               <div pme-field-name="testElement__field1">
                 <p>Content 4</p>
               </div>
             </div>
           </div>
-        </div>`);
+        </div>
+      </div>
+    </div>`);
       expect(getElementAsHTML()).toBe(expected);
     });
 
@@ -454,6 +462,7 @@ describe("buildElementPlugin", () => {
           <div pme-field-name="testElement__field1"><p></p></div>
           <div pme-field-name="testElement__field2"></div>
           <div pme-field-name="testElement__field3" fields="true"></div>
+          <div pme-field-name="testElement__repeater1__parent"></div>
           </div>
         `;
 
@@ -557,8 +566,10 @@ describe("buildElementPlugin", () => {
             <div pme-field-name="testElement__field1"><p>Content</p></div>
             <div pme-field-name="testElement__field2">Content</div>
             <div pme-field-name="testElement__field3" fields="true"></div>
-            <div pme-field-name="testElement__repeater1">
-              <div pme-field-name="testElement__field4"><p>Repeater content</p></div>
+            <div pme-field-name="testElement__repeater1__parent">
+              <div pme-field-name="testElement__repeater1__child">
+                <div pme-field-name="testElement__field4"><p>Repeater content</p></div>
+              </div>
             </div>
           </div>
         `;

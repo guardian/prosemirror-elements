@@ -29,6 +29,7 @@ export abstract class FieldView<NodeValue> {
   public static fieldType: FieldType;
   // The HTML element this fieldView renders content into.
   public abstract fieldViewElement?: HTMLElement;
+  public abstract offset: number;
 
   /**
    * Called when the fieldView is updated from the parent editor.
