@@ -3,11 +3,13 @@
   "compilerOptions": {
     // be explicit about types included
     // to avoid clashing with Jest types
-    "types": ["cypress"]
+    "types": ["cypress"],
+    "allowJs": true
   },
   "include": [
     "../node_modules/cypress",
     "../declarations",
-    "./**/*.spec.ts"
+    "../webpack.config.js",
+    "./**/*.cy.ts"
   ]
 }

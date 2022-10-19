@@ -75,8 +75,8 @@ describe("ImageElement", () => {
         focusElementField("src");
         getDocSelection().then(([from, to]) => {
           // The selection should be at the first field of the element
-          expect(from).to.equal(17);
-          expect(to).to.equal(17);
+          expect(from).to.equal(19);
+          expect(to).to.equal(19);
         });
       });
       it(`caption – should have a placeholder`, () => {
