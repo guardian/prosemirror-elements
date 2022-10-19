@@ -198,7 +198,7 @@ export const moveDownTestId = "ElementWrapper__moveDown";
 export const removeTestId = "ElementWrapper__remove";
 export const selectTestId = "ElementWrapper__select";
 
-export function ElementWrapper({
+export const ElementWrapper: React.FunctionComponent<Props> = ({
   moveUp,
   moveDown,
   moveTop,
@@ -208,7 +208,7 @@ export function ElementWrapper({
   isSelected,
   onRemove,
   children,
-}: Props) {
+}) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
   const sendTelemetryEvent = useContext(TelemetryContext);
 
@@ -335,143 +335,4 @@ export function ElementWrapper({
       </Body>
     </Container>
   );
-}
-
-// export const ElementWrapper: React.FunctionComponent<Props> = ({
-//   moveUp,
-//   moveDown,
-//   moveTop,
-//   moveBottom,
-//   remove,
-//   select,
-//   isSelected,
-//   onRemove,
-//   children,
-// }) => {
-//   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
-//   const sendTelemetryEvent = useContext(TelemetryContext);
-
-//   return (
-//     <Container
-//       className="ProsemirrorElement__wrapper"
-//       data-cy={elementWrapperTestId}
-//     >
-//       <Body>
-//         <LeftActions className="actions">
-//           <SeriousButton
-//             type="button"
-//             data-cy={selectTestId}
-//             disabled={!select(false)}
-//             onClick={() => {
-//               sendTelemetryEvent?.(CommandTelemetryType.PMESelectButtonPressed);
-//               select(true);
-//             }}
-//             aria-label="Select element"
-//           >
-//             <SvgHighlightAlt />
-//           </SeriousButton>
-//           <SeriousButton
-//             type="button"
-//             activated={closeClickedOnce}
-//             data-cy={removeTestId}
-//             disabled={!remove(false)}
-//             onClick={() => {
-//               if (closeClickedOnce) {
-//                 sendTelemetryEvent?.(
-//                   CommandTelemetryType.PMERemoveButtonPressed
-//                 );
-//                 remove(true);
-//                 onRemove?.();
-//               } else {
-//                 setCloseClickedOnce(true);
-//                 setTimeout(() => {
-//                   setCloseClickedOnce(false);
-//                 }, 5000);
-//               }
-//             }}
-//             aria-label="Delete element"
-//           >
-//             <SvgBin />
-//             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
-//           </SeriousButton>
-//         </LeftActions>
-//         <Panel isSelected={isSelected}>
-//           {isSelected && <Overlay />}
-//           {children}
-//         </Panel>
-//         <RightActions className="actions">
-//           <Button
-//             type="button"
-//             data-cy={moveTopTestId}
-//             disabled={!moveTop(false)}
-//             onClick={() => {
-//               sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
-//                 jump: true,
-//               });
-//               moveTop(true);
-//             }}
-//             aria-label="Move element to top"
-//           >
-//             <div
-//               css={css`
-//                 transform: rotate(270deg) translate(1px, 1px);
-//               `}
-//             >
-//               <SvgChevronRightDouble />
-//             </div>
-//           </Button>
-//           <Button
-//             type="button"
-//             data-cy={moveUpTestId}
-//             expanded
-//             disabled={!moveUp(false)}
-//             onClick={() => {
-//               sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
-//                 jump: false,
-//               });
-//               moveUp(true);
-//             }}
-//             aria-label="Move element up"
-//           >
-//             <SvgArrowUpStraight />
-//           </Button>
-//           <Button
-//             type="button"
-//             data-cy={moveDownTestId}
-//             expanded
-//             disabled={!moveDown(false)}
-//             onClick={() => {
-//               sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
-//                 jump: false,
-//               });
-//               moveDown(true);
-//             }}
-//             aria-label="Move element down"
-//           >
-//             <SvgArrowDownStraight />
-//           </Button>
-//           <Button
-//             type="button"
-//             data-cy={moveBottomTestId}
-//             disabled={!moveBottom(false)}
-//             onClick={() => {
-//               sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
-//                 jump: true,
-//               });
-//               moveBottom(true);
-//             }}
-//             aria-label="Move element to bottom"
-//           >
-//             <div
-//               css={css`
-//                 transform: rotate(90deg) translate(-2px, 2px);
-//               `}
-//             >
-//               <SvgChevronRightDouble />
-//             </div>
-//           </Button>
-//         </RightActions>
-//       </Body>
-//     </Container>
-//   );
-// };
+};
