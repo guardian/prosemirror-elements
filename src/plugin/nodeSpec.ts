@@ -3,8 +3,15 @@ import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import { FieldContentType } from "./fieldViews/FieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
+import {
+  getRepeaterChildNodeName,
+  getRepeaterParentNodeName,
+  repeaterFieldType,
+} from "./fieldViews/RepeaterFieldView";
+import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
+import { getRepeaterUUID } from "./helpers/util";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
 // An attribute added to Element nodes to identify them as such.
@@ -194,8 +201,10 @@ export const getNodeSpecForField = (
           group: fieldGroupName,
           content,
           toDOM: getDefaultToDOMForRepeaterNode(childNodeName),
-          parseDOM: getDefaultParseDOMForLeafNode(childNodeName),
-          attrs: {},
+          parseDOM: getDefaultParseDOMForRepeaterChildNode(childNodeName),
+          attrs: {
+            [RepeaterFieldMapIDKey]: {},
+          },
         },
         ...extraFields,
       };
@@ -236,6 +245,22 @@ const getDefaultToDOMForRepeaterNode = (nodeName: string) => () => [
     [fieldNameAttr]: nodeName,
   },
   0,
+];
+
+const getDefaultParseDOMForRepeaterChildNode = (nodeName: string) => [
+  {
+    tag: "div",
+    getAttrs: (dom: Element) => {
+      const domFieldName = dom.getAttribute(fieldNameAttr);
+      if (domFieldName !== nodeName) {
+        return false;
+      }
+
+      return {
+        [RepeaterFieldMapIDKey]: getRepeaterUUID(),
+      };
+    },
+  },
 ];
 
 const getDefaultParseDOMForLeafNode = (nodeName: string) => [
@@ -339,7 +364,7 @@ const createRepeaterNode = <
       nodeName
     );
     return childNodeType.createAndFill(
-      { type: fieldDesc.type },
+      { type: fieldDesc.type, [RepeaterFieldMapIDKey]: getRepeaterUUID() },
       fieldNodes
     ) as Node;
   });
@@ -402,11 +427,6 @@ export const getNodeNameFromField = (fieldName: string, nodeName: string) =>
 
 export const getFieldNameFromNode = (node: Node) =>
   node.type.name.split("__")[1];
-
-export const getRepeaterChildNodeName = (nodeName: string) =>
-  `${nodeName}__child`;
-export const getRepeaterParentNodeName = (nodeName: string) =>
-  `${nodeName}__parent`;
 
 /**
  * Node names must not include hyphens, as they're a reserved character in the content spec,

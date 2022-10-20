@@ -1,6 +1,7 @@
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
 import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import { getFieldValueFromNode } from "./helpers/element";
 import { getElementFieldViewFromType } from "./helpers/fieldView";
 import { validateValue } from "./helpers/validation";
@@ -9,6 +10,7 @@ import type {
   Field,
   FieldDescriptions,
   FieldNameToField,
+  RepeaterField,
 } from "./types/Element";
 import { isRepeaterField } from "./types/Element";
 
@@ -35,6 +37,7 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   offset = 0,
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
+  applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
 
   node.forEach((fieldNode, localOffset) => {
     const fieldName = getFieldNameFromNode(
@@ -48,7 +51,7 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
       );
     }
 
-    const fieldView = getElementFieldViewFromType(fieldDescription, {
+    const fieldView = getElementFieldViewFromType(fieldName, fieldDescription, {
       node: fieldNode,
       view,
       getPos,
@@ -62,18 +65,17 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
         // We offset by two positions here to account for the additional depth
         // of the parent and child repeater nodes.
         const depthOffset = 2;
-        const localGetPos = () => getPos();
-        children.push(
-          getFieldsFromNode({
-            node: repeaterChildNode,
-            fieldDescriptions: fieldDescription.fields,
-            view,
-            getPos: localGetPos,
-            innerDecos,
-            serializer,
-            offset: offset + localOffset + repeaterOffset + depthOffset,
-          })
-        );
+        const child = getFieldsFromNode({
+          node: repeaterChildNode,
+          fieldDescriptions: fieldDescription.fields,
+          view,
+          getPos,
+          innerDecos,
+          serializer,
+          offset: offset + localOffset + repeaterOffset + depthOffset,
+        });
+
+        children.push(child);
       });
 
       fields[fieldName] = ({
@@ -116,6 +118,10 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   node: Node;
   fields: FieldNameToField<FDesc>;
   serializer: DOMSerializer;
+  getPos: () => number;
+  view: EditorView;
+  innerDecos: Array<Decoration<Record<string, unknown>>> | DecorationSet;
+  offset?: number;
 };
 
 /**
@@ -130,11 +136,15 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
 export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   node,
   fields,
+  getPos,
   serializer,
+  view,
+  innerDecos,
+  offset = 0,
 }: UpdateFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   let newFields = fields;
 
-  node.forEach((fieldNode) => {
+  node.forEach((fieldNode, localOffset) => {
     const fieldName = getFieldNameFromNode(
       fieldNode
     ) as keyof FieldNameToField<FDesc>;
@@ -148,18 +158,71 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     }
 
     if (isRepeaterField(field)) {
-      fieldNode.forEach((childNode, _, index) => {
-        const pathToChild = `${fieldName}.children[${index}]`;
+      fieldNode.forEach((childNode, repeaterOffset, index) => {
+        const accumulatedOffset = offset + localOffset + repeaterOffset;
+
+        // The index of the child node may now differ from its field. We look the
+        // field up via the fieldIndex, but write it to the nodeIndex, ensuring the
+        // order of the child fields reflect the new node order.
+        const pathToNewFieldIndex = `${fieldName}.children[${index}]`;
+        const currentFieldIndex = field.children.findIndex(
+          (childFields) =>
+            childFields[RepeaterFieldMapIDKey] ===
+            childNode.attrs[RepeaterFieldMapIDKey]
+        );
+
+        // Update the field in-place. If there is no field at this index, create one.
+        const fields =
+          currentFieldIndex !== -1
+            ? field.children[currentFieldIndex]
+            : getFieldsFromNode({
+                node: childNode,
+                fieldDescriptions: field.description.fields,
+                view,
+                getPos,
+                serializer,
+                offset: accumulatedOffset,
+                innerDecos,
+              });
+
         const newFieldsForChild = updateFieldsFromNode({
           node: childNode,
-          fields: field.children[index],
+          fields,
           serializer,
+          view,
+          getPos,
+          offset: accumulatedOffset,
+          innerDecos,
         });
 
-        if (newFieldsForChild !== field.children[index]) {
-          newFields = set(pathToChild)(newFieldsForChild)(newFields);
+        if (
+          newFieldsForChild !== field.children[index] ||
+          index !== currentFieldIndex
+        ) {
+          newFields = set(pathToNewFieldIndex)(newFieldsForChild)(newFields);
         }
       });
+
+      const amendedRepeaterField = newFields[fieldName] as RepeaterField<
+        Record<string, never>
+      >;
+
+      // Remove any children that are no longer represented in the parent node.
+      // Any old children that have not been replaced will be at the end of the
+      // array of children, so truncating that array to the length of the node
+      // will remove them.
+      if (amendedRepeaterField.children.length > fieldNode.childCount) {
+        const truncatedFieldChildren = amendedRepeaterField.children.slice(
+          0,
+          fieldNode.childCount
+        );
+        console.log(
+          `removing ${field.children.length - fieldNode.childCount} nodes`
+        );
+        newFields = set(`${fieldName}.children`)(truncatedFieldChildren)(
+          newFields
+        );
+      }
 
       return;
     }
@@ -188,6 +251,43 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   return newFields;
 };
 
+/**
+ * Given a node and a set of fields associated with that node, update the
+ * corresponding FieldView instances in place.
+ */
+export const updateFieldViewsFromNode = <
+  FDesc extends FieldDescriptions<string>
+>(
+  fields: FieldNameToField<FDesc>,
+  node: Node,
+  decos: DecorationSet | Decoration[],
+  offset = 0
+) => {
+  node.forEach((node, localOffset) => {
+    const fieldName = getFieldNameFromNode(
+      node
+    ) as keyof FieldNameToField<FDesc>;
+    const field = fields[fieldName];
+    field.view.onUpdate(node, offset + localOffset, decos);
+
+    if (!isRepeaterField(field)) {
+      return;
+    }
+
+    // We offset by two positions here to account for the additional depth
+    // of the parent and child repeater nodes.
+    const depthOffset = 2;
+    node.forEach((childNode, repeaterOffset, index) => {
+      updateFieldViewsFromNode(
+        field.children[index],
+        childNode,
+        decos,
+        offset + localOffset + repeaterOffset + depthOffset
+      );
+    });
+  });
+};
+
 const getErrorMessageForAbsentField = (
   absentFieldName: string,
   possibleFieldNames: string[]
@@ -195,3 +295,6 @@ const getErrorMessageForAbsentField = (
   `[prosemirror-elements]: Attempted to get values for a node with type ${absentFieldName} from fields ${Object.keys(
     possibleFieldNames
   ).join("")}, but field was not present.`;
+
+const applyFieldUUIDToObject = (obj: Record<string, unknown>, uuid: string) =>
+  (obj[RepeaterFieldMapIDKey] = uuid);

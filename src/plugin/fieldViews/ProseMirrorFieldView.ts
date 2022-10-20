@@ -347,6 +347,9 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const element = document.createElement("div");
     element.innerHTML = htmlContent;
     const content = this.parser.parse(element);
-    return this.node.type.create({ type: this.fieldName }, content);
+    return this.node.type.create(
+      { type: this.node.attrs.type as string },
+      content
+    );
   }
 }

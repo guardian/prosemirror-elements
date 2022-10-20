@@ -62,7 +62,7 @@ describe("nodeSpec generation", () => {
     );
 
     expect(nodeSpec.get("testElement1")).toMatchObject({
-      content: "testElement1__fieldRepeater__parent*",
+      content: "testElement1__fieldRepeater__parent",
     });
     expect(nodeSpec.get("testElement1__field1")).toMatchObject({
       content: "paragraph+",

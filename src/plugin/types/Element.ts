@@ -26,6 +26,7 @@ import type {
   TextFieldDescription,
   TextFieldView,
 } from "../fieldViews/TextFieldView";
+import type { RepeaterFieldMapIDKey } from "../helpers/constants";
 import type {
   FieldNameToValueMap,
   FieldNameToValueMapWithEmptyValues,
@@ -70,7 +71,9 @@ export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
   view: RepeaterFieldView;
   description: RepeaterFieldDescription<FDesc>;
   name: string;
-  children: Array<FieldNameToField<FDesc>>;
+  children: Array<
+    FieldNameToField<FDesc> & { [RepeaterFieldMapIDKey]: string }
+  >;
 }
 
 export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(

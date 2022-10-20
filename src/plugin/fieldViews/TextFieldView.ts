@@ -130,7 +130,6 @@ export class TextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      TextFieldView.fieldType,
       [keymap(keymapping)],
       placeholder,
       isResizeable
