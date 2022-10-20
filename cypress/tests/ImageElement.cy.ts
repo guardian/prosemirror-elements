@@ -1,9 +1,16 @@
-import { UpdateAltTextButtonId } from "../../src/elements/demo-image/DemoImageElementForm";
+import {
+  AddNestedRepeaterButtonId,
+  AddRepeaterButtonId,
+  RemoveNestedRepeaterButtonId,
+  RemoveRepeaterButtonId,
+  UpdateAltTextButtonId,
+} from "../../src/elements/demo-image/DemoImageElementForm";
 import {
   addImageElement,
   assertDocHtml,
   boldShortcut,
   changeTestDecoString,
+  clickButton,
   focusElementField,
   getDocSelection,
   getElementField,
@@ -570,6 +577,59 @@ describe("ImageElement", () => {
         getElementHeading("altText").contains("Required").should("not.exist");
         typeIntoElementField("altText", "{backspace}");
         getElementHeading("altText").contains("Required").should("exist");
+      });
+    });
+
+    describe("Repeater behaviour", () => {
+      it("should add repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        getElementRichTextField("repeaterText").should("exist");
+      });
+      it("should remove repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        clickButton(RemoveRepeaterButtonId);
+        getElementRichTextField("repeaterText").should("not.exist");
+      });
+      it("should accept values in repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        typeIntoElementField("repeaterText", "Repeater value");
+        assertDocHtml(
+          getSerialisedHtml({
+            repeaterValue: [{ repeaterText: "Repeater value" }],
+          })
+        );
+      });
+      it("should add nested repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        clickButton(AddNestedRepeaterButtonId);
+        getElementRichTextField("nestedRepeaterText").should("exist");
+      });
+      it("should remove nested repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        clickButton(AddNestedRepeaterButtonId);
+        clickButton(RemoveNestedRepeaterButtonId);
+        getElementRichTextField("nestedRepeaterText").should("not.exist");
+      });
+      it("should accept values in nested repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        clickButton(AddNestedRepeaterButtonId);
+        typeIntoElementField("nestedRepeaterText", "Repeater value");
+        assertDocHtml(
+          getSerialisedHtml({
+            repeaterValue: [
+              {
+                repeaterText: "",
+                nestedRepeater: [{ nestedRepeaterText: "Repeater value" }],
+              },
+            ],
+          })
+        );
       });
     });
   });
