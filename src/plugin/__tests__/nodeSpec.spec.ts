@@ -246,7 +246,7 @@ describe("nodeSpec generation", () => {
         expect(
           nodeSpec["exampleElement__exampleRepeater__child"]
         ).toMatchObject({
-          content: "exampleElement__nestedRepeaterField__parent*",
+          content: "exampleElement__nestedRepeaterField__parent",
         });
         expect(
           nodeSpec["exampleElement__nestedRepeaterField__parent"]
