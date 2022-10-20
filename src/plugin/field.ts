@@ -37,7 +37,9 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   offset = 0,
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
-  applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
+  if (node.attrs[RepeaterFieldMapIDKey]) {
+    applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
+  }
 
   node.forEach((fieldNode, localOffset) => {
     const fieldName = getFieldNameFromNode(
@@ -216,9 +218,7 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
           0,
           fieldNode.childCount
         );
-        console.log(
-          `removing ${field.children.length - fieldNode.childCount} nodes`
-        );
+
         newFields = set(`${fieldName}.children`)(truncatedFieldChildren)(
           newFields
         );
