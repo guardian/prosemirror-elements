@@ -14,7 +14,7 @@ const InputHeadingContainer = styled.div`
 // Because the `for` label element cannot be used with contenteditable,
 // we must use `aria-labelledby` for the correct accessibility – but we
 // lose the label onclick behaviour that we'd usually get with `for`. This
-// link backfills that behaviour.
+// link backfills that behaviour. See https://stackoverflow.com/a/54792667.
 const LabelLink = styled.a`
   color: inherit;
   text-decoration: none;
