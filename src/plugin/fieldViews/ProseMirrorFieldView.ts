@@ -1,4 +1,3 @@
-import uniqueId from "lodash/uniqueId";
 import type { AttributeSpec, Node } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
