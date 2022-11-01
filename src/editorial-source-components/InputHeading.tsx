@@ -18,6 +18,7 @@ export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
 
 export type InputHeadingProps = {
   headingLabel: React.ReactNode;
+  labelId?: string;
   headingContent?: React.ReactNode;
   description?: React.ReactNode;
   errors?: string[];
@@ -30,10 +31,11 @@ export const InputHeading = ({
   description,
   errors,
   name,
+  labelId,
 }: InputHeadingProps) => (
   <InputHeadingContainer data-cy={getFieldHeadingTestId(name ?? "")}>
     <Heading>
-      <Label>{headingLabel}</Label>
+      <Label id={labelId}>{headingLabel}</Label>
       {headingContent}
     </Heading>
     {errors && errors.length > 0 ? (

@@ -2,8 +2,8 @@ import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import type { Options } from "./DropdownFieldView";
-import type { BaseFieldDescription, FieldView } from "./FieldView";
-import { FieldType } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
+import { FieldType, FieldView } from "./FieldView";
 
 export interface CustomFieldDescription<Data = unknown, Props = unknown>
   extends BaseFieldDescription<Data> {
@@ -45,10 +45,11 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * state changes. In this way, consuming code can manage state and UI changes itself,
  * perhaps in its own renderer format.
  */
-export class CustomFieldView<Value = unknown> implements FieldView<Value> {
+export class CustomFieldView<Value = unknown> extends FieldView<Value> {
   public static fieldName = "custom" as const;
   public static fieldType = FieldType.ATTRIBUTES;
   public static defaultValue = undefined;
+  public fieldViewElement?: undefined;
 
   private subscribers: Array<Subscriber<Value>> = [];
 
@@ -61,7 +62,9 @@ export class CustomFieldView<Value = unknown> implements FieldView<Value> {
     protected getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     public offset: number
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * @returns A function that can be called to update the node fields.

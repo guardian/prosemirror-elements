@@ -25,6 +25,7 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
   <div className={className}>
     <InputHeading
       name={field.name}
+      labelId={field.view.getId()}
       headingLabel={headingLabel}
       headingContent={headingContent}
       description={description}

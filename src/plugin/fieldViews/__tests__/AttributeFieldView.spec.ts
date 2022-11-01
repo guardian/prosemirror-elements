@@ -3,7 +3,7 @@ import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { createEditorWithElements } from "../../helpers/test";
 import { getNodeNameFromField, getNodeSpecForField } from "../../nodeSpec";
-import { AttributeFieldView } from "../AttributeFieldView";
+import AttributeFieldView from "../AttributeFieldView";
 
 const createInnerViewSpy = jest.fn();
 const updateInnerViewSpy = jest.fn();
