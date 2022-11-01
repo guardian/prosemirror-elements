@@ -11,6 +11,16 @@ const InputHeadingContainer = styled.div`
   margin-bottom: ${space[2]}px;
 `;
 
+// Because the `for` label element cannot be used with contenteditable,
+// we must use `aria-labelledby` for the correct accessibility – but we
+// lose the label onclick behaviour that we'd usually get with `for`. This
+// link backfills that behaviour.
+const LabelLink = styled.a`
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+`;
+
 const Errors = ({ errors }: { errors: string[] }) =>
   !errors.length ? null : <Error>{errors.join(", ")}</Error>;
 
@@ -18,7 +28,7 @@ export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
 
 export type InputHeadingProps = {
   headingLabel: React.ReactNode;
-  labelId?: string;
+  fieldId?: string;
   headingContent?: React.ReactNode;
   description?: React.ReactNode;
   errors?: string[];
@@ -31,11 +41,13 @@ export const InputHeading = ({
   description,
   errors,
   name,
-  labelId,
+  fieldId,
 }: InputHeadingProps) => (
   <InputHeadingContainer data-cy={getFieldHeadingTestId(name ?? "")}>
     <Heading>
-      <Label id={labelId}>{headingLabel}</Label>
+      <LabelLink href={fieldId ? `#${fieldId}` : ""}>
+        <Label id={fieldId ? `label-${fieldId}` : ""}>{headingLabel}</Label>
+      </LabelLink>
       {headingContent}
     </Heading>
     {errors && errors.length > 0 ? (

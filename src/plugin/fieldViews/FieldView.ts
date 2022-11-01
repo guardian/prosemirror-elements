@@ -34,7 +34,7 @@ export abstract class FieldView<NodeValue> {
 
   private id = uniqueId();
 
-  public getId = () => this.id;
+  public getId = () => `field-${this.id}`;
 
   /**
    * Called when the fieldView is updated from the parent editor.

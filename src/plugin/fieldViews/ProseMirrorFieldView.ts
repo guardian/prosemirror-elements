@@ -262,7 +262,8 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       decorations: () => this.decorations,
     });
 
-    view.dom.setAttribute("aria-labelledby", this.getId());
+    view.dom.id = this.getId();
+    view.dom.setAttribute("aria-labelledby", `label-${this.getId()}`);
 
     return view;
   }

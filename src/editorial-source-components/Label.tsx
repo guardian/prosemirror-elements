@@ -7,6 +7,7 @@ export const labelStyles = css`
   font-family: "Guardian Agate Sans";
   display: block;
   user-select: none;
+  cursor: pointer;
 `;
 
 export const Label = styled.label`
