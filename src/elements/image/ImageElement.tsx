@@ -7,9 +7,9 @@ import {
 import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import type { Asset } from "../helpers/defaultTransform";
-import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import { largestAssetMinDimension } from "./imageElementValidation";
 

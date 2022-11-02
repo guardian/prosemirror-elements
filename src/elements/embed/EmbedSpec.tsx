@@ -4,13 +4,13 @@ import {
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import {
   htmlMaxLength,
   maxLength,
   required,
 } from "../../plugin/helpers/validation";
 import { parseHtml } from "../helpers/html";
-import { undefinedDropdownValue } from "../helpers/transform";
 import type { MainEmbedOptions } from "./EmbedForm";
 
 export const getCalloutTag = (html: string) => {

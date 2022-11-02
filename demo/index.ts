@@ -26,11 +26,9 @@ import {
   pullquoteElement,
   richlinkElement,
   tableElement,
-} from "../src";
-import {
-  transformElementOut,
   undefinedDropdownValue,
-} from "../src/elements/helpers/transform";
+} from "../src";
+import { transformElementOut } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/image/ImageElement";
 import { buildElementPlugin } from "../src/plugin/element";
 import {

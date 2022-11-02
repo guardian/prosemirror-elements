@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label, NonBoldLabel } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";
-import { undefinedDropdownValue } from "../helpers/transform";
 import type { ContentAtomData, FetchContentAtomData } from "./ContentAtomSpec";
 import { contentAtomFields } from "./ContentAtomSpec";
 
