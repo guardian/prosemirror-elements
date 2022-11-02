@@ -26,6 +26,7 @@ import {
   pullquoteElement,
   richlinkElement,
   tableElement,
+  cartoonElement,
 } from "../src";
 import {
   transformElementOut,
@@ -96,6 +97,7 @@ const tweetElementName = "tweet";
 const contentAtomName = "content-atom";
 const commentElementName = "comment";
 const campaignCalloutListElementName = "callout";
+const cartoonElementName = "cartoon";
 
 type Name =
   | typeof embedElementName
@@ -118,7 +120,8 @@ type Name =
   | typeof tweetElementName
   | typeof contentAtomName
   | typeof commentElementName
-  | typeof campaignCalloutListElementName;
+  | typeof campaignCalloutListElementName
+  | typeof cartoonElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -212,6 +215,7 @@ const {
     vine: deprecatedElement,
     instagram: deprecatedElement,
     comment: commentElement,
+    cartoon: cartoonElement,
     tweet: createTweetElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
@@ -415,6 +419,7 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
+    { label: "Cartoon", name: cartoonElementName, values: sampleComment },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>
