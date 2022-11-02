@@ -11,7 +11,7 @@ import {
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
-import { getRepeaterUUID } from "./helpers/util";
+import { getRepeaterID } from "./helpers/util";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
 // An attribute added to Element nodes to identify them as such.
@@ -257,7 +257,7 @@ const getDefaultParseDOMForRepeaterChildNode = (nodeName: string) => [
       }
 
       return {
-        [RepeaterFieldMapIDKey]: getRepeaterUUID(),
+        [RepeaterFieldMapIDKey]: getRepeaterID(),
       };
     },
   },
@@ -364,7 +364,7 @@ const createRepeaterNode = <
       nodeName
     );
     return childNodeType.createAndFill(
-      { type: fieldDesc.type, [RepeaterFieldMapIDKey]: getRepeaterUUID() },
+      { type: fieldDesc.type, [RepeaterFieldMapIDKey]: getRepeaterID() },
       fieldNodes
     ) as Node;
   });

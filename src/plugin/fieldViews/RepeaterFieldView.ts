@@ -1,7 +1,7 @@
 import type { Node, Schema } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "../helpers/constants";
-import { getRepeaterUUID } from "../helpers/util";
+import { getRepeaterID } from "../helpers/util";
 import type { FieldDescriptions } from "../types/Element";
 import type { BaseFieldDescription } from "./FieldView";
 import { FieldContentType, FieldView } from "./FieldView";
@@ -78,7 +78,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
     );
     const newNode = (this.node.type.schema as Schema).nodes[
       repeaterChildNodeName
-    ].createAndFill({ [RepeaterFieldMapIDKey]: getRepeaterUUID() });
+    ].createAndFill({ [RepeaterFieldMapIDKey]: getRepeaterID() });
     if (!newNode) {
       console.warn(
         `[prosemirror-elements]: Could not create new repeater node of type ${this.fieldName}: createAndFill did not return a node`

@@ -10,4 +10,4 @@ export const waitOneMicroTask = (cb: () => void) => {
 export const waitForNextLayout = () =>
   new Promise((res) => requestAnimationFrame(() => setTimeout(res)));
 
-export const getRepeaterID = () => uniqueId;
+export const getRepeaterID = () => uniqueId();
