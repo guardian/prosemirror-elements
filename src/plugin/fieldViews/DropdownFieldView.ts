@@ -8,7 +8,7 @@ export type Option = { text: string; value: string };
 export type Options = readonly Option[];
 
 export interface DropdownFieldDescription extends BaseFieldDescription<string> {
-  type: typeof DropdownFieldView.fieldName;
+  type: typeof DropdownFieldView.fieldType;
   options: Options;
 }
 
@@ -17,7 +17,7 @@ export const createDropDownField = (
   defaultValue: string,
   validators?: FieldValidator[]
 ): DropdownFieldDescription => ({
-  type: DropdownFieldView.fieldName,
+  type: DropdownFieldView.fieldType,
   options,
   defaultValue,
   validators,
@@ -27,7 +27,7 @@ export type DropdownFields = string;
 
 export class DropdownFieldView extends AttributeFieldView<string> {
   private dropdownElement: HTMLSelectElement | undefined = undefined;
-  public static fieldName = "dropdown" as const;
+  public static fieldType = "dropdown" as const;
   public static defaultValue = "";
 
   constructor(

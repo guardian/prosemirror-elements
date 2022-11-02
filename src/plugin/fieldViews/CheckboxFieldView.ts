@@ -8,20 +8,20 @@ export type CheckboxValue = boolean;
 
 export interface CheckboxFieldDescription
   extends BaseFieldDescription<CheckboxValue> {
-  type: typeof CheckboxFieldView.fieldName;
+  type: typeof CheckboxFieldView.fieldType;
 }
 
 export const createCheckBox = (
   defaultValue: boolean,
   validators?: FieldValidator[]
 ): CheckboxFieldDescription => ({
-  type: CheckboxFieldView.fieldName,
+  type: CheckboxFieldView.fieldType,
   defaultValue,
   validators,
 });
 
 export class CheckboxFieldView extends AttributeFieldView<CheckboxValue> {
-  public static fieldName = "checkbox" as const;
+  public static fieldType = "checkbox" as const;
   public static defaultValue = false;
   private checkboxElement: HTMLInputElement | undefined = undefined;
 

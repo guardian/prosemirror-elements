@@ -2,21 +2,28 @@ import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
 import type { FieldDescriptions } from "../types/Element";
 import type { BaseFieldDescription } from "./FieldView";
-import { FieldType, FieldView } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
-export const repeaterFieldName = "repeater" as const;
+export const repeaterFieldType = "repeater" as const;
+
+export const getRepeaterChildNodeName = (nodeName: string) =>
+  `${nodeName}__child`;
+export const getRepeaterParentNodeName = (nodeName: string) =>
+  `${nodeName}__parent`;
+export const getRepeaterChildNameFromParent = (nodeName: string) =>
+  nodeName.replace("__parent", "__child");
 
 export const createRepeaterField = <FDesc extends FieldDescriptions<string>>(
   fields: FDesc
 ) => ({
-  type: repeaterFieldName,
+  type: repeaterFieldType,
   fields,
 });
 
 export interface RepeaterFieldDescription<
   FDesc extends FieldDescriptions<string>
 > extends BaseFieldDescription<unknown> {
-  type: typeof repeaterFieldName;
+  type: typeof repeaterFieldType;
   fields: FDesc;
 }
 
@@ -24,13 +31,13 @@ export interface RepeaterFieldDescription<
  * A FieldView representing a node that contains user-defined child nodes.
  */
 export class RepeaterFieldView extends FieldView<unknown> {
-  public static fieldName = repeaterFieldName;
-  public static fieldType = FieldType.REPEATER;
+  public static fieldType = repeaterFieldType;
+  public static fieldContentType = FieldContentType.REPEATER;
   public static defaultValue = [];
   public fieldViewElement?: undefined;
 
   public constructor(
-    private node: Node,
+    public node: Node,
     public offset: number,
     private decorations: DecorationSet | Decoration[]
   ) {

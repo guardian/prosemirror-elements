@@ -19,23 +19,23 @@ import { isRepeaterField } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
-  [TextFieldView.fieldName]: TextFieldView,
-  [RichTextFieldView.fieldName]: RichTextFieldView,
-  [CheckboxFieldView.fieldName]: CheckboxFieldView,
-  [DropdownFieldView.fieldName]: DropdownFieldView,
-  [CustomFieldView.fieldName]: CustomFieldView,
-  [RepeaterFieldView.fieldName]: RepeaterFieldView,
+  [TextFieldView.fieldType]: TextFieldView,
+  [RichTextFieldView.fieldType]: RichTextFieldView,
+  [CheckboxFieldView.fieldType]: CheckboxFieldView,
+  [DropdownFieldView.fieldType]: DropdownFieldView,
+  [CustomFieldView.fieldType]: CustomFieldView,
+  [RepeaterFieldView.fieldType]: RepeaterFieldView,
 };
 
 export type FieldTypeToViewMap<Field> = {
-  [TextFieldView.fieldName]: TextFieldView;
-  [RichTextFieldView.fieldName]: RichTextFieldView;
-  [CheckboxFieldView.fieldName]: CheckboxFieldView;
-  [DropdownFieldView.fieldName]: DropdownFieldView;
-  [CustomFieldView.fieldName]: Field extends CustomFieldDescription<infer Data>
+  [TextFieldView.fieldType]: TextFieldView;
+  [RichTextFieldView.fieldType]: RichTextFieldView;
+  [CheckboxFieldView.fieldType]: CheckboxFieldView;
+  [DropdownFieldView.fieldType]: DropdownFieldView;
+  [CustomFieldView.fieldType]: Field extends CustomFieldDescription<infer Data>
     ? CustomFieldView<Data>
     : never;
-  [RepeaterFieldView.fieldName]: RepeaterFieldView;
+  [RepeaterFieldView.fieldType]: RepeaterFieldView;
 };
 
 /**
@@ -45,16 +45,16 @@ export type FieldTypeToValueMap<
   FDesc extends FieldDescriptions<string>,
   Name extends keyof FDesc
 > = {
-  [TextFieldView.fieldName]: string;
-  [RichTextFieldView.fieldName]: string;
-  [CheckboxFieldView.fieldName]: CheckboxValue;
-  [DropdownFieldView.fieldName]: string;
-  [CustomFieldView.fieldName]: FDesc[Name] extends CustomFieldDescription<
+  [TextFieldView.fieldType]: string;
+  [RichTextFieldView.fieldType]: string;
+  [CheckboxFieldView.fieldType]: CheckboxValue;
+  [DropdownFieldView.fieldType]: string;
+  [CustomFieldView.fieldType]: FDesc[Name] extends CustomFieldDescription<
     infer Data
   >
     ? Data
     : never;
-  [RepeaterFieldView.fieldName]: FDesc[Name] extends RepeaterFieldDescription<
+  [RepeaterFieldView.fieldType]: FDesc[Name] extends RepeaterFieldDescription<
     infer NestedFDesc
   >
     ? Array<FieldNameToValueMap<NestedFDesc>>
