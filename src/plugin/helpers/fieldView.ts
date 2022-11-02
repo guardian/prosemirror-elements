@@ -9,13 +9,7 @@ import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
 import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
-import { getFieldNameFromNode } from "../nodeSpec";
-import type {
-  FieldDescription,
-  FieldDescriptions,
-  FieldNameToField,
-} from "../types/Element";
-import { isRepeaterField } from "../types/Element";
+import type { FieldDescription, FieldDescriptions } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {

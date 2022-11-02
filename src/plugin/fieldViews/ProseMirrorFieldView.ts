@@ -64,8 +64,6 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     public offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    // The ProseMirror node type name
-    private readonly fieldName: string,
     // Plugins that the editor should use
     plugins?: Plugin[],
     // The field placeholder option
