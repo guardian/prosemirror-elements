@@ -37,8 +37,12 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   offset = 0,
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
+
+  // If our node has a repeater UID attached, add it to the field.
+  // These UIDs are present on repeater child nodes.
   if (node.attrs[RepeaterFieldMapIDKey]) {
-    applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
+    (fields as Record<string, unknown>)[RepeaterFieldMapIDKey] =
+      node.attrs[RepeaterFieldMapIDKey];
   }
 
   node.forEach((fieldNode, localOffset) => {
@@ -295,6 +299,3 @@ const getErrorMessageForAbsentField = (
   `[prosemirror-elements]: Attempted to get values for a node with type ${absentFieldName} from fields ${Object.keys(
     possibleFieldNames
   ).join("")}, but field was not present.`;
-
-const applyFieldUUIDToObject = (obj: Record<string, unknown>, uuid: string) =>
-  (obj[RepeaterFieldMapIDKey] = uuid);
