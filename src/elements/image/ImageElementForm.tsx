@@ -17,7 +17,7 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import { createStore } from "../../renderers/react/store";
 import { TelemetryContext } from "../../renderers/react/TelemetryContext";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
-import type { Asset } from "../helpers/defaultTransform";
+import { getImageSrc } from "../helpers/getImageSrc";
 import { htmlLength } from "../helpers/validation";
 import type {
   ImageElementOptions,
@@ -234,26 +234,9 @@ const ImageView = ({ field, updateFields }: ImageViewProps) => {
     }
   };
 
-  const imageSrc = useMemo(() => {
-    const desiredWidth = 1200;
-
-    const widthDifference = (width: number) => Math.abs(desiredWidth - width);
-
-    const stringOrNumberToNumber = (value: string | number) => {
-      const parsedValue = parseInt(value.toString());
-      return !isNaN(parsedValue) ? parsedValue : 0;
-    };
-
-    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
-      widthDifference(stringOrNumberToNumber(assetA.fields.width)) -
-      widthDifference(stringOrNumberToNumber(assetB.fields.width));
-
-    const sortedAssets = imageFields.assets
-      .filter((asset) => !asset.fields.isMaster)
-      .sort(sortByWidthDifference);
-
-    return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;
-  }, [imageFields.assets]);
+  const imageSrc = useMemo(() => getImageSrc(imageFields.assets, 1200), [
+    imageFields.assets,
+  ]);
 
   return (
     <div>

@@ -26,4 +26,4 @@ export {
 export { useTyperighterAttr } from "./elements/helpers/typerighter";
 export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
-export {cartoonElement} from "./elements/cartoon/CartoonElement";
+export { cartoonElement } from "./elements/cartoon/CartoonForm";

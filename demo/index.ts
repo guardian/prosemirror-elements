@@ -11,6 +11,7 @@ import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
+  cartoonElement,
   codeElement,
   commentElement,
   createCalloutElement,
@@ -26,7 +27,6 @@ import {
   pullquoteElement,
   richlinkElement,
   tableElement,
-  cartoonElement,
 } from "../src";
 import {
   transformElementOut,
@@ -419,7 +419,7 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
-    { label: "Cartoon", name: cartoonElementName, values: sampleComment },
+    // { label: "Cartoon", name: cartoonElementName, values: sampleCartoon },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>
@@ -427,7 +427,7 @@ const createEditor = (server: CollabServer) => {
   );
 
   const imageElementButton = document.createElement("button");
-  imageElementButton.innerHTML = "Image element";
+  imageElementButton.innerHTML = "Add Image";
   imageElementButton.id = imageElementName;
   imageElementButton.addEventListener("click", () => {
     const setMedia = (mediaPayload: MediaPayload) => {
@@ -452,12 +452,37 @@ const createEditor = (server: CollabServer) => {
     };
     onCropImage(setMedia);
   });
+  btnContainer.appendChild(imageElementButton);
+
+  const cartoonElementButton = document.createElement("button");
+  cartoonElementButton.innerHTML = "Add Cartoon";
+  cartoonElementButton.id = cartoonElementName;
+  cartoonElementButton.addEventListener("click", () => {
+    const setMedia = (mediaPayload: MediaPayload) => {
+      const {
+        photographer,
+        mediaId,
+        mediaApiUri,
+        assets,
+        suppliersReference,
+        caption,
+      } = mediaPayload;
+      insertElement({
+        elementName: cartoonElementName,
+        values: {
+          mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+          credit: photographer,
+          alt: caption,
+        },
+      })(view.state, view.dispatch);
+    };
+    onCropImage(setMedia);
+  });
+  btnContainer.appendChild(cartoonElementButton);
 
   // Add a button allowing you to toggle the image role fields
-  btnContainer.appendChild(imageElementButton);
   const toggleImageFields = document.createElement("button");
   toggleImageFields.innerHTML = "Randomise image role options";
-
   toggleImageFields.addEventListener("click", () => {
     updateAdditionalRoleOptions(
       [...additionalRoleOptions].splice(Math.floor(Math.random() * 3), 2)
