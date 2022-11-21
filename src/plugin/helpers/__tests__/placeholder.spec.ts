@@ -11,8 +11,8 @@ import { getDecoSpecs } from "../test";
 
 describe("createPlaceholderDecos", () => {
   const getDecosFromView = (view: EditorView): DecorationSet =>
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- someProp always provides an `any` type.
-    view.someProp("decorations")(view.state) as DecorationSet;
+    // eslint-disable-next-line -- someProp always provides an `any` type.
+    view.someProp("decorations")!(view.state) as DecorationSet;
 
   const getViewWithPlaceholderPlugin = (
     initialDoc: Node = schema.nodes.doc.create({}, schema.text("Content")),
@@ -22,7 +22,7 @@ describe("createPlaceholderDecos", () => {
       doc: initialDoc,
       plugins: [createPlaceholderPlugin(initialPlaceholder)],
     });
-    const view = new EditorView(undefined, { state });
+    const view = new EditorView(null, { state });
     const decorations = getDecosFromView(view);
 
     return { view, decorations };

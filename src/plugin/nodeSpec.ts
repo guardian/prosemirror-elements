@@ -380,7 +380,7 @@ const createRepeaterNode = <
 const createContentNodeFromText = (
   content: string,
   fieldDesc: FieldDescription,
-  nodeType: NodeType<Schema>
+  nodeType: NodeType
 ) =>
   nodeType.create(
     { type: fieldDesc.type },

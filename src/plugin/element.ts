@@ -62,10 +62,7 @@ export const buildElementPlugin = <
 
   const insertElement = (
     elementData: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>
-  ) => (
-    state: EditorState,
-    dispatch: (tr: Transaction<Schema>) => void
-  ): void => {
+  ) => (state: EditorState, dispatch: (tr: Transaction) => void): void => {
     const maybeNode = getNodeFromElementData(elementData, state.schema);
 
     if (!maybeNode) {

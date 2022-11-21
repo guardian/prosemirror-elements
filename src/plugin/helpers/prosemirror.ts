@@ -5,7 +5,7 @@ import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 
-type NodesBetweenArgs = [Node, number, Node, number];
+type NodesBetweenArgs = [Node, number, Node | null, number];
 export type Commands = ReturnType<typeof buildCommands>;
 
 const nodesBetween = (state: EditorState, _from: number, _to: number) => {
@@ -18,8 +18,7 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   state.doc.nodesBetween(
     from,
     to,
-    (node: Node, pos: number, parent: Node, index: number) =>
-      !!arr.push([node, pos, parent, index])
+    (node, pos, parent, index) => !!arr.push([node, pos, parent, index])
   );
   if (dir < 0) {
     arr.reverse();
@@ -30,13 +29,17 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
 export type Predicate = (
   node: Node,
   pos: number,
-  parent: Node,
+  parent: Node | null,
   index?: number
 ) => boolean;
 type CommandDirection = "up" | "down" | "top" | "bottom";
 
-const defaultPredicate: Predicate = (node: Node, pos: number, parent: Node) =>
-  parent.type.name === "doc" &&
+const defaultPredicate: Predicate = (
+  node: Node,
+  _: number,
+  parent: Node | null
+) =>
+  parent?.type.name === "doc" &&
   (node.type.name === "element" || !!node.textContent);
 
 const findPredicate = (consumerPredicate: Predicate, currentPos: number) => ([

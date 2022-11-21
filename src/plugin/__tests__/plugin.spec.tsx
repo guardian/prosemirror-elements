@@ -175,7 +175,7 @@ describe("createPlugin", () => {
   describe("Response to decoration changes", () => {
     it("should not update the consumer and FieldView when the decorations have not changed", () => {
       // This plugin returns the same set of decorations on each state transition.
-      const decos = new DecorationSet();
+      const decos = DecorationSet.empty;
       const decoPlugin = new Plugin({
         props: {
           decorations: () => decos,
@@ -209,7 +209,7 @@ describe("createPlugin", () => {
       const decoPlugin = new Plugin({
         props: {
           decorations: (state) => {
-            return new DecorationSet().add(state.doc, [
+            return DecorationSet.create(state.doc, [
               Decoration.inline(
                 positionInsideElement,
                 positionInsideElement + 1,
@@ -247,7 +247,7 @@ describe("createPlugin", () => {
       const decoPlugin = new Plugin({
         props: {
           decorations: (state) => {
-            return new DecorationSet().add(state.doc, [
+            return DecorationSet.create(state.doc, [
               Decoration.inline(
                 positionOutsideElement,
                 positionOutsideElement + 1,

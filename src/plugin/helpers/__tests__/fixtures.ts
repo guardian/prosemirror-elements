@@ -1,5 +1,6 @@
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
+import type { NodeBuilder } from "prosemirror-test-builder";
 import { builders } from "prosemirror-test-builder";
 import { createRepeaterField } from "../../fieldViews/RepeaterFieldView";
 import { createTextField } from "../../fieldViews/TextFieldView";
@@ -25,7 +26,7 @@ export const { view, nodeSpec, serializer } = createEditorWithElements(
   elements
 );
 
-export const schema = new Schema({
+export const schema: Schema = new Schema({
   // eslint-disable-next-line -- the basic schema types should guarantee this is a NodeSpec
   nodes: (basicSchema.spec.nodes as any).append(nodeSpec),
   marks: basicSchema.spec.marks,
@@ -39,9 +40,9 @@ export const {
   example__repeated__child,
   example__nestedText,
   p,
-} = builders(schema, {
+} = (builders(schema, {
   example__repeated__child: {
     nodeType: "example__repeated__child",
     [RepeaterFieldMapIDKey]: "static-uuid",
   },
-});
+}) as unknown) as Record<string, NodeBuilder>;
