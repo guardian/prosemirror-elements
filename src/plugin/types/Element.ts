@@ -109,7 +109,8 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     commands: ReturnType<CommandCreator>,
-    sendTelemetryEvent: SendTelemetryEvent | undefined
+    sendTelemetryEvent: SendTelemetryEvent | undefined,
+    getElementData: () => ExtractFieldValues<FDesc>
   ) => (
     fields: FieldNameToField<FDesc>,
     commands: ReturnType<CommandCreator>,

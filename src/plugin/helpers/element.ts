@@ -15,6 +15,7 @@ import {
 import type {
   ElementSpecMap,
   ExtractDataTypeFromElementSpec,
+  ExtractFieldValues,
   FieldDescription,
   FieldDescriptions,
   FieldNameToField,
@@ -100,10 +101,10 @@ export const createGetElementDataFromNode = <
     serializer
   );
 
-  return {
+  return ({
     elementName,
     values,
-  } as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
+  } as unknown) as ExtractDataTypeFromElementSpec<ESpecMap, ElementNames>;
 };
 
 export const getFieldValuesFromNode = <
@@ -137,7 +138,7 @@ export const getFieldValuesFromNode = <
     values[fieldName] = value;
   });
 
-  return values;
+  return values as ExtractFieldValues<FDesc>;
 };
 
 export const getFieldValueFromNode = (

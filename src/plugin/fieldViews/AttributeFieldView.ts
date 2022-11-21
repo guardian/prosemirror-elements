@@ -1,13 +1,13 @@
 import type { Node, NodeType } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import type { FieldView } from "./FieldView";
-import { FieldContentType } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
 /**
  * A FieldView representing a node that contains fields that are updated atomically.
  */
-export abstract class AttributeFieldView<Value extends unknown>
-  implements FieldView<Value> {
+export abstract class AttributeFieldView<
+  Value extends unknown
+> extends FieldView<Value> {
   public static fieldType: string;
   public static fieldContentType = FieldContentType.ATTRIBUTES;
   // The parent DOM element for this view. Public
@@ -25,6 +25,7 @@ export abstract class AttributeFieldView<Value extends unknown>
     // The offset of this node relative to its parent FieldView.
     public offset: number
   ) {
+    super();
     this.nodeType = node.type;
   }
 

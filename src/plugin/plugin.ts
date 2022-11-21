@@ -14,6 +14,7 @@ import {
   updateFieldsFromNode,
   updateFieldViewsFromNode,
 } from "./field";
+import { getFieldValuesFromNode } from "./helpers/element";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import {
@@ -154,6 +155,7 @@ const createNodeView = <
 
   const serializer = DOMSerializer.fromSchema(initElementNode.type.schema);
   const initCommands = commands(getPos, view);
+
   const fields = getFieldsFromNode({
     node: initElementNode,
     fieldDescriptions: element.fieldDescriptions,
@@ -182,6 +184,9 @@ const createNodeView = <
   let currentIsSelected = false;
   let currentCommandValues = getCommandValues(initCommands);
 
+  const getElementDataFromNode = () =>
+    getFieldValuesFromNode(currentNode, element.fieldDescriptions, serializer);
+
   const update = element.createUpdator(
     dom,
     fields,
@@ -194,7 +199,8 @@ const createNodeView = <
       );
     },
     initCommands,
-    sendTelemetryEvent
+    sendTelemetryEvent,
+    getElementDataFromNode
   );
 
   return {
