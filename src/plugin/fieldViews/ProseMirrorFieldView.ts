@@ -11,7 +11,7 @@ import {
   PME_UPDATE_PLACEHOLDER,
 } from "../helpers/placeholder";
 import type { BaseFieldDescription } from "./FieldView";
-import { FieldType, FieldView } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
 export interface AbstractTextFieldDescription
   extends BaseFieldDescription<string> {
@@ -29,7 +29,7 @@ export interface AbstractTextFieldDescription
  * A FieldView that represents a nested prosemirror instance.
  */
 export abstract class ProseMirrorFieldView extends FieldView<string> {
-  public static fieldType = FieldType.CONTENT;
+  public static fieldContentType = FieldContentType.CONTENT;
   public static defaultValue = "";
 
   // The parent DOM element for this view. Public
@@ -53,7 +53,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    private node: Node,
+    public node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.

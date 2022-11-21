@@ -1,6 +1,6 @@
 import type { Node, NodeType } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
-import { FieldType, FieldView } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
 /**
  * A FieldView representing a node that contains fields that are updated atomically.
@@ -8,8 +8,8 @@ import { FieldType, FieldView } from "./FieldView";
 export abstract class AttributeFieldView<
   Value extends unknown
 > extends FieldView<Value> {
-  public static fieldName: string;
-  public static fieldType = FieldType.ATTRIBUTES;
+  public static fieldType: string;
+  public static fieldContentType = FieldContentType.ATTRIBUTES;
   // The parent DOM element for this view. Public
   // so it can be mounted by consuming elements.
   public fieldViewElement = document.createElement("div");
@@ -17,7 +17,7 @@ export abstract class AttributeFieldView<
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    node: Node,
+    public node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.

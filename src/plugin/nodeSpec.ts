@@ -1,9 +1,9 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
-import { FieldType } from "./fieldViews/FieldView";
+import { FieldContentType } from "./fieldViews/FieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
-import { repeaterFieldName } from "./fieldViews/RepeaterFieldView";
+import { repeaterFieldType } from "./fieldViews/RepeaterFieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
@@ -283,8 +283,8 @@ export const createNodesForFieldValues = <
       fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
-    switch (fieldView.fieldType) {
-      case FieldType.CONTENT: {
+    switch (fieldView.fieldContentType) {
+      case FieldContentType.CONTENT: {
         let content = fieldValue as string;
 
         return [
@@ -297,10 +297,10 @@ export const createNodesForFieldValues = <
             : createContentNodeFromText(content, field, nodeType),
         ];
       }
-      case FieldType.ATTRIBUTES: {
+      case FieldContentType.ATTRIBUTES: {
         return [nodeType.create({ type: field.type, fields: fieldValue })];
       }
-      case FieldType.REPEATER: {
+      case FieldContentType.REPEATER: {
         const content = fieldValue as unknown[];
         const node = createRepeaterNode(
           content,
@@ -385,7 +385,7 @@ export const getContentStringFromFields = (
     Object.keys(fieldDesc).map(
       (fieldName) =>
         `${getNodeNameFromField(fieldName, nodeName)}${
-          fieldDesc[fieldName].type === repeaterFieldName ? "__parent*" : ""
+          fieldDesc[fieldName].type === repeaterFieldType ? "__parent" : ""
         }`
     )
   ).join(" ");

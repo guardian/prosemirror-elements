@@ -12,7 +12,7 @@ import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
 export interface RichTextFieldDescription extends AbstractTextFieldDescription {
-  type: typeof RichTextFieldView.fieldName;
+  type: typeof RichTextFieldView.fieldType;
   createPlugins?: (schema: Schema) => Plugin[];
   // A content expression for this node. This will override the default content expression.
   content?: string;
@@ -44,7 +44,7 @@ export const createRichTextField = ({
   placeholder,
   isResizeable,
 }: RichTextOptions): RichTextFieldDescription => ({
-  type: RichTextFieldView.fieldName,
+  type: RichTextFieldView.fieldType,
   createPlugins,
   attrs,
   content,
@@ -108,7 +108,7 @@ export const createDefaultRichTextField = (
   });
 
 export class RichTextFieldView extends ProseMirrorFieldView {
-  public static fieldName = "richText" as const;
+  public static fieldType = "richText" as const;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -129,7 +129,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      RichTextFieldView.fieldName,
+      RichTextFieldView.fieldType,
       [
         keymap({
           "Mod-z": () => undo(outerView.state, outerView.dispatch),

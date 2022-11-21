@@ -3,11 +3,11 @@ import type { EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import type { Options } from "./DropdownFieldView";
 import type { BaseFieldDescription } from "./FieldView";
-import { FieldType, FieldView } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
 export interface CustomFieldDescription<Data = unknown, Props = unknown>
   extends BaseFieldDescription<Data> {
-  type: typeof CustomFieldView.fieldName;
+  type: typeof CustomFieldView.fieldType;
   defaultValue: Data;
   props: Props;
 }
@@ -46,8 +46,8 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * perhaps in its own renderer format.
  */
 export class CustomFieldView<Value = unknown> extends FieldView<Value> {
-  public static fieldName = "custom" as const;
-  public static fieldType = FieldType.ATTRIBUTES;
+  public static fieldType = "custom" as const;
+  public static fieldContentType = FieldContentType.ATTRIBUTES;
   public static defaultValue = undefined;
   public fieldViewElement?: undefined;
 
@@ -55,7 +55,7 @@ export class CustomFieldView<Value = unknown> extends FieldView<Value> {
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    protected node: Node,
+    public node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     protected outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.

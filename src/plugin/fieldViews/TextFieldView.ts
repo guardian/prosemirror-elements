@@ -14,7 +14,7 @@ import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
 export interface TextFieldDescription extends AbstractTextFieldDescription {
-  type: typeof TextFieldView.fieldName;
+  type: typeof TextFieldView.fieldType;
   // Can this field display over multiple lines? This will
   // insert line breaks (<br>) when the user hits the Enter key.
   isMultiline: boolean;
@@ -62,7 +62,7 @@ export const createTextField = (
     maxRows: undefined,
   }
 ): TextFieldDescription => ({
-  type: TextFieldView.fieldName,
+  type: TextFieldView.fieldType,
   isMultiline: rows > 1,
   isResizeable,
   maxRows,
@@ -75,7 +75,7 @@ export const createTextField = (
 });
 
 export class TextFieldView extends ProseMirrorFieldView {
-  public static fieldName = "text" as const;
+  public static fieldType = "text" as const;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -130,7 +130,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      TextFieldView.fieldName,
+      TextFieldView.fieldType,
       [keymap(keymapping)],
       placeholder,
       isResizeable

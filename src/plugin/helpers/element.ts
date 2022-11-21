@@ -146,7 +146,7 @@ export const getFieldValueFromNode = (
   fieldDescription: FieldDescription,
   serializer: DOMSerializer
 ): unknown => {
-  const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldType;
+  const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldContentType;
   if (fieldType === "ATTRIBUTES") {
     return getValuesFromAttributeNode(node);
   }
