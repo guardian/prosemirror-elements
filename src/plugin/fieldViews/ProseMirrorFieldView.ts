@@ -62,8 +62,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     public offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    // The ProseMirror node type name
-    private readonly fieldName: string,
     // Plugins that the editor should use
     plugins?: Plugin[],
     // The field placeholder option
@@ -353,6 +351,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     const element = document.createElement("div");
     element.innerHTML = htmlContent;
     const content = this.parser.parse(element);
-    return this.node.type.create({ type: this.fieldName }, content);
+    return this.node.type.create(
+      { type: this.node.attrs.type as string },
+      content
+    );
   }
 }

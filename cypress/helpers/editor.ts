@@ -113,6 +113,9 @@ export const addImageElement = (values: Record<string, unknown> = {}) => {
   });
 };
 
+export const clickButton = (id: string) =>
+  cy.get(`button${selectDataCy(id)}`).click();
+
 export const assertEditorFocus = (shouldBeFocused: boolean) => {
   cy.window().then((win: WindowType) => {
     const { view } = win.PM_ELEMENTS;
@@ -134,6 +137,10 @@ type ElementFields = {
     mediaId?: string;
     mediaApiUri?: string;
   };
+  repeaterValue?: Array<{
+    repeaterText: string;
+    nestedRepeater?: Array<{ nestedRepeaterText: string }>;
+  }>;
 };
 
 export const setDocFromHtml = (fields: ElementFields) => {
@@ -157,6 +164,7 @@ export const getSerialisedHtml = ({
     mediaId: undefined,
     mediaApiUri: undefined,
   },
+  repeaterValue = [],
 }: ElementFields): string => {
   const mainImageFields =
     mainImageValue.mediaId || mainImageValue.mediaApiUri
@@ -173,7 +181,28 @@ export const getSerialisedHtml = ({
     <div pme-field-name="demo_image_element__customDropdown" fields="&quot;${customDropdownValue}&quot;"></div>
     <div pme-field-name="demo_image_element__mainImage" fields="{${mainImageFields}}"></div>
     <div pme-field-name="demo_image_element__optionDropdown" fields="&quot;${optionValue}&quot;"></div>
-    <div pme-field-name="demo_image_element__repeater__parent"></div>
+    <div pme-field-name="demo_image_element__repeater__parent">
+        ${repeaterValue
+          .map(
+            (value) => `
+          <div pme-field-name="demo_image_element__repeater__child">
+            <div pme-field-name="demo_image_element__nestedRepeater__parent">
+            ${(value.nestedRepeater ?? [])
+              .map(
+                (nestedRepeaterValue) => `
+              <div pme-field-name="demo_image_element__nestedRepeater__child">
+                <div pme-field-name="demo_image_element__nestedRepeaterText">${nestedRepeaterValue.nestedRepeaterText}</div>
+              </div>`
+              )
+              .join("")}</div>
+            <div pme-field-name="demo_image_element__repeaterText">${
+              value.repeaterText
+            }</div>
+          </div>
+        `
+          )
+          .join("")}
+    </div>
     <div pme-field-name="demo_image_element__resizeable"></div>
     <div pme-field-name="demo_image_element__restrictedTextField">${restrictedTextValue}</div>
     <div pme-field-name="demo_image_element__src">${srcValue}</div>

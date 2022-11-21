@@ -9,9 +9,12 @@ import type {
   ElementSpecMap,
   FieldDescriptions,
 } from "../plugin/types/Element";
-import { getFieldsFromNode, updateFieldsFromNode } from "./field";
+import {
+  getFieldsFromNode,
+  updateFieldsFromNode,
+  updateFieldViewsFromNode,
+} from "./field";
 import { getFieldValuesFromNode } from "./helpers/element";
-import { updateFieldViewsFromNode } from "./helpers/fieldView";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import {
@@ -223,14 +226,17 @@ const createNodeView = <
         const newFields = fieldValuesChanged
           ? updateFieldsFromNode({
               node: newNode,
-              fields,
+              fields: currentFields,
+              innerDecos,
+              view,
+              getPos,
               serializer,
             })
           : currentFields;
 
         // Only update our FieldViews if their content or decorations have changed.
         if (fieldValuesChanged || innerDecosChanged) {
-          updateFieldViewsFromNode(fields, newNode, innerDecos);
+          updateFieldViewsFromNode(newFields, newNode, innerDecos);
         }
 
         // Only update our consumer if anything internal to the field has changed.

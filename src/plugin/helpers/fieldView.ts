@@ -9,13 +9,7 @@ import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
 import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
-import { getFieldNameFromNode } from "../nodeSpec";
-import type {
-  FieldDescription,
-  FieldDescriptions,
-  FieldNameToField,
-} from "../types/Element";
-import { isRepeaterField } from "../types/Element";
+import type { FieldDescription, FieldDescriptions } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -97,6 +91,7 @@ type Options = {
 };
 
 export const getElementFieldViewFromType = (
+  fieldName: string,
   field: FieldDescription,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
@@ -132,43 +127,6 @@ export const getElementFieldViewFromType = (
         field.options
       );
     case "repeater":
-      return new RepeaterFieldView(node, offset, innerDecos);
+      return new RepeaterFieldView(node, offset, getPos, view, fieldName);
   }
-};
-
-/**
- * Given a node and a set of fields associated with that node, update the
- * corresponding FieldView instances in place.
- */
-export const updateFieldViewsFromNode = <
-  FDesc extends FieldDescriptions<string>
->(
-  fields: FieldNameToField<FDesc>,
-  node: Node,
-  decos: DecorationSet | Decoration[],
-  offset = 0
-) => {
-  node.forEach((node, localOffset) => {
-    const fieldName = getFieldNameFromNode(
-      node
-    ) as keyof FieldNameToField<FDesc>;
-    const field = fields[fieldName];
-    field.view.onUpdate(node, offset + localOffset, decos);
-
-    if (!isRepeaterField(field)) {
-      return;
-    }
-
-    // We offset by two positions here to account for the additional depth
-    // of the parent and child repeater nodes.
-    const depthOffset = 2;
-    node.forEach((childNode, repeaterOffset, index) => {
-      updateFieldViewsFromNode(
-        field.children[index],
-        childNode,
-        decos,
-        offset + localOffset + repeaterOffset + depthOffset
-      );
-    });
-  });
 };
