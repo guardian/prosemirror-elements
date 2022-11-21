@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import { Column, Columns } from "@guardian/src-layout";
 import type { FunctionComponent } from "react";
 import React, { useMemo, useState } from "react";
@@ -104,14 +105,30 @@ export const cartoonElement = createReactElementSpec(
   }
 );
 
+const imageThumbnailStyle = css`
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background-color: #ccc;
+  img {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    inset: 0;
+    margin: auto;
+  }
+`;
+
 const ImageThumbnail: FunctionComponent<{
   image: MainImageData;
   altText: string;
 }> = ({ image, altText }) => {
   return (
-    <img
-      src={useMemo(() => getImageSrc(image.assets, 1200), [image.assets])}
-      alt={altText}
-    ></img>
+    <div css={imageThumbnailStyle}>
+      <img
+        src={useMemo(() => getImageSrc(image.assets, 1200), [image.assets])}
+        alt={altText}
+      ></img>
+    </div>
   );
 };
