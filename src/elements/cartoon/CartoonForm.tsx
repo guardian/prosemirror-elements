@@ -11,12 +11,15 @@ import { FieldLayoutVertical } from "../../editorial-source-components/VerticalF
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getImageSrc } from "../helpers/getImageSrc";
-import type { MainImageData, MediaPayload } from "../image/ImageElement";
+import type {
+  ImageSelector,
+  MainImageData,
+  MediaPayload,
+} from "../image/ImageElement";
 import { cartoonFields } from "./CartoonSpec";
 
-export const cartoonElement = createReactElementSpec(
-  cartoonFields,
-  ({ fields }) => {
+export const cartoonElement = (onCropImage: ImageSelector) => {
+  return createReactElementSpec(cartoonFields(onCropImage), ({ fields }) => {
     const [desktopImages, setDesktopImages] = useState<MainImageData[]>(
       fields.desktopImages.value
     );
@@ -101,8 +104,8 @@ export const cartoonElement = createReactElementSpec(
         </Columns>
       </>
     );
-  }
-);
+  });
+};
 
 const ImageSet: FunctionComponent<{
   title: string;

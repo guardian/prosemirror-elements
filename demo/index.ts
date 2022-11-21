@@ -215,7 +215,7 @@ const {
     vine: deprecatedElement,
     instagram: deprecatedElement,
     comment: commentElement,
-    cartoon: cartoonElement,
+    cartoon: cartoonElement(onCropImage),
     tweet: createTweetElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
