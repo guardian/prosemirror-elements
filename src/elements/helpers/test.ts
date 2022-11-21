@@ -1,5 +1,4 @@
 import { omit } from "lodash";
-import type OrderedMap from "orderedmap";
 import type { MarkSpec, NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
@@ -19,7 +18,7 @@ export const createTestSchema = (nodeSpec: NodeSpec) => {
   };
 
   const schema = new Schema({
-    nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
+    nodes: basicSchema.spec.nodes.append(nodeSpec),
     marks: { ...omit(marks, "code"), strike },
   });
   const { serializer, parser } = createParsers(schema);

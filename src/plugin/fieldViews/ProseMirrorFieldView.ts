@@ -157,7 +157,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     const diffStart = node.content.findDiffStart(state.doc.content);
 
-    if (diffStart === null || diffStart === undefined) {
+    if (diffStart === null) {
       return this.maybeRerenderDecorations();
     }
 

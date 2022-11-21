@@ -1,4 +1,3 @@
-import type { Schema } from "prosemirror-model";
 import { AllSelection, Plugin, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
@@ -71,9 +70,7 @@ describe("createPlugin", () => {
       `<p>Example doc</p>`,
       plugins
     );
-    const exampleText = (helpers.view.state.schema as Schema).text(
-      "New content"
-    );
+    const exampleText = helpers.view.state.schema.text("New content");
 
     helpers.insertElement({
       elementName: "testElement",
@@ -294,7 +291,7 @@ describe("createPlugin", () => {
       const tr = view.state.tr.replaceWith(
         positionThatEnablesUpCommand,
         positionThatEnablesUpCommand,
-        (view.state.schema as Schema).text("Text before element")
+        view.state.schema.text("Text before element")
       );
       view.dispatch(tr);
 

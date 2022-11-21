@@ -1,5 +1,5 @@
 import OrderedMap from "orderedmap";
-import type { NodeSpec, ResolvedPos, Schema } from "prosemirror-model";
+import type { NodeSpec, ResolvedPos } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import {

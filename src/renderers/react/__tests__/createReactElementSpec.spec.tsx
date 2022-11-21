@@ -31,7 +31,7 @@ describe("createReactElementSpec", () => {
       values: { field1: "Example text" },
     })(view.state, view.dispatch);
 
-    const dom = view.dom as HTMLElement;
+    const dom = view.dom;
 
     await waitFor(() => {
       expect(getByLabelText(dom, "field1")).toBeTruthy();
@@ -49,7 +49,7 @@ describe("createReactElementSpec", () => {
       values: { field1: "Example text" },
     })(view.state, view.dispatch);
 
-    const dom = view.dom as HTMLElement;
+    const dom = view.dom;
 
     await waitFor(() => getByLabelText(dom, "field1"));
 
