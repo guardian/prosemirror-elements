@@ -1,6 +1,6 @@
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { FieldDescriptions } from "../../plugin/types/Element";
-import { undefinedDropdownValue } from "./transform";
 import type { TransformIn, TransformOut } from "./types/Transform";
 
 export type Asset = {

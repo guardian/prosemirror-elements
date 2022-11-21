@@ -1,5 +1,5 @@
+import { undefinedDropdownValue } from "../../../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../../../plugin/helpers/fieldView";
-import { undefinedDropdownValue } from "../../../helpers/transform";
 import type { ExternalEmbedFields } from "../../embedDataTransformer";
 import { transformElement } from "../../embedDataTransformer";
 import type { createEmbedFields } from "../../EmbedSpec";

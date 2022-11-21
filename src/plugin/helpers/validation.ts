@@ -1,4 +1,3 @@
-import { undefinedDropdownValue } from "../../elements/helpers/transform";
 import type {
   ErrorLevel,
   FieldValidationErrors,
@@ -8,6 +7,7 @@ import type {
 } from "../elementSpec";
 import type { FieldNameToValueMap } from "../helpers/fieldView";
 import type { FieldDescriptions } from "../types/Element";
+import { undefinedDropdownValue } from "./constants";
 
 export const createValidator = (
   fieldValidationMap: Record<string, FieldValidator[]>

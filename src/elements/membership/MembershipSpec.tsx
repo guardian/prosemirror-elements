@@ -1,6 +1,6 @@
 import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
-import { undefinedDropdownValue } from "../helpers/transform";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 
 export const membershipFields = {
   role: createCustomDropdownField("inline", [

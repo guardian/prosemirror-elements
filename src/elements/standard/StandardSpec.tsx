@@ -6,10 +6,10 @@ import {
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { htmlMaxLength } from "../../plugin/helpers/validation";
 import type { Asset } from "../helpers/defaultTransform";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
-import { undefinedDropdownValue } from "../helpers/transform";
 
 /**
  * A standard element represents every element covered by
