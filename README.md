@@ -12,12 +12,13 @@ Modelling non-text content in Prosemirror can be tricky. `prosemirror-elements` 
 
 ## Setup
 
-`yarn` installs and sets up the project dependencies.
+1. Ensure you have `dev-nginx` and `yarn` installed on your local machine.
+2. Run the setup script: `./script/setup.sh`
 
 ## Run
 
 1. Ensure nginx is running.
-2. `yarn start` builds the project locally, spins up a webserver on http://localhost:7890, and watches for file changes.
+2. `yarn start` builds the project locally, spins up a webserver on https://prosemirror-elements.local.dev-gutools.co.uk, and watches for file changes.
 
 ## Testing
 
