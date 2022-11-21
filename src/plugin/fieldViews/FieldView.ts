@@ -1,3 +1,4 @@
+import { uniqueId } from "lodash";
 import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
@@ -31,6 +32,10 @@ export abstract class FieldView<NodeValue> {
   public abstract fieldViewElement?: HTMLElement;
   public abstract offset: number;
   public abstract node: Node;
+
+  private id = uniqueId();
+
+  public getId = () => `field-${this.id}`;
 
   /**
    * Called when the fieldView is updated from the parent editor.

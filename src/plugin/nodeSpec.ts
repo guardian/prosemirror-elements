@@ -3,6 +3,7 @@ import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import { FieldContentType } from "./fieldViews/FieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
+import { repeaterFieldType } from "./fieldViews/RepeaterFieldView";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";

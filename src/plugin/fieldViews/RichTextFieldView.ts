@@ -129,7 +129,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      RichTextFieldView.fieldName,
+      RichTextFieldView.fieldType,
       [
         keymap({
           "Mod-z": () => undo(outerView.state, outerView.dispatch),

@@ -26,6 +26,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   validate: Validator<FDesc>;
   consumer: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
+  onRemove?: () => void;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -68,6 +69,7 @@ export class ElementProvider<
         <ElementWrapper
           {...this.state.commands}
           isSelected={this.state.isSelected}
+          onRemove={this.props.onRemove}
         >
           <this.Element
             fields={this.state.fields}
