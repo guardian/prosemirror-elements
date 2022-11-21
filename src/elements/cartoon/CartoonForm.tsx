@@ -1,9 +1,9 @@
 import { Column, Columns } from "@guardian/src-layout";
+import type { FunctionComponent } from "react";
 import React, { useMemo, useState } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
-import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -14,35 +14,68 @@ import { cartoonFields } from "./CartoonSpec";
 export const cartoonElement = createReactElementSpec(
   cartoonFields,
   ({ fields }) => {
-    const [image, setImage] = useState<MainImageData>(fields.mainImage.value);
-
-    const imageSrc = useMemo(() => getImageSrc(image.assets, 1200), [
-      image.assets,
-    ]);
+    const [desktopImages, setDesktopImages] = useState<MainImageData[]>(
+      fields.desktopImages.value
+    );
+    const [mobileImages, setMobileImages] = useState<MainImageData[]>(
+      fields.mobileImages.value
+    );
 
     return (
-      <div>
+      <>
+        <Label>Cartoon</Label>
         <Columns>
-          <Column width={2 / 3}>
+          <Column width={1 / 3}>
             <FieldLayoutVertical>
-              <Label>Cartoon</Label>
-              <img src={imageSrc} alt={fields.alt.value}></img>
+              <Label>Desktop View</Label>
+              {desktopImages.map((image) => (
+                <ImageThumbnail image={image} altText={fields.alt.value} />
+              ))}
               <Button
                 priority="secondary"
                 size="xsmall"
-                icon={<SvgCrop />}
-                iconSide="left"
                 onClick={() => {
-                  fields.mainImage.description.props.openImageSelector(
-                    (mediaPayload: MediaPayload) => setImage(mediaPayload),
-                    image.mediaId
+                  fields.desktopImages.description.props.openImageSelector(
+                    (mediaPayload: MediaPayload) => {
+                      fields.desktopImages.update([
+                        ...desktopImages,
+                        mediaPayload,
+                      ]);
+                      setDesktopImages([...desktopImages, mediaPayload]);
+                    }
                   );
                 }}
               >
-                Re-crop image
+                Add image
               </Button>
             </FieldLayoutVertical>
           </Column>
+          <Column width={1 / 3}>
+            <FieldLayoutVertical>
+              <Label>Mobile View</Label>
+              {mobileImages.map((image) => (
+                <ImageThumbnail image={image} altText={fields.alt.value} />
+              ))}
+              <Button
+                priority="secondary"
+                size="xsmall"
+                onClick={() => {
+                  fields.desktopImages.description.props.openImageSelector(
+                    (mediaPayload: MediaPayload) => {
+                      fields.mobileImages.update([
+                        ...mobileImages,
+                        mediaPayload,
+                      ]);
+                      setMobileImages([...mobileImages, mediaPayload]);
+                    }
+                  );
+                }}
+              >
+                Add image
+              </Button>
+            </FieldLayoutVertical>
+          </Column>
+
           <Column width={1 / 3}>
             <FieldLayoutVertical>
               <CustomDropdownView
@@ -59,11 +92,26 @@ export const cartoonElement = createReactElementSpec(
                 field={fields.backgroundColour}
                 headingLabel="Background colour"
               />
-              <FieldWrapper field={fields.alt} headingLabel="Alt text" />
+              <FieldWrapper
+                field={fields.alt}
+                headingLabel="Default alt text"
+              />
             </FieldLayoutVertical>
           </Column>
         </Columns>
-      </div>
+      </>
     );
   }
 );
+
+const ImageThumbnail: FunctionComponent<{
+  image: MainImageData;
+  altText: string;
+}> = ({ image, altText }) => {
+  return (
+    <img
+      src={useMemo(() => getImageSrc(image.assets, 1200), [image.assets])}
+      alt={altText}
+    ></img>
+  );
+};

@@ -470,7 +470,9 @@ const createEditor = (server: CollabServer) => {
       insertElement({
         elementName: cartoonElementName,
         values: {
-          mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+          desktopImages: [
+            { assets, suppliersReference, mediaId, mediaApiUri, caption },
+          ],
           credit: photographer,
           alt: caption,
         },

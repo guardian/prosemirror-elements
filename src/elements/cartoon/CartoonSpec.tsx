@@ -37,17 +37,12 @@ export const cartoonFields = {
     isResizeable: true,
     attrs: useTyperighterAttrs,
   }),
-  mainImage: createCustomField<
-    MainImageData,
+  desktopImages: createCustomField<
+    MainImageData[],
     { openImageSelector: ImageSelector }
-  >(
-    {
-      mediaId: undefined,
-      mediaApiUri: undefined,
-      assets: [],
-      suppliersReference: "",
-    },
-    { openImageSelector: onCropImage },
-    [minAssetValidation]
-  ),
+  >([], { openImageSelector: onCropImage }, [minAssetValidation]),
+  mobileImages: createCustomField<
+    MainImageData[],
+    { openImageSelector: ImageSelector }
+  >([], { openImageSelector: onCropImage }, [minAssetValidation]),
 };
