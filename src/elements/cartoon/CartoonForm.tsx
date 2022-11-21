@@ -45,7 +45,8 @@ export const cartoonElement = createReactElementSpec(
                 addImage={() => {
                   fields.desktopImages.description.props.openImageSelector(
                     (mediaPayload: MediaPayload) =>
-                      setDesktopImages([...desktopImages, mediaPayload])
+                      setDesktopImages([...desktopImages, mediaPayload]),
+                    desktopImages[0]?.mediaId
                   );
                 }}
                 removeImage={(index) => {
@@ -64,7 +65,8 @@ export const cartoonElement = createReactElementSpec(
                 addImage={() => {
                   fields.mobileImages.description.props.openImageSelector(
                     (mediaPayload: MediaPayload) =>
-                      setMobileImages([...mobileImages, mediaPayload])
+                      setMobileImages([...mobileImages, mediaPayload]),
+                    desktopImages[0]?.mediaId
                   );
                 }}
                 removeImage={(index) => {
