@@ -3,8 +3,8 @@ import {
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { undefinedDropdownValue } from "../helpers/transform";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import type { ImageSelector, MainImageData } from "../image/ImageElement";
 import { minAssetValidation } from "../image/ImageElement";
