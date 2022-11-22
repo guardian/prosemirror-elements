@@ -1,11 +1,17 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
-import { FieldType } from "./fieldViews/FieldView";
+import { FieldContentType } from "./fieldViews/FieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
-import { repeaterFieldName } from "./fieldViews/RepeaterFieldView";
+import {
+  getRepeaterChildNodeName,
+  getRepeaterParentNodeName,
+  repeaterFieldType,
+} from "./fieldViews/RepeaterFieldView";
+import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
+import { getRepeaterID } from "./helpers/util";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
 
 // An attribute added to Element nodes to identify them as such.
@@ -195,8 +201,10 @@ export const getNodeSpecForField = (
           group: fieldGroupName,
           content,
           toDOM: getDefaultToDOMForRepeaterNode(childNodeName),
-          parseDOM: getDefaultParseDOMForLeafNode(childNodeName),
-          attrs: {},
+          parseDOM: getDefaultParseDOMForRepeaterChildNode(childNodeName),
+          attrs: {
+            [RepeaterFieldMapIDKey]: {},
+          },
         },
         ...extraFields,
       };
@@ -237,6 +245,22 @@ const getDefaultToDOMForRepeaterNode = (nodeName: string) => () => [
     [fieldNameAttr]: nodeName,
   },
   0,
+];
+
+const getDefaultParseDOMForRepeaterChildNode = (nodeName: string) => [
+  {
+    tag: "div",
+    getAttrs: (dom: Element) => {
+      const domFieldName = dom.getAttribute(fieldNameAttr);
+      if (domFieldName !== nodeName) {
+        return false;
+      }
+
+      return {
+        [RepeaterFieldMapIDKey]: getRepeaterID(),
+      };
+    },
+  },
 ];
 
 const getDefaultParseDOMForLeafNode = (nodeName: string) => [
@@ -283,8 +307,8 @@ export const createNodesForFieldValues = <
       fieldDescriptions[fieldName].defaultValue ?? // The default value supplied by the element field spec
       fieldTypeToViewMap[field.type].defaultValue; // The default value supplied by the FieldView
 
-    switch (fieldView.fieldType) {
-      case FieldType.CONTENT: {
+    switch (fieldView.fieldContentType) {
+      case FieldContentType.CONTENT: {
         let content = fieldValue as string;
 
         return [
@@ -297,10 +321,10 @@ export const createNodesForFieldValues = <
             : createContentNodeFromText(content, field, nodeType),
         ];
       }
-      case FieldType.ATTRIBUTES: {
+      case FieldContentType.ATTRIBUTES: {
         return [nodeType.create({ type: field.type, fields: fieldValue })];
       }
-      case FieldType.REPEATER: {
+      case FieldContentType.REPEATER: {
         const content = fieldValue as unknown[];
         const node = createRepeaterNode(
           content,
@@ -340,7 +364,7 @@ const createRepeaterNode = <
       nodeName
     );
     return childNodeType.createAndFill(
-      { type: fieldDesc.type },
+      { type: fieldDesc.type, [RepeaterFieldMapIDKey]: getRepeaterID() },
       fieldNodes
     ) as Node;
   });
@@ -385,7 +409,7 @@ export const getContentStringFromFields = (
     Object.keys(fieldDesc).map(
       (fieldName) =>
         `${getNodeNameFromField(fieldName, nodeName)}${
-          fieldDesc[fieldName].type === repeaterFieldName ? "__parent*" : ""
+          fieldDesc[fieldName].type === repeaterFieldType ? "__parent" : ""
         }`
     )
   ).join(" ");
@@ -403,11 +427,6 @@ export const getNodeNameFromField = (fieldName: string, nodeName: string) =>
 
 export const getFieldNameFromNode = (node: Node) =>
   node.type.name.split("__")[1];
-
-export const getRepeaterChildNodeName = (nodeName: string) =>
-  `${nodeName}__child`;
-export const getRepeaterParentNodeName = (nodeName: string) =>
-  `${nodeName}__parent`;
 
 /**
  * Node names must not include hyphens, as they're a reserved character in the content spec,

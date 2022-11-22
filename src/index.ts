@@ -21,9 +21,9 @@ export { createContentAtomElement } from "./elements/content-atom/ContentAtomFor
 export {
   transformElementIn,
   transformElementOut,
-  undefinedDropdownValue,
 } from "./elements/helpers/transform";
 export { useTyperighterAttr } from "./elements/helpers/typerighter";
 export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
 export { cartoonElement } from "./elements/cartoon/CartoonForm";
+export { undefinedDropdownValue } from "./plugin/helpers/constants";

@@ -6,9 +6,9 @@ import {
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
+import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import type { TrackingStatus } from "../helpers/ThirdPartyStatusChecks";
-import { undefinedDropdownValue } from "../helpers/transform";
 
 export type MainInteractiveProps = {
   checkThirdPartyTracking: (html: string) => Promise<TrackingStatus>;

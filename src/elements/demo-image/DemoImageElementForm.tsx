@@ -11,6 +11,10 @@ import type { DemoSetMedia } from "./DemoImageElement";
 
 export const ImageElementTestId = "ImageElement";
 export const UpdateAltTextButtonId = "UpdateAltTextButton";
+export const AddRepeaterButtonId = "AddRepeaterButton";
+export const AddNestedRepeaterButtonId = "AddNestedRepeaterButton";
+export const RemoveRepeaterButtonId = "RemoveRepeaterButton";
+export const RemoveNestedRepeaterButtonId = "RemoveNestedRepeaterButton";
 
 export const createDemoImageElement = (
   onSelect: (setSrc: DemoSetMedia) => void,
@@ -47,24 +51,54 @@ export const createDemoImageElement = (
       />
       <CustomDropdownView label="Options" field={fields.customDropdown} />
       <ul>
-        {fields.repeater.children.map((repeater) => (
-          <li>
+        {fields.repeater.children.map((repeater, index) => (
+          <li key={repeater.__ID}>
             <FieldWrapper
               headingLabel="Repeater text"
+              headingContent={
+                <button
+                  data-cy={RemoveRepeaterButtonId}
+                  onClick={() => fields.repeater.view.remove(index)}
+                >
+                  -
+                </button>
+              }
               field={repeater.repeaterText}
             />
             <ul>
-              {repeater.nestedRepeater.children.map((nestedRepeater) => (
-                <li>
+              {repeater.nestedRepeater.children.map((nestedRepeater, index) => (
+                <li key={nestedRepeater.__ID}>
                   <FieldWrapper
                     headingLabel="Nested repeater text"
+                    headingContent={
+                      <button
+                        data-cy={RemoveNestedRepeaterButtonId}
+                        onClick={() =>
+                          repeater.nestedRepeater.view.remove(index)
+                        }
+                      >
+                        -
+                      </button>
+                    }
                     field={nestedRepeater.nestedRepeaterText}
                   />
                 </li>
               ))}
             </ul>
+            <button
+              data-cy={AddNestedRepeaterButtonId}
+              onClick={() => repeater.nestedRepeater.view.add()}
+            >
+              +
+            </button>
           </li>
         ))}
+        <button
+          data-cy={AddRepeaterButtonId}
+          onClick={() => fields.repeater.view.add()}
+        >
+          +
+        </button>
       </ul>
     </FieldLayoutVertical>
   ));

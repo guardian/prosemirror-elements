@@ -1,3 +1,4 @@
+import { uniqueId } from "lodash";
 import type { Node } from "prosemirror-model";
 import type { Decoration, DecorationSet } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
@@ -12,7 +13,7 @@ export interface BaseFieldDescription<DefaultValue extends unknown> {
   validators?: FieldValidator[];
 }
 
-export enum FieldType {
+export enum FieldContentType {
   // Uses node attributes to store field data.
   ATTRIBUTES = "ATTRIBUTES",
   // Uses node content to store field data.
@@ -25,11 +26,16 @@ export enum FieldType {
  * Represents a prosemirror-element view of a Prosemirror Node.
  */
 export abstract class FieldView<NodeValue> {
-  public static fieldName: string;
-  public static fieldType: FieldType;
+  public static fieldType: string;
+  public static fieldContentType: FieldContentType;
   // The HTML element this fieldView renders content into.
   public abstract fieldViewElement?: HTMLElement;
   public abstract offset: number;
+  public abstract node: Node;
+
+  private id = uniqueId();
+
+  public getId = () => `field-${this.id}`;
 
   /**
    * Called when the fieldView is updated from the parent editor.

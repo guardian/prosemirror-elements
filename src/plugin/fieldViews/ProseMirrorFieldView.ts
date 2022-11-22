@@ -1,5 +1,5 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
-import { DOMParser, DOMSerializer } from "prosemirror-model";
+import { DOMParser } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
@@ -10,8 +10,8 @@ import {
   createPlaceholderPlugin,
   PME_UPDATE_PLACEHOLDER,
 } from "../helpers/placeholder";
-import type { BaseFieldDescription, FieldView } from "./FieldView";
-import { FieldType } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
 export interface AbstractTextFieldDescription
   extends BaseFieldDescription<string> {
@@ -28,8 +28,8 @@ export interface AbstractTextFieldDescription
 /**
  * A FieldView that represents a nested prosemirror instance.
  */
-export abstract class ProseMirrorFieldView implements FieldView<string> {
-  public static fieldType = FieldType.CONTENT;
+export abstract class ProseMirrorFieldView extends FieldView<string> {
+  public static fieldContentType = FieldContentType.CONTENT;
   public static defaultValue = "";
 
   // The parent DOM element for this view. Public
@@ -48,14 +48,12 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     | undefined;
   // Do we have a change in our decorations that is yet to be rendered?
   private decorationsPending = false;
-  // The serialiser for the Node.
-  private serialiser: DOMSerializer;
   // The parser for the Node.
   private parser: DOMParser;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    private node: Node,
+    public node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
@@ -64,8 +62,6 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     public offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSet | Decoration[],
-    // The ProseMirror node type name
-    private readonly fieldName: string,
     // Plugins that the editor should use
     plugins?: Plugin[],
     // The field placeholder option
@@ -73,9 +69,10 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     // Is this text field resizeable?
     isResizeable = false
   ) {
+    super();
+
     this.applyDecorationsFromOuterEditor(decorations, node, offset);
     this.setupFocusHandler();
-    this.serialiser = DOMSerializer.fromSchema(node.type.schema);
     this.parser = DOMParser.fromSchema(node.type.schema);
 
     const localPlugins = placeholder
@@ -251,7 +248,7 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
   }
 
   private createInnerEditorView(plugins?: Plugin[]) {
-    return new EditorView(this.fieldViewElement, {
+    const view = new EditorView(this.fieldViewElement, {
       state: EditorState.create({
         doc: this.node,
         plugins,
@@ -261,6 +258,11 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       decorations: () => this.decorations,
     });
+
+    view.dom.id = this.getId();
+    view.dom.setAttribute("aria-labelledby", `label-${this.getId()}`);
+
+    return view;
   }
 
   private applyDecorationsFromOuterEditor(
@@ -349,6 +351,9 @@ export abstract class ProseMirrorFieldView implements FieldView<string> {
     const element = document.createElement("div");
     element.innerHTML = htmlContent;
     const content = this.parser.parse(element);
-    return this.node.type.create({ type: this.fieldName }, content);
+    return this.node.type.create(
+      { type: this.node.attrs.type as string },
+      content
+    );
   }
 }

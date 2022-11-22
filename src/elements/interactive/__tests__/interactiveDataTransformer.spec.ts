@@ -1,5 +1,5 @@
+import { undefinedDropdownValue } from "../../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../../plugin/helpers/fieldView";
-import { undefinedDropdownValue } from "../../helpers/transform";
 import type { ExternalInteractiveFields } from "../interactiveDataTransformer";
 import { transformElement } from "../interactiveDataTransformer";
 import type { createInteractiveFields } from "../InteractiveSpec";

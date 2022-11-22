@@ -1,4 +1,9 @@
-import { getFieldsFromNode, updateFieldsFromNode } from "../field";
+import { DecorationSet } from "prosemirror-view";
+import {
+  getFieldsFromNode,
+  updateFieldsFromNode,
+  updateFieldViewsFromNode,
+} from "../field";
 import {
   elements,
   example,
@@ -77,13 +82,17 @@ describe("Field helpers", () => {
       )
     );
 
-    const originalFields = getFieldsFromNode({
-      node: originalNode,
-      fieldDescriptions: elements.example.fieldDescriptions,
+    const additionalFieldOptions = {
       view,
       getPos: () => 0,
       innerDecos: [],
       serializer,
+      fieldDescriptions: elements.example.fieldDescriptions,
+    };
+
+    const originalFields = getFieldsFromNode({
+      node: originalNode,
+      ...additionalFieldOptions,
     });
 
     it("should update a node with the correct value and error information", () => {
@@ -95,7 +104,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
-        serializer,
+        ...additionalFieldOptions,
       });
 
       expect(newFields.caption.value).toBe("caption new");
@@ -116,7 +125,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
-        serializer,
+        ...additionalFieldOptions,
       });
 
       expect(newFields.caption.value).toBe("caption new");
@@ -134,6 +143,110 @@ describe("Field helpers", () => {
         example__caption("caption new"),
         example__html("html new"),
         example__repeated__parent(
+          example__repeated__child(example__nestedText("New nested text"))
+        )
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
+        fields: originalFields,
+
+        ...additionalFieldOptions,
+      });
+
+      expect(newFields.caption.value).toBe("caption new");
+      expect(newFields.html.value).toBe("html new");
+      expect(newFields.caption.errors.length).toEqual(1);
+      expect(newFields.html.errors.length).toEqual(0);
+
+      expect(newFields.repeated.children[0].nestedText.value).toEqual(
+        "New nested text"
+      );
+    });
+
+    it("should insert a new repeater node", () => {
+      const newElementNode = example(
+        example__caption("caption new"),
+        example__html("html new"),
+        example__repeated__parent(
+          example__repeated__child(example__nestedText("Nested text")),
+          example__repeated__child(example__nestedText("New nested text"))
+        )
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
+        fields: originalFields,
+        ...additionalFieldOptions,
+      });
+
+      expect(newFields.repeated.children.length).toEqual(2);
+      expect(newFields.repeated.children[1].nestedText.value).toEqual(
+        "New nested text"
+      );
+      expect(newFields.repeated.children[0].nestedText.value).toEqual(
+        "Nested text"
+      );
+      expect(newFields.repeated.children[1].nestedText.value).toEqual(
+        "New nested text"
+      );
+    });
+
+    it("should remove a repeater node - 1 node", () => {
+      const newElementNode = example(
+        example__caption("caption new"),
+        example__html("html new"),
+        example__repeated__parent()
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
+        fields: originalFields,
+        ...additionalFieldOptions,
+      });
+
+      expect(newFields.repeated.children.length).toEqual(0);
+    });
+
+    it("should remove a repeater node - multiple nodes", () => {
+      const originalNode = example(
+        example__caption("caption new"),
+        example__html("html new"),
+        example__repeated__parent(
+          example__repeated__child(example__nestedText("1")),
+          example__repeated__child(example__nestedText("2")),
+          example__repeated__child(example__nestedText("3"))
+        )
+      );
+
+      const originalFields = getFieldsFromNode({
+        node: originalNode,
+        ...additionalFieldOptions,
+      });
+
+      const newElementNode = example(
+        example__caption("caption new"),
+        example__html("html new"),
+        example__repeated__parent(
+          example__repeated__child(example__nestedText("2"))
+        )
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newElementNode,
+        fields: originalFields,
+        ...additionalFieldOptions,
+      });
+
+      expect(newFields.repeated.children.length).toEqual(1);
+      expect(newFields.repeated.children[0].nestedText.value).toEqual("2");
+    });
+
+    it("should create a new object identity when changes are made", () => {
+      const newElementNode = example(
+        example__caption("caption new"),
+        example__html("html new"),
+        example__repeated__parent(
           example__repeated__child(example__nestedText("Nested text"))
         )
       );
@@ -141,7 +254,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
-        serializer,
+        ...additionalFieldOptions,
       });
 
       expect(originalFields === newFields).toBe(false);
@@ -161,7 +274,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
-        serializer,
+        ...additionalFieldOptions,
       });
 
       expect(originalFields === newFields).toBe(true);
@@ -172,9 +285,98 @@ describe("Field helpers", () => {
         updateFieldsFromNode({
           node: p(),
           fields: originalFields,
-          serializer,
+          ...additionalFieldOptions,
         })
       ).toThrowError();
+    });
+  });
+
+  describe("updateFieldViewsFromNode", () => {
+    it("should update FieldViews in place when root nodes change", () => {
+      const nestedNode = example__repeated__parent(
+        example__repeated__child(example__nestedText("Nested text"))
+      );
+      const elementNode = example(
+        example__caption("caption"),
+        example__html("html"),
+        nestedNode
+      );
+
+      const fields = getFieldsFromNode({
+        node: elementNode,
+        fieldDescriptions: elements.example.fieldDescriptions,
+        view,
+        getPos: () => 0,
+        innerDecos: [],
+        serializer,
+      });
+
+      const newNode = example(
+        example__caption("Updated caption"),
+        example__html("html"),
+        nestedNode
+      );
+
+      // -2 to account for the offset into the parent node.
+      const correctOffset =
+        newNode.nodeSize - (nestedNode.firstChild?.nodeSize ?? 0) - 2;
+
+      updateFieldViewsFromNode(
+        fields,
+        newNode,
+        DecorationSet.create(view.state.doc, [])
+      );
+
+      expect(fields.caption.view.offset).toBe(0);
+      expect(fields.repeated.children[0].nestedText.view.offset).toBe(
+        correctOffset
+      );
+      expect(fields.html.view.offset).toBe(newNode.firstChild?.nodeSize);
+    });
+
+    it("should update FieldViews in place when repeater nodes change", () => {
+      const nestedNode = example__repeated__parent(
+        example__repeated__child(example__nestedText("Nested text"))
+      );
+      const elementNode = example(
+        example__caption("caption"),
+        example__html("html"),
+        nestedNode
+      );
+
+      const fields = getFieldsFromNode({
+        node: elementNode,
+        fieldDescriptions: elements.example.fieldDescriptions,
+        view,
+        getPos: () => 0,
+        innerDecos: [],
+        serializer,
+      });
+
+      const newNestedNode = example__repeated__parent(
+        example__repeated__child(example__nestedText("Updated nested text"))
+      );
+      const newNode = example(
+        example__caption("Updated caption"),
+        example__html("html"),
+        newNestedNode
+      );
+
+      // -2 to account for the offset into the parent node.
+      const correctOffset =
+        newNode.nodeSize - (newNestedNode.firstChild?.nodeSize ?? 0) - 2;
+
+      updateFieldViewsFromNode(
+        fields,
+        newNode,
+        DecorationSet.create(view.state.doc, [])
+      );
+
+      expect(fields.caption.view.offset).toBe(0);
+      expect(fields.repeated.children[0].nestedText.view.offset).toBe(
+        correctOffset
+      );
+      expect(fields.html.view.offset).toBe(newNode.firstChild?.nodeSize);
     });
   });
 });

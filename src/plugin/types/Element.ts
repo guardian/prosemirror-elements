@@ -26,6 +26,7 @@ import type {
   TextFieldDescription,
   TextFieldView,
 } from "../fieldViews/TextFieldView";
+import type { RepeaterFieldMapIDKey } from "../helpers/constants";
 import type {
   FieldNameToValueMap,
   FieldNameToValueMapWithEmptyValues,
@@ -70,7 +71,9 @@ export interface RepeaterField<FDesc extends FieldDescriptions<string>> {
   view: RepeaterFieldView;
   description: RepeaterFieldDescription<FDesc>;
   name: string;
-  children: Array<FieldNameToField<FDesc>>;
+  children: Array<
+    FieldNameToField<FDesc> & { [RepeaterFieldMapIDKey]: string }
+  >;
 }
 
 export const isRepeaterField = <FDesc extends FieldDescriptions<string>>(
@@ -106,7 +109,8 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     commands: ReturnType<CommandCreator>,
-    sendTelemetryEvent: SendTelemetryEvent | undefined
+    sendTelemetryEvent: SendTelemetryEvent | undefined,
+    getElementData: () => ExtractFieldValues<FDesc>
   ) => (
     fields: FieldNameToField<FDesc>,
     commands: ReturnType<CommandCreator>,

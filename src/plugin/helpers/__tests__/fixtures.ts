@@ -3,6 +3,7 @@ import { schema as basicSchema } from "prosemirror-schema-basic";
 import { builders } from "prosemirror-test-builder";
 import { createRepeaterField } from "../../fieldViews/RepeaterFieldView";
 import { createTextField } from "../../fieldViews/TextFieldView";
+import { RepeaterFieldMapIDKey } from "../constants";
 import { createEditorWithElements, createNoopElement } from "../test";
 import { maxLength, required } from "../validation";
 
@@ -38,4 +39,9 @@ export const {
   example__repeated__child,
   example__nestedText,
   p,
-} = builders(schema, {});
+} = builders(schema, {
+  example__repeated__child: {
+    nodeType: "example__repeated__child",
+    [RepeaterFieldMapIDKey]: "static-uuid",
+  },
+});

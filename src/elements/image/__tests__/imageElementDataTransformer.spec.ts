@@ -1,5 +1,5 @@
+import { undefinedDropdownValue } from "../../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../../plugin/helpers/fieldView";
-import { undefinedDropdownValue } from "../../helpers/transform";
 import type { createImageFields } from "../ImageElement";
 import type { ImageFields } from "../imageElementDataTransformer";
 import { transformElement } from "../imageElementDataTransformer";

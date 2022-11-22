@@ -588,6 +588,7 @@ describe("buildElementPlugin", () => {
           <div pme-field-name="testElement__field1"><p></p></div>
           <div pme-field-name="testElement__field2"></div>
           <div pme-field-name="testElement__field3" fields="true"></div>
+          <div pme-field-name="testElement__repeater1__parent"></div>
           </div>
         `;
 

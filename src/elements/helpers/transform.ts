@@ -14,9 +14,6 @@ import type { tableFields } from "../table/TableSpec";
 import type { createTweetFields } from "../tweet/TweetSpec";
 import { transformElement as defaultElementTransform } from "./defaultTransform";
 
-// A placeholder value for a dropdown option that represents no selection.
-export const undefinedDropdownValue = "none-selected";
-
 const transformMap = {
   code: defaultElementTransform<typeof codeFields>(),
   "content-atom": defaultElementTransform<typeof contentAtomFields>({

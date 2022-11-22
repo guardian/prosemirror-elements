@@ -1,9 +1,11 @@
+import type { Node } from "prosemirror-model";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { validateWithFieldAndElementValidators } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
+  ExtractFieldValues,
   FieldDescriptions,
   FieldNameToField,
 } from "./types/Element";
@@ -54,13 +56,12 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
-  // The HTMLElement representing the node's children, if there are any. The renderer can
-  // choose to append this node if it needs to render children.
   fields: FieldNameToField<FDesc>,
   updateState: (fields: FieldNameToValueMap<FDesc>) => void,
   commands: Commands,
   subscribe: (fn: Subscriber<FDesc>) => void,
-  sendTelemetryEvent: SendTelemetryEvent | undefined
+  sendTelemetryEvent: SendTelemetryEvent | undefined,
+  getElementData: () => ExtractFieldValues<FDesc>
 ) => void;
 
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
@@ -77,7 +78,14 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   return {
     fieldDescriptions,
     validate,
-    createUpdator: (dom, fields, updateState, commands, sendTelemetryEvent) => {
+    createUpdator: (
+      dom,
+      fields,
+      updateState,
+      commands,
+      sendTelemetryEvent,
+      getElementData
+    ) => {
       const updater = createUpdater<FDesc>();
       render(
         validate,
@@ -86,7 +94,8 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
         (fields) => updateState(fields),
         commands,
         updater.subscribe,
-        sendTelemetryEvent
+        sendTelemetryEvent,
+        getElementData
       );
       return updater.update;
     },

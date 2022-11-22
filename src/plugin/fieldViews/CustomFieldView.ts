@@ -2,12 +2,12 @@ import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import type { Options } from "./DropdownFieldView";
-import type { BaseFieldDescription, FieldView } from "./FieldView";
-import { FieldType } from "./FieldView";
+import type { BaseFieldDescription } from "./FieldView";
+import { FieldContentType, FieldView } from "./FieldView";
 
 export interface CustomFieldDescription<Data = unknown, Props = unknown>
   extends BaseFieldDescription<Data> {
-  type: typeof CustomFieldView.fieldName;
+  type: typeof CustomFieldView.fieldType;
   defaultValue: Data;
   props: Props;
 }
@@ -45,23 +45,26 @@ type Subscriber<Fields extends unknown> = (fields: Fields) => void;
  * state changes. In this way, consuming code can manage state and UI changes itself,
  * perhaps in its own renderer format.
  */
-export class CustomFieldView<Value = unknown> implements FieldView<Value> {
-  public static fieldName = "custom" as const;
-  public static fieldType = FieldType.ATTRIBUTES;
+export class CustomFieldView<Value = unknown> extends FieldView<Value> {
+  public static fieldType = "custom" as const;
+  public static fieldContentType = FieldContentType.ATTRIBUTES;
   public static defaultValue = undefined;
+  public fieldViewElement?: undefined;
 
   private subscribers: Array<Subscriber<Value>> = [];
 
   constructor(
     // The node that this FieldView is responsible for rendering.
-    protected node: Node,
+    public node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
     protected outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
     protected getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     public offset: number
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * @returns A function that can be called to update the node fields.
