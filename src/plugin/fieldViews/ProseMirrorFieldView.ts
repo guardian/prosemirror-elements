@@ -3,7 +3,7 @@ import { DOMParser } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
-import type { Decoration } from "prosemirror-view";
+import type { DecorationSource } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import {
@@ -39,13 +39,10 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   protected innerEditorView: EditorView | undefined;
   // The decorations that apply to this FieldView, from the perspective
   // of the inner editor.
-  private decorations = new DecorationSet();
+  private decorations: DecorationSource = DecorationSet.empty;
   // The decorations that apply to this FieldView, from the perspective
   // of the outer editor. We store these to avoid unnecessary updates.
-  private outerDecorations = undefined as
-    | DecorationSet
-    | Decoration[]
-    | undefined;
+  private outerDecorations = undefined as DecorationSource | undefined;
   // Do we have a change in our decorations that is yet to be rendered?
   private decorationsPending = false;
   // The parser for the Node.
@@ -61,7 +58,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     // The offset of this node relative to its parent FieldView.
     public offset: number,
     // The initial decorations for the FieldView.
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSource,
     // Plugins that the editor should use
     plugins?: Plugin[],
     // The field placeholder option
@@ -87,7 +84,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   public onUpdate(
     node: Node,
     elementOffset: number,
-    decorations: DecorationSet | Decoration[]
+    decorations: DecorationSource
   ) {
     if (!node.hasMarkup(this.node.type)) {
       return false;
@@ -142,7 +139,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
   private updateInnerEditor(
     node: Node,
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSource,
     elementOffset: number
   ) {
     if (!this.innerEditorView) {
@@ -160,7 +157,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     const diffStart = node.content.findDiffStart(state.doc.content);
 
-    if (diffStart === null || diffStart === undefined) {
+    if (diffStart === null) {
       return this.maybeRerenderDecorations();
     }
 
@@ -215,7 +212,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   private updateOuterEditor(
     innerTr: Transaction,
     innerState: EditorState,
-    transactions: Transaction[]
+    transactions: readonly Transaction[]
   ) {
     const outerTr = this.outerView.state.tr;
     // When we insert content, we must offset to account for a few things:
@@ -266,19 +263,18 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   }
 
   private applyDecorationsFromOuterEditor(
-    decorationSet: DecorationSet | Decoration[],
+    decorationSet: DecorationSource,
     node: Node,
     elementOffset: number
   ) {
     // Do nothing if the decorations have not changed.
-    if (!this.innerEditorView || decorationSet === this.outerDecorations) {
+    if (decorationSet === this.outerDecorations) {
       return;
     }
     this.outerDecorations = decorationSet;
-    const localDecoSet =
-      decorationSet instanceof DecorationSet
-        ? decorationSet
-        : DecorationSet.create(node, decorationSet);
+    const localDecoSet = Array.isArray(decorationSet)
+      ? DecorationSet.create(node, decorationSet)
+      : decorationSet;
     // Offset because the node we are displaying these decorations in is a child of its parent (-1)
     const localOffset = -1;
     const offsetMap = new Mapping([

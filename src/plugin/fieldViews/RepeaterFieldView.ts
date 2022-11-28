@@ -1,4 +1,4 @@
-import type { Node, Schema } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import type { EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "../helpers/constants";
 import { getRepeaterID } from "../helpers/util";
@@ -76,7 +76,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
     const repeaterChildNodeName = getRepeaterChildNameFromParent(
       this.node.type.name
     );
-    const newNode = (this.node.type.schema as Schema).nodes[
+    const newNode = this.node.type.schema.nodes[
       repeaterChildNodeName
     ].createAndFill({ [RepeaterFieldMapIDKey]: getRepeaterID() });
     if (!newNode) {

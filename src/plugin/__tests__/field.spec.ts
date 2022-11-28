@@ -30,7 +30,7 @@ describe("Field helpers", () => {
         fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
-        innerDecos: [],
+        innerDecos: DecorationSet.empty,
         serializer,
       });
 
@@ -51,7 +51,7 @@ describe("Field helpers", () => {
         fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
-        innerDecos: [],
+        innerDecos: DecorationSet.empty,
         serializer,
       });
 
@@ -66,7 +66,7 @@ describe("Field helpers", () => {
           fieldDescriptions: elements.example.fieldDescriptions,
           view,
           getPos: () => 0,
-          innerDecos: [],
+          innerDecos: DecorationSet.empty,
           serializer,
         })
       ).toThrowError();
@@ -85,7 +85,7 @@ describe("Field helpers", () => {
     const additionalFieldOptions = {
       view,
       getPos: () => 0,
-      innerDecos: [],
+      innerDecos: DecorationSet.empty,
       serializer,
       fieldDescriptions: elements.example.fieldDescriptions,
     };
@@ -307,7 +307,7 @@ describe("Field helpers", () => {
         fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
-        innerDecos: [],
+        innerDecos: DecorationSet.empty,
         serializer,
       });
 
@@ -349,7 +349,7 @@ describe("Field helpers", () => {
         fieldDescriptions: elements.example.fieldDescriptions,
         view,
         getPos: () => 0,
-        innerDecos: [],
+        innerDecos: DecorationSet.empty,
         serializer,
       });
 

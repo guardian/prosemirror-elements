@@ -1,6 +1,6 @@
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
-import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { DecorationSource, EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import { getFieldValueFromNode } from "./helpers/element";
 import { getElementFieldViewFromType } from "./helpers/fieldView";
@@ -19,7 +19,7 @@ type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   view: EditorView;
   getPos: () => number;
-  innerDecos: Array<Decoration<Record<string, unknown>>> | DecorationSet;
+  innerDecos: DecorationSource;
   serializer: DOMSerializer;
   offset?: number;
 };
@@ -37,6 +37,9 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   offset = 0,
 }: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
+  if (node.attrs[RepeaterFieldMapIDKey]) {
+    applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
+  }
 
   // If our node has a repeater UID attached, add it to the field.
   // These UIDs are present on repeater child nodes.
@@ -126,7 +129,7 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   serializer: DOMSerializer;
   getPos: () => number;
   view: EditorView;
-  innerDecos: Array<Decoration<Record<string, unknown>>> | DecorationSet;
+  innerDecos: DecorationSource;
   offset?: number;
 };
 
@@ -264,7 +267,7 @@ export const updateFieldViewsFromNode = <
 >(
   fields: FieldNameToField<FDesc>,
   node: Node,
-  decos: DecorationSet | Decoration[],
+  decos: DecorationSource,
   offset = 0
 ) => {
   node.forEach((node, localOffset) => {
@@ -299,3 +302,6 @@ const getErrorMessageForAbsentField = (
   `[prosemirror-elements]: Attempted to get values for a node with type ${absentFieldName} from fields ${Object.keys(
     possibleFieldNames
   ).join("")}, but field was not present.`;
+
+const applyFieldUUIDToObject = (obj: Record<string, unknown>, uuid: string) =>
+  (obj[RepeaterFieldMapIDKey] = uuid);

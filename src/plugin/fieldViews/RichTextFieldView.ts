@@ -3,7 +3,7 @@ import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
-import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
@@ -120,7 +120,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
     // The offset of this node relative to its parent FieldView.
     offset: number,
     // The initial decorations for the FieldView.
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSource,
     { placeholder, isResizeable, createPlugins }: RichTextFieldDescription
   ) {
     super(
