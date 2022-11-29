@@ -26,7 +26,7 @@ const cellStyle = css`
   border-right: 1px solid ${neutral[100]};
   padding: 3px 5px;
 
-  &:first-child {
+  &:first-of-type {
     padding-left: ${space[3]}px;
   }
 
