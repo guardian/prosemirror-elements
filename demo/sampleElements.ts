@@ -412,7 +412,7 @@ export const sampleCampaignList = [
       },
     ],
     activeFrom: 1645488000000,
-    activeUntil: 1645488000001,
+    activeUntil: 1769645037000,
     priority: 0,
     displayOnSensitive: false,
     fields: {
@@ -427,11 +427,29 @@ export const sampleCampaignList = [
   },
   {
     id: "1235",
-    name: "Broken callout",
+    name: "Expired callout",
     rules: [],
     priority: 0,
     activeFrom: 1645488000000,
     activeUntil: 1645488000001,
+    displayOnSensitive: false,
+    fields: {
+      callout: "callout-expired",
+      formId: 11121,
+      tagName: "callout-callout",
+      description: "this is an expired callout",
+      formFields: [],
+      formUrl: "formstack.co.uk",
+      _type: "callout",
+    },
+  },
+  {
+    id: "1236",
+    name: "Broken callout",
+    rules: [],
+    priority: 0,
+    activeFrom: 1645488000000,
+    activeUntil: 1769645037000,
     displayOnSensitive: false,
     fields: {
       callout: "callout-2",
@@ -445,12 +463,12 @@ export const sampleCampaignList = [
   },
 
   {
-    id: "1236",
+    id: "1237",
     name: "empty tag name callout",
     rules: [],
     priority: 0,
     activeFrom: 1645488000000,
-    activeUntil: 1645488000001,
+    activeUntil: 1769645037000,
     displayOnSensitive: false,
     fields: {
       callout: "callout-2",
