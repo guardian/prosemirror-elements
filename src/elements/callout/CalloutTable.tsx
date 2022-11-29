@@ -58,26 +58,29 @@ const strongStyle = css`
   font-weight: 700;
 `;
 
-export const CalloutTable = ({
-  calloutData,
+export const CalloutTableHeader = ({
+  title,
+  tagName,
   targetingUrl,
-  isNonCollapsible,
+  calloutId,
+  formUrl,
 }: {
-  calloutData: Campaign;
+  title: string;
+  tagName: string;
   targetingUrl: string;
-  isNonCollapsible: CustomField<boolean, boolean>;
+  calloutId: string;
+  formUrl: string;
 }) => {
-  const { tagName, callout, description, formUrl } = calloutData.fields;
   return (
-    <div css={containerStyle}>
+    <>
       <div css={headerStyle}>
-        <Label>CALLOUT: {tagName}</Label>
+        <Label>CALLOUT: {title}</Label>
         <span>
           <a
             css={css`
               margin-right: ${space[4]}px;
             `}
-            href={`${targetingUrl}/campaigns/${calloutData.id}`}
+            href={`${targetingUrl}/campaigns/${calloutId}`}
           >
             Open in targeting tool
           </a>
@@ -91,6 +94,28 @@ export const CalloutTable = ({
         </span>
         <span css={[cellStyle, tagNameStyle]}>{tagName}</span>
       </div>
+    </>
+  );
+};
+export const CalloutTable = ({
+  calloutData,
+  targetingUrl,
+  isNonCollapsible,
+}: {
+  calloutData: Campaign;
+  targetingUrl: string;
+  isNonCollapsible: CustomField<boolean, boolean>;
+}) => {
+  const { tagName, callout, description, formUrl } = calloutData.fields;
+  return (
+    <div css={containerStyle}>
+      <CalloutTableHeader
+        title={callout}
+        tagName={tagName}
+        formUrl={formUrl ?? ""}
+        targetingUrl={targetingUrl}
+        calloutId={calloutData.id}
+      />
       <div css={bodyStyle}>
         <span>
           <span css={strongStyle}>Callout title: </span>
