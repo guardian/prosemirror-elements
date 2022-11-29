@@ -8,7 +8,8 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { CalloutError, calloutStyles } from "../embed/Callout";
+import { calloutStyles } from "../embed/Callout";
+import { CalloutError } from "./CalloutError";
 import { CalloutTable } from "./CalloutTable";
 
 export type Fields = {
@@ -53,7 +54,12 @@ export const calloutFields = {
   campaignId: createCustomDropdownField(
     undefinedDropdownValue,
     [],
-    [dropDownRequired(undefined, "WARN")]
+    [
+      dropDownRequired(
+        "A current campaign must be selected for the callout to appear",
+        "WARN"
+      ),
+    ]
   ),
   isNonCollapsible: createCustomField(false, true),
 };
@@ -76,6 +82,7 @@ export const createCalloutElement = ({
     ({ fields }) => {
       const campaignId = fields.campaignId.value;
       const [campaignList, setCampaignList] = useState<Campaign[]>([]);
+
       useEffect(() => {
         void fetchCampaignList().then((campaignList) => {
           setCampaignList(campaignList);
@@ -96,16 +103,17 @@ export const createCalloutElement = ({
         const campaign = campaignList.find((campaign) => campaign.id === id);
         return campaign?.fields.tagName ?? "";
       };
-
       const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
       const callout = campaignList.find(
         (campaign) => campaign.id === campaignId
       );
-
+      const isActiveCallout =
+        callout?.activeUntil && callout?.activeUntil >= Date.now();
       const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
+
       return campaignId && campaignId != "none-selected" ? (
         <div css={calloutStyles}>
-          {callout ? (
+          {callout && isActiveCallout ? (
             <CalloutTable
               calloutData={callout}
               targetingUrl={trimmedTargetingUrl}
@@ -113,8 +121,10 @@ export const createCalloutElement = ({
             />
           ) : (
             <CalloutError
-              tag={getTag(campaignId)}
+              isExpired={!isActiveCallout}
               targetingUrl={trimmedTargetingUrl}
+              callout={callout}
+              calloutId={campaignId}
             />
           )}
         </div>

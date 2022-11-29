@@ -22,17 +22,17 @@ export const CalloutError = ({
   callout,
   targetingUrl,
   calloutId,
-  isActiveCallout,
+  isExpired,
 }: {
   callout: Campaign | undefined;
   targetingUrl: string;
   calloutId: string;
-  isActiveCallout: boolean;
+  isExpired: boolean;
 }) => {
   const edToolsEmail = "editorial.tools.dev@theguardian.com";
   const centralProdEmail = "central.production@theguardian.com";
 
-  return callout && !isActiveCallout ? (
+  return callout && isExpired ? (
     <>
       <Error css={[error, marginBottom]}>
         <SvgAlertTriangle />
