@@ -13,7 +13,7 @@ type Props = {
   targetingUrl: string;
 };
 
-export const calloutStyles = css`
+const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
   a {

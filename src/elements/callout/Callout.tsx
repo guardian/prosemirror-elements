@@ -1,3 +1,6 @@
+import { css } from "@emotion/react";
+import { neutral, space, text } from "@guardian/src-foundations";
+import { textSans } from "@guardian/src-foundations/dist/types/typography";
 import React, { useEffect, useState } from "react";
 import {
   createCustomDropdownField,
@@ -8,7 +11,6 @@ import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { calloutStyles } from "../embed/Callout";
 import { CalloutError } from "./CalloutError";
 import { CalloutTable } from "./CalloutTable";
 
@@ -63,6 +65,45 @@ export const calloutFields = {
   ),
   isNonCollapsible: createCustomField(false, true),
 };
+
+const calloutStyles = css`
+  ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
+  font-family: "Guardian Agate Sans";
+  a {
+    color: ${text.anchorPrimary};
+  }
+  code {
+    font-family: monospace;
+    background-color: ${neutral[86]};
+    border-radius: ${space[1]}px;
+    padding: 1px 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid ${neutral[86]};
+    font-size: 14px;
+  }
+  th,
+  tr,
+  td {
+    border: 1px solid ${neutral[86]};
+    padding: ${space[1]}px;
+    line-height: 14px;
+    vertical-align: top;
+  }
+  th {
+    text-align: left;
+  }
+  p,
+  p:first-child {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  ul {
+    margin-bottom: 0px;
+  }
+`;
 
 type Props = {
   fetchCampaignList: () => Promise<Campaign[]>;
