@@ -17,6 +17,9 @@ const error = css`
     fill: ${text.error};
     margin-right: ${space[1]}px;
   }
+  a {
+    margin-left: auto;
+  }
 `;
 
 export const CalloutError = ({
@@ -52,18 +55,13 @@ export const CalloutError = ({
       <Error css={[error, marginBottom]}>
         <SvgAlertTriangle />
         Composer was unable to find this callout.
-        <a
-          css={css`
-            margin-right: ${space[4]}px;
-          `}
-          href={`${targetingUrl}/campaigns/`}
-        >
-          Open in targeting tool
-        </a>
+        <a href={`${targetingUrl}`}>Open in targeting tool</a>
       </Error>
       <p css={marginBottom}>
-        It is likely that the callout has been deleted. Please check in the
-        targeting tool to check if this callout is available.
+        It is likely that the callout has been deleted. Please check in
+        the&nbsp;
+        <a href={`${targetingUrl}`}>targeting tool</a> to check if this callout
+        is available.
       </p>
       <p>
         If the problem persists, you may wish to contact Central Production (
