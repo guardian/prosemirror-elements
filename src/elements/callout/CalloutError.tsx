@@ -2,8 +2,8 @@ import { css } from "@emotion/react";
 import { space, text } from "@guardian/src-foundations";
 import { SvgAlertTriangle } from "@guardian/src-icons";
 import { Error } from "../../editorial-source-components/Error";
-import { Campaign } from "./Callout";
 import { CalloutTableHeader } from "./CalloutTable";
+import type { Campaign } from "./CalloutTypes";
 
 const marginBottom = css`
   margin-bottom: ${space[2]}px !important;
@@ -18,6 +18,7 @@ const error = css`
     margin-right: ${space[1]}px;
   }
 `;
+
 export const CalloutError = ({
   callout,
   targetingUrl,
@@ -51,6 +52,14 @@ export const CalloutError = ({
       <Error css={[error, marginBottom]}>
         <SvgAlertTriangle />
         Composer was unable to find this callout.
+        <a
+          css={css`
+            margin-right: ${space[4]}px;
+          `}
+          href={`${targetingUrl}/campaigns/`}
+        >
+          Open in targeting tool
+        </a>
       </Error>
       <p css={marginBottom}>
         It is likely that the callout has been deleted. Please check in the

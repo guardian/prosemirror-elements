@@ -3,7 +3,7 @@ import { neutral, space } from "@guardian/src-foundations";
 import { Label } from "../../editorial-source-components/Label";
 import type { CustomField } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
-import type { Campaign } from "./Callout";
+import type { Campaign } from "./CalloutTypes";
 
 const containerStyle = css`
   display: flex;

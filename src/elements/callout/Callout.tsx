@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { neutral, space, text } from "@guardian/src-foundations";
-import { textSans } from "@guardian/src-foundations/dist/types/typography";
+import { textSans } from "@guardian/src-foundations/typography";
 import React, { useEffect, useState } from "react";
 import {
   createCustomDropdownField,
@@ -13,32 +13,7 @@ import { createReactElementSpec } from "../../renderers/react/createReactElement
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { CalloutError } from "./CalloutError";
 import { CalloutTable } from "./CalloutTable";
-
-export type Fields = {
-  callout: string;
-  formId: number;
-  tagName: string;
-  description?: string;
-  formUrl?: string;
-  _type: string;
-};
-
-export type Rules = {
-  requiredTags: string[];
-  lackingTags: string[];
-  matchAllTags: boolean;
-};
-
-export type Campaign = {
-  id: string;
-  name: string;
-  fields: Fields;
-  rules: Rules[];
-  priority: number;
-  displayOnSensitive: boolean;
-  activeFrom?: number;
-  activeUntil?: number;
-};
+import type { Campaign } from "./CalloutTypes";
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
   const campaigns = campaignList.map((campaign) => {
@@ -149,8 +124,7 @@ export const createCalloutElement = ({
         (campaign) => campaign.id === campaignId
       );
       const isActiveCallout =
-        !callout?.activeUntil ||
-        (callout?.activeUntil && callout?.activeUntil >= Date.now());
+        !callout?.activeUntil || callout.activeUntil >= Date.now();
       const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
 
       return campaignId && campaignId != "none-selected" ? (
