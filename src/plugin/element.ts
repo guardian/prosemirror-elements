@@ -1,5 +1,5 @@
 import OrderedMap from "orderedmap";
-import type { NodeSpec, ResolvedPos, Schema } from "prosemirror-model";
+import type { NodeSpec, ResolvedPos } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import {
@@ -62,10 +62,7 @@ export const buildElementPlugin = <
 
   const insertElement = (
     elementData: ExtractPartialDataTypeFromElementSpec<ESpecMap, ElementNames>
-  ) => (
-    state: EditorState,
-    dispatch: (tr: Transaction<Schema>) => void
-  ): void => {
+  ) => (state: EditorState, dispatch: (tr: Transaction) => void): void => {
     const maybeNode = getNodeFromElementData(elementData, state.schema);
 
     if (!maybeNode) {

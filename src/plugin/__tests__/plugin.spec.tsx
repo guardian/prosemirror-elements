@@ -1,4 +1,3 @@
-import type { Schema } from "prosemirror-model";
 import { AllSelection, Plugin, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
@@ -71,9 +70,7 @@ describe("createPlugin", () => {
       `<p>Example doc</p>`,
       plugins
     );
-    const exampleText = (helpers.view.state.schema as Schema).text(
-      "New content"
-    );
+    const exampleText = helpers.view.state.schema.text("New content");
 
     helpers.insertElement({
       elementName: "testElement",
@@ -175,7 +172,7 @@ describe("createPlugin", () => {
   describe("Response to decoration changes", () => {
     it("should not update the consumer and FieldView when the decorations have not changed", () => {
       // This plugin returns the same set of decorations on each state transition.
-      const decos = new DecorationSet();
+      const decos = DecorationSet.empty;
       const decoPlugin = new Plugin({
         props: {
           decorations: () => decos,
@@ -209,7 +206,7 @@ describe("createPlugin", () => {
       const decoPlugin = new Plugin({
         props: {
           decorations: (state) => {
-            return new DecorationSet().add(state.doc, [
+            return DecorationSet.create(state.doc, [
               Decoration.inline(
                 positionInsideElement,
                 positionInsideElement + 1,
@@ -247,7 +244,7 @@ describe("createPlugin", () => {
       const decoPlugin = new Plugin({
         props: {
           decorations: (state) => {
-            return new DecorationSet().add(state.doc, [
+            return DecorationSet.create(state.doc, [
               Decoration.inline(
                 positionOutsideElement,
                 positionOutsideElement + 1,
@@ -294,7 +291,7 @@ describe("createPlugin", () => {
       const tr = view.state.tr.replaceWith(
         positionThatEnablesUpCommand,
         positionThatEnablesUpCommand,
-        (view.state.schema as Schema).text("Text before element")
+        view.state.schema.text("Text before element")
       );
       view.dispatch(tr);
 

@@ -233,12 +233,7 @@ describe("ImageElement", () => {
         getElementMenuButton(
           "restrictedTextField",
           "Toggle strong style"
-        ).click();
-        typeIntoElementField("restrictedTextField", "Example text");
-        getElementRichTextField("restrictedTextField").should(
-          "not.contain.html",
-          "<strong>"
-        );
+        ).should("not.be.visible");
       });
 
       it(`restrictedTextField – creates br tags, not new paragraphs`, () => {

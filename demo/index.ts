@@ -1,11 +1,10 @@
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
-import type OrderedMap from "orderedmap";
 import { collab } from "prosemirror-collab";
 import applyDevTools from "prosemirror-dev-tools";
 import { exampleSetup } from "prosemirror-example-setup";
-import type { MarkSpec, Node, NodeSpec } from "prosemirror-model";
+import type { MarkSpec, Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
@@ -256,7 +255,7 @@ const strike: MarkSpec = {
 };
 
 const schema = new Schema({
-  nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
+  nodes: basicSchema.spec.nodes.append(nodeSpec),
   marks: { ...omit(marks, "code"), strike },
 });
 

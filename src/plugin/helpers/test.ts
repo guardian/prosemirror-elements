@@ -1,6 +1,4 @@
-import type OrderedMap from "orderedmap";
 import { exampleSetup } from "prosemirror-example-setup";
-import type { NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import { EditorState, Plugin, PluginKey } from "prosemirror-state";
@@ -89,7 +87,7 @@ export const createEditorWithElements = <
   const docElement = document.createElement("div");
   docElement.innerHTML = initialHTML;
   const schema = new Schema({
-    nodes: (basicSchema.spec.nodes as OrderedMap<NodeSpec>).append(nodeSpec),
+    nodes: basicSchema.spec.nodes.append(nodeSpec),
     marks: basicSchema.spec.marks,
   });
   const { serializer, parser } = createParsers(schema);

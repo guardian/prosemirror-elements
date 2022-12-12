@@ -1,10 +1,9 @@
-import type { Command } from "prosemirror-commands";
 import { baseKeymap, newlineInCode } from "prosemirror-commands";
 import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
-import type { AttributeSpec, Node, Schema } from "prosemirror-model";
-import type { EditorState, Transaction } from "prosemirror-state";
-import type { Decoration, DecorationSet, EditorView } from "prosemirror-view";
+import type { AttributeSpec, Node } from "prosemirror-model";
+import type { Command, EditorState, Transaction } from "prosemirror-state";
+import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
@@ -87,7 +86,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     // The offset of this node relative to its parent FieldView.
     offset: number,
     // The initial decorations for the FieldView.
-    decorations: DecorationSet | Decoration[],
+    decorations: DecorationSource,
     {
       isMultiline,
       maxRows,
@@ -106,7 +105,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       ...filteredKeymap,
     };
 
-    const br = (node.type.schema as Schema).nodes.hard_break;
+    const br = node.type.schema.nodes.hard_break;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it is possible for this to be false.
     const enableMultiline = !!br && isMultiline;
 

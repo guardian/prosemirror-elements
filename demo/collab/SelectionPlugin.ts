@@ -46,7 +46,7 @@ export const createSelectionCollabPlugin = (clientID: string) => {
         return {
           selections: new Map() as Map<string, UserSelectionChange>,
           clientIDs: new Set(),
-          decorations: new DecorationSet(),
+          decorations: DecorationSet.empty,
           version: 0,
         };
       },
@@ -89,7 +89,7 @@ export const createSelectionCollabPlugin = (clientID: string) => {
     },
     props: {
       decorations(state) {
-        return plugin.getState(state).decorations;
+        return plugin.getState(state)?.decorations;
       },
     },
   });
@@ -128,7 +128,7 @@ const getStateForNewUserSelection = (
     oldState.decorations.find(
       undefined,
       undefined,
-      (spec) => spec.clientID === selectionChange.clientID
+      (spec: { clientID: string }) => spec.clientID === selectionChange.clientID
     )
   );
 

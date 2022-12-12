@@ -1,5 +1,5 @@
 import { DOMSerializer } from "prosemirror-model";
-import type { Node, Schema } from "prosemirror-model";
+import type { Node } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
 import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
@@ -41,8 +41,8 @@ export const createPlugin = <
   },
   commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent
-): Plugin<PluginState, Schema> => {
-  return new Plugin<PluginState, Schema>({
+): Plugin<PluginState> => {
+  return new Plugin<PluginState>({
     key: pluginKey,
     /**
      * Update the elements to represent the current selection.
