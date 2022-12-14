@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
+import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -16,6 +17,7 @@ import type {
   MainImageData,
   MediaPayload,
 } from "../image/ImageElement";
+import { AltText } from "../image/ImageElementForm";
 import { cartoonFields } from "./CartoonSpec";
 
 export const cartoonElement = (onCropImage: ImageSelector) => {
@@ -84,9 +86,10 @@ export const cartoonElement = (onCropImage: ImageSelector) => {
               <CustomDropdownView
                 field={fields.role}
                 label="Weighting"
-                display="inline"
+                display="block"
               />
-              <FieldWrapper field={fields.credit} headingLabel="Comic credit" />
+              <FieldWrapper field={fields.credit} headingLabel="Comic by" />
+              <FieldWrapper field={fields.source} headingLabel="Source" />
               <FieldWrapper
                 field={fields.verticalPadding}
                 headingLabel="Vertical padding"
@@ -97,7 +100,26 @@ export const cartoonElement = (onCropImage: ImageSelector) => {
               />
               <FieldWrapper
                 field={fields.alt}
-                headingLabel="Default alt text"
+                headingLabel={<AltText>Alt text</AltText>}
+                headingContent={
+                  <>
+                    <Tooltip>
+                      <p>
+                        ‘Alt text’ describes what’s in an image. It helps users
+                        of screen readers understand our images, and improves
+                        our SEO.
+                      </p>
+                      <p>
+                        <a
+                          href="https://docs.google.com/document/d/1oW542iCRyKfI4DS22QU7AH0TQRWLYMm7bTlhJlX5_Ng/edit?usp=sharing"
+                          target="_blank"
+                        >
+                          Find out more
+                        </a>
+                      </p>
+                    </Tooltip>
+                  </>
+                }
               />
             </FieldLayoutVertical>
           </Column>
@@ -127,6 +149,7 @@ const ImageSet: FunctionComponent<{
       <Label>{title}</Label>
       {images.map((image, index) => (
         <ImageThumbnail
+          key={index}
           index={index}
           image={image}
           altText={defaultAltText}

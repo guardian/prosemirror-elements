@@ -20,7 +20,11 @@ export const cartoonFields = (onCropImage: ImageSelector) => {
     ]),
     credit: createTextField({
       validators: [htmlMaxLength(100)],
-      placeholder: "Comic by",
+      placeholder: "Enter the artist...",
+    }),
+    source: createTextField({
+      validators: [htmlMaxLength(50)],
+      placeholder: "Enter the source...",
     }),
     verticalPadding: createTextField({
       validators: [htmlMaxLength(10)],

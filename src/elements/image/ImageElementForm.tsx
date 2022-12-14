@@ -34,7 +34,7 @@ type ImageViewProps = {
   field: CustomField<MainImageData, { openImageSelector: ImageSelector }>;
 };
 
-const AltText = styled.span`
+export const AltText = styled.span`
   margin-right: ${space[2]}px;
 `;
 
