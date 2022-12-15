@@ -411,8 +411,8 @@ export const sampleCampaignList = [
         matchAllTags: false,
       },
     ],
-    activeFrom: 1645488000000,
-    activeUntil: 1769645037000,
+    activeFrom: new Date("2021-01-29T00:00:00.000Z").getTime(),
+    activeUntil: new Date("2026-01-29T00:00:00.000Z").getTime(),
     priority: 0,
     displayOnSensitive: false,
     fields: {
@@ -430,8 +430,8 @@ export const sampleCampaignList = [
     name: "Expired callout",
     rules: [],
     priority: 0,
-    activeFrom: 1645488000000,
-    activeUntil: 1645488000001,
+    activeFrom: new Date("2021-01-29T00:00:00.000Z").getTime(),
+    activeUntil: new Date("2021-02-29T00:00:00.000Z").getTime(),
     displayOnSensitive: false,
     fields: {
       callout: "callout-expired",
@@ -448,8 +448,8 @@ export const sampleCampaignList = [
     name: "Broken callout",
     rules: [],
     priority: 0,
-    activeFrom: 1645488000000,
-    activeUntil: 1769645037000,
+    activeFrom: new Date("2021-01-29T00:00:00.000Z").getTime(),
+    activeUntil: new Date("2026-01-29T00:00:00.000Z").getTime(),
     displayOnSensitive: false,
     fields: {
       callout: "callout-2",
@@ -461,14 +461,13 @@ export const sampleCampaignList = [
       _type: "callout",
     },
   },
-
   {
     id: "1237",
     name: "empty tag name callout",
     rules: [],
     priority: 0,
-    activeFrom: 1645488000000,
-    activeUntil: 1769645037000,
+    activeFrom: new Date("2021-01-29T00:00:00.000Z").getTime(),
+    activeUntil: new Date("2026-01-29T00:00:00.000Z").getTime(),
     displayOnSensitive: false,
     fields: {
       callout: "callout-2",
