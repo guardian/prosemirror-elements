@@ -7,7 +7,12 @@ import {
 import { createFlatRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
-import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
+import {
+  htmlMaxLength,
+  htmlRequired,
+  numbersOnly,
+  validHexidecimalValue,
+} from "../../plugin/helpers/validation";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 import type { ImageSelector, MainImageData } from "../helpers/types/Media";
 import { minAssetValidation } from "../image/ImageElement";
@@ -56,11 +61,11 @@ export const cartoonFields = (
       { text: "immersive", value: "immersive" },
     ]),
     verticalPadding: createTextField({
-      validators: [htmlMaxLength(2)],
+      validators: [htmlMaxLength(2), numbersOnly()],
       placeholder: "20",
     }),
     backgroundColour: createTextField({
-      validators: [htmlMaxLength(6)],
+      validators: [htmlMaxLength(6), validHexidecimalValue()],
       placeholder: "FFFFFF",
     }),
   };

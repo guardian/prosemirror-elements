@@ -5,9 +5,9 @@ import type {
   ValidationError,
   Validator,
 } from "../elementSpec";
-import type { FieldNameToValueMap } from "../helpers/fieldView";
 import type { FieldDescriptions } from "../types/Element";
 import { undefinedDropdownValue } from "./constants";
+import type { FieldNameToValueMap } from "./fieldView";
 
 export const createValidator = (
   fieldValidationMap: Record<string, FieldValidator[]>
@@ -200,4 +200,38 @@ export const dropDownRequired = (
   } else {
     return [];
   }
+};
+
+export const numbersOnly = (
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
+): FieldValidator => (value) => {
+  const reg = new RegExp("^[0-9]*$");
+  if (typeof value === "string" && !reg.test(value)) {
+    return [
+      {
+        error: "Numbers only",
+        message: customMessage ?? `Only numbers are permitted`,
+        level,
+      },
+    ];
+  }
+  return [];
+};
+
+export const validHexidecimalValue = (
+  customMessage: string | undefined = undefined,
+  level: ErrorLevel = "ERROR"
+): FieldValidator => (value) => {
+  const reg = new RegExp("^(?:[0-9a-fA-F]{3}){1,2}$");
+  if (typeof value === "string" && !reg.test(value) && value !== "") {
+    return [
+      {
+        error: "Not a valid colour value",
+        message: customMessage ?? `Must be a valid colour value`,
+        level,
+      },
+    ];
+  }
+  return [];
 };
