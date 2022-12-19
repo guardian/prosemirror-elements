@@ -5,10 +5,10 @@ import { Column, Columns } from "@guardian/src-layout";
 import React, { useContext, useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
@@ -18,14 +18,14 @@ import { createStore } from "../../renderers/react/store";
 import { TelemetryContext } from "../../renderers/react/TelemetryContext";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import { getImageSrc } from "../helpers/getImageSrc";
-import { htmlLength } from "../helpers/validation";
 import type {
   ImageElementOptions,
   ImageSelector,
   MainImageData,
   MediaPayload,
   SetMedia,
-} from "./ImageElement";
+} from "../helpers/types/Media";
+import { htmlLength } from "../helpers/validation";
 import { createImageFields, minAssetValidation } from "./ImageElement";
 import { ImageElementTelemetryType } from "./imageElementTelemetryEvents";
 

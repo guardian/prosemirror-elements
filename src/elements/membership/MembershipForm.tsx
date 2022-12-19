@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
 import { space } from "@guardian/src-foundations";
 import React from "react";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { Link } from "../../editorial-source-components/Link";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { membershipFields } from "./MembershipSpec";

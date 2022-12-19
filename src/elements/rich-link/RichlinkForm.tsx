@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { SvgAlertTriangle } from "@guardian/src-icons";
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { richlinkFields } from "./RichlinkSpec";

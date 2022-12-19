@@ -10,6 +10,7 @@ import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
+  buildElementPlugin,
   cartoonElement,
   codeElement,
   commentElement,
@@ -26,11 +27,10 @@ import {
   pullquoteElement,
   richlinkElement,
   tableElement,
+  transformElementOut,
   undefinedDropdownValue,
 } from "../src";
-import { transformElementOut } from "../src/elements/helpers/transform";
-import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { buildElementPlugin } from "../src/plugin/element";
+import type { MediaPayload } from "../src/elements/helpers/types/Media";
 import {
   createParsers,
   docToHtml,
@@ -213,7 +213,7 @@ const {
     vine: deprecatedElement,
     instagram: deprecatedElement,
     comment: commentElement,
-    cartoon: cartoonElement(onCropImage),
+    cartoon: cartoonElement(onCropImage, createCaptionPlugins),
     tweet: createTweetElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
@@ -417,7 +417,6 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
-    // { label: "Cartoon", name: cartoonElementName, values: sampleCartoon },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>
@@ -464,15 +463,15 @@ const createEditor = (server: CollabServer) => {
         assets,
         suppliersReference,
         caption,
+        source,
       } = mediaPayload;
       insertElement({
         elementName: cartoonElementName,
         values: {
-          desktopImages: [
-            { assets, suppliersReference, mediaId, mediaApiUri, caption },
-          ],
+          desktopImages: [{ assets, suppliersReference, mediaId, mediaApiUri }],
           credit: photographer,
-          alt: caption,
+          source,
+          caption,
         },
       })(view.state, view.dispatch);
     };

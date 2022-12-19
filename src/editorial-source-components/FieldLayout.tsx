@@ -6,3 +6,10 @@ export const FieldLayoutVertical = styled.div`
   flex-direction: column;
   gap: ${space[3]}px;
 `;
+
+export const FieldLayoutHorizontal = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: ${space[3]}px;
+`;

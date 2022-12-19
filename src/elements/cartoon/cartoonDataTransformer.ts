@@ -2,8 +2,8 @@ import type { Breakpoint } from "@guardian/src-foundations";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { Asset } from "../helpers/defaultTransform";
+import type { MainImageData } from "../helpers/types/Media";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
-import type { MainImageData } from "../image/ImageElement";
 import type { cartoonFields } from "./CartoonSpec";
 
 export type Element = {
@@ -54,9 +54,10 @@ export const transformElementOut: TransformOut<
   Element,
   ReturnType<typeof cartoonFields>
 > = ({
-  role,
-  mobileImages,
   desktopImages,
+  mobileImages,
+  displayCredit,
+  role,
   ...rest
 }: FieldNameToValueMap<ReturnType<typeof cartoonFields>>): Element => {
   const getElementFromImage = (
@@ -83,6 +84,7 @@ export const transformElementOut: TransformOut<
   return {
     elementType: "cartoon",
     fields: {
+      displayCredit: displayCredit.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
       ...rest,
     },

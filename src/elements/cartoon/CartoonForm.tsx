@@ -1,166 +1,236 @@
 import { css } from "@emotion/react";
-import { neutral } from "@guardian/src-foundations";
-import { iconSize } from "@guardian/src-foundations/size";
+import { neutral, space } from "@guardian/src-foundations";
 import { Column, Columns } from "@guardian/src-layout";
+import type { Schema } from "prosemirror-model";
+import type { Plugin } from "prosemirror-state";
 import type { FunctionComponent } from "react";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "../../editorial-source-components/Button";
+import {
+  FieldLayoutHorizontal,
+  FieldLayoutVertical,
+} from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { Label } from "../../editorial-source-components/Label";
+import { InputHeading } from "../../editorial-source-components/InputHeading";
+import { SvgCrop } from "../../editorial-source-components/SvgCrop";
+import { SvgCrossRound } from "../../editorial-source-components/SvgCrossRound";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { getImageSrc } from "../helpers/getImageSrc";
 import type {
   ImageSelector,
   MainImageData,
   MediaPayload,
-} from "../image/ImageElement";
-import { AltText } from "../image/ImageElementForm";
+} from "../helpers/types/Media";
 import { cartoonFields } from "./CartoonSpec";
 
-export const cartoonElement = (onCropImage: ImageSelector) => {
-  return createReactElementSpec(cartoonFields(onCropImage), ({ fields }) => {
-    const [desktopImages, setDesktopImages] = useState<MainImageData[]>(
-      fields.desktopImages.value
-    );
-    const [mobileImages, setMobileImages] = useState<MainImageData[]>(
-      fields.mobileImages.value
-    );
+export const cartoonElement = (
+  imageSelector: ImageSelector,
+  createCaptionPlugins: (schema: Schema) => Plugin[]
+) => {
+  return createReactElementSpec(
+    cartoonFields(imageSelector, createCaptionPlugins),
+    ({ fields }) => {
+      const [desktopImages, setDesktopImages] = useState<MainImageData[]>(
+        fields.desktopImages.value
+      );
+      const [mobileImages, setMobileImages] = useState<MainImageData[]>(
+        fields.mobileImages.value
+      );
 
-    useEffect(() => {
-      fields.desktopImages.update(desktopImages);
-    }, [desktopImages]);
+      useEffect(() => {
+        fields.desktopImages.update(desktopImages);
+      }, [desktopImages]);
 
-    useEffect(() => {
-      fields.mobileImages.update(mobileImages);
-    }, [mobileImages]);
+      useEffect(() => {
+        fields.mobileImages.update(mobileImages);
+      }, [mobileImages]);
 
-    return (
-      <>
-        <Label>Cartoon</Label>
-        <Columns>
-          <Column width={1 / 3}>
-            <FieldLayoutVertical>
-              <ImageSet
-                title={"Desktop view"}
-                images={desktopImages}
-                defaultAltText={fields.alt.value}
-                addImage={() => {
-                  fields.desktopImages.description.props.openImageSelector(
-                    (mediaPayload: MediaPayload) =>
-                      setDesktopImages([...desktopImages, mediaPayload]),
-                    desktopImages[0]?.mediaId
-                  );
-                }}
-                removeImage={(index) => {
-                  setDesktopImages(desktopImages.filter((_, i) => i !== index));
-                }}
-                required={true}
-              />
-            </FieldLayoutVertical>
-          </Column>
-          <Column width={1 / 3}>
-            <FieldLayoutVertical>
-              <ImageSet
-                title={"Mobile view"}
-                images={mobileImages}
-                defaultAltText={fields.alt.value}
-                addImage={() => {
-                  fields.mobileImages.description.props.openImageSelector(
-                    (mediaPayload: MediaPayload) =>
-                      setMobileImages([...mobileImages, mediaPayload]),
-                    desktopImages[0]?.mediaId
-                  );
-                }}
-                removeImage={(index) => {
-                  setMobileImages(mobileImages.filter((_, i) => i !== index));
-                }}
-              />
-            </FieldLayoutVertical>
-          </Column>
+      const addImageAtIndex = (
+        mediaPayload: MediaPayload,
+        images: MainImageData[],
+        index?: number
+      ) => {
+        if (index !== undefined && index > -1 && index < images.length) {
+          return images.map((image, i) => {
+            if (i === index) {
+              return mediaPayload;
+            } else {
+              return image;
+            }
+          });
+        } else {
+          return [...images, mediaPayload];
+        }
+      };
 
-          <Column width={1 / 3}>
-            <FieldLayoutVertical>
+      return (
+        <FieldLayoutVertical>
+          <ImageSet
+            label={"Desktop images (default)"}
+            images={desktopImages}
+            alt={fields.alt.value}
+            addImage={(mediaId?: string, index?: number) => {
+              fields.desktopImages.description.props.imageSelector(
+                (mediaPayload: MediaPayload) =>
+                  setDesktopImages(
+                    addImageAtIndex(mediaPayload, desktopImages, index)
+                  ),
+                mediaId
+              );
+            }}
+            removeImage={(index) => {
+              setDesktopImages(desktopImages.filter((_, i) => i !== index));
+            }}
+            required={true}
+            mainMediaId={desktopImages[0]?.mediaId}
+          />
+          <ImageSet
+            label={"Mobile images"}
+            images={mobileImages}
+            alt={fields.alt.value}
+            addImage={(mediaId?: string, index?: number) => {
+              fields.mobileImages.description.props.imageSelector(
+                (mediaPayload: MediaPayload) =>
+                  setMobileImages(
+                    addImageAtIndex(mediaPayload, mobileImages, index)
+                  ),
+                mediaId
+              );
+            }}
+            removeImage={(index) => {
+              setMobileImages(mobileImages.filter((_, i) => i !== index));
+            }}
+            mainMediaId={desktopImages[0]?.mediaId}
+          />
+          <FieldWrapper field={fields.caption} headingLabel="Caption" />
+          <FieldWrapper
+            field={fields.alt}
+            headingLabel={
+              <span
+                css={css`
+                  margin-right: ${space[2]}px;
+                `}
+              >
+                Alt text
+              </span>
+            }
+            headingContent={
+              <>
+                <Tooltip>
+                  <p>
+                    ‘Alt text’ describes what’s in an image. It helps users of
+                    screen readers understand our images, and improves our SEO.
+                  </p>
+                  <p>
+                    <a
+                      href="https://docs.google.com/document/d/1oW542iCRyKfI4DS22QU7AH0TQRWLYMm7bTlhJlX5_Ng/edit?usp=sharing"
+                      target="_blank"
+                    >
+                      Find out more
+                    </a>
+                  </p>
+                </Tooltip>
+                <Button
+                  priority="secondary"
+                  size="xsmall"
+                  iconSide="left"
+                  onClick={() => {
+                    fields.alt.update(fields.caption.value);
+                  }}
+                >
+                  Copy from caption
+                </Button>
+              </>
+            }
+          />
+          <Columns>
+            <Column width={1 / 2}>
+              <FieldLayoutVertical>
+                <FieldWrapper
+                  field={fields.credit}
+                  headingLabel={"Comic credit"}
+                />
+                <CustomCheckboxView
+                  field={fields.displayCredit}
+                  label="Display credit information"
+                />
+              </FieldLayoutVertical>
+            </Column>
+            <Column width={1 / 2}>
+              <FieldWrapper field={fields.source} headingLabel={"Source"} />
+            </Column>
+          </Columns>
+          <Columns>
+            <Column width={1 / 3}>
               <CustomDropdownView
                 field={fields.role}
                 label="Weighting"
-                display="block"
+                display={"block"}
               />
-              <FieldWrapper field={fields.credit} headingLabel="Comic by" />
-              <FieldWrapper field={fields.source} headingLabel="Source" />
+            </Column>
+            <Column width={1 / 3}>
               <FieldWrapper
                 field={fields.verticalPadding}
-                headingLabel="Vertical padding"
+                headingLabel={"Vertical padding"}
               />
+            </Column>
+            <Column width={1 / 3}>
               <FieldWrapper
                 field={fields.backgroundColour}
-                headingLabel="Background colour"
+                headingLabel={"Background colour"}
               />
-              <FieldWrapper
-                field={fields.alt}
-                headingLabel={<AltText>Alt text</AltText>}
-                headingContent={
-                  <>
-                    <Tooltip>
-                      <p>
-                        ‘Alt text’ describes what’s in an image. It helps users
-                        of screen readers understand our images, and improves
-                        our SEO.
-                      </p>
-                      <p>
-                        <a
-                          href="https://docs.google.com/document/d/1oW542iCRyKfI4DS22QU7AH0TQRWLYMm7bTlhJlX5_Ng/edit?usp=sharing"
-                          target="_blank"
-                        >
-                          Find out more
-                        </a>
-                      </p>
-                    </Tooltip>
-                  </>
-                }
-              />
-            </FieldLayoutVertical>
-          </Column>
-        </Columns>
-      </>
-    );
-  });
+            </Column>
+          </Columns>
+        </FieldLayoutVertical>
+      );
+    }
+  );
 };
 
 const ImageSet: FunctionComponent<{
-  title: string;
+  label: string;
   images: MainImageData[];
-  defaultAltText: string;
-  addImage: () => void;
+  alt: string;
+  addImage: (mediaId?: string, index?: number) => void;
   removeImage: (index: number) => void;
   required?: boolean;
+  mainMediaId?: string;
 }> = ({
-  title,
+  label,
   images,
-  defaultAltText,
+  alt,
   addImage,
   removeImage,
   required = false,
+  mainMediaId,
 }) => {
   return (
-    <>
-      <Label>{title}</Label>
-      {images.map((image, index) => (
-        <ImageThumbnail
-          key={index}
-          index={index}
-          image={image}
-          altText={defaultAltText}
-          removeImage={removeImage}
-          required={required && index === 0}
-        />
-      ))}
-      <Button priority="secondary" size="xsmall" onClick={() => addImage()}>
-        Add image
-      </Button>
-    </>
+    <div>
+      <InputHeading headingLabel={label} />
+      <FieldLayoutHorizontal>
+        {images.map((image, index) => (
+          <ImageThumbnail
+            key={index}
+            index={index}
+            image={image}
+            alt={alt}
+            recropImage={addImage}
+            removeImage={removeImage}
+            required={required && index === 0}
+          />
+        ))}
+        <Button
+          priority="secondary"
+          size="xsmall"
+          onClick={() => addImage(mainMediaId)}
+        >
+          {`Add ${images.length > 0 ? "another" : "an"} image`}
+        </Button>
+      </FieldLayoutHorizontal>
+    </div>
   );
 };
 
@@ -169,21 +239,6 @@ const imageThumbnailStyle = css`
   width: 150px;
   height: 150px;
   background-color: #ccc;
-  button {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    svg {
-      fill: ${neutral[20]};
-    }
-    :hover svg {
-      fill: ${neutral[60]};
-    }
-  }
   img {
     position: absolute;
     max-width: 100%;
@@ -193,42 +248,64 @@ const imageThumbnailStyle = css`
   }
 `;
 
+const removeImageButton = css`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  svg {
+    fill: ${neutral[20]};
+  }
+  :hover svg {
+    fill: ${neutral[60]};
+  }
+`;
+
 const ImageThumbnail: FunctionComponent<{
   index: number;
   image: MainImageData;
-  altText: string;
+  alt: string;
+  recropImage: (mediaId?: string, index?: number) => void;
   removeImage: (index: number) => void;
   required: boolean;
-}> = ({ index, image, altText, removeImage, required }) => {
+}> = ({ index, image, alt, recropImage, removeImage, required }) => {
   return (
-    <div css={imageThumbnailStyle}>
-      {!required && (
-        <button
-          role="button"
-          aria-label={"Remove Image"}
-          onClick={() => removeImage(index)}
+    <div>
+      <div css={imageThumbnailStyle}>
+        {!required && (
+          <button
+            css={removeImageButton}
+            role="button"
+            aria-label={"Remove Image"}
+            onClick={() => removeImage(index)}
+          >
+            <SvgCrossRound />
+          </button>
+        )}
+        <img
+          src={useMemo(() => getImageSrc(image.assets, 1200), [image.assets])}
+          alt={alt}
+        ></img>
+      </div>
+      {required && (
+        <Button
+          css={css`
+            margin-top: ${space[2]}px;
+          `}
+          priority="secondary"
+          size="xsmall"
+          icon={<SvgCrop />}
+          iconSide="left"
+          onClick={() => {
+            recropImage(image.mediaId, index);
+          }}
         >
-          <SvgCrossRound />
-        </button>
+          Re-crop image
+        </Button>
       )}
-      <img
-        src={useMemo(() => getImageSrc(image.assets, 1200), [image.assets])}
-        alt={altText}
-      ></img>
     </div>
   );
 };
-
-const SvgCrossRound: FunctionComponent = () => (
-  <svg
-    width={iconSize["small"]}
-    viewBox="-3 -3 30 30"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm5.138-14.358-.782-.78-4.349 3.982-4.364-3.967-.782.78L10.85 12l-3.988 4.342.782.781 4.364-3.967 4.35 3.982.781-.78L13.165 12l3.973-4.358Z"
-    />
-  </svg>
-);

@@ -2,7 +2,7 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { Plugin } from "prosemirror-state";
 import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
 import type { Asset } from "../src/elements/helpers/defaultTransform";
-import type { SetMedia } from "../src/elements/image/ImageElement";
+import type { SetMedia } from "../src/elements/helpers/types/Media";
 
 type GridAsset = {
   mimeType: string;
@@ -17,7 +17,7 @@ type GridResponse = {
         metadata: {
           description: string;
           suppliersReference: string;
-          source: string;
+          credit: string;
           byline: string;
         };
         id: string;
@@ -80,7 +80,7 @@ const handleGridResponse = (setMedia: SetMedia) => ({ data }: GridResponse) => {
     suppliersReference: data.image.data.metadata.suppliersReference,
     caption: data.image.data.metadata.description,
     photographer: data.image.data.metadata.byline,
-    source: data.image.data.metadata.source,
+    source: data.image.data.metadata.credit,
   });
 };
 
