@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { Label } from "../../editorial-source-components/Label";
 import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
-import type { Campaign } from "../callout/Callout";
+import type { Campaign } from "../callout/CalloutTypes";
 import { EmbedTestId } from "./EmbedForm";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
   targetingUrl: string;
 };
 
-export const calloutStyles = css`
+const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
   a {
