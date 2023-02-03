@@ -8,7 +8,6 @@ import {
 } from "../../plugin/fieldViews/CustomFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
