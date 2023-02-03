@@ -9,6 +9,7 @@ type CustomDropdownViewProps = {
   options?: Options;
   label: string;
   display?: "inline" | "block";
+  onChange?: (event: string) => void;
 };
 
 export const CustomDropdownView = ({
@@ -16,6 +17,7 @@ export const CustomDropdownView = ({
   options,
   label,
   display = "block",
+  onChange,
 }: CustomDropdownViewProps) => {
   const [selectedElement, setSelectedElement] = useCustomFieldState(field);
   return (
@@ -25,6 +27,7 @@ export const CustomDropdownView = ({
       selected={selectedElement}
       label={label}
       onChange={(event) => {
+        if (onChange) onChange(event.target.value);
         setSelectedElement(event.target.value);
       }}
       error={field.errors.map((e) => e.error).join(", ")}
