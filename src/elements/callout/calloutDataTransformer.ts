@@ -6,6 +6,7 @@ import type { calloutFields } from "./Callout";
 export type ExternalCalloutFields = {
   campaignId: string | undefined;
   isNonCollapsible: string;
+  tagId: string | undefined;
 };
 
 export type ExternalCalloutData = {
@@ -21,11 +22,12 @@ export const transformElementIn: TransformIn<
   PartialEmbedData,
   typeof calloutFields
 > = ({ fields }) => {
-  const { campaignId, isNonCollapsible } = fields;
+  const { campaignId, isNonCollapsible, tagId } = fields;
 
   return {
     isNonCollapsible: isNonCollapsible === "true",
     campaignId: campaignId ?? undefinedDropdownValue,
+    tagId,
   };
 };
 
@@ -35,6 +37,7 @@ export const transformElementOut: TransformOut<
 > = ({
   isNonCollapsible,
   campaignId,
+  tagId,
 }: FieldNameToValueMap<typeof calloutFields>): ExternalCalloutData => {
   return {
     assets: [],
@@ -42,6 +45,7 @@ export const transformElementOut: TransformOut<
       isNonCollapsible: isNonCollapsible.toString(),
       campaignId:
         campaignId === undefinedDropdownValue ? undefined : campaignId,
+      tagId,
     },
   };
 };

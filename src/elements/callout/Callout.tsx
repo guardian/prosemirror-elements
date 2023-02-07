@@ -6,8 +6,8 @@ import {
   createCustomDropdownField,
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
+import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
-import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -39,6 +39,7 @@ export const calloutFields = {
     ]
   ),
   isNonCollapsible: createCustomField(false, true),
+  tagId: createTextField(),
 };
 
 const calloutStyles = css`
@@ -83,77 +84,60 @@ const calloutStyles = css`
 type Props = {
   fetchCampaignList: () => Promise<Campaign[]>;
   targetingUrl: string;
-  applyTag: (tagId: string) => void;
-  onRemove: (fields: FieldNameToValueMap<typeof calloutFields>) => void;
 };
 
 export const createCalloutElement = ({
   fetchCampaignList,
   targetingUrl,
-  applyTag,
-  onRemove,
 }: Props) =>
-  createReactElementSpec(
-    calloutFields,
-    ({ fields }) => {
-      const campaignId = fields.campaignId.value;
-      const [campaignList, setCampaignList] = useState<Campaign[]>([]);
+  createReactElementSpec(calloutFields, ({ fields }) => {
+    const campaignId = fields.campaignId.value;
+    const [campaignList, setCampaignList] = useState<Campaign[]>([]);
 
-      useEffect(() => {
-        void fetchCampaignList().then((campaignList) => {
-          setCampaignList(campaignList);
-        });
-      }, []);
+    useEffect(() => {
+      void fetchCampaignList().then((campaignList) => {
+        setCampaignList(campaignList);
+      });
+    }, []);
 
-      useEffect(() => {
-        if (
-          campaignId === undefinedDropdownValue ||
-          campaignList.length === 0
-        ) {
-          return;
-        }
-        applyTag(getTag(campaignId));
-      }, [campaignId]);
+    const getTag = (id: string) => {
+      const campaign = campaignList.find((campaign) => campaign.id === id);
+      return campaign?.fields.tagName ?? "";
+    };
+    const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
+    const callout = campaignList.find((campaign) => campaign.id === campaignId);
+    const isActiveCallout =
+      !callout?.activeUntil || callout.activeUntil >= Date.now();
+    const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
 
-      const getTag = (id: string) => {
-        const campaign = campaignList.find((campaign) => campaign.id === id);
-        return campaign?.fields.tagName ?? "";
-      };
-      const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
-      const callout = campaignList.find(
-        (campaign) => campaign.id === campaignId
-      );
-      const isActiveCallout =
-        !callout?.activeUntil || callout.activeUntil >= Date.now();
-      const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
-
-      return campaignId && campaignId != "none-selected" ? (
-        <div css={calloutStyles}>
-          {callout && isActiveCallout ? (
-            <CalloutTable
-              calloutData={callout}
-              targetingUrl={trimmedTargetingUrl}
-              isNonCollapsible={fields.isNonCollapsible}
-            />
-          ) : (
-            <CalloutError
-              isExpired={!isActiveCallout}
-              targetingUrl={trimmedTargetingUrl}
-              callout={callout}
-              calloutId={campaignId}
-            />
-          )}
-        </div>
-      ) : (
-        <div>
-          <CustomDropdownView
-            label="Callout"
-            field={fields.campaignId}
-            options={dropdownOptions}
+    return campaignId && campaignId != "none-selected" ? (
+      <div css={calloutStyles}>
+        {callout && isActiveCallout ? (
+          <CalloutTable
+            calloutData={callout}
+            targetingUrl={trimmedTargetingUrl}
+            isNonCollapsible={fields.isNonCollapsible}
           />
-        </div>
-      );
-    },
-    undefined,
-    (fields) => onRemove(fields)
-  );
+        ) : (
+          <CalloutError
+            isExpired={!isActiveCallout}
+            targetingUrl={trimmedTargetingUrl}
+            callout={callout}
+            calloutId={campaignId}
+          />
+        )}
+      </div>
+    ) : (
+      <div>
+        <CustomDropdownView
+          label="Callout"
+          field={fields.campaignId}
+          options={dropdownOptions}
+          onChange={(value) => {
+            const tagId = getTag(value);
+            fields.tagId.update(tagId);
+          }}
+        />
+      </div>
+    );
+  });
