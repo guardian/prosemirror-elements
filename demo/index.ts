@@ -184,8 +184,6 @@ const {
     callout: createCalloutElement({
       fetchCampaignList: () => Promise.resolve(sampleCampaignList),
       targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
-      applyTag: (tag: string) => console.log(`Apply ${tag} tag`),
-      onRemove: (fields) => console.log("Remove callout", fields),
     }),
     interactive: createInteractiveElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
