@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { Label } from "../../editorial-source-components/Label";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { Campaign } from "../callout/CalloutTypes";
 import { EmbedTestId } from "./EmbedForm";
 
