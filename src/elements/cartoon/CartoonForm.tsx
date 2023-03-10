@@ -4,7 +4,7 @@ import { Column, Columns } from "@guardian/src-layout";
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { FunctionComponent } from "react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import {
   FieldLayoutHorizontal,
@@ -18,6 +18,7 @@ import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
+import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import { getImageSrc } from "../helpers/getImageSrc";
 import type {
   ImageSelector,
@@ -33,20 +34,12 @@ export const cartoonElement = (
   return createReactElementSpec(
     cartoonFields(imageSelector, createCaptionPlugins),
     ({ fields }) => {
-      const [desktopImages, setDesktopImages] = useState<MainImageData[]>(
-        fields.desktopImages.value
+      const [desktopImages, setDesktopImages] = useCustomFieldState(
+        fields.desktopImages
       );
-      const [mobileImages, setMobileImages] = useState<MainImageData[]>(
-        fields.mobileImages.value
+      const [mobileImages, setMobileImages] = useCustomFieldState(
+        fields.mobileImages
       );
-
-      useEffect(() => {
-        fields.desktopImages.update(desktopImages);
-      }, [desktopImages]);
-
-      useEffect(() => {
-        fields.mobileImages.update(mobileImages);
-      }, [mobileImages]);
 
       const addImageAtIndex = (
         mediaPayload: MediaPayload,
