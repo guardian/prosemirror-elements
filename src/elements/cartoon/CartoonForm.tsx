@@ -213,7 +213,6 @@ const ImageSet: FunctionComponent<{
       <FieldLayoutHorizontal>
         {images.map((image, index) => (
           <ImageThumbnail
-            key={index}
             index={index}
             image={image}
             alt={alt}

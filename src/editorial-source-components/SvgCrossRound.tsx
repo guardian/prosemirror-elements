@@ -1,6 +1,3 @@
-// This has been taken from the Guardian Source design system:
-// https://github.com/guardian/csnx/blob/63a2a71585cf4f98b1d84e3a40aa1e8fa19f70c4/libs/%40guardian/source-react-components/vendor/icons/SvgCrossRound.tsx
-// Not available on our current version of Source, but can be pulled in when we upgrade.
 import { iconSize } from "@guardian/src-foundations/size";
 import type { FunctionComponent } from "react";
 import React from "react";
