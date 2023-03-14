@@ -18,7 +18,6 @@ import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import { getImageSrc } from "../helpers/getImageSrc";
 import type {
   ImageSelector,
@@ -34,13 +33,6 @@ export const cartoonElement = (
   return createReactElementSpec(
     cartoonFields(imageSelector, createCaptionPlugins),
     ({ fields }) => {
-      const [desktopImages, setDesktopImages] = useCustomFieldState(
-        fields.desktopImages
-      );
-      const [mobileImages, setMobileImages] = useCustomFieldState(
-        fields.mobileImages
-      );
-
       const addImageAtIndex = (
         mediaPayload: MediaPayload,
         images: MainImageData[],
@@ -63,40 +55,52 @@ export const cartoonElement = (
         <FieldLayoutVertical>
           <ImageSet
             label={"Desktop images (default)"}
-            images={desktopImages}
+            images={fields.desktopImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
               fields.desktopImages.description.props.imageSelector(
                 (mediaPayload: MediaPayload) =>
-                  setDesktopImages(
-                    addImageAtIndex(mediaPayload, desktopImages, index)
+                  fields.desktopImages.update(
+                    addImageAtIndex(
+                      mediaPayload,
+                      fields.desktopImages.value,
+                      index
+                    )
                   ),
                 mediaId
               );
             }}
             removeImage={(index) => {
-              setDesktopImages(desktopImages.filter((_, i) => i !== index));
+              fields.desktopImages.update(
+                fields.desktopImages.value.filter((_, i) => i !== index)
+              );
             }}
             required={true}
-            mainMediaId={desktopImages[0]?.mediaId}
+            mainMediaId={fields.desktopImages.value[0]?.mediaId}
           />
           <ImageSet
             label={"Mobile images"}
-            images={mobileImages}
+            images={fields.mobileImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
               fields.mobileImages.description.props.imageSelector(
                 (mediaPayload: MediaPayload) =>
-                  setMobileImages(
-                    addImageAtIndex(mediaPayload, mobileImages, index)
+                  fields.mobileImages.update(
+                    addImageAtIndex(
+                      mediaPayload,
+                      fields.mobileImages.value,
+                      index
+                    )
                   ),
                 mediaId
               );
             }}
             removeImage={(index) => {
-              setMobileImages(mobileImages.filter((_, i) => i !== index));
+              fields.mobileImages.update(
+                fields.mobileImages.value.filter((_, i) => i !== index)
+              );
             }}
-            mainMediaId={desktopImages[0]?.mediaId}
+            mainMediaId={fields.desktopImages.value[0]?.mediaId}
           />
           <FieldWrapper field={fields.caption} headingLabel="Caption" />
           <FieldWrapper
