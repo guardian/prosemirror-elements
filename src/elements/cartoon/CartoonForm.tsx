@@ -211,6 +211,7 @@ const ImageSet: FunctionComponent<{
         {images.map((image, index) => (
           <ImageThumbnail
             index={index}
+            key={image.assets[0].url}
             image={image}
             alt={alt}
             recropImage={addImage}
