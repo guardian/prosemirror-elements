@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { neutral, space } from "@guardian/src-foundations";
+import { neutral, space, text } from "@guardian/src-foundations";
 import { useEffect } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -39,6 +39,14 @@ const cellStyle = css`
   }
 `;
 
+const descriptionStyle = css`
+  div[contenteditable="true"] {
+    a {
+      color: ${text.anchorPrimary};
+    }
+  }
+`;
+
 const tagTypeStyle = css`
   background-color: ${neutral[100]};
   padding: 2px 6px;
@@ -58,8 +66,19 @@ const bodyStyle = css`
   row-gap: ${space[2]}px;
 `;
 
-const strongStyle = css`
-  font-weight: 700;
+const headerContentStyle = css`
+  float: right;
+  margin-left: auto;
+`;
+const headerButtonStyle = css`
+  font-weight: normal;
+  text-decoration: underline;
+  font-size: 12px;
+  color: ${neutral[10]};
+
+  :first-of-type {
+    margin-right: ${space[3]}px;
+  }
 `;
 
 export const CalloutTableHeader = ({
@@ -102,7 +121,7 @@ export const CalloutTableHeader = ({
   );
 };
 
-export const CreateCalloutTable = ({
+export const CalloutTable = ({
   calloutData,
   targetingUrl,
   isNonCollapsible,
@@ -142,42 +161,76 @@ export const CreateCalloutTable = ({
     }
   }, [calloutData.fields.description]);
 
+  const getHeadingContent = (
+    field: string,
+    onClickReset: () => void,
+    onClickHide: () => void
+  ) => (
+    <span css={headerContentStyle}>
+      <Button
+        priority="subdued"
+        onClick={onClickReset}
+        size="xsmall"
+        cssOverrides={headerButtonStyle}
+      >
+        Use default {field}
+      </Button>
+      <Button
+        priority="subdued"
+        onClick={onClickHide}
+        size="xsmall"
+        cssOverrides={headerButtonStyle}
+      >
+        Hide {field}
+      </Button>
+    </span>
+  );
+
   return (
     <div css={containerStyle}>
       <CalloutTableHeader
-        title={callout.value}
+        title={initialCallout}
         tagName={tagName}
         formUrl={formUrl ?? ""}
         targetingUrl={targetingUrl}
         calloutId={calloutData.id}
       />
       <div css={bodyStyle}>
-        <FieldWrapper field={prompt} headingLabel="Callout Prompt" />
-        <Button
-          priority="secondary"
-          onClick={() => prompt.update(DEFAULT_PROMPT)}
-        >
-          Reset to default title
-        </Button>
-        <FieldWrapper field={callout} headingLabel="Callout Title" />
-        <Button
-          priority="secondary"
-          onClick={() => callout.update(initialCallout)}
-        >
-          Reset to default title
-        </Button>
+        <FieldWrapper
+          className="callout-field"
+          field={prompt}
+          headingLabel="Callout Prompt"
+          headingContent={getHeadingContent(
+            "prompt",
+            () => prompt.update(DEFAULT_PROMPT),
+            () => prompt.update("")
+          )}
+        />
+        <FieldWrapper
+          field={callout}
+          headingLabel="Callout Title"
+          headingContent={getHeadingContent(
+            "title",
+            () => callout.update(initialCallout),
+            () => callout.update("")
+          )}
+        />
 
-        <FieldWrapper field={description} headingLabel="Callout Description" />
-        <Button
-          priority="secondary"
-          onClick={() => description.update(initialDescription ?? "")}
-        >
-          Reset to default description
-        </Button>
+        <div css={descriptionStyle}>
+          <FieldWrapper
+            field={description}
+            headingLabel="Callout Description"
+            headingContent={getHeadingContent(
+              "description",
+              () => description.update(initialDescription ?? ""),
+              () => description.update("")
+            )}
+          />
+        </div>
       </div>
       <CustomCheckboxView
         field={isNonCollapsible}
-        label="Show as non-collapsable"
+        label="Tick for stand alone callouts only"
       />
     </div>
   );

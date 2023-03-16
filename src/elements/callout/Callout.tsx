@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { neutral, space, text } from "@guardian/src-foundations";
+import { neutral, space } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,7 +13,7 @@ import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { CalloutError } from "./CalloutError";
-import { CreateCalloutTable } from "./CalloutTable";
+import { CalloutTable } from "./CalloutTable";
 import type { Campaign } from "./CalloutTypes";
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
@@ -42,22 +42,20 @@ export const calloutFields = {
   isNonCollapsible: createCustomField(false, true),
   tagId: createTextField(),
   prompt: createTextField({
-    placeholder: "Hide prompt",
+    placeholder: "Don't show prompt",
   }),
   callout: createTextField({
-    placeholder: "Hide title",
+    placeholder: "Don't show title",
   }),
   description: createRichTextField({
-    placeholder: "Hide description",
+    placeholder: "Don't show description",
   }),
 };
 
 const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
-  a {
-    color: ${text.anchorPrimary};
-  }
+
   code {
     font-family: monospace;
     background-color: ${neutral[86]};
@@ -123,12 +121,7 @@ export const createCalloutElement = ({
     return campaignId && campaignId != "none-selected" ? (
       <div css={calloutStyles}>
         {callout && isActiveCallout ? (
-          // createCalloutTable({
-          //   calloutData: callout,
-          //   targetingUrl: trimmedTargetingUrl,
-          //   isNonCollapsible: fields.isNonCollapsible,
-          // })
-          <CreateCalloutTable
+          <CalloutTable
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
             isNonCollapsible={fields.isNonCollapsible}
