@@ -1,7 +1,11 @@
 import { css } from "@emotion/react";
 import { neutral, space } from "@guardian/src-foundations";
+import { useEffect } from "react";
+import { Button } from "../../editorial-source-components/Button";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
-import type { CustomField } from "../../plugin/types/Element";
+import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
+import type { CustomField, Field } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import type { Campaign } from "./CalloutTypes";
 
@@ -97,39 +101,79 @@ export const CalloutTableHeader = ({
     </>
   );
 };
-export const CalloutTable = ({
+
+export const CreateCalloutTable = ({
   calloutData,
   targetingUrl,
   isNonCollapsible,
+  prompt,
+  callout,
+  description,
 }: {
   calloutData: Campaign;
   targetingUrl: string;
   isNonCollapsible: CustomField<boolean, boolean>;
+  prompt: Field<TFieldView<string>>;
+  callout: Field<TFieldView<string>>;
+  description: Field<TFieldView<string>>;
 }) => {
-  const { tagName, callout, description, formUrl } = calloutData.fields;
+  const {
+    tagName,
+    callout: initialCallout,
+    formUrl,
+    description: initialDescription,
+  } = calloutData.fields;
+
+  const DEFAULT_PROMPT = "Share your experience";
+
+  useEffect(() => {
+    prompt.update(DEFAULT_PROMPT);
+  }, []);
+
+  useEffect(() => {
+    if (calloutData.fields.callout) {
+      callout.update(calloutData.fields.callout);
+    }
+  }, [calloutData.fields.callout]);
+
+  useEffect(() => {
+    if (calloutData.fields.description) {
+      description.update(calloutData.fields.description);
+    }
+  }, [calloutData.fields.description]);
+
   return (
     <div css={containerStyle}>
       <CalloutTableHeader
-        title={callout}
+        title={callout.value}
         tagName={tagName}
         formUrl={formUrl ?? ""}
         targetingUrl={targetingUrl}
         calloutId={calloutData.id}
       />
       <div css={bodyStyle}>
-        <span>
-          <span css={strongStyle}>Callout title: </span>
-          {callout}
-        </span>
-        <span>
-          <span css={strongStyle}>Callout description:</span>
-          <br></br>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: description ?? "",
-            }}
-          ></div>
-        </span>
+        <FieldWrapper field={prompt} headingLabel="Callout Prompt" />
+        <Button
+          priority="secondary"
+          onClick={() => prompt.update(DEFAULT_PROMPT)}
+        >
+          Reset to default title
+        </Button>
+        <FieldWrapper field={callout} headingLabel="Callout Title" />
+        <Button
+          priority="secondary"
+          onClick={() => callout.update(initialCallout)}
+        >
+          Reset to default title
+        </Button>
+
+        <FieldWrapper field={description} headingLabel="Callout Description" />
+        <Button
+          priority="secondary"
+          onClick={() => description.update(initialDescription ?? "")}
+        >
+          Reset to default description
+        </Button>
       </div>
       <CustomCheckboxView
         field={isNonCollapsible}

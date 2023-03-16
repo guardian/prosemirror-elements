@@ -6,13 +6,14 @@ import {
   createCustomDropdownField,
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
+import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { dropDownRequired } from "../../plugin/helpers/validation";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { CalloutError } from "./CalloutError";
-import { CalloutTable } from "./CalloutTable";
+import { CreateCalloutTable } from "./CalloutTable";
 import type { Campaign } from "./CalloutTypes";
 
 const getDropdownOptionsFromCampaignList = (campaignList: Campaign[]) => {
@@ -40,6 +41,15 @@ export const calloutFields = {
   ),
   isNonCollapsible: createCustomField(false, true),
   tagId: createTextField(),
+  prompt: createTextField({
+    placeholder: "Hide prompt",
+  }),
+  callout: createTextField({
+    placeholder: "Hide title",
+  }),
+  description: createRichTextField({
+    placeholder: "Hide description",
+  }),
 };
 
 const calloutStyles = css`
@@ -113,10 +123,18 @@ export const createCalloutElement = ({
     return campaignId && campaignId != "none-selected" ? (
       <div css={calloutStyles}>
         {callout && isActiveCallout ? (
-          <CalloutTable
+          // createCalloutTable({
+          //   calloutData: callout,
+          //   targetingUrl: trimmedTargetingUrl,
+          //   isNonCollapsible: fields.isNonCollapsible,
+          // })
+          <CreateCalloutTable
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
             isNonCollapsible={fields.isNonCollapsible}
+            prompt={fields.prompt}
+            callout={fields.callout}
+            description={fields.description}
           />
         ) : (
           <CalloutError
