@@ -41,6 +41,8 @@ const cellStyle = css`
 
 const descriptionStyle = css`
   div[contenteditable="true"] {
+    height: ${space[24]}px;
+    min-height: ${space[12]}px;
     a {
       color: ${text.anchorPrimary};
     }
@@ -217,6 +219,7 @@ export const CalloutTable = ({
         />
 
         <div css={descriptionStyle}>
+          {/* This should be a text area */}
           <FieldWrapper
             field={description}
             headingLabel="Callout Description"

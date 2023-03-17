@@ -49,6 +49,9 @@ export const calloutFields = {
   }),
   description: createRichTextField({
     placeholder: "Don't show description",
+    isResizeable: true,
+    absentOnEmpty: false,
+    marks: "em strong link",
   }),
 };
 
