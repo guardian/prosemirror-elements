@@ -43,7 +43,7 @@ export const CalloutError = ({
         <p>This callout has expired and will not appear in the article.</p>
       </Error>
       <CalloutTableHeader
-        title={callout.fields.callout}
+        name={callout.name}
         tagName={callout.fields.tagName}
         targetingUrl={targetingUrl}
         calloutId={calloutId}
