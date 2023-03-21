@@ -72,6 +72,16 @@ export const transformElementOut: TransformOut<
     return noTags.trim() ? desc : "";
   };
 
+  const getOptionalFields = () => ({
+    // If we are using the default value, don't include the override field
+    // Otherwise, cleanup the override field and include it
+    ...(!useDefaultPrompt && { overridePrompt: overridePrompt.trim() }),
+    ...(!useDefaultTitle && { overrideTitle: overrideTitle.trim() }),
+    ...(!useDefaultDescription && {
+      overrideDescription: cleanupDescription(overrideDescription),
+    }),
+  });
+
   return {
     assets: [],
     fields: {
@@ -79,11 +89,7 @@ export const transformElementOut: TransformOut<
       campaignId:
         campaignId === undefinedDropdownValue ? undefined : campaignId,
       tagId,
-      ...(!useDefaultPrompt && { overridePrompt: overridePrompt.trim() }),
-      ...(!useDefaultTitle && { overrideTitle: overrideTitle.trim() }),
-      ...(!useDefaultDescription && {
-        overrideDescription: cleanupDescription(overrideDescription),
-      }),
+      ...getOptionalFields(),
     },
   };
 };
