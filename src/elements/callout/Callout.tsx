@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { neutral, space } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import React, { useEffect, useState } from "react";
+import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -41,16 +42,18 @@ export const calloutFields = {
   ),
   isNonCollapsible: createCustomField(false, true),
   tagId: createTextField(),
-  prompt: createTextField({
+  useDefaultPrompt: createCheckBox(true),
+  overridePrompt: createTextField({
     placeholder: "Don't show prompt",
   }),
-  callout: createTextField({
+  useDefaultTitle: createCheckBox(true),
+  overrideTitle: createTextField({
     placeholder: "Don't show title",
   }),
-  description: createRichTextField({
+  useDefaultDescription: createCheckBox(true),
+  overrideDescription: createRichTextField({
     placeholder: "Don't show description",
     isResizeable: true,
-    absentOnEmpty: false,
     marks: "em strong link",
   }),
 };
@@ -128,9 +131,12 @@ export const createCalloutElement = ({
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
             isNonCollapsible={fields.isNonCollapsible}
-            prompt={fields.prompt}
-            callout={fields.callout}
-            description={fields.description}
+            useDefaultPrompt={fields.useDefaultPrompt}
+            overridePrompt={fields.overridePrompt}
+            useDefaultTitle={fields.useDefaultTitle}
+            overrideTitle={fields.overrideTitle}
+            useDefaultDescription={fields.useDefaultDescription}
+            overrideDescription={fields.overrideDescription}
           />
         ) : (
           <CalloutError
