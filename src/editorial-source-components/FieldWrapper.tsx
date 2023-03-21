@@ -12,7 +12,7 @@ type Props<F> = {
   headingContent?: React.ReactNode;
   description?: React.ReactNode;
   className?: string;
-  headingDirection: "row" | "column";
+  headingDirection?: "row" | "column";
 };
 
 export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
@@ -22,7 +22,7 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
   headingContent = null,
   description,
   className,
-  headingDirection = "row",
+  headingDirection,
 }: Props<F>) => (
   <div className={className}>
     <InputHeading
