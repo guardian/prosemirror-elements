@@ -71,7 +71,7 @@ const strongStyle = css`
   font-weight: 700;
 `;
 
-const headerContentStyle = css`
+const rightHeaderStyle = css`
   float: right;
   margin-left: auto;
 `;
@@ -87,13 +87,13 @@ const headerButtonStyle = css`
 `;
 
 export const CalloutTableHeader = ({
-  title,
+  name,
   tagName,
   targetingUrl,
   calloutId,
   formUrl,
 }: {
-  title: string;
+  name: string;
   tagName: string;
   targetingUrl: string;
   calloutId: string;
@@ -102,7 +102,7 @@ export const CalloutTableHeader = ({
   return (
     <>
       <div css={headerStyle}>
-        <Label>CALLOUT: {title}</Label>
+        <Label>{name}</Label>
         <span>
           <a
             css={css`
@@ -153,38 +153,14 @@ export const CalloutTable = ({
     formUrl,
     description: defaultDescription,
   } = calloutData.fields;
+  const { name } = calloutData;
 
   const DEFAULT_PROMPT = "Share your experience";
-
-  const getHeadingContent = (
-    field: string,
-    onClickReset: () => void,
-    onClickHide: () => void
-  ) => (
-    <span css={headerContentStyle}>
-      <Button
-        priority="subdued"
-        onClick={onClickReset}
-        size="xsmall"
-        cssOverrides={headerButtonStyle}
-      >
-        Use default {field}
-      </Button>
-      <Button
-        priority="subdued"
-        onClick={onClickHide}
-        size="xsmall"
-        cssOverrides={headerButtonStyle}
-      >
-        Hide {field}
-      </Button>
-    </span>
-  );
 
   return (
     <div css={containerStyle}>
       <CalloutTableHeader
-        title={defaultTitle}
+        name={name}
         tagName={tagName}
         formUrl={formUrl ?? ""}
         targetingUrl={targetingUrl}
@@ -195,7 +171,7 @@ export const CalloutTable = ({
           <div>
             <span css={strongStyle}>Callout Prompt: </span>
             <span>{DEFAULT_PROMPT}</span>
-            <span css={headerContentStyle}>
+            <span css={rightHeaderStyle}>
               <Button
                 priority="subdued"
                 onClick={() => useDefaultPrompt.update(false)}
@@ -211,11 +187,19 @@ export const CalloutTable = ({
             className="callout-field"
             field={overridePrompt}
             headingLabel="Callout Prompt"
-            headingContent={getHeadingContent(
-              "prompt",
-              () => useDefaultPrompt.update(true),
-              () => overridePrompt.update("")
-            )}
+            headingDirection="column"
+            headingContent={
+              <span>
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultPrompt.update(true)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Reset prompt
+                </Button>
+              </span>
+            }
           />
         )}
 
@@ -223,7 +207,7 @@ export const CalloutTable = ({
           <div>
             <span css={strongStyle}>Callout Title: </span>
             <span>{defaultTitle}</span>
-            <span css={headerContentStyle}>
+            <span css={rightHeaderStyle}>
               <Button
                 priority="subdued"
                 onClick={() => useDefaultTitle.update(false)}
@@ -239,11 +223,17 @@ export const CalloutTable = ({
             className="callout-field"
             field={overrideTitle}
             headingLabel="Callout Title"
-            headingContent={getHeadingContent(
-              "title",
-              () => useDefaultTitle.update(true),
-              () => overrideTitle.update("")
-            )}
+            headingDirection="column"
+            headingContent={
+              <Button
+                priority="subdued"
+                onClick={() => useDefaultTitle.update(true)}
+                size="xsmall"
+                cssOverrides={headerButtonStyle}
+              >
+                Reset title
+              </Button>
+            }
           />
         )}
 
@@ -251,7 +241,7 @@ export const CalloutTable = ({
           <>
             <div>
               <span css={strongStyle}>Callout Description: </span>
-              <span css={headerContentStyle}>
+              <span css={rightHeaderStyle}>
                 <Button
                   priority="subdued"
                   onClick={() => useDefaultDescription.update(false)}
@@ -274,11 +264,17 @@ export const CalloutTable = ({
               className="callout-field"
               field={overrideDescription}
               headingLabel="Callout Description"
-              headingContent={getHeadingContent(
-                "description",
-                () => useDefaultDescription.update(true),
-                () => overrideDescription.update("")
-              )}
+              headingDirection="column"
+              headingContent={
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultDescription.update(true)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Reset description
+                </Button>
+              }
             />
           </div>
         )}
