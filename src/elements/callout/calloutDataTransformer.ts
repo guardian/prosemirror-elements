@@ -1,4 +1,3 @@
-// import pickBy from "lodash/pickBy";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
