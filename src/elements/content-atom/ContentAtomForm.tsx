@@ -1,8 +1,8 @@
 import { upperFirst } from "lodash";
 import { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { Label, NonBoldLabel } from "../../editorial-source-components/Label";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";

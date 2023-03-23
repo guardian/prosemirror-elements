@@ -1,7 +1,7 @@
 import React from "react";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Link } from "../../editorial-source-components/Link";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";

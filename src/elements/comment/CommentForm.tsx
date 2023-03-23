@@ -1,4 +1,4 @@
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { Preview } from "../helpers/Preview";

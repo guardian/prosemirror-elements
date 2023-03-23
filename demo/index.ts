@@ -10,6 +10,8 @@ import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
+  buildElementPlugin,
+  cartoonElement,
   codeElement,
   commentElement,
   createCalloutElement,
@@ -25,11 +27,10 @@ import {
   pullquoteElement,
   richlinkElement,
   tableElement,
+  transformElementOut,
   undefinedDropdownValue,
 } from "../src";
-import { transformElementOut } from "../src/elements/helpers/transform";
-import type { MediaPayload } from "../src/elements/image/ImageElement";
-import { buildElementPlugin } from "../src/plugin/element";
+import type { MediaPayload } from "../src/elements/helpers/types/Media";
 import {
   createParsers,
   docToHtml,
@@ -93,6 +94,7 @@ const tweetElementName = "tweet";
 const contentAtomName = "content-atom";
 const commentElementName = "comment";
 const campaignCalloutListElementName = "callout";
+const cartoonElementName = "cartoon";
 
 type Name =
   | typeof embedElementName
@@ -115,7 +117,8 @@ type Name =
   | typeof tweetElementName
   | typeof contentAtomName
   | typeof commentElementName
-  | typeof campaignCalloutListElementName;
+  | typeof campaignCalloutListElementName
+  | typeof cartoonElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -208,6 +211,7 @@ const {
     vine: deprecatedElement,
     instagram: deprecatedElement,
     comment: commentElement,
+    cartoon: cartoonElement(onCropImage, createCaptionPlugins),
     tweet: createTweetElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
@@ -418,7 +422,7 @@ const createEditor = (server: CollabServer) => {
   );
 
   const imageElementButton = document.createElement("button");
-  imageElementButton.innerHTML = "Image element";
+  imageElementButton.innerHTML = "Add Image";
   imageElementButton.id = imageElementName;
   imageElementButton.addEventListener("click", () => {
     const setMedia = (mediaPayload: MediaPayload) => {
@@ -443,12 +447,39 @@ const createEditor = (server: CollabServer) => {
     };
     onCropImage(setMedia);
   });
+  btnContainer.appendChild(imageElementButton);
+
+  const cartoonElementButton = document.createElement("button");
+  cartoonElementButton.innerHTML = "Add Cartoon";
+  cartoonElementButton.id = cartoonElementName;
+  cartoonElementButton.addEventListener("click", () => {
+    const setMedia = (mediaPayload: MediaPayload) => {
+      const {
+        photographer,
+        mediaId,
+        mediaApiUri,
+        assets,
+        suppliersReference,
+        caption,
+        source,
+      } = mediaPayload;
+      insertElement({
+        elementName: cartoonElementName,
+        values: {
+          desktopImages: [{ assets, suppliersReference, mediaId, mediaApiUri }],
+          credit: photographer,
+          source,
+          caption,
+        },
+      })(view.state, view.dispatch);
+    };
+    onCropImage(setMedia);
+  });
+  btnContainer.appendChild(cartoonElementButton);
 
   // Add a button allowing you to toggle the image role fields
-  btnContainer.appendChild(imageElementButton);
   const toggleImageFields = document.createElement("button");
   toggleImageFields.innerHTML = "Randomise image role options";
-
   toggleImageFields.addEventListener("click", () => {
     updateAdditionalRoleOptions(
       [...additionalRoleOptions].splice(Math.floor(Math.random() * 3), 2)

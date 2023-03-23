@@ -1,4 +1,5 @@
 import { transformElement as calloutElementTransform } from "../callout/calloutDataTransformer";
+import { transformElement as cartoonElementTransform } from "../cartoon/cartoonDataTransformer";
 import type { codeFields } from "../code/CodeElementSpec";
 import type { commentFields } from "../comment/CommentSpec";
 import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
@@ -23,6 +24,7 @@ const transformMap = {
   embed: embedElementTransform,
   callout: calloutElementTransform,
   image: imageElementTransform,
+  cartoon: cartoonElementTransform,
   interactive: interactiveElementTransform,
   pullquote: defaultElementTransform<typeof pullquoteFields>(),
   "rich-link": defaultElementTransform<typeof richlinkFields>({

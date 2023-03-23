@@ -5,10 +5,10 @@ import { Column, Columns } from "@guardian/src-layout";
 import React, { useContext, useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
 import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
 import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
@@ -17,15 +17,15 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import { createStore } from "../../renderers/react/store";
 import { TelemetryContext } from "../../renderers/react/TelemetryContext";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
-import type { Asset } from "../helpers/defaultTransform";
-import { htmlLength } from "../helpers/validation";
+import { getImageSrc } from "../helpers/getImageSrc";
 import type {
   ImageElementOptions,
   ImageSelector,
   MainImageData,
   MediaPayload,
   SetMedia,
-} from "./ImageElement";
+} from "../helpers/types/Media";
+import { htmlLength } from "../helpers/validation";
 import { createImageFields, minAssetValidation } from "./ImageElement";
 import { ImageElementTelemetryType } from "./imageElementTelemetryEvents";
 
@@ -34,7 +34,7 @@ type ImageViewProps = {
   field: CustomField<MainImageData, { openImageSelector: ImageSelector }>;
 };
 
-const AltText = styled.span`
+export const AltText = styled.span`
   margin-right: ${space[2]}px;
 `;
 
@@ -234,26 +234,9 @@ const ImageView = ({ field, updateFields }: ImageViewProps) => {
     }
   };
 
-  const imageSrc = useMemo(() => {
-    const desiredWidth = 1200;
-
-    const widthDifference = (width: number) => Math.abs(desiredWidth - width);
-
-    const stringOrNumberToNumber = (value: string | number) => {
-      const parsedValue = parseInt(value.toString());
-      return !isNaN(parsedValue) ? parsedValue : 0;
-    };
-
-    const sortByWidthDifference = (assetA: Asset, assetB: Asset) =>
-      widthDifference(stringOrNumberToNumber(assetA.fields.width)) -
-      widthDifference(stringOrNumberToNumber(assetB.fields.width));
-
-    const sortedAssets = imageFields.assets
-      .filter((asset) => !asset.fields.isMaster)
-      .sort(sortByWidthDifference);
-
-    return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;
-  }, [imageFields.assets]);
+  const imageSrc = useMemo(() => getImageSrc(imageFields.assets, 1200), [
+    imageFields.assets,
+  ]);
 
   return (
     <div>

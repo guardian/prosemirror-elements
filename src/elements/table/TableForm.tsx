@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/VerticalFieldLayout";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { tableFields } from "./TableSpec";
