@@ -33,6 +33,7 @@ export type InputHeadingProps = {
   description?: React.ReactNode;
   errors?: string[];
   name?: string;
+  headingDirection?: "row" | "column";
 };
 
 export const InputHeading = ({
@@ -42,9 +43,10 @@ export const InputHeading = ({
   errors,
   name,
   fieldId,
+  headingDirection = "row",
 }: InputHeadingProps) => (
   <InputHeadingContainer data-cy={getFieldHeadingTestId(name ?? "")}>
-    <Heading>
+    <Heading headingDirection={headingDirection}>
       <LabelLink href={fieldId ? `#${fieldId}` : ""}>
         <Label id={fieldId ? `label-${fieldId}` : ""}>{headingLabel}</Label>
       </LabelLink>

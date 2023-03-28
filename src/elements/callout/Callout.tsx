@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
-import { neutral, space, text } from "@guardian/src-foundations";
+import { neutral, space } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import React, { useEffect, useState } from "react";
+import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
 import {
   createCustomDropdownField,
   createCustomField,
 } from "../../plugin/fieldViews/CustomFieldView";
+import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { dropDownRequired } from "../../plugin/helpers/validation";
@@ -40,14 +42,26 @@ export const calloutFields = {
   ),
   isNonCollapsible: createCustomField(false, true),
   tagId: createTextField(),
+  useDefaultPrompt: createCheckBox(true),
+  overridePrompt: createTextField({
+    placeholder: "Don't show prompt",
+  }),
+  useDefaultTitle: createCheckBox(true),
+  overrideTitle: createTextField({
+    placeholder: "Don't show title",
+  }),
+  useDefaultDescription: createCheckBox(true),
+  overrideDescription: createRichTextField({
+    placeholder: "Don't show description",
+    isResizeable: true,
+    marks: "em strong link",
+  }),
 };
 
 const calloutStyles = css`
   ${textSans.small({ fontWeight: "regular", lineHeight: "loose" })}
   font-family: "Guardian Agate Sans";
-  a {
-    color: ${text.anchorPrimary};
-  }
+
   code {
     font-family: monospace;
     background-color: ${neutral[86]};
@@ -117,6 +131,12 @@ export const createCalloutElement = ({
             calloutData={callout}
             targetingUrl={trimmedTargetingUrl}
             isNonCollapsible={fields.isNonCollapsible}
+            useDefaultPrompt={fields.useDefaultPrompt}
+            overridePrompt={fields.overridePrompt}
+            useDefaultTitle={fields.useDefaultTitle}
+            overrideTitle={fields.overrideTitle}
+            useDefaultDescription={fields.useDefaultDescription}
+            overrideDescription={fields.overrideDescription}
           />
         ) : (
           <CalloutError

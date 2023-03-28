@@ -1,7 +1,10 @@
 import { css } from "@emotion/react";
-import { neutral, space } from "@guardian/src-foundations";
+import { neutral, space, text } from "@guardian/src-foundations";
+import { Button } from "../../editorial-source-components/Button";
+import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
-import type { CustomField } from "../../plugin/types/Element";
+import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
+import type { CustomField, Field } from "../../plugin/types/Element";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import type { Campaign } from "./CalloutTypes";
 
@@ -35,6 +38,16 @@ const cellStyle = css`
   }
 `;
 
+const descriptionStyle = css`
+  div[contenteditable="true"] {
+    height: ${space[24]}px;
+    min-height: ${space[12]}px;
+    a {
+      color: ${text.anchorPrimary};
+    }
+  }
+`;
+
 const tagTypeStyle = css`
   background-color: ${neutral[100]};
   padding: 2px 6px;
@@ -58,14 +71,29 @@ const strongStyle = css`
   font-weight: 700;
 `;
 
+const rightHeaderStyle = css`
+  float: right;
+  margin-left: auto;
+`;
+const headerButtonStyle = css`
+  font-weight: normal;
+  text-decoration: underline;
+  font-size: 12px;
+  color: ${neutral[10]};
+
+  :first-of-type {
+    margin-right: ${space[3]}px;
+  }
+`;
+
 export const CalloutTableHeader = ({
-  title,
+  name,
   tagName,
   targetingUrl,
   calloutId,
   formUrl,
 }: {
-  title: string;
+  name: string;
   tagName: string;
   targetingUrl: string;
   calloutId: string;
@@ -74,7 +102,7 @@ export const CalloutTableHeader = ({
   return (
     <>
       <div css={headerStyle}>
-        <Label>CALLOUT: {title}</Label>
+        <Label>{name}</Label>
         <span>
           <a
             css={css`
@@ -97,43 +125,163 @@ export const CalloutTableHeader = ({
     </>
   );
 };
+
 export const CalloutTable = ({
   calloutData,
   targetingUrl,
   isNonCollapsible,
+  useDefaultPrompt,
+  overridePrompt,
+  useDefaultTitle,
+  overrideTitle,
+  useDefaultDescription,
+  overrideDescription,
 }: {
   calloutData: Campaign;
   targetingUrl: string;
   isNonCollapsible: CustomField<boolean, boolean>;
+  useDefaultPrompt: Field<TFieldView<boolean>>;
+  overridePrompt: Field<TFieldView<string>>;
+  useDefaultTitle: Field<TFieldView<boolean>>;
+  overrideTitle: Field<TFieldView<string>>;
+  useDefaultDescription: Field<TFieldView<boolean>>;
+  overrideDescription: Field<TFieldView<string>>;
 }) => {
-  const { tagName, callout, description, formUrl } = calloutData.fields;
+  const {
+    tagName,
+    callout: defaultTitle,
+    formUrl,
+    description: defaultDescription,
+  } = calloutData.fields;
+  const { name } = calloutData;
+
+  const DEFAULT_PROMPT = "Share your experience";
+
   return (
     <div css={containerStyle}>
       <CalloutTableHeader
-        title={callout}
+        name={name}
         tagName={tagName}
         formUrl={formUrl ?? ""}
         targetingUrl={targetingUrl}
         calloutId={calloutData.id}
       />
       <div css={bodyStyle}>
-        <span>
-          <span css={strongStyle}>Callout title: </span>
-          {callout}
-        </span>
-        <span>
-          <span css={strongStyle}>Callout description:</span>
-          <br></br>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: description ?? "",
-            }}
-          ></div>
-        </span>
+        {useDefaultPrompt.value ? (
+          <div>
+            <span css={strongStyle}>Callout Prompt: </span>
+            <span>{DEFAULT_PROMPT}</span>
+            <span css={rightHeaderStyle}>
+              <Button
+                priority="subdued"
+                onClick={() => useDefaultPrompt.update(false)}
+                size="xsmall"
+                cssOverrides={headerButtonStyle}
+              >
+                Edit prompt
+              </Button>
+            </span>
+          </div>
+        ) : (
+          <FieldWrapper
+            className="callout-field"
+            field={overridePrompt}
+            headingLabel="Callout Prompt"
+            headingDirection="column"
+            headingContent={
+              <span>
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultPrompt.update(true)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Reset prompt
+                </Button>
+              </span>
+            }
+          />
+        )}
+
+        {useDefaultTitle.value ? (
+          <div>
+            <span css={strongStyle}>Callout Title: </span>
+            <span>{defaultTitle}</span>
+            <span css={rightHeaderStyle}>
+              <Button
+                priority="subdued"
+                onClick={() => useDefaultTitle.update(false)}
+                size="xsmall"
+                cssOverrides={headerButtonStyle}
+              >
+                Edit title
+              </Button>
+            </span>
+          </div>
+        ) : (
+          <FieldWrapper
+            className="callout-field"
+            field={overrideTitle}
+            headingLabel="Callout Title"
+            headingDirection="column"
+            headingContent={
+              <Button
+                priority="subdued"
+                onClick={() => useDefaultTitle.update(true)}
+                size="xsmall"
+                cssOverrides={headerButtonStyle}
+              >
+                Reset title
+              </Button>
+            }
+          />
+        )}
+
+        {useDefaultDescription.value ? (
+          <>
+            <div>
+              <span css={strongStyle}>Callout Description: </span>
+              <span css={rightHeaderStyle}>
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultDescription.update(false)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Edit description
+                </Button>
+              </span>
+            </div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: defaultDescription ?? "",
+              }}
+            />
+          </>
+        ) : (
+          <div css={descriptionStyle}>
+            <FieldWrapper
+              className="callout-field"
+              field={overrideDescription}
+              headingLabel="Callout Description"
+              headingDirection="column"
+              headingContent={
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultDescription.update(true)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Reset description
+                </Button>
+              }
+            />
+          </div>
+        )}
       </div>
       <CustomCheckboxView
         field={isNonCollapsible}
-        label="Show as non-collapsable"
+        label="Tick for stand alone callouts only"
       />
     </div>
   );
