@@ -26,7 +26,7 @@ import type {
 } from "../helpers/types/Media";
 import { cartoonFields } from "./CartoonSpec";
 
-export const cartoonElement = (
+export const createCartoonElement = (
   imageSelector: ImageSelector,
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
@@ -144,7 +144,7 @@ export const cartoonElement = (
             }
           />
           <Columns>
-            <Column width={1 / 2}>
+            <Column width={1 / 3}>
               <FieldLayoutVertical>
                 <FieldWrapper
                   field={fields.credit}
@@ -156,28 +156,14 @@ export const cartoonElement = (
                 />
               </FieldLayoutVertical>
             </Column>
-            <Column width={1 / 2}>
+            <Column width={1 / 3}>
               <FieldWrapper field={fields.source} headingLabel={"Source"} />
             </Column>
-          </Columns>
-          <Columns>
             <Column width={1 / 3}>
               <CustomDropdownView
                 field={fields.role}
                 label="Weighting"
                 display={"block"}
-              />
-            </Column>
-            <Column width={1 / 3}>
-              <FieldWrapper
-                field={fields.verticalPadding}
-                headingLabel={"Vertical padding"}
-              />
-            </Column>
-            <Column width={1 / 3}>
-              <FieldWrapper
-                field={fields.backgroundColour}
-                headingLabel={"Background colour"}
               />
             </Column>
           </Columns>
