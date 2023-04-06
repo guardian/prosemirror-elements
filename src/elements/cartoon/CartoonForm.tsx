@@ -26,7 +26,7 @@ import type {
 } from "../helpers/types/Media";
 import { cartoonFields } from "./CartoonSpec";
 
-export const cartoonElement = (
+export const createCartoonElement = (
   imageSelector: ImageSelector,
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {

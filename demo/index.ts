@@ -11,10 +11,10 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import {
   buildElementPlugin,
-  cartoonElement,
   codeElement,
   commentElement,
   createCalloutElement,
+  createCartoonElement,
   createContentAtomElement,
   createDemoImageElement,
   createEmbedElement,
@@ -211,7 +211,7 @@ const {
     vine: deprecatedElement,
     instagram: deprecatedElement,
     comment: commentElement,
-    cartoon: cartoonElement(onCropImage, createCaptionPlugins),
+    cartoon: createCartoonElement(onCropImage, createCaptionPlugins),
     tweet: createTweetElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,
