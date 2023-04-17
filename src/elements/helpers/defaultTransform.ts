@@ -5,7 +5,7 @@ import type { TransformIn, TransformOut } from "./types/Transform";
 
 export type Asset = {
   assetType: string;
-  mimeType: string;
+  mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
   url: string;
   fields: {
     width: number | string;

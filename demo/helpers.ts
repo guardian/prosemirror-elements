@@ -5,7 +5,7 @@ import type { Asset } from "../src/elements/helpers/defaultTransform";
 import type { SetMedia } from "../src/elements/helpers/types/Media";
 
 type GridAsset = {
-  mimeType: string;
+  mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
   dimensions: { width: number; height: number };
   secureUrl: string;
 };

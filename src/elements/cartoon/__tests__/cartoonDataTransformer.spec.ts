@@ -1,0 +1,150 @@
+import type { Element } from "../cartoonDataTransformer";
+import { transformElement } from "../cartoonDataTransformer";
+
+describe("cartoon element transform", () => {
+  describe("transformIn", () => {
+    it("should not allow elements which are the wrong type", () => {
+      // @ts-expect-error -- we should not be able to transform a malformed element
+      expect(() => transformElement.in({})).toThrow;
+      expect(() =>
+        transformElement.in({
+          assets: [],
+          // @ts-expect-error -- we should not be able to transform a malformed element
+          fields: { nonExistantField: "123" },
+        })
+      ).toThrow;
+    });
+    it("should transform elements correctly", () => {
+      const element: Element = {
+        elementType: "cartoon",
+        fields: {
+          credit: "Oliva Hemingway",
+          caption: "Photo of a dog",
+          source: "PA",
+          variants: [
+            {
+              viewportSize: "large",
+              images: [
+                {
+                  mimeType: "image/jpeg",
+                  file: "https://media.guim.co.uk/large.jpg",
+                  width: 200,
+                  height: 200,
+                },
+              ],
+            },
+            {
+              viewportSize: "small",
+              images: [
+                {
+                  mimeType: "image/jpeg",
+                  file: "https://media.guim.co.uk/small.jpg",
+                  width: 100,
+                  height: 100,
+                },
+              ],
+            },
+          ],
+        },
+        assets: [],
+      };
+
+      expect(transformElement.in(element)).toEqual({
+        role: "none-selected",
+        credit: "Oliva Hemingway",
+        source: "PA",
+        alt: "Photo of a dog",
+        largeImages: [
+          {
+            mimeType: "image/jpeg",
+            file: "https://media.guim.co.uk/large.jpg",
+            width: 200,
+            height: 200,
+          },
+        ],
+        smallImages: [
+          {
+            mimeType: "image/jpeg",
+            file: "https://media.guim.co.uk/small.jpg",
+            width: 100,
+            height: 100,
+          },
+        ],
+      });
+    });
+    describe("transformOut", () => {
+      it("should not allow elements which are the wrong type", () => {
+        // @ts-expect-error -- we should not be able to transform a malformed element
+        expect(() => transformElement.out({})).toThrow;
+        expect(() =>
+          transformElement.out({
+            // @ts-expect-error -- we should not be able to transform a malformed element
+            nonExistantField: "123",
+          })
+        ).toThrow;
+      });
+      it("should transform elements out correctly", () => {
+        const element = {
+          role: "none-selected",
+          credit: "Oliva Hemingway",
+          source: "PA",
+          alt: "Photo of a dog",
+          displayCredit: true,
+          caption: "Photo of a dog",
+          largeImages: [
+            {
+              mimeType: "image/jpeg",
+              file: "https://media.guim.co.uk/large.jpg",
+              width: 200,
+              height: 200,
+            },
+          ],
+          smallImages: [
+            {
+              mimeType: "image/jpeg",
+              file: "https://media.guim.co.uk/small.jpg",
+              width: 100,
+              height: 100,
+            },
+          ],
+        };
+
+        expect(transformElement.out(element)).toEqual({
+          elementType: "cartoon",
+          fields: {
+            alt: "Photo of a dog",
+            caption: "Photo of a dog",
+            source: "PA",
+            credit: "Oliva Hemingway",
+            displayCredit: "true",
+            variants: [
+              {
+                viewportSize: "small",
+                images: [
+                  {
+                    mimeType: "image/jpeg",
+                    file: "https://media.guim.co.uk/small.jpg",
+                    width: 100,
+                    height: 100,
+                  },
+                ],
+              },
+              {
+                viewportSize: "large",
+                images: [
+                  {
+                    mimeType: "image/jpeg",
+                    file: "https://media.guim.co.uk/large.jpg",
+                    width: 200,
+                    height: 200,
+                  },
+                ],
+              },
+            ],
+          },
+          assets: [],
+        });
+      });
+    });
+  });
+});

@@ -1,52 +1,63 @@
-import type { Breakpoint } from "@guardian/src-foundations";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { Asset } from "../helpers/defaultTransform";
-import type { MainImageData } from "../helpers/types/Media";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { cartoonFields } from "./CartoonSpec";
 
+type ViewportSize = "small" | "medium" | "large"; // This used to be called "breakpoint"
+
+export type Image = {
+  mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
+  file: string;
+  width: number | string;
+  height: number | string;
+  mediaId?: string;
+  mediaApiUri?: string;
+};
+
+type Variant = {
+  viewportSize: ViewportSize;
+  images: Image[];
+};
+
+type Fields = {
+  variants: Variant[];
+  role?: string;
+  credit?: string;
+  caption?: string;
+  source?: string;
+  displayCredit?: string;
+};
+
 export type Element = {
   elementType: string;
-  fields: Record<string, string | undefined>;
+  fields: Fields;
   assets: Asset[];
-  elements?: Element[];
 };
 
 export const transformElementIn: TransformIn<
   Element,
   ReturnType<typeof cartoonFields>
-> = ({ fields, elements }) => {
-  const { role, photographer, caption, source } = fields;
+> = ({ fields }) => {
+  const { role, credit, caption, source, variants } = fields;
 
-  const getImages = (breakpoint: Breakpoint): MainImageData[] => {
-    if (Array.isArray(elements)) {
-      return elements
-        .filter(
-          (element) =>
-            element.elementType === "image" &&
-            element.fields.breakpoint === breakpoint
-        )
-        .map((element) => {
-          return {
-            mediaId: element.fields.mediaId,
-            mediaApiUri: element.fields.mediaApiUri,
-            assets: element.assets,
-            caption: element.fields.caption,
-          };
-        });
-    } else {
-      return [];
-    }
+  const getImages = (viewportSize: ViewportSize): Image[] => {
+    const variant = variants.find(
+      (variant) => variant.viewportSize === viewportSize
+    );
+
+    if (!variant) return [];
+
+    return variant.images;
   };
 
   return {
     role: role ?? undefinedDropdownValue,
-    credit: photographer,
+    credit,
     source,
-    alt: caption,
-    desktopImages: getImages("desktop"),
-    mobileImages: getImages("mobile"),
+    caption,
+    largeImages: getImages("large"),
+    smallImages: getImages("small"),
   };
 };
 
@@ -54,41 +65,29 @@ export const transformElementOut: TransformOut<
   Element,
   ReturnType<typeof cartoonFields>
 > = ({
-  desktopImages,
-  mobileImages,
+  largeImages,
+  smallImages,
   displayCredit,
   role,
   ...rest
 }: FieldNameToValueMap<ReturnType<typeof cartoonFields>>): Element => {
-  const getElementFromImage = (
-    image: MainImageData,
-    breakpoint: Breakpoint
-  ) => {
-    const { assets, ...rest } = image;
-    return {
-      elementType: "image",
-      fields: {
-        breakpoint,
-        ...rest,
-      },
-      assets,
-    };
-  };
-
-  const elements = mobileImages
-    .map((image) => getElementFromImage(image, "mobile"))
-    .concat(
-      desktopImages.map((image) => getElementFromImage(image, "desktop"))
-    );
-
   return {
     elementType: "cartoon",
     fields: {
+      variants: [
+        {
+          viewportSize: "small",
+          images: smallImages,
+        },
+        {
+          viewportSize: "large",
+          images: largeImages,
+        },
+      ],
       displayCredit: displayCredit.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
       ...rest,
     },
-    elements,
     assets: [],
   };
 };

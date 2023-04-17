@@ -30,6 +30,7 @@ import {
   transformElementOut,
   undefinedDropdownValue,
 } from "../src";
+import { getImageFromMediaPayload } from "../src/elements/cartoon/CartoonForm";
 import type { MediaPayload } from "../src/elements/helpers/types/Media";
 import {
   createParsers,
@@ -454,19 +455,17 @@ const createEditor = (server: CollabServer) => {
   cartoonElementButton.id = cartoonElementName;
   cartoonElementButton.addEventListener("click", () => {
     const setMedia = (mediaPayload: MediaPayload) => {
-      const {
-        photographer,
-        mediaId,
-        mediaApiUri,
-        assets,
-        suppliersReference,
-        caption,
-        source,
-      } = mediaPayload;
+      const { photographer, caption, source } = mediaPayload;
+
+      const imageToInsert = getImageFromMediaPayload(mediaPayload);
+
+      // TODO: handle this error
+      if (!imageToInsert) return;
+
       insertElement({
         elementName: cartoonElementName,
         values: {
-          desktopImages: [{ assets, suppliersReference, mediaId, mediaApiUri }],
+          largeImages: [imageToInsert],
           credit: photographer,
           source,
           caption,
