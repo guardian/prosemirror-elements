@@ -10,7 +10,7 @@ export type Asset = {
   fields: {
     width: number | string;
     height: number | string;
-    isMaster: boolean | undefined;
+    isMaster?: boolean | string | undefined;
   };
 };
 
