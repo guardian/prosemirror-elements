@@ -20,6 +20,7 @@ describe("cartoon element transform", () => {
         fields: {
           credit: "Oliva Hemingway",
           caption: "Photo of a dog",
+          alt: "Photo of a dog",
           source: "PA",
           variants: [
             {
@@ -53,7 +54,9 @@ describe("cartoon element transform", () => {
         role: "none-selected",
         credit: "Oliva Hemingway",
         source: "PA",
+        caption: "Photo of a dog",
         alt: "Photo of a dog",
+        displayCredit: false,
         largeImages: [
           {
             mimeType: "image/jpeg",

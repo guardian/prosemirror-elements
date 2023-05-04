@@ -25,6 +25,7 @@ type Fields = {
   role?: string;
   credit?: string;
   caption?: string;
+  alt?: string;
   source?: string;
   displayCredit?: string;
 };
@@ -39,7 +40,7 @@ export const transformElementIn: TransformIn<
   Element,
   ReturnType<typeof cartoonFields>
 > = ({ fields }) => {
-  const { role, credit, caption, source, variants } = fields;
+  const { role, variants, displayCredit, ...rest } = fields;
 
   const getImages = (viewportSize: ViewportSize): Image[] => {
     const variant = variants.find(
@@ -53,11 +54,10 @@ export const transformElementIn: TransformIn<
 
   return {
     role: role ?? undefinedDropdownValue,
-    credit,
-    source,
-    caption,
+    displayCredit: displayCredit === "true",
     largeImages: getImages("large"),
     smallImages: getImages("small"),
+    ...rest,
   };
 };
 
