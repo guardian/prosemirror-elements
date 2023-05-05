@@ -2,7 +2,7 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { Plugin } from "prosemirror-state";
 import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
 import type { Asset } from "../src/elements/helpers/defaultTransform";
-import type { SetMedia } from "../src/elements/helpers/types/Media";
+import type { SetImage, SetMedia } from "../src/elements/helpers/types/Media";
 
 type GridAsset = {
   mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
@@ -84,6 +84,19 @@ const handleGridResponse = (setMedia: SetMedia) => ({ data }: GridResponse) => {
   });
 };
 
+const handleGridResponseForCartoon = (setImage: SetImage) => ({
+  data,
+}: GridResponse) => {
+  const master = data.crop.data.master;
+  setImage({
+    mimeType: master.mimeType,
+    file: master.secureUrl,
+    width: master.dimensions.width,
+    height: master.dimensions.height,
+    mediaId: data.image.data.id,
+  });
+};
+
 export const onSelectImage = (setMedia: DemoSetMedia) => {
   const modal = document.querySelector(".modal") as HTMLElement;
   modal.style.display = "Inherit";
@@ -145,6 +158,32 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
 
   modal.style.display = "inherit";
   const listener = onGridMessage(handleGridResponse(setMedia), modal);
+
+  window.addEventListener("message", listener, {
+    once: true,
+  });
+
+  document.querySelector(".modal__dismiss")?.addEventListener(
+    "click",
+    () => {
+      window.removeEventListener("message", listener);
+      modal.style.display = "none";
+    },
+    { once: false }
+  );
+};
+
+export const onCropCartoon = (setImage: SetImage, mediaId?: string) => {
+  const modal = document.querySelector(".modal") as HTMLElement;
+
+  (document.querySelector(
+    ".modal__body iframe"
+  ) as HTMLIFrameElement).src = mediaId
+    ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
+    : `https://media.test.dev-gutools.co.uk/`;
+
+  modal.style.display = "inherit";
+  const listener = onGridMessage(handleGridResponseForCartoon(setImage), modal);
 
   window.addEventListener("message", listener, {
     once: true,

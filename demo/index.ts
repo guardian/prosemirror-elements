@@ -41,6 +41,7 @@ import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import {
+  onCropCartoon,
   onCropImage,
   onDemoCropImage,
   onSelectImage,
@@ -212,7 +213,7 @@ const {
     vine: deprecatedElement,
     instagram: deprecatedElement,
     comment: commentElement,
-    cartoon: createCartoonElement(onCropImage, createCaptionPlugins),
+    cartoon: createCartoonElement(onCropCartoon, createCaptionPlugins),
     tweet: createTweetElement({
       checkThirdPartyTracking: mockThirdPartyTracking,
       createCaptionPlugins,

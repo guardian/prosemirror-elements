@@ -9,25 +9,23 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { useTyperighterAttrs } from "../helpers/typerighter";
-import type { ImageSelector } from "../helpers/types/Media";
+import type { CartoonImageSelector } from "../helpers/types/Media";
 import { minAssetValidation } from "../image/ImageElement";
 import type { Image } from "./cartoonDataTransformer";
 
 export const cartoonFields = (
-  imageSelector: ImageSelector,
+  cartoonImageSelector: CartoonImageSelector,
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
   return {
-    largeImages: createCustomField<Image[], { imageSelector: ImageSelector }>(
-      [],
-      { imageSelector },
-      [minAssetValidation]
-    ),
-    smallImages: createCustomField<Image[], { imageSelector: ImageSelector }>(
-      [],
-      { imageSelector },
-      [minAssetValidation]
-    ),
+    largeImages: createCustomField<
+      Image[],
+      { cartoonImageSelector: CartoonImageSelector }
+    >([], { cartoonImageSelector }, [minAssetValidation]),
+    smallImages: createCustomField<
+      Image[],
+      { cartoonImageSelector: CartoonImageSelector }
+    >([], { cartoonImageSelector }, [minAssetValidation]),
     caption: createFlatRichTextField({
       createPlugins: createCaptionPlugins,
       marks: "em strong link strike",

@@ -18,7 +18,10 @@ import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { ImageSelector, MediaPayload } from "../helpers/types/Media";
+import type {
+  CartoonImageSelector,
+  MediaPayload,
+} from "../helpers/types/Media";
 import type { Image } from "./cartoonDataTransformer";
 import { cartoonFields } from "./CartoonSpec";
 
@@ -40,22 +43,17 @@ export const getImageFromMediaPayload = (
 };
 
 export const createCartoonElement = (
-  imageSelector: ImageSelector,
+  cartoonImageSelector: CartoonImageSelector,
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
   return createReactElementSpec(
-    cartoonFields(imageSelector, createCaptionPlugins),
+    cartoonFields(cartoonImageSelector, createCaptionPlugins),
     ({ fields }) => {
       const addImageAtIndex = (
-        mediaPayload: MediaPayload,
+        imageToInsert: Image,
         images: Image[],
         index?: number
       ) => {
-        const imageToInsert = getImageFromMediaPayload(mediaPayload);
-
-        // TODO: handle this error
-        if (!imageToInsert) return images;
-
         if (index !== undefined && index > -1 && index < images.length) {
           return images.map((image, i) => {
             if (i === index) {
@@ -76,11 +74,11 @@ export const createCartoonElement = (
             images={fields.largeImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
-              fields.largeImages.description.props.imageSelector(
-                (mediaPayload: MediaPayload) =>
+              fields.largeImages.description.props.cartoonImageSelector(
+                (imageToInsert: Image) =>
                   fields.largeImages.update(
                     addImageAtIndex(
-                      mediaPayload,
+                      imageToInsert,
                       fields.largeImages.value,
                       index
                     )
@@ -101,11 +99,11 @@ export const createCartoonElement = (
             images={fields.smallImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
-              fields.smallImages.description.props.imageSelector(
-                (mediaPayload: MediaPayload) =>
+              fields.smallImages.description.props.cartoonImageSelector(
+                (imageToInsert: Image) =>
                   fields.smallImages.update(
                     addImageAtIndex(
-                      mediaPayload,
+                      imageToInsert,
                       fields.smallImages.value,
                       index
                     )
