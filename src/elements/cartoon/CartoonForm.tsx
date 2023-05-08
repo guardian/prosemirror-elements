@@ -35,8 +35,8 @@ export const getImageFromMediaPayload = (
   return {
     mimeType: mainAsset.mimeType,
     file: mainAsset.url,
-    width: mainAsset.fields.width,
-    height: mainAsset.fields.height,
+    width: +mainAsset.fields.width,
+    height: +mainAsset.fields.height,
     mediaId: mediaPayload.mediaId,
     mediaApiUri: mediaPayload.mediaApiUri,
   };

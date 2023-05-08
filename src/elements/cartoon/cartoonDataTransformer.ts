@@ -9,8 +9,8 @@ type ViewportSize = "small" | "medium" | "large"; // This used to be called "bre
 export type Image = {
   mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
   file: string;
-  width: number | string;
-  height: number | string;
+  width: number;
+  height: number;
   mediaId?: string;
   mediaApiUri?: string;
 };
