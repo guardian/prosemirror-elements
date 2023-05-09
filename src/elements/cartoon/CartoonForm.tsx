@@ -4,7 +4,7 @@ import { Column, Columns } from "@guardian/src-layout";
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { FunctionComponent } from "react";
-import React, { useMemo } from "react";
+import React from "react";
 import { Button } from "../../editorial-source-components/Button";
 import {
   FieldLayoutHorizontal,
@@ -18,52 +18,48 @@ import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { getImageSrc } from "../helpers/getImageSrc";
-import type {
-  ImageSelector,
-  MainImageData,
-  MediaPayload,
-} from "../helpers/types/Media";
+import type { CartoonImageSelector } from "../helpers/types/Media";
+import type { Image } from "./cartoonDataTransformer";
 import { cartoonFields } from "./CartoonSpec";
 
 export const createCartoonElement = (
-  imageSelector: ImageSelector,
+  cartoonImageSelector: CartoonImageSelector,
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
   return createReactElementSpec(
-    cartoonFields(imageSelector, createCaptionPlugins),
+    cartoonFields(cartoonImageSelector, createCaptionPlugins),
     ({ fields }) => {
       const addImageAtIndex = (
-        mediaPayload: MediaPayload,
-        images: MainImageData[],
+        imageToInsert: Image,
+        images: Image[],
         index?: number
       ) => {
         if (index !== undefined && index > -1 && index < images.length) {
           return images.map((image, i) => {
             if (i === index) {
-              return mediaPayload;
+              return imageToInsert;
             } else {
               return image;
             }
           });
         } else {
-          return [...images, mediaPayload];
+          return [...images, imageToInsert];
         }
       };
 
       return (
         <FieldLayoutVertical>
           <ImageSet
-            label={"Desktop images (default)"}
-            images={fields.desktopImages.value}
+            label={"Large images (default)"}
+            images={fields.largeImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
-              fields.desktopImages.description.props.imageSelector(
-                (mediaPayload: MediaPayload) =>
-                  fields.desktopImages.update(
+              fields.largeImages.description.props.cartoonImageSelector(
+                (imageToInsert: Image) =>
+                  fields.largeImages.update(
                     addImageAtIndex(
-                      mediaPayload,
-                      fields.desktopImages.value,
+                      imageToInsert,
+                      fields.largeImages.value,
                       index
                     )
                   ),
@@ -71,24 +67,24 @@ export const createCartoonElement = (
               );
             }}
             removeImage={(index) => {
-              fields.desktopImages.update(
-                fields.desktopImages.value.filter((_, i) => i !== index)
+              fields.largeImages.update(
+                fields.largeImages.value.filter((_, i) => i !== index)
               );
             }}
             required={true}
-            mainMediaId={fields.desktopImages.value[0]?.mediaId}
+            mainMediaId={fields.largeImages.value[0]?.mediaId}
           />
           <ImageSet
-            label={"Mobile images"}
-            images={fields.mobileImages.value}
+            label={"Small images"}
+            images={fields.smallImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
-              fields.mobileImages.description.props.imageSelector(
-                (mediaPayload: MediaPayload) =>
-                  fields.mobileImages.update(
+              fields.smallImages.description.props.cartoonImageSelector(
+                (imageToInsert: Image) =>
+                  fields.smallImages.update(
                     addImageAtIndex(
-                      mediaPayload,
-                      fields.mobileImages.value,
+                      imageToInsert,
+                      fields.smallImages.value,
                       index
                     )
                   ),
@@ -96,11 +92,11 @@ export const createCartoonElement = (
               );
             }}
             removeImage={(index) => {
-              fields.mobileImages.update(
-                fields.mobileImages.value.filter((_, i) => i !== index)
+              fields.smallImages.update(
+                fields.smallImages.value.filter((_, i) => i !== index)
               );
             }}
-            mainMediaId={fields.desktopImages.value[0]?.mediaId}
+            mainMediaId={fields.largeImages.value[0]?.mediaId}
           />
           <FieldWrapper field={fields.caption} headingLabel="Caption" />
           <FieldWrapper
@@ -175,7 +171,7 @@ export const createCartoonElement = (
 
 const ImageSet: FunctionComponent<{
   label: string;
-  images: MainImageData[];
+  images: Image[];
   alt: string;
   addImage: (mediaId?: string, index?: number) => void;
   removeImage: (index: number) => void;
@@ -197,7 +193,7 @@ const ImageSet: FunctionComponent<{
         {images.map((image, index) => (
           <ImageThumbnail
             index={index}
-            key={image.assets[0].url}
+            key={image.file}
             image={image}
             alt={alt}
             recropImage={addImage}
@@ -249,7 +245,7 @@ const removeImageButton = css`
 
 const ImageThumbnail: FunctionComponent<{
   index: number;
-  image: MainImageData;
+  image: Image;
   alt: string;
   recropImage: (mediaId?: string, index?: number) => void;
   removeImage: (index: number) => void;
@@ -268,10 +264,7 @@ const ImageThumbnail: FunctionComponent<{
             <SvgCrossRound />
           </button>
         )}
-        <img
-          src={useMemo(() => getImageSrc(image.assets, 1200), [image.assets])}
-          alt={alt}
-        ></img>
+        <img src={image.file} alt={alt}></img>
       </div>
       {required && (
         <Button

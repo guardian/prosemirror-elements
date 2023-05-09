@@ -1,6 +1,7 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { Options } from "../../../plugin/fieldViews/DropdownFieldView";
+import type { Image } from "../../cartoon/cartoonDataTransformer";
 import type { Asset } from "../defaultTransform";
 
 export type MediaPayload = {
@@ -30,3 +31,9 @@ export type ImageElementOptions = {
   createCaptionPlugins?: (schema: Schema) => Plugin[];
   additionalRoleOptions: Options;
 };
+
+export type SetImage = (image: Image) => void;
+export type CartoonImageSelector = (
+  setImage: SetImage,
+  mediaId?: string
+) => void;
