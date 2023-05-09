@@ -216,6 +216,5 @@ export const getImageFromMediaPayload = (
     width: +mainAsset.fields.width,
     height: +mainAsset.fields.height,
     mediaId: mediaPayload.mediaId,
-    mediaApiUri: mediaPayload.mediaApiUri,
   };
 };

@@ -12,7 +12,6 @@ export type Image = {
   width: number;
   height: number;
   mediaId?: string;
-  mediaApiUri?: string;
 };
 
 type Variant = {
