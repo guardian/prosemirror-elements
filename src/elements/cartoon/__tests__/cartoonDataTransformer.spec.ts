@@ -31,6 +31,7 @@ describe("cartoon element transform", () => {
                   file: "https://media.guim.co.uk/large.jpg",
                   width: 200,
                   height: 200,
+                  mediaId: "123",
                 },
               ],
             },
@@ -42,6 +43,7 @@ describe("cartoon element transform", () => {
                   file: "https://media.guim.co.uk/small.jpg",
                   width: 100,
                   height: 100,
+                  mediaId: "456",
                 },
               ],
             },
@@ -63,6 +65,7 @@ describe("cartoon element transform", () => {
             file: "https://media.guim.co.uk/large.jpg",
             width: 200,
             height: 200,
+            mediaId: "123",
           },
         ],
         smallImages: [
@@ -71,6 +74,7 @@ describe("cartoon element transform", () => {
             file: "https://media.guim.co.uk/small.jpg",
             width: 100,
             height: 100,
+            mediaId: "456",
           },
         ],
       });
@@ -100,6 +104,7 @@ describe("cartoon element transform", () => {
               file: "https://media.guim.co.uk/large.jpg",
               width: 200,
               height: 200,
+              mediaId: "123",
             },
           ],
           smallImages: [
@@ -108,6 +113,7 @@ describe("cartoon element transform", () => {
               file: "https://media.guim.co.uk/small.jpg",
               width: 100,
               height: 100,
+              mediaId: "456",
             },
           ],
         };
@@ -129,6 +135,7 @@ describe("cartoon element transform", () => {
                     file: "https://media.guim.co.uk/small.jpg",
                     width: 100,
                     height: 100,
+                    mediaId: "456",
                   },
                 ],
               },
@@ -140,6 +147,7 @@ describe("cartoon element transform", () => {
                     file: "https://media.guim.co.uk/large.jpg",
                     width: 200,
                     height: 200,
+                    mediaId: "123",
                   },
                 ],
               },

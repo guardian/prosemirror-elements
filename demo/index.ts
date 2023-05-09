@@ -30,7 +30,6 @@ import {
   transformElementOut,
   undefinedDropdownValue,
 } from "../src";
-import { getImageFromMediaPayload } from "../src/elements/cartoon/CartoonForm";
 import type { MediaPayload } from "../src/elements/helpers/types/Media";
 import {
   createParsers,
@@ -41,6 +40,7 @@ import { testDecorationPlugin } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import {
+  getImageFromMediaPayload,
   onCropCartoon,
   onCropImage,
   onDemoCropImage,

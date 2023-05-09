@@ -1,8 +1,13 @@
 import type { EditorState, Transaction } from "prosemirror-state";
 import { Plugin } from "prosemirror-state";
+import type { Image } from "../src/elements/cartoon/cartoonDataTransformer";
 import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
 import type { Asset } from "../src/elements/helpers/defaultTransform";
-import type { SetImage, SetMedia } from "../src/elements/helpers/types/Media";
+import type {
+  MediaPayload,
+  SetImage,
+  SetMedia,
+} from "../src/elements/helpers/types/Media";
 
 type GridAsset = {
   mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
@@ -147,7 +152,10 @@ export const onDemoCropImage = (mediaId: string, setMedia: DemoSetMedia) => {
   );
 };
 
-export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
+const onCrop = (
+  handleResponse: (gridResponse: GridResponse) => void,
+  mediaId?: string
+) => {
   const modal = document.querySelector(".modal") as HTMLElement;
 
   (document.querySelector(
@@ -157,7 +165,7 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
     : `https://media.test.dev-gutools.co.uk/`;
 
   modal.style.display = "inherit";
-  const listener = onGridMessage(handleGridResponse(setMedia), modal);
+  const listener = onGridMessage(handleResponse, modal);
 
   window.addEventListener("message", listener, {
     once: true,
@@ -173,30 +181,12 @@ export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
   );
 };
 
+export const onCropImage = (setMedia: SetMedia, mediaId?: string) => {
+  onCrop(handleGridResponse(setMedia), mediaId);
+};
+
 export const onCropCartoon = (setImage: SetImage, mediaId?: string) => {
-  const modal = document.querySelector(".modal") as HTMLElement;
-
-  (document.querySelector(
-    ".modal__body iframe"
-  ) as HTMLIFrameElement).src = mediaId
-    ? `https://media.test.dev-gutools.co.uk/images/${mediaId}`
-    : `https://media.test.dev-gutools.co.uk/`;
-
-  modal.style.display = "inherit";
-  const listener = onGridMessage(handleGridResponseForCartoon(setImage), modal);
-
-  window.addEventListener("message", listener, {
-    once: true,
-  });
-
-  document.querySelector(".modal__dismiss")?.addEventListener(
-    "click",
-    () => {
-      window.removeEventListener("message", listener);
-      modal.style.display = "none";
-    },
-    { once: false }
-  );
+  onCrop(handleGridResponseForCartoon(setImage), mediaId);
 };
 
 export type SideEffectCallback = (
@@ -212,3 +202,20 @@ export const sideEffectPlugin = (cb: SideEffectCallback): Plugin<void> =>
       apply: (tr, _, prev, state) => cb(tr, prev, state),
     },
   });
+
+export const getImageFromMediaPayload = (
+  mediaPayload: MediaPayload
+): Image | undefined => {
+  const mainAsset = mediaPayload.assets.find((asset) => asset.fields.isMaster);
+
+  if (!mainAsset) return undefined;
+
+  return {
+    mimeType: mainAsset.mimeType,
+    file: mainAsset.url,
+    width: +mainAsset.fields.width,
+    height: +mainAsset.fields.height,
+    mediaId: mediaPayload.mediaId,
+    mediaApiUri: mediaPayload.mediaApiUri,
+  };
+};

@@ -18,29 +18,9 @@ import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type {
-  CartoonImageSelector,
-  MediaPayload,
-} from "../helpers/types/Media";
+import type { CartoonImageSelector } from "../helpers/types/Media";
 import type { Image } from "./cartoonDataTransformer";
 import { cartoonFields } from "./CartoonSpec";
-
-export const getImageFromMediaPayload = (
-  mediaPayload: MediaPayload
-): Image | undefined => {
-  const mainAsset = mediaPayload.assets.find((asset) => asset.fields.isMaster);
-
-  if (!mainAsset) return undefined;
-
-  return {
-    mimeType: mainAsset.mimeType,
-    file: mainAsset.url,
-    width: +mainAsset.fields.width,
-    height: +mainAsset.fields.height,
-    mediaId: mediaPayload.mediaId,
-    mediaApiUri: mediaPayload.mediaApiUri,
-  };
-};
 
 export const createCartoonElement = (
   cartoonImageSelector: CartoonImageSelector,
