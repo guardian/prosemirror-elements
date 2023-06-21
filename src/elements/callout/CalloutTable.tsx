@@ -70,6 +70,9 @@ const bodyStyle = css`
 const strongStyle = css`
   font-weight: 700;
 `;
+const italicStyle = css`
+  font-style: italic;
+`;
 
 const rightHeaderStyle = css`
   float: right;
@@ -202,41 +205,48 @@ export const CalloutTable = ({
             }
           />
         )}
-
-        {useDefaultTitle.value ? (
+        {isNonCollapsible.value && (
           <div>
             <span css={strongStyle}>Callout Title: </span>
-            <span>{defaultTitle}</span>
-            <span css={rightHeaderStyle}>
-              <Button
-                priority="subdued"
-                onClick={() => useDefaultTitle.update(false)}
-                size="xsmall"
-                cssOverrides={headerButtonStyle}
-              >
-                Edit title
-              </Button>
+            <span css={italicStyle}>
+              (n/a - always hidden on stand alone callouts)
             </span>
           </div>
-        ) : (
-          <FieldWrapper
-            className="callout-field"
-            field={overrideTitle}
-            headingLabel="Callout Title"
-            headingDirection="column"
-            headingContent={
-              <Button
-                priority="subdued"
-                onClick={() => useDefaultTitle.update(true)}
-                size="xsmall"
-                cssOverrides={headerButtonStyle}
-              >
-                Reset title
-              </Button>
-            }
-          />
         )}
-
+        {!isNonCollapsible.value &&
+          (useDefaultTitle.value ? (
+            <div>
+              <span css={strongStyle}>Callout Title: </span>
+              <span>{defaultTitle}</span>
+              <span css={rightHeaderStyle}>
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultTitle.update(false)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Edit title
+                </Button>
+              </span>
+            </div>
+          ) : (
+            <FieldWrapper
+              className="callout-field"
+              field={overrideTitle}
+              headingLabel="Callout Title"
+              headingDirection="column"
+              headingContent={
+                <Button
+                  priority="subdued"
+                  onClick={() => useDefaultTitle.update(true)}
+                  size="xsmall"
+                  cssOverrides={headerButtonStyle}
+                >
+                  Reset title
+                </Button>
+              }
+            />
+          ))}
         {useDefaultDescription.value ? (
           <>
             <div>
