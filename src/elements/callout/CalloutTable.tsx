@@ -209,7 +209,7 @@ export const CalloutTable = ({
           <div>
             <span css={strongStyle}>Callout Title: </span>
             <span css={italicStyle}>
-              (n/a - always hidden on stand alone callouts)
+              (n/a - always hidden on standalone callouts)
             </span>
           </div>
         )}
@@ -291,7 +291,7 @@ export const CalloutTable = ({
       </div>
       <CustomCheckboxView
         field={isNonCollapsible}
-        label="Tick for stand alone callouts only"
+        label="Tick for standalone callouts only"
       />
     </div>
   );
