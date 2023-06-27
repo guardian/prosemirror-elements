@@ -158,8 +158,6 @@ export const createImageElement = (options: ImageElementOptions) => {
   return { element, updateAdditionalRoleOptions };
 };
 
-const thumbnailOnlyOptions = [thumbnailOption];
-
 const RoleOptionsDropdown = ({
   field,
   mainImage,
@@ -171,13 +169,15 @@ const RoleOptionsDropdown = ({
 }) => {
   // We memoise these options to ensure that this array does not change identity
   // and re-trigger useEffect unless our additionalRoleOptions have changed.
-  const allOptions = useMemo(
-    () => [...additionalRoleOptions, thumbnailOption],
-    [additionalRoleOptions]
-  );
+  const allOptions = useMemo(() => additionalRoleOptions, [
+    additionalRoleOptions,
+  ]);
 
+  // if the image is very small and the element supports thumbnails, only allow the thumbnail role in the drop-down
   const roleOptions = minAssetValidation(mainImage, "").length
-    ? thumbnailOnlyOptions
+    ? allOptions.some((value) => value.text === "thumbnail")
+      ? [thumbnailOption]
+      : allOptions
     : allOptions;
 
   /**

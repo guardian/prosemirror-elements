@@ -54,7 +54,8 @@ export const largestAssetMinDimension = (minSize: number): FieldValidator => (
     ) {
       return [
         {
-          error: "Warning: Small image, only thumbnail available",
+          error:
+            "Warning: Small image. Image should be greater than 460 x 460px for uses other than a thumbnail",
           message:
             "Image should be greater than 460 x 460px for uses other than a thumbnail.",
           level: "WARN",
