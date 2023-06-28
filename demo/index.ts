@@ -143,6 +143,7 @@ const additionalRoleOptions = [
   { text: "supporting", value: "supporting" },
   { text: "showcase", value: "showcase" },
   { text: "immersive", value: "immersive" },
+  { text: "thumbnail", value: "thumbnail" },
 ];
 
 const {
