@@ -13,13 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
 
       - name: Use Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          node-version-file: .nvmrc
           cache: 'yarn'
 
       - name: Install dependencies
@@ -32,13 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
 
       - name: Use Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          node-version-file: .nvmrc
           cache: 'yarn'
 
       - name: Install dependencies
@@ -57,13 +53,11 @@ jobs:
     if: github.ref == 'refs/heads/main' ||  github.ref == 'refs/heads/beta'
     steps:
       - uses: actions/checkout@v3
-      - run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        id: nvm
 
       - name: Use Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          node-version-file: .nvmrc
           cache: 'yarn'
 
       - name: Install dependencies
