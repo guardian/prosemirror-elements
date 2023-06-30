@@ -346,10 +346,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   private getNodeFromValue(htmlContent: string) {
     const element = document.createElement("div");
     element.innerHTML = htmlContent;
-    const content = this.parser.parse(element);
-    return this.node.type.create(
-      { type: this.node.attrs.type as string },
-      content
-    );
+    return this.parser.parse(element, { topNode: this.node });
   }
 }
