@@ -1,7 +1,6 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { Options } from "../../../plugin/fieldViews/DropdownFieldView";
-import type { Image } from "../../cartoon/cartoonDataTransformer";
 import type { Asset } from "../defaultTransform";
 
 export type MediaPayload = {
@@ -32,7 +31,16 @@ export type ImageElementOptions = {
   additionalRoleOptions: Options;
 };
 
+export type Image = {
+  mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
+  file: string;
+  width: number;
+  height: number;
+  mediaId?: string;
+};
+
 export type SetImage = (image: Image) => void;
+
 export type CartoonImageSelector = (
   setImage: SetImage,
   mediaId?: string

@@ -18,8 +18,7 @@ import { Tooltip } from "../../editorial-source-components/Tooltip";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import type { CartoonImageSelector } from "../helpers/types/Media";
-import type { Image } from "./cartoonDataTransformer";
+import type { CartoonImageSelector, Image } from "../helpers/types/Media";
 import { cartoonFields } from "./CartoonSpec";
 
 export const createCartoonElement = (

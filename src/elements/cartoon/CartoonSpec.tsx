@@ -9,9 +9,8 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
 import { useTyperighterAttrs } from "../helpers/typerighter";
-import type { CartoonImageSelector } from "../helpers/types/Media";
+import type { CartoonImageSelector, Image } from "../helpers/types/Media";
 import { minAssetValidation } from "../image/ImageElement";
-import type { Image } from "./cartoonDataTransformer";
 
 export const cartoonFields = (
   cartoonImageSelector: CartoonImageSelector,

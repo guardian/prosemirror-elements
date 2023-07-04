@@ -1,18 +1,11 @@
 import { undefinedDropdownValue } from "../../plugin/helpers/constants";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
 import type { Asset } from "../helpers/defaultTransform";
+import type { Image } from "../helpers/types/Media";
 import type { TransformIn, TransformOut } from "../helpers/types/Transform";
 import type { cartoonFields } from "./CartoonSpec";
 
 type ViewportSize = "small" | "medium" | "large"; // This used to be called "breakpoint"
-
-export type Image = {
-  mimeType: string; // e.g. ("image/jpeg", "image/png" or "image/svg+xml")
-  file: string;
-  width: number;
-  height: number;
-  mediaId?: string;
-};
 
 type Variant = {
   viewportSize: ViewportSize;
@@ -26,7 +19,7 @@ type Fields = {
   caption?: string;
   alt?: string;
   source?: string;
-  displayCredit?: string;
+  displayCredit?: boolean;
 };
 
 export type Element = {
@@ -39,7 +32,7 @@ export const transformElementIn: TransformIn<
   Element,
   ReturnType<typeof cartoonFields>
 > = ({ fields }) => {
-  const { role, variants, displayCredit, ...rest } = fields;
+  const { role, variants, ...rest } = fields;
 
   const getImages = (viewportSize: ViewportSize): Image[] => {
     const variant = variants.find(
@@ -53,7 +46,6 @@ export const transformElementIn: TransformIn<
 
   return {
     role: role ?? undefinedDropdownValue,
-    displayCredit: displayCredit === "true",
     largeImages: getImages("large"),
     smallImages: getImages("small"),
     ...rest,
@@ -66,7 +58,6 @@ export const transformElementOut: TransformOut<
 > = ({
   largeImages,
   smallImages,
-  displayCredit,
   role,
   ...rest
 }: FieldNameToValueMap<ReturnType<typeof cartoonFields>>): Element => {
@@ -83,7 +74,6 @@ export const transformElementOut: TransformOut<
           images: largeImages,
         },
       ],
-      displayCredit: displayCredit.toString(),
       role: role === undefinedDropdownValue ? undefined : role,
       ...rest,
     },
