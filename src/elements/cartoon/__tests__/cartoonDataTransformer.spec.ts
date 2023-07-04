@@ -22,6 +22,7 @@ describe("cartoon element transform", () => {
           caption: "Photo of a dog",
           alt: "Photo of a dog",
           source: "PA",
+          displayCredit: true,
           variants: [
             {
               viewportSize: "large",
@@ -58,7 +59,7 @@ describe("cartoon element transform", () => {
         source: "PA",
         caption: "Photo of a dog",
         alt: "Photo of a dog",
-        displayCredit: false,
+        displayCredit: true,
         largeImages: [
           {
             mimeType: "image/jpeg",
@@ -125,7 +126,7 @@ describe("cartoon element transform", () => {
             caption: "Photo of a dog",
             source: "PA",
             credit: "Oliva Hemingway",
-            displayCredit: "true",
+            displayCredit: true,
             variants: [
               {
                 viewportSize: "small",

@@ -27,4 +27,9 @@ export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
 export { createCartoonElement } from "./elements/cartoon/CartoonForm";
 export { undefinedDropdownValue } from "./plugin/helpers/constants";
-export type { SetImage, SetMedia } from "./elements/helpers/types/Media";
+export type {
+  SetImage,
+  Image,
+  SetMedia,
+  MediaPayload,
+} from "./elements/helpers/types/Media";
