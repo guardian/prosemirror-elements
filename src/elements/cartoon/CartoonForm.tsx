@@ -140,16 +140,10 @@ export const createCartoonElement = (
           />
           <Columns>
             <Column width={1 / 3}>
-              <FieldLayoutVertical>
-                <FieldWrapper
-                  field={fields.photographer}
-                  headingLabel={"Comic credit"}
-                />
-                <CustomCheckboxView
-                  field={fields.displayCredit}
-                  label="Display credit information"
-                />
-              </FieldLayoutVertical>
+              <FieldWrapper
+                field={fields.photographer}
+                headingLabel={"Comic credit"}
+              />
             </Column>
             <Column width={1 / 3}>
               <FieldWrapper field={fields.source} headingLabel={"Source"} />
@@ -160,6 +154,20 @@ export const createCartoonElement = (
                 label="Weighting"
                 display={"block"}
               />
+            </Column>
+          </Columns>
+          <Columns>
+            <Column width={2 / 3}>
+              <CustomCheckboxView
+                field={fields.displayCredit}
+                label="Display credit information"
+              />
+            </Column>
+            <Column width={1 / 3}>
+              <CustomDropdownView
+                field={fields.imageType}
+                label={"Image type"}
+              ></CustomDropdownView>
             </Column>
           </Columns>
         </FieldLayoutVertical>

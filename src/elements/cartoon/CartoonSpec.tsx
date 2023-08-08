@@ -55,5 +55,10 @@ export const cartoonFields = (
       { text: "thumbnail", value: "thumbnail" },
       { text: "immersive", value: "immersive" },
     ]),
+    imageType: createCustomDropdownField("Illustration", [
+      { text: "Photograph", value: "Photograph" },
+      { text: "Illustration", value: "Illustration" },
+      { text: "Composite", value: "Composite" },
+    ]),
   };
 };

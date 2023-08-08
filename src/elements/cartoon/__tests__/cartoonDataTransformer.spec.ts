@@ -60,6 +60,7 @@ describe("cartoon element transform", () => {
         caption: "Photo of a dog",
         alt: "Photo of a dog",
         displayCredit: true,
+        imageType: "Illustration",
         largeImages: [
           {
             mimeType: "image/jpeg",
@@ -99,6 +100,7 @@ describe("cartoon element transform", () => {
           alt: "Photo of a dog",
           displayCredit: true,
           caption: "Photo of a dog",
+          imageType: "Illustration",
           largeImages: [
             {
               mimeType: "image/jpeg",
@@ -127,6 +129,7 @@ describe("cartoon element transform", () => {
             source: "PA",
             photographer: "Oliva Hemingway",
             displayCredit: true,
+            imageType: "Illustration",
             variants: [
               {
                 viewportSize: "small",
