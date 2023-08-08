@@ -15,7 +15,7 @@ type Variant = {
 type Fields = {
   variants: Variant[];
   role?: string;
-  credit?: string;
+  photographer?: string;
   caption?: string;
   alt?: string;
   source?: string;

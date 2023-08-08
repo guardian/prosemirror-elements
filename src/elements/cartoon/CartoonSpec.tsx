@@ -39,7 +39,7 @@ export const cartoonFields = (
       isResizeable: true,
       attrs: useTyperighterAttrs,
     }),
-    credit: createTextField({
+    photographer: createTextField({
       validators: [htmlMaxLength(100)],
       placeholder: "Enter the artist...",
     }),

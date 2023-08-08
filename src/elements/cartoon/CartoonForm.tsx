@@ -142,7 +142,7 @@ export const createCartoonElement = (
             <Column width={1 / 3}>
               <FieldLayoutVertical>
                 <FieldWrapper
-                  field={fields.credit}
+                  field={fields.photographer}
                   headingLabel={"Comic credit"}
                 />
                 <CustomCheckboxView

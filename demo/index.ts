@@ -468,7 +468,7 @@ const createEditor = (server: CollabServer) => {
         elementName: cartoonElementName,
         values: {
           largeImages: [imageToInsert],
-          credit: photographer,
+          photographer,
           source,
           caption,
         },
