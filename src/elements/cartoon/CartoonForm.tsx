@@ -49,7 +49,7 @@ export const createCartoonElement = (
       return (
         <FieldLayoutVertical>
           <ImageSet
-            label={"Large images (default)"}
+            label={"Desktop images (default)"}
             images={fields.largeImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
@@ -74,7 +74,7 @@ export const createCartoonElement = (
             mainMediaId={fields.largeImages.value[0]?.mediaId}
           />
           <ImageSet
-            label={"Small images"}
+            label={"Mobile images"}
             images={fields.smallImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
@@ -142,7 +142,7 @@ export const createCartoonElement = (
             <Column width={1 / 3}>
               <FieldWrapper
                 field={fields.photographer}
-                headingLabel={"Comic credit"}
+                headingLabel={"Byline"}
               />
             </Column>
             <Column width={1 / 3}>
