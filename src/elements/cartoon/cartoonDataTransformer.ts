@@ -15,11 +15,12 @@ type Variant = {
 type Fields = {
   variants: Variant[];
   role?: string;
-  credit?: string;
+  photographer?: string;
   caption?: string;
   alt?: string;
   source?: string;
   displayCredit?: boolean;
+  imageType?: string;
 };
 
 export type Element = {
@@ -32,7 +33,7 @@ export const transformElementIn: TransformIn<
   Element,
   ReturnType<typeof cartoonFields>
 > = ({ fields }) => {
-  const { role, variants, ...rest } = fields;
+  const { role, imageType, variants, ...rest } = fields;
 
   const getImages = (viewportSize: ViewportSize): Image[] => {
     const variant = variants.find(
@@ -46,6 +47,7 @@ export const transformElementIn: TransformIn<
 
   return {
     role: role ?? undefinedDropdownValue,
+    imageType: imageType ?? "Illustration",
     largeImages: getImages("large"),
     smallImages: getImages("small"),
     ...rest,

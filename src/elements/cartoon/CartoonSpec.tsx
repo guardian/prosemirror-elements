@@ -39,7 +39,7 @@ export const cartoonFields = (
       isResizeable: true,
       attrs: useTyperighterAttrs,
     }),
-    credit: createTextField({
+    photographer: createTextField({
       validators: [htmlMaxLength(100)],
       placeholder: "Enter the artist...",
     }),
@@ -54,6 +54,11 @@ export const cartoonFields = (
       { text: "showcase", value: "showcase" },
       { text: "thumbnail", value: "thumbnail" },
       { text: "immersive", value: "immersive" },
+    ]),
+    imageType: createCustomDropdownField("Illustration", [
+      { text: "Photograph", value: "Photograph" },
+      { text: "Illustration", value: "Illustration" },
+      { text: "Composite", value: "Composite" },
     ]),
   };
 };

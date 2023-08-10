@@ -49,7 +49,7 @@ export const createCartoonElement = (
       return (
         <FieldLayoutVertical>
           <ImageSet
-            label={"Large images (default)"}
+            label={"Desktop images (default)"}
             images={fields.largeImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
@@ -74,7 +74,7 @@ export const createCartoonElement = (
             mainMediaId={fields.largeImages.value[0]?.mediaId}
           />
           <ImageSet
-            label={"Small images"}
+            label={"Mobile images"}
             images={fields.smallImages.value}
             alt={fields.alt.value}
             addImage={(mediaId?: string, index?: number) => {
@@ -140,16 +140,10 @@ export const createCartoonElement = (
           />
           <Columns>
             <Column width={1 / 3}>
-              <FieldLayoutVertical>
-                <FieldWrapper
-                  field={fields.credit}
-                  headingLabel={"Comic credit"}
-                />
-                <CustomCheckboxView
-                  field={fields.displayCredit}
-                  label="Display credit information"
-                />
-              </FieldLayoutVertical>
+              <FieldWrapper
+                field={fields.photographer}
+                headingLabel={"Byline"}
+              />
             </Column>
             <Column width={1 / 3}>
               <FieldWrapper field={fields.source} headingLabel={"Source"} />
@@ -160,6 +154,20 @@ export const createCartoonElement = (
                 label="Weighting"
                 display={"block"}
               />
+            </Column>
+          </Columns>
+          <Columns>
+            <Column width={2 / 3}>
+              <CustomCheckboxView
+                field={fields.displayCredit}
+                label="Display credit information"
+              />
+            </Column>
+            <Column width={1 / 3}>
+              <CustomDropdownView
+                field={fields.imageType}
+                label={"Image type"}
+              ></CustomDropdownView>
             </Column>
           </Columns>
         </FieldLayoutVertical>

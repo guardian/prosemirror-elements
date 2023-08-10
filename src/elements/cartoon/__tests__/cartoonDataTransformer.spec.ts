@@ -18,7 +18,7 @@ describe("cartoon element transform", () => {
       const element: Element = {
         elementType: "cartoon",
         fields: {
-          credit: "Oliva Hemingway",
+          photographer: "Oliva Hemingway",
           caption: "Photo of a dog",
           alt: "Photo of a dog",
           source: "PA",
@@ -55,11 +55,12 @@ describe("cartoon element transform", () => {
 
       expect(transformElement.in(element)).toEqual({
         role: "none-selected",
-        credit: "Oliva Hemingway",
+        photographer: "Oliva Hemingway",
         source: "PA",
         caption: "Photo of a dog",
         alt: "Photo of a dog",
         displayCredit: true,
+        imageType: "Illustration",
         largeImages: [
           {
             mimeType: "image/jpeg",
@@ -94,11 +95,12 @@ describe("cartoon element transform", () => {
       it("should transform elements out correctly", () => {
         const element = {
           role: "none-selected",
-          credit: "Oliva Hemingway",
+          photographer: "Oliva Hemingway",
           source: "PA",
           alt: "Photo of a dog",
           displayCredit: true,
           caption: "Photo of a dog",
+          imageType: "Illustration",
           largeImages: [
             {
               mimeType: "image/jpeg",
@@ -125,8 +127,9 @@ describe("cartoon element transform", () => {
             alt: "Photo of a dog",
             caption: "Photo of a dog",
             source: "PA",
-            credit: "Oliva Hemingway",
+            photographer: "Oliva Hemingway",
             displayCredit: true,
+            imageType: "Illustration",
             variants: [
               {
                 viewportSize: "small",
