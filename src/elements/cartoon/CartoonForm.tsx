@@ -261,6 +261,7 @@ const ImageThumbnail: FunctionComponent<{
   return (
     <div>
       <div css={imageThumbnailStyle}>
+        <img src={image.file} alt={alt}></img>
         {!required && (
           <button
             css={removeImageButton}
@@ -271,7 +272,6 @@ const ImageThumbnail: FunctionComponent<{
             <SvgCrossRound />
           </button>
         )}
-        <img src={image.file} alt={alt}></img>
       </div>
       {required && (
         <Button
