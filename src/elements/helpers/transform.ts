@@ -9,6 +9,7 @@ import { transformElement as imageElementTransform } from "../image/imageElement
 import { transformElement as interactiveElementTransform } from "../interactive/interactiveDataTransformer";
 import { transformElement as membershipElementTransform } from "../membership/membershipDataTransformer";
 import type { pullquoteFields } from "../pullquote/PullquoteSpec";
+import type { recipeFields } from "../recipe/RecipeElementSpec";
 import type { richlinkFields } from "../rich-link/RichlinkSpec";
 import { transformElement as standardElementTransform } from "../standard/standardDataTransformer";
 import type { tableFields } from "../table/TableSpec";
@@ -30,6 +31,7 @@ const transformMap = {
   "rich-link": defaultElementTransform<typeof richlinkFields>({
     isMandatory: true,
   }),
+  recipe: defaultElementTransform<typeof recipeFields>(),
   video: standardElementTransform,
   audio: standardElementTransform,
   document: standardElementTransform,
