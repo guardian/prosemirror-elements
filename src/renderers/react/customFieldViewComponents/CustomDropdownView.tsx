@@ -1,7 +1,7 @@
 import { CustomDropdown } from "../../../editorial-source-components/CustomDropdown";
 import type { Options } from "../../../plugin/fieldViews/DropdownFieldView";
 import type { CustomField } from "../../../plugin/types/Element";
-import { getFieldViewTestId } from "../FieldView";
+import { getFieldViewTestId } from "../FieldComponent";
 import { useCustomFieldState } from "../useCustomFieldViewState";
 
 type CustomDropdownViewProps = {

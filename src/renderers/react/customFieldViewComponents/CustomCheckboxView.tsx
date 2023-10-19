@@ -1,6 +1,6 @@
 import { CustomCheckbox } from "../../../editorial-source-components/CustomCheckbox";
 import type { CustomField } from "../../../plugin/types/Element";
-import { getFieldViewTestId } from "../FieldView";
+import { getFieldViewTestId } from "../FieldComponent";
 import { useCustomFieldState } from "../useCustomFieldViewState";
 
 type CustomCheckboxViewProps = {

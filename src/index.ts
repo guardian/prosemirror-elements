@@ -1,4 +1,4 @@
-export type { FieldValidator } from "./plugin/elementSpec";
+export type { FieldValidator, ValidationError } from "./plugin/elementSpec";
 export type { FieldNameToValueMap } from "./plugin/helpers/fieldView";
 export type {
   FieldDescriptions,
@@ -7,7 +7,7 @@ export type {
 export { buildElementPlugin } from "./plugin/element";
 export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
-export type { FieldView as TFieldView } from "./plugin/fieldViews/FieldView";
+export type { FieldView } from "./plugin/fieldViews/FieldView";
 export type { CustomField, Field } from "./plugin/types/Element";
 export { createStore } from "./renderers/react/store";
 export { TelemetryContext } from "./renderers/react/TelemetryContext";

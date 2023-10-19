@@ -1,7 +1,7 @@
 import type { ValidationError } from "../plugin/elementSpec";
-import type { FieldView as TFieldView } from "../plugin/fieldViews/FieldView";
+import type { FieldView } from "../plugin/fieldViews/FieldView";
 import type { Field } from "../plugin/types/Element";
-import { FieldView } from "../renderers/react/FieldView";
+import { FieldComponent } from "../renderers/react/FieldComponent";
 import { InputHeading } from "./InputHeading";
 
 type Props<F> = {
@@ -15,7 +15,7 @@ type Props<F> = {
   headingDirection?: "row" | "column";
 };
 
-export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
+export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
   field,
   errors,
   headingLabel,
@@ -34,6 +34,6 @@ export const FieldWrapper = <F extends Field<TFieldView<unknown>>>({
       errors={(errors ? errors : field.errors).map((e) => e.error)}
       headingDirection={headingDirection}
     />
-    <FieldView field={field} hasValidationErrors={!!field.errors.length} />
+    <FieldComponent field={field} hasValidationErrors={!!field.errors.length} />
   </div>
 );
