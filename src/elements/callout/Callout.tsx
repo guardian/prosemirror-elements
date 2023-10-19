@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { neutral, space } from "@guardian/src-foundations";
 import { textSans } from "@guardian/src-foundations/typography";
 import React, { useEffect, useState } from "react";
-import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
+import { createCheckBoxField } from "../../plugin/fieldViews/CheckboxFieldView";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -42,15 +42,15 @@ export const calloutFields = {
   ),
   isNonCollapsible: createCustomField(false, true),
   tagId: createTextField(),
-  useDefaultPrompt: createCheckBox(true),
+  useDefaultPrompt: createCheckBoxField(true),
   overridePrompt: createTextField({
     placeholder: "Don't show prompt",
   }),
-  useDefaultTitle: createCheckBox(true),
+  useDefaultTitle: createCheckBoxField(true),
   overrideTitle: createTextField({
     placeholder: "Don't show title",
   }),
-  useDefaultDescription: createCheckBox(true),
+  useDefaultDescription: createCheckBoxField(true),
   overrideDescription: createRichTextField({
     placeholder: "Don't show description",
     isResizeable: true,
