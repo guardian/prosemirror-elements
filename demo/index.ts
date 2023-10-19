@@ -9,29 +9,26 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import {
-  buildElementPlugin,
-  codeElement,
-  commentElement,
-  createCalloutElement,
-  createCartoonElement,
-  createContentAtomElement,
-  createDemoImageElement,
-  createEmbedElement,
-  createImageElement,
-  createInteractiveElement,
-  createStandardElement,
-  createTweetElement,
-  deprecatedElement,
-  membershipElement,
-  pullquoteElement,
-  recipeElement,
-  richlinkElement,
-  tableElement,
-  transformElementOut,
-  undefinedDropdownValue,
-} from "../src";
+import { buildElementPlugin, undefinedDropdownValue } from "../src";
+import { createCalloutElement } from "../src/elements/callout/Callout";
+import { createCartoonElement } from "../src/elements/cartoon/CartoonForm";
+import { codeElement } from "../src/elements/code/CodeElementForm";
+import { commentElement } from "../src/elements/comment/CommentForm";
+import { createContentAtomElement } from "../src/elements/content-atom/ContentAtomForm";
+import { createDemoImageElement } from "../src/elements/demo-image/DemoImageElementForm";
+import { deprecatedElement } from "../src/elements/deprecated/DeprecatedForm";
+import { createEmbedElement } from "../src/elements/embed/EmbedForm";
+import { transformElementOut } from "../src/elements/helpers/transform";
 import type { MediaPayload } from "../src/elements/helpers/types/Media";
+import { createImageElement } from "../src/elements/image/ImageElementForm";
+import { createInteractiveElement } from "../src/elements/interactive/InteractiveForm";
+import { membershipElement } from "../src/elements/membership/MembershipForm";
+import { pullquoteElement } from "../src/elements/pullquote/PullquoteForm";
+import { recipeElement } from "../src/elements/recipe/RecipeElementForm";
+import { richlinkElement } from "../src/elements/rich-link/RichlinkForm";
+import { createStandardElement } from "../src/elements/standard/StandardForm";
+import { tableElement } from "../src/elements/table/TableForm";
+import { createTweetElement } from "../src/elements/tweet/TweetForm";
 import {
   createParsers,
   docToHtml,
