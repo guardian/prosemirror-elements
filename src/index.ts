@@ -10,6 +10,7 @@ export { createCalloutElement } from "./elements/callout/Callout";
 export { codeElement } from "./elements/code/CodeElementForm";
 export { createImageElement } from "./elements/image/ImageElementForm";
 export { createStandardElement } from "./elements/standard/StandardForm";
+export { recipeElement } from "./elements/recipe/RecipeElementForm";
 export { richlinkElement } from "./elements/rich-link/RichlinkForm";
 export { createInteractiveElement } from "./elements/interactive/InteractiveForm";
 export { tableElement } from "./elements/table/TableForm";

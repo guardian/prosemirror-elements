@@ -25,6 +25,7 @@ import {
   deprecatedElement,
   membershipElement,
   pullquoteElement,
+  recipeElement,
   richlinkElement,
   tableElement,
   transformElementOut,
@@ -64,6 +65,7 @@ import {
   sampleMap,
   sampleMembership,
   samplePullquote,
+  sampleRecipe,
   sampleRichLink,
   sampleTable,
   sampleTweet,
@@ -81,6 +83,7 @@ const demoImageElementName = "demo-image-element";
 const codeElementName = "code";
 const formElementName = "form";
 const pullquoteElementName = "pullquote";
+const recipeElementName = "recipe";
 const richlinkElementName = "rich-link";
 const videoElementName = "video";
 const mapElementName = "map";
@@ -105,6 +108,7 @@ type Name =
   | typeof codeElementName
   | typeof formElementName
   | typeof pullquoteElementName
+  | typeof recipeElementName
   | typeof richlinkElementName
   | typeof interactiveElementName
   | typeof videoElementName
@@ -195,6 +199,7 @@ const {
     code: codeElement,
     form: deprecatedElement,
     pullquote: pullquoteElement,
+    recipe: recipeElement,
     "rich-link": richlinkElement,
     video: createStandardElement({
       createCaptionPlugins,
@@ -411,6 +416,7 @@ const createEditor = (server: CollabServer) => {
     { label: "Form", name: formElementName, values: sampleForm },
     { label: "Vine", name: vineElementName, values: sampleVine },
     { label: "Tweet", name: tweetElementName, values: sampleTweet },
+    { label: "Recipe", name: recipeElementName, values: sampleRecipe },
     { label: "Recipe atom", name: contentAtomName, values: sampleContentAtom },
     {
       label: "Interactive atom",
