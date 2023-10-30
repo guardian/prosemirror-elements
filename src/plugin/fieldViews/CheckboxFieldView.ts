@@ -11,7 +11,7 @@ export interface CheckboxFieldDescription
   type: typeof CheckboxFieldView.fieldType;
 }
 
-export const createCheckBox = (
+export const createCheckBoxField = (
   defaultValue: boolean,
   validators?: FieldValidator[]
 ): CheckboxFieldDescription => ({

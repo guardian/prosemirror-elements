@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Editor } from "../../editorial-source-components/Editor";
-import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
+import type { FieldView } from "../../plugin/fieldViews/FieldView";
 import type { Field } from "../../plugin/types/Element";
 
 type Props<F extends Field<unknown>> = {
@@ -10,7 +10,7 @@ type Props<F extends Field<unknown>> = {
 
 export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 
-export const FieldView = <F extends Field<TFieldView<unknown>>>({
+export const FieldComponent = <F extends Field<FieldView<unknown>>>({
   field,
   hasValidationErrors,
 }: Props<F>) => {

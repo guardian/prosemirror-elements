@@ -6,7 +6,7 @@ import {
   trimHtml,
 } from "../../src/plugin/helpers/test";
 import { elementWrapperTestId } from "../../src/renderers/react/ElementWrapper";
-import { getFieldViewTestId } from "../../src/renderers/react/FieldView";
+import { getFieldViewTestId } from "../../src/renderers/react/FieldComponent";
 
 export const visitRoot = () =>
   cy.visit("/", {

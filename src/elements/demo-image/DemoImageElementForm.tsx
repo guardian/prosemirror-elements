@@ -4,7 +4,7 @@ import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
-import { getFieldViewTestId } from "../../renderers/react/FieldView";
+import { getFieldViewTestId } from "../../renderers/react/FieldComponent";
 import { useCustomFieldState } from "../../renderers/react/useCustomFieldViewState";
 import { createImageFields } from "./DemoImageElement";
 import type { DemoSetMedia } from "./DemoImageElement";

@@ -1,19 +1,17 @@
 import { flow, noop, omit } from "lodash";
-import {
-  buildElementPlugin,
-  commentElement,
-  createContentAtomElement,
-  createEmbedElement,
-  createImageElement,
-  createInteractiveElement,
-  createStandardElement,
-  createTweetElement,
-  deprecatedElement,
-  membershipElement,
-  pullquoteElement,
-  richlinkElement,
-  tableElement,
-} from "../../..";
+import { buildElementPlugin } from "../../..";
+import { commentElement } from "../../comment/CommentForm";
+import { createContentAtomElement } from "../../content-atom/ContentAtomForm";
+import { deprecatedElement } from "../../deprecated/DeprecatedForm";
+import { createEmbedElement } from "../../embed/EmbedForm";
+import { createImageElement } from "../../image/ImageElementForm";
+import { createInteractiveElement } from "../../interactive/InteractiveForm";
+import { membershipElement } from "../../membership/MembershipForm";
+import { pullquoteElement } from "../../pullquote/PullquoteForm";
+import { richlinkElement } from "../../rich-link/RichlinkForm";
+import { createStandardElement } from "../../standard/StandardForm";
+import { tableElement } from "../../table/TableForm";
+import { createTweetElement } from "../../tweet/TweetForm";
 import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";

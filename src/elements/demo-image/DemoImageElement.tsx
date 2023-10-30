@@ -1,5 +1,5 @@
 import { exampleSetup } from "prosemirror-example-setup";
-import { createCheckBox } from "../../plugin/fieldViews/CheckboxFieldView";
+import { createCheckBoxField } from "../../plugin/fieldViews/CheckboxFieldView";
 import {
   createCustomDropdownField,
   createCustomField,
@@ -79,7 +79,7 @@ export const createImageFields = (
         onCropImage,
       }
     ),
-    useSrc: createCheckBox(false),
+    useSrc: createCheckBoxField(false),
     optionDropdown: createDropDownField(
       [
         { text: "Option 1", value: "opt1" },
