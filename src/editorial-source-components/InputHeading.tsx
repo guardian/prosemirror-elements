@@ -19,6 +19,7 @@ const LabelLink = styled.a`
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+  margin-right: ${space[2]}px;
 `;
 
 const Errors = ({ errors }: { errors: string[] }) =>

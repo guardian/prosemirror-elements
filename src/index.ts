@@ -18,6 +18,7 @@ export {
   createCustomField,
 } from "./plugin/fieldViews/CustomFieldView";
 export { createFlatRichTextField } from "./plugin/fieldViews/RichTextFieldView";
+export { createRepeaterField } from "./plugin/fieldViews/RepeaterFieldView";
 
 export {
   htmlMaxLength,

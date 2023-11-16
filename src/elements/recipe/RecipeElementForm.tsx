@@ -1,16 +1,41 @@
-import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { useState } from "react";
+import type { FieldNameToField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
+import { DetailedRecipeForm } from "./DetailedRecipeForm";
 import { recipeFields } from "./RecipeElementSpec";
 
-export const RecipeElementTestId = "RecipeElement";
+export type RecipeFormProps = {
+  fields: FieldNameToField<typeof recipeFields>;
+};
+
+const tabNames = [
+  { name: "Form", component: DetailedRecipeForm },
+  { name: "Raw data", component: () => <div>No raw form yet</div> },
+];
 
 export const recipeElement = createReactElementSpec(
   recipeFields,
-  ({ fields }) => (
-    <FieldLayoutVertical data-cy={RecipeElementTestId}>
-      <FieldWrapper headingLabel="Recipe" field={fields.recipeJson} />
-    </FieldLayoutVertical>
-  )
+  ({ fields }) => {
+    const [tabIndex, setTabIndex] = useState(0);
+    const FormComponent = tabNames[tabIndex].component;
+    return (
+      <div>
+        <ul className="tablist" role="tablist">
+          {tabNames.map((tab, index) => (
+            <li
+              key={tab.name}
+              id="tab1"
+              onClick={() => setTabIndex(index)}
+              className="tab"
+              aria-controls="panel1"
+              role="tab"
+            >
+              {tab.name}
+            </li>
+          ))}
+        </ul>
+        <FormComponent fields={fields} />
+      </div>
+    );
+  }
 );

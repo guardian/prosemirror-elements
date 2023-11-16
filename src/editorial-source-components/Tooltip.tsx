@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 
 const infoIcon = css`
+display: inline-block;
   height: 22px;
   width: 22px;
   margin-right: 4px;
@@ -98,7 +99,7 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
   const [
     referenceElement,
     setReferenceElement,
-  ] = useState<HTMLDivElement | null>(null);
+  ] = useState<HTMLSpanElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null
   );
