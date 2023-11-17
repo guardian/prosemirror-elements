@@ -18,9 +18,15 @@ import { TelemetryContext } from "./TelemetryContext";
 
 const buttonWidth = 32;
 
-const Container = styled("div")`
+const Container = styled("div")<{ useAlternateStyles: boolean }>`
   margin: ${space[3]}px 0;
   position: relative;
+  ${({ useAlternateStyles }) => useAlternateStyles ? 
+    `padding: 6px 0px 10px 0px;
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    margin: 12px -8px;` : undefined
+  }
 `;
 
 const Body = styled("div")`
@@ -38,8 +44,11 @@ const Body = styled("div")`
   min-height: 134px;
 `;
 
-const Panel = styled("div")<{ isSelected: boolean }>`
-  background-color: ${neutral[97]};
+const Panel = styled("div")<{ isSelected: boolean, useAlternateStyles: boolean }>`
+  ${({useAlternateStyles}) => useAlternateStyles ? `padding: 0px ${space[3]}px;` : `
+    background-color: ${neutral[97]};
+    padding: ${space[3]}px;
+  `}
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
@@ -187,6 +196,7 @@ type Props = {
   children?: ReactElement;
   isSelected: boolean;
   onRemove?: () => void;
+  useAlternateStyles: boolean
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";
@@ -207,6 +217,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   isSelected,
   onRemove,
   children,
+  useAlternateStyles
 }) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
   const sendTelemetryEvent = useContext(TelemetryContext);
@@ -215,6 +226,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
     <Container
       className="ProsemirrorElement__wrapper"
       data-cy={elementWrapperTestId}
+      useAlternateStyles={useAlternateStyles}
     >
       <Body>
         <LeftActions className="actions">
@@ -255,7 +267,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
             {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
           </SeriousButton>
         </LeftActions>
-        <Panel isSelected={isSelected}>
+        <Panel isSelected={isSelected} useAlternateStyles={useAlternateStyles}>
           {isSelected && <Overlay />}
           {children}
         </Panel>

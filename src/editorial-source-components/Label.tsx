@@ -10,8 +10,12 @@ export const labelStyles = css`
   cursor: pointer;
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<{useAlternateStyles?: boolean}>`
   ${labelStyles}
+  ${({useAlternateStyles}) => useAlternateStyles ? `
+    ${textSans.xxsmall({ fontWeight: "bold", lineHeight: "loose" })};
+    font-family: "Guardian Agate Sans";
+  ` : undefined}
 `;
 
 export const NonBoldLabel = styled(Label)`

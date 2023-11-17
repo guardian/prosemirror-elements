@@ -70,6 +70,7 @@ import {
   sampleVine,
 } from "./sampleElements";
 import type { WindowType } from "./types";
+import { altStyleElement } from "../src/elements/alt-style/AltStyleElementForm";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -97,6 +98,8 @@ const contentAtomName = "content-atom";
 const commentElementName = "comment";
 const campaignCalloutListElementName = "callout";
 const cartoonElementName = "cartoon";
+const altStyleElementName = "alt-style";
+
 
 type Name =
   | typeof embedElementName
@@ -121,7 +124,8 @@ type Name =
   | typeof contentAtomName
   | typeof commentElementName
   | typeof campaignCalloutListElementName
-  | typeof cartoonElementName;
+  | typeof cartoonElementName
+  | typeof altStyleElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -236,6 +240,7 @@ const {
         editorLink: "https://example.com",
       })
     ),
+    "alt-style": altStyleElement
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -421,6 +426,8 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
+    { label: "Alt Style", name: altStyleElementName, values: altStyleElement },
+
   ] as const;
 
   buttonData.map(({ label, name, values }) =>

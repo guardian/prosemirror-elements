@@ -27,6 +27,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   consumer: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
   onRemove?: () => void;
+  useAlternateStyles: boolean;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -70,10 +71,12 @@ export class ElementProvider<
           {...this.state.commands}
           isSelected={this.state.isSelected}
           onRemove={this.props.onRemove}
+          useAlternateStyles={this.props.useAlternateStyles}
         >
           <this.Element
             fields={this.state.fields}
             updateFields={this.updateFields}
+            useAlternateStyles={this.props.useAlternateStyles}
           />
         </ElementWrapper>
       </TelemetryContext.Provider>

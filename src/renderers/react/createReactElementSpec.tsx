@@ -15,13 +15,15 @@ type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   consumer: Consumer<ReactElement | null, FDesc>,
   validate?: Validator<FDesc> | undefined,
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void
+  useAlternateStyles?: boolean
 }
 
 export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>({
   fieldDescriptions,
   consumer,
   validate = undefined,
-  onRemove
+  onRemove,
+  useAlternateStyles = false
 }: CreateReactElementSpecOptions<FDesc>) => {
   const renderer: Renderer<FDesc> = (
     validate,
@@ -43,6 +45,7 @@ export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
         consumer={consumer}
         sendTelemetryEvent={sendTelemetryEvent}
         onRemove={() => onRemove?.(getElementData())}
+        useAlternateStyles={useAlternateStyles}
       />,
       dom
     );
