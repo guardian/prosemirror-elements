@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { textSans } from "@guardian/src-foundations/typography";
+import { textSans } from "@guardian/source-foundations";
 
 export const descriptionStyles = css`
   ${textSans.small({ lineHeight: "loose" })}

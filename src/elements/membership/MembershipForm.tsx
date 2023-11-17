@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { space } from "@guardian/src-foundations";
+import { space } from "@guardian/source-foundations";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { InputHeading } from "../../editorial-source-components/InputHeading";

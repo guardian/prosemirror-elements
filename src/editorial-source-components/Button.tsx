@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import type { ButtonProps } from "@guardian/src-button";
-import { Button as SourceButton } from "@guardian/src-button";
+import type { ButtonProps } from "@guardian/source-react-components";
+import { Button as SourceButton } from "@guardian/source-react-components";
 import React from "react";
 
 export const buttonStyles = css`

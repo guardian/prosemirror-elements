@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
-import { Checkbox, CheckboxGroup } from "@guardian/src-checkbox";
-import { space } from "@guardian/src-foundations";
+import { space } from "@guardian/source-foundations";
+import { Checkbox, CheckboxGroup } from "@guardian/source-react-components";
 import { labelStyles } from "./Label";
 
 // These styles allow us to style the div elements in the Source Checkbox Component.
 // However, they rely on it retaining its current structure, which is worth bearing in mind
-// if we decided to bump the version of @guardian/src-checkbox
+// if we decided to bump the version of @guardian/source-react-components
 const parentStyles = css`
   white-space: nowrap;
   div {

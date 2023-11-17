@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { buttonBrandAlt } from "@guardian/src-button";
+import { buttonThemeBrandAlt } from "@guardian/source-react-components";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../../editorial-source-components/Button";
@@ -36,7 +36,7 @@ export const EmbedRecommendation = ({
             It is recommended to use a Twitter URL rather than pasting their
             embed code.{" "}
           </span>
-          <ThemeProvider theme={buttonBrandAlt}>
+          <ThemeProvider theme={buttonThemeBrandAlt}>
             <Button priority="secondary" onClick={() => convertTwitter(source)}>
               Convert
             </Button>
@@ -49,7 +49,7 @@ export const EmbedRecommendation = ({
             It is recommended to use a YouTube URL rather than pasting their
             embed code.{" "}
           </span>
-          <ThemeProvider theme={buttonBrandAlt}>
+          <ThemeProvider theme={buttonThemeBrandAlt}>
             <Button priority="secondary" onClick={() => convertYouTube(source)}>
               Convert
             </Button>

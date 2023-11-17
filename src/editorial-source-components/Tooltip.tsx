@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { brand, neutral } from "@guardian/src-foundations";
-import { SvgInfo } from "@guardian/src-icons";
+import { brand, neutral } from "@guardian/source-foundations";
+import { SvgInfoRound } from "@guardian/source-react-components";
 import React, { useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 
@@ -155,7 +155,7 @@ export const Tooltip = ({ children }: { children: React.ReactNode }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <SvgInfo />
+        <SvgInfoRound />
       </div>
 
       <TooltipBox

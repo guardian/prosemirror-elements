@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { SvgAlertTriangle } from "@guardian/src-icons";
+import { SvgAlertTriangle } from "@guardian/source-react-components";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";

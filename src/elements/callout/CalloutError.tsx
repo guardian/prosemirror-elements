@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import { space, text } from "@guardian/src-foundations";
-import { SvgAlertTriangle } from "@guardian/src-icons";
+import { space, text } from "@guardian/source-foundations";
+import { SvgAlertTriangle } from "@guardian/source-react-components";
 import { Error } from "../../editorial-source-components/Error";
 import { CalloutTableHeader } from "./CalloutTable";
 import type { Campaign } from "./CalloutTypes";

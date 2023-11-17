@@ -1,4 +1,4 @@
-import { iconSize } from "@guardian/src-foundations/size";
+import { iconSize } from "@guardian/source-foundations";
 import type { FunctionComponent } from "react";
 import React from "react";
 

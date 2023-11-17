@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
-import { border, space } from "@guardian/src-foundations";
-import { textSans } from "@guardian/src-foundations/typography";
+import { border, space, textSans } from "@guardian/source-foundations";
 
 export const conversionMessage = css`
   background-color: #f7ebd4;

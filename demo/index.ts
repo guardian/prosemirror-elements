@@ -1,4 +1,4 @@
-import { FocusStyleManager } from "@guardian/src-foundations/utils";
+import { FocusStyleManager } from "@guardian/source-foundations";
 import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import { collab } from "prosemirror-collab";

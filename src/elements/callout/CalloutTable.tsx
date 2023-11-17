@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { neutral, space, text } from "@guardian/src-foundations";
+import { neutral, space, text } from "@guardian/source-foundations";
 import { Button } from "../../editorial-source-components/Button";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { Label } from "../../editorial-source-components/Label";

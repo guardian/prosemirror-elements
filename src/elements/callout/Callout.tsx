@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
-import { neutral, space } from "@guardian/src-foundations";
-import { textSans } from "@guardian/src-foundations/typography";
+import { neutral, space, textSans } from "@guardian/source-foundations";
 import React, { useEffect, useState } from "react";
 import { createCheckBoxField } from "../../plugin/fieldViews/CheckboxFieldView";
 import {

@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
-import { neutral, space, text } from "@guardian/src-foundations";
-import { textSans } from "@guardian/src-foundations/typography";
+import { neutral, space, text, textSans } from "@guardian/source-foundations";
 import React, { useEffect, useState } from "react";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";

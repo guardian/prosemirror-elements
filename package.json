@@ -19,6 +19,7 @@
     "ci:integration": "webpack serve & (wait-on http://localhost:7890 && cypress run)",
     "postci": "kill $(lsof -t -i:7890)",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "yalc": "yarn build && yalc push"
   },
   "dependencies": {
@@ -26,13 +27,8 @@
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
-    "@guardian/src-button": "^3.8.0",
-    "@guardian/src-checkbox": "^3.8.0",
-    "@guardian/src-foundations": "^3.7.0",
-    "@guardian/src-icons": "^3.7.0",
-    "@guardian/src-layout": "^3.8.0",
-    "@guardian/src-select": "^3.7.0",
-    "@guardian/src-text-input": "^3.7.0",
+    "@guardian/source-react-components": "12.0.0",
+    "@guardian/source-foundations": "10.0.1",
     "@guardian/user-telemetry-client": "^1.0.1",
     "@popperjs/core": "^2.10.2",
     "@types/prosemirror-dev-tools": "^3.0.2",

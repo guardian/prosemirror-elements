@@ -1,4 +1,4 @@
-import { Column, Columns } from "@guardian/src-layout";
+import { Column, Columns } from "@guardian/source-react-components";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";

@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { space } from "@guardian/src-foundations";
-import { Column, Columns } from "@guardian/src-layout";
+import { space } from "@guardian/source-foundations";
+import { Column, Columns } from "@guardian/source-react-components";
 import React, { useContext, useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
 import { Error } from "../../editorial-source-components/Error";

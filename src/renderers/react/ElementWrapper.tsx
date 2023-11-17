@@ -1,13 +1,16 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { space } from "@guardian/src-foundations";
-import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { border, neutral } from "@guardian/src-foundations/palette";
+import {
+  border,
+  focusHalo,
+  neutral,
+  space,
+} from "@guardian/source-foundations";
 import {
   SvgArrowDownStraight,
   SvgArrowUpStraight,
   SvgChevronRightDouble,
-} from "@guardian/src-icons";
+} from "@guardian/source-react-components";
 import type { ReactElement } from "react";
 import React, { useContext, useState } from "react";
 import { SvgBin } from "../../editorial-source-components/SvgBin";

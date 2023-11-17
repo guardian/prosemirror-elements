@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { space } from "@guardian/src-foundations";
+import { space } from "@guardian/source-foundations";
 
 export const FieldLayoutVertical = styled.div`
   display: flex;

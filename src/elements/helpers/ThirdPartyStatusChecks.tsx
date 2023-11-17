@@ -1,4 +1,7 @@
-import { SvgAlertTriangle, SvgTickRound } from "@guardian/src-icons";
+import {
+  SvgAlertTriangle,
+  SvgTickRound,
+} from "@guardian/source-react-components";
 import debounce from "lodash/debounce";
 import { useCallback, useEffect, useState } from "react";
 import {

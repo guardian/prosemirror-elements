@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
-import { background, border } from "@guardian/src-foundations";
-import { focusHalo } from "@guardian/src-foundations/accessibility";
-import { body } from "@guardian/src-foundations/typography";
+import {
+  background,
+  body,
+  border,
+  focusHalo,
+} from "@guardian/source-foundations";
 import { inputBorder } from "./inputBorder";
 
 export const Editor = styled.div<{ hasValidationErrors: boolean }>`

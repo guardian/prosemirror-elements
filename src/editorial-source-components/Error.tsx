@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { text } from "@guardian/src-foundations";
-import { textSans } from "@guardian/src-foundations/typography";
+import { text, textSans } from "@guardian/source-foundations";
 
 export const errorStyles = css`
   ${textSans.small({ lineHeight: "loose" })}

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import { neutral, space } from "@guardian/src-foundations";
-import { Column, Columns } from "@guardian/src-layout";
+import { neutral, space } from "@guardian/source-foundations";
+import { Column, Columns } from "@guardian/source-react-components";
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { FunctionComponent } from "react";
