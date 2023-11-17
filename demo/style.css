@@ -136,7 +136,6 @@ h6 {
   display: flex;
   width: 100%;
   /* Space for button container in fixed position */
-  margin-top: 40px;
   flex: 1 0 0;
 }
 
@@ -152,7 +151,10 @@ h6 {
 .Editor {
   flex: 1 1 0;
   min-width: 0;
-  margin: 0 24px;
+  border: 1px solid #eee;
+  width: 100%;
+  max-width: 600px;
+  margin: 5px auto;
 }
 
 .ProseMirror {
