@@ -104,7 +104,8 @@ export const createCalloutElement = ({
   fetchCampaignList,
   targetingUrl,
 }: Props) =>
-  createReactElementSpec(calloutFields, ({ fields }) => {
+  createReactElementSpec({fieldDescriptions: calloutFields, 
+    consumer: ({ fields }) => {
     const campaignId = fields.campaignId.value;
     const [campaignList, setCampaignList] = useState<Campaign[]>([]);
 
@@ -160,4 +161,4 @@ export const createCalloutElement = ({
         />
       </div>
     );
-  });
+  }});

@@ -7,7 +7,9 @@ import { codeFields } from "./CodeElementSpec";
 
 export const CodeElementTestId = "CodeElement";
 
-export const codeElement = createReactElementSpec(codeFields, ({ fields }) => (
+export const codeElement = createReactElementSpec({
+  fieldDescriptions: codeFields, 
+  consumer: ({ fields }) => (
   <FieldLayoutVertical data-cy={CodeElementTestId}>
     <FieldWrapper headingLabel="Code" field={fields.html} />
     <CustomDropdownView
@@ -16,4 +18,4 @@ export const codeElement = createReactElementSpec(codeFields, ({ fields }) => (
       display="inline"
     />
   </FieldLayoutVertical>
-));
+)});

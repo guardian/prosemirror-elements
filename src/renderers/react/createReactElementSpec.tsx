@@ -13,7 +13,7 @@ import { ElementProvider } from "./ElementProvider";
 type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement | null, FDesc>,
-  validate: Validator<FDesc> | undefined,
+  validate?: Validator<FDesc> | undefined,
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void
 }
 

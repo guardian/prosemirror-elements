@@ -13,9 +13,9 @@ const elementTypeToName = {
   form: "Formstack",
 } as Record<string, string>;
 
-export const deprecatedElement = createReactElementSpec(
-  fields,
-  ({ fields }) => {
+export const deprecatedElement = createReactElementSpec({
+  fieldDescriptions: fields,
+  consumer: ({ fields }) => {
     const elementType =
       elementTypeToName[fields.type.value] || upperFirst(fields.type.value);
     return (
@@ -49,5 +49,5 @@ export const deprecatedElement = createReactElementSpec(
         </FieldLayoutVertical>
       </div>
     );
-  }
+  }}
 );

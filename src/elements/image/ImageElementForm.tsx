@@ -50,9 +50,9 @@ export const createImageElement = (options: ImageElementOptions) => {
     options.additionalRoleOptions
   );
 
-  const element = createReactElementSpec(
-    createImageFields(options),
-    ({ fields }) => {
+  const element = createReactElementSpec({
+    fieldDescriptions: createImageFields(options),
+    consumer: ({ fields }) => {
       const sendTelemetryEvent = useContext(TelemetryContext);
 
       return (
@@ -153,7 +153,7 @@ export const createImageElement = (options: ImageElementOptions) => {
         </div>
       );
     }
-  );
+  });
 
   return { element, updateAdditionalRoleOptions };
 };
