@@ -10,12 +10,19 @@ import type {
 } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
 
-export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>(
+type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc,
   consumer: Consumer<ReactElement | null, FDesc>,
-  validate: Validator<FDesc> | undefined = undefined,
+  validate: Validator<FDesc> | undefined,
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void
-) => {
+}
+
+export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>({
+  fieldDescriptions,
+  consumer,
+  validate = undefined,
+  onRemove
+}: CreateReactElementSpecOptions<FDesc>) => {
   const renderer: Renderer<FDesc> = (
     validate,
     dom,
