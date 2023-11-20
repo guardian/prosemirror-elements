@@ -11,7 +11,7 @@ const InputHeadingContainer = styled.div<{useAlternateStyles?: boolean}>`
   ${({useAlternateStyles}) => useAlternateStyles ? `
     text-transform: uppercase;
     color: ${neutral[46]};
-    padding: 2px 8px 1px;
+    padding: 2px 7px 1px;
     margin: ${space[1]}px 0;
   ` : `margin-bottom: ${space[2]}px;`}
 `;

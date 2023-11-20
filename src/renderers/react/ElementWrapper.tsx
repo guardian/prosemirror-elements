@@ -25,7 +25,7 @@ const Container = styled("div")<{ useAlternateStyles?: boolean }>`
     `padding: 6px 0px 10px 0px;
     border-top: 1px dashed #ddd;
     border-bottom: 1px dashed #ddd;
-    margin: 12px -8px;` : undefined
+    margin: 12px -20px;` : undefined
   }
 `;
 
