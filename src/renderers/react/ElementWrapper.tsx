@@ -18,7 +18,7 @@ import { TelemetryContext } from "./TelemetryContext";
 
 const buttonWidth = 32;
 
-const Container = styled("div")<{ useAlternateStyles: boolean }>`
+const Container = styled("div")<{ useAlternateStyles?: boolean }>`
   margin: ${space[3]}px 0;
   position: relative;
   ${({ useAlternateStyles }) => useAlternateStyles ? 
@@ -44,7 +44,7 @@ const Body = styled("div")`
   min-height: 134px;
 `;
 
-const Panel = styled("div")<{ isSelected: boolean, useAlternateStyles: boolean }>`
+const Panel = styled("div")<{ isSelected: boolean, useAlternateStyles?: boolean }>`
   ${({useAlternateStyles}) => useAlternateStyles ? `padding: 0px ${space[3]}px;` : `
     background-color: ${neutral[97]};
     padding: ${space[3]}px;
@@ -196,7 +196,7 @@ type Props = {
   children?: ReactElement;
   isSelected: boolean;
   onRemove?: () => void;
-  useAlternateStyles: boolean
+  useAlternateStyles?: boolean
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";

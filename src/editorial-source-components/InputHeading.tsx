@@ -5,7 +5,7 @@ import { Error } from "./Error";
 import { Heading } from "./Heading";
 import { Label } from "./Label";
 
-const InputHeadingContainer = styled.div<{useAlternateStyles: boolean}>`
+const InputHeadingContainer = styled.div<{useAlternateStyles?: boolean}>`
   display: flex;
   flex-wrap: wrap;
   ${({useAlternateStyles}) => useAlternateStyles ? `
@@ -26,7 +26,7 @@ const LabelLink = styled.a`
   cursor: pointer;
 `;
 
-const Errors = ({ errors, useAlternateStyles }: { errors: string[], useAlternateStyles: boolean }) =>
+const Errors = ({ errors, useAlternateStyles }: { errors: string[], useAlternateStyles?: boolean }) =>
   !errors.length ? null : <Error useAlternateStyles={useAlternateStyles}>{errors.join(", ")}</Error>;
 
 export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;

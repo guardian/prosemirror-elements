@@ -27,7 +27,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   consumer: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
   onRemove?: () => void;
-  useAlternateStyles: boolean;
+  useAlternateStyles?: boolean;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
