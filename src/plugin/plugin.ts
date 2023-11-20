@@ -3,6 +3,7 @@ import type { Node } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
 import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
+import { createRoot } from "react-dom/client";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type {
   ElementSpec,
@@ -151,6 +152,7 @@ const createNodeView = <
 ): NodeViewCreator => (initElementNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
+  const root = createRoot(dom);
   const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
 
   const serializer = DOMSerializer.fromSchema(initElementNode.type.schema);
@@ -188,7 +190,7 @@ const createNodeView = <
     getFieldValuesFromNode(currentNode, element.fieldDescriptions, serializer);
 
   const update = element.createUpdator(
-    dom,
+    root,
     fields,
     (fields) => {
       view.dispatch(
@@ -257,7 +259,7 @@ const createNodeView = <
     stopEvent: () => true,
     destroy: () => {
       Object.values(fields).map((field) => field.view.destroy());
-      element.destroy(dom);
+      root.unmount();
     },
     ignoreMutation: () => true,
   };

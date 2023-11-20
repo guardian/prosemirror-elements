@@ -1,4 +1,4 @@
-import type { Node } from "prosemirror-model";
+import type { Root } from "react-dom/client";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { validateWithFieldAndElementValidators } from "./helpers/validation";
@@ -55,7 +55,7 @@ export type FieldValidator = (
 export type Renderer<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
-  dom: HTMLElement,
+  root: Root,
   fields: FieldNameToField<FDesc>,
   updateState: (fields: FieldNameToValueMap<FDesc>) => void,
   commands: Commands,
@@ -67,8 +67,7 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   render: Renderer<FDesc>,
-  validateElement: Validator<FDesc> | undefined = undefined,
-  destroy: (dom: HTMLElement) => void
+  validateElement: Validator<FDesc> | undefined = undefined
 ): ElementSpec<FDesc> => {
   const validate = validateWithFieldAndElementValidators(
     fieldDescriptions,
@@ -79,7 +78,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
     fieldDescriptions,
     validate,
     createUpdator: (
-      dom,
+      root,
       fields,
       updateState,
       commands,
@@ -89,7 +88,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
       const updater = createUpdater<FDesc>();
       render(
         validate,
-        dom,
+        root,
         fields,
         (fields) => updateState(fields),
         commands,
@@ -99,6 +98,5 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
       );
       return updater.update;
     },
-    destroy,
   };
 };

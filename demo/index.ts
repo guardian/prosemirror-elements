@@ -2,7 +2,7 @@ import { FocusStyleManager } from "@guardian/source-foundations";
 import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import { collab } from "prosemirror-collab";
-import applyDevTools from "prosemirror-dev-tools";
+import { applyDevTools } from "prosemirror-dev-toolkit";
 import { exampleSetup } from "prosemirror-example-setup";
 import type { MarkSpec, Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";

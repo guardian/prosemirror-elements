@@ -1,4 +1,5 @@
 import type { Schema } from "prosemirror-model";
+import type { Root } from "react-dom/client";
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 import type { ValidationError, Validator } from "../elementSpec";
 import type {
@@ -105,7 +106,7 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   validate: Validator<FDesc>;
   createUpdator: (
-    dom: HTMLElement,
+    root: Root,
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     commands: ReturnType<CommandCreator>,
@@ -116,7 +117,6 @@ export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
     commands: ReturnType<CommandCreator>,
     isSelected: boolean
   ) => void;
-  destroy: (dom: HTMLElement) => void;
 };
 
 export type ElementSpecMap<

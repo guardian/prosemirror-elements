@@ -59,7 +59,6 @@ describe("createPlugin", () => {
         consumerRenderSpy(fields, commands, false);
         subscribe(consumerRenderSpy);
       },
-      () => undefined,
       () => undefined
     );
 

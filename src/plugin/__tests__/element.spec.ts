@@ -507,8 +507,7 @@ describe("buildElementPlugin", () => {
       () => undefined,
       () => ({
         field1: [{ error: "Some error", message: "", level: "ERROR" }],
-      }),
-      () => undefined
+      })
     );
 
     const testElementWithDifferentValidation = createElementSpec(
@@ -524,8 +523,7 @@ describe("buildElementPlugin", () => {
             level: "ERROR",
           },
         ],
-      }),
-      () => undefined
+      })
     );
 
     const elementWithAbsentOn = createNoopElement({
