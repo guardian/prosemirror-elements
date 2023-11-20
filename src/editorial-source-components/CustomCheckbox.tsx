@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import { space } from "@guardian/source-foundations";
 import { Checkbox, CheckboxGroup } from "@guardian/source-react-components";
 import { labelStyles } from "./Label";
 
@@ -29,14 +28,10 @@ const checkboxGroupStyles = css`
   span {
     font-size: 0.9375rem;
     transform: scale(${scaleFactor}) rotate(45);
-    top: 5px;
-    svg {
-      height: ${space[6]}px;
-      margin-top: 2px;
-    }
   }
   div {
     line-height: 1;
+    display: flex;
   }
 `;
 const checkboxStyles = css`

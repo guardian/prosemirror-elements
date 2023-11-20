@@ -7,45 +7,34 @@ import type { Options } from "../plugin/fieldViews/DropdownFieldView";
 import { inputBorder } from "./inputBorder";
 import { labelStyles } from "./Label";
 
-// These styles allow us to style the div, svg, and span elements in the Source Select Component.
+// These styles allow us to style the div, svg, and label elements in the Source Select Component.
 // However, they rely on it retaining its current structure, which is worth bearing in mind
-// if we decided to bump the version of @guardian/src-select
+// if we decided to bump the version of @guardian/source-react-components
 const SelectWrapper = styled.div<{ display: "block" | "inline" }>`
   white-space: nowrap;
   width: initial;
   div {
     display: flex;
-    :first-of-type {
-      ${labelStyles}
-      ${({ display }) => display === "block" && `margin-bottom: ${space[2]}px;`}
-    }
-    svg {
-      height: ${space[5]}px;
-      top: 3px;
-      position: relative;
-      right: 30px;
-    }
   }
-  span {
-    font-family: "Guardian Agate Sans";
-    font-size: 1rem;
-    svg {
-      width: ${space[6]}px;
-      height: ${space[6]}px;
-      margin-top: 1px;
-      margin-left: 1px;
-    }
+  label div {
+    ${labelStyles}
+    ${({ display }) => display === "block" && `margin-bottom: ${space[2]}px;`}
+  }
+  div svg {
+    height: ${space[5]}px;
+    top: 3px;
+    position: relative;
+    right: 30px;
   }
   ${({ display }) =>
     display === "inline" &&
     `
-    label {
       display: flex;
       align-items: center;
-      >div:first-child {
+      div:first-child {
         margin-right: ${space[3]}px;
       }
-    }`}
+    `}
 `;
 
 const selectStyles = css`
@@ -78,7 +67,7 @@ export const CustomDropdown = React.memo((props: CustomDropdownProps) => {
         label={props.label}
         onChange={props.onChange}
         value={props.selected}
-        css={selectStyles}
+        cssOverrides={selectStyles}
       >
         {props.options.map((option) => (
           <Option value={option.value} key={option.value}>
