@@ -26,7 +26,10 @@ export const createCartoonElement = (
   createCaptionPlugins: (schema: Schema) => Plugin[]
 ) => {
   return createReactElementSpec({
-    fieldDescriptions: cartoonFields(cartoonImageSelector, createCaptionPlugins),
+    fieldDescriptions: cartoonFields(
+      cartoonImageSelector,
+      createCaptionPlugins
+    ),
     consumer: ({ fields }) => {
       const addImageAtIndex = (
         imageToInsert: Image,
@@ -172,7 +175,7 @@ export const createCartoonElement = (
           </Columns>
         </FieldLayoutVertical>
       );
-    }
+    },
   });
 };
 

@@ -48,5 +48,5 @@ export const pullquoteElement = createReactElementSpec({
         </Columns>
       </div>
     );
-  }
+  },
 });

@@ -5,15 +5,18 @@ import { Error } from "./Error";
 import { Heading } from "./Heading";
 import { Label } from "./Label";
 
-const InputHeadingContainer = styled.div<{useAlternateStyles?: boolean}>`
+const InputHeadingContainer = styled.div<{ useAlternateStyles?: boolean }>`
   display: flex;
   flex-wrap: wrap;
-  ${({useAlternateStyles}) => useAlternateStyles ? `
+  ${({ useAlternateStyles }) =>
+    useAlternateStyles
+      ? `
     text-transform: uppercase;
     color: ${neutral[46]};
     padding: 2px 7px 1px;
     margin: ${space[1]}px 0;
-  ` : `margin-bottom: ${space[2]}px;`}
+  `
+      : `margin-bottom: ${space[2]}px;`}
 `;
 
 // Because the `for` label element cannot be used with contenteditable,
@@ -26,8 +29,16 @@ const LabelLink = styled.a`
   cursor: pointer;
 `;
 
-const Errors = ({ errors, useAlternateStyles }: { errors: string[], useAlternateStyles?: boolean }) =>
-  !errors.length ? null : <Error useAlternateStyles={useAlternateStyles}>{errors.join(", ")}</Error>;
+const Errors = ({
+  errors,
+  useAlternateStyles,
+}: {
+  errors: string[];
+  useAlternateStyles?: boolean;
+}) =>
+  !errors.length ? null : (
+    <Error useAlternateStyles={useAlternateStyles}>{errors.join(", ")}</Error>
+  );
 
 export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
 
@@ -39,7 +50,7 @@ export type InputHeadingProps = {
   errors?: string[];
   name?: string;
   headingDirection?: "row" | "column";
-  useAlternateStyles?: boolean
+  useAlternateStyles?: boolean;
 };
 
 export const InputHeading = ({
@@ -50,12 +61,20 @@ export const InputHeading = ({
   name,
   fieldId,
   headingDirection = "row",
-  useAlternateStyles = false
+  useAlternateStyles = false,
 }: InputHeadingProps) => (
-  <InputHeadingContainer data-cy={getFieldHeadingTestId(name ?? "")} useAlternateStyles={useAlternateStyles}>
+  <InputHeadingContainer
+    data-cy={getFieldHeadingTestId(name ?? "")}
+    useAlternateStyles={useAlternateStyles}
+  >
     <Heading headingDirection={headingDirection}>
       <LabelLink href={fieldId ? `#${fieldId}` : ""}>
-        <Label id={fieldId ? `label-${fieldId}` : ""} useAlternateStyles={useAlternateStyles}>{headingLabel}</Label>
+        <Label
+          id={fieldId ? `label-${fieldId}` : ""}
+          useAlternateStyles={useAlternateStyles}
+        >
+          {headingLabel}
+        </Label>
       </LabelLink>
       {headingContent}
     </Heading>

@@ -152,7 +152,7 @@ export const createImageElement = (options: ImageElementOptions) => {
           </Columns>
         </div>
       );
-    }
+    },
   });
 
   return { element, updateAdditionalRoleOptions };

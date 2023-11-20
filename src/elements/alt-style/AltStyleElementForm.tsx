@@ -7,14 +7,17 @@ import { altStyleFields } from "./AltStyleElementSpec";
 export const AltStyleElementTestId = "AltStyleElement";
 
 export const altStyleElement = createReactElementSpec({
-  fieldDescriptions: altStyleFields, 
+  fieldDescriptions: altStyleFields,
   consumer: ({ fields, useAlternateStyles }) => (
-    <FieldLayoutVertical data-cy={AltStyleElementTestId} useAlternateStyles={useAlternateStyles}>
-      <FieldWrapper 
-        headingLabel="Title" 
-        field={fields.title} 
+    <FieldLayoutVertical
+      data-cy={AltStyleElementTestId}
+      useAlternateStyles={useAlternateStyles}
+    >
+      <FieldWrapper
+        headingLabel="Title"
+        field={fields.title}
         useAlternateStyles={useAlternateStyles}
-        />
+      />
       <FieldWrapper
         headingLabel="Content"
         field={fields.content}
@@ -22,5 +25,5 @@ export const altStyleElement = createReactElementSpec({
       />
     </FieldLayoutVertical>
   ),
-  useAlternateStyles: true
+  useAlternateStyles: true,
 });

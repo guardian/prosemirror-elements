@@ -10,6 +10,7 @@ import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin, undefinedDropdownValue } from "../src";
+import { altStyleElement } from "../src/elements/alt-style/AltStyleElementForm";
 import { createCalloutElement } from "../src/elements/callout/Callout";
 import { createCartoonElement } from "../src/elements/cartoon/CartoonForm";
 import { codeElement } from "../src/elements/code/CodeElementForm";
@@ -70,7 +71,6 @@ import {
   sampleVine,
 } from "./sampleElements";
 import type { WindowType } from "./types";
-import { altStyleElement } from "../src/elements/alt-style/AltStyleElementForm";
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -99,7 +99,6 @@ const commentElementName = "comment";
 const campaignCalloutListElementName = "callout";
 const cartoonElementName = "cartoon";
 const altStyleElementName = "alt-style";
-
 
 type Name =
   | typeof embedElementName
@@ -240,7 +239,7 @@ const {
         editorLink: "https://example.com",
       })
     ),
-    "alt-style": altStyleElement
+    "alt-style": altStyleElement,
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -427,7 +426,6 @@ const createEditor = (server: CollabServer) => {
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
     { label: "Alt Style", name: altStyleElementName, values: altStyleElement },
-
   ] as const;
 
   buttonData.map(({ label, name, values }) =>

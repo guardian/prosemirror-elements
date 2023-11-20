@@ -12,10 +12,13 @@ export const errorStyles = css`
   user-select: none;
 `;
 
-export const Error = styled.div<{useAlternateStyles?: boolean}>`
+export const Error = styled.div<{ useAlternateStyles?: boolean }>`
   ${errorStyles}
-  ${({useAlternateStyles}) => useAlternateStyles ? `
+  ${({ useAlternateStyles }) =>
+    useAlternateStyles
+      ? `
     ${textSans.xxsmall({ lineHeight: "loose" })};
     font-family: "Guardian Agate Sans";
-  ` : undefined}
+  `
+      : undefined}
 `;

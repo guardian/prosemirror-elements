@@ -26,5 +26,5 @@ export const membershipElement = createReactElementSpec({
       </div>
       <CustomDropdownView field={fields.role} label="Weighting" />
     </FieldLayoutVertical>
-  )
+  ),
 });

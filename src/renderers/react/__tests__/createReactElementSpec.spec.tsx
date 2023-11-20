@@ -19,7 +19,7 @@ describe("createReactElementSpec", () => {
       </div>
     ),
     validate: undefined,
-    onRemove: onDestroy
+    onRemove: onDestroy,
   });
 
   afterEach(() => jest.resetAllMocks());

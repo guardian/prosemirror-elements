@@ -49,5 +49,5 @@ export const deprecatedElement = createReactElementSpec({
         </FieldLayoutVertical>
       </div>
     );
-  }}
-);
+  },
+});

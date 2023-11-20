@@ -21,12 +21,13 @@ const buttonWidth = 32;
 const Container = styled("div")<{ useAlternateStyles?: boolean }>`
   margin: ${space[3]}px 0;
   position: relative;
-  ${({ useAlternateStyles }) => useAlternateStyles ? 
-    `padding-bottom: 8px;
+  ${({ useAlternateStyles }) =>
+    useAlternateStyles
+      ? `padding-bottom: 8px;
     border-top: 1px dashed #ddd;
     border-bottom: 1px dashed #ddd;
-    margin: 12px -20px;` : undefined
-  }
+    margin: 12px -20px;`
+      : undefined}
 `;
 
 const Body = styled("div")`
@@ -44,8 +45,14 @@ const Body = styled("div")`
   min-height: 134px;
 `;
 
-const Panel = styled("div")<{ isSelected: boolean, useAlternateStyles?: boolean }>`
-  ${({useAlternateStyles}) => useAlternateStyles ? `padding: 0px ${space[3]}px;` : `
+const Panel = styled("div")<{
+  isSelected: boolean;
+  useAlternateStyles?: boolean;
+}>`
+  ${({ useAlternateStyles }) =>
+    useAlternateStyles
+      ? `padding: 0px ${space[3]}px;`
+      : `
     background-color: ${neutral[97]};
     padding: ${space[3]}px;
   `}
@@ -196,7 +203,7 @@ type Props = {
   children?: ReactElement;
   isSelected: boolean;
   onRemove?: () => void;
-  useAlternateStyles?: boolean
+  useAlternateStyles?: boolean;
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";
@@ -217,7 +224,7 @@ export const ElementWrapper: React.FunctionComponent<Props> = ({
   isSelected,
   onRemove,
   children,
-  useAlternateStyles
+  useAlternateStyles,
 }) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
   const sendTelemetryEvent = useContext(TelemetryContext);

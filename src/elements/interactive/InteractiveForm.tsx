@@ -14,7 +14,7 @@ export const InteractiveElementTestId = "InteractiveElement";
 
 export const createInteractiveElement = (props: MainInteractiveProps) =>
   createReactElementSpec({
-    fieldDescriptions: createInteractiveFields(props), 
+    fieldDescriptions: createInteractiveFields(props),
     consumer: ({ fields }) => (
       <FieldLayoutVertical data-cy={InteractiveElementTestId}>
         <Preview
@@ -47,5 +47,5 @@ export const createInteractiveElement = (props: MainInteractiveProps) =>
           checkThirdPartyTracking={props.checkThirdPartyTracking}
         />
       </FieldLayoutVertical>
-    )
+    ),
   });

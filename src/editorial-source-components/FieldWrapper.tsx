@@ -24,7 +24,7 @@ export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
   description,
   className,
   headingDirection,
-  useAlternateStyles
+  useAlternateStyles,
 }: Props<F>) => (
   <div className={className}>
     <InputHeading

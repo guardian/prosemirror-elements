@@ -23,8 +23,8 @@ export const createContentAtomElement = (
   fetchContentAtomData: FetchContentAtomData
 ) =>
   createReactElementSpec({
-    fieldDescriptions: contentAtomFields, 
-    consumer:({ fields }) => {
+    fieldDescriptions: contentAtomFields,
+    consumer: ({ fields }) => {
       const [contentAtomData, setContentAtomData] = useState<
         ContentAtomData | undefined
       >(undefined);
@@ -95,5 +95,5 @@ export const createContentAtomElement = (
           </FieldLayoutVertical>
         </div>
       );
-    }
+    },
   });

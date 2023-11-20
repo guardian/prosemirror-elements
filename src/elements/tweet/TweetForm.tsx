@@ -31,5 +31,5 @@ export const createTweetElement = ({
           />
         </FieldLayoutVertical>
       </div>
-    )
+    ),
   });

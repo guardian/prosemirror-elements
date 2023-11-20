@@ -21,7 +21,7 @@ export const createDemoImageElement = (
   onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
 ) =>
   createReactElementSpec({
-    fieldDescriptions: createImageFields(onSelect, onCrop), 
+    fieldDescriptions: createImageFields(onSelect, onCrop),
     consumer: ({ fields }) => (
       <FieldLayoutVertical data-cy={ImageElementTestId}>
         <FieldWrapper headingLabel="Caption" field={fields.caption} />
@@ -68,24 +68,26 @@ export const createDemoImageElement = (
                 field={repeater.repeaterText}
               />
               <ul>
-                {repeater.nestedRepeater.children.map((nestedRepeater, index) => (
-                  <li key={nestedRepeater.__ID}>
-                    <FieldWrapper
-                      headingLabel="Nested repeater text"
-                      headingContent={
-                        <button
-                          data-cy={RemoveNestedRepeaterButtonId}
-                          onClick={() =>
-                            repeater.nestedRepeater.view.remove(index)
-                          }
-                        >
-                          -
-                        </button>
-                      }
-                      field={nestedRepeater.nestedRepeaterText}
-                    />
-                  </li>
-                ))}
+                {repeater.nestedRepeater.children.map(
+                  (nestedRepeater, index) => (
+                    <li key={nestedRepeater.__ID}>
+                      <FieldWrapper
+                        headingLabel="Nested repeater text"
+                        headingContent={
+                          <button
+                            data-cy={RemoveNestedRepeaterButtonId}
+                            onClick={() =>
+                              repeater.nestedRepeater.view.remove(index)
+                            }
+                          >
+                            -
+                          </button>
+                        }
+                        field={nestedRepeater.nestedRepeaterText}
+                      />
+                    </li>
+                  )
+                )}
               </ul>
               <button
                 data-cy={AddNestedRepeaterButtonId}
@@ -103,7 +105,7 @@ export const createDemoImageElement = (
           </button>
         </ul>
       </FieldLayoutVertical>
-    )
+    ),
   });
 
 type ImageViewProps = {

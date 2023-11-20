@@ -26,5 +26,5 @@ export const tableElement = createReactElementSpec({
         />
       </FieldLayoutVertical>
     </div>
-  )
+  ),
 });

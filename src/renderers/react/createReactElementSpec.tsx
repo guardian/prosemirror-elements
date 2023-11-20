@@ -11,19 +11,21 @@ import type {
 import { ElementProvider } from "./ElementProvider";
 
 type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
-  fieldDescriptions: FDesc,
-  consumer: Consumer<ReactElement | null, FDesc>,
-  validate?: Validator<FDesc> | undefined,
-  onRemove?: (fields: ExtractFieldValues<FDesc>) => void
-  useAlternateStyles?: boolean
-}
+  fieldDescriptions: FDesc;
+  consumer: Consumer<ReactElement | null, FDesc>;
+  validate?: Validator<FDesc> | undefined;
+  onRemove?: (fields: ExtractFieldValues<FDesc>) => void;
+  useAlternateStyles?: boolean;
+};
 
-export const createReactElementSpec = <FDesc extends FieldDescriptions<string>>({
+export const createReactElementSpec = <
+  FDesc extends FieldDescriptions<string>
+>({
   fieldDescriptions,
   consumer,
   validate = undefined,
   onRemove,
-  useAlternateStyles = false
+  useAlternateStyles = false,
 }: CreateReactElementSpecOptions<FDesc>) => {
   const renderer: Renderer<FDesc> = (
     validate,

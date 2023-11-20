@@ -1,4 +1,3 @@
-import { createCustomDropdownField } from "../../plugin/fieldViews/CustomFieldView";
 import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";

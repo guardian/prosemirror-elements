@@ -12,5 +12,5 @@ export const recipeElement = createReactElementSpec({
     <FieldLayoutVertical data-cy={RecipeElementTestId}>
       <FieldWrapper headingLabel="Recipe" field={fields.recipeJson} />
     </FieldLayoutVertical>
-  )
+  ),
 });

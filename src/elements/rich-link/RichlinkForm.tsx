@@ -47,5 +47,5 @@ export const richlinkElement = createReactElementSpec({
         </div>
       ) : null}
     </FieldLayoutVertical>
-  )
+  ),
 });
