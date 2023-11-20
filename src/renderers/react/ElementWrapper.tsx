@@ -22,7 +22,7 @@ const Container = styled("div")<{ useAlternateStyles?: boolean }>`
   margin: ${space[3]}px 0;
   position: relative;
   ${({ useAlternateStyles }) => useAlternateStyles ? 
-    `padding: 6px 0px 10px 0px;
+    `padding-bottom: 8px;
     border-top: 1px dashed #ddd;
     border-bottom: 1px dashed #ddd;
     margin: 12px -20px;` : undefined
