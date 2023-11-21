@@ -2,6 +2,20 @@
 
 This Prosemirror plugin adds the ability to add custom 'elements' to a document.
 
+
+- [@guardian/prosemirror-elements](#guardianprosemirror-elements)
+  - [Why does this exist?](#why-does-this-exist)
+  - [Setup](#setup)
+  - [Run](#run)
+  - [Test](#test)
+  - [Release](#release)
+    - [Testing locally in applications using `prosemirror-elements`](#testing-locally-in-applications-using-prosemirror-elements)
+  - [Adding a new element using prosemirror-elements](#adding-a-new-element-using-prosemirror-elements)
+  - [How prosemirror-elements works](#how-prosemirror-elements-works)
+  - [Troubleshooting when developing this library](#troubleshooting-when-developing-this-library)
+    - [Problems with `yarn link`](#problems-with-yarn-link)
+
+
 ## Why does this exist?
 
 Modelling non-text content in Prosemirror can be tricky. `prosemirror-elements` provides an abstraction that makes it easy to write custom elements that:
@@ -20,14 +34,14 @@ Modelling non-text content in Prosemirror can be tricky. `prosemirror-elements` 
 1. Ensure nginx is running.
 2. `yarn start` builds the project locally, spins up a webserver on https://prosemirror-elements.local.dev-gutools.co.uk, and watches for file changes.
 
-## Testing
+## Test
 
 - Run the unit tests via Jest with `yarn test:unit`.
 - Run the integration tests via Cypress with `yarn test:integration`.
   - You'll need to be running the application via `yarn start` simultaneously for the tests to work – make sure the server is responding on http://localhost:7890 before running the tests.
   - For reasons we're not yet able to determine, Cypress won't run your tests immediately when you select them in the GUI. Hit the 'refresh' button and they should run normally.
 
-## Releasing
+## Release
 
 This repository uses [changesets](https://github.com/changesets/changesets) for version management
 
@@ -47,9 +61,13 @@ Setup:
 
 Note: any changes you make to your local prosemirror-elements branch must be republished (step 3). Don't forget to run `yarn yalc` again!
 
-### Adding a new element using ProseMirror Elements:
+## Adding a new element using prosemirror-elements
 
 [Quick-Start Guide](https://github.com/guardian/prosemirror-elements/blob/main/docs/quick-start.md)
+
+## How prosemirror-elements works
+
+[How prosemirror-elements works](https://github.com/guardian/prosemirror-elements/blob/main/docs/how-it-works.md)
 
 ## Troubleshooting when developing this library
 
@@ -81,9 +99,3 @@ const mySchema = new Schema({
   marks,
 });
 ```
-
-## Element-specific docs – for Guardian users only
-
-It's useful to write fixture tests to ensure that the element you're creating doesn't disrupt existing data – see the fixture tests in `src/elements/helpers/__tests__/transformFixtures.spec.ts` for more details.
-
-There's a script available at `./fixtures/parse-element.js` to facilitate transforming element data from the Guardian CMS into a redacted form suitable for fixtures.
