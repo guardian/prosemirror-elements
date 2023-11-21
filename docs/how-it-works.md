@@ -96,8 +96,8 @@ For example, the `author` content expression would look like `"author__name auth
 The `author__books` content expression, however, would be `"author__book*"` – as a repeater field, `author__books` can contain 0-many `author__book` nodes.
 
 Finally, leaf nodes must represent user data in some way. There are two main ways of storing data in a ProseMirror Node:
-  - As node content. This is used whenever we want to express content types that are native to ProseMirror – for example, rich or plain text. The content expressions described above describe what sort of content a Node can contain.
-  - As arbitrary data, stored on the Node's `attrs` object as [`Attributes`](https://prosemirror.net/docs/ref/#model.NodeSpec.attrs).
+  - As node content. This is used whenever we want to express content types that are native to ProseMirror – for example, rich or plain text. The content expressions described above describe what sort of content a Node can contain. Data represented this way can be treated as part of the Prosemirror document – [`Selections`(https://prosemirror.net/docs/ref/#state.Selection)] and [`Decorations`](https://prosemirror.net/docs/ref/#view.Decoration), for example, will work as expected, and updates to this content can be incremental, which is important for collaborative editing.
+  - As arbitrary data, stored on the Node's `attrs` object as [`Attributes`](https://prosemirror.net/docs/ref/#model.NodeSpec.attrs). This is easy to implement, but means the data will be opaque to ProseMirror, and updates to the data always replace everything at once. This means that updates in a collaborative context, for example, will always be last-write-wins.
 
 With this in mind, we can see that each field in our defining object maps to a NodeSpec with its own content expression:
 
@@ -105,7 +105,7 @@ With this in mind, we can see that each field in our defining object maps to a N
 const authorElement = {
     name: createTextField(), // "text"
     biography: createRichTextField(), // "block+"
-    image: createCustomField<{ url: string }>(), // "" (data stored as attributes)
+    image: createCustomField<{ url: string, suppliersReference: string }>(), // "" (data stored as attributes, not content)
     books: createRepeaterField({ // "author__books", and a child with "author__book*"
       title: createTextField(), // "text"
       isbn: createTextField() // "text"
@@ -114,3 +114,7 @@ const authorElement = {
 ```
 
 Once the `NodeSpec` is created and added to the editor schema, our ProseMirror editor can contain `Nodes` representing our element data. Now we must provide a way of translating plain data to `Nodes`, and vice-versa.
+
+### Moving element data in and out of ProseMirror
+
+### Representing Element data and its lifecycle within ProseMirror
