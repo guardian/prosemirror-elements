@@ -1,10 +1,8 @@
-import { baseKeymap } from "prosemirror-commands";
-import type { AttributeSpec, Node, Schema } from "prosemirror-model";
+import type { AttributeSpec, Node } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import type { PlaceholderOption } from "../helpers/placeholder";
-import { waitForNextLayout } from "../helpers/util";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
@@ -82,31 +80,5 @@ export class NestedFieldView extends ProseMirrorFieldView {
       dom.style.fontFamily = "serif";
       dom.style.whiteSpace = "pre-wrap";
     }
-
-    // We wait to ensure that the browser has applied the appropriate styles.
-    void waitForNextLayout().then(() => {
-      if (!this.innerEditorView) {
-        return;
-      }
-
-      const { lineHeight, paddingTop } = window.getComputedStyle(
-        this.innerEditorView.dom
-      );
-
-      const domElement = this.innerEditorView.dom as HTMLDivElement;
-
-      const initialInputHeightPx = `${
-        parseInt(lineHeight, 10) * 5 + parseInt(paddingTop) * 2
-      }px`;
-      domElement.style.minHeight = initialInputHeightPx;
-      if (isResizeable) {
-        // If the input is resizeable, assume that the user would like the input
-        // to begin life with its height set to `rows`, with the opportunity to
-        // expand it later.
-        domElement.style.height = initialInputHeightPx;
-      }
-    });
-
-    this.fieldViewElement.classList.add("ProseMirrorElements__NestedField");
   }
 }
