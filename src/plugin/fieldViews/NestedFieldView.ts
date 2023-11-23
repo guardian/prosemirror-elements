@@ -5,6 +5,7 @@ import type { FieldValidator } from "../elementSpec";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
+import { FieldContentType } from "./FieldView";
 
 type NestedOptions = {
   absentOnEmpty?: boolean;
@@ -50,6 +51,7 @@ export const createNestedField = ({
 
 export class NestedFieldView extends ProseMirrorFieldView {
   public static fieldType = "nested" as const;
+  public static fieldContentType = FieldContentType.NESTED;
 
   constructor(
     // The node that this FieldView is responsible for rendering.

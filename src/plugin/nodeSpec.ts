@@ -121,7 +121,7 @@ export const getNodeSpecForField = (
       return {
         [nodeName]: {
           group: fieldGroupName,
-          content: "block+",
+          content: "element+",
           toDOM: getDefaultToDOMForContentNode(nodeName),
           parseDOM: [
             {
@@ -359,6 +359,19 @@ export const createNodesForFieldValues = <
         }
 
         return node;
+      }
+      case FieldContentType.NESTED: {
+        let content = fieldValue as string;
+        console.log("NESTED")
+        return [
+          field.type === "nested"
+            ? createContentNodeFromRichText(
+                schema,
+                content,
+                nodeType.create({ type: field.type })
+              )
+            : createContentNodeFromText(content, field, nodeType),
+        ];
       }
     }
   });
