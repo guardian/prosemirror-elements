@@ -7,8 +7,6 @@ import type { CommandCreator } from "../../plugin/types/Commands";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 import { TelemetryContext } from "./TelemetryContext";
 
-const buttonWidth = 32;
-
 const Container = styled("div")<{ useAlternateStyles?: boolean }>`
   margin: ${space[3]}px 0;
   position: relative;

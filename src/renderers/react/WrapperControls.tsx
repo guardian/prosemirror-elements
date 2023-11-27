@@ -3,8 +3,6 @@ import { border, neutral, space } from "@guardian/src-foundations";
 import { CommandTelemetryType, SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
 import { SvgBin } from "../../editorial-source-components/SvgBin";
-import { useContext } from "react";
-import { TelemetryContext } from "./TelemetryContext";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
 import { SvgArrowDownStraight, SvgArrowUpStraight, SvgChevronRightDouble } from "@guardian/src-icons";
 import { css } from "@emotion/react";
@@ -25,7 +23,7 @@ const Button = styled("button")<{ expanded?: boolean }>`
   color: ${neutral[100]};
   cursor: pointer;
   flex-grow: ${({ expanded }) => (expanded ? "1" : "0")};
-  ${({ expanded }) => !expanded && "height: 32px;"};
+  ${({ expanded }) => !expanded && `height: ${buttonWidth}px;`};
   font-size: 15px;
   line-height: 1;
   padding: ${space[1]}px;
