@@ -36,3 +36,4 @@ export { createReactElementSpec } from "./renderers/react/createReactElementSpec
 export { CustomCheckboxView } from "./renderers/react/customFieldViewComponents/CustomCheckboxView";
 export { CustomDropdownView } from "./renderers/react/customFieldViewComponents/CustomDropdownView";
 export { FieldComponent } from "./renderers/react/FieldComponent";
+export { AltStyleElementWrapper } from "./renderers/react/AltStyleElementWrapper";
