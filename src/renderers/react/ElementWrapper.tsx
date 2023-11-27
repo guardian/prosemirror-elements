@@ -7,19 +7,12 @@ import type { CommandCreator } from "../../plugin/types/Commands";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 import { TelemetryContext } from "./TelemetryContext";
 
-const Container = styled("div")<{ useAlternateStyles?: boolean }>`
+const Container = styled("div")`
   margin: ${space[3]}px 0;
   position: relative;
-  ${({ useAlternateStyles }) =>
-    useAlternateStyles
-      ? `padding-bottom: 8px;
-    border-top: 1px dashed #ddd;
-    border-bottom: 1px dashed #ddd;
-    margin: 12px -20px;`
-      : undefined}
 `;
 
-const Body = styled("div")`
+export const Body = styled("div")`
   display: flex;
   :hover {
     .actions {
@@ -36,15 +29,9 @@ const Body = styled("div")`
 
 const Panel = styled("div")<{
   isSelected: boolean;
-  useAlternateStyles?: boolean;
 }>`
-  ${({ useAlternateStyles }) =>
-    useAlternateStyles
-      ? `padding: 0px ${space[3]}px;`
-      : `
-    background-color: ${neutral[97]};
-    padding: ${space[3]}px;
-  `}
+  background-color: ${neutral[97]};
+  padding: ${space[3]}px;
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
@@ -62,7 +49,7 @@ const Panel = styled("div")<{
   }
 `;
 
-const Overlay = styled("div")`
+export const Overlay = styled("div")`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -78,7 +65,6 @@ export type ElementWrapperProps = {
   children?: ReactElement;
   isSelected: boolean;
   onRemove?: () => void;
-  useAlternateStyles?: boolean;
 } & ReturnType<CommandCreator>;
 
 export const elementWrapperTestId = "ElementWrapper";
@@ -93,7 +79,6 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
   isSelected,
   onRemove,
   children,
-  useAlternateStyles,
 }) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
   const sendTelemetryEvent = useContext(TelemetryContext);
@@ -102,7 +87,6 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
     <Container
       className="ProsemirrorElement__wrapper"
       data-cy={elementWrapperTestId}
-      useAlternateStyles={useAlternateStyles}
     >
       <Body>
         <LeftActionControls 
@@ -113,7 +97,7 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
           setCloseClickedOnce={setCloseClickedOnce}
           sendTelemetryEvent={sendTelemetryEvent}
         />
-        <Panel isSelected={isSelected} useAlternateStyles={useAlternateStyles}>
+        <Panel isSelected={isSelected}>
           {isSelected && <Overlay />}
           {children}
         </Panel>

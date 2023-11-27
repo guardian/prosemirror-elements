@@ -9,7 +9,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../../plugin/types/Element";
-import { ElementWrapper } from "./ElementWrapper";
+import { ElementWrapper, ElementWrapperProps } from "./ElementWrapper";
 import { TelemetryContext } from "./TelemetryContext";
 
 type IProps<FDesc extends FieldDescriptions<string>> = {
@@ -27,7 +27,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   consumer: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
   onRemove?: () => void;
-  useAlternateStyles?: boolean;
+  elementWrapper: React.FunctionComponent<ElementWrapperProps>
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -67,18 +67,16 @@ export class ElementProvider<
   public render() {
     return (
       <TelemetryContext.Provider value={this.props.sendTelemetryEvent}>
-        <ElementWrapper
+        <this.props.elementWrapper
           {...this.state.commands}
           isSelected={this.state.isSelected}
           onRemove={this.props.onRemove}
-          useAlternateStyles={this.props.useAlternateStyles}
         >
           <this.Element
             fields={this.state.fields}
             updateFields={this.updateFields}
-            useAlternateStyles={this.props.useAlternateStyles}
           />
-        </ElementWrapper>
+        </this.props.elementWrapper>
       </TelemetryContext.Provider>
     );
   }

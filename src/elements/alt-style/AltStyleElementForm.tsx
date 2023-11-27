@@ -3,27 +3,28 @@ import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayo
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { altStyleFields } from "./AltStyleElementSpec";
+import { AltStyleElementWrapper } from "../../renderers/react/AltStyleElementWrapper";
 
 export const AltStyleElementTestId = "AltStyleElement";
 
 export const altStyleElement = createReactElementSpec({
   fieldDescriptions: altStyleFields,
-  consumer: ({ fields, useAlternateStyles }) => (
+  consumer: ({ fields }) => (
     <FieldLayoutVertical
       data-cy={AltStyleElementTestId}
-      useAlternateStyles={useAlternateStyles}
+      useAlternateStyles={true}
     >
       <FieldWrapper
         headingLabel="Title"
         field={fields.title}
-        useAlternateStyles={useAlternateStyles}
+        useAlternateStyles={true}
       />
       <FieldWrapper
         headingLabel="Content"
         field={fields.content}
-        useAlternateStyles={useAlternateStyles}
+        useAlternateStyles={true}
       />
     </FieldLayoutVertical>
   ),
-  useAlternateStyles: true,
+  elementWrapper: AltStyleElementWrapper
 });

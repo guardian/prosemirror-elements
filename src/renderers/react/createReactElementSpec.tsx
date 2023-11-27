@@ -9,13 +9,14 @@ import type {
   FieldDescriptions,
 } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
+import { ElementWrapper, ElementWrapperProps } from "./ElementWrapper";
 
 type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   consumer: Consumer<ReactElement | null, FDesc>;
   validate?: Validator<FDesc> | undefined;
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void;
-  useAlternateStyles?: boolean;
+  elementWrapper?: React.FunctionComponent<ElementWrapperProps>
 };
 
 export const createReactElementSpec = <
@@ -25,7 +26,7 @@ export const createReactElementSpec = <
   consumer,
   validate = undefined,
   onRemove,
-  useAlternateStyles = false,
+  elementWrapper = ElementWrapper,
 }: CreateReactElementSpecOptions<FDesc>) => {
   const renderer: Renderer<FDesc> = (
     validate,
@@ -47,7 +48,7 @@ export const createReactElementSpec = <
         consumer={consumer}
         sendTelemetryEvent={sendTelemetryEvent}
         onRemove={() => onRemove?.(getElementData())}
-        useAlternateStyles={useAlternateStyles}
+        elementWrapper={elementWrapper}
       />,
       dom
     );
