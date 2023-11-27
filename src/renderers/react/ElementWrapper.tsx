@@ -43,7 +43,6 @@ const Panel = styled("div")<{ isSelected: boolean }>`
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
-  postion: relative;
 
   * {
     ::selection {
