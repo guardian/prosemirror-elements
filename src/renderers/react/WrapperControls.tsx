@@ -13,12 +13,12 @@ import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEven
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 
 const buttonWidth = 32;
-const removeTestId = "ElementWrapper__remove";
-const selectTestId = "ElementWrapper__select";
-const moveTopTestId = "ElementWrapper__moveTop";
-const moveBottomTestId = "ElementWrapper__moveBottom";
-const moveUpTestId = "ElementWrapper__moveUp";
-const moveDownTestId = "ElementWrapper__moveDown";
+export const removeTestId = "ElementWrapper__remove";
+export const selectTestId = "ElementWrapper__select";
+export const moveTopTestId = "ElementWrapper__moveTop";
+export const moveBottomTestId = "ElementWrapper__moveBottom";
+export const moveUpTestId = "ElementWrapper__moveUp";
+export const moveDownTestId = "ElementWrapper__moveDown";
 
 const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
