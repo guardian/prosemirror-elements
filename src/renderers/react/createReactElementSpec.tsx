@@ -9,14 +9,15 @@ import type {
   FieldDescriptions,
 } from "../../plugin/types/Element";
 import { ElementProvider } from "./ElementProvider";
-import { ElementWrapper, ElementWrapperProps } from "./ElementWrapper";
+import type { ElementWrapperProps } from "./ElementWrapper";
+import { ElementWrapper } from "./ElementWrapper";
 
 type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   consumer: Consumer<ReactElement | null, FDesc>;
   validate?: Validator<FDesc> | undefined;
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void;
-  elementWrapper?: React.FunctionComponent<ElementWrapperProps>
+  elementWrapper?: React.FunctionComponent<ElementWrapperProps>;
 };
 
 export const createReactElementSpec = <

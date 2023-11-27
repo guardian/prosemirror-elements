@@ -1,9 +1,9 @@
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { AltStyleElementWrapper } from "../../renderers/react/AltStyleElementWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { altStyleFields } from "./AltStyleElementSpec";
-import { AltStyleElementWrapper } from "../../renderers/react/AltStyleElementWrapper";
 
 export const AltStyleElementTestId = "AltStyleElement";
 
@@ -26,5 +26,5 @@ export const altStyleElement = createReactElementSpec({
       />
     </FieldLayoutVertical>
   ),
-  elementWrapper: AltStyleElementWrapper
+  elementWrapper: AltStyleElementWrapper,
 });

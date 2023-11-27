@@ -4,8 +4,8 @@ import { neutral } from "@guardian/src-foundations/palette";
 import type { ReactElement } from "react";
 import React, { useContext, useState } from "react";
 import type { CommandCreator } from "../../plugin/types/Commands";
-import { LeftActionControls, RightActionControls } from "./WrapperControls";
 import { TelemetryContext } from "./TelemetryContext";
+import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 const Container = styled("div")`
   margin: ${space[3]}px 0;
@@ -89,7 +89,7 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
       data-cy={elementWrapperTestId}
     >
       <Body>
-        <LeftActionControls 
+        <LeftActionControls
           select={select}
           remove={remove}
           onRemove={onRemove}
@@ -101,11 +101,11 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
           {isSelected && <Overlay />}
           {children}
         </Panel>
-        <RightActionControls 
+        <RightActionControls
           moveTop={moveTop}
-          moveUp={moveUp} 
+          moveUp={moveUp}
           moveDown={moveDown}
-          moveBottom={moveBottom} 
+          moveBottom={moveBottom}
           sendTelemetryEvent={sendTelemetryEvent}
         />
       </Body>

@@ -9,7 +9,7 @@ import type {
   FieldDescriptions,
   FieldNameToField,
 } from "../../plugin/types/Element";
-import { ElementWrapper, ElementWrapperProps } from "./ElementWrapper";
+import type { ElementWrapperProps } from "./ElementWrapper";
 import { TelemetryContext } from "./TelemetryContext";
 
 type IProps<FDesc extends FieldDescriptions<string>> = {
@@ -27,7 +27,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   consumer: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
   onRemove?: () => void;
-  elementWrapper: React.FunctionComponent<ElementWrapperProps>
+  elementWrapper: React.FunctionComponent<ElementWrapperProps>;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
