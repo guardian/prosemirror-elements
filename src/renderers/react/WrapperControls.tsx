@@ -5,9 +5,9 @@ import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightA
 import { SvgBin } from "../../editorial-source-components/SvgBin";
 import { useContext } from "react";
 import { TelemetryContext } from "./TelemetryContext";
-import { css } from "emotion";
+import { focusHalo } from "@guardian/src-foundations/accessibility";
 import { SvgArrowDownStraight, SvgArrowUpStraight, SvgChevronRightDouble } from "@guardian/src-icons";
-import { focusHalo } from "@guardian/src-foundations/dist/types/accessibility";
+import { css } from "@emotion/react";
 
 const buttonWidth = 32;
 const removeTestId = "ElementWrapper__remove";
@@ -140,6 +140,7 @@ export type LeftActionProps = {
     closeClickedOnce: boolean,
     setCloseClickedOnce: React.Dispatch<React.SetStateAction<boolean>>,
     sendTelemetryEvent: SendTelemetryEvent
+
 }
 
 export const LeftActionControls = ({
