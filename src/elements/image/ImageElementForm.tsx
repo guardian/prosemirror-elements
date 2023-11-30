@@ -52,7 +52,7 @@ export const createImageElement = (options: ImageElementOptions) => {
 
   const element = createReactElementSpec({
     fieldDescriptions: createImageFields(options),
-    consumer: ({ fields }) => {
+    component: ({ fields }) => {
       const sendTelemetryEvent = useContext(TelemetryContext);
 
       return (

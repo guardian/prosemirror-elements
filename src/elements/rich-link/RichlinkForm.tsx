@@ -26,7 +26,7 @@ const warningStyle = css`
 
 export const richlinkElement = createReactElementSpec({
   fieldDescriptions: richlinkFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <FieldLayoutVertical>
       <div>
         Related:{" "}

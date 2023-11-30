@@ -30,7 +30,7 @@ export const createCartoonElement = (
       cartoonImageSelector,
       createCaptionPlugins
     ),
-    consumer: ({ fields }) => {
+    component: ({ fields }) => {
       const addImageAtIndex = (
         imageToInsert: Image,
         images: Image[],

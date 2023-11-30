@@ -89,7 +89,7 @@ export const createStandardElement = ({
       createCaptionPlugins,
       hasThumbnailRole
     ),
-    consumer: (props) => {
+    component: (props) => {
       const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
       return (
         <Form {...props} checkThirdPartyTracking={checkThirdPartyTracking} />

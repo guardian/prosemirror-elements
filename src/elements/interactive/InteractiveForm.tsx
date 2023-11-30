@@ -15,7 +15,7 @@ export const InteractiveElementTestId = "InteractiveElement";
 export const createInteractiveElement = (props: MainInteractiveProps) =>
   createReactElementSpec({
     fieldDescriptions: createInteractiveFields(props),
-    consumer: ({ fields }) => (
+    component: ({ fields }) => (
       <FieldLayoutVertical data-cy={InteractiveElementTestId}>
         <Preview
           headingLabel="Interactive"

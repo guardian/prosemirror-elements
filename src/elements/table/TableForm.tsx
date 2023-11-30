@@ -11,7 +11,7 @@ const TableWrapper = styled.div`
 
 export const tableElement = createReactElementSpec({
   fieldDescriptions: tableFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <div>
       <FieldLayoutVertical>
         <TableWrapper

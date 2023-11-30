@@ -8,7 +8,7 @@ export const RecipeElementTestId = "RecipeElement";
 
 export const recipeElement = createReactElementSpec({
   fieldDescriptions: recipeFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <FieldLayoutVertical data-cy={RecipeElementTestId}>
       <FieldWrapper headingLabel="Recipe" field={fields.recipeJson} />
     </FieldLayoutVertical>

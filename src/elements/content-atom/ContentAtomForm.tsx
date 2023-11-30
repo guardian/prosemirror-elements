@@ -24,7 +24,7 @@ export const createContentAtomElement = (
 ) =>
   createReactElementSpec({
     fieldDescriptions: contentAtomFields,
-    consumer: ({ fields }) => {
+    component: ({ fields }) => {
       const [contentAtomData, setContentAtomData] = useState<
         ContentAtomData | undefined
       >(undefined);

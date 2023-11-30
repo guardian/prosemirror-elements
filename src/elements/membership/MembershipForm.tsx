@@ -18,7 +18,7 @@ export const MembershipElementTestId = "MembershipElement";
 
 export const membershipElement = createReactElementSpec({
   fieldDescriptions: membershipFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <FieldLayoutVertical data-cy={MembershipElementTestId}>
       <div css={flexRow}>
         <InputHeading headingLabel="Membership event:" />

@@ -9,7 +9,7 @@ export const AltStyleElementTestId = "AltStyleElement";
 
 export const altStyleElement = createReactElementSpec({
   fieldDescriptions: altStyleFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <FieldLayoutVertical
       data-cy={AltStyleElementTestId}
       useAlternateStyles={true}
@@ -26,5 +26,5 @@ export const altStyleElement = createReactElementSpec({
       />
     </FieldLayoutVertical>
   ),
-  elementWrapper: AltStyleElementWrapper,
+  wrapperComponent:  AltStyleElementWrapper,
 });

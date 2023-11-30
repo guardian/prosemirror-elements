@@ -15,7 +15,7 @@ const elementTypeToName = {
 
 export const deprecatedElement = createReactElementSpec({
   fieldDescriptions: fields,
-  consumer: ({ fields }) => {
+  component: ({ fields }) => {
     const elementType =
       elementTypeToName[fields.type.value] || upperFirst(fields.type.value);
     return (

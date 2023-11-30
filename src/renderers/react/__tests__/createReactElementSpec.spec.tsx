@@ -10,7 +10,7 @@ describe("createReactElementSpec", () => {
     fieldDescriptions: {
       field1: createTextField(),
     },
-    consumer: ({ fields }) => (
+    component: ({ fields }) => (
       <div>
         <FieldWrapper
           headingLabel="field1"

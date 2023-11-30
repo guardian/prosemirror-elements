@@ -14,20 +14,20 @@ import { ElementWrapper } from "./ElementWrapper";
 
 type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
-  consumer: Consumer<ReactElement | null, FDesc>;
+  component: Consumer<ReactElement | null, FDesc>;
   validate?: Validator<FDesc> | undefined;
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void;
-  elementWrapper?: React.FunctionComponent<ElementWrapperProps>;
+  wrapperComponent?: React.FunctionComponent<ElementWrapperProps>;
 };
 
 export const createReactElementSpec = <
   FDesc extends FieldDescriptions<string>
 >({
   fieldDescriptions,
-  consumer,
+  component,
   validate = undefined,
   onRemove,
-  elementWrapper = ElementWrapper,
+  wrapperComponent = ElementWrapper,
 }: CreateReactElementSpecOptions<FDesc>) => {
   const renderer: Renderer<FDesc> = (
     validate,
@@ -46,10 +46,10 @@ export const createReactElementSpec = <
         fields={fields}
         validate={validate}
         commands={commands}
-        consumer={consumer}
+        component={component}
         sendTelemetryEvent={sendTelemetryEvent}
         onRemove={() => onRemove?.(getElementData())}
-        elementWrapper={elementWrapper}
+        wrapperComponent={wrapperComponent}
       />,
       dom
     );

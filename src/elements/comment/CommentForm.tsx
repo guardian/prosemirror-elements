@@ -6,7 +6,7 @@ import { commentFields } from "./CommentSpec";
 
 export const commentElement = createReactElementSpec({
   fieldDescriptions: commentFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <>
       <FieldLayoutVertical>
         <Preview headingLabel={""} html={fields.html.value} />

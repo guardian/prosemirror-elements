@@ -106,7 +106,7 @@ export const createCalloutElement = ({
 }: Props) =>
   createReactElementSpec({
     fieldDescriptions: calloutFields,
-    consumer: ({ fields }) => {
+    component: ({ fields }) => {
       const campaignId = fields.campaignId.value;
       const [campaignList, setCampaignList] = useState<Campaign[]>([]);
 

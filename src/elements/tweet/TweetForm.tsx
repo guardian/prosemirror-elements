@@ -15,7 +15,7 @@ export const createTweetElement = ({
 }: StandardElementOptions) =>
   createReactElementSpec({
     fieldDescriptions: createTweetFields(createCaptionPlugins),
-    consumer: ({ fields }) => (
+    component: ({ fields }) => (
       <div>
         <FieldLayoutVertical data-cy={EmbedTestId}>
           <Preview html={fields.html.value} />

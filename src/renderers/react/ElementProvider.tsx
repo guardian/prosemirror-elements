@@ -24,10 +24,10 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   fields: FieldNameToField<FDesc>;
   onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
   validate: Validator<FDesc>;
-  consumer: Consumer<ReactElement | null, FDesc>;
+  component: Consumer<ReactElement | null, FDesc>;
   sendTelemetryEvent: SendTelemetryEvent;
   onRemove?: () => void;
-  elementWrapper: React.FunctionComponent<ElementWrapperProps>;
+  wrapperComponent: React.FunctionComponent<ElementWrapperProps>;
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
@@ -67,7 +67,7 @@ export class ElementProvider<
   public render() {
     return (
       <TelemetryContext.Provider value={this.props.sendTelemetryEvent}>
-        <this.props.elementWrapper
+        <this.props.wrapperComponent
           {...this.state.commands}
           isSelected={this.state.isSelected}
           onRemove={this.props.onRemove}
@@ -76,7 +76,7 @@ export class ElementProvider<
             fields={this.state.fields}
             updateFields={this.updateFields}
           />
-        </this.props.elementWrapper>
+        </this.props.wrapperComponent>
       </TelemetryContext.Provider>
     );
   }
@@ -84,5 +84,5 @@ export class ElementProvider<
   /**
    * This element is memoised to prevent rerenders when our fields have not changed.
    */
-  private Element = React.memo<ConsumerOptions<FDesc>>(this.props.consumer);
+  private Element = React.memo<ConsumerOptions<FDesc>>(this.props.component);
 }

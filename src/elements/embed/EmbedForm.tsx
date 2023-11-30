@@ -26,7 +26,7 @@ export const EmbedTestId = "EmbedElement";
 export const createEmbedElement = (options: MainEmbedOptions) =>
   createReactElementSpec({
     fieldDescriptions: createEmbedFields(options),
-    consumer: ({ fields }) => (
+    component: ({ fields }) => (
       <FieldLayoutVertical data-cy={EmbedTestId}>
         <EmbedRecommendation
           html={fields.html.value}

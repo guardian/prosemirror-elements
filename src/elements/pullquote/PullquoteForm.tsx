@@ -10,7 +10,7 @@ export const PullquoteElementTestId = "PullquoteElement";
 
 export const pullquoteElement = createReactElementSpec({
   fieldDescriptions: pullquoteFields,
-  consumer: ({ fields }) => {
+  component: ({ fields }) => {
     // It is necessary to filter errors for the HTML field as we have two overlapping length check validators.
     // We only want to show the smaller length check "warning" instead of the higher length check "error".
     // The desired behaviour is to display a "WARN" level error if there is one, otherwise show what's found.

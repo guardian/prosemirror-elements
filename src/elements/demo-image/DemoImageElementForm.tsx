@@ -22,7 +22,7 @@ export const createDemoImageElement = (
 ) =>
   createReactElementSpec({
     fieldDescriptions: createImageFields(onSelect, onCrop),
-    consumer: ({ fields }) => (
+    component: ({ fields }) => (
       <FieldLayoutVertical data-cy={ImageElementTestId}>
         <FieldWrapper headingLabel="Caption" field={fields.caption} />
         <FieldWrapper headingLabel="Alt text" field={fields.altText} />

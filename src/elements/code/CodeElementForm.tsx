@@ -9,7 +9,7 @@ export const CodeElementTestId = "CodeElement";
 
 export const codeElement = createReactElementSpec({
   fieldDescriptions: codeFields,
-  consumer: ({ fields }) => (
+  component: ({ fields }) => (
     <FieldLayoutVertical data-cy={CodeElementTestId}>
       <FieldWrapper headingLabel="Code" field={fields.html} />
       <CustomDropdownView
