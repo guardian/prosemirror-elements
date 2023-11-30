@@ -26,5 +26,5 @@ export const altStyleElement = createReactElementSpec({
       />
     </FieldLayoutVertical>
   ),
-  wrapperComponent:  AltStyleElementWrapper,
+  wrapperComponent: AltStyleElementWrapper,
 });
