@@ -1,14 +1,22 @@
 import styled from "@emotion/styled";
-import { space } from "@guardian/src-foundations";
+import { neutral, space } from "@guardian/src-foundations";
 import { Description } from "./Description";
 import { Error } from "./Error";
 import { Heading } from "./Heading";
 import { Label } from "./Label";
 
-const InputHeadingContainer = styled.div`
+const InputHeadingContainer = styled.div<{ useAlternateStyles?: boolean }>`
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: ${space[2]}px;
+  ${({ useAlternateStyles }) =>
+    useAlternateStyles
+      ? `
+    text-transform: uppercase;
+    color: ${neutral[46]};
+    padding: 2px 7px 1px;
+    margin: ${space[1]}px 0;
+  `
+      : `margin-bottom: ${space[2]}px;`}
 `;
 
 // Because the `for` label element cannot be used with contenteditable,
@@ -21,8 +29,16 @@ const LabelLink = styled.a`
   cursor: pointer;
 `;
 
-const Errors = ({ errors }: { errors: string[] }) =>
-  !errors.length ? null : <Error>{errors.join(", ")}</Error>;
+const Errors = ({
+  errors,
+  useAlternateStyles,
+}: {
+  errors: string[];
+  useAlternateStyles?: boolean;
+}) =>
+  !errors.length ? null : (
+    <Error useAlternateStyles={useAlternateStyles}>{errors.join(", ")}</Error>
+  );
 
 export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
 
@@ -34,6 +50,7 @@ export type InputHeadingProps = {
   errors?: string[];
   name?: string;
   headingDirection?: "row" | "column";
+  useAlternateStyles?: boolean;
 };
 
 export const InputHeading = ({
@@ -44,16 +61,25 @@ export const InputHeading = ({
   name,
   fieldId,
   headingDirection = "row",
+  useAlternateStyles = false,
 }: InputHeadingProps) => (
-  <InputHeadingContainer data-cy={getFieldHeadingTestId(name ?? "")}>
+  <InputHeadingContainer
+    data-cy={getFieldHeadingTestId(name ?? "")}
+    useAlternateStyles={useAlternateStyles}
+  >
     <Heading headingDirection={headingDirection}>
       <LabelLink href={fieldId ? `#${fieldId}` : ""}>
-        <Label id={fieldId ? `label-${fieldId}` : ""}>{headingLabel}</Label>
+        <Label
+          id={fieldId ? `label-${fieldId}` : ""}
+          useAlternateStyles={useAlternateStyles}
+        >
+          {headingLabel}
+        </Label>
       </LabelLink>
       {headingContent}
     </Heading>
     {errors && errors.length > 0 ? (
-      <Errors errors={errors} />
+      <Errors errors={errors} useAlternateStyles={useAlternateStyles} />
     ) : description ? (
       <Description>{description}</Description>
     ) : null}

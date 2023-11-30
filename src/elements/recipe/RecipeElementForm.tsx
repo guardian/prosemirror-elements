@@ -6,11 +6,11 @@ import { recipeFields } from "./RecipeElementSpec";
 
 export const RecipeElementTestId = "RecipeElement";
 
-export const recipeElement = createReactElementSpec(
-  recipeFields,
-  ({ fields }) => (
+export const recipeElement = createReactElementSpec({
+  fieldDescriptions: recipeFields,
+  component: ({ fields }) => (
     <FieldLayoutVertical data-cy={RecipeElementTestId}>
       <FieldWrapper headingLabel="Recipe" field={fields.recipeJson} />
     </FieldLayoutVertical>
-  )
-);
+  ),
+});

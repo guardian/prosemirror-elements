@@ -4,9 +4,9 @@ import { CustomDropdownView } from "../../renderers/react/customFieldViewCompone
 import { Preview } from "../helpers/Preview";
 import { commentFields } from "./CommentSpec";
 
-export const commentElement = createReactElementSpec(
-  commentFields,
-  ({ fields }) => (
+export const commentElement = createReactElementSpec({
+  fieldDescriptions: commentFields,
+  component: ({ fields }) => (
     <>
       <FieldLayoutVertical>
         <Preview headingLabel={""} html={fields.html.value} />
@@ -17,5 +17,5 @@ export const commentElement = createReactElementSpec(
         />
       </FieldLayoutVertical>
     </>
-  )
-);
+  ),
+});

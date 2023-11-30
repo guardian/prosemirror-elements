@@ -6,11 +6,11 @@ import { createReactElementSpec } from "../createReactElementSpec";
 
 describe("createReactElementSpec", () => {
   const onDestroy = jest.fn();
-  const testElement = createReactElementSpec(
-    {
+  const testElement = createReactElementSpec({
+    fieldDescriptions: {
       field1: createTextField(),
     },
-    ({ fields }) => (
+    component: ({ fields }) => (
       <div>
         <FieldWrapper
           headingLabel="field1"
@@ -18,9 +18,9 @@ describe("createReactElementSpec", () => {
         ></FieldWrapper>
       </div>
     ),
-    undefined,
-    onDestroy
-  );
+    validate: undefined,
+    onRemove: onDestroy,
+  });
 
   afterEach(() => jest.resetAllMocks());
 

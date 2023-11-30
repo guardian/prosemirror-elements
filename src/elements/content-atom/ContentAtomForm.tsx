@@ -22,75 +22,78 @@ const interactiveOptions = [
 export const createContentAtomElement = (
   fetchContentAtomData: FetchContentAtomData
 ) =>
-  createReactElementSpec(contentAtomFields, ({ fields }) => {
-    const [contentAtomData, setContentAtomData] = useState<
-      ContentAtomData | undefined
-    >(undefined);
+  createReactElementSpec({
+    fieldDescriptions: contentAtomFields,
+    component: ({ fields }) => {
+      const [contentAtomData, setContentAtomData] = useState<
+        ContentAtomData | undefined
+      >(undefined);
 
-    const {
-      atomType: { value: atomType },
-      id: { value: id },
-    } = fields;
+      const {
+        atomType: { value: atomType },
+        id: { value: id },
+      } = fields;
 
-    useEffect(() => {
-      void fetchContentAtomData(atomType, id).then((data) => {
-        setContentAtomData(data);
-      });
-    }, [atomType, id]);
+      useEffect(() => {
+        void fetchContentAtomData(atomType, id).then((data) => {
+          setContentAtomData(data);
+        });
+      }, [atomType, id]);
 
-    const weightingOptions =
-      atomType === "interactive"
-        ? interactiveOptions
-        : fields.role.description.props;
+      const weightingOptions =
+        atomType === "interactive"
+          ? interactiveOptions
+          : fields.role.description.props;
 
-    return (
-      <div>
-        <FieldLayoutVertical>
-          {!contentAtomData?.isPublished && (
-            <Error>This {atomType} is not published.</Error>
-          )}
-          {contentAtomData?.isPublished &&
-            contentAtomData.hasUnpublishedChanges && (
-              <Error>This {atomType} has unpublished changes.</Error>
-            )}
+      return (
+        <div>
           <FieldLayoutVertical>
-            <Label>
-              Content atom (
-              {contentAtomData?.embedLink && (
-                <a target="_blank" href={contentAtomData.embedLink}>
-                  embed link
-                </a>
+            {!contentAtomData?.isPublished && (
+              <Error>This {atomType} is not published.</Error>
+            )}
+            {contentAtomData?.isPublished &&
+              contentAtomData.hasUnpublishedChanges && (
+                <Error>This {atomType} has unpublished changes.</Error>
               )}
-              {contentAtomData?.editorLink && (
-                <>
-                  <span>, </span>
-                  <a target="_blank" href={contentAtomData.editorLink}>
-                    edit link
+            <FieldLayoutVertical>
+              <Label>
+                Content atom (
+                {contentAtomData?.embedLink && (
+                  <a target="_blank" href={contentAtomData.embedLink}>
+                    embed link
                   </a>
-                </>
-              )}
-              )
-            </Label>
-            <NonBoldLabel>
-              {upperFirst(atomType)}{" "}
-              {contentAtomData?.title && ` - ${contentAtomData.title}`}
-            </NonBoldLabel>
+                )}
+                {contentAtomData?.editorLink && (
+                  <>
+                    <span>, </span>
+                    <a target="_blank" href={contentAtomData.editorLink}>
+                      edit link
+                    </a>
+                  </>
+                )}
+                )
+              </Label>
+              <NonBoldLabel>
+                {upperFirst(atomType)}{" "}
+                {contentAtomData?.title && ` - ${contentAtomData.title}`}
+              </NonBoldLabel>
+            </FieldLayoutVertical>
+            <Preview
+              html={contentAtomData?.defaultHtml}
+              headingLabel={null}
+              minHeight={100}
+            />
+            <CustomDropdownView
+              field={fields.role}
+              label="Weighting"
+              options={weightingOptions}
+            />
+            <CustomCheckboxView
+              field={fields.isMandatory}
+              label="This element is required for publication"
+            />
           </FieldLayoutVertical>
-          <Preview
-            html={contentAtomData?.defaultHtml}
-            headingLabel={null}
-            minHeight={100}
-          />
-          <CustomDropdownView
-            field={fields.role}
-            label="Weighting"
-            options={weightingOptions}
-          />
-          <CustomCheckboxView
-            field={fields.isMandatory}
-            label="This element is required for publication"
-          />
-        </FieldLayoutVertical>
-      </div>
-    );
+        </div>
+      );
+    },
   });

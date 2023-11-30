@@ -104,60 +104,65 @@ export const createCalloutElement = ({
   fetchCampaignList,
   targetingUrl,
 }: Props) =>
-  createReactElementSpec(calloutFields, ({ fields }) => {
-    const campaignId = fields.campaignId.value;
-    const [campaignList, setCampaignList] = useState<Campaign[]>([]);
+  createReactElementSpec({
+    fieldDescriptions: calloutFields,
+    component: ({ fields }) => {
+      const campaignId = fields.campaignId.value;
+      const [campaignList, setCampaignList] = useState<Campaign[]>([]);
 
-    useEffect(() => {
-      void fetchCampaignList().then((campaignList) => {
-        setCampaignList(campaignList);
-      });
-    }, []);
+      useEffect(() => {
+        void fetchCampaignList().then((campaignList) => {
+          setCampaignList(campaignList);
+        });
+      }, []);
 
-    const getTag = (id: string) => {
-      const campaign = campaignList.find((campaign) => campaign.id === id);
-      return campaign?.fields.tagName ?? "";
-    };
-    const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
-    const callout = campaignList.find((campaign) => campaign.id === campaignId);
-    const isActiveCallout =
-      !callout?.activeUntil || callout.activeUntil >= Date.now();
-    const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
+      const getTag = (id: string) => {
+        const campaign = campaignList.find((campaign) => campaign.id === id);
+        return campaign?.fields.tagName ?? "";
+      };
+      const dropdownOptions = getDropdownOptionsFromCampaignList(campaignList);
+      const callout = campaignList.find(
+        (campaign) => campaign.id === campaignId
+      );
+      const isActiveCallout =
+        !callout?.activeUntil || callout.activeUntil >= Date.now();
+      const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
 
-    return campaignId && campaignId != "none-selected" ? (
-      <div css={calloutStyles}>
-        {callout && isActiveCallout ? (
-          <CalloutTable
-            calloutData={callout}
-            targetingUrl={trimmedTargetingUrl}
-            isNonCollapsible={fields.isNonCollapsible}
-            useDefaultPrompt={fields.useDefaultPrompt}
-            overridePrompt={fields.overridePrompt}
-            useDefaultTitle={fields.useDefaultTitle}
-            overrideTitle={fields.overrideTitle}
-            useDefaultDescription={fields.useDefaultDescription}
-            overrideDescription={fields.overrideDescription}
+      return campaignId && campaignId != "none-selected" ? (
+        <div css={calloutStyles}>
+          {callout && isActiveCallout ? (
+            <CalloutTable
+              calloutData={callout}
+              targetingUrl={trimmedTargetingUrl}
+              isNonCollapsible={fields.isNonCollapsible}
+              useDefaultPrompt={fields.useDefaultPrompt}
+              overridePrompt={fields.overridePrompt}
+              useDefaultTitle={fields.useDefaultTitle}
+              overrideTitle={fields.overrideTitle}
+              useDefaultDescription={fields.useDefaultDescription}
+              overrideDescription={fields.overrideDescription}
+            />
+          ) : (
+            <CalloutError
+              isExpired={!isActiveCallout}
+              targetingUrl={trimmedTargetingUrl}
+              callout={callout}
+              calloutId={campaignId}
+            />
+          )}
+        </div>
+      ) : (
+        <div>
+          <CustomDropdownView
+            label="Callout"
+            field={fields.campaignId}
+            options={dropdownOptions}
+            onChange={(value) => {
+              const tagId = getTag(value);
+              fields.tagId.update(tagId);
+            }}
           />
-        ) : (
-          <CalloutError
-            isExpired={!isActiveCallout}
-            targetingUrl={trimmedTargetingUrl}
-            callout={callout}
-            calloutId={campaignId}
-          />
-        )}
-      </div>
-    ) : (
-      <div>
-        <CustomDropdownView
-          label="Callout"
-          field={fields.campaignId}
-          options={dropdownOptions}
-          onChange={(value) => {
-            const tagId = getTag(value);
-            fields.tagId.update(tagId);
-          }}
-        />
-      </div>
-    );
+        </div>
+      );
+    },
   });

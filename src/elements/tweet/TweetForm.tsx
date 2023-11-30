@@ -13,9 +13,9 @@ export const createTweetElement = ({
   checkThirdPartyTracking,
   createCaptionPlugins,
 }: StandardElementOptions) =>
-  createReactElementSpec(
-    createTweetFields(createCaptionPlugins),
-    ({ fields }) => (
+  createReactElementSpec({
+    fieldDescriptions: createTweetFields(createCaptionPlugins),
+    component: ({ fields }) => (
       <div>
         <FieldLayoutVertical data-cy={EmbedTestId}>
           <Preview html={fields.html.value} />
@@ -31,5 +31,5 @@ export const createTweetElement = ({
           />
         </FieldLayoutVertical>
       </div>
-    )
-  );
+    ),
+  });

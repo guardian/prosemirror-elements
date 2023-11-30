@@ -84,15 +84,18 @@ export const createStandardElement = ({
   useLargePreview,
   hasThumbnailRole,
 }: StandardElementOptions) =>
-  createReactElementSpec(
-    createStandardFields(createCaptionPlugins, hasThumbnailRole),
-    (props) => {
+  createReactElementSpec({
+    fieldDescriptions: createStandardFields(
+      createCaptionPlugins,
+      hasThumbnailRole
+    ),
+    component: (props) => {
       const Form = useLargePreview ? StandardFormLargePreview : StandardForm;
       return (
         <Form {...props} checkThirdPartyTracking={checkThirdPartyTracking} />
       );
-    }
-  );
+    },
+  });
 
 export const StandardForm: React.FunctionComponent<Props> = ({
   fields,

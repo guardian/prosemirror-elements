@@ -20,88 +20,93 @@ export const createDemoImageElement = (
   onSelect: (setSrc: DemoSetMedia) => void,
   onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
 ) =>
-  createReactElementSpec(createImageFields(onSelect, onCrop), ({ fields }) => (
-    <FieldLayoutVertical data-cy={ImageElementTestId}>
-      <FieldWrapper headingLabel="Caption" field={fields.caption} />
-      <FieldWrapper headingLabel="Alt text" field={fields.altText} />
-      <button
-        data-cy={UpdateAltTextButtonId}
-        onClick={() => fields.altText.update("Default alt text")}
-      >
-        Programmatically update alt text
-      </button>
-      <FieldWrapper
-        headingLabel="Resizeable Text Field"
-        field={fields.resizeable}
-      />
-      <FieldWrapper
-        field={fields.restrictedTextField}
-        headingLabel="Restricted Text Field"
-      />
-      <FieldWrapper headingLabel="Src" field={fields.src} />
-      <FieldWrapper headingLabel="Code" field={fields.code} />
-      <FieldWrapper headingLabel="Use image source?" field={fields.useSrc} />
-      <FieldWrapper headingLabel="Options" field={fields.optionDropdown} />
-      <ImageView
-        field={fields.mainImage}
-        onChange={(_, __, ___, description) => {
-          fields.altText.update(description);
-          fields.caption.update(description);
-        }}
-      />
-      <CustomDropdownView label="Options" field={fields.customDropdown} />
-      <ul>
-        {fields.repeater.children.map((repeater, index) => (
-          <li key={repeater.__ID}>
-            <FieldWrapper
-              headingLabel="Repeater text"
-              headingContent={
-                <button
-                  data-cy={RemoveRepeaterButtonId}
-                  onClick={() => fields.repeater.view.remove(index)}
-                >
-                  -
-                </button>
-              }
-              field={repeater.repeaterText}
-            />
-            <ul>
-              {repeater.nestedRepeater.children.map((nestedRepeater, index) => (
-                <li key={nestedRepeater.__ID}>
-                  <FieldWrapper
-                    headingLabel="Nested repeater text"
-                    headingContent={
-                      <button
-                        data-cy={RemoveNestedRepeaterButtonId}
-                        onClick={() =>
-                          repeater.nestedRepeater.view.remove(index)
-                        }
-                      >
-                        -
-                      </button>
-                    }
-                    field={nestedRepeater.nestedRepeaterText}
-                  />
-                </li>
-              ))}
-            </ul>
-            <button
-              data-cy={AddNestedRepeaterButtonId}
-              onClick={() => repeater.nestedRepeater.view.add()}
-            >
-              +
-            </button>
-          </li>
-        ))}
+  createReactElementSpec({
+    fieldDescriptions: createImageFields(onSelect, onCrop),
+    component: ({ fields }) => (
+      <FieldLayoutVertical data-cy={ImageElementTestId}>
+        <FieldWrapper headingLabel="Caption" field={fields.caption} />
+        <FieldWrapper headingLabel="Alt text" field={fields.altText} />
         <button
-          data-cy={AddRepeaterButtonId}
-          onClick={() => fields.repeater.view.add()}
+          data-cy={UpdateAltTextButtonId}
+          onClick={() => fields.altText.update("Default alt text")}
         >
-          +
+          Programmatically update alt text
         </button>
-      </ul>
-    </FieldLayoutVertical>
-  ));
+        <FieldWrapper
+          headingLabel="Resizeable Text Field"
+          field={fields.resizeable}
+        />
+        <FieldWrapper
+          field={fields.restrictedTextField}
+          headingLabel="Restricted Text Field"
+        />
+        <FieldWrapper headingLabel="Src" field={fields.src} />
+        <FieldWrapper headingLabel="Code" field={fields.code} />
+        <FieldWrapper headingLabel="Use image source?" field={fields.useSrc} />
+        <FieldWrapper headingLabel="Options" field={fields.optionDropdown} />
+        <ImageView
+          field={fields.mainImage}
+          onChange={(_, __, ___, description) => {
+            fields.altText.update(description);
+            fields.caption.update(description);
+          }}
+        />
+        <CustomDropdownView label="Options" field={fields.customDropdown} />
+        <ul>
+          {fields.repeater.children.map((repeater, index) => (
+            <li key={repeater.__ID}>
+              <FieldWrapper
+                headingLabel="Repeater text"
+                headingContent={
+                  <button
+                    data-cy={RemoveRepeaterButtonId}
+                    onClick={() => fields.repeater.view.remove(index)}
+                  >
+                    -
+                  </button>
+                }
+                field={repeater.repeaterText}
+              />
+              <ul>
+                {repeater.nestedRepeater.children.map(
+                  (nestedRepeater, index) => (
+                    <li key={nestedRepeater.__ID}>
+                      <FieldWrapper
+                        headingLabel="Nested repeater text"
+                        headingContent={
+                          <button
+                            data-cy={RemoveNestedRepeaterButtonId}
+                            onClick={() =>
+                              repeater.nestedRepeater.view.remove(index)
+                            }
+                          >
+                            -
+                          </button>
+                        }
+                        field={nestedRepeater.nestedRepeaterText}
+                      />
+                    </li>
+                  )
+                )}
+              </ul>
+              <button
+                data-cy={AddNestedRepeaterButtonId}
+                onClick={() => repeater.nestedRepeater.view.add()}
+              >
+                +
+              </button>
+            </li>
+          ))}
+          <button
+            data-cy={AddRepeaterButtonId}
+            onClick={() => fields.repeater.view.add()}
+          >
+            +
+          </button>
+        </ul>
+      </FieldLayoutVertical>
+    ),
+  });
 
 type ImageViewProps = {
   onChange: DemoSetMedia;

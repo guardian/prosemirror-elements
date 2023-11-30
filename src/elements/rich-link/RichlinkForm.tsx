@@ -24,9 +24,9 @@ const warningStyle = css`
   }
 `;
 
-export const richlinkElement = createReactElementSpec(
-  richlinkFields,
-  ({ fields }) => (
+export const richlinkElement = createReactElementSpec({
+  fieldDescriptions: richlinkFields,
+  component: ({ fields }) => (
     <FieldLayoutVertical>
       <div>
         Related:{" "}
@@ -47,5 +47,5 @@ export const richlinkElement = createReactElementSpec(
         </div>
       ) : null}
     </FieldLayoutVertical>
-  )
-);
+  ),
+});

@@ -16,9 +16,9 @@ const flexRow = css`
 
 export const MembershipElementTestId = "MembershipElement";
 
-export const membershipElement = createReactElementSpec(
-  membershipFields,
-  ({ fields }) => (
+export const membershipElement = createReactElementSpec({
+  fieldDescriptions: membershipFields,
+  component: ({ fields }) => (
     <FieldLayoutVertical data-cy={MembershipElementTestId}>
       <div css={flexRow}>
         <InputHeading headingLabel="Membership event:" />
@@ -26,5 +26,5 @@ export const membershipElement = createReactElementSpec(
       </div>
       <CustomDropdownView field={fields.role} label="Weighting" />
     </FieldLayoutVertical>
-  )
-);
+  ),
+});

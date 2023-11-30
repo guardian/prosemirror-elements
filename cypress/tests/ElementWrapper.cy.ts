@@ -6,7 +6,7 @@ import {
   moveUpTestId,
   removeTestId,
   selectTestId,
-} from "../../src/renderers/react/ElementWrapper";
+} from "../../src/renderers/react/WrapperControls";
 import {
   addImageElement,
   assertEditorFocus,

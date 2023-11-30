@@ -24,27 +24,30 @@ export type MainEmbedOptions = {
 export const EmbedTestId = "EmbedElement";
 
 export const createEmbedElement = (options: MainEmbedOptions) =>
-  createReactElementSpec(createEmbedFields(options), ({ fields }) => (
-    <FieldLayoutVertical data-cy={EmbedTestId}>
-      <EmbedRecommendation
-        html={fields.html.value}
-        convertTwitter={options.convertTwitter}
-        convertYouTube={options.convertYouTube}
-      />
-      <Preview html={fields.html.value} />
-      <CustomDropdownView field={fields.role} label="Weighting" />
-      <FieldWrapper field={fields.url} headingLabel="Source URL" />
-      <FieldWrapper field={fields.html} headingLabel="Embed code" />
-      <FieldWrapper field={fields.caption} headingLabel="Caption" />
-      <FieldWrapper field={fields.alt} headingLabel="Alt text" />
-      <CustomCheckboxView
-        field={fields.isMandatory}
-        label="This element is required for publication"
-      />
-      <TrackingStatusChecks
-        html={fields.html.value}
-        isMandatory={fields.isMandatory.value}
-        checkThirdPartyTracking={options.checkThirdPartyTracking}
-      />
-    </FieldLayoutVertical>
-  ));
+  createReactElementSpec({
+    fieldDescriptions: createEmbedFields(options),
+    component: ({ fields }) => (
+      <FieldLayoutVertical data-cy={EmbedTestId}>
+        <EmbedRecommendation
+          html={fields.html.value}
+          convertTwitter={options.convertTwitter}
+          convertYouTube={options.convertYouTube}
+        />
+        <Preview html={fields.html.value} />
+        <CustomDropdownView field={fields.role} label="Weighting" />
+        <FieldWrapper field={fields.url} headingLabel="Source URL" />
+        <FieldWrapper field={fields.html} headingLabel="Embed code" />
+        <FieldWrapper field={fields.caption} headingLabel="Caption" />
+        <FieldWrapper field={fields.alt} headingLabel="Alt text" />
+        <CustomCheckboxView
+          field={fields.isMandatory}
+          label="This element is required for publication"
+        />
+        <TrackingStatusChecks
+          html={fields.html.value}
+          isMandatory={fields.isMandatory.value}
+          checkThirdPartyTracking={options.checkThirdPartyTracking}
+        />
+      </FieldLayoutVertical>
+    ),
+  });

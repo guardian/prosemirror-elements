@@ -10,6 +10,7 @@ import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin, undefinedDropdownValue } from "../src";
+import { altStyleElement } from "../src/elements/alt-style/AltStyleElementForm";
 import { createCalloutElement } from "../src/elements/callout/Callout";
 import { createCartoonElement } from "../src/elements/cartoon/CartoonForm";
 import { codeElement } from "../src/elements/code/CodeElementForm";
@@ -97,6 +98,7 @@ const contentAtomName = "content-atom";
 const commentElementName = "comment";
 const campaignCalloutListElementName = "callout";
 const cartoonElementName = "cartoon";
+const altStyleElementName = "alt-style";
 
 type Name =
   | typeof embedElementName
@@ -121,7 +123,8 @@ type Name =
   | typeof contentAtomName
   | typeof commentElementName
   | typeof campaignCalloutListElementName
-  | typeof cartoonElementName;
+  | typeof cartoonElementName
+  | typeof altStyleElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -236,6 +239,7 @@ const {
         editorLink: "https://example.com",
       })
     ),
+    "alt-style": altStyleElement,
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -421,6 +425,7 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
+    { label: "Alt Style", name: altStyleElementName, values: altStyleElement },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>

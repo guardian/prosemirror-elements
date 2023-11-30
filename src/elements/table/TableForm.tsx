@@ -9,9 +9,9 @@ const TableWrapper = styled.div`
   white-space: initial;
 `;
 
-export const tableElement = createReactElementSpec(
-  tableFields,
-  ({ fields }) => (
+export const tableElement = createReactElementSpec({
+  fieldDescriptions: tableFields,
+  component: ({ fields }) => (
     <div>
       <FieldLayoutVertical>
         <TableWrapper
@@ -26,5 +26,5 @@ export const tableElement = createReactElementSpec(
         />
       </FieldLayoutVertical>
     </div>
-  )
-);
+  ),
+});

@@ -13,6 +13,7 @@ type Props<F> = {
   description?: React.ReactNode;
   className?: string;
   headingDirection?: "row" | "column";
+  useAlternateStyles?: boolean;
 };
 
 export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
@@ -23,6 +24,7 @@ export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
   description,
   className,
   headingDirection,
+  useAlternateStyles,
 }: Props<F>) => (
   <div className={className}>
     <InputHeading
@@ -33,6 +35,7 @@ export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
       description={description}
       errors={(errors ? errors : field.errors).map((e) => e.error)}
       headingDirection={headingDirection}
+      useAlternateStyles={useAlternateStyles}
     />
     <FieldComponent field={field} hasValidationErrors={!!field.errors.length} />
   </div>
