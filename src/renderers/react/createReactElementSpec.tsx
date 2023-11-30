@@ -14,9 +14,12 @@ import { ElementWrapper } from "./ElementWrapper";
 
 type CreateReactElementSpecOptions<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
+  // The React component responsible for rendering the element fields. Updates when any field values change.
   component: Consumer<ReactElement | null, FDesc>;
   validate?: Validator<FDesc> | undefined;
   onRemove?: (fields: ExtractFieldValues<FDesc>) => void;
+  // The React component responsible for rendering any element controls, if needed.
+  // Updates when the position of the element changes, when the element selection state changes, and when any field values change.
   wrapperComponent?: React.FunctionComponent<ElementWrapperProps>;
 };
 
