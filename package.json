@@ -1,6 +1,6 @@
 {
   "name": "@guardian/prosemirror-elements",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "type": "module",
   "main": "dist/cjs/index.js",
   "repository": "github:guardian/prosemirror-elements",
