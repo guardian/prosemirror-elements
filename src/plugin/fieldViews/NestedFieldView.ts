@@ -79,8 +79,7 @@ export class NestedFieldView extends ProseMirrorFieldView {
 
     if (this.innerEditorView) {
       const dom = this.innerEditorView.dom as HTMLDivElement;
-      dom.style.fontFamily = "serif";
-      dom.style.whiteSpace = "pre-wrap";
     }
+    this.fieldViewElement.classList.add("ProseMirrorElements__NestedField");
   }
 }

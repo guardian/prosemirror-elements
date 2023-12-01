@@ -9,7 +9,6 @@ import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 const AltStyleContainer = styled("div")`
   margin: ${space[3]}px 0;
-  position: relative;
   padding-bottom: 8px;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
