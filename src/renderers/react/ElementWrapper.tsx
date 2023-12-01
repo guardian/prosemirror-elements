@@ -8,8 +8,7 @@ import { TelemetryContext } from "./TelemetryContext";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 const Container = styled("div")`
-  margin: ${space[3]}px 0;
-  position: relative;
+  margin: ${space[3]}px -32px;
 `;
 
 export const Body = styled("div")`
