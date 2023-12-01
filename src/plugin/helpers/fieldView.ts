@@ -11,9 +11,11 @@ import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { FieldDescription, FieldDescriptions } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
+import { NestedFieldView } from "../fieldViews/NestedFieldView";
 
 export const fieldTypeToViewMap = {
   [TextFieldView.fieldType]: TextFieldView,
+  [NestedFieldView.fieldType]: NestedFieldView,
   [RichTextFieldView.fieldType]: RichTextFieldView,
   [CheckboxFieldView.fieldType]: CheckboxFieldView,
   [DropdownFieldView.fieldType]: DropdownFieldView,
@@ -23,6 +25,7 @@ export const fieldTypeToViewMap = {
 
 export type FieldTypeToViewMap<Field> = {
   [TextFieldView.fieldType]: TextFieldView;
+  [NestedFieldView.fieldType]: NestedFieldView,
   [RichTextFieldView.fieldType]: RichTextFieldView;
   [CheckboxFieldView.fieldType]: CheckboxFieldView;
   [DropdownFieldView.fieldType]: DropdownFieldView;
@@ -40,6 +43,7 @@ export type FieldTypeToValueMap<
   Name extends keyof FDesc
 > = {
   [TextFieldView.fieldType]: string;
+  [NestedFieldView.fieldType]: string, // should this actually be a string?
   [RichTextFieldView.fieldType]: string;
   [CheckboxFieldView.fieldType]: CheckboxValue;
   [DropdownFieldView.fieldType]: string;
@@ -98,6 +102,8 @@ export const getElementFieldViewFromType = (
   switch (field.type) {
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos, field);
+    case "nested":
+      return new NestedFieldView(node, view, getPos, offset, innerDecos, field);
     case "richText":
       return new RichTextFieldView(
         node,

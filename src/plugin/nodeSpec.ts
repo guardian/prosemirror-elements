@@ -117,6 +117,24 @@ export const getNodeSpecForField = (
         },
       };
     }
+    case "nested": {
+      return {
+        [nodeName]: {
+          group: fieldGroupName,
+          content: "block+",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
+            {
+              tag: "div",
+              getAttrs: createGetAttrsForTextNode(nodeName),
+              preserveWhitespace: false,
+            },
+          ],
+          marks: field.marks,
+          attrs: field.attrs,
+        },
+      };
+    }
     case "richText": {
       return {
         [nodeName]: {

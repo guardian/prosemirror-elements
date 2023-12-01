@@ -33,6 +33,7 @@ import type {
   FieldTypeToViewMap,
 } from "../helpers/fieldView";
 import type { CommandCreator } from "./Commands";
+import { NestedFieldDescription } from "../fieldViews/NestedFieldView";
 
 export type FieldDescription =
   | TextFieldDescription
@@ -40,6 +41,7 @@ export type FieldDescription =
   | CheckboxFieldDescription
   | CustomFieldDescription
   | DropdownFieldDescription
+  | NestedFieldDescription
   | RepeaterFieldDescription<Record<string, FieldDescription>>;
 
 export type FieldDescriptions<Names extends string> = Record<

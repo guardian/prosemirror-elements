@@ -13,6 +13,8 @@ import {
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { placeholderTestAttribute } from "../../plugin/helpers/placeholder";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
+import { createNestedField } from "../../plugin/fieldViews/NestedFieldView";
+import type { Plugin } from "prosemirror-state";
 
 export type DemoSetMedia = (
   mediaId: string,
@@ -50,7 +52,7 @@ type ImageProps = {
 
 export const createImageFields = (
   onSelectImage: (setSrc: DemoSetMedia) => void,
-  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void
+  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void,
 ) => {
   return {
     caption: createDefaultRichTextField([htmlRequired()], "Enter caption"),
@@ -93,6 +95,11 @@ export const createImageFields = (
       { text: "Option 2", value: "opt2" },
       { text: "Option 3", value: "opt3" },
     ]),
+    flexibleField: createNestedField({
+      placeholder: "Don't show description",
+      isResizeable: true,
+      marks: "em strong link",
+    }),
     repeater: createRepeaterField({
       repeaterText: createTextField(),
       nestedRepeater: createRepeaterField({
