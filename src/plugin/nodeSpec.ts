@@ -121,7 +121,7 @@ export const getNodeSpecForField = (
       return {
         [nodeName]: {
           group: fieldGroupName,
-          content: "element+",
+          content: field.content ?? "element*",
           toDOM: getDefaultToDOMForContentNode(nodeName),
           parseDOM: [
             {

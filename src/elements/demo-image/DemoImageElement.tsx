@@ -95,11 +95,6 @@ export const createImageFields = (
       { text: "Option 2", value: "opt2" },
       { text: "Option 3", value: "opt3" },
     ]),
-    flexibleField: createNestedField({
-      placeholder: "Don't show description",
-      isResizeable: true,
-      marks: "em strong link",
-    }),
     repeater: createRepeaterField({
       repeaterText: createTextField(),
       nestedRepeater: createRepeaterField({

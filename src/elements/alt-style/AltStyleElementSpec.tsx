@@ -1,3 +1,4 @@
+import { createNestedField } from "../../plugin/fieldViews/NestedFieldView";
 import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";
@@ -8,8 +9,10 @@ export const altStyleFields = {
     isResizeable: false,
     validators: [required("Title is required")],
   }),
-  content: createRichTextField({
+  content: createNestedField({
+    placeholder: "Don't show description",
+    content: "(element|block)*",
     isResizeable: true,
-    validators: [required("Content is required")],
-  }),
+    marks: "em strong link",
+  })
 };

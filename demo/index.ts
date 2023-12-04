@@ -250,7 +250,7 @@ const {
         type,
         value: true,
         tags,
-      }),
+    })
   }
 );
 
@@ -261,8 +261,19 @@ const strike: MarkSpec = {
   },
 };
 
+const docNodeSpec = {
+  doc: {
+    /*
+    * We must allow 2 text elements to exists side by side
+    * so that when we delete an element we can then join it.
+    */
+    content: "(element|block)*",
+    toDOM: () => ["div", 0],
+  }
+}
+
 const schema = new Schema({
-  nodes: basicSchema.spec.nodes.append(nodeSpec),
+  nodes: basicSchema.spec.nodes.append(docNodeSpec).append(nodeSpec),
   marks: { ...omit(marks, "code"), strike },
 });
 
