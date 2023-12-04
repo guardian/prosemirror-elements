@@ -268,7 +268,7 @@ const docNodeSpec = {
     * so that when we delete an element we can then join it.
     */
     content: "(element|block)*",
-    toDOM: () => ["div", 0],
+    toDOM: (): [string, ...any[]] => ["div", 0],
   }
 }
 
