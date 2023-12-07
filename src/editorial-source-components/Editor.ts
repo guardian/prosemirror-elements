@@ -21,7 +21,14 @@ export const Editor = styled.div<{ hasValidationErrors: boolean, useAlternateSty
       !!hasValidationErrors && `border-color: ${border.error};`
     }
   }
+  .ProseMirrorElements__NestedField .ProseMirror-focused{
+    outline: none;
+  }
   .ProseMirrorElements__NestedField {
     padding: 10px;
+    &:focus-within {
+      ${focusHalo}
+      outline: 1px solid black
+    }
   }
 `;
