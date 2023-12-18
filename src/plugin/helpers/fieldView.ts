@@ -103,7 +103,7 @@ export const getElementFieldViewFromType = (
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos, field);
     case "nested":
-      return new NestedFieldView(node, view, getPos, offset, innerDecos, field);
+      return new NestedFieldView(node, view, getPos, offset, innerDecos, field, field.disallowedPlugins);
     case "richText":
       return new RichTextFieldView(
         node,

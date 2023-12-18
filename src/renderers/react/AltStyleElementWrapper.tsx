@@ -18,6 +18,7 @@ const AltStyleContainer = styled("div")`
 const AltStylePanel = styled("div")<{
   isSelected: boolean;
 }>`
+  position: relative;
   padding: 0px ${space[3]}px;
   flex-grow: 1;
   overflow: hidden;

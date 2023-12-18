@@ -1,5 +1,5 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
-import type { Plugin } from "prosemirror-state";
+import type { Plugin, PluginKey } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import type { PlaceholderOption } from "../helpers/placeholder";
@@ -15,6 +15,7 @@ type NestedOptions = {
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
   isResizeable?: boolean;
+  disallowedPlugins?: PluginKey[]
 };
 
 export interface NestedFieldDescription extends AbstractTextFieldDescription {
@@ -26,6 +27,7 @@ export interface NestedFieldDescription extends AbstractTextFieldDescription {
   // If the text content produced by this node is an empty string, don't
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;
+  disallowedPlugins?: PluginKey[]
 }
 
 export const createNestedField = ({
@@ -36,6 +38,7 @@ export const createNestedField = ({
   validators,
   placeholder,
   isResizeable,
+  disallowedPlugins = []
 }: NestedOptions): NestedFieldDescription => {
   return {
     type: NestedFieldView.fieldType,
@@ -46,8 +49,18 @@ export const createNestedField = ({
     absentOnEmpty,
     placeholder,
     isResizeable,
+    disallowedPlugins
   };
 };
+
+export const INNER_EDITOR_FOCUS = "innerEditorFocus";
+export const INNER_EDITOR_BLUR = "innerEditorBlur";
+
+const synthesizeEvent = (eventName: string) => {
+  return new CustomEvent(eventName, {
+    bubbles: true,
+  });
+}
 
 export class NestedFieldView extends ProseMirrorFieldView {
   public static fieldType = "nested" as const;
@@ -64,7 +77,8 @@ export class NestedFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSource,
-    { placeholder, isResizeable }: NestedFieldDescription
+    { placeholder, isResizeable }: NestedFieldDescription,
+    disallowedPlugins: PluginKey[] = []
   ) {
     super(
       node,
@@ -72,13 +86,16 @@ export class NestedFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      outerView.state.plugins as Plugin[],
+      // Allow plugins without a plugin key, but exclude those that are explicitly blocked
+      outerView.state.plugins.filter(plugin => !plugin.spec.key || !disallowedPlugins.includes(plugin.spec.key)),
       placeholder,
       isResizeable
     );
 
     if (this.innerEditorView) {
       const dom = this.innerEditorView.dom as HTMLDivElement;
+      dom.addEventListener('focus', (e: Event) => e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_FOCUS)));
+      dom.addEventListener('blur', (e: Event) => e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_BLUR)));
     }
     this.fieldViewElement.classList.add("ProseMirrorElements__NestedField");
   }

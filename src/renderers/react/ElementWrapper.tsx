@@ -29,6 +29,7 @@ export const Body = styled("div")`
 const Panel = styled("div")<{
   isSelected: boolean;
 }>`
+  position: relative;
   background-color: ${neutral[97]};
   padding: ${space[3]}px;
   flex-grow: 1;

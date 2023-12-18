@@ -362,7 +362,6 @@ export const createNodesForFieldValues = <
       }
       case FieldContentType.NESTED: {
         let content = fieldValue as string;
-        console.log("NESTED")
         return [
           field.type === "nested"
             ? createContentNodeFromRichText(

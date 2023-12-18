@@ -28,7 +28,7 @@ export const Editor = styled.div<{ hasValidationErrors: boolean, useAlternateSty
     padding: 10px;
     &:focus-within {
       ${focusHalo}
-      outline: 1px solid black
+      border: 1px solid ${background.inputChecked};
     }
   }
 `;
