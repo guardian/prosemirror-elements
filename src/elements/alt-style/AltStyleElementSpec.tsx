@@ -1,4 +1,4 @@
-import { createNestedField } from "../../plugin/fieldViews/NestedFieldView";
+import { createNestedElementField } from "../../plugin/fieldViews/NestedElementFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";
 
@@ -8,7 +8,7 @@ export const altStyleFields = {
     isResizeable: false,
     validators: [required("Title is required")],
   }),
-  content: createNestedField({
+  content: createNestedElementField({
     placeholder: "Don't show description",
     content: "(element|block)*",
     isResizeable: true,

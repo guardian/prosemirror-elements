@@ -21,7 +21,7 @@ export enum FieldContentType {
   // Represents a node that contains nested fields.
   REPEATER = "REPEATER",
   // Represents a node that contains nested elements.
-  NESTED = "NESTED",
+  NESTED_ELEMENTS = "NESTED-ELEMENTS",
 }
 
 /**

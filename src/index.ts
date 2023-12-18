@@ -12,7 +12,7 @@ export type { Options } from "./plugin/fieldViews/DropdownFieldView";
 export type { FieldView } from "./plugin/fieldViews/FieldView";
 export { createTextField } from "./plugin/fieldViews/TextFieldView";
 export { createRichTextField } from "./plugin/fieldViews/RichTextFieldView";
-export { createNestedField } from "./plugin/fieldViews/NestedFieldView";
+export { createNestedElementField } from "./plugin/fieldViews/NestedElementFieldView";
 export { createCheckBoxField } from "./plugin/fieldViews/CheckboxFieldView";
 export {
   createCustomDropdownField,
@@ -41,4 +41,4 @@ export { AltStyleElementWrapper } from "./renderers/react/AltStyleElementWrapper
 export {
   INNER_EDITOR_FOCUS,
   INNER_EDITOR_BLUR,
-} from "./plugin/fieldViews/NestedFieldView";
+} from "./plugin/fieldViews/NestedElementFieldView";

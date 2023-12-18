@@ -117,7 +117,7 @@ export const getNodeSpecForField = (
         },
       };
     }
-    case "nested": {
+    case "nestedElement": {
       return {
         [nodeName]: {
           group: fieldGroupName,
@@ -360,10 +360,10 @@ export const createNodesForFieldValues = <
 
         return node;
       }
-      case FieldContentType.NESTED: {
+      case FieldContentType.NESTED_ELEMENTS: {
         let content = fieldValue as string;
         return [
-          field.type === "nested"
+          field.type === "nestedElement"
             ? createContentNodeFromRichText(
                 schema,
                 content,

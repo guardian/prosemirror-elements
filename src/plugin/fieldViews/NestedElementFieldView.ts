@@ -7,7 +7,7 @@ import { FieldContentType } from "./FieldView";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 
-type NestedOptions = {
+type NestedElementOptions = {
   absentOnEmpty?: boolean;
   attrs?: Record<string, AttributeSpec>;
   content?: string;
@@ -18,8 +18,8 @@ type NestedOptions = {
   disallowedPlugins?: PluginKey[];
 };
 
-export interface NestedFieldDescription extends AbstractTextFieldDescription {
-  type: typeof NestedFieldView.fieldType;
+export interface NestedElementFieldDescription extends AbstractTextFieldDescription {
+  type: typeof NestedElementFieldView.fieldType;
   // A content expression for this node. This will override the default content expression.
   content?: string;
   // The marks permitted on this node.
@@ -30,7 +30,7 @@ export interface NestedFieldDescription extends AbstractTextFieldDescription {
   disallowedPlugins?: PluginKey[];
 }
 
-export const createNestedField = ({
+export const createNestedElementField = ({
   absentOnEmpty,
   attrs,
   content,
@@ -39,9 +39,9 @@ export const createNestedField = ({
   placeholder,
   isResizeable,
   disallowedPlugins = [],
-}: NestedOptions): NestedFieldDescription => {
+}: NestedElementOptions): NestedElementFieldDescription => {
   return {
-    type: NestedFieldView.fieldType,
+    type: NestedElementFieldView.fieldType,
     attrs,
     content,
     marks,
@@ -62,9 +62,12 @@ const synthesizeEvent = (eventName: string) => {
   });
 };
 
-export class NestedFieldView extends ProseMirrorFieldView {
-  public static fieldType = "nested" as const;
-  public static fieldContentType = FieldContentType.NESTED;
+/**
+ * A FieldView representing a node that can contain elements.
+ */
+export class NestedElementFieldView extends ProseMirrorFieldView {
+  public static fieldType = "nestedElement" as const;
+  public static fieldContentType = FieldContentType.NESTED_ELEMENTS;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -77,7 +80,7 @@ export class NestedFieldView extends ProseMirrorFieldView {
     offset: number,
     // The initial decorations for the FieldView.
     decorations: DecorationSource,
-    { placeholder, isResizeable }: NestedFieldDescription,
+    { placeholder, isResizeable }: NestedElementFieldDescription,
     disallowedPlugins: PluginKey[] = []
   ) {
     super(
@@ -104,6 +107,6 @@ export class NestedFieldView extends ProseMirrorFieldView {
         e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_BLUR))
       );
     }
-    this.fieldViewElement.classList.add("ProseMirrorElements__NestedField");
+    this.fieldViewElement.classList.add("ProseMirrorElements__NestedElementField");
   }
 }
