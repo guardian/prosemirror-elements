@@ -360,7 +360,7 @@ export const createNodesForFieldValues = <
 
         return node;
       }
-      case FieldContentType.NESTED_ELEMENTS: {
+      case FieldContentType.NESTED: {
         let content = fieldValue as string;
         return [
           field.type === "nestedElement"

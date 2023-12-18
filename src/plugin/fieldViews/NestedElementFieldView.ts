@@ -18,7 +18,8 @@ type NestedElementOptions = {
   disallowedPlugins?: PluginKey[];
 };
 
-export interface NestedElementFieldDescription extends AbstractTextFieldDescription {
+export interface NestedElementFieldDescription
+  extends AbstractTextFieldDescription {
   type: typeof NestedElementFieldView.fieldType;
   // A content expression for this node. This will override the default content expression.
   content?: string;
@@ -67,7 +68,7 @@ const synthesizeEvent = (eventName: string) => {
  */
 export class NestedElementFieldView extends ProseMirrorFieldView {
   public static fieldType = "nestedElement" as const;
-  public static fieldContentType = FieldContentType.NESTED_ELEMENTS;
+  public static fieldContentType = FieldContentType.NESTED;
 
   constructor(
     // The node that this FieldView is responsible for rendering.
@@ -107,6 +108,8 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
         e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_BLUR))
       );
     }
-    this.fieldViewElement.classList.add("ProseMirrorElements__NestedElementField");
+    this.fieldViewElement.classList.add(
+      "ProseMirrorElements__NestedElementField"
+    );
   }
 }
