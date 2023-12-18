@@ -1,15 +1,20 @@
 import styled from "@emotion/styled";
-import { background, border, neutral } from "@guardian/src-foundations";
+import { background, border } from "@guardian/src-foundations";
 import { focusHalo } from "@guardian/src-foundations/accessibility";
 import { body } from "@guardian/src-foundations/typography";
 import { inputBorder } from "./inputBorder";
 
-export const Editor = styled.div<{ hasValidationErrors: boolean, useAlternateStyles?: boolean }>`
-  ${({ useAlternateStyles }) => useAlternateStyles ? null : body.small()}
+export const Editor = styled.div<{
+  hasValidationErrors: boolean;
+  useAlternateStyles?: boolean;
+}>`
+  ${({ useAlternateStyles }) => (useAlternateStyles ? null : body.small())}
   .ProseMirrorElements__RichTextField, .ProseMirrorElements__TextField {
     background-color: ${background.primary};
   }
-  .ProseMirrorElements__RichTextField, .ProseMirrorElements__TextField, .ProseMirrorElements__NestedField {
+  .ProseMirrorElements__RichTextField,
+  .ProseMirrorElements__TextField,
+  .ProseMirrorElements__NestedField {
     ${inputBorder}
     &:active {
       border: 1px solid ${background.inputChecked};
@@ -18,10 +23,9 @@ export const Editor = styled.div<{ hasValidationErrors: boolean, useAlternateSty
       ${focusHalo}
     }
     ${({ hasValidationErrors }) =>
-      !!hasValidationErrors && `border-color: ${border.error};`
-    }
+      !!hasValidationErrors && `border-color: ${border.error};`}
   }
-  .ProseMirrorElements__NestedField .ProseMirror-focused{
+  .ProseMirrorElements__NestedField .ProseMirror-focused {
     outline: none;
   }
   .ProseMirrorElements__NestedField {

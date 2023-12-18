@@ -3,9 +3,9 @@ import type { Plugin, PluginKey } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import type { PlaceholderOption } from "../helpers/placeholder";
+import { FieldContentType } from "./FieldView";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
-import { FieldContentType } from "./FieldView";
 
 type NestedOptions = {
   absentOnEmpty?: boolean;
@@ -15,7 +15,7 @@ type NestedOptions = {
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
   isResizeable?: boolean;
-  disallowedPlugins?: PluginKey[]
+  disallowedPlugins?: PluginKey[];
 };
 
 export interface NestedFieldDescription extends AbstractTextFieldDescription {
@@ -27,7 +27,7 @@ export interface NestedFieldDescription extends AbstractTextFieldDescription {
   // If the text content produced by this node is an empty string, don't
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;
-  disallowedPlugins?: PluginKey[]
+  disallowedPlugins?: PluginKey[];
 }
 
 export const createNestedField = ({
@@ -38,7 +38,7 @@ export const createNestedField = ({
   validators,
   placeholder,
   isResizeable,
-  disallowedPlugins = []
+  disallowedPlugins = [],
 }: NestedOptions): NestedFieldDescription => {
   return {
     type: NestedFieldView.fieldType,
@@ -49,7 +49,7 @@ export const createNestedField = ({
     absentOnEmpty,
     placeholder,
     isResizeable,
-    disallowedPlugins
+    disallowedPlugins,
   };
 };
 
@@ -60,7 +60,7 @@ const synthesizeEvent = (eventName: string) => {
   return new CustomEvent(eventName, {
     bubbles: true,
   });
-}
+};
 
 export class NestedFieldView extends ProseMirrorFieldView {
   public static fieldType = "nested" as const;
@@ -87,15 +87,22 @@ export class NestedFieldView extends ProseMirrorFieldView {
       offset,
       decorations,
       // Allow plugins without a plugin key, but exclude those that are explicitly blocked
-      outerView.state.plugins.filter(plugin => !plugin.spec.key || !disallowedPlugins.includes(plugin.spec.key)),
+      outerView.state.plugins.filter(
+        (plugin) =>
+          !plugin.spec.key || !disallowedPlugins.includes(plugin.spec.key)
+      ),
       placeholder,
       isResizeable
     );
 
     if (this.innerEditorView) {
       const dom = this.innerEditorView.dom as HTMLDivElement;
-      dom.addEventListener('focus', (e: Event) => e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_FOCUS)));
-      dom.addEventListener('blur', (e: Event) => e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_BLUR)));
+      dom.addEventListener("focus", (e: Event) =>
+        e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_FOCUS))
+      );
+      dom.addEventListener("blur", (e: Event) =>
+        e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_BLUR))
+      );
     }
     this.fieldViewElement.classList.add("ProseMirrorElements__NestedField");
   }

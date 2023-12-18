@@ -18,7 +18,7 @@ export const RemoveNestedRepeaterButtonId = "RemoveNestedRepeaterButton";
 
 export const createDemoImageElement = (
   onSelect: (setSrc: DemoSetMedia) => void,
-  onCrop: (mediaId: string, setSrc: DemoSetMedia) => void,
+  onCrop: (mediaId: string, setSrc: DemoSetMedia) => void
 ) =>
   createReactElementSpec({
     fieldDescriptions: createImageFields(onSelect, onCrop),

@@ -14,6 +14,7 @@ import type {
   DropdownFieldView,
 } from "../fieldViews/DropdownFieldView";
 import type { FieldView } from "../fieldViews/FieldView";
+import type { NestedFieldDescription } from "../fieldViews/NestedFieldView";
 import type {
   RepeaterFieldDescription,
   RepeaterFieldView,
@@ -33,7 +34,6 @@ import type {
   FieldTypeToViewMap,
 } from "../helpers/fieldView";
 import type { CommandCreator } from "./Commands";
-import { NestedFieldDescription } from "../fieldViews/NestedFieldView";
 
 export type FieldDescription =
   | TextFieldDescription

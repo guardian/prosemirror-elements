@@ -13,8 +13,6 @@ import {
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { placeholderTestAttribute } from "../../plugin/helpers/placeholder";
 import { htmlMaxLength, htmlRequired } from "../../plugin/helpers/validation";
-import { createNestedField } from "../../plugin/fieldViews/NestedFieldView";
-import type { Plugin } from "prosemirror-state";
 
 export type DemoSetMedia = (
   mediaId: string,
@@ -52,7 +50,7 @@ type ImageProps = {
 
 export const createImageFields = (
   onSelectImage: (setSrc: DemoSetMedia) => void,
-  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void,
+  onCropImage: (mediaId: string, setMedia: DemoSetMedia) => void
 ) => {
   return {
     caption: createDefaultRichTextField([htmlRequired()], "Enter caption"),

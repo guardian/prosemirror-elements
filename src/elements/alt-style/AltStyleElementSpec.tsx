@@ -1,5 +1,4 @@
 import { createNestedField } from "../../plugin/fieldViews/NestedFieldView";
-import { createRichTextField } from "../../plugin/fieldViews/RichTextFieldView";
 import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";
 
@@ -14,5 +13,5 @@ export const altStyleFields = {
     content: "(element|block)*",
     isResizeable: true,
     marks: "em strong link",
-  })
+  }),
 };

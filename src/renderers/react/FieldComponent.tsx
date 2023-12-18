@@ -14,7 +14,7 @@ export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 export const FieldComponent = <F extends Field<FieldView<unknown>>>({
   field,
   hasValidationErrors,
-  useAlternateStyles
+  useAlternateStyles,
 }: Props<F>) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -25,7 +25,8 @@ export const FieldComponent = <F extends Field<FieldView<unknown>>>({
   }, []);
 
   return (
-    <Editor className={useAlternateStyles ? "altStyles" : "normalStyles"}
+    <Editor
+      className={useAlternateStyles ? "altStyles" : "normalStyles"}
       data-cy={getFieldViewTestId(field.name)}
       hasValidationErrors={hasValidationErrors}
       ref={editorRef}

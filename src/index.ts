@@ -38,4 +38,7 @@ export { CustomCheckboxView } from "./renderers/react/customFieldViewComponents/
 export { CustomDropdownView } from "./renderers/react/customFieldViewComponents/CustomDropdownView";
 export { FieldComponent } from "./renderers/react/FieldComponent";
 export { AltStyleElementWrapper } from "./renderers/react/AltStyleElementWrapper";
-export { INNER_EDITOR_FOCUS, INNER_EDITOR_BLUR } from "./plugin/fieldViews/NestedFieldView";
+export {
+  INNER_EDITOR_FOCUS,
+  INNER_EDITOR_BLUR,
+} from "./plugin/fieldViews/NestedFieldView";

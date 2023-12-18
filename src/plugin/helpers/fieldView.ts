@@ -5,13 +5,13 @@ import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import { NestedFieldView } from "../fieldViews/NestedFieldView";
 import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
 import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { FieldDescription, FieldDescriptions } from "../types/Element";
 import type { KeysWithValsOfType, Optional } from "./types";
-import { NestedFieldView } from "../fieldViews/NestedFieldView";
 
 export const fieldTypeToViewMap = {
   [TextFieldView.fieldType]: TextFieldView,
@@ -25,7 +25,7 @@ export const fieldTypeToViewMap = {
 
 export type FieldTypeToViewMap<Field> = {
   [TextFieldView.fieldType]: TextFieldView;
-  [NestedFieldView.fieldType]: NestedFieldView,
+  [NestedFieldView.fieldType]: NestedFieldView;
   [RichTextFieldView.fieldType]: RichTextFieldView;
   [CheckboxFieldView.fieldType]: CheckboxFieldView;
   [DropdownFieldView.fieldType]: DropdownFieldView;
@@ -43,7 +43,7 @@ export type FieldTypeToValueMap<
   Name extends keyof FDesc
 > = {
   [TextFieldView.fieldType]: string;
-  [NestedFieldView.fieldType]: string, // should this actually be a string?
+  [NestedFieldView.fieldType]: string; // should this actually be a string?
   [RichTextFieldView.fieldType]: string;
   [CheckboxFieldView.fieldType]: CheckboxValue;
   [DropdownFieldView.fieldType]: string;
@@ -103,7 +103,15 @@ export const getElementFieldViewFromType = (
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos, field);
     case "nested":
-      return new NestedFieldView(node, view, getPos, offset, innerDecos, field, field.disallowedPlugins);
+      return new NestedFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        innerDecos,
+        field,
+        field.disallowedPlugins
+      );
     case "richText":
       return new RichTextFieldView(
         node,

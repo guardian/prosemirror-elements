@@ -3,7 +3,7 @@ import { transformElement as cartoonElementTransform } from "../cartoon/cartoonD
 import type { codeFields } from "../code/CodeElementSpec";
 import type { commentFields } from "../comment/CommentSpec";
 import type { contentAtomFields } from "../content-atom/ContentAtomSpec";
-import { createImageFields } from "../demo-image/DemoImageElement";
+import type { createImageFields } from "../demo-image/DemoImageElement";
 import { transformElement as deprecatedElementTransform } from "../deprecated/deprecatedTransformer";
 import { transformElement as embedElementTransform } from "../embed/embedDataTransformer";
 import { transformElement as imageElementTransform } from "../image/imageElementDataTransformer";
@@ -23,7 +23,9 @@ const transformMap = {
     isMandatory: true,
     transformRole: true,
   }),
-  "demo-image-element": defaultElementTransform<ReturnType<typeof createImageFields>>(),
+  "demo-image-element": defaultElementTransform<
+    ReturnType<typeof createImageFields>
+  >(),
   embed: embedElementTransform,
   callout: calloutElementTransform,
   image: imageElementTransform,
