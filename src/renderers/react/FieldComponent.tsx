@@ -26,7 +26,6 @@ export const FieldComponent = <F extends Field<FieldView<unknown>>>({
 
   return (
     <Editor
-      className={useAlternateStyles ? "altStyles" : "normalStyles"}
       data-cy={getFieldViewTestId(field.name)}
       hasValidationErrors={hasValidationErrors}
       ref={editorRef}

@@ -54,7 +54,7 @@ export const buildElementPlugin = <
   const validateElementData = createElementDataValidator(elementSpecs);
 
   const { groupName, predicate, sendTelemetryEvent } = {
-    groupName: "element",
+    groupName: "block",
     predicate: defaultPredicate,
     sendTelemetryEvent: undefined,
     ...options,

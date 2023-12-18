@@ -10,7 +10,7 @@ export const altStyleFields = {
   }),
   content: createNestedElementField({
     placeholder: "Don't show description",
-    content: "(element|block)*",
+    content: "block*",
     isResizeable: true,
     marks: "em strong link",
   }),

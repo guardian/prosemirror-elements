@@ -14,7 +14,7 @@ export const Editor = styled.div<{
   }
   .ProseMirrorElements__RichTextField,
   .ProseMirrorElements__TextField,
-  .ProseMirrorElements__NestedField {
+  .ProseMirrorElements__NestedElementField {
     ${inputBorder}
     &:active {
       border: 1px solid ${background.inputChecked};
@@ -25,10 +25,10 @@ export const Editor = styled.div<{
     ${({ hasValidationErrors }) =>
       !!hasValidationErrors && `border-color: ${border.error};`}
   }
-  .ProseMirrorElements__NestedField .ProseMirror-focused {
+  .ProseMirrorElements__NestedElementField .ProseMirror-focused {
     outline: none;
   }
-  .ProseMirrorElements__NestedField {
+  .ProseMirrorElements__NestedElementField {
     padding: 10px;
     &:focus-within {
       ${focusHalo}
