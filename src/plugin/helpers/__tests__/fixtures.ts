@@ -7,8 +7,14 @@ import { createTextField } from "../../fieldViews/TextFieldView";
 import { RepeaterFieldMapIDKey } from "../constants";
 import { createEditorWithElements, createNoopElement } from "../test";
 import { maxLength, required } from "../validation";
+import { createNestedElementField } from "../../fieldViews/NestedElementFieldView";
 
 export const elements = {
+  nestedElement: createNoopElement({
+    content: createTextField({
+      validators: [required()],
+    }),
+  }),
   example: createNoopElement({
     caption: createTextField({
       validators: [required(), maxLength(7)],
@@ -17,7 +23,11 @@ export const elements = {
       validators: [required()],
     }),
     repeated: createRepeaterField({
-      nestedText: createTextField(),
+      repeaterText: createTextField(),
+    }),
+    nestedElementField: createNestedElementField({
+      content: "block*",
+      validators: [required()],
     }),
   }),
 };
@@ -38,11 +48,14 @@ export const {
   example__html,
   example__repeated__parent,
   example__repeated__child,
-  example__nestedText,
+  example__repeaterText,
+  example__nestedElementField,
   p,
+  nestedElement,
+  nestedElement__content
 } = (builders(schema, {
   example__repeated__child: {
     nodeType: "example__repeated__child",
     [RepeaterFieldMapIDKey]: "static-uuid",
-  },
+  }
 }) as unknown) as Record<string, NodeBuilder>;
