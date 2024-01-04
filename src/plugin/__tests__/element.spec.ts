@@ -378,6 +378,50 @@ describe("buildElementPlugin", () => {
       expect(getElementAsHTML()).toBe(expected);
     });
 
+    it("should fill out content in nestedElement nodes", () => {
+      const nestedTestElement = createNoopElement({
+        nestedField1: {
+          type: "nestedElement",
+          content: "block+"
+        },
+      });
+      const testElement = createNoopElement({
+        richTextField1: {
+          type: "richText",
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ nestedTestElement, testElement });
+
+      insertElement({
+        elementName: "nestedTestElement",
+        values: {
+          nestedField1: trimHtml(`
+            <div pme-element-type="testElement">
+              <div pme-field-name="testElement__field1">
+                <p>Content 1</p>
+              </div>
+            </div>
+          `)
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+      <div pme-element-type="nestedTestElement">
+        <div pme-field-name="nestedTestElement__nestedField1">
+          <div pme-element-type="testElement">
+            <div pme-field-name="testElement__richTextField1">
+              <p>Content 1</p>
+            </div>
+          </div>
+        </div>
+      </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
     it("should fill out all fields", () => {
       const testElement = createNoopElement({
         field1: { type: "richText" },
