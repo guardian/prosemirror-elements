@@ -382,7 +382,7 @@ describe("buildElementPlugin", () => {
       const nestedTestElement = createNoopElement({
         nestedField1: {
           type: "nestedElement",
-          content: "block+"
+          content: "block+",
         },
       });
       const testElement = createNoopElement({
@@ -405,7 +405,7 @@ describe("buildElementPlugin", () => {
                 <p>Content 1</p>
               </div>
             </div>
-          `)
+          `),
         },
       })(view.state, view.dispatch);
 

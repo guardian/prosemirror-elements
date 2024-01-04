@@ -55,7 +55,7 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     const fieldDescription = fieldDescriptions[fieldName];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
     if (!fieldDescription) {
-      console.log({fieldNode, fieldDescriptions, fieldName})
+      console.log({ fieldNode, fieldDescriptions, fieldName });
 
       throw new Error(
         getErrorMessageForAbsentField(fieldName, Object.keys(fieldDescriptions))

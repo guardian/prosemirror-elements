@@ -9,18 +9,21 @@ import {
   example,
   example__caption,
   example__html,
-  example__repeaterText,
   example__nestedElementField,
   example__repeated__child,
   example__repeated__parent,
+  example__repeaterText,
   nestedElement,
+  nestedElement__content,
   p,
   serializer,
   view,
-  nestedElement__content,
 } from "../helpers/__tests__/fixtures";
 
-const fieldDescriptions = {...elements.example.fieldDescriptions, ...elements.nestedElement.fieldDescriptions}
+const fieldDescriptions = {
+  ...elements.example.fieldDescriptions,
+  ...elements.nestedElement.fieldDescriptions,
+};
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
@@ -95,7 +98,7 @@ describe("Field helpers", () => {
       getPos: () => 0,
       innerDecos: DecorationSet.empty,
       serializer,
-      fieldDescriptions
+      fieldDescriptions,
     };
 
     const originalFields = getFieldsFromNode({
@@ -253,7 +256,9 @@ describe("Field helpers", () => {
     it("should correctly change the value of an element's content within a nestedElementField", () => {
       const newElementNode = example(
         example__nestedElementField(
-          nestedElement(nestedElement__content("Updated nested element content updated")),
+          nestedElement(
+            nestedElement__content("Updated nested element content updated")
+          )
         )
       );
 
@@ -263,8 +268,12 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).toContain("Updated nested element content");
-      expect(newFields.nestedElementField.value).not.toContain("Nested element content");
+      expect(newFields.nestedElementField.value).toContain(
+        "Updated nested element content"
+      );
+      expect(newFields.nestedElementField.value).not.toContain(
+        "Nested element content"
+      );
     });
 
     it("should insert a new element into a nestedElementField", () => {
@@ -281,8 +290,12 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).toContain("Nested element content");
-      expect(newFields.nestedElementField.value).toContain("Nested element 2 content");
+      expect(newFields.nestedElementField.value).toContain(
+        "Nested element content"
+      );
+      expect(newFields.nestedElementField.value).toContain(
+        "Nested element 2 content"
+      );
     });
 
     it("should remove an element from a nestedElementField", () => {
@@ -294,7 +307,9 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).not.toContain("Nested element content");
+      expect(newFields.nestedElementField.value).not.toContain(
+        "Nested element content"
+      );
     });
 
     it("should create a new object identity when changes are made", () => {

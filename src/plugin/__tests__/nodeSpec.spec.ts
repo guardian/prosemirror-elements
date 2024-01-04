@@ -282,9 +282,9 @@ describe("nodeSpec generation", () => {
         const nodeSpec = getNodeSpecForField(
           "exampleElement",
           "exampleNestedElementField",
-          createNestedElementField({content: "element*"})
+          createNestedElementField({ content: "element*" })
         );
-          
+
         expect(
           nodeSpec["exampleElement__exampleNestedElementField"]
         ).toMatchObject({

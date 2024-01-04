@@ -2,12 +2,12 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema } from "prosemirror-schema-basic";
 import type { NodeBuilder } from "prosemirror-test-builder";
 import { builders } from "prosemirror-test-builder";
+import { createNestedElementField } from "../../fieldViews/NestedElementFieldView";
 import { createRepeaterField } from "../../fieldViews/RepeaterFieldView";
 import { createTextField } from "../../fieldViews/TextFieldView";
 import { RepeaterFieldMapIDKey } from "../constants";
 import { createEditorWithElements, createNoopElement } from "../test";
 import { maxLength, required } from "../validation";
-import { createNestedElementField } from "../../fieldViews/NestedElementFieldView";
 
 export const elements = {
   nestedElement: createNoopElement({
@@ -52,10 +52,10 @@ export const {
   example__nestedElementField,
   p,
   nestedElement,
-  nestedElement__content
+  nestedElement__content,
 } = (builders(schema, {
   example__repeated__child: {
     nodeType: "example__repeated__child",
     [RepeaterFieldMapIDKey]: "static-uuid",
-  }
+  },
 }) as unknown) as Record<string, NodeBuilder>;
