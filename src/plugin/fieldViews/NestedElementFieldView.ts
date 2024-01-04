@@ -101,6 +101,10 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
 
     if (this.innerEditorView) {
       const dom = this.innerEditorView.dom as HTMLDivElement;
+      // We publish two custom events here on focus and blur so that the containing ProseMirror editor 
+      // using the prosemirror-elements plugin can track the focus state of nestedElement fields - 
+      // this can be used by the containing editor to e.g. manage menu visibility when nested element 
+      // fields are focused.
       dom.addEventListener("focus", (e: Event) =>
         e.target?.dispatchEvent(synthesizeEvent(INNER_EDITOR_FOCUS))
       );
