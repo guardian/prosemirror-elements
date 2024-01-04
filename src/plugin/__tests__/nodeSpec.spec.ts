@@ -1,4 +1,5 @@
 import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
+import { createNestedElementField } from "../fieldViews/NestedElementFieldView";
 import { createRepeaterField } from "../fieldViews/RepeaterFieldView";
 import { createTextField } from "../fieldViews/TextFieldView";
 import { createNoopElement } from "../helpers/test";
@@ -259,6 +260,36 @@ describe("nodeSpec generation", () => {
           content: "exampleElement__exampleField",
         });
         expect(nodeSpec["exampleElement__exampleField"]).toBeTruthy();
+      });
+    });
+
+    describe("nestedElement", () => {
+      it("should create a NodeSpec for the nestedElement with a value of element+ by default", () => {
+        const nodeSpec = getNodeSpecForField(
+          "exampleElement",
+          "exampleNestedElementField",
+          createNestedElementField({})
+        );
+
+        expect(
+          nodeSpec["exampleElement__exampleNestedElementField"]
+        ).toMatchObject({
+          content: "element+",
+        });
+      });
+
+      it("should create a NodeSpec for the nestedElement using a value defined by the user if specified", () => {
+        const nodeSpec = getNodeSpecForField(
+          "exampleElement",
+          "exampleNestedElementField",
+          createNestedElementField({content: "element*"})
+        );
+          
+        expect(
+          nodeSpec["exampleElement__exampleNestedElementField"]
+        ).toMatchObject({
+          content: "element*",
+        });
       });
     });
   });
