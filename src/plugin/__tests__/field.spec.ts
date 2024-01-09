@@ -89,7 +89,9 @@ describe("Field helpers", () => {
         example__repeated__child(example__repeaterText("Repeater text"))
       ),
       example__nestedElementField(
-        exampleElementToNest(exampleElementToNest__content("Nested element content"))
+        exampleElementToNest(
+          exampleElementToNest__content("Nested element content")
+        )
       )
     );
 
@@ -257,7 +259,9 @@ describe("Field helpers", () => {
       const newElementNode = example(
         example__nestedElementField(
           exampleElementToNest(
-            exampleElementToNest__content("Updated nested element content updated")
+            exampleElementToNest__content(
+              "Updated nested element content updated"
+            )
           )
         )
       );
@@ -279,8 +283,12 @@ describe("Field helpers", () => {
     it("should insert a new element into a nestedElementField", () => {
       const newElementNode = example(
         example__nestedElementField(
-          exampleElementToNest(exampleElementToNest__content("Nested element content")),
-          exampleElementToNest(exampleElementToNest__content("Nested element 2 content"))
+          exampleElementToNest(
+            exampleElementToNest__content("Nested element content")
+          ),
+          exampleElementToNest(
+            exampleElementToNest__content("Nested element 2 content")
+          )
         )
       );
 
@@ -320,7 +328,9 @@ describe("Field helpers", () => {
           example__repeated__child(example__repeaterText("Repeater text"))
         ),
         example__nestedElementField(
-          exampleElementToNest(exampleElementToNest__content("Nested element content"))
+          exampleElementToNest(
+            exampleElementToNest__content("Nested element content")
+          )
         )
       );
 
@@ -343,7 +353,9 @@ describe("Field helpers", () => {
           example__repeated__child(example__repeaterText("Repeater text"))
         ),
         example__nestedElementField(
-          exampleElementToNest(exampleElementToNest__content("Nested element content"))
+          exampleElementToNest(
+            exampleElementToNest__content("Nested element content")
+          )
         )
       );
 
