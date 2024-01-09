@@ -89,7 +89,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (!node.hasMarkup(this.node.type)) {
       return false;
     }
-
     this.updateInnerEditor(node, decorations, elementOffset);
 
     return true;
@@ -280,7 +279,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     const offsetMap = new Mapping([
       StepMap.offset(-elementOffset + localOffset),
     ]);
-    this.decorations = localDecoSet.map(offsetMap, node);
+    // this.decorations = localDecoSet.map(offsetMap, node);
     this.decorationsPending = true;
   }
 

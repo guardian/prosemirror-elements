@@ -29,6 +29,12 @@ export const elements = {
       content: "block*",
       validators: [required()],
     }),
+    nestedElementRepeated: createRepeaterField({
+      nestedElementField: createNestedElementField({
+        content: "block*",
+        validators: [required()],
+      }),
+    })
   }),
 };
 
@@ -50,12 +56,18 @@ export const {
   example__repeated__child,
   example__repeaterText,
   example__nestedElementField,
+  example__nestedElementRepeated__parent,
+  example__nestedElementRepeated__child,
   p,
   nestedElement,
   nestedElement__content,
 } = (builders(schema, {
   example__repeated__child: {
     nodeType: "example__repeated__child",
+    [RepeaterFieldMapIDKey]: "static-uuid",
+  },
+  example__nestedElementRepeated__child: {
+    nodeType: "example__nestedElementRepeated__child",
     [RepeaterFieldMapIDKey]: "static-uuid",
   },
 }) as unknown) as Record<string, NodeBuilder>;

@@ -13,6 +13,8 @@ import {
   example__repeated__child,
   example__repeated__parent,
   example__repeaterText,
+  example__nestedElementRepeated__child,
+  example__nestedElementRepeated__parent,
   nestedElement,
   nestedElement__content,
   p,
@@ -311,6 +313,91 @@ describe("Field helpers", () => {
         "Nested element content"
       );
     });
+
+    it("should insert a new element into the first nestedElement field in a repeater child node", () => {
+      const originalNode = example(
+        example__nestedElementRepeated__parent(
+          example__nestedElementRepeated__child(
+            example__nestedElementField()
+          ),
+          example__nestedElementRepeated__child(
+            example__nestedElementField()
+          )
+        )
+      );
+
+      const originalFields = getFieldsFromNode({
+        node: originalNode,
+        ...additionalFieldOptions,
+      });
+
+      const newNode = example(
+        example__nestedElementRepeated__parent(
+          example__nestedElementRepeated__child(
+            example__nestedElementField(
+              nestedElement(nestedElement__content("Nested element content"))
+            )
+          ),
+          example__repeated__child(),
+        )
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newNode,
+        fields: originalFields,
+        ...additionalFieldOptions,
+      });
+
+      expect(newFields.nestedElementRepeated.children[0].nestedElementField.value).toContain(
+        "Nested element content"
+      );
+    })
+
+    it("should insert a new element into the first and second nestedElement fields in a repeater child node", () => {
+      const originalNode = example(
+        example__nestedElementRepeated__parent(
+          example__nestedElementRepeated__child(
+            example__nestedElementField()
+          ),
+          example__nestedElementRepeated__child(
+            example__nestedElementField()
+          )
+        )
+      );
+
+      const originalFields = getFieldsFromNode({
+        node: originalNode,
+        ...additionalFieldOptions,
+      });
+
+      const newNode = example(
+        example__nestedElementRepeated__parent(
+          example__nestedElementRepeated__child(
+            example__nestedElementField(
+              nestedElement(nestedElement__content("Nested element content 1"))
+            )
+          ),
+          example__repeated__child(            
+            example__nestedElementField(
+              nestedElement(nestedElement__content("Nested element content 2"))
+            )
+          ),
+        )
+      );
+
+      const newFields = updateFieldsFromNode({
+        node: newNode,
+        fields: originalFields,
+        ...additionalFieldOptions,
+      });
+
+      expect(newFields.nestedElementRepeated.children[0].nestedElementField.value).toContain(
+        "Nested element content 1"
+      );
+      expect(newFields.nestedElementRepeated.children[1].nestedElementField.value).toContain(
+        "Nested element content 2"
+      );
+    })
 
     it("should create a new object identity when changes are made", () => {
       const newElementNode = example(

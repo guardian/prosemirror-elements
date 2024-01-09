@@ -282,6 +282,6 @@ const commandsHaveChanged = (
 /**
  * Only compares the parts of the node from which we derive field values.
  */
-const fieldValuesHaveChanged = (oldNode: Node, newNode: Node) =>
+export const fieldValuesHaveChanged = (oldNode: Node, newNode: Node) =>
   oldNode.content !== newNode.content ||
   newNode.attrs.fields !== oldNode.attrs.fields;

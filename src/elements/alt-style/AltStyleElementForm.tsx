@@ -10,21 +10,21 @@ export const AltStyleElementTestId = "AltStyleElement";
 export const altStyleElement = createReactElementSpec({
   fieldDescriptions: altStyleFields,
   component: ({ fields }) => (
-    <FieldLayoutVertical
-      data-cy={AltStyleElementTestId}
-      useAlternateStyles={true}
-    >
-      <FieldWrapper
-        headingLabel="Title"
-        field={fields.title}
-        useAlternateStyles={true}
-      />
-      <FieldWrapper
-        headingLabel="Content"
-        field={fields.content}
-        useAlternateStyles={true}
-      />
+    <FieldLayoutVertical useAlternateStyles={true}>
+        {
+            fields.takeaways.children.map((takeaway, index) => (
+                <div key={`takeaway-${index}`}>
+                    <FieldWrapper headingLabel="Title" field={takeaway.title} useAlternateStyles={true}/>
+                    <FieldWrapper headingLabel="Content" field={takeaway.content} useAlternateStyles={true} />
+                </div>
+            ))
+        }
+        <button
+        onClick={() => fields.takeaways.view.add()}
+        >
+        +
+        </button>
     </FieldLayoutVertical>
-  ),
+),
   wrapperComponent: AltStyleElementWrapper,
 });
