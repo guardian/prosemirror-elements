@@ -90,10 +90,13 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      // Keys are an optional unique identifier for plugins; we should expect to encounter plugins without keys.
-      outerView.state.plugins.filter(
-        (plugin) =>
-          !plugin.spec.key || !disallowedPlugins.includes(plugin.spec.key)
+      // We should expect to encounter plugins without keys.
+      // We use a disallow list (rather than an allow list) because we expect most plugins to work,
+      // and only want to disallow those that cause problems.
+      outerView.state.plugins.filter((plugin) =>
+        plugin.spec.key === undefined
+          ? true
+          : !disallowedPlugins.includes(plugin.spec.key)
       ),
       placeholder,
       isResizeable
