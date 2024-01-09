@@ -13,8 +13,8 @@ import {
   example__repeated__child,
   example__repeated__parent,
   example__repeaterText,
-  nestedElement,
-  nestedElement__content,
+  exampleElementToNest,
+  exampleElementToNest__content,
   p,
   serializer,
   view,
@@ -22,7 +22,7 @@ import {
 
 const fieldDescriptions = {
   ...elements.example.fieldDescriptions,
-  ...elements.nestedElement.fieldDescriptions,
+  ...elements.exampleElementToNest.fieldDescriptions,
 };
 
 describe("Field helpers", () => {
@@ -89,7 +89,7 @@ describe("Field helpers", () => {
         example__repeated__child(example__repeaterText("Repeater text"))
       ),
       example__nestedElementField(
-        nestedElement(nestedElement__content("Nested element content"))
+        exampleElementToNest(exampleElementToNest__content("Nested element content"))
       )
     );
 
@@ -256,8 +256,8 @@ describe("Field helpers", () => {
     it("should correctly change the value of an element's content within a nestedElementField", () => {
       const newElementNode = example(
         example__nestedElementField(
-          nestedElement(
-            nestedElement__content("Updated nested element content updated")
+          exampleElementToNest(
+            exampleElementToNest__content("Updated nested element content updated")
           )
         )
       );
@@ -279,8 +279,8 @@ describe("Field helpers", () => {
     it("should insert a new element into a nestedElementField", () => {
       const newElementNode = example(
         example__nestedElementField(
-          nestedElement(nestedElement__content("Nested element content")),
-          nestedElement(nestedElement__content("Nested element 2 content"))
+          exampleElementToNest(exampleElementToNest__content("Nested element content")),
+          exampleElementToNest(exampleElementToNest__content("Nested element 2 content"))
         )
       );
 
@@ -320,7 +320,7 @@ describe("Field helpers", () => {
           example__repeated__child(example__repeaterText("Repeater text"))
         ),
         example__nestedElementField(
-          nestedElement(nestedElement__content("Nested element content"))
+          exampleElementToNest(exampleElementToNest__content("Nested element content"))
         )
       );
 
@@ -343,7 +343,7 @@ describe("Field helpers", () => {
           example__repeated__child(example__repeaterText("Repeater text"))
         ),
         example__nestedElementField(
-          nestedElement(nestedElement__content("Nested element content"))
+          exampleElementToNest(exampleElementToNest__content("Nested element content"))
         )
       );
 

@@ -10,7 +10,7 @@ import { createEditorWithElements, createNoopElement } from "../test";
 import { maxLength, required } from "../validation";
 
 export const elements = {
-  nestedElement: createNoopElement({
+  exampleElementToNest: createNoopElement({
     content: createTextField({
       validators: [required()],
     }),
@@ -51,8 +51,8 @@ export const {
   example__repeaterText,
   example__nestedElementField,
   p,
-  nestedElement,
-  nestedElement__content,
+  exampleElementToNest,
+  exampleElementToNest__content,
 } = (builders(schema, {
   example__repeated__child: {
     nodeType: "example__repeated__child",
