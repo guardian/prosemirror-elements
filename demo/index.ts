@@ -263,10 +263,6 @@ const strike: MarkSpec = {
 
 const docNodeSpec = {
   doc: {
-    /*
-     * We must allow 2 text elements to exists side by side
-     * so that when we delete an element we can then join it.
-     */
     content: "block*",
     toDOM: (): [string, ...any[]] => ["div", 0],
   },
