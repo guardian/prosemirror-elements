@@ -3,7 +3,7 @@ import { DOMParser } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
-import type { DecorationSource } from "prosemirror-view";
+import type {Decoration, DecorationSource} from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import {
@@ -39,12 +39,12 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   protected innerEditorView: EditorView | undefined;
   // The decorations that apply to this FieldView, from the perspective
   // of the inner editor.
-  private decorations: DecorationSource = DecorationSet.empty;
+  protected decorations: DecorationSource = DecorationSet.empty;
   // The decorations that apply to this FieldView, from the perspective
   // of the outer editor. We store these to avoid unnecessary updates.
-  private outerDecorations = undefined as DecorationSource | undefined;
+  protected outerDecorations = undefined as DecorationSource | undefined;
   // Do we have a change in our decorations that is yet to be rendered?
-  private decorationsPending = false;
+  protected decorationsPending = false;
   // The parser for the Node.
   private parser: DOMParser;
 
@@ -262,7 +262,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
-  private applyDecorationsFromOuterEditor(
+  protected applyDecorationsFromOuterEditor(
     decorationSet: DecorationSource,
     node: Node,
     elementOffset: number

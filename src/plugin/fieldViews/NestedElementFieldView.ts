@@ -7,6 +7,7 @@ import { FieldContentType } from "./FieldView";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 import { pluginKey } from "../plugin";
+import { DecorationSet } from "prosemirror-view";
 
 type NestedElementOptions = {
   absentOnEmpty?: boolean;
@@ -119,5 +120,16 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     this.fieldViewElement.classList.add(
       "ProseMirrorElements__NestedElementField"
     );
+  }
+
+  protected applyDecorationsFromOuterEditor(decorationSet: DecorationSource, node: Node, elementOffset: number) {
+    // Do nothing if the decorations have not changed.
+    if (decorationSet === this.outerDecorations) {
+      return;
+    }
+    this.outerDecorations = decorationSet;
+    // nestedElementFieldView itself doesn't need any decorations, its child elements will handle any decorations themselves
+    this.decorations = DecorationSet.empty;
+    this.decorationsPending = true;
   }
 }
