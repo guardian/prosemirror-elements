@@ -47,6 +47,7 @@ import {
   sideEffectPlugin,
 } from "./helpers";
 import {
+  sampleAltStylesElement,
   sampleAudio,
   sampleCallout,
   sampleCampaignCalloutList,
@@ -432,7 +433,11 @@ const createEditor = (server: CollabServer) => {
       values: sampleInteractiveAtom,
     },
     { label: "Comment", name: commentElementName, values: sampleComment },
-    { label: "Alt Style", name: altStyleElementName, values: altStyleElement },
+    {
+      label: "Alt Style",
+      name: altStyleElementName,
+      values: sampleAltStylesElement,
+    },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>

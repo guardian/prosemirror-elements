@@ -25,7 +25,7 @@ import {
 } from "./nodeSpec";
 
 const decorations = createUpdateDecorations();
-const pluginKey = new PluginKey("prosemirror_elements");
+export const pluginKey = new PluginKey("prosemirror_elements");
 
 export type PluginState = unknown;
 

@@ -110,7 +110,7 @@ export const getElementFieldViewFromType = (
         offset,
         innerDecos,
         field,
-        field.disallowedPlugins
+        field.allowedPlugins
       );
     case "richText":
       return new RichTextFieldView(

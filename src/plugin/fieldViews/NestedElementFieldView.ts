@@ -6,6 +6,7 @@ import type { PlaceholderOption } from "../helpers/placeholder";
 import { FieldContentType } from "./FieldView";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
+import { pluginKey } from "../plugin";
 
 type NestedElementOptions = {
   absentOnEmpty?: boolean;
@@ -15,7 +16,7 @@ type NestedElementOptions = {
   validators?: FieldValidator[];
   placeholder?: PlaceholderOption;
   isResizeable?: boolean;
-  disallowedPlugins?: PluginKey[];
+  allowedPlugins?: PluginKey[];
 };
 
 export interface NestedElementFieldDescription
@@ -28,7 +29,7 @@ export interface NestedElementFieldDescription
   // If the text content produced by this node is an empty string, don't
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;
-  disallowedPlugins?: PluginKey[];
+  allowedPlugins?: PluginKey[];
 }
 
 export const createNestedElementField = ({
@@ -39,7 +40,7 @@ export const createNestedElementField = ({
   validators,
   placeholder,
   isResizeable,
-  disallowedPlugins = [],
+  allowedPlugins = [],
 }: NestedElementOptions): NestedElementFieldDescription => {
   return {
     type: NestedElementFieldView.fieldType,
@@ -50,7 +51,7 @@ export const createNestedElementField = ({
     absentOnEmpty,
     placeholder,
     isResizeable,
-    disallowedPlugins,
+    allowedPlugins,
   };
 };
 
@@ -82,7 +83,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     // The initial decorations for the FieldView.
     decorations: DecorationSource,
     { placeholder, isResizeable }: NestedElementFieldDescription,
-    disallowedPlugins: PluginKey[] = []
+    allowedPlugins: PluginKey[] = []
   ) {
     super(
       node,
@@ -96,7 +97,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       outerView.state.plugins.filter((plugin) =>
         plugin.spec.key === undefined
           ? true
-          : !disallowedPlugins.includes(plugin.spec.key)
+          : [pluginKey, ...allowedPlugins].includes(plugin.spec.key)
       ),
       placeholder,
       isResizeable
