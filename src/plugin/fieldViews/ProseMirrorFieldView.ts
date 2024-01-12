@@ -271,17 +271,23 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (decorationSet === this.outerDecorations) {
       return;
     }
-    this.outerDecorations = decorationSet;
-    const localDecoSet = Array.isArray(decorationSet)
-      ? DecorationSet.create(node, decorationSet)
-      : decorationSet;
-    // Offset because the node we are displaying these decorations in is a child of its parent (-1)
-    const localOffset = -1;
-    const offsetMap = new Mapping([
-      StepMap.offset(-elementOffset + localOffset),
-    ]);
-    this.decorations = localDecoSet.map(offsetMap, node);
-    this.decorationsPending = true;
+    
+    if (!decorationSet.hasOwnProperty('members')){
+      this.outerDecorations = decorationSet;
+      const localDecoSet = DecorationSet.create(node, (decorationSet as DecorationSet).find(elementOffset, elementOffset + node.nodeSize))
+      // Offset because the node we are displaying these decorations in is a child of its parent (-1)
+      const localOffset = -1;
+      const offsetMap = new Mapping([
+        StepMap.offset(-elementOffset + localOffset),
+      ]);
+      this.decorations = localDecoSet.map(offsetMap, node);
+      this.decorationsPending = true;
+    } else {
+      
+      (decorationSet as unknown as {members: DecorationSet[]}).members.forEach(member => {
+        this.applyDecorationsFromOuterEditor(member, node, elementOffset)
+      })
+    }
   }
 
   /**

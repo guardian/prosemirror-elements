@@ -120,7 +120,7 @@ export const getNodeSpecForField = (
     case "nestedElement": {
       return {
         [nodeName]: {
-          group: fieldGroupName,
+          group: `${fieldGroupName} nested-element-field`,
           content: field.content ?? "element+",
           toDOM: getDefaultToDOMForContentNode(nodeName),
           parseDOM: [
