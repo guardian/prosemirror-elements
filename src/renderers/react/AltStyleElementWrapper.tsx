@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import type { ReactElement } from "react";
-import { useContext, useState } from "react";
 import type { CommandCreator } from "../../plugin/types/Commands";
 import { Body, Overlay } from "./ElementWrapper";
-import { TelemetryContext } from "./TelemetryContext";
-import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 const AltStyleContainer = styled("div")`
   margin: ${space[3]}px 0;
@@ -46,44 +43,19 @@ export type ElementWrapperProps = {
 export const elementWrapperTestId = "ElementWrapper";
 
 export const AltStyleElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
-  moveUp,
-  moveDown,
-  moveTop,
-  moveBottom,
-  remove,
-  select,
   isSelected,
-  onRemove,
   children,
 }) => {
-  const [closeClickedOnce, setCloseClickedOnce] = useState(false);
-  const sendTelemetryEvent = useContext(TelemetryContext);
-
   return (
     <AltStyleContainer
       className="ProsemirrorElement__wrapper"
       data-cy={elementWrapperTestId}
     >
       <Body>
-        <LeftActionControls
-          select={select}
-          remove={remove}
-          onRemove={onRemove}
-          closeClickedOnce={closeClickedOnce}
-          setCloseClickedOnce={setCloseClickedOnce}
-          sendTelemetryEvent={sendTelemetryEvent}
-        />
         <AltStylePanel isSelected={isSelected}>
           {isSelected && <Overlay />}
           {children}
         </AltStylePanel>
-        <RightActionControls
-          moveTop={moveTop}
-          moveUp={moveUp}
-          moveDown={moveDown}
-          moveBottom={moveBottom}
-          sendTelemetryEvent={sendTelemetryEvent}
-        />
       </Body>
     </AltStyleContainer>
   );
