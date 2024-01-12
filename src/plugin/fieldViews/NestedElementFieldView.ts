@@ -121,17 +121,4 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       "ProseMirrorElements__NestedElementField"
     );
   }
-
-  protected applyDecorationsFromOuterEditor(decorationSet: DecorationSource, node: Node, elementOffset: number) {
-    // Do nothing if the decorations have not changed.
-    
-    if (decorationSet === this.outerDecorations) {
-      return;
-    }
-    this.outerDecorations = decorationSet;
-
-    // nestedElementFieldView itself doesn't need any decorations, its child elements will handle any decorations themselves
-    this.decorations = DecorationSet.empty;
-    this.decorationsPending = true;
-  }
 }

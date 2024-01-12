@@ -274,13 +274,13 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     
     if (!decorationSet.hasOwnProperty('members')){
       this.outerDecorations = decorationSet;
-      const localDecoSet = DecorationSet.create(node, (decorationSet as DecorationSet).find(elementOffset, elementOffset + node.nodeSize))
+      const localDecoSet = DecorationSet.create(this.outerView.state.doc, (decorationSet as DecorationSet).find(elementOffset, elementOffset + node.nodeSize))
       // Offset because the node we are displaying these decorations in is a child of its parent (-1)
       const localOffset = -1;
       const offsetMap = new Mapping([
         StepMap.offset(-elementOffset + localOffset),
       ]);
-      this.decorations = localDecoSet.map(offsetMap, node);
+      this.decorations = localDecoSet.map(offsetMap, this.outerView.state.doc);
       this.decorationsPending = true;
     } else {
       
