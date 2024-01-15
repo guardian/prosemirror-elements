@@ -12,6 +12,7 @@ import {
 } from "../helpers/placeholder";
 import type { BaseFieldDescription } from "./FieldView";
 import { FieldContentType, FieldView } from "./FieldView";
+import { DecorationGroup, isDecorationGroup, isDecorationSet } from "../helpers/decorations";
 
 export interface AbstractTextFieldDescription
   extends BaseFieldDescription<string> {
@@ -262,19 +263,25 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
+
+
   protected applyDecorationsFromOuterEditor(
-    decorationSet: DecorationSource,
+    decorations: DecorationSource | DecorationGroup,
     node: Node,
     elementOffset: number
   ) {
     // Do nothing if the decorations have not changed.
-    if (decorationSet === this.outerDecorations) {
+    if (decorations === this.outerDecorations) {
       return;
     }
     
-    if (!decorationSet.hasOwnProperty('members')){
-      this.outerDecorations = decorationSet;
-      const localDecoSet = DecorationSet.create(node, (decorationSet as DecorationSet).find(elementOffset, elementOffset + node.nodeSize))
+    if (isDecorationGroup(decorations)){
+      decorations.members.forEach(member => {
+        this.applyDecorationsFromOuterEditor(member, node, elementOffset)
+      })
+    } else if (isDecorationSet(decorations)) { 
+      this.outerDecorations = decorations;
+      const localDecoSet = DecorationSet.create(this.outerView.state.doc, decorations.find(elementOffset, elementOffset + node.nodeSize))
       // Offset because the node we are displaying these decorations in is a child of its parent (-1)
       const localOffset = -1;
       const offsetMap = new Mapping([
@@ -282,11 +289,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       ]);
       this.decorations = localDecoSet.map(offsetMap, node);
       this.decorationsPending = true;
-    } else {
-      
-      (decorationSet as unknown as {members: DecorationSet[]}).members.forEach(member => {
-        this.applyDecorationsFromOuterEditor(member, node, elementOffset)
-      })
     }
   }
 
