@@ -16,7 +16,7 @@ export const altStyleFields = {
       content: "block*",
       isResizeable: true,
       marks: "em strong link",
-      attrs: useTyperighterAttrs
+      attrs: useTyperighterAttrs,
     }),
-  })
+  }),
 };

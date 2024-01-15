@@ -447,16 +447,20 @@ describe("buildElementPlugin", () => {
         elementName: "testElement",
         values: {
           repeater1: [
-            { field1: trimHtml(`
+            {
+              field1: trimHtml(`
             <div pme-element-type="nestedTestElement">
               <div pme-field-name="nestedTestElement__field1">
                 <p>Content 1</p>
               </div>
             </div>
-            `)},
-            { field1: trimHtml(`
+            `),
+            },
+            {
+              field1: trimHtml(`
               <p>hello</p>
-            `)},
+            `),
+            },
           ],
         },
       })(view.state, view.dispatch);
@@ -508,16 +512,20 @@ describe("buildElementPlugin", () => {
         elementName: "testElement",
         values: {
           repeater1: [
-            { field1: trimHtml(`
+            {
+              field1: trimHtml(`
               <p>Content 1 - blah</p>
-            `)},
-            { field1: trimHtml(`
+            `),
+            },
+            {
+              field1: trimHtml(`
             <div pme-element-type="nestedTestElement">
               <div pme-field-name="nestedTestElement__field1">
                 <p>Content 2 - blah blah</p>
               </div>
             </div>
-            `)},
+            `),
+            },
           ],
         },
       })(view.state, view.dispatch);
@@ -570,20 +578,24 @@ describe("buildElementPlugin", () => {
         elementName: "testElement",
         values: {
           repeater1: [
-            { field1: trimHtml(`
+            {
+              field1: trimHtml(`
             <div pme-element-type="nestedTestElement">
               <div pme-field-name="nestedTestElement__field1">
                 <p>Content 1 - blah</p>
               </div>
             </div>
-            `)},
-            { field1: trimHtml(`
+            `),
+            },
+            {
+              field1: trimHtml(`
             <div pme-element-type="nestedTestElement">
               <div pme-field-name="nestedTestElement__field1">
                 <p>Content 2 - blah blah</p>
               </div>
             </div>
-            `)},
+            `),
+            },
           ],
         },
       })(view.state, view.dispatch);

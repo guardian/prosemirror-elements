@@ -3,8 +3,10 @@ import { DOMParser } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
-import type {Decoration, DecorationSource} from "prosemirror-view";
+import type { DecorationSource } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
+import type { DecorationGroup } from "../helpers/decorations";
+import { isDecorationGroup, isDecorationSet } from "../helpers/decorations";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import {
   createPlaceholderPlugin,
@@ -12,7 +14,6 @@ import {
 } from "../helpers/placeholder";
 import type { BaseFieldDescription } from "./FieldView";
 import { FieldContentType, FieldView } from "./FieldView";
-import { DecorationGroup, isDecorationGroup, isDecorationSet } from "../helpers/decorations";
 
 export interface AbstractTextFieldDescription
   extends BaseFieldDescription<string> {
@@ -263,8 +264,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
-
-
   protected applyDecorationsFromOuterEditor(
     decorations: DecorationSource | DecorationGroup,
     node: Node,
@@ -274,14 +273,17 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (decorations === this.outerDecorations) {
       return;
     }
-    
-    if (isDecorationGroup(decorations)){
-      decorations.members.forEach(member => {
-        this.applyDecorationsFromOuterEditor(member, node, elementOffset)
-      })
-    } else if (isDecorationSet(decorations)) { 
+
+    if (isDecorationGroup(decorations)) {
+      decorations.members.forEach((member) => {
+        this.applyDecorationsFromOuterEditor(member, node, elementOffset);
+      });
+    } else if (isDecorationSet(decorations)) {
       this.outerDecorations = decorations;
-      const localDecoSet = DecorationSet.create(this.outerView.state.doc, decorations.find(elementOffset, elementOffset + node.nodeSize))
+      const localDecoSet = DecorationSet.create(
+        this.outerView.state.doc,
+        decorations.find(elementOffset, elementOffset + node.nodeSize)
+      );
       // Offset because the node we are displaying these decorations in is a child of its parent (-1)
       const localOffset = -1;
       const offsetMap = new Mapping([

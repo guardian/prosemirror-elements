@@ -1,13 +1,12 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
-import type { Plugin, PluginKey } from "prosemirror-state";
+import type { PluginKey } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
+import { pluginKey } from "../helpers/constants";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { FieldContentType } from "./FieldView";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
-import { pluginKey } from "../plugin";
-import { DecorationSet } from "prosemirror-view";
 
 type NestedElementOptions = {
   absentOnEmpty?: boolean;

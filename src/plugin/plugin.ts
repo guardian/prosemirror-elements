@@ -1,7 +1,7 @@
 import { DOMSerializer } from "prosemirror-model";
 import type { Node } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
-import { NodeSelection, Plugin, PluginKey } from "prosemirror-state";
+import { NodeSelection, Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type {
@@ -14,6 +14,7 @@ import {
   updateFieldsFromNode,
   updateFieldViewsFromNode,
 } from "./field";
+import { pluginKey } from "./helpers/constants";
 import { getFieldValuesFromNode } from "./helpers/element";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
@@ -25,7 +26,6 @@ import {
 } from "./nodeSpec";
 
 const decorations = createUpdateDecorations();
-export const pluginKey = new PluginKey("prosemirror_elements");
 
 export type PluginState = unknown;
 
