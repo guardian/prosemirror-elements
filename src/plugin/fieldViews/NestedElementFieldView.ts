@@ -8,6 +8,7 @@ import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
 import { pluginKey } from "../plugin";
 import { DecorationSet } from "prosemirror-view";
+import { Mapping, StepMap } from "prosemirror-transform";
 
 type NestedElementOptions = {
   absentOnEmpty?: boolean;

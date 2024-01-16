@@ -52,9 +52,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     // The node that this FieldView is responsible for rendering.
     public node: Node,
     // The outer editor instance. Updated from within this class when the inner state changes.
-    private outerView: EditorView,
+    public outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
-    private getPos: () => number,
+    public getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     public offset: number,
     // The initial decorations for the FieldView.
@@ -262,6 +262,25 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
+  private applyDecorationsToEditorView = ( decorationSet: DecorationSource,
+    node: Node,
+    elementOffset: number,
+    editorView: EditorView,
+    editorOffset: number = 0
+  ) => {
+    this.outerDecorations = decorationSet;
+    const localDecoSet = Array.isArray(decorationSet)
+      ? DecorationSet.create(editorView.state.doc, decorationSet)
+      : decorationSet;
+    // Offset because the node we are displaying these decorations in is a child of its parent (-1)
+    const localOffset = -1;
+    const offsetMap = new Mapping([
+      StepMap.offset(-elementOffset + localOffset),
+    ]);
+    this.decorations = localDecoSet.map(offsetMap, editorView.state.doc);
+    this.decorationsPending = true;
+  }
+
   protected applyDecorationsFromOuterEditor(
     decorationSet: DecorationSource,
     node: Node,
@@ -273,17 +292,22 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     }
     
     if (!decorationSet.hasOwnProperty('members')){
-      this.outerDecorations = decorationSet;
-      const localDecoSet = DecorationSet.create(this.outerView.state.doc, (decorationSet as DecorationSet).find(elementOffset, elementOffset + node.nodeSize))
-      // Offset because the node we are displaying these decorations in is a child of its parent (-1)
-      const localOffset = -1;
-      const offsetMap = new Mapping([
-        StepMap.offset(-elementOffset + localOffset),
-      ]);
-      this.decorations = localDecoSet.map(offsetMap, this.outerView.state.doc);
-      this.decorationsPending = true;
+      if (this.innerEditorView){
+        try {
+          console.log({pos: this.getPos(), editor: this.innerEditorView, elementOffset: elementOffset + this.getPos()})
+          this.applyDecorationsToEditorView(decorationSet, node, elementOffset, this.innerEditorView)
+        } catch(e){
+          // Do nothing
+        }
+        try {
+          console.log({pos: this.getPos(), editor: this.innerEditorView, elementOffset})
+          this.applyDecorationsToEditorView(decorationSet, node, elementOffset, this.outerView)
+        } catch(e){
+          // Do nothing
+        }
+      } 
+
     } else {
-      
       (decorationSet as unknown as {members: DecorationSet[]}).members.forEach(member => {
         this.applyDecorationsFromOuterEditor(member, node, elementOffset)
       })
