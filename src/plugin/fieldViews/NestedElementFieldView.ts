@@ -83,6 +83,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     // The initial decorations for the FieldView.
     decorations: DecorationSource,
     { placeholder, isResizeable }: NestedElementFieldDescription,
+    // Specify plugins of which the field should have its own copy
     allowedPlugins: PluginKey[] = []
   ) {
     super(
@@ -91,9 +92,6 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      // We should expect to encounter plugins without keys.
-      // We use a disallow list (rather than an allow list) because we expect most plugins to work,
-      // and only want to disallow those that cause problems.
       outerView.state.plugins.filter((plugin) =>
         plugin.spec.key === undefined
           ? true

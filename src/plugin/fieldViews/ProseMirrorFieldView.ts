@@ -265,6 +265,10 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   }
 
   protected applyDecorationsFromOuterEditor(
+    // We have found that decorations will be either a DecorationSet (an extension
+    // of DecorationSource that provides more useful utility methods), or DecorationGroup,
+    // which provides a collection of DecorationSet. prosemirror-view does not currently
+    // export a type definition for DecorationGroup so we are providing our own.
     decorations: DecorationSource | DecorationGroup,
     node: Node,
     elementOffset: number
