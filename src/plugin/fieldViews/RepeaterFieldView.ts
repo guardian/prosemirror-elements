@@ -68,9 +68,9 @@ export class RepeaterFieldView extends FieldView<unknown> {
   }
 
   /**
-   * Add a new child to this repeater.
+   * Add a new child to the end of this repeater.
    */
-  public add() {
+  public addToEnd() {
     const tr = this.outerView.state.tr;
     const endOfRepeaterNode = this.getPos() + this.offset + this.node.nodeSize;
     const repeaterChildNodeName = getRepeaterChildNameFromParent(
@@ -86,6 +86,43 @@ export class RepeaterFieldView extends FieldView<unknown> {
       return;
     }
     tr.replaceWith(endOfRepeaterNode, endOfRepeaterNode, newNode);
+    this.outerView.dispatch(tr);
+  }
+
+  /**
+   * Add a new child to this repeater at the given index.
+   */
+  public add(index: number) {
+    const tr = this.outerView.state.tr;
+    const repeaterChildNodeName = getRepeaterChildNameFromParent(
+      this.node.type.name
+    );
+
+    const nodeToAddFrom = this.node.child(index);
+    // When we add a node, we must add an offset:
+    //  - getPos() returns the position directly before the parent node (+1)
+    //  - the node we will be altering is a child of its parent (+1)
+    const contentOffset = 2;
+    let startOfNodeToAddFrom = this.getPos() + contentOffset + this.offset;
+    this.node.forEach((childNode, offset) => {
+      if (childNode === nodeToAddFrom) {
+        startOfNodeToAddFrom = startOfNodeToAddFrom + offset;
+      }
+    });
+    const endOfNodeToAddFrom = startOfNodeToAddFrom + nodeToAddFrom.nodeSize;
+
+    const newNode = this.node.type.schema.nodes[
+      repeaterChildNodeName
+    ].createAndFill({ [RepeaterFieldMapIDKey]: getRepeaterID() });
+    if (!newNode) {
+      console.warn(
+        `[prosemirror-elements]: Could not create new repeater node of type ${this.fieldName}: createAndFill did not return a node`
+      );
+      return;
+    }
+
+    tr.replaceWith(endOfNodeToAddFrom, endOfNodeToAddFrom, newNode);
+    //tr.insert(endOfNodeToAddFrom, newNode);
     this.outerView.dispatch(tr);
   }
 
