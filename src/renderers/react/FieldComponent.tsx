@@ -6,6 +6,7 @@ import type { Field } from "../../plugin/types/Element";
 type Props<F extends Field<unknown>> = {
   field: F;
   hasValidationErrors: boolean;
+  useAlternateStyles?: boolean;
 };
 
 export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
@@ -13,6 +14,7 @@ export const getFieldViewTestId = (name: string) => `FieldView-${name}`;
 export const FieldComponent = <F extends Field<FieldView<unknown>>>({
   field,
   hasValidationErrors,
+  useAlternateStyles,
 }: Props<F>) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -27,6 +29,7 @@ export const FieldComponent = <F extends Field<FieldView<unknown>>>({
       data-cy={getFieldViewTestId(field.name)}
       hasValidationErrors={hasValidationErrors}
       ref={editorRef}
+      useAlternateStyles={useAlternateStyles}
     ></Editor>
   );
 };

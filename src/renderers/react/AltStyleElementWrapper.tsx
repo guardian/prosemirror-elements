@@ -9,7 +9,6 @@ import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 const AltStyleContainer = styled("div")`
   margin: ${space[3]}px 0;
-  position: relative;
   padding-bottom: 8px;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
@@ -19,6 +18,7 @@ const AltStyleContainer = styled("div")`
 const AltStylePanel = styled("div")<{
   isSelected: boolean;
 }>`
+  position: relative;
   padding: 0px ${space[3]}px;
   flex-grow: 1;
   overflow: hidden;

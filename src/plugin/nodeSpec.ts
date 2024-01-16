@@ -117,6 +117,24 @@ export const getNodeSpecForField = (
         },
       };
     }
+    case "nestedElement": {
+      return {
+        [nodeName]: {
+          group: `${fieldGroupName} nested-element-field`,
+          content: field.content ?? "element+",
+          toDOM: getDefaultToDOMForContentNode(nodeName),
+          parseDOM: [
+            {
+              tag: "div",
+              getAttrs: createGetAttrsForTextNode(nodeName),
+              preserveWhitespace: false,
+            },
+          ],
+          marks: field.marks,
+          attrs: field.attrs,
+        },
+      };
+    }
     case "richText": {
       return {
         [nodeName]: {
@@ -341,6 +359,18 @@ export const createNodesForFieldValues = <
         }
 
         return node;
+      }
+      case FieldContentType.NESTED: {
+        let content = fieldValue as string;
+        return [
+          field.type === "nestedElement"
+            ? createContentNodeFromRichText(
+                schema,
+                content,
+                nodeType.create({ type: field.type })
+              )
+            : createContentNodeFromText(content, field, nodeType),
+        ];
       }
     }
   });

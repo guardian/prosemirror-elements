@@ -4,18 +4,35 @@ import { focusHalo } from "@guardian/src-foundations/accessibility";
 import { body } from "@guardian/src-foundations/typography";
 import { inputBorder } from "./inputBorder";
 
-export const Editor = styled.div<{ hasValidationErrors: boolean }>`
-  ${body.small()}
+export const Editor = styled.div<{
+  hasValidationErrors: boolean;
+  useAlternateStyles?: boolean;
+}>`
+  ${({ useAlternateStyles }) => (useAlternateStyles ? null : body.small())}
   .ProseMirrorElements__RichTextField, .ProseMirrorElements__TextField {
     background-color: ${background.primary};
+  }
+  .ProseMirrorElements__RichTextField,
+  .ProseMirrorElements__TextField,
+  .ProseMirrorElements__NestedElementField {
     ${inputBorder}
-    ${({ hasValidationErrors }) =>
-      !!hasValidationErrors && `border-color: ${border.error};`}
     &:active {
       border: 1px solid ${background.inputChecked};
     }
     &:focus {
       ${focusHalo}
+    }
+    ${({ hasValidationErrors }) =>
+      !!hasValidationErrors && `border-color: ${border.error};`}
+  }
+  .ProseMirrorElements__NestedElementField .ProseMirror-focused {
+    outline: none;
+  }
+  .ProseMirrorElements__NestedElementField {
+    padding: 10px;
+    &:focus-within {
+      ${focusHalo};
+      border: 1px solid ${background.inputChecked};
     }
   }
 `;

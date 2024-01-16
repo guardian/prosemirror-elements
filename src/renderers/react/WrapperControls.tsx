@@ -87,8 +87,6 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
 `;
 
 const Actions = styled("div")`
-  height: 100%;
-  position: absolute;
   display: flex;
   flex-direction: column;
   opacity: 0;

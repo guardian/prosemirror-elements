@@ -14,6 +14,7 @@ import type {
   DropdownFieldView,
 } from "../fieldViews/DropdownFieldView";
 import type { FieldView } from "../fieldViews/FieldView";
+import type { NestedElementFieldDescription } from "../fieldViews/NestedElementFieldView";
 import type {
   RepeaterFieldDescription,
   RepeaterFieldView,
@@ -40,6 +41,7 @@ export type FieldDescription =
   | CheckboxFieldDescription
   | CustomFieldDescription
   | DropdownFieldDescription
+  | NestedElementFieldDescription
   | RepeaterFieldDescription<Record<string, FieldDescription>>;
 
 export type FieldDescriptions<Names extends string> = Record<

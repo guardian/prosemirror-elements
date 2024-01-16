@@ -484,3 +484,12 @@ export const sampleCampaignList = [
     },
   },
 ];
+
+export const sampleAltStylesElement = {
+  repeater: [
+    {
+      title: "",
+      content: "",
+    },
+  ],
+};

@@ -14,16 +14,21 @@ export const altStyleElement = createReactElementSpec({
       data-cy={AltStyleElementTestId}
       useAlternateStyles={true}
     >
-      <FieldWrapper
-        headingLabel="Title"
-        field={fields.title}
-        useAlternateStyles={true}
-      />
-      <FieldWrapper
-        headingLabel="Content"
-        field={fields.content}
-        useAlternateStyles={true}
-      />
+      {fields.repeater.children.map((repeater, index) => (
+        <div key={index}>
+          <FieldWrapper
+            headingLabel="Key Takeaway Title"
+            field={repeater.title}
+            useAlternateStyles={true}
+          />
+          <FieldWrapper
+            headingLabel="Key Takeaway Content"
+            field={repeater.content}
+            useAlternateStyles={true}
+          />
+        </div>
+      ))}
+      <button onClick={() => fields.repeater.view.add()}>+</button>
     </FieldLayoutVertical>
   ),
   wrapperComponent: AltStyleElementWrapper,

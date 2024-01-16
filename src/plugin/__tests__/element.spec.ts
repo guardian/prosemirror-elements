@@ -378,6 +378,255 @@ describe("buildElementPlugin", () => {
       expect(getElementAsHTML()).toBe(expected);
     });
 
+    it("should fill out content in nestedElement nodes", () => {
+      const nestedTestElement = createNoopElement({
+        nestedField1: {
+          type: "nestedElement",
+          content: "block+",
+        },
+      });
+      const testElement = createNoopElement({
+        richTextField1: {
+          type: "richText",
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ nestedTestElement, testElement });
+
+      insertElement({
+        elementName: "nestedTestElement",
+        values: {
+          nestedField1: trimHtml(`
+            <div pme-element-type="testElement">
+              <div pme-field-name="testElement__field1">
+                <p>Content 1</p>
+              </div>
+            </div>
+          `),
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+      <div pme-element-type="nestedTestElement">
+        <div pme-field-name="nestedTestElement__nestedField1">
+          <div pme-element-type="testElement">
+            <div pme-field-name="testElement__richTextField1">
+              <p>Content 1</p>
+            </div>
+          </div>
+        </div>
+      </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should fill out content in REPEATER nodes containing nested element fields, with an element only in the first repeater node", () => {
+      const nestedTestElement = createNoopElement({
+        nestedField1: {
+          type: "nestedElement",
+          content: "block+",
+        },
+      });
+      const testElement = createNoopElement({
+        repeater1: {
+          type: "repeater",
+          fields: {
+            field1: { type: "nestedElement", content: "block+" },
+          },
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ testElement, nestedTestElement });
+
+      insertElement({
+        elementName: "testElement",
+        values: {
+          repeater1: [
+            {
+              field1: trimHtml(`
+            <div pme-element-type="nestedTestElement">
+              <div pme-field-name="nestedTestElement__field1">
+                <p>Content 1</p>
+              </div>
+            </div>
+            `),
+            },
+            {
+              field1: trimHtml(`
+              <p>hello</p>
+            `),
+            },
+          ],
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="testElement">
+          <div pme-field-name="testElement__repeater1__parent">
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <div pme-element-type="nestedTestElement">
+                  <div pme-field-name="nestedTestElement__nestedField1">
+                    <p>Content 1</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <p>hello</p>
+              </div>
+            </div>
+          </div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should fill out content in REPEATER nodes containing nested element fields, with an element in second repeater node", () => {
+      const nestedTestElement = createNoopElement({
+        nestedField1: {
+          type: "nestedElement",
+          content: "block+",
+        },
+      });
+      const testElement = createNoopElement({
+        repeater1: {
+          type: "repeater",
+          fields: {
+            field1: { type: "nestedElement", content: "block+" },
+          },
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ testElement, nestedTestElement });
+
+      insertElement({
+        elementName: "testElement",
+        values: {
+          repeater1: [
+            {
+              field1: trimHtml(`
+              <p>Content 1 - blah</p>
+            `),
+            },
+            {
+              field1: trimHtml(`
+            <div pme-element-type="nestedTestElement">
+              <div pme-field-name="nestedTestElement__field1">
+                <p>Content 2 - blah blah</p>
+              </div>
+            </div>
+            `),
+            },
+          ],
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="testElement">
+          <div pme-field-name="testElement__repeater1__parent">
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <p>Content 1 - blah</p>
+              </div>
+            </div>
+            
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <div pme-element-type="nestedTestElement">
+                  <div pme-field-name="nestedTestElement__nestedField1">
+                    <p>Content 2 - blah blah</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
+    it("should fill out content in REPEATER nodes containing nested element fields, with elements in multiple repeater nodes", () => {
+      const nestedTestElement = createNoopElement({
+        nestedField1: {
+          type: "nestedElement",
+          content: "block+",
+        },
+      });
+      const testElement = createNoopElement({
+        repeater1: {
+          type: "repeater",
+          fields: {
+            field1: { type: "nestedElement", content: "block+" },
+          },
+        },
+      });
+      const {
+        view,
+        insertElement,
+        getElementAsHTML,
+      } = createEditorWithElements({ testElement, nestedTestElement });
+
+      insertElement({
+        elementName: "testElement",
+        values: {
+          repeater1: [
+            {
+              field1: trimHtml(`
+            <div pme-element-type="nestedTestElement">
+              <div pme-field-name="nestedTestElement__field1">
+                <p>Content 1 - blah</p>
+              </div>
+            </div>
+            `),
+            },
+            {
+              field1: trimHtml(`
+            <div pme-element-type="nestedTestElement">
+              <div pme-field-name="nestedTestElement__field1">
+                <p>Content 2 - blah blah</p>
+              </div>
+            </div>
+            `),
+            },
+          ],
+        },
+      })(view.state, view.dispatch);
+
+      const expected = trimHtml(`
+        <div pme-element-type="testElement">
+          <div pme-field-name="testElement__repeater1__parent">
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <div pme-element-type="nestedTestElement">
+                  <div pme-field-name="nestedTestElement__nestedField1">
+                    <p>Content 1 - blah</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div pme-field-name="testElement__repeater1__child">
+              <div pme-field-name="testElement__field1">
+                <div pme-element-type="nestedTestElement">
+                  <div pme-field-name="nestedTestElement__nestedField1">
+                    <p>Content 2 - blah blah</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`);
+      expect(getElementAsHTML()).toBe(expected);
+    });
+
     it("should fill out all fields", () => {
       const testElement = createNoopElement({
         field1: { type: "richText" },

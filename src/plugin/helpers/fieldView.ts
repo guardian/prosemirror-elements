@@ -5,6 +5,7 @@ import type { CheckboxValue } from "../fieldViews/CheckboxFieldView";
 import type { CustomFieldDescription } from "../fieldViews/CustomFieldView";
 import { CustomFieldView } from "../fieldViews/CustomFieldView";
 import { DropdownFieldView } from "../fieldViews/DropdownFieldView";
+import { NestedElementFieldView } from "../fieldViews/NestedElementFieldView";
 import type { RepeaterFieldDescription } from "../fieldViews/RepeaterFieldView";
 import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
@@ -14,6 +15,7 @@ import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
   [TextFieldView.fieldType]: TextFieldView,
+  [NestedElementFieldView.fieldType]: NestedElementFieldView,
   [RichTextFieldView.fieldType]: RichTextFieldView,
   [CheckboxFieldView.fieldType]: CheckboxFieldView,
   [DropdownFieldView.fieldType]: DropdownFieldView,
@@ -23,6 +25,7 @@ export const fieldTypeToViewMap = {
 
 export type FieldTypeToViewMap<Field> = {
   [TextFieldView.fieldType]: TextFieldView;
+  [NestedElementFieldView.fieldType]: NestedElementFieldView;
   [RichTextFieldView.fieldType]: RichTextFieldView;
   [CheckboxFieldView.fieldType]: CheckboxFieldView;
   [DropdownFieldView.fieldType]: DropdownFieldView;
@@ -40,6 +43,7 @@ export type FieldTypeToValueMap<
   Name extends keyof FDesc
 > = {
   [TextFieldView.fieldType]: string;
+  [NestedElementFieldView.fieldType]: string; // should this actually be a string?
   [RichTextFieldView.fieldType]: string;
   [CheckboxFieldView.fieldType]: CheckboxValue;
   [DropdownFieldView.fieldType]: string;
@@ -49,9 +53,9 @@ export type FieldTypeToValueMap<
     ? Data
     : never;
   [RepeaterFieldView.fieldType]: FDesc[Name] extends RepeaterFieldDescription<
-    infer NestedFDesc
+    infer NestedElementFDesc
   >
-    ? Array<FieldNameToValueMap<NestedFDesc>>
+    ? Array<FieldNameToValueMap<NestedElementFDesc>>
     : never;
 };
 
@@ -98,6 +102,16 @@ export const getElementFieldViewFromType = (
   switch (field.type) {
     case "text":
       return new TextFieldView(node, view, getPos, offset, innerDecos, field);
+    case "nestedElement":
+      return new NestedElementFieldView(
+        node,
+        view,
+        getPos,
+        offset,
+        innerDecos,
+        field,
+        field.allowedPlugins
+      );
     case "richText":
       return new RichTextFieldView(
         node,

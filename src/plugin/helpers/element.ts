@@ -165,6 +165,9 @@ export const getFieldValueFromNode = (
     });
     return values;
   }
+  if (fieldDescription.type === "nestedElement") {
+    return getValuesFromRichContentNode(node, serializer);
+  }
   return undefined;
 };
 

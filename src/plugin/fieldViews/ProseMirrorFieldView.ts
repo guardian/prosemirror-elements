@@ -5,6 +5,8 @@ import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { DecorationSource } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
+import type { DecorationGroup } from "../helpers/decorations";
+import { isDecorationGroup, isDecorationSet } from "../helpers/decorations";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import {
   createPlaceholderPlugin,
@@ -39,12 +41,12 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   protected innerEditorView: EditorView | undefined;
   // The decorations that apply to this FieldView, from the perspective
   // of the inner editor.
-  private decorations: DecorationSource = DecorationSet.empty;
+  protected decorations: DecorationSource = DecorationSet.empty;
   // The decorations that apply to this FieldView, from the perspective
   // of the outer editor. We store these to avoid unnecessary updates.
-  private outerDecorations = undefined as DecorationSource | undefined;
+  protected outerDecorations = undefined as DecorationSource | undefined;
   // Do we have a change in our decorations that is yet to be rendered?
-  private decorationsPending = false;
+  protected decorationsPending = false;
   // The parser for the Node.
   private parser: DOMParser;
 
@@ -262,26 +264,38 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
-  private applyDecorationsFromOuterEditor(
-    decorationSet: DecorationSource,
+  protected applyDecorationsFromOuterEditor(
+    // We have found that decorations will be either a DecorationSet (an extension
+    // of DecorationSource that provides more useful utility methods), or DecorationGroup,
+    // which provides a collection of DecorationSet. prosemirror-view does not currently
+    // export a type definition for DecorationGroup so we are providing our own.
+    decorations: DecorationSource | DecorationGroup,
     node: Node,
     elementOffset: number
   ) {
     // Do nothing if the decorations have not changed.
-    if (decorationSet === this.outerDecorations) {
+    if (decorations === this.outerDecorations) {
       return;
     }
-    this.outerDecorations = decorationSet;
-    const localDecoSet = Array.isArray(decorationSet)
-      ? DecorationSet.create(node, decorationSet)
-      : decorationSet;
-    // Offset because the node we are displaying these decorations in is a child of its parent (-1)
-    const localOffset = -1;
-    const offsetMap = new Mapping([
-      StepMap.offset(-elementOffset + localOffset),
-    ]);
-    this.decorations = localDecoSet.map(offsetMap, node);
-    this.decorationsPending = true;
+
+    if (isDecorationGroup(decorations)) {
+      decorations.members.forEach((member) => {
+        this.applyDecorationsFromOuterEditor(member, node, elementOffset);
+      });
+    } else if (isDecorationSet(decorations)) {
+      this.outerDecorations = decorations;
+      const localDecoSet = DecorationSet.create(
+        this.outerView.state.doc,
+        decorations.find(elementOffset, elementOffset + node.nodeSize)
+      );
+      // Offset because the node we are displaying these decorations in is a child of its parent (-1)
+      const localOffset = -1;
+      const offsetMap = new Mapping([
+        StepMap.offset(-elementOffset + localOffset),
+      ]);
+      this.decorations = localDecoSet.map(offsetMap, node);
+      this.decorationsPending = true;
+    }
   }
 
   /**

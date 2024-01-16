@@ -37,6 +37,10 @@ export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
       headingDirection={headingDirection}
       useAlternateStyles={useAlternateStyles}
     />
-    <FieldComponent field={field} hasValidationErrors={!!field.errors.length} />
+    <FieldComponent
+      field={field}
+      hasValidationErrors={!!field.errors.length}
+      useAlternateStyles={useAlternateStyles}
+    />
   </div>
 );

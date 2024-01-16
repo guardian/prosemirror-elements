@@ -8,8 +8,7 @@ import { TelemetryContext } from "./TelemetryContext";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 const Container = styled("div")`
-  margin: ${space[3]}px 0;
-  position: relative;
+  margin: ${space[3]}px -32px;
 `;
 
 export const Body = styled("div")`
@@ -30,6 +29,7 @@ export const Body = styled("div")`
 const Panel = styled("div")<{
   isSelected: boolean;
 }>`
+  position: relative;
   background-color: ${neutral[97]};
   padding: ${space[3]}px;
   flex-grow: 1;
