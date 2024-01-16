@@ -10,4 +10,7 @@ export const waitOneMicroTask = (cb: () => void) => {
 export const waitForNextLayout = () =>
   new Promise((res) => requestAnimationFrame(() => setTimeout(res)));
 
-export const getRepeaterID = () => uniqueId();
+/*
+non-sequential unique ID (to avoid the temptation to use it for ordering)
+ */
+export const getRepeaterID = () => crypto.randomUUID();
