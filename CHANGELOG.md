@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 7.1.0
+
+### Minor Changes
+
+- 22f3ec2: Add the nestedElement field, a rich text editor that supports elements.
+
 ## 7.0.0
 
 ### Major Changes
