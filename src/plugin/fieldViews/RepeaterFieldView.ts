@@ -67,12 +67,31 @@ export class RepeaterFieldView extends FieldView<unknown> {
     console.log("To be implemented: destroy");
   }
 
+  private getStartOfChildNode(
+    parentNode: Node,
+    index: number,
+    position: number,
+    offset: number
+  ) {
+    // When we add a node, we must add an offset:
+    //  - getPos() returns the position directly before the parent node (+1)
+    //  - the node we will be altering is a child of its parent (+1)
+    const contentOffset = 2;
+    let startOfChildNode = position + contentOffset + offset;
+    parentNode.forEach((childNode, offset) => {
+      if (childNode === parentNode.child(index)) {
+        startOfChildNode = startOfChildNode + offset;
+      }
+    });
+    return startOfChildNode;
+  }
+
   /**
-   * Add a new child to this repeater.
+   * Add a new child from this repeater at the given index.
+   * If no index is supplied, add to the end of the repeater.
    */
-  public add() {
+  public add(index?: number) {
     const tr = this.outerView.state.tr;
-    const endOfRepeaterNode = this.getPos() + this.offset + this.node.nodeSize;
     const repeaterChildNodeName = getRepeaterChildNameFromParent(
       this.node.type.name
     );
@@ -85,7 +104,22 @@ export class RepeaterFieldView extends FieldView<unknown> {
       );
       return;
     }
-    tr.replaceWith(endOfRepeaterNode, endOfRepeaterNode, newNode);
+    let positionToAddFrom;
+    if (index === undefined) {
+      // If no index, add to end of repeater node
+      positionToAddFrom = this.getPos() + this.offset + this.node.nodeSize;
+    } else {
+      const nodeToAddFrom = this.node.child(index);
+      // If index supplied, add from child at given index
+      const startOfNodeToAddFrom = this.getStartOfChildNode(
+        this.node,
+        index,
+        this.getPos(),
+        this.offset
+      );
+      positionToAddFrom = startOfNodeToAddFrom + nodeToAddFrom.nodeSize;
+    }
+    tr.insert(positionToAddFrom, newNode);
     this.outerView.dispatch(tr);
   }
 
@@ -95,16 +129,12 @@ export class RepeaterFieldView extends FieldView<unknown> {
   public remove(index: number) {
     const tr = this.outerView.state.tr;
     const nodeToRemove = this.node.child(index);
-    // When we add a node, we must add an offset:
-    //  - getPos() returns the position directly before the parent node (+1)
-    //  - the node we will be altering is a child of its parent (+1)
-    const contentOffset = 2;
-    let startOfNodeToRemove = this.getPos() + contentOffset + this.offset;
-    this.node.forEach((childNode, offset) => {
-      if (childNode === nodeToRemove) {
-        startOfNodeToRemove = startOfNodeToRemove + offset;
-      }
-    });
+    const startOfNodeToRemove = this.getStartOfChildNode(
+      this.node,
+      index,
+      this.getPos(),
+      this.offset
+    );
     const endOfNodeToRemove = startOfNodeToRemove + nodeToRemove.nodeSize;
     tr.deleteRange(startOfNodeToRemove, endOfNodeToRemove);
     this.outerView.dispatch(tr);
