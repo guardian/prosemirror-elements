@@ -98,7 +98,8 @@ export const createGetElementDataFromNode = <
   const values = getFieldValuesFromNode(
     node,
     element.fieldDescriptions,
-    serializer
+    serializer,
+    elementTypeMap
   );
 
   return ({
@@ -108,11 +109,14 @@ export const createGetElementDataFromNode = <
 };
 
 export const getFieldValuesFromNode = <
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   node: Node,
   fieldDescriptions: FDesc,
-  serializer: DOMSerializer
+  serializer: DOMSerializer,
+  elementTypeMap?: ESpecMap
 ) => {
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -124,7 +128,12 @@ export const getFieldValuesFromNode = <
       node
     ) as keyof FieldNameToField<FDesc>;
     const fieldDescription = fieldDescriptions[fieldName];
-    const value = getFieldValueFromNode(node, fieldDescription, serializer);
+    const value = getFieldValueFromNode(
+      node,
+      fieldDescription,
+      serializer,
+      elementTypeMap
+    );
 
     if (
       (fieldDescription.type === "richText" ||
@@ -141,10 +150,15 @@ export const getFieldValuesFromNode = <
   return values as ExtractFieldValues<FDesc>;
 };
 
-export const getFieldValueFromNode = (
+export const getFieldValueFromNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+>(
   node: Node,
   fieldDescription: FieldDescription,
-  serializer: DOMSerializer
+  serializer: DOMSerializer,
+  elementTypeMap?: ESpecMap
 ): unknown => {
   const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldContentType;
   if (fieldType === "ATTRIBUTES") {
@@ -160,13 +174,22 @@ export const getFieldValueFromNode = (
     const values = [] as unknown[];
     node.forEach((childNode) => {
       values.push(
-        getFieldValuesFromNode(childNode, fieldDescription.fields, serializer)
+        getFieldValuesFromNode(
+          childNode,
+          fieldDescription.fields,
+          serializer,
+          elementTypeMap
+        )
       );
     });
     return values;
   }
   if (fieldDescription.type === "nestedElement") {
-    return getValuesFromRichContentNode(node, serializer);
+    return getValuesFromNestedElementContentNode(
+      node,
+      serializer,
+      elementTypeMap
+    );
   }
   return undefined;
 };
@@ -184,6 +207,32 @@ const getValuesFromRichContentNode = (
 };
 
 const getValuesFromTextContentNode = (node: Node) => node.textContent;
+
+const getValuesFromNestedElementContentNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+>(
+  node: Node,
+  serializer: DOMSerializer,
+  elementTypeMap?: ESpecMap
+) => {
+  const nestedElements: Array<
+    ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>
+  > = [];
+  if (elementTypeMap) {
+    node.forEach((childElement) => {
+      const elementData = createGetElementDataFromNode(elementTypeMap)(
+        childElement,
+        serializer
+      );
+      if (elementData) {
+        nestedElements.push(elementData);
+      }
+    });
+    return nestedElements;
+  }
+};
 
 export const createElementDataValidator = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
