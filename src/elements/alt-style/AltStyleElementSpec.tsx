@@ -14,9 +14,9 @@ export const altStyleFields = {
     content: createNestedElementField({
       placeholder: "Don't show description",
       content: "block*",
-      isResizeable: true,
       marks: "em strong link",
       attrs: useTyperighterAttrs,
+      minRows: 4
     }),
   }),
 };
