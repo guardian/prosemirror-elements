@@ -7,6 +7,8 @@ import {
   SvgArrowUpStraight,
   SvgChevronRightDouble,
 } from "@guardian/src-icons";
+import type { MouseEventHandler } from "react";
+import React from "react";
 import { SvgBin } from "../../editorial-source-components/SvgBin";
 import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
 import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEvents";
@@ -20,12 +22,15 @@ export const moveBottomTestId = "ElementWrapper__moveBottom";
 export const moveUpTestId = "ElementWrapper__moveUp";
 export const moveDownTestId = "ElementWrapper__moveDown";
 
+export const addChildTestId = "ElementWrapper__addChild";
+export const removeChildTestId = "ElementWrapper__removeChild";
+
 const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
   border: none;
   border-top: 1px solid ${neutral[100]};
-  color: ${neutral[100]};
+  color: ${neutral[0]};
   cursor: pointer;
   flex-grow: ${({ expanded }) => (expanded ? "1" : "0")};
   ${({ expanded }) => !expanded && `height: ${buttonWidth}px;`};
@@ -45,6 +50,7 @@ const Button = styled("button")<{ expanded?: boolean }>`
 
   :hover {
     background: ${neutral[46]};
+    color: ${neutral[100]};
     svg {
       fill: ${neutral[100]};
     }
@@ -277,5 +283,45 @@ export const RightActionControls = ({
         </div>
       </Button>
     </RightActions>
+  );
+};
+
+export type RightRepeaterActionProps = {
+  add: MouseEventHandler<HTMLButtonElement>;
+  remove: MouseEventHandler<HTMLButtonElement>;
+  numberOfChildNodes: number;
+};
+
+const RepeaterControls = styled("div")`
+  padding-top: 8px;
+`;
+
+export const RightRepeaterActionControls = ({
+  add,
+  remove,
+  numberOfChildNodes,
+}: RightRepeaterActionProps) => {
+  return (
+    <RepeaterControls>
+      <RightActions className="actions">
+        <Button
+          type="button"
+          data-cy={addChildTestId}
+          onClick={add}
+          aria-label="Add repeater child"
+        >
+          +
+        </Button>
+        <Button
+          type="button"
+          data-cy={removeChildTestId}
+          disabled={numberOfChildNodes === 1}
+          onClick={remove}
+          aria-label="Remove repeater child"
+        >
+          -
+        </Button>
+      </RightActions>
+    </RepeaterControls>
   );
 };
