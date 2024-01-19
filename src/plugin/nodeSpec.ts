@@ -1,6 +1,7 @@
 import OrderedMap from "orderedmap";
 import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
+import { useTyperighterAttrs } from "../elements/helpers/typerighter";
 import { FieldContentType } from "./fieldViews/FieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
 import {
@@ -13,7 +14,6 @@ import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import { getRepeaterID } from "./helpers/util";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
-import { useTyperighterAttrs } from "../elements/helpers/typerighter";
 
 // An attribute added to Element nodes to identify them as such.
 export const elementNodeAttr = "isProseMirrorElement";
@@ -214,7 +214,7 @@ export const getNodeSpecForField = (
           content: `${childNodeName}*`,
           toDOM: getDefaultToDOMForRepeaterNode(parentNodeName),
           parseDOM: getDefaultParseDOMForLeafNode(parentNodeName),
-          attrs: {...useTyperighterAttrs},
+          attrs: { ...useTyperighterAttrs },
         },
         [childNodeName]: {
           group: fieldGroupName,
@@ -223,7 +223,7 @@ export const getNodeSpecForField = (
           parseDOM: getDefaultParseDOMForRepeaterChildNode(childNodeName),
           attrs: {
             [RepeaterFieldMapIDKey]: {},
-            ...useTyperighterAttrs
+            ...useTyperighterAttrs,
           },
         },
         ...extraFields,
