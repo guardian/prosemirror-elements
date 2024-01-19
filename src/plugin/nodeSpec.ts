@@ -13,6 +13,7 @@ import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import { getRepeaterID } from "./helpers/util";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
+import { useTyperighterAttrs } from "../elements/helpers/typerighter";
 
 // An attribute added to Element nodes to identify them as such.
 export const elementNodeAttr = "isProseMirrorElement";
@@ -213,7 +214,7 @@ export const getNodeSpecForField = (
           content: `${childNodeName}*`,
           toDOM: getDefaultToDOMForRepeaterNode(parentNodeName),
           parseDOM: getDefaultParseDOMForLeafNode(parentNodeName),
-          attrs: {},
+          attrs: {...useTyperighterAttrs},
         },
         [childNodeName]: {
           group: fieldGroupName,
@@ -222,6 +223,7 @@ export const getNodeSpecForField = (
           parseDOM: getDefaultParseDOMForRepeaterChildNode(childNodeName),
           attrs: {
             [RepeaterFieldMapIDKey]: {},
+            ...useTyperighterAttrs
           },
         },
         ...extraFields,
