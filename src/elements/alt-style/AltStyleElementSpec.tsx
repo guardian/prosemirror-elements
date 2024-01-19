@@ -16,7 +16,7 @@ export const altStyleFields = {
       content: "block*",
       marks: "em strong link",
       attrs: useTyperighterAttrs,
-      minRows: 4
+      minRows: 6,
     }),
   }),
 };

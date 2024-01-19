@@ -4,10 +4,10 @@ import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { pluginKey } from "../helpers/constants";
 import type { PlaceholderOption } from "../helpers/placeholder";
+import { waitForNextLayout } from "../helpers/util";
 import { FieldContentType } from "./FieldView";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
-import { waitForNextLayout } from "../helpers/util";
 
 type NestedElementOptions = {
   absentOnEmpty?: boolean;
@@ -44,7 +44,7 @@ export const createNestedElementField = ({
   placeholder,
   isResizeable,
   allowedPlugins = [],
-  minRows
+  minRows = 4,
 }: NestedElementOptions): NestedElementFieldDescription => {
   return {
     type: NestedElementFieldView.fieldType,
@@ -56,7 +56,7 @@ export const createNestedElementField = ({
     placeholder,
     isResizeable,
     allowedPlugins,
-    minRows
+    minRows,
   };
 };
 
@@ -89,7 +89,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     decorations: DecorationSource,
     { placeholder, isResizeable, minRows }: NestedElementFieldDescription,
     // Specify plugins of which the field should have its own copy
-    allowedPlugins: PluginKey[] = [],
+    allowedPlugins: PluginKey[] = []
     // Initial height of the field, in rows
   ) {
     super(
@@ -104,7 +104,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
           : [pluginKey, ...allowedPlugins].includes(plugin.spec.key)
       ),
       placeholder,
-      isResizeable,
+      isResizeable
     );
 
     if (this.innerEditorView) {
@@ -135,7 +135,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
           }px`;
           domElement.style.minHeight = initialInputHeightPx;
         }
-      })
+      });
     }
     this.fieldViewElement.classList.add(
       "ProseMirrorElements__NestedElementField"
