@@ -15,6 +15,7 @@ export const Editor = styled.div<{
   .ProseMirrorElements__RichTextField,
   .ProseMirrorElements__TextField,
   .ProseMirrorElements__NestedElementField {
+    background-color: ${background.primary};
     ${inputBorder}
     &:active {
       border: 1px solid ${background.inputChecked};

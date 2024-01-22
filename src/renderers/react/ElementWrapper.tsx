@@ -13,11 +13,7 @@ export const Container = styled("div")`
 
 export const Body = styled("div")`
   display: flex;
-  :hover {
-    .actions {
-      opacity: 1;
-    }
-  }
+  :hover,
   :focus-within {
     .actions {
       opacity: 1;
