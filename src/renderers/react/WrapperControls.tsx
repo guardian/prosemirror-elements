@@ -25,6 +25,9 @@ export const moveDownTestId = "ElementWrapper__moveDown";
 export const addChildTestId = "ElementWrapper__addChild";
 export const removeChildTestId = "ElementWrapper__removeChild";
 
+export const moveChildUpTestId = "ElementWrapper__moveChildUp";
+export const moveChildDownTestId = "ElementWrapper__moveChildDown";
+
 const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
@@ -101,6 +104,11 @@ const Actions = styled("div")`
 
 const RightActions = styled(Actions)`
   right: -${buttonWidth + 1}px;
+`;
+
+const RightRepeaterActions = styled(RightActions)`
+  height: 100%;
+  justify-content: space-between;
 `;
 
 const LeftActions = styled(Actions)`
@@ -289,39 +297,73 @@ export const RightActionControls = ({
 export type RightRepeaterActionProps = {
   add: MouseEventHandler<HTMLButtonElement>;
   remove: MouseEventHandler<HTMLButtonElement>;
+  moveUp: MouseEventHandler<HTMLButtonElement>;
+  moveDown: MouseEventHandler<HTMLButtonElement>;
   numberOfChildNodes: number;
+  index: number;
 };
 
 const RepeaterControls = styled("div")`
   padding-top: 8px;
 `;
 
+const RepeaterActions = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const RightRepeaterActionControls = ({
   add,
   remove,
+  moveUp,
+  moveDown,
   numberOfChildNodes,
+  index,
 }: RightRepeaterActionProps) => {
   return (
     <RepeaterControls>
-      <RightActions className="actions">
-        <Button
-          type="button"
-          data-cy={addChildTestId}
-          onClick={add}
-          aria-label="Add repeater child"
-        >
-          +
-        </Button>
-        <Button
-          type="button"
-          data-cy={removeChildTestId}
-          disabled={numberOfChildNodes === 1}
-          onClick={remove}
-          aria-label="Remove repeater child"
-        >
-          -
-        </Button>
-      </RightActions>
+      <RightRepeaterActions className="actions">
+        <RepeaterActions>
+          <Button
+            type="button"
+            data-cy={moveChildUpTestId}
+            disabled={index <= 0}
+            onClick={moveUp}
+            aria-label="Move repeater child up"
+          >
+            <SvgArrowUpStraight />
+          </Button>
+          <Button
+            type="button"
+            data-cy={moveChildDownTestId}
+            disabled={index >= numberOfChildNodes - 1}
+            onClick={moveDown}
+            aria-label="Move repeater child down"
+          >
+            <SvgArrowDownStraight />
+          </Button>
+        </RepeaterActions>
+        <RepeaterActions>
+          <Button
+            type="button"
+            data-cy={addChildTestId}
+            onClick={add}
+            aria-label="Add repeater child"
+          >
+            +
+          </Button>
+          <Button
+            type="button"
+            data-cy={removeChildTestId}
+            disabled={numberOfChildNodes === 1}
+            onClick={remove}
+            aria-label="Remove repeater child"
+          >
+            -
+          </Button>
+        </RepeaterActions>
+      </RightRepeaterActions>
     </RepeaterControls>
   );
 };

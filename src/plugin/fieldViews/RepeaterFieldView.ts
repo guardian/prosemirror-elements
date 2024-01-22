@@ -139,4 +139,44 @@ export class RepeaterFieldView extends FieldView<unknown> {
     tr.deleteRange(startOfNodeToRemove, endOfNodeToRemove);
     this.outerView.dispatch(tr);
   }
+
+  public moveUp(index: number) {
+    if (index <= 0) {
+      return;
+    }
+
+    const tr = this.outerView.state.tr;
+    const nodeToMove = this.node.child(index);
+    const startOfNodeToMove = this.getStartOfChildNode(
+      this.node,
+      index,
+      this.getPos(),
+      this.offset
+    );
+    const endOfNodeToMove = startOfNodeToMove + nodeToMove.nodeSize;
+    const previousNode = this.node.child(index - 1);
+    tr.deleteRange(startOfNodeToMove, endOfNodeToMove);
+    tr.insert(startOfNodeToMove - previousNode.nodeSize, nodeToMove);
+    this.outerView.dispatch(tr);
+  }
+
+  public moveDown(index: number) {
+    if (index >= this.node.childCount - 1) {
+      return;
+    }
+
+    const tr = this.outerView.state.tr;
+    const nodeToMove = this.node.child(index);
+    const startOfNodeToMove = this.getStartOfChildNode(
+      this.node,
+      index,
+      this.getPos(),
+      this.offset
+    );
+    const endOfNodeToMove = startOfNodeToMove + nodeToMove.nodeSize;
+    const nextNode = this.node.child(index + 1);
+    tr.insert(endOfNodeToMove + nextNode.nodeSize, nodeToMove);
+    tr.deleteRange(startOfNodeToMove, endOfNodeToMove);
+    this.outerView.dispatch(tr);
+  }
 }

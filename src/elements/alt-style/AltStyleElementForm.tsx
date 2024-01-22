@@ -48,7 +48,10 @@ export const altStyleElement = createReactElementSpec({
           <RightRepeaterActionControls
             add={() => fields.repeater.view.add(index)}
             remove={() => fields.repeater.view.remove(index)}
+            moveUp={() => fields.repeater.view.moveUp(index)}
+            moveDown={() => fields.repeater.view.moveDown(index)}
             numberOfChildNodes={children.length}
+            index={index}
           />
         </RepeaterBody>
       ))}
