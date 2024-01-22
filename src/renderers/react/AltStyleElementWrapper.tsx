@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import type { ReactElement } from "react";
 import type { CommandCreator } from "../../plugin/types/Commands";
-import { Body, Overlay } from "./ElementWrapper";
+import { Overlay } from "./ElementWrapper";
 
 const AltStyleContainer = styled("div")`
   margin: ${space[3]}px 0;
@@ -16,7 +16,7 @@ const AltStylePanel = styled("div")<{
   isSelected: boolean;
 }>`
   position: relative;
-  padding: 0px ${space[3]}px;
+  padding: 0 ${space[3]}px;
   flex-grow: 1;
   overflow: hidden;
   padding: ${space[3]}px;
@@ -51,12 +51,10 @@ export const AltStyleElementWrapper: React.FunctionComponent<ElementWrapperProps
       className="ProsemirrorElement__wrapper"
       data-cy={elementWrapperTestId}
     >
-      <Body>
-        <AltStylePanel isSelected={isSelected}>
-          {isSelected && <Overlay />}
-          {children}
-        </AltStylePanel>
-      </Body>
+      <AltStylePanel isSelected={isSelected}>
+        {isSelected && <Overlay />}
+        {children}
+      </AltStylePanel>
     </AltStyleContainer>
   );
 };

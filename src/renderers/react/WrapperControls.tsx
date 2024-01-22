@@ -8,7 +8,7 @@ import {
   SvgChevronRightDouble,
 } from "@guardian/src-icons";
 import type { MouseEventHandler } from "react";
-import React from "react";
+import React, { useState } from "react";
 import { SvgBin } from "../../editorial-source-components/SvgBin";
 import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
 import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEvents";
@@ -43,8 +43,8 @@ const Button = styled("button")<{ expanded?: boolean }>`
   width: ${buttonWidth}px;
   transition: background-color 0.1s;
   :focus {
-    ${focusHalo}
-    z-index: 1;
+    ${focusHalo};
+    z-index: 11;
   }
 
   :first-of-type {
@@ -102,17 +102,22 @@ const Actions = styled("div")`
   transition: opacity 0.2s;
 `;
 
+const LeftActions = styled(Actions)`
+  justify-content: space-between;
+  position: relative;
+`;
+
+const LeftRepeaterActions = styled(LeftActions)`
+  height: 100%;
+  justify-content: flex-end;
+`;
+
 const RightActions = styled(Actions)`
   right: -${buttonWidth + 1}px;
 `;
 
 const RightRepeaterActions = styled(RightActions)`
   height: 100%;
-  justify-content: space-between;
-`;
-
-const LeftActions = styled(Actions)`
-  left: -${buttonWidth + 1}px;
   justify-content: space-between;
 `;
 
@@ -127,7 +132,7 @@ const Tooltip = styled("div")`
   font-family: "Guardian Agate Sans";
   font-size: 15px;
   filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
-  z-index: 1;
+  z-index: 11;
   width: 82px;
   padding: ${space[1]}px;
   padding-bottom: 5px;
@@ -294,9 +299,13 @@ export const RightActionControls = ({
   );
 };
 
+export type LeftRepeaterActionProps = {
+  remove: MouseEventHandler<HTMLButtonElement>;
+  numberOfChildNodes: number;
+};
+
 export type RightRepeaterActionProps = {
   add: MouseEventHandler<HTMLButtonElement>;
-  remove: MouseEventHandler<HTMLButtonElement>;
   moveUp: MouseEventHandler<HTMLButtonElement>;
   moveDown: MouseEventHandler<HTMLButtonElement>;
   numberOfChildNodes: number;
@@ -313,9 +322,44 @@ const RepeaterActions = styled("div")`
   align-items: center;
 `;
 
+export const LeftRepeaterActionControls = ({
+  remove,
+  numberOfChildNodes,
+}: LeftRepeaterActionProps) => {
+  const [closeClickedOnce, setCloseClickedOnce] = useState(false);
+
+  return (
+    <RepeaterControls>
+      <LeftRepeaterActions className="actions">
+        <RepeaterActions>
+          <SeriousButton
+            type="button"
+            activated={closeClickedOnce}
+            data-cy={removeChildTestId}
+            disabled={numberOfChildNodes === 1}
+            onClick={(e) => {
+              if (closeClickedOnce) {
+                return remove(e);
+              } else {
+                setCloseClickedOnce(true);
+                setTimeout(() => {
+                  setCloseClickedOnce(false);
+                }, 5000);
+              }
+            }}
+            aria-label="Remove repeater child"
+          >
+            <SvgBin />
+            {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
+          </SeriousButton>
+        </RepeaterActions>
+      </LeftRepeaterActions>
+    </RepeaterControls>
+  );
+};
+
 export const RightRepeaterActionControls = ({
   add,
-  remove,
   moveUp,
   moveDown,
   numberOfChildNodes,
@@ -352,15 +396,6 @@ export const RightRepeaterActionControls = ({
             aria-label="Add repeater child"
           >
             +
-          </Button>
-          <Button
-            type="button"
-            data-cy={removeChildTestId}
-            disabled={numberOfChildNodes === 1}
-            onClick={remove}
-            aria-label="Remove repeater child"
-          >
-            -
           </Button>
         </RepeaterActions>
       </RightRepeaterActions>
