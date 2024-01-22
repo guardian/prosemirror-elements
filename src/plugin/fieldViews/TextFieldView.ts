@@ -6,7 +6,7 @@ import type { Command, EditorState, Transaction } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
-import type { PlaceholderOption } from "../helpers/placeholder";
+import { createPlaceholderPlugin, type PlaceholderOption } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
 import { waitForNextLayout } from "../helpers/util";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
@@ -129,7 +129,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      [keymap(keymapping)],
+      [keymap(keymapping), createPlaceholderPlugin(placeholder || "Enter text...")],
       placeholder,
       isResizeable
     );

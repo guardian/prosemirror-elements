@@ -6,7 +6,7 @@ import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
-import type { PlaceholderOption } from "../helpers/placeholder";
+import { createPlaceholderPlugin, type PlaceholderOption } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
@@ -57,6 +57,7 @@ export const createRichTextField = ({
 
 type FlatRichTextOptions = RichTextOptions & {
   validators?: FieldValidator[];
+  placeholder?: string;
 };
 
 /**
@@ -65,6 +66,7 @@ type FlatRichTextOptions = RichTextOptions & {
  */
 export const createFlatRichTextField = ({
   createPlugins,
+  placeholder,
   ...rest
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
@@ -87,7 +89,7 @@ export const createFlatRichTextField = ({
       };
 
       const plugin = keymap(keymapping);
-      return [plugin, ...(createPlugins?.(schema) ?? [])];
+      return [plugin, createPlaceholderPlugin(placeholder || "Enter text..."), ...(createPlugins?.(schema) ?? [])];
     },
     content: "(text|hard_break)*",
     ...rest,
