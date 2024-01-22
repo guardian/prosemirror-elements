@@ -5,13 +5,8 @@ import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { DecorationSource } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
-import type { DecorationGroup } from "../helpers/decorations";
-import { isDecorationGroup, isDecorationSet } from "../helpers/decorations";
 import type { PlaceholderOption } from "../helpers/placeholder";
-import {
-  createPlaceholderPlugin,
-  PME_UPDATE_PLACEHOLDER,
-} from "../helpers/placeholder";
+import { PME_UPDATE_PLACEHOLDER } from "../helpers/placeholder";
 import type { BaseFieldDescription } from "./FieldView";
 import { FieldContentType, FieldView } from "./FieldView";
 
@@ -287,7 +282,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       ]);
       this.decorations = localDecoSet.map(offsetMap, node);
       this.decorationsPending = true;
-    } catch(e){
+    } catch (e) {
       // Due to an existing bug, this operation fails for decorations in nestedElement fields within
       // repeater fields, when subsequent nestedElement fields in the repeater contain elements.
     }
