@@ -74,10 +74,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     this.setupFocusHandler();
     this.parser = DOMParser.fromSchema(node.type.schema);
 
-    const localPlugins = placeholder
-      ? [...(plugins ?? []), createPlaceholderPlugin(placeholder)]
-      : plugins;
-    this.innerEditorView = this.createInnerEditorView(localPlugins);
+    this.innerEditorView = this.createInnerEditorView(plugins);
     if (isResizeable) {
       this.makeInputElementResizeable();
     }
@@ -269,7 +266,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     // of DecorationSource that provides more useful utility methods), or DecorationGroup,
     // which provides a collection of DecorationSet. prosemirror-view does not currently
     // export a type definition for DecorationGroup so we are providing our own.
-    decorations: DecorationSource | DecorationGroup,
+    decorations: DecorationSource,
     node: Node,
     elementOffset: number
   ) {
@@ -278,16 +275,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       return;
     }
 
-    if (isDecorationGroup(decorations)) {
-      decorations.members.forEach((member) => {
-        this.applyDecorationsFromOuterEditor(member, node, elementOffset);
-      });
-    } else if (isDecorationSet(decorations)) {
+    try {
       this.outerDecorations = decorations;
-      const localDecoSet = DecorationSet.create(
-        this.outerView.state.doc,
-        decorations.find(elementOffset, elementOffset + node.nodeSize)
-      );
+      const localDecoSet = Array.isArray(decorations)
+        ? DecorationSet.create(node, decorations)
+        : decorations;
       // Offset because the node we are displaying these decorations in is a child of its parent (-1)
       const localOffset = -1;
       const offsetMap = new Mapping([
@@ -295,6 +287,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       ]);
       this.decorations = localDecoSet.map(offsetMap, node);
       this.decorationsPending = true;
+    } catch(e){
+      // Due to an existing bug, this operation fails for decorations in nestedElement fields within
+      // repeater fields, when subsequent nestedElement fields in the repeater contain elements.
     }
   }
 
