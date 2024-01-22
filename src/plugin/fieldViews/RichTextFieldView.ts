@@ -67,7 +67,6 @@ type FlatRichTextOptions = RichTextOptions & {
  */
 export const createFlatRichTextField = ({
   createPlugins,
-  placeholder,
   ...rest
 }: FlatRichTextOptions): RichTextFieldDescription =>
   createRichTextField({
@@ -90,11 +89,7 @@ export const createFlatRichTextField = ({
       };
 
       const plugin = keymap(keymapping);
-      return [
-        plugin,
-        createPlaceholderPlugin(placeholder ?? "Enter text..."),
-        ...(createPlugins?.(schema) ?? []),
-      ];
+      return [plugin, ...(createPlugins?.(schema) ?? [])];
     },
     content: "(text|hard_break)*",
     ...rest,
@@ -143,6 +138,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
           "Mod-a": selectAllText,
           ...filteredKeymap,
         }),
+        createPlaceholderPlugin(placeholder ?? "Enter text..."),
         ...(createPlugins ? createPlugins(node.type.schema) : []),
       ],
       placeholder,
