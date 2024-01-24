@@ -12,6 +12,7 @@ import {
   changeTestDecoString,
   clickButton,
   focusElementField,
+  getButton,
   getDocSelection,
   getElementField,
   getElementHeading,
@@ -583,9 +584,14 @@ describe("ImageElement", () => {
       });
       it("should remove repeater elements", () => {
         addImageElement();
-        clickButton(AddRepeaterButtonId);
+        const addRepeaterButtons = getButton(AddRepeaterButtonId);
+        addRepeaterButtons.click();
+        addRepeaterButtons.first().click();
+        getElementRichTextField("repeaterText").its("length").should("eq", 2);
+        getButton(RemoveRepeaterButtonId).first().click();
+        getElementRichTextField("repeaterText").its("length").should("eq", 1);
         clickButton(RemoveRepeaterButtonId);
-        getElementRichTextField("repeaterText").should("not.exist");
+        getElementRichTextField("repeaterText").its("length").should("eq", 1); // because you can't delete the last one
       });
       it("should accept values in repeater elements", () => {
         addImageElement();
@@ -596,6 +602,30 @@ describe("ImageElement", () => {
             repeaterValue: [{ repeaterText: "Repeater value" }],
           })
         );
+      });
+      it("should add nested repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        clickButton(AddNestedRepeaterButtonId);
+        getElementRichTextField("nestedRepeaterText").should("exist");
+      });
+      it("should remove nested repeater elements", () => {
+        addImageElement();
+        clickButton(AddRepeaterButtonId);
+        const addNestedRepeaterButtons = getButton(AddNestedRepeaterButtonId);
+        addNestedRepeaterButtons.click();
+        addNestedRepeaterButtons.first().click();
+        getElementRichTextField("nestedRepeaterText")
+          .its("length")
+          .should("eq", 2);
+        getButton(RemoveNestedRepeaterButtonId).first().click();
+        getElementRichTextField("nestedRepeaterText")
+          .its("length")
+          .should("eq", 1);
+        clickButton(RemoveNestedRepeaterButtonId);
+        getElementRichTextField("nestedRepeaterText")
+          .its("length")
+          .should("eq", 1); // because you can't delete the last one
       });
       it("should accept values in nested repeater elements", () => {
         addImageElement();
