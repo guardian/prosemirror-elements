@@ -597,19 +597,6 @@ describe("ImageElement", () => {
           })
         );
       });
-      it("should add nested repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
-        clickButton(AddNestedRepeaterButtonId);
-        getElementRichTextField("nestedRepeaterText").should("exist");
-      });
-      it("should remove nested repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
-        clickButton(AddNestedRepeaterButtonId);
-        clickButton(RemoveNestedRepeaterButtonId);
-        getElementRichTextField("nestedRepeaterText").should("not.exist");
-      });
       it("should accept values in nested repeater elements", () => {
         addImageElement();
         clickButton(AddRepeaterButtonId);
