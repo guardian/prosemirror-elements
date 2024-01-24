@@ -300,14 +300,14 @@ export const RightActionControls = ({
 };
 
 export type LeftRepeaterActionProps = {
-  remove: MouseEventHandler<HTMLButtonElement>;
+  removeChildAt: MouseEventHandler<HTMLButtonElement>;
   numberOfChildNodes: number;
 };
 
 export type RightRepeaterActionProps = {
-  add: MouseEventHandler<HTMLButtonElement>;
-  moveUp: MouseEventHandler<HTMLButtonElement>;
-  moveDown: MouseEventHandler<HTMLButtonElement>;
+  addChildAfter: MouseEventHandler<HTMLButtonElement>;
+  moveChildUpOne: MouseEventHandler<HTMLButtonElement>;
+  moveChildDownOne: MouseEventHandler<HTMLButtonElement>;
   numberOfChildNodes: number;
   index: number;
 };
@@ -323,7 +323,7 @@ const RepeaterActions = styled("div")`
 `;
 
 export const LeftRepeaterActionControls = ({
-  remove,
+  removeChildAt,
   numberOfChildNodes,
 }: LeftRepeaterActionProps) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
@@ -339,7 +339,7 @@ export const LeftRepeaterActionControls = ({
             disabled={numberOfChildNodes === 1}
             onClick={(e) => {
               if (closeClickedOnce) {
-                return remove(e);
+                return removeChildAt(e);
               } else {
                 setCloseClickedOnce(true);
                 setTimeout(() => {
@@ -359,9 +359,9 @@ export const LeftRepeaterActionControls = ({
 };
 
 export const RightRepeaterActionControls = ({
-  add,
-  moveUp,
-  moveDown,
+  addChildAfter,
+  moveChildUpOne,
+  moveChildDownOne,
   numberOfChildNodes,
   index,
 }: RightRepeaterActionProps) => {
@@ -373,7 +373,7 @@ export const RightRepeaterActionControls = ({
             type="button"
             data-cy={moveChildUpTestId}
             disabled={index <= 0}
-            onClick={moveUp}
+            onClick={moveChildUpOne}
             aria-label="Move repeater child up"
           >
             <SvgArrowUpStraight />
@@ -382,7 +382,7 @@ export const RightRepeaterActionControls = ({
             type="button"
             data-cy={moveChildDownTestId}
             disabled={index >= numberOfChildNodes - 1}
-            onClick={moveDown}
+            onClick={moveChildDownOne}
             aria-label="Move repeater child down"
           >
             <SvgArrowDownStraight />
@@ -392,7 +392,7 @@ export const RightRepeaterActionControls = ({
           <Button
             type="button"
             data-cy={addChildTestId}
-            onClick={add}
+            onClick={addChildAfter}
             aria-label="Add repeater child"
           >
             +

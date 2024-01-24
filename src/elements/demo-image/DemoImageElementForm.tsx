@@ -60,7 +60,7 @@ export const createDemoImageElement = (
                 headingContent={
                   <button
                     data-cy={RemoveRepeaterButtonId}
-                    onClick={() => fields.repeater.view.remove(index)}
+                    onClick={() => fields.repeater.view.removeChildAt(index)}
                   >
                     -
                   </button>
@@ -77,7 +77,7 @@ export const createDemoImageElement = (
                           <button
                             data-cy={RemoveNestedRepeaterButtonId}
                             onClick={() =>
-                              repeater.nestedRepeater.view.remove(index)
+                              repeater.nestedRepeater.view.removeChildAt(index)
                             }
                           >
                             -
@@ -91,7 +91,7 @@ export const createDemoImageElement = (
               </ul>
               <button
                 data-cy={AddNestedRepeaterButtonId}
-                onClick={() => repeater.nestedRepeater.view.add()}
+                onClick={() => repeater.nestedRepeater.view.addChildAfter()}
               >
                 +
               </button>
@@ -99,7 +99,7 @@ export const createDemoImageElement = (
           ))}
           <button
             data-cy={AddRepeaterButtonId}
-            onClick={() => fields.repeater.view.add()}
+            onClick={() => fields.repeater.view.addChildAfter()}
           >
             +
           </button>

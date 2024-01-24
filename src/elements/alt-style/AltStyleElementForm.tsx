@@ -59,7 +59,7 @@ export const altStyleElement = createReactElementSpec({
         <RepeaterBody>
           <ChildNumber>{index + 1}</ChildNumber>
           <LeftRepeaterActionControls
-            remove={() => fields.repeater.view.remove(index)}
+            removeChildAt={() => fields.repeater.view.removeChildAt(index)}
             numberOfChildNodes={children.length}
           />
           {/*Use field index as key to avoid React render conflicts*/}
@@ -76,9 +76,11 @@ export const altStyleElement = createReactElementSpec({
             />
           </RepeaterChild>
           <RightRepeaterActionControls
-            add={() => fields.repeater.view.add(index)}
-            moveUp={() => fields.repeater.view.moveUp(index)}
-            moveDown={() => fields.repeater.view.moveDown(index)}
+            addChildAfter={() => fields.repeater.view.addChildAfter(index)}
+            moveChildUpOne={() => fields.repeater.view.moveChildUpOne(index)}
+            moveChildDownOne={() =>
+              fields.repeater.view.moveChildDownOne(index)
+            }
             numberOfChildNodes={children.length}
             index={index}
           />

@@ -90,7 +90,18 @@ export class RepeaterFieldView extends FieldView<unknown> {
    * Add a new child from this repeater at the given index.
    * If no index is supplied, add to the end of the repeater.
    */
-  public add(index?: number) {
+  public addChildAfter(maybeIndex?: number) {
+    if (
+      maybeIndex !== undefined &&
+      (maybeIndex < 0 || maybeIndex >= this.node.childCount)
+    ) {
+      console.error(
+        `Cannot add at index ${maybeIndex}: index out of range. Must be between 0 and ${
+          this.node.childCount - 1
+        }`
+      );
+      return;
+    }
     const tr = this.outerView.state.tr;
     const repeaterChildNodeName = getRepeaterChildNameFromParent(
       this.node.type.name
@@ -105,15 +116,15 @@ export class RepeaterFieldView extends FieldView<unknown> {
       return;
     }
     let positionToAddFrom;
-    if (index === undefined) {
+    if (maybeIndex === undefined) {
       // If no index, add to end of repeater node
       positionToAddFrom = this.getPos() + this.offset + this.node.nodeSize;
     } else {
-      const nodeToAddFrom = this.node.child(index);
+      const nodeToAddFrom = this.node.child(maybeIndex);
       // If index supplied, add from child at given index
       const startOfNodeToAddFrom = this.getStartOfChildNode(
         this.node,
-        index,
+        maybeIndex,
         this.getPos(),
         this.offset
       );
@@ -126,7 +137,18 @@ export class RepeaterFieldView extends FieldView<unknown> {
   /**
    * Remove a child from this repeater at the given index.
    */
-  public remove(index: number) {
+  public removeChildAt(index: number) {
+    if (index < 0 || index >= this.node.childCount) {
+      console.error(
+        `Cannot remove at index ${index}: index out of range. Must be between 0 and ${
+          this.node.childCount - 1
+        }`
+      );
+      return;
+    }
+    if (this.node.childCount === 1) {
+      return;
+    }
     const tr = this.outerView.state.tr;
     const nodeToRemove = this.node.child(index);
     const startOfNodeToRemove = this.getStartOfChildNode(
@@ -140,8 +162,13 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
-  public moveUp(index: number) {
-    if (index <= 0) {
+  public moveChildUpOne(index: number) {
+    if (index < 1 || index > this.node.childCount - 1) {
+      console.error(
+        `Cannot move index ${index} up: index out of range. Must be between 1 and ${
+          this.node.childCount - 1
+        }`
+      );
       return;
     }
 
@@ -160,8 +187,13 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
-  public moveDown(index: number) {
-    if (index >= this.node.childCount - 1) {
+  public moveChildDownOne(index: number) {
+    if (index < 0 || index > this.node.childCount - 2) {
+      console.error(
+        `Cannot move index ${index} down: index out of range. Must be between 0 and ${
+          this.node.childCount - 2
+        }`
+      );
       return;
     }
 
