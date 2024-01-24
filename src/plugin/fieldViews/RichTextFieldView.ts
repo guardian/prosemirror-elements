@@ -7,6 +7,7 @@ import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
+import { createPlaceholderPlugin } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
 import type { AbstractTextFieldDescription } from "./ProseMirrorFieldView";
 import { ProseMirrorFieldView } from "./ProseMirrorFieldView";
@@ -57,6 +58,7 @@ export const createRichTextField = ({
 
 type FlatRichTextOptions = RichTextOptions & {
   validators?: FieldValidator[];
+  placeholder?: string;
 };
 
 /**
@@ -136,6 +138,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
           "Mod-a": selectAllText,
           ...filteredKeymap,
         }),
+        createPlaceholderPlugin(placeholder ?? "Enter text..."),
         ...(createPlugins ? createPlugins(node.type.schema) : []),
       ],
       placeholder,
