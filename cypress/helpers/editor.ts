@@ -113,8 +113,9 @@ export const addImageElement = (values: Record<string, unknown> = {}) => {
   });
 };
 
-export const clickButton = (id: string) =>
-  cy.get(`button${selectDataCy(id)}`).click();
+export const getButton = (id: string) => cy.get(`button${selectDataCy(id)}`);
+
+export const clickButton = (id: string) => getButton(id).click();
 
 export const assertEditorFocus = (shouldBeFocused: boolean) => {
   cy.window().then((win: WindowType) => {
