@@ -90,7 +90,6 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     { placeholder, isResizeable, minRows }: NestedElementFieldDescription,
     // Specify plugins of which the field should have its own copy
     allowedPlugins: PluginKey[] = []
-    // Initial height of the field, in rows
   ) {
     super(
       node,
