@@ -1,3 +1,4 @@
+import _ from "lodash";
 import type {
   DOMSerializer,
   Node,
@@ -22,7 +23,6 @@ import type {
 } from "../types/Element";
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
-import _ from "lodash";
 
 /**
  * Creates a function that will attempt to create a Prosemirror node from
@@ -105,6 +105,7 @@ export const createGetElementDataFromNode = <
     ESpecMap
   >(elementTypeMap);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
   if (!element) {
     return undefined;
   }
@@ -236,37 +237,44 @@ const getValuesFromNestedElementContentNode = <
   > = [];
   if (getElementDataFromNode) {
     node.forEach((childElement) => {
-      const elementName = getElementNameFromNode(childElement) as ElementNames | "textElement";
-      if (elementName === "textElement"){
+      const elementName = getElementNameFromNode(childElement) as
+        | ElementNames
+        | "textElement";
+      if (elementName === "textElement") {
         // Make sure the nestedElementField serialises any textElement properly,
         // rather than throwing them away on serialisation.
         const emptyElement = {
-            elementType: "textElement",
-            fields: {},
-            assets: [],
-        }
+          elementType: "textElement",
+          fields: {},
+          assets: [],
+        };
 
         const dom = serializer.serializeFragment(childElement.content);
         const e = document.createElement("div");
         e.appendChild(dom);
-      
+
         if (childElement.textContent) {
-          
           const nestedNode = _.assign(_.cloneDeep(emptyElement), {
             fields: {
-                text: e.innerHTML
-            }
-          })
-          // This is a textElement as defined in flexible-content, not within the scope of 
+              text: e.innerHTML,
+            },
+          });
+          // This is a textElement as defined in flexible-content, not within the scope of
           // prosemirror-elements, so we need to do a type-cast to make Typescript happy.
           // Currently, the top level textElements will be serialised by flexible-content,
           // so we're duplicating some functionality here. In the future it would be better
-          // to have prosemirror-elements handle textElements everywhere they appear, but 
+          // to have prosemirror-elements handle textElements everywhere they appear, but
           // that will be a substantial change in both projects.
-          nestedElements.push(node as unknown as ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>);
+          nestedElements.push(
+            (nestedNode as unknown) as ExtractDataTypeFromElementSpec<
+              ESpecMap,
+              Extract<keyof ESpecMap, string>
+            >
+          );
         }
-      }  
+      }
       const elementData = getElementDataFromNode(childElement, serializer);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
       if (elementData) {
         nestedElements.push(elementData);
       }
