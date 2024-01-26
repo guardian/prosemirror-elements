@@ -1,5 +1,14 @@
 # @guardian/prosemirror-elements
 
+## 7.1.1
+
+### Patch Changes
+
+- 3332b8c: - Bumping changeset version to resolve high vulnerabilities
+  - Support typerighter in repeater nodes by default
+  - Add minimum rows option for nestedElementField
+  - Fix typerighter elements bug (show more than one decoration per typerighter-supporting field) and get decorations working better in repeated nested fields
+
 ## 7.1.0
 
 ### Minor Changes
