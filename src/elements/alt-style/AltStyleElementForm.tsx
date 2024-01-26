@@ -54,7 +54,7 @@ export const altStyleElement = createReactElementSpec({
       useAlternateStyles={true}
     >
       {fields.repeater.children.map((repeater, index, children) => (
-        <RepeaterBody>
+        <RepeaterBody key={repeater[RepeaterFieldMapIDKey]}>
           <ChildNumber>{index + 1}</ChildNumber>
           <LeftRepeaterActionControls
             removeChildAt={() => fields.repeater.view.removeChildAt(index)}
@@ -62,7 +62,7 @@ export const altStyleElement = createReactElementSpec({
             minChildren={1}
           />
           {/*Use field index as key to avoid React render conflicts*/}
-          <RepeaterChild key={repeater[RepeaterFieldMapIDKey]}>
+          <RepeaterChild>
             <FieldWrapper
               headingLabel="Key Takeaway Title"
               field={repeater.title}
