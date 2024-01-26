@@ -591,7 +591,7 @@ describe("ImageElement", () => {
         getButton(RemoveRepeaterButtonId).first().click();
         getElementRichTextField("repeaterText").its("length").should("eq", 1);
         clickButton(RemoveRepeaterButtonId);
-        getElementRichTextField("repeaterText").its("length").should("eq", 1); // because you can't delete the last one
+        getElementRichTextField("repeaterText").should("not.exist");
       });
       it("should accept values in repeater elements", () => {
         addImageElement();
@@ -623,9 +623,7 @@ describe("ImageElement", () => {
           .its("length")
           .should("eq", 1);
         clickButton(RemoveNestedRepeaterButtonId);
-        getElementRichTextField("nestedRepeaterText")
-          .its("length")
-          .should("eq", 1); // because you can't delete the last one
+        getElementRichTextField("nestedRepeaterText").should("not.exist");
       });
       it("should accept values in nested repeater elements", () => {
         addImageElement();

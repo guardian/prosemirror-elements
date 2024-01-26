@@ -302,6 +302,7 @@ export const RightActionControls = ({
 export type LeftRepeaterActionProps = {
   removeChildAt: MouseEventHandler<HTMLButtonElement>;
   numberOfChildNodes: number;
+  minChildren: number;
 };
 
 export type RightRepeaterActionProps = {
@@ -325,6 +326,7 @@ const RepeaterActions = styled("div")`
 export const LeftRepeaterActionControls = ({
   removeChildAt,
   numberOfChildNodes,
+  minChildren,
 }: LeftRepeaterActionProps) => {
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
 
@@ -336,7 +338,7 @@ export const LeftRepeaterActionControls = ({
             type="button"
             activated={closeClickedOnce}
             data-cy={removeChildTestId}
-            disabled={numberOfChildNodes === 1}
+            disabled={numberOfChildNodes === minChildren}
             onClick={(e) => {
               if (closeClickedOnce) {
                 return removeChildAt(e);
