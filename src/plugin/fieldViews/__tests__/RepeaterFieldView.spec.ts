@@ -76,11 +76,11 @@ describe("RepeaterFieldView", () => {
     );
   });
 
-  it("should do nothing if removing a repeater child when there is only one child", () => {
+  it("should do nothing if removing a repeater child when we are at the minimum threshold for number of children", () => {
     testRepeaterMutation(
       ["Content 1"],
       (repeaterFieldView) => {
-        repeaterFieldView.removeChildAt(0);
+        repeaterFieldView.removeChildAt(0, 1);
       },
       [`paragraph("Content 1")`]
     );

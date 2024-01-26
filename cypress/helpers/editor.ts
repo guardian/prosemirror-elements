@@ -113,6 +113,16 @@ export const addImageElement = (values: Record<string, unknown> = {}) => {
   });
 };
 
+export const addAltStyleElement = (values: Record<string, unknown> = {}) => {
+  cy.window().then((win: WindowType) => {
+    const { view, insertElement } = win.PM_ELEMENTS;
+    insertElement({ elementName: "alt-style", values })(
+      view.state,
+      view.dispatch
+    );
+  });
+};
+
 export const getButton = (id: string) => cy.get(`button${selectDataCy(id)}`);
 
 export const clickButton = (id: string) => getButton(id).click();

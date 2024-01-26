@@ -136,8 +136,9 @@ export class RepeaterFieldView extends FieldView<unknown> {
 
   /**
    * Remove a child from this repeater at the given index.
+   * Do not remove if we are at the minimum threshold for number of children.
    */
-  public removeChildAt(index: number) {
+  public removeChildAt(index: number, minChildren = 0) {
     if (index < 0 || index >= this.node.childCount) {
       console.error(
         `Cannot remove at index ${index}: index out of range. Must be between 0 and ${
@@ -146,7 +147,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
       );
       return;
     }
-    if (this.node.childCount === 1) {
+    if (this.node.childCount === minChildren) {
       return;
     }
     const tr = this.outerView.state.tr;
