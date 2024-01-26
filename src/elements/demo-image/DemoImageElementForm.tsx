@@ -58,12 +58,20 @@ export const createDemoImageElement = (
               <FieldWrapper
                 headingLabel="Repeater text"
                 headingContent={
-                  <button
-                    data-cy={RemoveRepeaterButtonId}
-                    onClick={() => fields.repeater.view.removeChildAt(index)}
-                  >
-                    -
-                  </button>
+                  <>
+                    <button
+                      data-cy={RemoveRepeaterButtonId}
+                      onClick={() => fields.repeater.view.removeChildAt(index)}
+                    >
+                      -
+                    </button>
+                    <button
+                      data-cy={AddRepeaterButtonId}
+                      onClick={() => fields.repeater.view.addChildAfter(index)}
+                    >
+                      +
+                    </button>
+                  </>
                 }
                 field={repeater.repeaterText}
               />
@@ -74,14 +82,28 @@ export const createDemoImageElement = (
                       <FieldWrapper
                         headingLabel="Nested repeater text"
                         headingContent={
-                          <button
-                            data-cy={RemoveNestedRepeaterButtonId}
-                            onClick={() =>
-                              repeater.nestedRepeater.view.removeChildAt(index)
-                            }
-                          >
-                            -
-                          </button>
+                          <>
+                            <button
+                              data-cy={RemoveNestedRepeaterButtonId}
+                              onClick={() =>
+                                repeater.nestedRepeater.view.removeChildAt(
+                                  index
+                                )
+                              }
+                            >
+                              -
+                            </button>
+                            <button
+                              data-cy={AddNestedRepeaterButtonId}
+                              onClick={() =>
+                                repeater.nestedRepeater.view.addChildAfter(
+                                  index
+                                )
+                              }
+                            >
+                              +
+                            </button>
+                          </>
                         }
                         field={nestedRepeater.nestedRepeaterText}
                       />
@@ -89,20 +111,8 @@ export const createDemoImageElement = (
                   )
                 )}
               </ul>
-              <button
-                data-cy={AddNestedRepeaterButtonId}
-                onClick={() => repeater.nestedRepeater.view.addChildAfter()}
-              >
-                +
-              </button>
             </li>
           ))}
-          <button
-            data-cy={AddRepeaterButtonId}
-            onClick={() => fields.repeater.view.addChildAfter()}
-          >
-            +
-          </button>
         </ul>
       </FieldLayoutVertical>
     ),

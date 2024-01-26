@@ -90,13 +90,10 @@ export class RepeaterFieldView extends FieldView<unknown> {
    * Add a new child from this repeater at the given index.
    * If no index is supplied, add to the end of the repeater.
    */
-  public addChildAfter(maybeIndex?: number) {
-    if (
-      maybeIndex !== undefined &&
-      (maybeIndex < 0 || maybeIndex >= this.node.childCount)
-    ) {
+  public addChildAfter(index: number) {
+    if (index < 0 || index >= this.node.childCount) {
       console.error(
-        `Cannot add at index ${maybeIndex}: index out of range. Must be between 0 and ${
+        `Cannot add at index ${index}: index out of range. Must be between 0 and ${
           this.node.childCount - 1
         }`
       );
@@ -115,21 +112,15 @@ export class RepeaterFieldView extends FieldView<unknown> {
       );
       return;
     }
-    let positionToAddFrom;
-    if (maybeIndex === undefined) {
-      // If no index, add to end of repeater node
-      positionToAddFrom = this.getPos() + this.offset + this.node.nodeSize;
-    } else {
-      const nodeToAddFrom = this.node.child(maybeIndex);
-      // If index supplied, add from child at given index
-      const startOfNodeToAddFrom = this.getStartOfChildNode(
-        this.node,
-        maybeIndex,
-        this.getPos(),
-        this.offset
-      );
-      positionToAddFrom = startOfNodeToAddFrom + nodeToAddFrom.nodeSize;
-    }
+    const nodeToAddFrom = this.node.child(index);
+    // If index supplied, add from child at given index
+    const startOfNodeToAddFrom = this.getStartOfChildNode(
+      this.node,
+      index,
+      this.getPos(),
+      this.offset
+    );
+    const positionToAddFrom = startOfNodeToAddFrom + nodeToAddFrom.nodeSize;
     tr.insert(positionToAddFrom, newNode);
     this.outerView.dispatch(tr);
   }
