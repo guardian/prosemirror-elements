@@ -17,7 +17,6 @@ export const AltStyleElementTestId = "AltStyleElement";
 
 const RepeaterBody = styled(Body)`
   padding: 8px 8px 16px 8px;
-  background-color: ${neutral[97]};
   &:not(:last-child) {
     border-bottom: 1px dashed ${neutral[60]};
   }
@@ -33,7 +32,6 @@ const ChildNumber = styled("div")`
   position: absolute;
   top: 16px;
   left: 8px;
-  background-color: ${neutral[97]};
   color: ${neutral[46]};
   font-family: "Guardian Agate Sans", sans-serif;
   line-height: 1;
