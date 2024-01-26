@@ -272,15 +272,23 @@ const getValuesFromNestedElementContentNode = <
             >
           );
         }
-      }
-      const elementData = getElementDataFromNode(childElement, serializer);
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
-      if (elementData) {
-        nestedElements.push(elementData);
+      } else {
+        const elementData = getElementDataFromNode<FDesc, ElementNames, ESpecMap>(childElement, serializer);
+        const transformedElementData =  {
+          elementType: elementData?.elementName,
+          fields: elementData?.values
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
+        if (transformedElementData ) {
+          nestedElements.push((transformedElementData as unknown) as ExtractDataTypeFromElementSpec<
+          ESpecMap,
+          Extract<keyof ESpecMap, string>
+        >);
+        }
       }
     });
-    return nestedElements;
   }
+  return nestedElements;
 };
 
 export const createElementDataValidator = <
