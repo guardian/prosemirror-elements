@@ -162,6 +162,9 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
+  /**
+   * Move the child at the given index up one.
+   */
   public moveChildUpOne(index: number) {
     if (index < 1 || index > this.node.childCount - 1) {
       console.error(
@@ -187,6 +190,9 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
+  /**
+   * Move the child at the given index down one.
+   */
   public moveChildDownOne(index: number) {
     if (index < 0 || index > this.node.childCount - 2) {
       console.error(
