@@ -578,15 +578,27 @@ describe("ImageElement", () => {
 
     describe("Repeater behaviour", () => {
       it("should add repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
-        getElementRichTextField("repeaterText").should("exist");
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "Example repeater text 1",
+            },
+          ],
+        });
+        getElementRichTextField("repeaterText").its("length").should("eq", 1);
+        const addRepeaterButtons = getButton(AddRepeaterButtonId);
+        addRepeaterButtons.first().click();
+        getElementRichTextField("repeaterText").its("length").should("eq", 2);
       });
       it("should remove repeater elements", () => {
-        addImageElement();
-        const addRepeaterButtons = getButton(AddRepeaterButtonId);
-        addRepeaterButtons.click();
-        addRepeaterButtons.first().click();
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "Example repeater text 1",
+            },
+            { repeaterText: "Example repeater text 2" },
+          ],
+        });
         getElementRichTextField("repeaterText").its("length").should("eq", 2);
         getButton(RemoveRepeaterButtonId).first().click();
         getElementRichTextField("repeaterText").its("length").should("eq", 1);
@@ -594,27 +606,55 @@ describe("ImageElement", () => {
         getElementRichTextField("repeaterText").should("not.exist");
       });
       it("should accept values in repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "",
+            },
+          ],
+        });
         typeIntoElementField("repeaterText", "Repeater value");
         assertDocHtml(
           getSerialisedHtml({
-            repeaterValue: [{ repeaterText: "Repeater value" }],
+            repeaterValue: [
+              {
+                repeaterText: "Repeater value",
+              },
+            ],
           })
         );
       });
       it("should add nested repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "Example repeater text 1",
+              nestedRepeater: [
+                { nestedRepeaterText: "Example nested repeater text 1" },
+              ],
+            },
+          ],
+        });
+        getElementRichTextField("nestedRepeaterText")
+          .its("length")
+          .should("eq", 1);
         clickButton(AddNestedRepeaterButtonId);
-        getElementRichTextField("nestedRepeaterText").should("exist");
+        getElementRichTextField("nestedRepeaterText")
+          .its("length")
+          .should("eq", 2);
       });
       it("should remove nested repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
-        const addNestedRepeaterButtons = getButton(AddNestedRepeaterButtonId);
-        addNestedRepeaterButtons.click();
-        addNestedRepeaterButtons.first().click();
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "Example repeater text 1",
+              nestedRepeater: [
+                { nestedRepeaterText: "Example nested repeater text 1" },
+                { nestedRepeaterText: "Example nested repeater text 2" },
+              ],
+            },
+          ],
+        });
         getElementRichTextField("nestedRepeaterText")
           .its("length")
           .should("eq", 2);
@@ -626,9 +666,14 @@ describe("ImageElement", () => {
         getElementRichTextField("nestedRepeaterText").should("not.exist");
       });
       it("should accept values in nested repeater elements", () => {
-        addImageElement();
-        clickButton(AddRepeaterButtonId);
-        clickButton(AddNestedRepeaterButtonId);
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "",
+              nestedRepeater: [{ nestedRepeaterText: "" }],
+            },
+          ],
+        });
         typeIntoElementField("nestedRepeaterText", "Repeater value");
         assertDocHtml(
           getSerialisedHtml({

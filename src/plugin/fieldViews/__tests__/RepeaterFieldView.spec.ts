@@ -36,21 +36,6 @@ describe("RepeaterFieldView", () => {
     );
   });
 
-  it("should add a repeater child after the final index if no index is supplied", () => {
-    testRepeaterMutation(
-      ["Content 1", "Content 2", "Content 3"],
-      (repeaterFieldView) => {
-        repeaterFieldView.addChildAfter();
-      },
-      [
-        `paragraph("Content 1")`,
-        `paragraph("Content 2")`,
-        `paragraph("Content 3")`,
-        "paragraph",
-      ]
-    );
-  });
-
   it("should remove a repeater child at a valid index", () => {
     testRepeaterMutation(
       ["Content 1", "Content 2", "Content 3"],
