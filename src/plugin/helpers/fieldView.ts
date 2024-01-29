@@ -141,6 +141,13 @@ export const getElementFieldViewFromType = (
         field.options
       );
     case "repeater":
-      return new RepeaterFieldView(node, offset, getPos, view, fieldName);
+      return new RepeaterFieldView(
+        node,
+        offset,
+        getPos,
+        view,
+        fieldName,
+        field.minChildren
+      );
   }
 };

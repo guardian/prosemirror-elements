@@ -54,6 +54,7 @@ describe("nodeSpec generation", () => {
         fields: {
           field1: { type: "richText" },
         },
+        minChildren: 0,
       },
     });
     const nodeSpec = getNodeSpecFromFieldDescriptions(
