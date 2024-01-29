@@ -396,9 +396,7 @@ export const createNodesForFieldValues = <
   });
 };
 
-const createNestedElementNode = <
-Name extends string,
->(
+const createNestedElementNode = (
   elementsArray: unknown[],
   fieldDesc: FieldDescription,
   nestedElementFieldNodeType: NodeType,
