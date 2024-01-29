@@ -59,7 +59,7 @@ export const altStyleElement = createReactElementSpec({
           <LeftRepeaterActionControls
             removeChildAt={() => fields.repeater.view.removeChildAt(index)}
             numberOfChildNodes={children.length}
-            minChildren={1}
+            minChildren={fields.repeater.view.minChildren}
           />
           {/*Use field index as key to avoid React render conflicts*/}
           <RepeaterChild>

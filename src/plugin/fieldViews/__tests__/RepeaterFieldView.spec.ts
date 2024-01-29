@@ -62,12 +62,14 @@ describe("RepeaterFieldView", () => {
   });
 
   it("should do nothing if removing a repeater child when we are at the minimum threshold for number of children", () => {
+    const minChildren = 1;
     testRepeaterMutation(
       ["Content 1"],
       (repeaterFieldView) => {
-        repeaterFieldView.removeChildAt(0, 1);
+        repeaterFieldView.removeChildAt(0);
       },
-      [`paragraph("Content 1")`]
+      [`paragraph("Content 1")`],
+      minChildren
     );
   });
 
@@ -123,7 +125,8 @@ describe("RepeaterFieldView", () => {
 const testRepeaterMutation = (
   initialContent: string[],
   mutation: (repeaterFieldView: RepeaterFieldView) => void,
-  expectedFinalContent: string[]
+  expectedFinalContent: string[],
+  minChildren = 0
 ) => {
   const nestedTestElement = createNoopElement({
     nestedField: {
@@ -137,6 +140,7 @@ const testRepeaterMutation = (
       fields: {
         field1: { type: "richText" },
       },
+      minChildren: 0,
     },
   });
   const { view, insertElement } = createEditorWithElements({
@@ -161,7 +165,8 @@ const testRepeaterMutation = (
     0,
     () => 0,
     view,
-    "testRepeater"
+    "testRepeater",
+    minChildren
   );
 
   mutation(repeaterFieldView);
