@@ -45,6 +45,7 @@ export const createGetNodeFromElementData = <
   },
   schema: Schema
 ) => {
+  const getNodeFromElementData = createGetNodeFromElementData(elementTypeMap);
   const element = elementTypeMap[elementName as keyof ESpecMap];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
@@ -61,11 +62,12 @@ export const createGetNodeFromElementData = <
     );
   }
 
-  const nodes = createNodesForFieldValues(
+  const nodes: Node[] = createNodesForFieldValues(
     schema,
     element.fieldDescriptions,
     values as FieldNameToValueMap<FDesc>,
-    nodeName
+    nodeName,
+    getNodeFromElementData
   );
 
   return schema.nodes[nodeName].createAndFill(
@@ -274,6 +276,7 @@ const getValuesFromNestedElementContentNode = <
         }
       } else {
         const elementData = getElementDataFromNode<FDesc, ElementNames, ESpecMap>(childElement, serializer);
+        console.log({elementData})
         const transformedElementData =  {
           elementType: elementData?.elementName,
           fields: elementData?.values
