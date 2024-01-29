@@ -97,9 +97,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
   public addChildAfter(index: number) {
     if (index < 0 || index >= this.node.childCount) {
       console.error(
-        `Cannot add at index ${index}: index out of range. Must be between 0 and ${
-          this.node.childCount - 1
-        }`
+        `Cannot add at index ${index}: index out of range. Must be between 0 and ${this.node.childCount}`
       );
       return;
     }
@@ -134,9 +132,9 @@ export class RepeaterFieldView extends FieldView<unknown> {
    * Do not remove if we are at the minimum threshold for number of children.
    */
   public removeChildAt(index: number) {
-    if (index < 0 || index >= this.node.childCount) {
+    if (index < 0 || index > this.node.childCount - 1) {
       console.error(
-        `Cannot remove at index ${index}: index out of range. Must be between 0 and ${
+        `Cannot remove at index ${index}: index out of range. Minimum 0, Maximum ${
           this.node.childCount - 1
         }`
       );
@@ -164,7 +162,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
   public moveChildUpOne(index: number) {
     if (index < 1 || index > this.node.childCount - 1) {
       console.error(
-        `Cannot move index ${index} up: index out of range. Must be between 1 and ${
+        `Cannot move index ${index} up: index out of range. Minimum 1, Maximum ${
           this.node.childCount - 1
         }`
       );
@@ -192,7 +190,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
   public moveChildDownOne(index: number) {
     if (index < 0 || index > this.node.childCount - 2) {
       console.error(
-        `Cannot move index ${index} down: index out of range. Must be between 0 and ${
+        `Cannot move index ${index} down: index out of range. Minimum 0, Maximum ${
           this.node.childCount - 2
         }`
       );
