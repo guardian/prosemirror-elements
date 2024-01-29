@@ -8,6 +8,7 @@ import {
 import {
   addAltStyleElement,
   getButton,
+  getElementRichTextField,
   selectDataCy,
   visitRoot,
 } from "../helpers/editor";
@@ -56,6 +57,11 @@ describe("AltStyleElement", () => {
     ],
   };
 
+  const assertOrderOfTitleFields = (titles: string[]) =>
+    titles.map((title, index) =>
+      getElementRichTextField("title").eq(index).should("have.text", title)
+    );
+
   it("should move repeater child up", () => {
     addAltStyleElement(repeaterWithChildren);
     const moveChildUpButtons = getButton(moveChildUpTestId);
@@ -63,21 +69,15 @@ describe("AltStyleElement", () => {
     // try to move A up - should be disabled
     moveChildUpButtons.first().should("be.disabled");
     moveChildUpButtons.first().click({ force: true }); // force click to bypass the disabled check
-    cy.get(altStyleSelector).children().eq(0).should("contain", "A");
-    cy.get(altStyleSelector).children().eq(1).should("contain", "B");
-    cy.get(altStyleSelector).children().eq(2).should("contain", "C");
+    assertOrderOfTitleFields(["A", "B", "C"]);
 
     // try to move B up
     getButton(moveChildUpTestId).children().eq(1).click();
-    cy.get(altStyleSelector).children().eq(0).should("contain", "B");
-    cy.get(altStyleSelector).children().eq(1).should("contain", "A");
-    cy.get(altStyleSelector).children().eq(2).should("contain", "C");
+    assertOrderOfTitleFields(["B", "A", "C"]);
 
     // try to move C up
     getButton(moveChildUpTestId).children().eq(2).click();
-    cy.get(altStyleSelector).children().eq(0).should("contain", "B");
-    cy.get(altStyleSelector).children().eq(1).should("contain", "C");
-    cy.get(altStyleSelector).children().eq(2).should("contain", "A");
+    assertOrderOfTitleFields(["B", "C", "A"]);
   });
 
   it("should move repeater child down", () => {
@@ -87,20 +87,14 @@ describe("AltStyleElement", () => {
     // try to move C down - should be disabled
     moveChildDownButtons.last().should("be.disabled");
     moveChildDownButtons.last().click({ force: true }); // force click to bypass the disabled check
-    cy.get(altStyleSelector).children().eq(0).should("contain", "A");
-    cy.get(altStyleSelector).children().eq(1).should("contain", "B");
-    cy.get(altStyleSelector).children().eq(2).should("contain", "C");
+    assertOrderOfTitleFields(["A", "B", "C"]);
 
     // try to move B down
     getButton(moveChildDownTestId).children().eq(1).click();
-    cy.get(altStyleSelector).children().eq(0).should("contain", "A");
-    cy.get(altStyleSelector).children().eq(1).should("contain", "C");
-    cy.get(altStyleSelector).children().eq(2).should("contain", "B");
+    assertOrderOfTitleFields(["A", "C", "B"]);
 
     // try to move A down
     getButton(moveChildDownTestId).children().eq(0).click();
-    cy.get(altStyleSelector).children().eq(0).should("contain", "C");
-    cy.get(altStyleSelector).children().eq(1).should("contain", "A");
-    cy.get(altStyleSelector).children().eq(2).should("contain", "B");
+    assertOrderOfTitleFields(["C", "A", "B"]);
   });
 });
