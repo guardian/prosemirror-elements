@@ -31,6 +31,31 @@ describe("RepeaterFieldView", () => {
     );
   });
 
+  it("should add a repeater child at the end of the repeater", () => {
+    testRepeaterMutation(
+      ["Content 1", "Content 2", "Content 3"],
+      (repeaterFieldView) => {
+        repeaterFieldView.addChildAtEnd();
+      },
+      [
+        `paragraph("Content 1")`,
+        `paragraph("Content 2")`,
+        `paragraph("Content 3")`,
+        "paragraph",
+      ]
+    );
+  });
+
+  it("should add a repeater child at the end of the repeater, even when repeater is empty", () => {
+    testRepeaterMutation(
+      [],
+      (repeaterFieldView) => {
+        repeaterFieldView.addChildAtEnd();
+      },
+      ["paragraph"]
+    );
+  });
+
   it("should add a repeater child after a valid index", () => {
     testRepeaterMutation(
       ["Content 1", "Content 2", "Content 3"],
@@ -199,13 +224,13 @@ const testRepeaterMutation = (
   const testNodeAfter = view.state.doc.firstChild as Node;
   const repeaterNodeAfter = testNodeAfter.content.firstChild as Node;
 
-  expect(repeaterNodeAfter.content.childCount).toBe(
-    expectedFinalContent.length
-  );
-
   repeaterNodeAfter.content.forEach((node, _, index) => {
     expect(node.toString()).toBe(
       `testElement__repeater1__child(testElement__field1(${expectedFinalContent[index]}))`
     );
   });
+
+  expect(repeaterNodeAfter.content.childCount).toBe(
+    expectedFinalContent.length
+  );
 };
