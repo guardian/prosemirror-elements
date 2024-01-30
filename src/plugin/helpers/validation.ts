@@ -182,6 +182,18 @@ export const required = (
       },
     ];
   }
+  if (
+    field === "content" &&
+    value === '<div class="textElement"><p></p></div>'
+  ) {
+    return [
+      {
+        error: "Required",
+        message: customMessage ?? `${field} is required`,
+        level,
+      },
+    ];
+  }
   return [];
 };
 
