@@ -23,6 +23,7 @@ import type {
 } from "../types/Element";
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
+import { transformElementOut } from "../../elements/callout/calloutDataTransformer";
 
 /**
  * Creates a function that will attempt to create a Prosemirror node from
@@ -78,14 +79,13 @@ export const createGetNodeFromElementData = <
   );
 };
 
-type GetElementDataFromNode = <
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
-  ElementNames extends Extract<keyof ESpecMap, string>,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
->(
+type TransformElementOut = (elementName: string, values: unknown) => unknown
+
+type GetElementDataFromNode<ElementNames, ESpecMap> = (
   node: Node,
-  serializer: DOMSerializer
-) => ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | undefined;
+  serializer: DOMSerializer,
+  transformElementOut?: TransformElementOut
+) => (ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | null);
 
 /**
  * Creates a function that will attempt to extract element data from
@@ -98,24 +98,21 @@ export const createGetElementDataFromNode = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
-) => (node: Node, serializer: DOMSerializer) => {
+): GetElementDataFromNode<ElementNames, ESpecMap> => (node: Node, serializer: DOMSerializer, transformElementOut?: TransformElementOut) => {
   const elementName = getElementNameFromNode(node) as ElementNames;
   const element = elementTypeMap[elementName];
-  const getElementDataFromNode = createGetElementDataFromNode<
-    FDesc,
-    ElementNames,
-    ESpecMap
-  >(elementTypeMap);
+  const getElementDataFromNode = createGetElementDataFromNode(elementTypeMap);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
   if (!element) {
-    return undefined;
+    return null;
   }
 
-  const values = getFieldValuesFromNode(
+  const values: unknown = getFieldValuesFromNode(
     node,
     element.fieldDescriptions,
     serializer,
+    transformElementOut,
     getElementDataFromNode
   );
 
@@ -127,13 +124,14 @@ export const createGetElementDataFromNode = <
 
 export const getFieldValuesFromNode = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
-  ElementNames extends Extract<keyof ESpecMap, string>,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+  ElementNames,
+  ESpecMap
 >(
   node: Node,
   fieldDescriptions: FDesc,
   serializer: DOMSerializer,
-  getElementDataFromNode?: GetElementDataFromNode
+  transformElementOut?: TransformElementOut,
+  getElementDataFromNode?: GetElementDataFromNode<ESpecMap, ElementNames>
 ) => {
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -149,6 +147,7 @@ export const getFieldValuesFromNode = <
       node,
       fieldDescription,
       serializer,
+      transformElementOut,
       getElementDataFromNode
     );
 
@@ -169,13 +168,14 @@ export const getFieldValuesFromNode = <
 
 export const getFieldValueFromNode = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
-  ElementNames extends Extract<keyof ESpecMap, string>,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+  ElementNames,
+  ESpecMap
 >(
   node: Node,
   fieldDescription: FieldDescription,
   serializer: DOMSerializer,
-  getElementDataFromNode?: GetElementDataFromNode
+  transformElementOut?: TransformElementOut,
+  getElementDataFromNode?: GetElementDataFromNode<ESpecMap, ElementNames>
 ): unknown => {
   const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldContentType;
   if (fieldType === "ATTRIBUTES") {
@@ -195,6 +195,7 @@ export const getFieldValueFromNode = <
           childNode,
           fieldDescription.fields,
           serializer,
+          transformElementOut,
           getElementDataFromNode
         )
       );
@@ -205,6 +206,7 @@ export const getFieldValueFromNode = <
     return getValuesFromNestedElementContentNode(
       node,
       serializer,
+      transformElementOut,
       getElementDataFromNode
     );
   }
@@ -227,12 +229,13 @@ const getValuesFromTextContentNode = (node: Node) => node.textContent;
 
 const getValuesFromNestedElementContentNode = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
-  ElementNames extends Extract<keyof ESpecMap, string>,
-  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+  ElementNames,
+  ESpecMap
 >(
   node: Node,
   serializer: DOMSerializer,
-  getElementDataFromNode?: GetElementDataFromNode
+  transformElementOut?: TransformElementOut,
+  getElementDataFromNode?: GetElementDataFromNode<ESpecMap, ElementNames>
 ) => {
   const nestedElements: Array<
     ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>
@@ -275,7 +278,7 @@ const getValuesFromNestedElementContentNode = <
           );
         }
       } else {
-        const elementData = getElementDataFromNode<FDesc, ElementNames, ESpecMap>(childElement, serializer);
+        const elementData = getElementDataFromNode(childElement, serializer, transformElementOut);
         console.log({elementData})
         const transformedElementData =  {
           elementType: elementData?.elementName,
