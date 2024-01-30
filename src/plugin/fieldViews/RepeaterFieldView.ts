@@ -137,6 +137,10 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
+  public addChildAtEnd() {
+    this.addChildAfter(this.node.childCount - 1);
+  }
+
   /**
    * Remove a child from this repeater at the given index.
    * Do not remove if we are at the minimum threshold for number of children.
