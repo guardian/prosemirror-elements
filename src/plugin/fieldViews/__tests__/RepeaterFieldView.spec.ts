@@ -6,6 +6,31 @@ import {
 import { RepeaterFieldView } from "../RepeaterFieldView";
 
 describe("RepeaterFieldView", () => {
+  it("should add a repeater child at the start when index is -1", () => {
+    testRepeaterMutation(
+      ["Content 1", "Content 2", "Content 3"],
+      (repeaterFieldView) => {
+        repeaterFieldView.addChildAfter(-1);
+      },
+      [
+        "paragraph",
+        `paragraph("Content 1")`,
+        `paragraph("Content 2")`,
+        `paragraph("Content 3")`,
+      ]
+    );
+  });
+
+  it("should add a repeater child when index is -1, even when repeater is empty", () => {
+    testRepeaterMutation(
+      [],
+      (repeaterFieldView) => {
+        repeaterFieldView.addChildAfter(-1);
+      },
+      ["paragraph"]
+    );
+  });
+
   it("should add a repeater child after a valid index", () => {
     testRepeaterMutation(
       ["Content 1", "Content 2", "Content 3"],
@@ -26,7 +51,7 @@ describe("RepeaterFieldView", () => {
       ["Content 1", "Content 2", "Content 3"],
       (repeaterFieldView) => {
         repeaterFieldView.addChildAfter(4);
-        repeaterFieldView.addChildAfter(-1);
+        repeaterFieldView.addChildAfter(-2);
       },
       [
         `paragraph("Content 1")`,
