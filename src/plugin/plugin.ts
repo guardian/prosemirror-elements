@@ -16,7 +16,7 @@ import {
   updateFieldViewsFromNode,
 } from "./field";
 import { pluginKey } from "./helpers/constants";
-import { GetElementDataFromNode, createGetElementDataFromNode, getFieldValuesFromNode } from "./helpers/element";
+import { GetElementDataFromNode, TransformElementOut, createGetElementDataFromNode, getFieldValuesFromNode } from "./helpers/element";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import {
@@ -44,7 +44,8 @@ export const createPlugin = <
   },
   commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent,
-  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  transformElementOut?: TransformElementOut
 ): Plugin<PluginState> => {
   return new Plugin<PluginState>({
     key: pluginKey,
@@ -113,7 +114,8 @@ export const createPlugin = <
         elementsSpec as ElementSpecMap<FDesc, ElementNames>,
         commands,
         sendTelemetryEvent,
-        getElementDataFromNode
+        getElementDataFromNode,
+        transformElementOut
       ),
     },
   });
@@ -129,7 +131,8 @@ const createNodeViews = <
   elementsSpec: ElementSpecMap<FDesc, ElementNames>,
   commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent,
-  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>, 
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  transformElementOut?: TransformElementOut 
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
   for (const elementName in elementsSpec) {
@@ -139,7 +142,8 @@ const createNodeViews = <
       elementsSpec[elementName],
       commands,
       sendTelemetryEvent,
-      getElementDataFromNode
+      getElementDataFromNode,
+      transformElementOut
     );
   }
 
@@ -159,6 +163,7 @@ const createNodeView = <
   commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent,
   getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  transformElementOut?: TransformElementOut
 ): NodeViewCreator => (initElementNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
@@ -174,7 +179,8 @@ const createNodeView = <
     getPos,
     innerDecos,
     serializer,
-    getElementDataFromNode
+    getElementDataFromNode,
+    transformElementOut
   });
 
   // Because nodes and decorations are immutable in ProseMirror, we can compare
@@ -197,7 +203,7 @@ const createNodeView = <
   let currentCommandValues = getCommandValues(initCommands);
 
   const getElementDataForUpdator = () =>
-    getFieldValuesFromNode(currentNode, element.fieldDescriptions, serializer, getElementDataFromNode);
+    getFieldValuesFromNode(currentNode, element.fieldDescriptions, serializer, getElementDataFromNode, transformElementOut);
 
   const update = element.createUpdator(
     dom,
@@ -243,7 +249,8 @@ const createNodeView = <
               view,
               getPos,
               serializer,
-              getElementDataFromNode
+              getElementDataFromNode,
+              transformElementOut
             })
           : currentFields;
 

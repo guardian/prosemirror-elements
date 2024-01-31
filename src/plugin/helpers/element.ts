@@ -24,8 +24,26 @@ import type {
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
 
+type ExternalElementData = {
+  elementType: string;
+  values: {
+    fields: unknown,
+    assets: unknown
+  }
+}
+
+type InternalElementDataValues = {
+  fields: unknown,
+  assets: unknown
+}
+
+type InternalElementData = {
+  elementName: string;
+  values: InternalElementDataValues
+}
+
 export type TransformElementIn = (elementName: string, values: unknown) => unknown
-export type TransformElementOut = (elementName: string, values: unknown) => unknown
+export type TransformElementOut = (elementName: string | number | symbol, values: unknown) => InternalElementDataValues
 
 
 /**
@@ -244,67 +262,70 @@ const getValuesFromNestedElementContentNode = <
   const nestedElements: Array<
     ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>
   > = [];
-  if (getElementDataFromNode) {
-    node.forEach((childElement) => {
-      const elementName = getElementNameFromNode(childElement) as
-        | ElementNames
-        | "textElement";
-      if (elementName === "textElement") {
-        // Make sure the nestedElementField serialises any textElement properly,
-        // rather than throwing them away on serialisation.
-        const emptyElement = {
-          elementType: "textElement",
-          fields: {},
-          assets: [],
-        };
+  node.forEach((childElement) => {
+    const elementName = getElementNameFromNode(childElement) as
+      | ElementNames
+      | "textElement";
+    if (elementName === "textElement") {
+      // Make sure the nestedElementField serialises any textElement properly,
+      // rather than throwing them away on serialisation.
+      const emptyElement = {
+        elementType: "textElement",
+        fields: {},
+        assets: [],
+      };
 
-        const dom = serializer.serializeFragment(childElement.content);
-        const e = document.createElement("div");
-        e.appendChild(dom);
+      const dom = serializer.serializeFragment(childElement.content);
+      const e = document.createElement("div");
+      e.appendChild(dom);
 
-        if (childElement.textContent) {
-          const nestedNode = _.assign(_.cloneDeep(emptyElement), {
-            fields: {
-              text: e.innerHTML,
-            },
-          });
-          // This is a textElement as defined in flexible-content, not within the scope of
-          // prosemirror-elements, so we need to do a type-cast to make Typescript happy.
-          // Currently, the top level textElements will be serialised by flexible-content,
-          // so we're duplicating some functionality here. In the future it would be better
-          // to have prosemirror-elements handle textElements everywhere they appear, but
-          // that will be a substantial change in both projects.
-          nestedElements.push(
-            (nestedNode as unknown) as ExtractDataTypeFromElementSpec<
-              ESpecMap,
-              Extract<keyof ESpecMap, string>
-            >
-          );
-        }
-      } else {
-        const elementData = getElementDataFromNode(childElement, serializer, transformElementOut);
-        console.log({elementData})
-        if (!transformElementOut){
-          throw(new Error("transformElementOut argument required for nestedElementField"));
-        }
-        const transformedElementData =  {
-          elementType: elementData?.elementName,
-          fields: (transformElementOut(
-            elementData?.elementName.toString() || "",
-            elementData?.values
-          ) as {fields: unknown}).fields,
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
-        if (transformedElementData ) {
-          nestedElements.push((transformedElementData as unknown) as ExtractDataTypeFromElementSpec<
-          ESpecMap,
-          Extract<keyof ESpecMap, string>
-        >);
-        }
+      if (childElement.textContent) {
+        const nestedNode = _.assign(_.cloneDeep(emptyElement), {
+          fields: {
+            text: e.innerHTML,
+          },
+        });
+        // This is a textElement as defined in flexible-content, not within the scope of
+        // prosemirror-elements, so we need to do a type-cast to make Typescript happy.
+        // Currently, the top level textElements will be serialised by flexible-content,
+        // so we're duplicating some functionality here. In the future it would be better
+        // to have prosemirror-elements handle textElements everywhere they appear, but
+        // that will be a substantial change in both projects.
+        nestedElements.push(
+          (nestedNode as unknown) as ExtractDataTypeFromElementSpec<
+            ESpecMap,
+            Extract<keyof ESpecMap, string>
+          >
+        );
       }
-    });
-  }
+    } else {
+      const elementData = getElementDataFromNode(childElement, serializer, transformElementOut);
+
+      if (!elementData){
+        return undefined
+      }
+
+      const internalElementData = transformElementOut ? {
+          elementName: elementData.elementName,
+          values: transformElementOut(
+              elementData.elementName,
+              elementData.values
+          )
+        } : elementData
+     
+      const externalElementData = {
+        elementType: internalElementData.elementName,
+        fields: internalElementData.values.fields,
+        assets: internalElementData.values.assets
+      }
+
+      nestedElements.push((externalElementData as unknown) as ExtractDataTypeFromElementSpec<
+        ESpecMap,
+        Extract<keyof ESpecMap, string>
+      >);
+    }
+  });
+  
   return nestedElements;
 };
 
