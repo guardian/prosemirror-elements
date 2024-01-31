@@ -4,7 +4,7 @@ import { createTextField } from "../../plugin/fieldViews/TextFieldView";
 import { required } from "../../plugin/helpers/validation";
 import { useTyperighterAttrs } from "../helpers/typerighter";
 
-export const altStyleFields = {
+export const keyTakeawaysFields = {
   repeater: createRepeaterField(
     {
       title: createTextField({
