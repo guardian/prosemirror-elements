@@ -85,7 +85,7 @@ export const createGetNodeFromElementData = <
   );
 };
 
-type GetElementDataFromNode<ElementNames, ESpecMap> = (
+export type GetElementDataFromNode<ElementNames, ESpecMap> = (
   node: Node,
   serializer: DOMSerializer,
   transformElementOut?: TransformElementOut
@@ -112,12 +112,12 @@ export const createGetElementDataFromNode = <
     return undefined;
   }
 
-  const values: unknown = getFieldValuesFromNode(
+  const values = getFieldValuesFromNode(
     node,
     element.fieldDescriptions,
     serializer,
-    transformElementOut,
-    getElementDataFromNode
+    getElementDataFromNode,
+    transformElementOut
   );
 
   return ({
@@ -134,8 +134,8 @@ export const getFieldValuesFromNode = <
   node: Node,
   fieldDescriptions: FDesc,
   serializer: DOMSerializer,
-  transformElementOut?: TransformElementOut,
-  getElementDataFromNode?: GetElementDataFromNode<ESpecMap, ElementNames>
+  getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
+  transformElementOut?: TransformElementOut
 ) => {
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -151,8 +151,8 @@ export const getFieldValuesFromNode = <
       node,
       fieldDescription,
       serializer,
+      getElementDataFromNode,
       transformElementOut,
-      getElementDataFromNode
     );
 
     if (
@@ -178,8 +178,8 @@ export const getFieldValueFromNode = <
   node: Node,
   fieldDescription: FieldDescription,
   serializer: DOMSerializer,
-  transformElementOut?: TransformElementOut,
-  getElementDataFromNode?: GetElementDataFromNode<ESpecMap, ElementNames>
+  getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
+  transformElementOut?: TransformElementOut
 ): unknown => {
   const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldContentType;
   if (fieldType === "ATTRIBUTES") {
@@ -199,8 +199,8 @@ export const getFieldValueFromNode = <
           childNode,
           fieldDescription.fields,
           serializer,
+          getElementDataFromNode,
           transformElementOut,
-          getElementDataFromNode
         )
       );
     });
@@ -210,8 +210,8 @@ export const getFieldValueFromNode = <
     return getValuesFromNestedElementContentNode(
       node,
       serializer,
+      getElementDataFromNode,
       transformElementOut,
-      getElementDataFromNode
     );
   }
   return undefined;
@@ -238,8 +238,8 @@ const getValuesFromNestedElementContentNode = <
 >(
   node: Node,
   serializer: DOMSerializer,
+  getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
   transformElementOut?: TransformElementOut,
-  getElementDataFromNode?: GetElementDataFromNode<ESpecMap, ElementNames>
 ) => {
   const nestedElements: Array<
     ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>

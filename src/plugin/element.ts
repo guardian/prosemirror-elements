@@ -83,7 +83,8 @@ export const buildElementPlugin = <
   const plugin = createPlugin(
     elementSpecs,
     buildCommands(predicate),
-    sendTelemetryEvent
+    sendTelemetryEvent,
+    getElementDataFromNode
   );
   let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});
   for (const elementName in elementSpecs) {
