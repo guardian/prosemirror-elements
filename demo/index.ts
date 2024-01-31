@@ -10,7 +10,7 @@ import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { buildElementPlugin, undefinedDropdownValue } from "../src";
-import { altStyleElement } from "../src/elements/alt-style/AltStyleElementForm";
+import { keyTakeawaysElement } from "../src/elements/alt-style/AltStyleElementForm";
 import { createCalloutElement } from "../src/elements/callout/Callout";
 import { createCartoonElement } from "../src/elements/cartoon/CartoonForm";
 import { codeElement } from "../src/elements/code/CodeElementForm";
@@ -240,7 +240,7 @@ const {
         editorLink: "https://example.com",
       })
     ),
-    "alt-style": altStyleElement,
+    "alt-style": keyTakeawaysElement,
   },
   {
     sendTelemetryEvent: (type: string, tags) =>

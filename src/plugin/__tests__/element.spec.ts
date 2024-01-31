@@ -266,6 +266,7 @@ describe("buildElementPlugin", () => {
           fields: {
             field1: { type: "richText" },
           },
+          minChildren: 0,
         },
       });
       const {
@@ -312,8 +313,10 @@ describe("buildElementPlugin", () => {
               fields: {
                 field1: { type: "richText" },
               },
+              minChildren: 0,
             },
           },
+          minChildren: 0,
         },
       });
       const {
@@ -435,6 +438,7 @@ describe("buildElementPlugin", () => {
           fields: {
             field1: { type: "nestedElement", content: "block+" },
           },
+          minChildren: 0,
         },
       });
       const {
@@ -500,6 +504,7 @@ describe("buildElementPlugin", () => {
           fields: {
             field1: { type: "nestedElement", content: "block+" },
           },
+          minChildren: 0,
         },
       });
       const {
@@ -566,6 +571,7 @@ describe("buildElementPlugin", () => {
           fields: {
             field1: { type: "nestedElement", content: "block+" },
           },
+          minChildren: 0,
         },
       });
       const {
@@ -736,6 +742,7 @@ describe("buildElementPlugin", () => {
         fields: {
           field4: { type: "richText" },
         },
+        minChildren: 0,
       },
     });
 

@@ -7,17 +7,13 @@ import type { CommandCreator } from "../../plugin/types/Commands";
 import { TelemetryContext } from "./TelemetryContext";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
-const Container = styled("div")`
+export const Container = styled("div")`
   margin: ${space[3]}px -32px;
 `;
 
 export const Body = styled("div")`
   display: flex;
-  :hover {
-    .actions {
-      opacity: 1;
-    }
-  }
+  :hover,
   :focus-within {
     .actions {
       opacity: 1;
