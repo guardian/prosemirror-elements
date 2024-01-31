@@ -14,6 +14,7 @@ import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import { getRepeaterID } from "./helpers/util";
 import type { FieldDescription, FieldDescriptions } from "./types/Element";
+import { TransformElementIn } from "./helpers/element";
 
 // An attribute added to Element nodes to identify them as such.
 export const elementNodeAttr = "isProseMirrorElement";
@@ -314,7 +315,8 @@ export const createNodesForFieldValues = <
   getNodeFromElementData: ({ elementName, values, }: {
     elementName: string;
     values: unknown;
-  }, schema: Schema) => Node | null | undefined
+  }, schema: Schema) => Node | null | undefined,
+  transformElementIn?: TransformElementIn
 ): Node[] => {
   const orderedFieldNames = getDeterministicFieldOrder(
     Object.keys(fieldDescriptions)
@@ -358,7 +360,8 @@ export const createNodesForFieldValues = <
           nodeType,
           schema.nodes[getRepeaterChildNodeName(baseNodeName)],
           nodeName,
-          getNodeFromElementData
+          getNodeFromElementData,
+          transformElementIn
         );
 
         if (!node) {
@@ -378,6 +381,7 @@ export const createNodesForFieldValues = <
           nodeName,
           schema,
           getNodeFromElementData,
+          transformElementIn
         ); 
 
         if (!node) {
@@ -406,13 +410,19 @@ const createNestedElementNode = (
     elementName: string;
     values: unknown;
   }, schema: Schema) => Node | null | undefined,
+  transformElementIn?: TransformElementIn
 ): Node | null | undefined => {
   const childNodes = elementsArray.map((element ) => {
     const elementNotUnknown = (element as unknown) as {elementType: string, fields: Record<string, string>, assets: unknown}
     const elementName = elementNotUnknown.elementType
+
+    if (!transformElementIn){
+      throw(new Error("transformElementIn argument required for nestedElementField"));
+    }
+    
     const transformedElementData = {
       elementName,
-      values: elementNotUnknown.fields
+      values: transformElementIn(elementName, elementNotUnknown)
     }
 
     if (elementName === "textElement"){
@@ -450,6 +460,7 @@ const createRepeaterNode = <
     elementName: string;
     values: unknown;
   }, schema: Schema) => Node | null | undefined,
+  transformElementIn?: TransformElementIn
 ): Node | null | undefined => {
   const childNodes = valuesArray.map((fieldValues) => {
     const fieldNodes = createNodesForFieldValues(
@@ -457,7 +468,8 @@ const createRepeaterNode = <
       fieldDesc.fields,
       fieldValues as Partial<FieldNameToValueMap<FDesc>>,
       nodeName,
-      getNodeFromElementData
+      getNodeFromElementData,
+      transformElementIn
     );
     return childNodeType.createAndFill(
       { type: fieldDesc.type, [RepeaterFieldMapIDKey]: getRepeaterID() },

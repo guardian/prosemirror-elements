@@ -23,7 +23,10 @@ import type {
 } from "../types/Element";
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
-import { transformElementOut } from "../../elements/callout/calloutDataTransformer";
+
+export type TransformElementIn = (elementName: string, values: unknown) => unknown
+export type TransformElementOut = (elementName: string, values: unknown) => unknown
+
 
 /**
  * Creates a function that will attempt to create a Prosemirror node from
@@ -40,9 +43,11 @@ export const createGetNodeFromElementData = <
   {
     elementName,
     values,
+    transformElementIn
   }: {
     elementName: string;
     values: unknown;
+    transformElementIn?: (elementName: string, values: unknown) => unknown
   },
   schema: Schema
 ) => {
@@ -68,7 +73,8 @@ export const createGetNodeFromElementData = <
     element.fieldDescriptions,
     values as FieldNameToValueMap<FDesc>,
     nodeName,
-    getNodeFromElementData
+    getNodeFromElementData,
+    transformElementIn
   );
 
   return schema.nodes[nodeName].createAndFill(
@@ -79,13 +85,11 @@ export const createGetNodeFromElementData = <
   );
 };
 
-type TransformElementOut = (elementName: string, values: unknown) => unknown
-
 type GetElementDataFromNode<ElementNames, ESpecMap> = (
   node: Node,
   serializer: DOMSerializer,
   transformElementOut?: TransformElementOut
-) => (ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | null);
+) => (ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | undefined);
 
 /**
  * Creates a function that will attempt to extract element data from
@@ -105,7 +109,7 @@ export const createGetElementDataFromNode = <
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
   if (!element) {
-    return null;
+    return undefined;
   }
 
   const values: unknown = getFieldValuesFromNode(
@@ -280,10 +284,17 @@ const getValuesFromNestedElementContentNode = <
       } else {
         const elementData = getElementDataFromNode(childElement, serializer, transformElementOut);
         console.log({elementData})
+        if (!transformElementOut){
+          throw(new Error("transformElementOut argument required for nestedElementField"));
+        }
         const transformedElementData =  {
           elementType: elementData?.elementName,
-          fields: elementData?.values
+          fields: (transformElementOut(
+            elementData?.elementName.toString() || "",
+            elementData?.values
+          ) as {fields: unknown}).fields,
         }
+
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
         if (transformedElementData ) {
           nestedElements.push((transformedElementData as unknown) as ExtractDataTypeFromElementSpec<
