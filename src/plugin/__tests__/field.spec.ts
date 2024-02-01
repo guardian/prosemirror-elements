@@ -1,4 +1,5 @@
 import { DecorationSet } from "prosemirror-view";
+import { buildElementPlugin } from "../element";
 import {
   getFieldsFromNode,
   updateFieldsFromNode,
@@ -26,7 +27,13 @@ const fieldDescriptions = {
   ...elements.exampleElementToNest.fieldDescriptions,
 };
 
-const getElementDataFromNode = createGetElementDataFromNode(example);
+const typeProvider = createGetElementDataFromNode(example);
+
+const {
+  getElementDataFromNode: getElementDataFromNodeUnknown,
+} = buildElementPlugin(elements);
+
+const getElementDataFromNode = (getElementDataFromNodeUnknown as unknown) as typeof typeProvider;
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
@@ -111,8 +118,8 @@ describe("Field helpers", () => {
 
     const originalFields = getFieldsFromNode({
       node: originalNode,
+      getElementDataFromNode,
       ...additionalFieldOptions,
-      getElementDataFromNode: createGetElementDataFromNode(example),
     });
 
     it("should update a node with the correct value and error information", () => {
@@ -286,11 +293,15 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).toContain(
-        "Updated nested element content"
-      );
-      expect(newFields.nestedElementField.value).not.toContain(
-        "Nested element content"
+      const expected = [
+        {
+          assets: [],
+          elementType: "exampleElementToNest",
+          fields: { content: "Updated nested element content updated" },
+        },
+      ];
+      expect(newFields.nestedElementField.value.toString()).toBe(
+        expected.toString()
       );
     });
 
@@ -313,11 +324,21 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).toContain(
-        "Nested element content"
-      );
-      expect(newFields.nestedElementField.value).toContain(
-        "Nested element 2 content"
+      const expected = [
+        {
+          assets: [],
+          elementType: "exampleElementToNest",
+          fields: { content: "Nested element content" },
+        },
+        {
+          assets: [],
+          elementType: "exampleElementToNest",
+          fields: { content: "Nested element 2 content" },
+        },
+      ];
+
+      expect(newFields.nestedElementField.value.toString()).toEqual(
+        expected.toString()
       );
     });
 
@@ -383,6 +404,7 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
+      console.log(originalFields, newFields);
       expect(originalFields === newFields).toBe(true);
     });
 

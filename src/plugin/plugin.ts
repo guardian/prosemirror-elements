@@ -21,10 +21,7 @@ import type {
   GetElementDataFromNode,
   TransformElementOut,
 } from "./helpers/element";
-import {
-  createGetElementDataFromNode,
-  getFieldValuesFromNode,
-} from "./helpers/element";
+import { getFieldValuesFromNode } from "./helpers/element";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import {
@@ -289,7 +286,7 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fields as Field<FieldView<unknown>>).map((field) =>
+      Object.values(fields as Array<Field<FieldView<unknown>>>).map((field) =>
         field.view.destroy()
       );
       element.destroy(dom);

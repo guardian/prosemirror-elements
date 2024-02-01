@@ -31,9 +31,9 @@ export type ExternalElementData = {
 };
 
 export type InternalElementData = {
-  elementName: string,
-  values: InternalElementDataValues
-}
+  elementName: string;
+  values: InternalElementDataValues;
+};
 
 type InternalElementDataValues = {
   fields?: unknown;
@@ -325,7 +325,13 @@ const getValuesFromNestedElementContentNode = <
               elementData.values
             ),
           }
-        : elementData;
+        : {
+            elementName: elementData.elementName,
+            values: {
+              fields: elementData.values,
+              assets: [],
+            },
+          };
 
       const externalElementData = {
         elementType: internalElementData.elementName,

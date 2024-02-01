@@ -11,8 +11,8 @@ import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { FieldDescription, FieldDescriptions } from "../types/Element";
+import type { ExternalElementData } from "./element";
 import type { KeysWithValsOfType, Optional } from "./types";
-import { ExternalElementData, InternalElementData } from "./element";
 
 export const fieldTypeToViewMap = {
   [TextFieldView.fieldType]: TextFieldView,
