@@ -2,8 +2,8 @@ import OrderedMap from "orderedmap";
 import type { NodeSpec, ResolvedPos } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
+import type { TransformElementOut } from "./helpers/element";
 import {
-  TransformElementOut,
   createElementDataValidator,
   createGetElementDataFromNode,
   createGetNodeFromElementData,
@@ -36,7 +36,7 @@ export type BuildElementPluginOptions = {
   groupName: string;
   predicate: Predicate;
   sendTelemetryEvent: SendTelemetryEvent;
-  transformElementOut: TransformElementOut
+  transformElementOut: TransformElementOut;
 };
 
 /**

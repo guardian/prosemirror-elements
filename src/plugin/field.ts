@@ -2,7 +2,11 @@ import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
-import { GetElementDataFromNode, TransformElementOut, getFieldValueFromNode } from "./helpers/element";
+import type {
+  GetElementDataFromNode,
+  TransformElementOut,
+} from "./helpers/element";
+import { getFieldValueFromNode } from "./helpers/element";
 import { getElementFieldViewFromType } from "./helpers/fieldView";
 import { validateValue } from "./helpers/validation";
 import { getFieldNameFromNode } from "./nodeSpec";
@@ -19,7 +23,7 @@ type GetFieldsFromNodeOptions<
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
   ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
->  = {
+> = {
   node: Node;
   fieldDescriptions: FDesc;
   view: EditorView;
@@ -27,8 +31,8 @@ type GetFieldsFromNodeOptions<
   innerDecos: DecorationSource;
   serializer: DOMSerializer;
   offset?: number;
-  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
-  transformElementOut?: TransformElementOut
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>;
+  transformElementOut?: TransformElementOut;
 };
 
 /**
@@ -38,7 +42,7 @@ export const getFieldsFromNode = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
   ElementNames extends Extract<keyof ESpecMap, string>,
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
-  >({
+>({
   node,
   fieldDescriptions,
   view,
@@ -47,8 +51,12 @@ export const getFieldsFromNode = <
   serializer,
   offset = 0,
   getElementDataFromNode,
-  transformElementOut
-}: GetFieldsFromNodeOptions<FDesc, ElementNames, ESpecMap>): FieldNameToField<FDesc> => {
+  transformElementOut,
+}: GetFieldsFromNodeOptions<
+  FDesc,
+  ElementNames,
+  ESpecMap
+>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
   if (node.attrs[RepeaterFieldMapIDKey]) {
     applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
@@ -96,7 +104,7 @@ export const getFieldsFromNode = <
           serializer,
           offset: offset + localOffset + repeaterOffset + depthOffset,
           getElementDataFromNode,
-          transformElementOut
+          transformElementOut,
         });
 
         children.push(child);
@@ -152,8 +160,8 @@ type UpdateFieldsFromNodeOptions<
   view: EditorView;
   innerDecos: DecorationSource;
   offset?: number;
-  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
-  transformElementOut?: TransformElementOut
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>;
+  transformElementOut?: TransformElementOut;
 };
 
 /**
@@ -178,8 +186,12 @@ export const updateFieldsFromNode = <
   innerDecos,
   offset = 0,
   getElementDataFromNode,
-  transformElementOut
-}: UpdateFieldsFromNodeOptions<FDesc, ElementNames, ESpecMap>): FieldNameToField<FDesc> => {
+  transformElementOut,
+}: UpdateFieldsFromNodeOptions<
+  FDesc,
+  ElementNames,
+  ESpecMap
+>): FieldNameToField<FDesc> => {
   let newFields = fields;
 
   node.forEach((fieldNode, localOffset) => {
@@ -222,7 +234,7 @@ export const updateFieldsFromNode = <
                 offset: accumulatedOffset,
                 innerDecos,
                 getElementDataFromNode,
-                transformElementOut
+                transformElementOut,
               });
 
         const newFieldsForChild = updateFieldsFromNode({
@@ -234,7 +246,7 @@ export const updateFieldsFromNode = <
           offset: accumulatedOffset,
           innerDecos,
           getElementDataFromNode,
-          transformElementOut
+          transformElementOut,
         });
 
         if (

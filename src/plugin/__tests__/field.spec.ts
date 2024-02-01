@@ -26,7 +26,7 @@ const fieldDescriptions = {
   ...elements.exampleElementToNest.fieldDescriptions,
 };
 
-const getElementDataFromNode = createGetElementDataFromNode(example)
+const getElementDataFromNode = createGetElementDataFromNode(example);
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
@@ -43,7 +43,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       expect(fields.caption.value).toBe("caption");
@@ -65,7 +65,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       expect(fields.caption.errors.length).toEqual(1);
@@ -81,13 +81,13 @@ describe("Field helpers", () => {
           getPos: () => 0,
           innerDecos: DecorationSet.empty,
           serializer,
-          getElementDataFromNode
+          getElementDataFromNode,
         })
       ).toThrowError();
     });
   });
 
-  describe("updateFieldsAndErrorsFromNode", () => {
+  describe("updateFieldsFromNode", () => {
     const originalNode = example(
       example__caption("caption"),
       example__html("html"),
@@ -112,7 +112,7 @@ describe("Field helpers", () => {
     const originalFields = getFieldsFromNode({
       node: originalNode,
       ...additionalFieldOptions,
-      getElementDataFromNode: createGetElementDataFromNode(example)
+      getElementDataFromNode: createGetElementDataFromNode(example),
     });
 
     it("should update a node with the correct value and error information", () => {
@@ -125,7 +125,7 @@ describe("Field helpers", () => {
         node: newElementNode,
         fields: originalFields,
         ...additionalFieldOptions,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       expect(newFields.caption.value).toBe("caption new");
@@ -147,7 +147,7 @@ describe("Field helpers", () => {
         node: newElementNode,
         fields: originalFields,
         ...additionalFieldOptions,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       expect(newFields.caption.value).toBe("caption new");
@@ -416,7 +416,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       const newNode = example(
@@ -459,7 +459,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       const newNestedNode = example__repeated__parent(
@@ -505,7 +505,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
-        getElementDataFromNode
+        getElementDataFromNode,
       });
 
       const newNestedNode = example__repeated__parent(

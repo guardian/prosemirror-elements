@@ -24,27 +24,31 @@ import type {
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
 
-type ExternalElementData = {
+export type ExternalElementData = {
   elementType: string;
-  values: {
-    fields: unknown,
-    assets: unknown
-  }
-}
+  fields: Record<string, string>;
+  assets: unknown;
+};
 
-type InternalElementDataValues = {
-  fields: unknown,
-  assets: unknown
-}
-
-type InternalElementData = {
-  elementName: string;
+export type InternalElementData = {
+  elementName: string,
   values: InternalElementDataValues
 }
 
-export type TransformElementIn = (elementName: string, values: unknown) => unknown
-export type TransformElementOut = (elementName: string | number | symbol, values: unknown) => InternalElementDataValues
+type InternalElementDataValues = {
+  fields?: unknown;
+  assets?: unknown;
+};
 
+export type TransformElementIn = (
+  elementName: string,
+  values: unknown
+) => unknown;
+
+export type TransformElementOut = (
+  elementName: string | number | symbol,
+  values: unknown
+) => InternalElementDataValues;
 
 /**
  * Creates a function that will attempt to create a Prosemirror node from
@@ -61,11 +65,11 @@ export const createGetNodeFromElementData = <
   {
     elementName,
     values,
-    transformElementIn
+    transformElementIn,
   }: {
     elementName: string;
     values: unknown;
-    transformElementIn?: (elementName: string, values: unknown) => unknown
+    transformElementIn?: (elementName: string, values: unknown) => unknown;
   },
   schema: Schema
 ) => {
@@ -107,7 +111,7 @@ export type GetElementDataFromNode<ElementNames, ESpecMap> = (
   node: Node,
   serializer: DOMSerializer,
   transformElementOut?: TransformElementOut
-) => (ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | undefined);
+) => ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | undefined;
 
 /**
  * Creates a function that will attempt to extract element data from
@@ -120,7 +124,11 @@ export const createGetElementDataFromNode = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
-): GetElementDataFromNode<ElementNames, ESpecMap> => (node: Node, serializer: DOMSerializer, transformElementOut?: TransformElementOut) => {
+): GetElementDataFromNode<ElementNames, ESpecMap> => (
+  node: Node,
+  serializer: DOMSerializer,
+  transformElementOut?: TransformElementOut
+) => {
   const elementName = getElementNameFromNode(node) as ElementNames;
   const element = elementTypeMap[elementName];
   const getElementDataFromNode = createGetElementDataFromNode(elementTypeMap);
@@ -170,7 +178,7 @@ export const getFieldValuesFromNode = <
       fieldDescription,
       serializer,
       getElementDataFromNode,
-      transformElementOut,
+      transformElementOut
     );
 
     if (
@@ -218,7 +226,7 @@ export const getFieldValueFromNode = <
           fieldDescription.fields,
           serializer,
           getElementDataFromNode,
-          transformElementOut,
+          transformElementOut
         )
       );
     });
@@ -229,7 +237,7 @@ export const getFieldValueFromNode = <
       node,
       serializer,
       getElementDataFromNode,
-      transformElementOut,
+      transformElementOut
     );
   }
   return undefined;
@@ -257,7 +265,7 @@ const getValuesFromNestedElementContentNode = <
   node: Node,
   serializer: DOMSerializer,
   getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
-  transformElementOut?: TransformElementOut,
+  transformElementOut?: TransformElementOut
 ) => {
   const nestedElements: Array<
     ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>
@@ -299,33 +307,41 @@ const getValuesFromNestedElementContentNode = <
         );
       }
     } else {
-      const elementData = getElementDataFromNode(childElement, serializer, transformElementOut);
+      const elementData = getElementDataFromNode(
+        childElement,
+        serializer,
+        transformElementOut
+      );
 
-      if (!elementData){
-        return undefined
+      if (!elementData) {
+        return undefined;
       }
 
-      const internalElementData = transformElementOut ? {
-          elementName: elementData.elementName,
-          values: transformElementOut(
+      const internalElementData = transformElementOut
+        ? {
+            elementName: elementData.elementName,
+            values: transformElementOut(
               elementData.elementName,
               elementData.values
-          )
-        } : elementData
-     
+            ),
+          }
+        : elementData;
+
       const externalElementData = {
         elementType: internalElementData.elementName,
         fields: internalElementData.values.fields,
-        assets: internalElementData.values.assets
-      }
+        assets: internalElementData.values.assets,
+      };
 
-      nestedElements.push((externalElementData as unknown) as ExtractDataTypeFromElementSpec<
-        ESpecMap,
-        Extract<keyof ESpecMap, string>
-      >);
+      nestedElements.push(
+        (externalElementData as unknown) as ExtractDataTypeFromElementSpec<
+          ESpecMap,
+          Extract<keyof ESpecMap, string>
+        >
+      );
     }
   });
-  
+
   return nestedElements;
 };
 

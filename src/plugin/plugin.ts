@@ -15,8 +15,16 @@ import {
   updateFieldsFromNode,
   updateFieldViewsFromNode,
 } from "./field";
+import type { FieldView } from "./fieldViews/FieldView";
 import { pluginKey } from "./helpers/constants";
-import { GetElementDataFromNode, TransformElementOut, createGetElementDataFromNode, getFieldValuesFromNode } from "./helpers/element";
+import type {
+  GetElementDataFromNode,
+  TransformElementOut,
+} from "./helpers/element";
+import {
+  createGetElementDataFromNode,
+  getFieldValuesFromNode,
+} from "./helpers/element";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
 import {
@@ -25,7 +33,6 @@ import {
   isProseMirrorElement,
   isProseMirrorElementSelected,
 } from "./nodeSpec";
-import { FieldView } from "./fieldViews/FieldView";
 
 const decorations = createUpdateDecorations();
 
@@ -132,7 +139,7 @@ const createNodeViews = <
   commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent,
   getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
-  transformElementOut?: TransformElementOut 
+  transformElementOut?: TransformElementOut
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
   for (const elementName in elementsSpec) {
@@ -180,7 +187,7 @@ const createNodeView = <
     innerDecos,
     serializer,
     getElementDataFromNode,
-    transformElementOut
+    transformElementOut,
   });
 
   // Because nodes and decorations are immutable in ProseMirror, we can compare
@@ -203,7 +210,13 @@ const createNodeView = <
   let currentCommandValues = getCommandValues(initCommands);
 
   const getElementDataForUpdator = () =>
-    getFieldValuesFromNode(currentNode, element.fieldDescriptions, serializer, getElementDataFromNode, transformElementOut);
+    getFieldValuesFromNode(
+      currentNode,
+      element.fieldDescriptions,
+      serializer,
+      getElementDataFromNode,
+      transformElementOut
+    );
 
   const update = element.createUpdator(
     dom,
@@ -250,7 +263,7 @@ const createNodeView = <
               getPos,
               serializer,
               getElementDataFromNode,
-              transformElementOut
+              transformElementOut,
             })
           : currentFields;
 
@@ -276,7 +289,9 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fields as Field<FieldView<unknown>>).map((field) => field.view.destroy());
+      Object.values(fields as Field<FieldView<unknown>>).map((field) =>
+        field.view.destroy()
+      );
       element.destroy(dom);
     },
     ignoreMutation: () => true,
