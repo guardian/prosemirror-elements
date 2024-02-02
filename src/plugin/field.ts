@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
 import type { DecorationSource, EditorView } from "prosemirror-view";
@@ -289,6 +290,12 @@ export const updateFieldsFromNode = <
 
     if (newValue === (field as Field<unknown>).value) {
       return;
+    }
+
+    if (field.description.type === "nestedElement") {
+      if (_.isEqual(newValue, field.value)) {
+        return;
+      }
     }
 
     newFields = set(`${fieldName}.value`)(newValue)(newFields);
