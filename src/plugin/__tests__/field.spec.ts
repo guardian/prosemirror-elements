@@ -404,7 +404,6 @@ describe("Field helpers", () => {
         ...additionalFieldOptions,
       });
 
-      console.log(originalFields, newFields);
       expect(originalFields).toEqual(newFields);
 
       expect(originalFields === newFields).toBe(true);
