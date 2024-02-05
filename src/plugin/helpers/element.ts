@@ -292,11 +292,10 @@ const getValuesFromNestedElementContentNode = <
           },
         });
         // This is a textElement as defined in flexible-content, not within the scope of
-        // prosemirror-elements, so we need to do a type-cast to make Typescript happy.
-        // Currently, the top level textElements will be serialised by flexible-content,
-        // so we're duplicating some functionality here. In the future it would be better
-        // to have prosemirror-elements handle textElements everywhere they appear, but
-        // that will be a substantial change in both projects.
+        // prosemirror-elements.
+        // In the future it may be better to have prosemirror-elements handle textElements 
+        // everywhere they appear to avoid this duplication of logic but that will be a 
+        // substantial change in both projects.
         nestedElements.push(nestedNode);
       }
     } else {
