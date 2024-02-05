@@ -211,7 +211,7 @@ export const getNodeSpecForField = (
       return {
         [parentNodeName]: {
           group: fieldGroupName,
-          content: `${childNodeName}*`,
+          content: `${childNodeName}{${field.minChildren},}`,
           toDOM: getDefaultToDOMForRepeaterNode(parentNodeName),
           parseDOM: getDefaultParseDOMForLeafNode(parentNodeName),
           attrs: { ...useTyperighterAttrs },
@@ -222,7 +222,9 @@ export const getNodeSpecForField = (
           toDOM: getDefaultToDOMForRepeaterNode(childNodeName),
           parseDOM: getDefaultParseDOMForRepeaterChildNode(childNodeName),
           attrs: {
-            [RepeaterFieldMapIDKey]: {},
+            [RepeaterFieldMapIDKey]: {
+              default: getRepeaterID(),
+            },
             ...useTyperighterAttrs,
           },
         },

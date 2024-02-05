@@ -223,7 +223,7 @@ describe("nodeSpec generation", () => {
         expect(
           nodeSpec["exampleElement__exampleRepeater__parent"]
         ).toMatchObject({
-          content: "exampleElement__exampleRepeater__child*",
+          content: "exampleElement__exampleRepeater__child{0,}",
         });
 
         expect(
@@ -253,10 +253,42 @@ describe("nodeSpec generation", () => {
         expect(
           nodeSpec["exampleElement__nestedRepeaterField__parent"]
         ).toMatchObject({
-          content: "exampleElement__nestedRepeaterField__child*",
+          content: "exampleElement__nestedRepeaterField__child{0,}",
         });
         expect(
           nodeSpec["exampleElement__nestedRepeaterField__child"]
+        ).toMatchObject({
+          content: "exampleElement__exampleField",
+        });
+        expect(nodeSpec["exampleElement__exampleField"]).toBeTruthy();
+      });
+
+      it("should generate NodeSpecs for repeater fields, which have a minChildren of 1", () => {
+        const nodeSpec = getNodeSpecForField(
+          "exampleElement",
+          "exampleRepeater",
+          createRepeaterField({
+            repeaterWithAtLeastOneChild: createRepeaterField(
+              {
+                exampleField: createTextField(),
+              },
+              1
+            ),
+          })
+        );
+
+        expect(
+          nodeSpec["exampleElement__exampleRepeater__child"]
+        ).toMatchObject({
+          content: "exampleElement__repeaterWithAtLeastOneChild__parent",
+        });
+        expect(
+          nodeSpec["exampleElement__repeaterWithAtLeastOneChild__parent"]
+        ).toMatchObject({
+          content: "exampleElement__repeaterWithAtLeastOneChild__child{1,}",
+        });
+        expect(
+          nodeSpec["exampleElement__repeaterWithAtLeastOneChild__child"]
         ).toMatchObject({
           content: "exampleElement__exampleField",
         });
