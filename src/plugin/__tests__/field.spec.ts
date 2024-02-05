@@ -1,5 +1,4 @@
 import { DecorationSet } from "prosemirror-view";
-import { buildElementPlugin } from "../element";
 import {
   getFieldsFromNode,
   updateFieldsFromNode,
@@ -27,13 +26,9 @@ const fieldDescriptions = {
   ...elements.exampleElementToNest.fieldDescriptions,
 };
 
-const typeProvider = createGetElementDataFromNode(example);
-
-const {
-  getElementDataFromNode: getElementDataFromNodeUnknown,
-} = buildElementPlugin(elements);
-
-const getElementDataFromNode = (getElementDataFromNodeUnknown as unknown) as typeof typeProvider;
+const getElementDataFromNode = createGetElementDataFromNode(
+  (elements as unknown) as typeof example
+);
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
