@@ -293,8 +293,8 @@ const getValuesFromNestedElementContentNode = <
         });
         // This is a textElement as defined in flexible-content, not within the scope of
         // prosemirror-elements.
-        // In the future it may be better to have prosemirror-elements handle textElements 
-        // everywhere they appear to avoid this duplication of logic but that will be a 
+        // In the future it may be better to have prosemirror-elements handle textElements
+        // everywhere they appear to avoid this duplication of logic but that will be a
         // substantial change in both projects.
         nestedElements.push(nestedNode);
       }
@@ -309,26 +309,17 @@ const getValuesFromNestedElementContentNode = <
         return undefined;
       }
 
-      const internalElementData = transformElementOut
-        ? {
-            elementName: elementData.elementName,
-            values: transformElementOut(
-              elementData.elementName,
-              elementData.values
-            ),
-          }
+      const transformedElementValues = transformElementOut
+        ? transformElementOut(elementData.elementName, elementData.values)
         : {
-            elementName: elementData.elementName,
-            values: {
-              fields: elementData.values as Record<string, string>,
-              assets: [],
-            },
+            fields: elementData.values as Record<string, string>,
+            assets: [],
           };
 
       const externalElementData = {
-        elementType: internalElementData.elementName.toString(),
-        fields: internalElementData.values.fields ?? {},
-        assets: internalElementData.values.assets,
+        elementType: elementData.elementName.toString(),
+        fields: transformedElementValues.fields ?? {},
+        assets: transformedElementValues.assets,
       };
 
       nestedElements.push(externalElementData);
