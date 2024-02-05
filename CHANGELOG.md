@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 8.0.1
+
+### Patch Changes
+
+- be51732: Enforce repeater has minChildren nodes in schema
+
 ## 8.0.0
 
 ### Major Changes
