@@ -36,8 +36,8 @@ export type InternalElementData = {
 };
 
 type InternalElementDataValues = {
-  fields?: unknown;
-  assets?: unknown;
+  fields?: Record<string, string>;
+  assets?: unknown[];
 };
 
 export type TransformElementIn = (
@@ -267,9 +267,7 @@ const getValuesFromNestedElementContentNode = <
   getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
   transformElementOut?: TransformElementOut
 ) => {
-  const nestedElements: Array<
-    ExtractDataTypeFromElementSpec<ESpecMap, Extract<keyof ESpecMap, string>>
-  > = [];
+  const nestedElements: ExternalElementData[] = [];
   node.forEach((childElement) => {
     const elementName = getElementNameFromNode(childElement) as
       | ElementNames
@@ -299,12 +297,7 @@ const getValuesFromNestedElementContentNode = <
         // so we're duplicating some functionality here. In the future it would be better
         // to have prosemirror-elements handle textElements everywhere they appear, but
         // that will be a substantial change in both projects.
-        nestedElements.push(
-          (nestedNode as unknown) as ExtractDataTypeFromElementSpec<
-            ESpecMap,
-            Extract<keyof ESpecMap, string>
-          >
-        );
+        nestedElements.push(nestedNode);
       }
     } else {
       const elementData = getElementDataFromNode(
@@ -328,23 +321,18 @@ const getValuesFromNestedElementContentNode = <
         : {
             elementName: elementData.elementName,
             values: {
-              fields: elementData.values,
+              fields: elementData.values as Record<string, string>,
               assets: [],
             },
           };
 
       const externalElementData = {
-        elementType: internalElementData.elementName,
-        fields: internalElementData.values.fields,
+        elementType: internalElementData.elementName.toString(),
+        fields: internalElementData.values.fields ?? {},
         assets: internalElementData.values.assets,
       };
 
-      nestedElements.push(
-        (externalElementData as unknown) as ExtractDataTypeFromElementSpec<
-          ESpecMap,
-          Extract<keyof ESpecMap, string>
-        >
-      );
+      nestedElements.push(externalElementData);
     }
   });
 
