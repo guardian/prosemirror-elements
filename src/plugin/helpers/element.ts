@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type {
+import {
   DOMSerializer,
   Node,
   ResolvedPos,
@@ -50,6 +50,14 @@ export type TransformElementOut = (
   values: unknown
 ) => InternalElementDataValues;
 
+export type GetNodeFromElementData = (options: {
+    elementName: string;
+    values: unknown;
+    transformElementIn?: TransformElementIn;
+  },
+  schema: Schema
+) => Node | null | undefined
+
 /**
  * Creates a function that will attempt to create a Prosemirror node from
  * the given element data. If it does not recognise the element type,
@@ -61,7 +69,7 @@ export const createGetNodeFromElementData = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
-) => (
+): GetNodeFromElementData => (
   {
     elementName,
     values,

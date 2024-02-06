@@ -12,6 +12,7 @@ import {
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import type {
   ExternalElementData,
+  GetNodeFromElementData,
   TransformElementIn,
 } from "./helpers/element";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
@@ -315,16 +316,7 @@ export const createNodesForFieldValues = <
   fieldDescriptions: FDesc,
   fieldValues: Partial<FieldNameToValueMap<FDesc>>,
   nodeName: string,
-  getNodeFromElementData: (
-    {
-      elementName,
-      values,
-    }: {
-      elementName: string;
-      values: unknown;
-    },
-    schema: Schema
-  ) => Node | null | undefined,
+  getNodeFromElementData: GetNodeFromElementData,
   transformElementIn?: TransformElementIn
 ): Node[] => {
   const orderedFieldNames = getDeterministicFieldOrder(
@@ -412,16 +404,7 @@ const createNestedElementNode = (
   nestedElementFieldNodeType: NodeType,
   nodeName: string,
   schema: Schema,
-  getNodeFromElementData: (
-    {
-      elementName,
-      values,
-    }: {
-      elementName: string;
-      values: unknown;
-    },
-    schema: Schema
-  ) => Node | null | undefined,
+  getNodeFromElementData: GetNodeFromElementData,
   transformElementIn?: TransformElementIn
 ): Node | null | undefined => {
   const childNodes = elementsArray
@@ -480,16 +463,7 @@ const createRepeaterNode = <
   parentNodeType: NodeType,
   childNodeType: NodeType,
   nodeName: string,
-  getNodeFromElementData: (
-    {
-      elementName,
-      values,
-    }: {
-      elementName: string;
-      values: unknown;
-    },
-    schema: Schema
-  ) => Node | null | undefined,
+  getNodeFromElementData: GetNodeFromElementData,
   transformElementIn?: TransformElementIn
 ): Node | null | undefined => {
   const childNodes = valuesArray.map((fieldValues) => {
