@@ -294,16 +294,16 @@ const getValuesFromNestedElementContentNode = <
       e.appendChild(dom);
 
       if (childElement.textContent) {
+        // This is a textElement as defined in flexible-content, we are duplicating the
+        // serialisation logic from there.
+        // In the future it may be better to have prosemirror-elements handle textElements
+        // everywhere they appear to avoid this duplication of logic but that will be a
+        // substantial change in both projects.
         const nestedNode = _.assign(_.cloneDeep(emptyElement), {
           fields: {
             text: e.innerHTML,
           },
         });
-        // This is a textElement as defined in flexible-content, not within the scope of
-        // prosemirror-elements.
-        // In the future it may be better to have prosemirror-elements handle textElements
-        // everywhere they appear to avoid this duplication of logic but that will be a
-        // substantial change in both projects.
         nestedElements.push(nestedNode);
       }
     } else {

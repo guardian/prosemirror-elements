@@ -379,7 +379,6 @@ export const createNodesForFieldValues = <
           content,
           field,
           nodeType,
-          nodeName,
           schema,
           getNodeFromElementData,
           transformElementIn
@@ -402,7 +401,6 @@ const createNestedElementNode = (
   elementsArray: unknown[],
   fieldDesc: FieldDescription,
   nestedElementFieldNodeType: NodeType,
-  nodeName: string,
   schema: Schema,
   getNodeFromElementData: GetNodeFromElementData,
   transformElementIn?: TransformElementIn
@@ -450,8 +448,6 @@ const createNestedElementNode = (
     },
     childNodes as Node[]
   );
-
-  return null;
 };
 
 const createRepeaterNode = <
