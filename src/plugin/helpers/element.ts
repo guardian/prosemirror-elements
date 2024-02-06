@@ -1,5 +1,4 @@
-import _ from "lodash";
-import {
+import type {
   DOMSerializer,
   Node,
   ResolvedPos,
@@ -50,13 +49,14 @@ export type TransformElementOut = (
   values: unknown
 ) => InternalElementDataValues;
 
-export type GetNodeFromElementData = (options: {
+export type GetNodeFromElementData = (
+  options: {
     elementName: string;
     values: unknown;
     transformElementIn?: TransformElementIn;
   },
   schema: Schema
-) => Node | null | undefined
+) => Node | null | undefined;
 
 /**
  * Creates a function that will attempt to create a Prosemirror node from
@@ -265,6 +265,30 @@ const getValuesFromRichContentNode = (
 
 const getValuesFromTextContentNode = (node: Node) => node.textContent;
 
+const getValuesFromTextElement = (
+  textElementNode: Node,
+  serializer: DOMSerializer
+) => {
+  // This is a textElement as defined in flexible-content, we are duplicating the
+  // serialisation logic from there.
+  // In the future it may be better to have prosemirror-elements handle textElements
+  // everywhere they appear to avoid this duplication of logic but that will be a
+  // substantial change in both projects.
+  const dom = serializer.serializeFragment(textElementNode.content);
+  const serializedContent = document.createElement("div");
+  serializedContent.appendChild(dom);
+
+  const textElement = {
+    elementType: "textElement",
+    fields: {
+      text: serializedContent.innerHTML,
+    },
+    assets: [],
+  };
+
+  return textElement;
+};
+
 const getValuesFromNestedElementContentNode = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
   ElementNames,
@@ -281,30 +305,11 @@ const getValuesFromNestedElementContentNode = <
       | ElementNames
       | "textElement";
     if (elementName === "textElement") {
+      getValuesFromTextElement(childElement, serializer);
       // Make sure the nestedElementField serialises any textElement properly,
       // rather than throwing them away on serialisation.
-      const emptyElement = {
-        elementType: "textElement",
-        fields: {},
-        assets: [],
-      };
-
-      const dom = serializer.serializeFragment(childElement.content);
-      const e = document.createElement("div");
-      e.appendChild(dom);
-
       if (childElement.textContent) {
-        // This is a textElement as defined in flexible-content, we are duplicating the
-        // serialisation logic from there.
-        // In the future it may be better to have prosemirror-elements handle textElements
-        // everywhere they appear to avoid this duplication of logic but that will be a
-        // substantial change in both projects.
-        const nestedNode = _.assign(_.cloneDeep(emptyElement), {
-          fields: {
-            text: e.innerHTML,
-          },
-        });
-        nestedElements.push(nestedNode);
+        nestedElements.push(getValuesFromTextElement(childElement, serializer));
       }
     } else {
       const elementData = getElementDataFromNode(
