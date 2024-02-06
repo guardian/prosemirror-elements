@@ -43,7 +43,7 @@ type InternalElementDataValues = {
 export type TransformElementIn = (
   elementName: string,
   values: unknown
-) => unknown;
+) => InternalElementDataValues;
 
 export type TransformElementOut = (
   elementName: string | number | symbol,
@@ -69,7 +69,7 @@ export const createGetNodeFromElementData = <
   }: {
     elementName: string;
     values: unknown;
-    transformElementIn?: (elementName: string, values: unknown) => unknown;
+    transformElementIn?: TransformElementIn;
   },
   schema: Schema
 ) => {
