@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { neutral } from "@guardian/src-foundations";
+import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
@@ -21,22 +21,20 @@ import { keyTakeawaysFields } from "./AltStyleElementSpec";
 export const AltStyleElementTestId = "AltStyleElement";
 
 const RepeaterChild = styled(Body)`
-  padding: 8px 8px 16px 8px;
-  &:not(:last-child) {
-    border-bottom: 1px dashed ${neutral[60]};
+  &:first-child {
+    margin-top: ${space[3]}px;
   }
+  margin-bottom: ${space[3]}px;
   position: relative;
 `;
 
 const RepeatedFieldsWrapper = styled("div")`
   width: 100%;
-  padding: 0 8px;
 `;
 
 const ChildNumber = styled("div")`
-  position: absolute;
-  top: 16px;
-  left: 8px;
+  box-sizing: border-box;
+  background-color: ${neutral[100]};
   color: ${neutral[46]};
   font-family: "Guardian Agate Sans", sans-serif;
   line-height: 1;
@@ -45,10 +43,13 @@ const ChildNumber = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 24px;
+  height: 32px;
   padding: 2px;
-  width: 24px;
+  width: 32px;
   border: 1px solid ${neutral[60]};
+  position: absolute;
+  top: 0;
+  left: -32px;
 `;
 
 export const createReactAltStylesElementSpec = <

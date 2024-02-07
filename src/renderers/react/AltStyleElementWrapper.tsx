@@ -5,21 +5,17 @@ import type { CommandCreator } from "../../plugin/types/Commands";
 import { Overlay } from "./ElementWrapper";
 
 const AltStyleContainer = styled("div")`
-  margin: ${space[3]}px 0;
   padding-bottom: 8px;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
-  margin: ${space[3]}px -20px;
+  margin: ${space[3]}px -10px;
 `;
 
 const AltStylePanel = styled("div")<{
   isSelected: boolean;
 }>`
   position: relative;
-  padding: 0 ${space[3]}px;
   flex-grow: 1;
-  overflow: hidden;
-  padding: ${space[3]}px;
 
   * {
     ::selection {

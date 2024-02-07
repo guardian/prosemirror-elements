@@ -107,18 +107,8 @@ const LeftActions = styled(Actions)`
   position: relative;
 `;
 
-const LeftRepeaterActions = styled(LeftActions)`
-  height: 100%;
-  justify-content: flex-end;
-`;
-
 const RightActions = styled(Actions)`
   right: -${buttonWidth + 1}px;
-`;
-
-const RightRepeaterActions = styled(RightActions)`
-  height: 100%;
-  justify-content: space-between;
 `;
 
 const Tooltip = styled("div")`
@@ -313,14 +303,32 @@ export type RightRepeaterActionProps = {
   index: number;
 };
 
-const RepeaterControls = styled("div")`
-  padding-top: 8px;
+const LeftRepeaterActions = styled(Actions)`
+  height: 100%;
+  justify-content: space-between;
+  position: absolute;
+  left: -32px;
+`;
+
+const RightRepeaterActions = styled(Actions)`
+  height: 100%;
+  justify-content: space-between;
 `;
 
 const RepeaterActions = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const TopRepeaterActions = styled(RepeaterActions)`
+  position: absolute;
+  top: 0;
+`;
+
+const BottomRepeaterActions = styled(RepeaterActions)`
+  position: absolute;
+  bottom: 0;
 `;
 
 export const LeftRepeaterActionControls = ({
@@ -331,32 +339,30 @@ export const LeftRepeaterActionControls = ({
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
 
   return (
-    <RepeaterControls>
-      <LeftRepeaterActions className="actions">
-        <RepeaterActions>
-          <SeriousButton
-            type="button"
-            activated={closeClickedOnce}
-            data-cy={removeChildTestId}
-            disabled={numberOfChildNodes === minChildren}
-            onClick={(e) => {
-              if (closeClickedOnce) {
-                return removeChildAt(e);
-              } else {
-                setCloseClickedOnce(true);
-                setTimeout(() => {
-                  setCloseClickedOnce(false);
-                }, 5000);
-              }
-            }}
-            aria-label="Remove repeater child"
-          >
-            <SvgBin />
-            {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
-          </SeriousButton>
-        </RepeaterActions>
-      </LeftRepeaterActions>
-    </RepeaterControls>
+    <LeftRepeaterActions className="actions">
+      <BottomRepeaterActions>
+        <SeriousButton
+          type="button"
+          activated={closeClickedOnce}
+          data-cy={removeChildTestId}
+          disabled={numberOfChildNodes === minChildren}
+          onClick={(e) => {
+            if (closeClickedOnce) {
+              return removeChildAt(e);
+            } else {
+              setCloseClickedOnce(true);
+              setTimeout(() => {
+                setCloseClickedOnce(false);
+              }, 5000);
+            }
+          }}
+          aria-label="Remove repeater child"
+        >
+          <SvgBin />
+          {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
+        </SeriousButton>
+      </BottomRepeaterActions>
+    </LeftRepeaterActions>
   );
 };
 
@@ -368,39 +374,37 @@ export const RightRepeaterActionControls = ({
   index,
 }: RightRepeaterActionProps) => {
   return (
-    <RepeaterControls>
-      <RightRepeaterActions className="actions">
-        <RepeaterActions>
-          <Button
-            type="button"
-            data-cy={moveChildUpTestId}
-            disabled={index <= 0}
-            onClick={moveChildUpOne}
-            aria-label="Move repeater child up"
-          >
-            <SvgArrowUpStraight />
-          </Button>
-          <Button
-            type="button"
-            data-cy={moveChildDownTestId}
-            disabled={index >= numberOfChildNodes - 1}
-            onClick={moveChildDownOne}
-            aria-label="Move repeater child down"
-          >
-            <SvgArrowDownStraight />
-          </Button>
-        </RepeaterActions>
-        <RepeaterActions>
-          <Button
-            type="button"
-            data-cy={addChildTestId}
-            onClick={addChildAfter}
-            aria-label="Add repeater child"
-          >
-            +
-          </Button>
-        </RepeaterActions>
-      </RightRepeaterActions>
-    </RepeaterControls>
+    <RightRepeaterActions className="actions">
+      <TopRepeaterActions>
+        <Button
+          type="button"
+          data-cy={moveChildUpTestId}
+          disabled={index <= 0}
+          onClick={moveChildUpOne}
+          aria-label="Move repeater child up"
+        >
+          <SvgArrowUpStraight />
+        </Button>
+        <Button
+          type="button"
+          data-cy={moveChildDownTestId}
+          disabled={index >= numberOfChildNodes - 1}
+          onClick={moveChildDownOne}
+          aria-label="Move repeater child down"
+        >
+          <SvgArrowDownStraight />
+        </Button>
+      </TopRepeaterActions>
+      <BottomRepeaterActions>
+        <Button
+          type="button"
+          data-cy={addChildTestId}
+          onClick={addChildAfter}
+          aria-label="Add repeater child"
+        >
+          +
+        </Button>
+      </BottomRepeaterActions>
+    </RightRepeaterActions>
   );
 };
