@@ -13,6 +13,7 @@ export const keyTakeawaysFields = {
         validators: [required("Title is required")],
       }),
       content: createNestedElementField({
+        isResizeable: false,
         placeholder: "Don't show description",
         content: "block*",
         marks: "em strong link",

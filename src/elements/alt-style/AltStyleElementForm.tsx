@@ -108,13 +108,13 @@ export const keyTakeawaysElement = createReactAltStylesElementSpec(
   (repeaterChild) => (
     <>
       <FieldWrapper
-        headingLabel="Key Takeaway Title"
         field={repeaterChild.title}
+        showHeading={false}
         useAlternateStyles={true}
       />
       <FieldWrapper
-        headingLabel="Key Takeaway Content"
         field={repeaterChild.content}
+        showHeading={false}
         useAlternateStyles={true}
       />
     </>
