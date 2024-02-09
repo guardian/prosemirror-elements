@@ -397,6 +397,20 @@ export const createNodesForFieldValues = <
   });
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return (!!value && typeof value === 'object' && !Array.isArray(value))
+}
+
+const isExternalData = (element: unknown): element is ExternalElementData => {
+  if (isRecord(element)){
+    const { elementType, fields } = element;
+    if (typeof elementType === "string" && isRecord(fields)){
+      return true
+    }
+  } 
+  return false
+}
+
 const createNestedElementNode = (
   elementsArray: unknown[],
   fieldDesc: FieldDescription,
@@ -407,38 +421,40 @@ const createNestedElementNode = (
 ): Node | null | undefined => {
   const childNodes = elementsArray
     .map((element) => {
-      const externalElement = element as ExternalElementData;
-      const elementName = externalElement.elementType;
-
-      const values = transformElementIn
-        ? transformElementIn(elementName, externalElement)
-        : {
-            ...externalElement.fields,
-            assets: externalElement.assets,
-          };
-
-      const transformedElementData = {
-        elementName,
-        values,
-      };
-
-      if (elementName === "textElement") {
-        const emptyTextElementNode = schema.nodes["textElement"].create({
-          flexElement: null,
-        });
-
-        const richTextNode = createContentNodeFromRichText(
-          schema,
-          externalElement.fields.text,
-          emptyTextElementNode
+      if (isExternalData(element)){
+        const externalElement = element;
+        const elementName = externalElement.elementType;
+  
+        const values = transformElementIn
+          ? transformElementIn(elementName, externalElement)
+          : {
+              ...externalElement.fields,
+              assets: externalElement.assets,
+            };
+  
+        const transformedElementData = {
+          elementName,
+          values,
+        };
+  
+        if (elementName === "textElement") {
+          const emptyTextElementNode = schema.nodes["textElement"].create({
+            flexElement: null,
+          });
+  
+          const richTextNode = createContentNodeFromRichText(
+            schema,
+            externalElement.fields.text,
+            emptyTextElementNode
+          );
+          return richTextNode;
+        }
+        const elementNode = getNodeFromElementData(
+          transformedElementData,
+          schema
         );
-        return richTextNode;
+        return elementNode;
       }
-      const elementNode = getNodeFromElementData(
-        transformedElementData,
-        schema
-      );
-      return elementNode;
     })
     .filter((node) => !!node);
 
