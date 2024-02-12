@@ -398,18 +398,18 @@ export const createNodesForFieldValues = <
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> => {
-  return (!!value && typeof value === 'object' && !Array.isArray(value))
-}
+  return !!value && typeof value === "object" && !Array.isArray(value);
+};
 
 const isExternalData = (element: unknown): element is ExternalElementData => {
-  if (isRecord(element)){
+  if (isRecord(element)) {
     const { elementType, fields } = element;
-    if (typeof elementType === "string" && isRecord(fields)){
-      return true
+    if (typeof elementType === "string" && isRecord(fields)) {
+      return true;
     }
-  } 
-  return false
-}
+  }
+  return false;
+};
 
 const createNestedElementNode = (
   elementsArray: unknown[],
@@ -421,27 +421,27 @@ const createNestedElementNode = (
 ): Node | null | undefined => {
   const childNodes = elementsArray
     .map((element) => {
-      if (isExternalData(element)){
+      if (isExternalData(element)) {
         const externalElement = element;
         const elementName = externalElement.elementType;
-  
+
         const values = transformElementIn
           ? transformElementIn(elementName, externalElement)
           : {
               ...externalElement.fields,
               assets: externalElement.assets,
             };
-  
+
         const transformedElementData = {
           elementName,
           values,
         };
-  
+
         if (elementName === "textElement") {
           const emptyTextElementNode = schema.nodes["textElement"].create({
             flexElement: null,
           });
-  
+
           const richTextNode = createContentNodeFromRichText(
             schema,
             externalElement.fields.text,
