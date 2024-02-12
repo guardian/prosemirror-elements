@@ -279,7 +279,7 @@ const getValuesFromTextElement = (
   serializedContent.appendChild(dom);
 
   const textElement = {
-    elementType: "textElement",
+    elementType: "text",
     fields: {
       text: serializedContent.innerHTML,
     },
