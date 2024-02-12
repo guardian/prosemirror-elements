@@ -44,15 +44,15 @@ describe("AltStyleElement", () => {
     repeater: [
       {
         title: "A",
-        content: "",
+        content: [],
       },
       {
         title: "B",
-        content: "",
+        content: [],
       },
       {
         title: "C",
-        content: "",
+        content: [],
       },
     ],
   };

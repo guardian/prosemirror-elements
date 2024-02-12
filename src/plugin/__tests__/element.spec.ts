@@ -402,13 +402,15 @@ describe("buildElementPlugin", () => {
       insertElement({
         elementName: "nestedTestElement",
         values: {
-          nestedField1: trimHtml(`
-            <div pme-element-type="testElement">
-              <div pme-field-name="testElement__field1">
-                <p>Content 1</p>
-              </div>
-            </div>
-          `),
+          nestedField1: [
+            {
+              elementType: "testElement",
+              fields: {
+                richTextField1: "<p>Content 1</p>",
+              },
+              assets: [],
+            },
+          ],
         },
       })(view.state, view.dispatch);
 
@@ -428,8 +430,7 @@ describe("buildElementPlugin", () => {
     it("should fill out content in REPEATER nodes containing nested element fields, with an element only in the first repeater node", () => {
       const nestedTestElement = createNoopElement({
         nestedField1: {
-          type: "nestedElement",
-          content: "block+",
+          type: "richText",
         },
       });
       const testElement = createNoopElement({
@@ -452,18 +453,18 @@ describe("buildElementPlugin", () => {
         values: {
           repeater1: [
             {
-              field1: trimHtml(`
-            <div pme-element-type="nestedTestElement">
-              <div pme-field-name="nestedTestElement__field1">
-                <p>Content 1</p>
-              </div>
-            </div>
-            `),
+              field1: [
+                {
+                  elementType: "nestedTestElement",
+                  fields: {
+                    nestedField1: "<p>Content 1</p>",
+                  },
+                  assets: [],
+                },
+              ],
             },
             {
-              field1: trimHtml(`
-              <p>hello</p>
-            `),
+              field1: [],
             },
           ],
         },
@@ -483,7 +484,7 @@ describe("buildElementPlugin", () => {
             </div>
             <div pme-field-name="testElement__repeater1__child">
               <div pme-field-name="testElement__field1">
-                <p>hello</p>
+                <p></p>
               </div>
             </div>
           </div>
@@ -494,8 +495,7 @@ describe("buildElementPlugin", () => {
     it("should fill out content in REPEATER nodes containing nested element fields, with an element in second repeater node", () => {
       const nestedTestElement = createNoopElement({
         nestedField1: {
-          type: "nestedElement",
-          content: "block+",
+          type: "richText",
         },
       });
       const testElement = createNoopElement({
@@ -518,18 +518,18 @@ describe("buildElementPlugin", () => {
         values: {
           repeater1: [
             {
-              field1: trimHtml(`
-              <p>Content 1 - blah</p>
-            `),
+              field1: [],
             },
             {
-              field1: trimHtml(`
-            <div pme-element-type="nestedTestElement">
-              <div pme-field-name="nestedTestElement__field1">
-                <p>Content 2 - blah blah</p>
-              </div>
-            </div>
-            `),
+              field1: [
+                {
+                  elementType: "nestedTestElement",
+                  fields: {
+                    nestedField1: "<p>Content 2 - blah blah</p>",
+                  },
+                  assets: [],
+                },
+              ],
             },
           ],
         },
@@ -540,10 +540,10 @@ describe("buildElementPlugin", () => {
           <div pme-field-name="testElement__repeater1__parent">
             <div pme-field-name="testElement__repeater1__child">
               <div pme-field-name="testElement__field1">
-                <p>Content 1 - blah</p>
+                <p></p>
               </div>
             </div>
-            
+
             <div pme-field-name="testElement__repeater1__child">
               <div pme-field-name="testElement__field1">
                 <div pme-element-type="nestedTestElement">
@@ -561,8 +561,7 @@ describe("buildElementPlugin", () => {
     it("should fill out content in REPEATER nodes containing nested element fields, with elements in multiple repeater nodes", () => {
       const nestedTestElement = createNoopElement({
         nestedField1: {
-          type: "nestedElement",
-          content: "block+",
+          type: "richText",
         },
       });
       const testElement = createNoopElement({
@@ -585,22 +584,26 @@ describe("buildElementPlugin", () => {
         values: {
           repeater1: [
             {
-              field1: trimHtml(`
-            <div pme-element-type="nestedTestElement">
-              <div pme-field-name="nestedTestElement__field1">
-                <p>Content 1 - blah</p>
-              </div>
-            </div>
-            `),
+              field1: [
+                {
+                  elementType: "nestedTestElement",
+                  fields: {
+                    nestedField1: "<p>Content 1 - blah</p>",
+                  },
+                  assets: [],
+                },
+              ],
             },
             {
-              field1: trimHtml(`
-            <div pme-element-type="nestedTestElement">
-              <div pme-field-name="nestedTestElement__field1">
-                <p>Content 2 - blah blah</p>
-              </div>
-            </div>
-            `),
+              field1: [
+                {
+                  elementType: "nestedTestElement",
+                  fields: {
+                    nestedField1: "<p>Content 2 - blah blah</p>",
+                  },
+                  assets: [],
+                },
+              ],
             },
           ],
         },
@@ -618,7 +621,7 @@ describe("buildElementPlugin", () => {
                 </div>
               </div>
             </div>
-            
+
             <div pme-field-name="testElement__repeater1__child">
               <div pme-field-name="testElement__field1">
                 <div pme-element-type="nestedTestElement">

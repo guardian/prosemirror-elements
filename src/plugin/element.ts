@@ -2,6 +2,7 @@ import OrderedMap from "orderedmap";
 import type { NodeSpec, ResolvedPos } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
+import type { TransformElementOut } from "./helpers/element";
 import {
   createElementDataValidator,
   createGetElementDataFromNode,
@@ -35,6 +36,7 @@ export type BuildElementPluginOptions = {
   groupName: string;
   predicate: Predicate;
   sendTelemetryEvent: SendTelemetryEvent;
+  transformElementOut: TransformElementOut;
 };
 
 /**
@@ -53,7 +55,7 @@ export const buildElementPlugin = <
   const getElementDataFromNode = createGetElementDataFromNode(elementSpecs);
   const validateElementData = createElementDataValidator(elementSpecs);
 
-  const { groupName, predicate, sendTelemetryEvent } = {
+  const { groupName, predicate, sendTelemetryEvent, transformElementOut } = {
     groupName: "block",
     predicate: defaultPredicate,
     sendTelemetryEvent: undefined,
@@ -83,7 +85,9 @@ export const buildElementPlugin = <
   const plugin = createPlugin(
     elementSpecs,
     buildCommands(predicate),
-    sendTelemetryEvent
+    sendTelemetryEvent,
+    getElementDataFromNode,
+    transformElementOut
   );
   let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});
   for (const elementName in elementSpecs) {

@@ -11,6 +11,7 @@ import { RepeaterFieldView } from "../fieldViews/RepeaterFieldView";
 import { RichTextFieldView } from "../fieldViews/RichTextFieldView";
 import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { FieldDescription, FieldDescriptions } from "../types/Element";
+import type { ExternalElementData } from "./element";
 import type { KeysWithValsOfType, Optional } from "./types";
 
 export const fieldTypeToViewMap = {
@@ -43,7 +44,7 @@ export type FieldTypeToValueMap<
   Name extends keyof FDesc
 > = {
   [TextFieldView.fieldType]: string;
-  [NestedElementFieldView.fieldType]: string; // should this actually be a string?
+  [NestedElementFieldView.fieldType]: ExternalElementData[];
   [RichTextFieldView.fieldType]: string;
   [CheckboxFieldView.fieldType]: CheckboxValue;
   [DropdownFieldView.fieldType]: string;

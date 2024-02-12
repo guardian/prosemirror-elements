@@ -489,7 +489,7 @@ export const sampleAltStylesElement = {
   repeater: [
     {
       title: "",
-      content: "",
+      content: [],
     },
   ],
 };

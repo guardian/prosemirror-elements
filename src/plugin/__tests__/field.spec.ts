@@ -19,11 +19,16 @@ import {
   serializer,
   view,
 } from "../helpers/__tests__/fixtures";
+import { createGetElementDataFromNode } from "../helpers/element";
 
 const fieldDescriptions = {
   ...elements.example.fieldDescriptions,
   ...elements.exampleElementToNest.fieldDescriptions,
 };
+
+const getElementDataFromNode = createGetElementDataFromNode(
+  (elements as unknown) as typeof example
+);
 
 describe("Field helpers", () => {
   describe("getFieldsFromElementNode", () => {
@@ -40,6 +45,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
+        getElementDataFromNode,
       });
 
       expect(fields.caption.value).toBe("caption");
@@ -61,6 +67,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
+        getElementDataFromNode,
       });
 
       expect(fields.caption.errors.length).toEqual(1);
@@ -76,12 +83,13 @@ describe("Field helpers", () => {
           getPos: () => 0,
           innerDecos: DecorationSet.empty,
           serializer,
+          getElementDataFromNode,
         })
       ).toThrowError();
     });
   });
 
-  describe("updateFieldsAndErrorsFromNode", () => {
+  describe("updateFieldsFromNode", () => {
     const originalNode = example(
       example__caption("caption"),
       example__html("html"),
@@ -105,6 +113,7 @@ describe("Field helpers", () => {
 
     const originalFields = getFieldsFromNode({
       node: originalNode,
+      getElementDataFromNode,
       ...additionalFieldOptions,
     });
 
@@ -118,6 +127,7 @@ describe("Field helpers", () => {
         node: newElementNode,
         fields: originalFields,
         ...additionalFieldOptions,
+        getElementDataFromNode,
       });
 
       expect(newFields.caption.value).toBe("caption new");
@@ -139,6 +149,7 @@ describe("Field helpers", () => {
         node: newElementNode,
         fields: originalFields,
         ...additionalFieldOptions,
+        getElementDataFromNode,
       });
 
       expect(newFields.caption.value).toBe("caption new");
@@ -163,7 +174,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
-
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -190,6 +201,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -215,6 +227,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -234,6 +247,7 @@ describe("Field helpers", () => {
 
       const originalFields = getFieldsFromNode({
         node: originalNode,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -248,6 +262,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -269,14 +284,19 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).toContain(
-        "Updated nested element content"
-      );
-      expect(newFields.nestedElementField.value).not.toContain(
-        "Nested element content"
+      const expected = [
+        {
+          assets: [],
+          elementType: "exampleElementToNest",
+          fields: { content: "Updated nested element content updated" },
+        },
+      ];
+      expect(newFields.nestedElementField.value.toString()).toBe(
+        expected.toString()
       );
     });
 
@@ -295,14 +315,25 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
-      expect(newFields.nestedElementField.value).toContain(
-        "Nested element content"
-      );
-      expect(newFields.nestedElementField.value).toContain(
-        "Nested element 2 content"
+      const expected = [
+        {
+          assets: [],
+          elementType: "exampleElementToNest",
+          fields: { content: "Nested element content" },
+        },
+        {
+          assets: [],
+          elementType: "exampleElementToNest",
+          fields: { content: "Nested element 2 content" },
+        },
+      ];
+
+      expect(newFields.nestedElementField.value.toString()).toEqual(
+        expected.toString()
       );
     });
 
@@ -312,6 +343,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -337,6 +369,7 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
 
@@ -362,8 +395,11 @@ describe("Field helpers", () => {
       const newFields = updateFieldsFromNode({
         node: newElementNode,
         fields: originalFields,
+        getElementDataFromNode,
         ...additionalFieldOptions,
       });
+
+      expect(originalFields).toEqual(newFields);
 
       expect(originalFields === newFields).toBe(true);
     });
@@ -373,6 +409,7 @@ describe("Field helpers", () => {
         updateFieldsFromNode({
           node: p(),
           fields: originalFields,
+          getElementDataFromNode,
           ...additionalFieldOptions,
         })
       ).toThrowError();
@@ -397,6 +434,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
+        getElementDataFromNode,
       });
 
       const newNode = example(
@@ -439,6 +477,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
+        getElementDataFromNode,
       });
 
       const newNestedNode = example__repeated__parent(
@@ -484,6 +523,7 @@ describe("Field helpers", () => {
         getPos: () => 0,
         innerDecos: DecorationSet.empty,
         serializer,
+        getElementDataFromNode,
       });
 
       const newNestedNode = example__repeated__parent(

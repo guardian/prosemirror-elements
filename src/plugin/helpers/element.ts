@@ -23,6 +23,41 @@ import type {
 import type { FieldNameToValueMap } from "./fieldView";
 import { fieldTypeToViewMap } from "./fieldView";
 
+export type ExternalElementData = {
+  elementType: string;
+  fields: Record<string, string>;
+  assets: unknown;
+};
+
+export type InternalElementData = {
+  elementName: string;
+  values: InternalElementDataValues;
+};
+
+type InternalElementDataValues = {
+  fields?: Record<string, string>;
+  assets?: unknown[];
+};
+
+export type TransformElementIn = (
+  elementName: string,
+  values: unknown
+) => InternalElementDataValues;
+
+export type TransformElementOut = (
+  elementName: string | number | symbol,
+  values: unknown
+) => InternalElementDataValues;
+
+export type GetNodeFromElementData = (
+  options: {
+    elementName: string;
+    values: unknown;
+    transformElementIn?: TransformElementIn;
+  },
+  schema: Schema
+) => Node | null | undefined;
+
 /**
  * Creates a function that will attempt to create a Prosemirror node from
  * the given element data. If it does not recognise the element type,
@@ -34,16 +69,19 @@ export const createGetNodeFromElementData = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
-) => (
+): GetNodeFromElementData => (
   {
     elementName,
     values,
+    transformElementIn,
   }: {
     elementName: string;
     values: unknown;
+    transformElementIn?: TransformElementIn;
   },
   schema: Schema
 ) => {
+  const getNodeFromElementData = createGetNodeFromElementData(elementTypeMap);
   const element = elementTypeMap[elementName as keyof ESpecMap];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
@@ -60,11 +98,13 @@ export const createGetNodeFromElementData = <
     );
   }
 
-  const nodes = createNodesForFieldValues(
+  const nodes: Node[] = createNodesForFieldValues(
     schema,
     element.fieldDescriptions,
     values as FieldNameToValueMap<FDesc>,
-    nodeName
+    nodeName,
+    getNodeFromElementData,
+    transformElementIn
   );
 
   return schema.nodes[nodeName].createAndFill(
@@ -74,6 +114,12 @@ export const createGetNodeFromElementData = <
     nodes
   );
 };
+
+export type GetElementDataFromNode<ElementNames, ESpecMap> = (
+  node: Node,
+  serializer: DOMSerializer,
+  transformElementOut?: TransformElementOut
+) => ExtractDataTypeFromElementSpec<ESpecMap, ElementNames> | undefined;
 
 /**
  * Creates a function that will attempt to extract element data from
@@ -86,11 +132,16 @@ export const createGetElementDataFromNode = <
   ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementTypeMap: ESpecMap
-) => (node: Node, serializer: DOMSerializer) => {
+): GetElementDataFromNode<ElementNames, ESpecMap> => (
+  node: Node,
+  serializer: DOMSerializer,
+  transformElementOut?: TransformElementOut
+) => {
   const elementName = getElementNameFromNode(node) as ElementNames;
   const element = elementTypeMap[elementName];
+  const getElementDataFromNode = createGetElementDataFromNode(elementTypeMap);
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be truthy.
   if (!element) {
     return undefined;
   }
@@ -98,7 +149,9 @@ export const createGetElementDataFromNode = <
   const values = getFieldValuesFromNode(
     node,
     element.fieldDescriptions,
-    serializer
+    serializer,
+    getElementDataFromNode,
+    transformElementOut
   );
 
   return ({
@@ -108,11 +161,15 @@ export const createGetElementDataFromNode = <
 };
 
 export const getFieldValuesFromNode = <
-  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames,
+  ESpecMap
 >(
   node: Node,
   fieldDescriptions: FDesc,
-  serializer: DOMSerializer
+  serializer: DOMSerializer,
+  getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
+  transformElementOut?: TransformElementOut
 ) => {
   // We gather the values from each child as we iterate over the
   // node, to update the renderer. It's difficult to be typesafe here,
@@ -124,7 +181,13 @@ export const getFieldValuesFromNode = <
       node
     ) as keyof FieldNameToField<FDesc>;
     const fieldDescription = fieldDescriptions[fieldName];
-    const value = getFieldValueFromNode(node, fieldDescription, serializer);
+    const value = getFieldValueFromNode(
+      node,
+      fieldDescription,
+      serializer,
+      getElementDataFromNode,
+      transformElementOut
+    );
 
     if (
       (fieldDescription.type === "richText" ||
@@ -141,10 +204,16 @@ export const getFieldValuesFromNode = <
   return values as ExtractFieldValues<FDesc>;
 };
 
-export const getFieldValueFromNode = (
+export const getFieldValueFromNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames,
+  ESpecMap
+>(
   node: Node,
   fieldDescription: FieldDescription,
-  serializer: DOMSerializer
+  serializer: DOMSerializer,
+  getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
+  transformElementOut?: TransformElementOut
 ): unknown => {
   const fieldType = fieldTypeToViewMap[fieldDescription.type].fieldContentType;
   if (fieldType === "ATTRIBUTES") {
@@ -160,13 +229,24 @@ export const getFieldValueFromNode = (
     const values = [] as unknown[];
     node.forEach((childNode) => {
       values.push(
-        getFieldValuesFromNode(childNode, fieldDescription.fields, serializer)
+        getFieldValuesFromNode(
+          childNode,
+          fieldDescription.fields,
+          serializer,
+          getElementDataFromNode,
+          transformElementOut
+        )
       );
     });
     return values;
   }
   if (fieldDescription.type === "nestedElement") {
-    return getValuesFromRichContentNode(node, serializer);
+    return getValuesFromNestedElementContentNode(
+      node,
+      serializer,
+      getElementDataFromNode,
+      transformElementOut
+    );
   }
   return undefined;
 };
@@ -184,6 +264,83 @@ const getValuesFromRichContentNode = (
 };
 
 const getValuesFromTextContentNode = (node: Node) => node.textContent;
+
+const getValuesFromTextElement = (
+  textElementNode: Node,
+  serializer: DOMSerializer
+) => {
+  // This is a textElement as defined in flexible-content, we are duplicating the
+  // serialisation logic from there.
+  // In the future it may be better to have prosemirror-elements handle textElements
+  // everywhere they appear to avoid this duplication of logic but that will be a
+  // substantial change in both projects.
+  const dom = serializer.serializeFragment(textElementNode.content);
+  const serializedContent = document.createElement("div");
+  serializedContent.appendChild(dom);
+
+  const textElement = {
+    elementType: "text",
+    fields: {
+      text: serializedContent.innerHTML,
+    },
+    assets: [],
+  };
+
+  return textElement;
+};
+
+const getValuesFromNestedElementContentNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames,
+  ESpecMap
+>(
+  node: Node,
+  serializer: DOMSerializer,
+  getElementDataFromNode: GetElementDataFromNode<ESpecMap, ElementNames>,
+  transformElementOut?: TransformElementOut
+) => {
+  const nestedElements: ExternalElementData[] = [];
+  node.forEach((childElement) => {
+    const elementName = getElementNameFromNode(childElement) as
+      | ElementNames
+      | "textElement";
+    if (elementName === "textElement") {
+      getValuesFromTextElement(childElement, serializer);
+      // Make sure the nestedElementField serialises any textElement properly,
+      // rather than throwing them away on serialisation.
+      if (childElement.textContent) {
+        nestedElements.push(getValuesFromTextElement(childElement, serializer));
+      }
+    } else {
+      const elementData = getElementDataFromNode(
+        childElement,
+        serializer,
+        transformElementOut
+      );
+
+      if (!elementData) {
+        return undefined;
+      }
+
+      const transformedElementValues = transformElementOut
+        ? transformElementOut(elementData.elementName, elementData.values)
+        : {
+            fields: elementData.values as Record<string, string>,
+            assets: [],
+          };
+
+      const externalElementData = {
+        elementType: elementData.elementName.toString(),
+        fields: transformedElementValues.fields ?? {},
+        assets: transformedElementValues.assets,
+      };
+
+      nestedElements.push(externalElementData);
+    }
+  });
+
+  return nestedElements;
+};
 
 export const createElementDataValidator = <
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,

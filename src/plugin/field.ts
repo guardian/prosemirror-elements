@@ -1,12 +1,18 @@
+import _ from "lodash";
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
+import type {
+  GetElementDataFromNode,
+  TransformElementOut,
+} from "./helpers/element";
 import { getFieldValueFromNode } from "./helpers/element";
 import { getElementFieldViewFromType } from "./helpers/fieldView";
 import { validateValue } from "./helpers/validation";
 import { getFieldNameFromNode } from "./nodeSpec";
 import type {
+  ElementSpecMap,
   Field,
   FieldDescriptions,
   FieldNameToField,
@@ -14,7 +20,11 @@ import type {
 } from "./types/Element";
 import { isRepeaterField } from "./types/Element";
 
-type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
+type GetFieldsFromNodeOptions<
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+> = {
   node: Node;
   fieldDescriptions: FDesc;
   view: EditorView;
@@ -22,12 +32,18 @@ type GetFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   innerDecos: DecorationSource;
   serializer: DOMSerializer;
   offset?: number;
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>;
+  transformElementOut?: TransformElementOut;
 };
 
 /**
  * Get the fields for an element from a Node representing that element in Prosemirror.
  */
-export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
+export const getFieldsFromNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+>({
   node,
   fieldDescriptions,
   view,
@@ -35,7 +51,13 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   innerDecos,
   serializer,
   offset = 0,
-}: GetFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
+  getElementDataFromNode,
+  transformElementOut,
+}: GetFieldsFromNodeOptions<
+  FDesc,
+  ElementNames,
+  ESpecMap
+>): FieldNameToField<FDesc> => {
   const fields = {} as FieldNameToField<FDesc>;
   if (node.attrs[RepeaterFieldMapIDKey]) {
     applyFieldUUIDToObject(fields, node.attrs[RepeaterFieldMapIDKey]);
@@ -74,14 +96,16 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
         // We offset by two positions here to account for the additional depth
         // of the parent and child repeater nodes.
         const depthOffset = 2;
-        const child = getFieldsFromNode({
+        const child = getFieldsFromNode<FDesc, ElementNames, ESpecMap>({
           node: repeaterChildNode,
-          fieldDescriptions: fieldDescription.fields,
+          fieldDescriptions: fieldDescription.fields as FDesc,
           view,
           getPos,
           innerDecos,
           serializer,
           offset: offset + localOffset + repeaterOffset + depthOffset,
+          getElementDataFromNode,
+          transformElementOut,
         });
 
         children.push(child);
@@ -100,7 +124,9 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     const value = getFieldValueFromNode(
       fieldNode,
       fieldDescription,
-      serializer
+      serializer,
+      getElementDataFromNode,
+      transformElementOut
     );
 
     const errors = validateValue(fieldDescription.validators, fieldName, value);
@@ -123,7 +149,11 @@ export const getFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   return fields;
 };
 
-type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
+type UpdateFieldsFromNodeOptions<
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+> = {
   node: Node;
   fields: FieldNameToField<FDesc>;
   serializer: DOMSerializer;
@@ -131,6 +161,8 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
   view: EditorView;
   innerDecos: DecorationSource;
   offset?: number;
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>;
+  transformElementOut?: TransformElementOut;
 };
 
 /**
@@ -142,7 +174,11 @@ type UpdateFieldsFromNodeOptions<FDesc extends FieldDescriptions<string>> = {
  * in a separate pass for optimisation and hygiene reasons, as it keeps this
  * function pure.
  */
-export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
+export const updateFieldsFromNode = <
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
+>({
   node,
   fields,
   getPos,
@@ -150,7 +186,13 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
   view,
   innerDecos,
   offset = 0,
-}: UpdateFieldsFromNodeOptions<FDesc>): FieldNameToField<FDesc> => {
+  getElementDataFromNode,
+  transformElementOut,
+}: UpdateFieldsFromNodeOptions<
+  FDesc,
+  ElementNames,
+  ESpecMap
+>): FieldNameToField<FDesc> => {
   let newFields = fields;
 
   node.forEach((fieldNode, localOffset) => {
@@ -184,24 +226,28 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
         const fields =
           currentFieldIndex !== -1
             ? field.children[currentFieldIndex]
-            : getFieldsFromNode({
+            : getFieldsFromNode<FDesc, ElementNames, ESpecMap>({
                 node: childNode,
-                fieldDescriptions: field.description.fields,
+                fieldDescriptions: field.description.fields as FDesc,
                 view,
                 getPos,
                 serializer,
                 offset: accumulatedOffset,
                 innerDecos,
+                getElementDataFromNode,
+                transformElementOut,
               });
 
         const newFieldsForChild = updateFieldsFromNode({
           node: childNode,
-          fields,
+          fields: fields as FieldNameToField<FDesc>,
           serializer,
           view,
           getPos,
           offset: accumulatedOffset,
           innerDecos,
+          getElementDataFromNode,
+          transformElementOut,
         });
 
         if (
@@ -237,11 +283,19 @@ export const updateFieldsFromNode = <FDesc extends FieldDescriptions<string>>({
     const newValue = getFieldValueFromNode(
       fieldNode,
       field.description,
-      serializer
+      serializer,
+      getElementDataFromNode,
+      transformElementOut
     );
 
     if (newValue === (field as Field<unknown>).value) {
       return;
+    }
+
+    if (field.description.type === "nestedElement") {
+      if (_.isEqual(newValue, field.value)) {
+        return;
+      }
     }
 
     newFields = set(`${fieldName}.value`)(newValue)(newFields);

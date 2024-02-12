@@ -10,6 +10,11 @@ import {
   repeaterFieldType,
 } from "./fieldViews/RepeaterFieldView";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
+import type {
+  ExternalElementData,
+  GetNodeFromElementData,
+  TransformElementIn,
+} from "./helpers/element";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { fieldTypeToViewMap } from "./helpers/fieldView";
 import { getRepeaterID } from "./helpers/util";
@@ -310,7 +315,9 @@ export const createNodesForFieldValues = <
   schema: S,
   fieldDescriptions: FDesc,
   fieldValues: Partial<FieldNameToValueMap<FDesc>>,
-  nodeName: string
+  nodeName: string,
+  getNodeFromElementData: GetNodeFromElementData,
+  transformElementIn?: TransformElementIn
 ): Node[] => {
   const orderedFieldNames = getDeterministicFieldOrder(
     Object.keys(fieldDescriptions)
@@ -353,7 +360,9 @@ export const createNodesForFieldValues = <
           field as RepeaterFieldDescription<FieldDescriptions<string>>,
           nodeType,
           schema.nodes[getRepeaterChildNodeName(baseNodeName)],
-          nodeName
+          nodeName,
+          getNodeFromElementData,
+          transformElementIn
         );
 
         if (!node) {
@@ -365,19 +374,96 @@ export const createNodesForFieldValues = <
         return node;
       }
       case FieldContentType.NESTED: {
-        let content = fieldValue as string;
-        return [
-          field.type === "nestedElement"
-            ? createContentNodeFromRichText(
-                schema,
-                content,
-                nodeType.create({ type: field.type })
-              )
-            : createContentNodeFromText(content, field, nodeType),
-        ];
+        const content = fieldValue as unknown[];
+        const node = createNestedElementNode(
+          content,
+          field,
+          nodeType,
+          schema,
+          getNodeFromElementData,
+          transformElementIn
+        );
+
+        if (!node) {
+          console.log({ content, field, nodeType, nodeName });
+          throw new Error(
+            `[prosemirror-elements]: Could not create nested element node for field of type ${fieldName}`
+          );
+        }
+
+        return node;
       }
     }
   });
+};
+
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+};
+
+const isExternalData = (element: unknown): element is ExternalElementData => {
+  if (isRecord(element)) {
+    const { elementType, fields } = element;
+    if (typeof elementType === "string" && isRecord(fields)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const createNestedElementNode = (
+  elementsArray: unknown[],
+  fieldDesc: FieldDescription,
+  nestedElementFieldNodeType: NodeType,
+  schema: Schema,
+  getNodeFromElementData: GetNodeFromElementData,
+  transformElementIn?: TransformElementIn
+): Node | null | undefined => {
+  const childNodes = elementsArray
+    .map((element) => {
+      if (isExternalData(element)) {
+        const externalElement = element;
+        const elementName = externalElement.elementType;
+
+        const values = transformElementIn
+          ? transformElementIn(elementName, externalElement)
+          : {
+              ...externalElement.fields,
+              assets: externalElement.assets,
+            };
+
+        const transformedElementData = {
+          elementName,
+          values,
+        };
+
+        if (elementName === "textElement") {
+          const emptyTextElementNode = schema.nodes["textElement"].create({
+            flexElement: null,
+          });
+
+          const richTextNode = createContentNodeFromRichText(
+            schema,
+            externalElement.fields.text,
+            emptyTextElementNode
+          );
+          return richTextNode;
+        }
+        const elementNode = getNodeFromElementData(
+          transformedElementData,
+          schema
+        );
+        return elementNode;
+      }
+    })
+    .filter((node) => !!node);
+
+  return nestedElementFieldNodeType.createAndFill(
+    {
+      type: fieldDesc.type,
+    },
+    childNodes as Node[]
+  );
 };
 
 const createRepeaterNode = <
@@ -388,14 +474,18 @@ const createRepeaterNode = <
   fieldDesc: RepeaterFieldDescription<FDesc>,
   parentNodeType: NodeType,
   childNodeType: NodeType,
-  nodeName: string
+  nodeName: string,
+  getNodeFromElementData: GetNodeFromElementData,
+  transformElementIn?: TransformElementIn
 ): Node | null | undefined => {
   const childNodes = valuesArray.map((fieldValues) => {
     const fieldNodes = createNodesForFieldValues(
       parentNodeType.schema,
       fieldDesc.fields,
       fieldValues as Partial<FieldNameToValueMap<FDesc>>,
-      nodeName
+      nodeName,
+      getNodeFromElementData,
+      transformElementIn
     );
     return childNodeType.createAndFill(
       { type: fieldDesc.type, [RepeaterFieldMapIDKey]: getRepeaterID() },

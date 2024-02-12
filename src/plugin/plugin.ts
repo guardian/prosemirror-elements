@@ -7,6 +7,7 @@ import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEven
 import type {
   ElementSpec,
   ElementSpecMap,
+  Field,
   FieldDescriptions,
 } from "../plugin/types/Element";
 import {
@@ -14,7 +15,12 @@ import {
   updateFieldsFromNode,
   updateFieldViewsFromNode,
 } from "./field";
+import type { FieldView } from "./fieldViews/FieldView";
 import { pluginKey } from "./helpers/constants";
+import type {
+  GetElementDataFromNode,
+  TransformElementOut,
+} from "./helpers/element";
 import { getFieldValuesFromNode } from "./helpers/element";
 import type { Commands } from "./helpers/prosemirror";
 import { createUpdateDecorations } from "./helpers/prosemirror";
@@ -33,14 +39,17 @@ const selectionIsZeroWidth = (state: EditorState) =>
   state.selection.from === state.selection.to;
 
 export const createPlugin = <
-  ElementNames extends string,
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementsSpec: {
     [elementName in ElementNames]: ElementSpec<FDesc>;
   },
   commands: Commands,
-  sendTelemetryEvent: SendTelemetryEvent
+  sendTelemetryEvent: SendTelemetryEvent,
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  transformElementOut?: TransformElementOut
 ): Plugin<PluginState> => {
   return new Plugin<PluginState>({
     key: pluginKey,
@@ -108,7 +117,9 @@ export const createPlugin = <
       nodeViews: createNodeViews(
         elementsSpec as ElementSpecMap<FDesc, ElementNames>,
         commands,
-        sendTelemetryEvent
+        sendTelemetryEvent,
+        getElementDataFromNode,
+        transformElementOut
       ),
     },
   });
@@ -117,12 +128,15 @@ export const createPlugin = <
 type NodeViewSpec = NonNullable<EditorProps["nodeViews"]>;
 
 const createNodeViews = <
-  ElementNames extends string,
-  FDesc extends FieldDescriptions<string>
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>
 >(
   elementsSpec: ElementSpecMap<FDesc, ElementNames>,
   commands: Commands,
-  sendTelemetryEvent: SendTelemetryEvent
+  sendTelemetryEvent: SendTelemetryEvent,
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  transformElementOut?: TransformElementOut
 ): NodeViewSpec => {
   const nodeViews = {} as NodeViewSpec;
   for (const elementName in elementsSpec) {
@@ -131,7 +145,9 @@ const createNodeViews = <
       nodeName,
       elementsSpec[elementName],
       commands,
-      sendTelemetryEvent
+      sendTelemetryEvent,
+      getElementDataFromNode,
+      transformElementOut
     );
   }
 
@@ -141,13 +157,17 @@ const createNodeViews = <
 type NodeViewCreator = NodeViewSpec[keyof NodeViewSpec];
 
 const createNodeView = <
-  FDesc extends FieldDescriptions<string>,
+  FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
+  ElementNames extends Extract<keyof ESpecMap, string>,
+  ESpecMap extends ElementSpecMap<FDesc, ElementNames>,
   NodeName extends string
 >(
   nodeName: NodeName,
   element: ElementSpec<FDesc>,
   commands: Commands,
-  sendTelemetryEvent: SendTelemetryEvent
+  sendTelemetryEvent: SendTelemetryEvent,
+  getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  transformElementOut?: TransformElementOut
 ): NodeViewCreator => (initElementNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
@@ -163,6 +183,8 @@ const createNodeView = <
     getPos,
     innerDecos,
     serializer,
+    getElementDataFromNode,
+    transformElementOut,
   });
 
   // Because nodes and decorations are immutable in ProseMirror, we can compare
@@ -184,8 +206,14 @@ const createNodeView = <
   let currentIsSelected = false;
   let currentCommandValues = getCommandValues(initCommands);
 
-  const getElementDataFromNode = () =>
-    getFieldValuesFromNode(currentNode, element.fieldDescriptions, serializer);
+  const getElementDataForUpdator = () =>
+    getFieldValuesFromNode(
+      currentNode,
+      element.fieldDescriptions,
+      serializer,
+      getElementDataFromNode,
+      transformElementOut
+    );
 
   const update = element.createUpdator(
     dom,
@@ -200,7 +228,7 @@ const createNodeView = <
     },
     initCommands,
     sendTelemetryEvent,
-    getElementDataFromNode
+    getElementDataForUpdator
   );
 
   return {
@@ -231,6 +259,8 @@ const createNodeView = <
               view,
               getPos,
               serializer,
+              getElementDataFromNode,
+              transformElementOut,
             })
           : currentFields;
 
@@ -256,7 +286,9 @@ const createNodeView = <
     },
     stopEvent: () => true,
     destroy: () => {
-      Object.values(fields).map((field) => field.view.destroy());
+      Object.values(fields as Array<Field<FieldView<unknown>>>).map((field) =>
+        field.view.destroy()
+      );
       element.destroy(dom);
     },
     ignoreMutation: () => true,
