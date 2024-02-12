@@ -437,7 +437,7 @@ const createNestedElementNode = (
           values,
         };
 
-        if (elementName === "textElement") {
+        if (elementName === "text") {
           const emptyTextElementNode = schema.nodes["textElement"].create({
             flexElement: null,
           });
