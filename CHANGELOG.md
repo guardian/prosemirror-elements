@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.0.1
+
+### Patch Changes
+
+- 68de686: Fix bug with text element serialisation in nestedElement field
+
 ## 9.0.0
 
 ### Major Changes
