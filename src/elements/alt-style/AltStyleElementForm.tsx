@@ -3,7 +3,11 @@ import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { RepeaterFieldMapIDKey } from "../../plugin/helpers/constants";
+import {
+  actionSpacing,
+  buttonWidth,
+  RepeaterFieldMapIDKey,
+} from "../../plugin/helpers/constants";
 import type {
   FieldDescriptions,
   FieldNameToField,
@@ -43,13 +47,13 @@ const ChildNumber = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 32px;
+  height: ${buttonWidth}px;
+  width: ${buttonWidth}px;
+  top: 0;
+  left: -${actionSpacing}px;
   padding: 2px;
-  width: 32px;
   border: 1px solid ${neutral[60]};
   position: absolute;
-  top: 0;
-  left: -32px;
 `;
 
 export const createReactAltStylesElementSpec = <

@@ -13,8 +13,8 @@ import { SvgBin } from "../../editorial-source-components/SvgBin";
 import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightAlt";
 import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEvents";
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
+import { actionSpacing, buttonWidth } from "../../plugin/helpers/constants";
 
-const buttonWidth = 32;
 export const removeTestId = "ElementWrapper__remove";
 export const selectTestId = "ElementWrapper__select";
 export const moveTopTestId = "ElementWrapper__moveTop";
@@ -307,7 +307,7 @@ const LeftRepeaterActions = styled(Actions)`
   height: 100%;
   justify-content: space-between;
   position: absolute;
-  left: -32px;
+  left: -${actionSpacing}px;
 `;
 
 const RightRepeaterActions = styled(Actions)`
