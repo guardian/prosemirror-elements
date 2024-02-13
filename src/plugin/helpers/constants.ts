@@ -10,3 +10,6 @@ export const RepeaterFieldMapIDKey = "__ID";
 export const undefinedDropdownValue = "none-selected";
 
 export const pluginKey = new PluginKey("prosemirror_elements");
+
+export const buttonWidth = 32;
+export const actionSpacing = buttonWidth;

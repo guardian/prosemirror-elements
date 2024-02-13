@@ -1,9 +1,13 @@
 import styled from "@emotion/styled";
-import { neutral } from "@guardian/src-foundations";
+import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { RepeaterFieldMapIDKey } from "../../plugin/helpers/constants";
+import {
+  actionSpacing,
+  buttonWidth,
+  RepeaterFieldMapIDKey,
+} from "../../plugin/helpers/constants";
 import type {
   FieldDescriptions,
   FieldNameToField,
@@ -21,22 +25,20 @@ import { keyTakeawaysFields } from "./AltStyleElementSpec";
 export const AltStyleElementTestId = "AltStyleElement";
 
 const RepeaterChild = styled(Body)`
-  padding: 8px 8px 16px 8px;
-  &:not(:last-child) {
-    border-bottom: 1px dashed ${neutral[60]};
+  &:first-child {
+    margin-top: ${space[3]}px;
   }
+  margin-bottom: ${space[3]}px;
   position: relative;
 `;
 
 const RepeatedFieldsWrapper = styled("div")`
   width: 100%;
-  padding: 0 8px;
 `;
 
 const ChildNumber = styled("div")`
-  position: absolute;
-  top: 16px;
-  left: 8px;
+  box-sizing: border-box;
+  background-color: ${neutral[100]};
   color: ${neutral[46]};
   font-family: "Guardian Agate Sans", sans-serif;
   line-height: 1;
@@ -45,10 +47,13 @@ const ChildNumber = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 24px;
+  height: ${buttonWidth}px;
+  width: ${buttonWidth}px;
+  top: 0;
+  left: -${actionSpacing}px;
   padding: 2px;
-  width: 24px;
   border: 1px solid ${neutral[60]};
+  position: absolute;
 `;
 
 export const createReactAltStylesElementSpec = <
@@ -107,13 +112,13 @@ export const keyTakeawaysElement = createReactAltStylesElementSpec(
   (repeaterChild) => (
     <>
       <FieldWrapper
-        headingLabel="Key Takeaway Title"
         field={repeaterChild.title}
+        showHeading={false}
         useAlternateStyles={true}
       />
       <FieldWrapper
-        headingLabel="Key Takeaway Content"
         field={repeaterChild.content}
+        showHeading={false}
         useAlternateStyles={true}
       />
     </>
