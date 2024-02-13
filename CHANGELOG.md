@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.1.0
+
+### Minor Changes
+
+- 0414a91: Widen alt style element
+
 ## 9.0.1
 
 ### Patch Changes
