@@ -3,13 +3,13 @@ import { space } from "@guardian/src-foundations";
 import { neutral } from "@guardian/src-foundations/palette";
 import type { ReactElement } from "react";
 import React, { useContext, useState } from "react";
-import { actionSpacing } from "../../plugin/helpers/constants";
 import type { CommandCreator } from "../../plugin/types/Commands";
 import { TelemetryContext } from "./TelemetryContext";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 export const Container = styled("div")`
-  margin: ${space[3]}px -${actionSpacing}px;
+  margin: ${space[3]}px 0;
+  position: relative;
 `;
 
 export const Body = styled("div")`

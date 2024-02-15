@@ -95,22 +95,6 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
 `;
 
-const Actions = styled("div")`
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 0.2s;
-`;
-
-const LeftActions = styled(Actions)`
-  justify-content: space-between;
-  position: relative;
-`;
-
-const RightActions = styled(Actions)`
-  right: -${buttonWidth + 1}px;
-`;
-
 const Tooltip = styled("div")`
   background-color: ${neutral[97]};
   color: ${neutral[0]};
@@ -160,40 +144,44 @@ export const LeftActionControls = ({
 }: LeftActionProps) => {
   return (
     <LeftActions className="actions">
-      <SeriousButton
-        type="button"
-        data-cy={selectTestId}
-        disabled={!select(false)}
-        onClick={() => {
-          sendTelemetryEvent?.(CommandTelemetryType.PMESelectButtonPressed);
-          select(true);
-        }}
-        aria-label="Select element"
-      >
-        <SvgHighlightAlt />
-      </SeriousButton>
-      <SeriousButton
-        type="button"
-        activated={closeClickedOnce}
-        data-cy={removeTestId}
-        disabled={!remove(false)}
-        onClick={() => {
-          if (closeClickedOnce) {
-            sendTelemetryEvent?.(CommandTelemetryType.PMERemoveButtonPressed);
-            remove(true);
-            onRemove?.();
-          } else {
-            setCloseClickedOnce(true);
-            setTimeout(() => {
-              setCloseClickedOnce(false);
-            }, 5000);
-          }
-        }}
-        aria-label="Delete element"
-      >
-        <SvgBin />
-        {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
-      </SeriousButton>
+      <TopActions>
+        <SeriousButton
+          type="button"
+          data-cy={selectTestId}
+          disabled={!select(false)}
+          onClick={() => {
+            sendTelemetryEvent?.(CommandTelemetryType.PMESelectButtonPressed);
+            select(true);
+          }}
+          aria-label="Select element"
+        >
+          <SvgHighlightAlt />
+        </SeriousButton>
+      </TopActions>
+      <BottomActions>
+        <SeriousButton
+          type="button"
+          activated={closeClickedOnce}
+          data-cy={removeTestId}
+          disabled={!remove(false)}
+          onClick={() => {
+            if (closeClickedOnce) {
+              sendTelemetryEvent?.(CommandTelemetryType.PMERemoveButtonPressed);
+              remove(true);
+              onRemove?.();
+            } else {
+              setCloseClickedOnce(true);
+              setTimeout(() => {
+                setCloseClickedOnce(false);
+              }, 5000);
+            }
+          }}
+          aria-label="Delete element"
+        >
+          <SvgBin />
+          {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
+        </SeriousButton>
+      </BottomActions>
     </LeftActions>
   );
 };
@@ -215,76 +203,80 @@ export const RightActionControls = ({
 }: RightActionProps) => {
   return (
     <RightActions className="actions">
-      <Button
-        type="button"
-        data-cy={moveTopTestId}
-        disabled={!moveTop(false)}
-        onClick={() => {
-          sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
-            jump: true,
-          });
-          moveTop(true);
-        }}
-        aria-label="Move element to top"
-      >
-        <div
-          css={css`
-            transform: rotate(270deg) translate(1px, 1px);
-          `}
+      <TopActions>
+        <Button
+          type="button"
+          data-cy={moveTopTestId}
+          disabled={!moveTop(false)}
+          onClick={() => {
+            sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
+              jump: true,
+            });
+            moveTop(true);
+          }}
+          aria-label="Move element to top"
         >
-          <SvgChevronRightDouble />
-        </div>
-      </Button>
-      <Button
-        type="button"
-        data-cy={moveUpTestId}
-        expanded
-        disabled={!moveUp(false)}
-        onClick={() => {
-          sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
-            jump: false,
-          });
-          moveUp(true);
-        }}
-        aria-label="Move element up"
-      >
-        <SvgArrowUpStraight />
-      </Button>
-      <Button
-        type="button"
-        data-cy={moveDownTestId}
-        expanded
-        disabled={!moveDown(false)}
-        onClick={() => {
-          sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
-            jump: false,
-          });
-          moveDown(true);
-        }}
-        aria-label="Move element down"
-      >
-        <SvgArrowDownStraight />
-      </Button>
-      <Button
-        type="button"
-        data-cy={moveBottomTestId}
-        disabled={!moveBottom(false)}
-        onClick={() => {
-          sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
-            jump: true,
-          });
-          moveBottom(true);
-        }}
-        aria-label="Move element to bottom"
-      >
-        <div
-          css={css`
-            transform: rotate(90deg) translate(-2px, 2px);
-          `}
+          <div
+            css={css`
+              transform: rotate(270deg) translate(1px, 1px);
+            `}
+          >
+            <SvgChevronRightDouble />
+          </div>
+        </Button>
+        <Button
+          type="button"
+          data-cy={moveUpTestId}
+          expanded
+          disabled={!moveUp(false)}
+          onClick={() => {
+            sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
+              jump: false,
+            });
+            moveUp(true);
+          }}
+          aria-label="Move element up"
         >
-          <SvgChevronRightDouble />
-        </div>
-      </Button>
+          <SvgArrowUpStraight />
+        </Button>
+      </TopActions>
+      <BottomActions>
+        <Button
+          type="button"
+          data-cy={moveDownTestId}
+          expanded
+          disabled={!moveDown(false)}
+          onClick={() => {
+            sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
+              jump: false,
+            });
+            moveDown(true);
+          }}
+          aria-label="Move element down"
+        >
+          <SvgArrowDownStraight />
+        </Button>
+        <Button
+          type="button"
+          data-cy={moveBottomTestId}
+          disabled={!moveBottom(false)}
+          onClick={() => {
+            sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
+              jump: true,
+            });
+            moveBottom(true);
+          }}
+          aria-label="Move element to bottom"
+        >
+          <div
+            css={css`
+              transform: rotate(90deg) translate(-2px, 2px);
+            `}
+          >
+            <SvgChevronRightDouble />
+          </div>
+        </Button>
+      </BottomActions>
     </RightActions>
   );
 };
@@ -303,32 +295,39 @@ export type RightRepeaterActionProps = {
   index: number;
 };
 
-const LeftRepeaterActions = styled(Actions)`
+const Actions = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: ${actionSpacing}px;
+`;
+
+const LeftActions = styled(Actions)`
   height: 100%;
   justify-content: space-between;
   position: absolute;
   left: -${actionSpacing}px;
 `;
 
-const RightRepeaterActions = styled(Actions)`
+const RightActions = styled(Actions)`
   height: 100%;
   justify-content: space-between;
+  position: absolute;
+  right: -${actionSpacing}px;
 `;
 
-const RepeaterActions = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TopRepeaterActions = styled(RepeaterActions)`
+const TopActions = styled(Actions)`
   position: absolute;
   top: 0;
+  height: 50%;
+  justify-content: flex-start;
 `;
 
-const BottomRepeaterActions = styled(RepeaterActions)`
+const BottomActions = styled(Actions)`
   position: absolute;
   bottom: 0;
+  height: 50%;
+  justify-content: flex-end;
 `;
 
 export const LeftRepeaterActionControls = ({
@@ -339,8 +338,8 @@ export const LeftRepeaterActionControls = ({
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
 
   return (
-    <LeftRepeaterActions className="actions">
-      <BottomRepeaterActions>
+    <LeftActions className="actions">
+      <BottomActions>
         <SeriousButton
           type="button"
           activated={closeClickedOnce}
@@ -361,8 +360,8 @@ export const LeftRepeaterActionControls = ({
           <SvgBin />
           {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
         </SeriousButton>
-      </BottomRepeaterActions>
-    </LeftRepeaterActions>
+      </BottomActions>
+    </LeftActions>
   );
 };
 
@@ -374,8 +373,8 @@ export const RightRepeaterActionControls = ({
   index,
 }: RightRepeaterActionProps) => {
   return (
-    <RightRepeaterActions className="actions">
-      <TopRepeaterActions>
+    <RightActions className="actions">
+      <TopActions>
         <Button
           type="button"
           data-cy={moveChildUpTestId}
@@ -394,8 +393,8 @@ export const RightRepeaterActionControls = ({
         >
           <SvgArrowDownStraight />
         </Button>
-      </TopRepeaterActions>
-      <BottomRepeaterActions>
+      </TopActions>
+      <BottomActions>
         <Button
           type="button"
           data-cy={addChildTestId}
@@ -404,7 +403,7 @@ export const RightRepeaterActionControls = ({
         >
           +
         </Button>
-      </BottomRepeaterActions>
-    </RightRepeaterActions>
+      </BottomActions>
+    </RightActions>
   );
 };
