@@ -257,10 +257,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   }
 
   protected applyDecorationsFromOuterEditor(
-    // We have found that decorations will be either a DecorationSet (an extension
-    // of DecorationSource that provides more useful utility methods), or DecorationGroup,
-    // which provides a collection of DecorationSet. prosemirror-view does not currently
-    // export a type definition for DecorationGroup so we are providing our own.
     decorations: DecorationSource,
     node: Node,
     elementOffset: number
@@ -270,22 +266,17 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       return;
     }
 
-    try {
-      this.outerDecorations = decorations;
-      const localDecoSet = Array.isArray(decorations)
-        ? DecorationSet.create(node, decorations)
-        : decorations;
-      // Offset because the node we are displaying these decorations in is a child of its parent (-1)
-      const localOffset = -1;
-      const offsetMap = new Mapping([
-        StepMap.offset(-elementOffset + localOffset),
-      ]);
-      this.decorations = localDecoSet.map(offsetMap, node);
-      this.decorationsPending = true;
-    } catch (e) {
-      // Due to an existing bug, this operation fails for decorations in nestedElement fields within
-      // repeater fields, when subsequent nestedElement fields in the repeater contain elements.
-    }
+    this.outerDecorations = decorations;
+    const localDecoSet = Array.isArray(decorations)
+      ? DecorationSet.create(node, decorations)
+      : decorations;
+    // Offset because the node we are displaying these decorations in is a child of its parent (-1)
+    const localOffset = -1;
+    const offsetMap = new Mapping([
+      StepMap.offset(-elementOffset + localOffset),
+    ]);
+    this.decorations = localDecoSet.map(offsetMap, node);
+    this.decorationsPending = true;
   }
 
   /**

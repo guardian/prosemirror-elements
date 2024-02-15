@@ -565,12 +565,20 @@ describe("buildElementPlugin", () => {
         },
       });
       const testElement = createNoopElement({
-        repeater1: {
+        A_nestedElementOutsideRepeater: {
+          type: "nestedElement",
+          content: "block+",
+        },
+        B_repeater: {
           type: "repeater",
           fields: {
             field1: { type: "nestedElement", content: "block+" },
           },
           minChildren: 0,
+        },
+        C_nestedElementOutsideRepeater: {
+          type: "nestedElement",
+          content: "block+",
         },
       });
       const {
@@ -582,7 +590,16 @@ describe("buildElementPlugin", () => {
       insertElement({
         elementName: "testElement",
         values: {
-          repeater1: [
+          A_nestedElementOutsideRepeater: [
+            {
+              elementType: "nestedTestElement",
+              fields: {
+                nestedField1: "<p>BEFORE</p>",
+              },
+              assets: [],
+            },
+          ],
+          B_repeater: [
             {
               field1: [
                 {
@@ -606,13 +623,29 @@ describe("buildElementPlugin", () => {
               ],
             },
           ],
+          C_nestedElementOutsideRepeater: [
+            {
+              elementType: "nestedTestElement",
+              fields: {
+                nestedField1: "<p>AFTER</p>",
+              },
+              assets: [],
+            },
+          ],
         },
       })(view.state, view.dispatch);
 
       const expected = trimHtml(`
         <div pme-element-type="testElement">
-          <div pme-field-name="testElement__repeater1__parent">
-            <div pme-field-name="testElement__repeater1__child">
+          <div pme-field-name="testElement__A_nestedElementOutsideRepeater">
+            <div pme-element-type="nestedTestElement">
+              <div pme-field-name="nestedTestElement__nestedField1">
+                <p>BEFORE</p>
+              </div>
+            </div>
+          </div>
+          <div pme-field-name="testElement__B_repeater__parent">
+            <div pme-field-name="testElement__B_repeater__child">
               <div pme-field-name="testElement__field1">
                 <div pme-element-type="nestedTestElement">
                   <div pme-field-name="nestedTestElement__nestedField1">
@@ -622,13 +655,20 @@ describe("buildElementPlugin", () => {
               </div>
             </div>
 
-            <div pme-field-name="testElement__repeater1__child">
+            <div pme-field-name="testElement__B_repeater__child">
               <div pme-field-name="testElement__field1">
                 <div pme-element-type="nestedTestElement">
                   <div pme-field-name="nestedTestElement__nestedField1">
                     <p>Content 2 - blah blah</p>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div pme-field-name="testElement__C_nestedElementOutsideRepeater">
+            <div pme-element-type="nestedTestElement">
+              <div pme-field-name="nestedTestElement__nestedField1">
+                <p>AFTER</p>
               </div>
             </div>
           </div>

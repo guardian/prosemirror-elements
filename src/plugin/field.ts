@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
+import { Mapping, StepMap } from "prosemirror-transform";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
 import type {
@@ -19,6 +20,21 @@ import type {
   RepeaterField,
 } from "./types/Element";
 import { isRepeaterField } from "./types/Element";
+
+const getRepeaterDecorations = (
+  outerDecos: DecorationSource,
+  offset: number,
+  repeaterNode: Node
+) => {
+  const repeaterDecorations = outerDecos.forChild(offset, repeaterNode);
+
+  // this offsets by 1 specifically for repeaters to account for the repeater parent
+  // to counter -1 offset in `applyDecorationsFromOuterEditor` of `ProseMirrorFieldView`
+  return repeaterDecorations.map(
+    new Mapping([StepMap.offset(1)]),
+    repeaterNode
+  );
+};
 
 type GetFieldsFromNodeOptions<
   FDesc extends FieldDescriptions<Extract<keyof FDesc, string>>,
@@ -92,16 +108,24 @@ export const getFieldsFromNode = <
 
     if (fieldDescription.type === "repeater") {
       const children = [] as unknown[];
+
+      const repeaterDecos = getRepeaterDecorations(
+        innerDecos,
+        offset + localOffset,
+        fieldNode
+      );
+
       fieldNode.forEach((repeaterChildNode, repeaterOffset) => {
         // We offset by two positions here to account for the additional depth
         // of the parent and child repeater nodes.
         const depthOffset = 2;
+
         const child = getFieldsFromNode<FDesc, ElementNames, ESpecMap>({
           node: repeaterChildNode,
           fieldDescriptions: fieldDescription.fields as FDesc,
           view,
           getPos,
-          innerDecos,
+          innerDecos: repeaterDecos,
           serializer,
           offset: offset + localOffset + repeaterOffset + depthOffset,
           getElementDataFromNode,
@@ -209,6 +233,12 @@ export const updateFieldsFromNode = <
     }
 
     if (isRepeaterField(field)) {
+      const repeaterDecos = getRepeaterDecorations(
+        innerDecos,
+        offset + localOffset,
+        fieldNode
+      );
+
       fieldNode.forEach((childNode, repeaterOffset, index) => {
         const accumulatedOffset = offset + localOffset + repeaterOffset;
 
@@ -233,7 +263,7 @@ export const updateFieldsFromNode = <
                 getPos,
                 serializer,
                 offset: accumulatedOffset,
-                innerDecos,
+                innerDecos: repeaterDecos,
                 getElementDataFromNode,
                 transformElementOut,
               });
@@ -245,7 +275,7 @@ export const updateFieldsFromNode = <
           view,
           getPos,
           offset: accumulatedOffset,
-          innerDecos,
+          innerDecos: repeaterDecos,
           getElementDataFromNode,
           transformElementOut,
         });
@@ -335,6 +365,11 @@ export const updateFieldViewsFromNode = <
       return;
     }
 
+    const repeaterDecos = getRepeaterDecorations(
+      decos,
+      offset + localOffset,
+      node
+    );
     // We offset by two positions here to account for the additional depth
     // of the parent and child repeater nodes.
     const depthOffset = 2;
@@ -342,7 +377,7 @@ export const updateFieldViewsFromNode = <
       updateFieldViewsFromNode(
         field.children[index],
         childNode,
-        decos,
+        repeaterDecos,
         offset + localOffset + repeaterOffset + depthOffset
       );
     });
