@@ -171,7 +171,7 @@ const createNodeView = <
 ): NodeViewCreator => (initElementNode, view, _getPos, _, innerDecos) => {
   const dom = document.createElement("div");
   dom.contentEditable = "false";
-  const getPos = typeof _getPos === "boolean" ? () => 0 : _getPos;
+  const getPos = () => _getPos() ?? NaN;
 
   const serializer = DOMSerializer.fromSchema(initElementNode.type.schema);
   const initCommands = commands(getPos, view);
