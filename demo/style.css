@@ -756,7 +756,7 @@ img.ProseMirror-separator {
 
 /* Prosemirror instances nested within elements */
 .ProseMirror .ProseMirror {
-  padding: 4px 8px;
+  padding: 4px 6px;
 }
 
 .ProseMirror-selectednode {

@@ -14,13 +14,19 @@ export const Container = styled("div")`
 
 export const Body = styled("div")`
   display: flex;
-  :hover,
-  :focus-within {
-    .actions {
-      opacity: 1;
-    }
-  }
   min-height: 134px;
+  &:not(:hover) .actions,
+  &:not(:focus-within) .actions,
+  .nested &:not(:hover) .actions,
+  .nested &:not(:focus-within) .actions {
+    opacity: 0;
+  }
+  &:hover .actions,
+  &:focus-within .actions,
+  .nested &:hover .actions,
+  .nested &:focus-within .actions {
+    opacity: 1;
+  }
 `;
 
 const Panel = styled("div")<{
