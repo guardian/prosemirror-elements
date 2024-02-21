@@ -354,7 +354,7 @@ export const createElementDataValidator = <
 }: ExtractDataTypeFromElementSpec<ESpec, ElementNames>):
   | FieldValidationErrors
   | undefined => {
-    console.log("got here")
+    // console.log("got here")
   const element = elementTypeMap[elementName];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this may be falsy.
@@ -363,9 +363,9 @@ export const createElementDataValidator = <
   }
 
   const data = (values as unknown) as FieldNameToValueMap<FDesc>;
-  console.log("pme element", element)
-  console.log("pme data", data)
-  console.log("pme element.validate", element.validate(data))
+  // console.log("pme element", element)
+  // console.log("pme data", data)
+  // console.log("pme element.validate", element.validate(data))
 
   return element.validate(data);
 };

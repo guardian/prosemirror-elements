@@ -70,7 +70,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   validateElement: Validator<FDesc> | undefined = undefined,
   destroy: (dom: HTMLElement) => void
 ): ElementSpec<FDesc> => {
-  console.log("fieldDescriptions here", fieldDescriptions)
+  // console.log("fieldDescriptions here", fieldDescriptions)
   const validate = validateWithFieldAndElementValidators(
     fieldDescriptions,
     validateElement
