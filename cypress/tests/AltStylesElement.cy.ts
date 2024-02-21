@@ -97,4 +97,18 @@ describe("AltStyleElement", () => {
     getButton(moveChildDownTestId).children().eq(0).click();
     assertOrderOfTitleFields(["C", "A", "B"]);
   });
+
+  it(`multiple NestedElements IN repeater – should render decorations passed from the parent editor`, () => {
+    addAltStyleElement(repeaterWithChildren);
+    getElementRichTextField("content").first().focus().type(" deco ");
+    getElementRichTextField("content").last().focus().type(" deco ");
+    getElementRichTextField("content")
+      .first()
+      .find(".TestDecoration")
+      .should("have.text", "deco");
+    getElementRichTextField("content")
+      .last()
+      .find(".TestDecoration")
+      .should("have.text", "deco");
+  });
 });
