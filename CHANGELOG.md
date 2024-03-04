@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.0
+
+### Minor Changes
+
+- 1bf3be3: Improve visual hierarchy of element controls
+
 ## 9.1.1
 
 ### Patch Changes
