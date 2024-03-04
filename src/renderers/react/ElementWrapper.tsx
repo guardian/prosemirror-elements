@@ -15,17 +15,31 @@ export const Container = styled("div")`
 export const Body = styled("div")`
   display: flex;
   min-height: 134px;
-  &:not(:hover) .actions,
-  &:not(:focus-within) .actions,
-  .nested &:not(:hover) .actions,
-  .nested &:not(:focus-within) .actions {
+  .wrapper:not(:hover) .actions,
+  .wrapper:not(:focus-within) .actions,
+  .nested .wrapper:not(:hover) .actions,
+  .nested .wrapper:not(:focus-within) .actions {
     opacity: 0;
   }
-  &:hover .actions,
-  &:focus-within .actions,
-  .nested &:hover .actions,
-  .nested &:focus-within .actions {
+  .wrapper:hover .actions,
+  .wrapper:focus-within .actions,
+  .nested .wrapper:hover .actions,
+  .nested .wrapper:focus-within .actions {
     opacity: 1;
+    // z-index: 11 is required to make sure the controls are on top of other ProseMirror styles
+    z-index: 11;
+  }
+  // If nested element's controls are visible, hide parent's controls
+  :has(.nested .wrapper:hover) {
+    .actions {
+      opacity: 0;
+    }
+    .nested .wrapper:hover .actions,
+    .nested .wrapper:focus-within .actions {
+      opacity: 1;
+      // z-index: 12 is required to make sure the nested element's controls are on top of the parent's controls
+      z-index: 12;
+    }
   }
 `;
 
@@ -87,10 +101,7 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
   const sendTelemetryEvent = useContext(TelemetryContext);
 
   return (
-    <Container
-      className="ProsemirrorElement__wrapper"
-      data-cy={elementWrapperTestId}
-    >
+    <Container className="wrapper" data-cy={elementWrapperTestId}>
       <Body>
         <LeftActionControls
           select={select}

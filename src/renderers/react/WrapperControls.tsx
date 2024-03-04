@@ -132,7 +132,6 @@ const Actions = styled("div")`
   flex-direction: column;
   align-items: center;
   width: ${actionSpacing}px;
-  z-index: 11;
   transition: opacity 0.2s;
 `;
 
