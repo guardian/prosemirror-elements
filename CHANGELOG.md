@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.1.1
+
+### Patch Changes
+
+- 50cdc4b: Fix decoration bug in nestedFields within repeater fields
+
 ## 9.1.0
 
 ### Minor Changes
