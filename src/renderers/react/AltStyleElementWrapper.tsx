@@ -43,7 +43,10 @@ export const AltStyleElementWrapper: React.FunctionComponent<ElementWrapperProps
   children,
 }) => {
   return (
-    <AltStyleContainer className="wrapper" data-cy={elementWrapperTestId}>
+    <AltStyleContainer
+      className="ProsemirrorElements__wrapper"
+      data-cy={elementWrapperTestId}
+    >
       <AltStylePanel isSelected={isSelected}>
         {isSelected && <Overlay />}
         {children}

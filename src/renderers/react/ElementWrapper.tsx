@@ -15,27 +15,40 @@ export const Container = styled("div")`
 export const Body = styled("div")`
   display: flex;
   min-height: 134px;
-  .wrapper:not(:hover) .actions,
-  .wrapper:not(:focus-within) .actions,
-  .nested .wrapper:not(:hover) .actions,
-  .nested .wrapper:not(:focus-within) .actions {
+  .ProseMirrorElements__Wrapper:not(:hover) .actions,
+  .ProseMirrorElements__Wrapper:not(:focus-within) .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:not(:hover)
+    .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:not(:focus-within)
+    .actions {
     opacity: 0;
   }
-  .wrapper:hover .actions,
-  .wrapper:focus-within .actions,
-  .nested .wrapper:hover .actions,
-  .nested .wrapper:focus-within .actions {
+  .ProseMirrorElements__Wrapper:hover .actions,
+  .ProseMirrorElements__Wrapper:focus-within .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:hover
+    .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:focus-within
+    .actions {
     opacity: 1;
     // z-index: 11 is required to make sure the controls are on top of other ProseMirror styles
     z-index: 11;
   }
   // If nested element's controls are visible, hide parent's controls
-  :has(.nested .wrapper:hover) {
+  :has(.ProseMirrorElements__NestedElementField
+      .ProseMirrorElements__Wrapper:hover) {
     .actions {
       opacity: 0;
     }
-    .nested .wrapper:hover .actions,
-    .nested .wrapper:focus-within .actions {
+    .ProseMirrorElements__NestedElementField
+      .ProseMirrorElements__Wrapper:hover
+      .actions,
+    .ProseMirrorElements__NestedElementField
+      .ProseMirrorElements__Wrapper:focus-within
+      .actions {
       opacity: 1;
       // z-index: 12 is required to make sure the nested element's controls are on top of the parent's controls
       z-index: 12;
@@ -101,7 +114,10 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
   const sendTelemetryEvent = useContext(TelemetryContext);
 
   return (
-    <Container className="wrapper" data-cy={elementWrapperTestId}>
+    <Container
+      className="ProseMirrorElements__Wrapper"
+      data-cy={elementWrapperTestId}
+    >
       <Body>
         <LeftActionControls
           select={select}

@@ -137,12 +137,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       });
     }
     this.fieldViewElement.classList.add(
-      "ProseMirrorElements__NestedElementField",
-      /*
-        This shorthand class is used to style the nested element.
-        It's easier to read and reason about than the longer class name.
-       */
-      "nested"
+      "ProseMirrorElements__NestedElementField"
     );
   }
 }
