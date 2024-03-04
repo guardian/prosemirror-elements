@@ -30,6 +30,14 @@ const RepeaterChild = styled(Body)`
   }
   margin-bottom: ${space[3]}px;
   position: relative;
+  &:not(:hover) .actions,
+  &:not(:focus-within) .actions {
+    opacity: 0;
+  }
+  &:hover .actions,
+  &:focus-within .actions {
+    opacity: 1;
+  }
 `;
 
 const RepeatedFieldsWrapper = styled("div")`

@@ -44,7 +44,7 @@ export const AltStyleElementWrapper: React.FunctionComponent<ElementWrapperProps
 }) => {
   return (
     <AltStyleContainer
-      className="ProsemirrorElement__wrapper"
+      className="ProsemirrorElements__wrapper"
       data-cy={elementWrapperTestId}
     >
       <AltStylePanel isSelected={isSelected}>

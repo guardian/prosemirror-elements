@@ -3,24 +3,57 @@ import { space } from "@guardian/src-foundations";
 import { neutral } from "@guardian/src-foundations/palette";
 import type { ReactElement } from "react";
 import React, { useContext, useState } from "react";
-import { actionSpacing } from "../../plugin/helpers/constants";
 import type { CommandCreator } from "../../plugin/types/Commands";
 import { TelemetryContext } from "./TelemetryContext";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
 export const Container = styled("div")`
-  margin: ${space[3]}px -${actionSpacing}px;
+  margin: ${space[3]}px 0;
+  position: relative;
 `;
 
 export const Body = styled("div")`
   display: flex;
-  :hover,
-  :focus-within {
+  min-height: 134px;
+  .ProseMirrorElements__Wrapper:not(:hover) .actions,
+  .ProseMirrorElements__Wrapper:not(:focus-within) .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:not(:hover)
+    .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:not(:focus-within)
     .actions {
+    opacity: 0;
+  }
+  .ProseMirrorElements__Wrapper:hover .actions,
+  .ProseMirrorElements__Wrapper:focus-within .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:hover
+    .actions,
+  .ProseMirrorElements__NestedElementField
+    .ProseMirrorElements__Wrapper:focus-within
+    .actions {
+    opacity: 1;
+    // z-index: 11 is required to make sure the controls are on top of other ProseMirror styles
+    z-index: 11;
+  }
+  // If nested element's controls are visible, hide parent's controls
+  :has(.ProseMirrorElements__NestedElementField
+      .ProseMirrorElements__Wrapper:hover) {
+    .actions {
+      opacity: 0;
+    }
+    .ProseMirrorElements__NestedElementField
+      .ProseMirrorElements__Wrapper:hover
+      .actions,
+    .ProseMirrorElements__NestedElementField
+      .ProseMirrorElements__Wrapper:focus-within
+      .actions {
       opacity: 1;
+      // z-index: 12 is required to make sure the nested element's controls are on top of the parent's controls
+      z-index: 12;
     }
   }
-  min-height: 134px;
 `;
 
 const Panel = styled("div")<{
@@ -82,7 +115,7 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
 
   return (
     <Container
-      className="ProsemirrorElement__wrapper"
+      className="ProseMirrorElements__Wrapper"
       data-cy={elementWrapperTestId}
     >
       <Body>

@@ -32,15 +32,14 @@ const Button = styled("button")<{ expanded?: boolean }>`
   appearance: none;
   background: ${neutral[93]};
   border: none;
-  border-top: 1px solid ${neutral[100]};
   color: ${neutral[0]};
   cursor: pointer;
   flex-grow: ${({ expanded }) => (expanded ? "1" : "0")};
-  ${({ expanded }) => !expanded && `height: ${buttonWidth}px;`};
   font-size: 15px;
   line-height: 1;
   padding: ${space[1]}px;
   width: ${buttonWidth}px;
+  height: ${buttonWidth}px;
   transition: background-color 0.1s;
   :focus {
     ${focusHalo};
@@ -95,22 +94,6 @@ const SeriousButton = styled(Button)<{ activated?: boolean }>`
   }
 `;
 
-const Actions = styled("div")`
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transition: opacity 0.2s;
-`;
-
-const LeftActions = styled(Actions)`
-  justify-content: space-between;
-  position: relative;
-`;
-
-const RightActions = styled(Actions)`
-  right: -${buttonWidth + 1}px;
-`;
-
 const Tooltip = styled("div")`
   background-color: ${neutral[97]};
   color: ${neutral[0]};
@@ -141,6 +124,39 @@ const Tooltip = styled("div")`
   }
 `;
 
+type VerticalPosition = "top" | "bottom";
+type HorizontalPosition = "left" | "right";
+
+const Actions = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: ${actionSpacing}px;
+  transition: opacity 0.2s;
+`;
+
+const SideActions = styled(Actions)<{
+  horizontalPosition: HorizontalPosition;
+}>`
+  height: 100%;
+  position: absolute;
+  ${({ horizontalPosition }) => `${horizontalPosition}: -${actionSpacing}px`};
+  justify-content: space-between;
+`;
+
+const VerticalActions = styled("div")<{
+  verticalPosition: VerticalPosition;
+}>`
+  position: absolute;
+  ${({ verticalPosition }) => `${verticalPosition}: 0`};
+  display: flex;
+  flex-direction: ${({ verticalPosition }) =>
+    verticalPosition === "top" ? "column" : "column-reverse"};
+  align-items: center;
+  width: ${actionSpacing}px;
+  height: 50%;
+`;
+
 export type LeftActionProps = {
   select: (run?: boolean) => true | void;
   remove: (run?: boolean) => true | void;
@@ -157,9 +173,9 @@ export const LeftActionControls = ({
   closeClickedOnce,
   setCloseClickedOnce,
   sendTelemetryEvent,
-}: LeftActionProps) => {
-  return (
-    <LeftActions className="actions">
+}: LeftActionProps) => (
+  <SideActions className="actions" horizontalPosition={"left"}>
+    <VerticalActions verticalPosition={"top"}>
       <SeriousButton
         type="button"
         data-cy={selectTestId}
@@ -172,6 +188,8 @@ export const LeftActionControls = ({
       >
         <SvgHighlightAlt />
       </SeriousButton>
+    </VerticalActions>
+    <VerticalActions verticalPosition={"bottom"}>
       <SeriousButton
         type="button"
         activated={closeClickedOnce}
@@ -194,9 +212,9 @@ export const LeftActionControls = ({
         <SvgBin />
         {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
       </SeriousButton>
-    </LeftActions>
-  );
-};
+    </VerticalActions>
+  </SideActions>
+);
 
 export type RightActionProps = {
   moveUp: (run?: boolean) => boolean | void;
@@ -212,9 +230,9 @@ export const RightActionControls = ({
   moveTop,
   moveBottom,
   sendTelemetryEvent,
-}: RightActionProps) => {
-  return (
-    <RightActions className="actions">
+}: RightActionProps) => (
+  <SideActions className="actions" horizontalPosition={"right"}>
+    <VerticalActions verticalPosition={"top"}>
       <Button
         type="button"
         data-cy={moveTopTestId}
@@ -250,21 +268,8 @@ export const RightActionControls = ({
       >
         <SvgArrowUpStraight />
       </Button>
-      <Button
-        type="button"
-        data-cy={moveDownTestId}
-        expanded
-        disabled={!moveDown(false)}
-        onClick={() => {
-          sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
-            jump: false,
-          });
-          moveDown(true);
-        }}
-        aria-label="Move element down"
-      >
-        <SvgArrowDownStraight />
-      </Button>
+    </VerticalActions>
+    <VerticalActions verticalPosition={"bottom"}>
       <Button
         type="button"
         data-cy={moveBottomTestId}
@@ -285,9 +290,24 @@ export const RightActionControls = ({
           <SvgChevronRightDouble />
         </div>
       </Button>
-    </RightActions>
-  );
-};
+      <Button
+        type="button"
+        data-cy={moveDownTestId}
+        expanded
+        disabled={!moveDown(false)}
+        onClick={() => {
+          sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
+            jump: false,
+          });
+          moveDown(true);
+        }}
+        aria-label="Move element down"
+      >
+        <SvgArrowDownStraight />
+      </Button>
+    </VerticalActions>
+  </SideActions>
+);
 
 export type LeftRepeaterActionProps = {
   removeChildAt: MouseEventHandler<HTMLButtonElement>;
@@ -303,34 +323,6 @@ export type RightRepeaterActionProps = {
   index: number;
 };
 
-const LeftRepeaterActions = styled(Actions)`
-  height: 100%;
-  justify-content: space-between;
-  position: absolute;
-  left: -${actionSpacing}px;
-`;
-
-const RightRepeaterActions = styled(Actions)`
-  height: 100%;
-  justify-content: space-between;
-`;
-
-const RepeaterActions = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TopRepeaterActions = styled(RepeaterActions)`
-  position: absolute;
-  top: 0;
-`;
-
-const BottomRepeaterActions = styled(RepeaterActions)`
-  position: absolute;
-  bottom: 0;
-`;
-
 export const LeftRepeaterActionControls = ({
   removeChildAt,
   numberOfChildNodes,
@@ -339,8 +331,8 @@ export const LeftRepeaterActionControls = ({
   const [closeClickedOnce, setCloseClickedOnce] = useState(false);
 
   return (
-    <LeftRepeaterActions className="actions">
-      <BottomRepeaterActions>
+    <SideActions className="actions" horizontalPosition={"left"}>
+      <VerticalActions verticalPosition={"bottom"}>
         <SeriousButton
           type="button"
           activated={closeClickedOnce}
@@ -361,8 +353,8 @@ export const LeftRepeaterActionControls = ({
           <SvgBin />
           {closeClickedOnce && <Tooltip>Click again to confirm</Tooltip>}
         </SeriousButton>
-      </BottomRepeaterActions>
-    </LeftRepeaterActions>
+      </VerticalActions>
+    </SideActions>
   );
 };
 
@@ -374,8 +366,8 @@ export const RightRepeaterActionControls = ({
   index,
 }: RightRepeaterActionProps) => {
   return (
-    <RightRepeaterActions className="actions">
-      <TopRepeaterActions>
+    <SideActions className="actions" horizontalPosition={"right"}>
+      <VerticalActions verticalPosition={"top"}>
         <Button
           type="button"
           data-cy={moveChildUpTestId}
@@ -394,8 +386,8 @@ export const RightRepeaterActionControls = ({
         >
           <SvgArrowDownStraight />
         </Button>
-      </TopRepeaterActions>
-      <BottomRepeaterActions>
+      </VerticalActions>
+      <VerticalActions verticalPosition={"bottom"}>
         <Button
           type="button"
           data-cy={addChildTestId}
@@ -404,7 +396,7 @@ export const RightRepeaterActionControls = ({
         >
           +
         </Button>
-      </BottomRepeaterActions>
-    </RightRepeaterActions>
+      </VerticalActions>
+    </SideActions>
   );
 };
