@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.1
+
+### Patch Changes
+
+- d66d6f0: Only show element controls on hover or focus
+
 ## 9.2.0
 
 ### Minor Changes
