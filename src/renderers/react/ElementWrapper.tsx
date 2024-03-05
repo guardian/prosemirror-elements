@@ -15,24 +15,16 @@ export const Container = styled("div")`
 export const Body = styled("div")`
   display: flex;
   min-height: 134px;
-  .ProseMirrorElements__Wrapper:not(:hover) .actions,
-  .ProseMirrorElements__Wrapper:not(:focus-within) .actions,
-  .ProseMirrorElements__NestedElementField
-    .ProseMirrorElements__Wrapper:not(:hover)
-    .actions,
-  .ProseMirrorElements__NestedElementField
-    .ProseMirrorElements__Wrapper:not(:focus-within)
-    .actions {
+  &:not(:hover) .actions,
+  &:not(:focus-within) .actions,
+  .ProseMirrorElements__NestedElementField &:not(:hover) .actions,
+  .ProseMirrorElements__NestedElementField &:not(:focus-within) .actions {
     opacity: 0;
   }
-  .ProseMirrorElements__Wrapper:hover .actions,
-  .ProseMirrorElements__Wrapper:focus-within .actions,
-  .ProseMirrorElements__NestedElementField
-    .ProseMirrorElements__Wrapper:hover
-    .actions,
-  .ProseMirrorElements__NestedElementField
-    .ProseMirrorElements__Wrapper:focus-within
-    .actions {
+  &:hover .actions,
+  &:focus-within .actions,
+  .ProseMirrorElements__NestedElementField &:hover .actions,
+  .ProseMirrorElements__NestedElementField &:focus-within .actions {
     opacity: 1;
     // z-index: 11 is required to make sure the controls are on top of other ProseMirror styles
     z-index: 11;
