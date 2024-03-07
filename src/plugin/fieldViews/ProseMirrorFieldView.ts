@@ -249,7 +249,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       decorations: () => this.decorations,
 
-      // we need to 'forward' clicks to the outer editor to ensure plugins etc. receive the events
+      /**
+       * HANDLERS
+       * we need to 'forward' events to the outer editor to ensure plugins etc. receive the events
+       */
+
       handleClick: (view, pos, event) =>
         this.outerView.someProp("handleClick", (f) =>
           f(
@@ -259,6 +263,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
             pos,
             event
           )
+        ),
+      handleKeyDown: (view, event) =>
+        this.outerView.someProp(
+          "handleKeyDown",
+          (f) => event.key !== "Enter" && f(this.outerView, event)
         ),
     });
 
