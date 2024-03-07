@@ -97,10 +97,11 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      outerView.state.plugins.filter((plugin) =>
-        plugin.spec.key === undefined
-          ? true
-          : [pluginKey, ...allowedPlugins].includes(plugin.spec.key)
+      outerView.state.plugins.filter(
+        (plugin) =>
+          !plugin.spec.key ||
+          pluginKey === plugin.spec.key ||
+          allowedPlugins.includes(plugin.spec.key)
       ),
       placeholder,
       isResizeable

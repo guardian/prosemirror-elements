@@ -8,15 +8,15 @@ import { createElementSpec } from "../elementSpec";
 import type { ElementSpecMap, FieldDescriptions } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
-const initialPhrase = "deco";
-const key = new PluginKey<string>("TEST_DECO_PLUGIN");
+const initialDecoPhrase = "deco";
+const testDecorationPluginKey = new PluginKey<string>("TEST_DECO_PLUGIN");
 export const ChangeTestDecoStringAction = "CHANGE_TEST_DECO_STRING";
 
 export const testDecorationPlugin = new Plugin<string>({
-  key,
+  key: testDecorationPluginKey,
   state: {
     init() {
-      return initialPhrase;
+      return initialDecoPhrase;
     },
     apply(tr, oldTestString) {
       const maybeNewTestString = tr.getMeta(ChangeTestDecoStringAction) as
@@ -27,7 +27,8 @@ export const testDecorationPlugin = new Plugin<string>({
   },
   props: {
     decorations: (state) => {
-      const testString = key.getState(state) ?? initialPhrase;
+      const testString =
+        testDecorationPluginKey.getState(state) ?? initialDecoPhrase;
       const ranges = [] as Array<[number, number]>;
       state.doc.descendants((node, offset) => {
         if (node.isLeaf && node.textContent) {
@@ -47,6 +48,24 @@ export const testDecorationPlugin = new Plugin<string>({
           Decoration.inline(from, to, { class: "TestDecoration" })
         )
       );
+    },
+  },
+});
+
+const testInnerEditorEventPropagationPluginKey = new PluginKey<string>(
+  "TEST_INNER_EDITOR_EVENT_PROPAGATION_PLUGIN"
+);
+export const testInnerEditorEventPropagationPlugin = new Plugin<string>({
+  key: testInnerEditorEventPropagationPluginKey,
+  props: {
+    handleClick: (view, pos, event) => {
+      console.log(
+        "click event received in",
+        testInnerEditorEventPropagationPluginKey,
+        { view, pos, event }
+      );
+      // @ts-expect-error - just using for testing so don't want to add to the window type
+      window.viewPassedToPlugin = view;
     },
   },
 });
