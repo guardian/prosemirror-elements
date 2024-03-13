@@ -269,6 +269,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
           "handleKeyDown",
           (f) => event.key !== "Enter" && f(this.outerView, event)
         ),
+      handleKeyPress: (view, event) =>
+        this.outerView.someProp(
+          "handleKeyPress",
+          (f) => event.key !== "Enter" && f(this.outerView, event)
+        ),
     });
 
     view.dom.id = this.getId();
