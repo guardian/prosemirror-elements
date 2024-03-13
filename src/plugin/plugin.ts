@@ -30,6 +30,7 @@ import {
   isProseMirrorElement,
   isProseMirrorElementSelected,
 } from "./nodeSpec";
+import { anyDescendantFieldIsNestedElementField } from "./fieldViews/NestedElementFieldView";
 
 const decorations = createUpdateDecorations();
 
@@ -263,9 +264,12 @@ const createNodeView = <
               transformElementOut,
             })
           : currentFields;
-
+        
         // Only update our FieldViews if their content or decorations have changed.
-        if (fieldValuesChanged || innerDecosChanged) {
+        // nestedElement FieldViews are always updated as a workaround for a bug
+        // with merging text elements in the zipRoot plugin after an intermediate element is 
+        // deleted.
+        if (fieldValuesChanged || innerDecosChanged || anyDescendantFieldIsNestedElementField(newNode)) {
           updateFieldViewsFromNode(newFields, newNode, innerDecos);
         }
 
