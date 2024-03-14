@@ -35,7 +35,10 @@ import {
   docToHtml,
   htmlToDoc,
 } from "../src/plugin/helpers/prosemirror";
-import { testDecorationPlugin } from "../src/plugin/helpers/test";
+import {
+  testDecorationPlugin,
+  testInnerEditorEventPropagationPlugin,
+} from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import {
@@ -370,6 +373,7 @@ const createEditor = (server: CollabServer) => {
         ...exampleSetup({ schema }),
         elementPlugin,
         testDecorationPlugin,
+        testInnerEditorEventPropagationPlugin,
         collabPlugin,
         updateElementDataPlugin,
         createSelectionCollabPlugin(clientID),
