@@ -38,12 +38,12 @@ export interface NestedElementFieldDescription
 export const anyDescendantFieldIsNestedElementField = (node: Node) => {
   let descendantFieldIsNestedElementField = false;
   node.descendants((node) => {
-    if (node.type.spec.content = "element+"){
-      descendantFieldIsNestedElementField = true
+    if (node.type.spec.content === "element+") {
+      descendantFieldIsNestedElementField = true;
     }
-  })
+  });
   return descendantFieldIsNestedElementField;
-}
+};
 
 export const createNestedElementField = ({
   absentOnEmpty,
