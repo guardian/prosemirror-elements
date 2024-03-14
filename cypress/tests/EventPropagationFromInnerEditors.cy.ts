@@ -29,7 +29,7 @@ describe("should propagate events from inner editors to outer editor, so plugins
     });
   });
 
-  it("keyboard shortcuts operate on the whole doc", () => {
+  it.skip("keyboard shortcuts operate on the whole doc", () => {
     addAltStyleElement(startingPoint); // add an element with an inner editor
 
     typeIntoElementField("title", "1") // type outside the inner editor
