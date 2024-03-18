@@ -1,6 +1,10 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
 import type { PluginKey } from "prosemirror-state";
-import type { DecorationSource, EditorView } from "prosemirror-view";
+import type {
+  DecorationSource,
+  EditorProps,
+  EditorView,
+} from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 import { pluginKey } from "../helpers/constants";
 import type { PlaceholderOption } from "../helpers/placeholder";
@@ -150,5 +154,35 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     this.fieldViewElement.classList.add(
       "ProseMirrorElements__NestedElementField"
     );
+  }
+
+  protected getInnerEditorPropsOverrides(outerView: EditorView): EditorProps {
+    return {
+      /**
+       * HANDLERS
+       * we need to 'forward' events to the outer editor to ensure plugins etc. receive the events
+       */
+
+      handleClick: (view, pos, event) =>
+        outerView.someProp("handleClick", (f) =>
+          f(
+            // we pass the outer view here rather than inner view,
+            // so the correct 'state' is available to the final destination handler (e.g. plugin)
+            outerView,
+            pos,
+            event
+          )
+        ),
+      handleKeyDown: (view, event) =>
+        outerView.someProp(
+          "handleKeyDown",
+          (f) => event.key !== "Enter" && f(outerView, event)
+        ),
+      handleKeyPress: (view, event) =>
+        outerView.someProp(
+          "handleKeyPress",
+          (f) => event.key !== "Enter" && f(outerView, event)
+        ),
+    };
   }
 }

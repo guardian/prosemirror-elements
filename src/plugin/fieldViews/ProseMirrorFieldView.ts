@@ -3,7 +3,7 @@ import { DOMParser } from "prosemirror-model";
 import type { Plugin, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
-import type { DecorationSource } from "prosemirror-view";
+import type { DecorationSource, EditorProps } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { PME_UPDATE_PLACEHOLDER } from "../helpers/placeholder";
@@ -238,6 +238,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- default implementation
+  protected getInnerEditorPropsOverrides(outerView: EditorView): EditorProps {
+    return {};
+  }
+
   private createInnerEditorView(plugins?: Plugin[]) {
     const view = new EditorView(this.fieldViewElement, {
       state: EditorState.create({
@@ -249,17 +254,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       dispatchTransaction: this.dispatchTransaction.bind(this),
       decorations: () => this.decorations,
 
-      // we need to 'forward' clicks to the outer editor to ensure plugins etc. receive the events
-      handleClick: (view, pos, event) =>
-        this.outerView.someProp("handleClick", (f) =>
-          f(
-            // we pass the outer view here rather than inner view,
-            // so the correct 'state' is available to the final destination handler (e.g. plugin)
-            this.outerView,
-            pos,
-            event
-          )
-        ),
+      ...this.getInnerEditorPropsOverrides(this.outerView),
     });
 
     view.dom.id = this.getId();
