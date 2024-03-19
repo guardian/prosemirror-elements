@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.3
+
+### Patch Changes
+
+- 688efd8: propagate key down & press events upwards from NestedElementFieldView up to the top-level editor so key mappings work as expected
+
 ## 9.2.2
 
 ### Patch Changes
