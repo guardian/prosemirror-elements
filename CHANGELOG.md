@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.4
+
+### Patch Changes
+
+- 232897d: Use stable identifier for nestedFields in fieldView update workaround
+
 ## 9.2.3
 
 ### Patch Changes
