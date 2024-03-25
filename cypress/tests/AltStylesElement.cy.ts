@@ -7,6 +7,7 @@ import {
 } from "../../src/renderers/react/WrapperControls";
 import {
   addAltStyleElement,
+  addImageElement,
   getButton,
   getElementRichTextField,
   selectDataCy,
@@ -99,16 +100,52 @@ describe("AltStyleElement", () => {
   });
 
   it(`multiple NestedElements IN repeater – should render decorations passed from the parent editor`, () => {
-    addAltStyleElement(repeaterWithChildren);
-    getElementRichTextField("content").first().focus().type(" deco ");
-    getElementRichTextField("content").last().focus().type(" deco ");
+    addAltStyleElement({
+      repeater: [
+        {
+          title: "A",
+          content: [
+            {
+              assets: [],
+              elementType: "pullquote",
+              fields: { html: "Example pullquote with deco" },
+            },
+          ],
+        },
+        {
+          title: "C",
+          content: [
+            {
+              assets: [],
+              elementType: "pullquote",
+              fields: { html: "Example pullquote with deco" },
+            },
+          ],
+        },
+      ],
+    });
     getElementRichTextField("content")
-      .first()
       .find(".TestDecoration")
-      .should("have.text", "deco");
-    getElementRichTextField("content")
-      .last()
+      .each((el) => {
+        cy.wrap(el).should("have.text", "deco");
+      });
+  });
+
+  it("should render repeater decorations in other, non-nested elements correctly", () => {
+    addImageElement({
+      repeater: [
+        {
+          repeaterText: "example deco",
+        },
+        {
+          repeaterText: "example deco",
+        },
+      ],
+    });
+    getElementRichTextField("repeaterText")
       .find(".TestDecoration")
-      .should("have.text", "deco");
+      .each((el) => {
+        cy.wrap(el).should("have.text", "deco");
+      });
   });
 });
