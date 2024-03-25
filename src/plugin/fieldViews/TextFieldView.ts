@@ -1,11 +1,10 @@
 import { baseKeymap, newlineInCode } from "prosemirror-commands";
-import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { AttributeSpec, Node } from "prosemirror-model";
 import type { Command, EditorState, Transaction } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
-import { filteredKeymap } from "../helpers/keymap";
+import { createHistoryCommands, filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { createPlaceholderPlugin } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
@@ -101,8 +100,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     const { Enter, "Mod-Enter": ModEnter, ...modifiedBaseKeymap } = baseKeymap;
     const keymapping: Record<string, Command> = {
       ...modifiedBaseKeymap,
-      "Mod-z": () => undo(outerView.state, outerView.dispatch),
-      "Mod-y": () => redo(outerView.state, outerView.dispatch),
+      ...createHistoryCommands(outerView),
       ...filteredKeymap,
     };
 
