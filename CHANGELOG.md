@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.5
+
+### Patch Changes
+
+- 55c6ff4: Fix scrolling to top of element on undo in element field
+
 ## 9.2.4
 
 ### Patch Changes
