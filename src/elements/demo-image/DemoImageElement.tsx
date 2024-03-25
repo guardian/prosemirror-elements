@@ -79,6 +79,10 @@ export const createImageFields = (
         onCropImage,
       }
     ),
+    undefinedByDefault: createCustomField<string | undefined>(
+      undefined,
+      undefined
+    ),
     useSrc: createCheckBoxField(false),
     optionDropdown: createDropDownField(
       [
