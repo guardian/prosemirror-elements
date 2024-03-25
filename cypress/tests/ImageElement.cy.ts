@@ -686,6 +686,24 @@ describe("ImageElement", () => {
           })
         );
       });
+
+      it.only("should render decorations correctly", () => {
+        addImageElement({
+          repeater: [
+            {
+              repeaterText: "example deco",
+            },
+            {
+              repeaterText: "example deco",
+            },
+          ],
+        });
+        getElementRichTextField("repeaterText")
+          .find(".TestDecoration")
+          .each((el) => {
+            cy.wrap(el).should("have.text", "deco");
+          });
+      });
     });
   });
 });
