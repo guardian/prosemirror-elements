@@ -68,7 +68,6 @@ const getNodeSpecForElement = (
       "div",
       {
         [elementTypeAttr]: node.attrs.type as string,
-        fields: JSON.stringify(node.attrs.fields),
       },
       0,
     ],
@@ -83,7 +82,6 @@ const getNodeSpecForElement = (
 
           return {
             type: nodeName,
-            fields: JSON.parse(dom.getAttribute("fields") ?? "{}") as unknown,
           };
         },
       },
