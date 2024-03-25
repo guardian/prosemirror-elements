@@ -1,11 +1,10 @@
 import { exampleSetup } from "prosemirror-example-setup";
-import { redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
-import { filteredKeymap } from "../helpers/keymap";
+import { createHistoryCommands, filteredKeymap } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { createPlaceholderPlugin } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
@@ -133,8 +132,7 @@ export class RichTextFieldView extends ProseMirrorFieldView {
       decorations,
       [
         keymap({
-          "Mod-z": () => undo(outerView.state, outerView.dispatch),
-          "Mod-y": () => redo(outerView.state, outerView.dispatch),
+          ...createHistoryCommands(outerView),
           "Mod-a": selectAllText,
           ...filteredKeymap,
         }),
