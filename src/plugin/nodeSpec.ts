@@ -298,9 +298,7 @@ const getDefaultParseDOMForLeafNode = (nodeName: string) => [
       }
 
       const maybeFieldAttrs = dom.getAttribute("fields");
-      const fields = maybeFieldAttrs
-        ? (JSON.parse(maybeFieldAttrs) as unknown)
-        : undefined;
+      const fields: unknown | undefined = maybeFieldAttrs && JSON.parse(maybeFieldAttrs)
 
       return { fields };
     },
