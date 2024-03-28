@@ -29,7 +29,7 @@ export const Editor = styled.div<{
     outline: none;
   }
   .ProseMirrorElements__NestedElementField {
-    padding: 10px 15px;
+    padding: 8px 8px;
     &:focus-within {
       ${focusHalo};
       border: 1px solid ${background.inputChecked};

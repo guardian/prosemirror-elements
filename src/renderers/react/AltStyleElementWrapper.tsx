@@ -8,7 +8,7 @@ const AltStyleContainer = styled("div")`
   padding-bottom: 8px;
   border-top: 1px dashed #ddd;
   border-bottom: 1px dashed #ddd;
-  margin: ${space[3]}px -10px;
+  margin: ${space[3]}px -9px;
 `;
 
 const AltStylePanel = styled("div")<{
