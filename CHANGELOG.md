@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.6
+
+### Patch Changes
+
+- b7c63fa: Improve spacing for alt style wrapper and nestedElement fields
+
 ## 9.2.5
 
 ### Patch Changes
