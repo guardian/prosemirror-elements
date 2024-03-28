@@ -58,7 +58,7 @@ const ChildNumber = styled("div")`
   height: ${buttonWidth}px;
   width: ${buttonWidth}px;
   top: 0;
-  left: -${actionSpacing}px;
+  left: -${actionSpacing - 1}px; // -1 ensures border of number overlaps/collapses into border of first field
   padding: 2px;
   border: 1px solid ${neutral[60]};
   position: absolute;

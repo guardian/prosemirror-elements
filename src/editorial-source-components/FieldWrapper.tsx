@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import type { ValidationError } from "../plugin/elementSpec";
 import type { FieldView } from "../plugin/fieldViews/FieldView";
 import type { Field } from "../plugin/types/Element";
@@ -28,7 +29,17 @@ export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
   useAlternateStyles,
   showHeading = true,
 }: Props<F>) => (
-  <div className={className}>
+  <div
+    className={className}
+    css={
+      useAlternateStyles &&
+      css`
+        &:not(:first-of-type) div {
+          border-top: none; //collapse border between adjacent alt-style fields
+        }
+      `
+    }
+  >
     {showHeading ? (
       <InputHeading
         name={field.name}
