@@ -162,6 +162,18 @@ export const required = (
   customMessage: string | undefined = undefined,
   level: ErrorLevel = "ERROR"
 ): FieldValidator => (value, field) => {
+  if (typeof value === "object" && value !== null) {
+    if ((value as Array<Record<string, unknown>>).length === 0) {
+      return [
+        {
+          error: "Required",
+          message: customMessage ?? `${field} is required`,
+          level,
+        },
+      ];
+    } else return [];
+  }
+
   if (typeof value !== "string" && value !== undefined) {
     const typeError = `required check: ${field} value is incorrect`;
     return [
@@ -182,6 +194,7 @@ export const required = (
       },
     ];
   }
+
   return [];
 };
 
