@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.2.7
+
+### Patch Changes
+
+- 4ae3097: Do not coerce HTML nodes without field attributes to a field value of {}
+
 ## 9.2.6
 
 ### Patch Changes
