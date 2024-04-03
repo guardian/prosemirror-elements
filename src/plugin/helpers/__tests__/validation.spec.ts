@@ -7,7 +7,7 @@ import {
 } from "../validation";
 
 describe("Validation helpers", () => {
-  describe("buildValidator", () => {
+  describe("createValidator", () => {
     it("should receive a validation map, and return the results of validators", () => {
       const validator = createValidator({
         field1: [maxLength(5)],
