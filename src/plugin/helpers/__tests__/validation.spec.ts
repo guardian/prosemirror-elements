@@ -62,6 +62,21 @@ describe("Validation helpers", () => {
         ],
       });
     });
+
+    it("should receive a validation map, and return the results of validators where the field is an empty array", () => {
+      const validator = createValidator({
+        field1: [required()],
+      });
+      const result = validator({
+        field1: [],
+      });
+
+      expect(result).toEqual({
+        field1: [
+          { error: "Required", message: "field1 is required", level: "ERROR" },
+        ],
+      });
+    });
   });
 
   describe("validateWithFieldAndElementValidators", () => {
