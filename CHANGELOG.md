@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.3.0
+
+### Minor Changes
+
+- 4e42b5e: Update required validation to support fields containing arrays
+
 ## 9.2.7
 
 ### Patch Changes
