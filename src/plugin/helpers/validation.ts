@@ -162,27 +162,30 @@ export const required = (
   customMessage: string | undefined = undefined,
   level: ErrorLevel = "ERROR"
 ): FieldValidator => (value, field) => {
-  if (typeof value !== "string" && value !== undefined) {
-    const typeError = `required check: ${field} value is incorrect`;
-    return [
-      {
-        message: typeError,
-        error: typeError,
-        level,
-      },
-    ];
+  const requiredError = {
+    error: "Required",
+    message: customMessage ?? `${field} is required`,
+    level,
+  };
+
+  const typeError = {
+    error: "Invalid field",
+    message: `Checking if ${field} is required: value is invalid`,
+    level,
+  };
+
+  const isArray = Array.isArray(value);
+  const isString = typeof value === "string";
+
+  if (isArray || isString) {
+    return value.length === 0 ? [requiredError] : [];
   }
-  const length = (value ?? "").length;
-  if (!length) {
-    return [
-      {
-        error: "Required",
-        message: customMessage ?? `${field} is required`,
-        level,
-      },
-    ];
+
+  if (value === undefined) {
+    return [requiredError];
   }
-  return [];
+
+  return [typeError];
 };
 
 export const dropDownRequired = (

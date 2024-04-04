@@ -19,6 +19,7 @@ export const keyTakeawaysFields = {
         marks: "em strong link",
         attrs: useTyperighterAttrs,
         minRows: 6,
+        validators: [required("Body is required")],
       }),
     },
     1
