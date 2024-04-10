@@ -9,6 +9,10 @@ export const Editor = styled.div<{
   useAlternateStyles?: boolean;
 }>`
   ${({ useAlternateStyles }) => (useAlternateStyles ? null : body.small())}
+  ${({ useAlternateStyles }) =>
+    useAlternateStyles
+      ? null
+      : ".ProseMirrorElements__NestedElementField { margin-top: -1px; }"}
   .ProseMirrorElements__RichTextField, .ProseMirrorElements__TextField {
     background-color: ${background.primary};
   }
@@ -23,16 +27,25 @@ export const Editor = styled.div<{
       ${focusHalo}
     }
     ${({ hasValidationErrors }) =>
-      !!hasValidationErrors && `border-color: ${border.error};`}
+      !!hasValidationErrors &&
+      `
+        outline: 1px solid ${border.error};
+        outline-offset: -1px;
+      `}
   }
   .ProseMirrorElements__NestedElementField .ProseMirror-focused {
     outline: none;
   }
+  .ProseMirrorElements__RichTextField,
+  .ProseMirrorElements__TextField,
   .ProseMirrorElements__NestedElementField {
-    padding: 8px 8px;
     &:focus-within {
       ${focusHalo};
-      border: 1px solid ${background.inputChecked};
+      outline: 1px solid ${background.inputChecked};
+      outline-offset: -1px;
     }
+  }
+  .ProseMirrorElements__NestedElementField {
+    padding: 8px 8px;
   }
 `;
