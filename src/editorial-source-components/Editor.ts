@@ -8,6 +8,7 @@ export const Editor = styled.div<{
   hasValidationErrors: boolean;
   useAlternateStyles?: boolean;
 }>`
+  flex-grow: 1;
   ${({ useAlternateStyles }) => (useAlternateStyles ? null : body.small())}
   ${({ useAlternateStyles }) =>
     useAlternateStyles
