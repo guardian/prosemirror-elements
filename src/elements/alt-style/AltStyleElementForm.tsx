@@ -24,7 +24,7 @@ import { keyTakeawaysFields } from "./AltStyleElementSpec";
 
 export const AltStyleElementTestId = "AltStyleElement";
 
-const RepeaterChild = styled(Body)`
+export const RepeaterChild = styled(Body)`
   &:first-child {
     margin-top: ${space[3]}px;
   }
@@ -40,11 +40,11 @@ const RepeaterChild = styled(Body)`
   }
 `;
 
-const RepeatedFieldsWrapper = styled("div")`
+export const RepeatedFieldsWrapper = styled("div")`
   width: 100%;
 `;
 
-const ChildNumber = styled("div")`
+export const ChildNumber = styled("div")`
   box-sizing: border-box;
   background-color: ${neutral[100]};
   color: ${neutral[46]};
