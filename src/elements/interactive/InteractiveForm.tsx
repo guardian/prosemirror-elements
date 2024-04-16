@@ -1,6 +1,6 @@
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { Link } from "../../editorial-source-components/Link";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";

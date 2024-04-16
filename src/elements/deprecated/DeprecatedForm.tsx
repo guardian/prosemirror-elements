@@ -1,8 +1,8 @@
 import { upperFirst } from "lodash";
 import React from "react";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { Description } from "../../editorial-source-components/Description";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { fields } from "./DeprecatedSpec";
 

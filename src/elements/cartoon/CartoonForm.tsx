@@ -6,12 +6,12 @@ import type { Plugin } from "prosemirror-state";
 import type { FunctionComponent } from "react";
 import React from "react";
 import { Button } from "../../editorial-source-components/Button";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import {
   FieldLayoutHorizontal,
   FieldLayoutVertical,
 } from "../../editorial-source-components/FieldLayout";
-import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
-import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { SvgCrossRound } from "../../editorial-source-components/SvgCrossRound";
 import { Tooltip } from "../../editorial-source-components/Tooltip";

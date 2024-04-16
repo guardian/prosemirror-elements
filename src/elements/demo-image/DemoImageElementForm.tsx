@@ -1,6 +1,6 @@
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -42,8 +42,14 @@ export const createDemoImageElement = (
         />
         <DemoFieldWrapper headingLabel="Src" field={fields.src} />
         <DemoFieldWrapper headingLabel="Code" field={fields.code} />
-        <DemoFieldWrapper headingLabel="Use image source?" field={fields.useSrc} />
-        <DemoFieldWrapper headingLabel="Options" field={fields.optionDropdown} />
+        <DemoFieldWrapper
+          headingLabel="Use image source?"
+          field={fields.useSrc}
+        />
+        <DemoFieldWrapper
+          headingLabel="Options"
+          field={fields.optionDropdown}
+        />
         <ImageView
           field={fields.mainImage}
           onChange={(_, __, ___, description) => {

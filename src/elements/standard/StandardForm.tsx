@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { Link } from "../../editorial-source-components/Link";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";

@@ -1,8 +1,8 @@
 import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";

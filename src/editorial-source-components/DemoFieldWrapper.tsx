@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import type { ValidationError } from "../plugin/elementSpec";
 import type { FieldView } from "../plugin/fieldViews/FieldView";
 import type { Field } from "../plugin/types/Element";

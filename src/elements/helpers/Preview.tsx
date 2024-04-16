@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Description } from "../../editorial-source-components/Description";
 import type { DemoInputHeadingProps } from "../../editorial-source-components/DemoInputHeading";
 import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
+import { Description } from "../../editorial-source-components/Description";
 import { hasOwnProperty } from "./hasOwnProperty";
 
 type PreviewProps = Partial<DemoInputHeadingProps> & {
@@ -159,7 +159,9 @@ export const Preview = ({
 
   return (
     <div>
-      {headingLabel && <DemoInputHeading headingLabel={headingLabel} {...rest} />}
+      {headingLabel && (
+        <DemoInputHeading headingLabel={headingLabel} {...rest} />
+      )}
       {preview}
     </div>
   );

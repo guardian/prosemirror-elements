@@ -4,9 +4,9 @@ import { space } from "@guardian/src-foundations";
 import { Column, Columns } from "@guardian/src-layout";
 import React, { useContext, useEffect, useMemo } from "react";
 import { Button } from "../../editorial-source-components/Button";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
 import type { Options } from "../../plugin/fieldViews/DropdownFieldView";
@@ -136,7 +136,10 @@ export const createImageElement = (options: ImageElementOptions) => {
                     />
                   </Column>
                   <Column width={1 / 2}>
-                    <DemoFieldWrapper field={fields.source} headingLabel="Source" />
+                    <DemoFieldWrapper
+                      field={fields.source}
+                      headingLabel="Source"
+                    />
                   </Column>
                 </Columns>
                 <Columns>

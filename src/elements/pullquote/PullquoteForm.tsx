@@ -1,7 +1,7 @@
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
-import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { pullquoteFields } from "./PullquoteSpec";
