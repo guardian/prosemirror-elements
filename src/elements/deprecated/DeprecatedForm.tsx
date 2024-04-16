@@ -1,8 +1,8 @@
 import { upperFirst } from "lodash";
 import React from "react";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { Description } from "../../editorial-source-components/Description";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { fields } from "./DeprecatedSpec";
 
@@ -21,7 +21,7 @@ export const deprecatedElement = createReactElementSpec({
     return (
       <div>
         <FieldLayoutVertical>
-          <InputHeading headingLabel={`Content from ${elementType}`} />
+          <DemoInputHeading headingLabel={`Content from ${elementType}`} />
           <Description>
             <p>
               This element represents content from {elementType}. It was added

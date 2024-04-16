@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import {
   actionSpacing,
   buttonWidth,
@@ -24,7 +24,7 @@ import { keyTakeawaysFields } from "./AltStyleElementSpec";
 
 export const AltStyleElementTestId = "AltStyleElement";
 
-const RepeaterChild = styled(Body)`
+export const RepeaterChild = styled(Body)`
   &:first-child {
     margin-top: ${space[3]}px;
   }
@@ -40,11 +40,11 @@ const RepeaterChild = styled(Body)`
   }
 `;
 
-const RepeatedFieldsWrapper = styled("div")`
+export const RepeatedFieldsWrapper = styled("div")`
   width: 100%;
 `;
 
-const ChildNumber = styled("div")`
+export const ChildNumber = styled("div")`
   box-sizing: border-box;
   background-color: ${neutral[100]};
   color: ${neutral[46]};
@@ -119,12 +119,12 @@ export const keyTakeawaysElement = createReactAltStylesElementSpec(
   (fields) => fields.repeater,
   (repeaterChild) => (
     <>
-      <FieldWrapper
+      <DemoFieldWrapper
         field={repeaterChild.title}
         showHeading={false}
         useAlternateStyles={true}
       />
-      <FieldWrapper
+      <DemoFieldWrapper
         field={repeaterChild.content}
         showHeading={false}
         useAlternateStyles={true}

@@ -5,7 +5,7 @@ import { Error } from "./Error";
 import { Heading } from "./Heading";
 import { Label } from "./Label";
 
-const InputHeadingContainer = styled.div<{ useAlternateStyles?: boolean }>`
+const DemoInputHeadingContainer = styled.div<{ useAlternateStyles?: boolean }>`
   display: flex;
   flex-wrap: wrap;
   ${({ useAlternateStyles }) =>
@@ -42,7 +42,7 @@ const Errors = ({
 
 export const getFieldHeadingTestId = (name: string) => `FieldHeading-${name}`;
 
-export type InputHeadingProps = {
+export type DemoInputHeadingProps = {
   headingLabel: React.ReactNode;
   fieldId?: string;
   headingContent?: React.ReactNode;
@@ -53,7 +53,8 @@ export type InputHeadingProps = {
   useAlternateStyles?: boolean;
 };
 
-export const InputHeading = ({
+// This component is used only in the prosemirror-elements internal demo
+export const DemoInputHeading = ({
   headingLabel,
   headingContent,
   description,
@@ -62,8 +63,8 @@ export const InputHeading = ({
   fieldId,
   headingDirection = "row",
   useAlternateStyles = false,
-}: InputHeadingProps) => (
-  <InputHeadingContainer
+}: DemoInputHeadingProps) => (
+  <DemoInputHeadingContainer
     data-cy={getFieldHeadingTestId(name ?? "")}
     useAlternateStyles={useAlternateStyles}
   >
@@ -83,5 +84,5 @@ export const InputHeading = ({
     ) : description ? (
       <Description>{description}</Description>
     ) : null}
-  </InputHeadingContainer>
+  </DemoInputHeadingContainer>
 );
