@@ -34,7 +34,7 @@ export { createStore } from "./renderers/react/store";
 export { TelemetryContext } from "./renderers/react/TelemetryContext";
 export { useCustomFieldState } from "./renderers/react/useCustomFieldViewState";
 export { createReactElementSpec } from "./renderers/react/createReactElementSpec";
-export { AltStyleElementWrapper } from './renderers/react/AltStyleElementWrapper';
+export { AltStyleElementWrapper } from "./renderers/react/AltStyleElementWrapper";
 export {
   createReactAltStylesElementSpec,
   RepeaterChild,
