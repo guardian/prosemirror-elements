@@ -181,8 +181,32 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       handleKeyPress: (view, event) =>
         outerView.someProp(
           "handleKeyPress",
-          (f) => event.key !== "Enter" && f(outerView, event)
+          (
+            f: (
+              this: any,
+              view: EditorView,
+              event: KeyboardEvent
+            ) => boolean | void
+          ) => event.key !== "Enter" && f(outerView, event)
         ),
+      // Construct handleDOMEvents object, which propagates all drag events up to the handlers in OuterView's handleDOMEvents
+      handleDOMEvents: [
+        "dragover",
+        "dragend",
+        "dragleave",
+        "dragstart",
+        "dragenter",
+        "drop",
+      ].reduce(
+        (acc, eventName) => ({
+          ...acc,
+          [eventName]: (_: EditorView, event: DragEvent) =>
+            outerView.someProp("handleDOMEvents", (handleDOMEvents) =>
+              handleDOMEvents[eventName]?.(outerView, event)
+            ),
+        }),
+        {}
+      ),
     };
   }
 }
