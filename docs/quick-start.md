@@ -70,14 +70,14 @@ const pullquoteElement = createReactElementSpec(
  }
 )
 ```
-In `prosemirror-elements`, we’ve defined helper components to make it easy to expose inputs and data. Let’s use the `FieldWrapper` component to display an appropriate input for our `content` rich text Field:
+In `prosemirror-elements`, we’ve defined helper components to make it easy to expose inputs and data. Let’s use the `DemoFieldWrapper` component to display an appropriate input for our `content` rich text Field - though we would provide our own component in a consuming project:
 ```ts
 const pullquoteElement = createReactElementSpec(
  pullquoteFields,
  ({ fields, fieldValues, errors }) => {
    return (
      <div>
-       <FieldWrapper
+       <DemoFieldWrapper
          field={fields.content}
          errors={errors.content}
          headingLabel="Pullquote content"
@@ -94,12 +94,12 @@ const pullquoteElement = createReactElementSpec(
  ({ fields, fieldValues, errors }) => {
    return (
      <div>
-       <FieldWrapper
+       <DemoFieldWrapper
          field={fields.content}
          errors={errors.content}
          headingLabel="Pullquote content"
        />
-       <FieldWrapper
+       <DemoFieldWrapper
          field={fields.content}
          errors={errors.content}
          headingLabel="Attribution"
@@ -116,12 +116,12 @@ const pullquoteElement = createReactElementSpec(
  ({ fields, fieldValues, errors }) => {
    return (
      <div>
-       <FieldWrapper
+       <DemoFieldWrapper
          field={fields.content}
          errors={errors.content}
          headingLabel="Pullquote content"
        />
-       <FieldWrapper
+       <DemoFieldWrapper
          field={fields.content}
          errors={errors.content}
          headingLabel="Attribution"
@@ -146,7 +146,7 @@ const pullquoteElement = createReactElementSpec(
  ({ fields, fieldValues, errors }) => {
    return (
      <div>
-       <FieldWrapper
+       <DemoFieldWrapper
          field={fields.content}
          errors={errors.content}
          headingLabel="Pullquote content"
