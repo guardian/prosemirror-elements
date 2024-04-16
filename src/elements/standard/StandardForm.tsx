@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { Link } from "../../editorial-source-components/Link";
 import type { FieldNameToField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
@@ -52,7 +52,7 @@ const IframeAspectRatioContainer: React.FunctionComponent<{
   originalUrl: string;
 }> = ({ height, width, html, originalUrl }) => (
   <div>
-    <InputHeading
+    <DemoInputHeading
       headingLabel="Preview"
       headingContent={
         <span>
@@ -114,7 +114,7 @@ export const StandardForm: React.FunctionComponent<Props> = ({
         </Column>
         <Column width={2 / 3}>
           <FieldLayoutVertical>
-            <FieldWrapper
+            <DemoFieldWrapper
               field={fields.caption}
               headingLabel="Caption"
               description={`${htmlLength(
@@ -155,7 +155,7 @@ export const StandardFormLargePreview: React.FunctionComponent<Props> = ({
         html={fields.html.value}
         originalUrl={fields.originalUrl.value}
       />
-      <FieldWrapper
+      <DemoFieldWrapper
         field={fields.caption}
         headingLabel="Caption"
         description={`${htmlLength(fields.caption.value)}/1000 characters`}

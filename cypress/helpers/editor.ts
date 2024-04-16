@@ -1,5 +1,5 @@
 import type { WindowType } from "../../demo/types";
-import { getFieldHeadingTestId } from "../../src/editorial-source-components/InputHeading";
+import { getFieldHeadingTestId } from "../../src/editorial-source-components/DemoInputHeading";
 import { placeholderTestAttribute } from "../../src/plugin/helpers/placeholder";
 import {
   ChangeTestDecoStringAction,

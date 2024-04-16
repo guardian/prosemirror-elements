@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { neutral, space, text } from "@guardian/src-foundations";
 import { Button } from "../../editorial-source-components/Button";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { Label } from "../../editorial-source-components/Label";
 import type { FieldView as TFieldView } from "../../plugin/fieldViews/FieldView";
 import type { CustomField, Field } from "../../plugin/types/Element";
@@ -183,7 +183,7 @@ export const CalloutTable = ({
             </span>
           </div>
         ) : (
-          <FieldWrapper
+          <DemoFieldWrapper
             className="callout-field"
             field={overridePrompt}
             headingLabel="Callout Prompt"
@@ -219,7 +219,7 @@ export const CalloutTable = ({
             </span>
           </div>
         ) : (
-          <FieldWrapper
+          <DemoFieldWrapper
             className="callout-field"
             field={overrideTitle}
             headingLabel="Callout Title"
@@ -260,7 +260,7 @@ export const CalloutTable = ({
           </>
         ) : (
           <div css={descriptionStyle}>
-            <FieldWrapper
+            <DemoFieldWrapper
               className="callout-field"
               field={overrideDescription}
               headingLabel="Callout Description"

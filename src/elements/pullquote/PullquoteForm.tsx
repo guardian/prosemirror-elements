@@ -1,7 +1,7 @@
 import { Column, Columns } from "@guardian/src-layout";
 import React from "react";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
 import { pullquoteFields } from "./PullquoteSpec";
@@ -30,7 +30,7 @@ export const pullquoteElement = createReactElementSpec({
       <div data-cy={PullquoteElementTestId}>
         <Columns>
           <Column width={2 / 3}>
-            <FieldWrapper
+            <DemoFieldWrapper
               headingLabel="Pullquote"
               field={fields.html}
               errors={htmlErrors}
@@ -38,7 +38,7 @@ export const pullquoteElement = createReactElementSpec({
           </Column>
           <Column width={1 / 3}>
             <FieldLayoutVertical>
-              <FieldWrapper
+              <DemoFieldWrapper
                 headingLabel="Attribution"
                 field={fields.attribution}
               />

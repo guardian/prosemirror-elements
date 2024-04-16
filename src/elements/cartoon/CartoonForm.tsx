@@ -6,12 +6,12 @@ import type { Plugin } from "prosemirror-state";
 import type { FunctionComponent } from "react";
 import React from "react";
 import { Button } from "../../editorial-source-components/Button";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import {
   FieldLayoutHorizontal,
   FieldLayoutVertical,
 } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
-import { InputHeading } from "../../editorial-source-components/InputHeading";
 import { SvgCrop } from "../../editorial-source-components/SvgCrop";
 import { SvgCrossRound } from "../../editorial-source-components/SvgCrossRound";
 import { Tooltip } from "../../editorial-source-components/Tooltip";
@@ -100,8 +100,8 @@ export const createCartoonElement = (
             }}
             mainMediaId={fields.largeImages.value[0]?.mediaId}
           />
-          <FieldWrapper field={fields.caption} headingLabel="Caption" />
-          <FieldWrapper
+          <DemoFieldWrapper field={fields.caption} headingLabel="Caption" />
+          <DemoFieldWrapper
             field={fields.alt}
             headingLabel={
               <span
@@ -143,13 +143,13 @@ export const createCartoonElement = (
           />
           <Columns>
             <Column width={1 / 3}>
-              <FieldWrapper
+              <DemoFieldWrapper
                 field={fields.photographer}
                 headingLabel={"Byline"}
               />
             </Column>
             <Column width={1 / 3}>
-              <FieldWrapper field={fields.source} headingLabel={"Source"} />
+              <DemoFieldWrapper field={fields.source} headingLabel={"Source"} />
             </Column>
             <Column width={1 / 3}>
               <CustomDropdownView
@@ -198,7 +198,7 @@ const ImageSet: FunctionComponent<{
 }) => {
   return (
     <div>
-      <InputHeading headingLabel={label} />
+      <DemoInputHeading headingLabel={label} />
       <FieldLayoutHorizontal>
         {images.map((image, index) => (
           <ImageThumbnail

@@ -1,6 +1,6 @@
 import React from "react";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
 import type { CustomField } from "../../plugin/types/Element";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -24,26 +24,32 @@ export const createDemoImageElement = (
     fieldDescriptions: createImageFields(onSelect, onCrop),
     component: ({ fields }) => (
       <FieldLayoutVertical data-cy={ImageElementTestId}>
-        <FieldWrapper headingLabel="Caption" field={fields.caption} />
-        <FieldWrapper headingLabel="Alt text" field={fields.altText} />
+        <DemoFieldWrapper headingLabel="Caption" field={fields.caption} />
+        <DemoFieldWrapper headingLabel="Alt text" field={fields.altText} />
         <button
           data-cy={UpdateAltTextButtonId}
           onClick={() => fields.altText.update("Default alt text")}
         >
           Programmatically update alt text
         </button>
-        <FieldWrapper
+        <DemoFieldWrapper
           headingLabel="Resizeable Text Field"
           field={fields.resizeable}
         />
-        <FieldWrapper
+        <DemoFieldWrapper
           field={fields.restrictedTextField}
           headingLabel="Restricted Text Field"
         />
-        <FieldWrapper headingLabel="Src" field={fields.src} />
-        <FieldWrapper headingLabel="Code" field={fields.code} />
-        <FieldWrapper headingLabel="Use image source?" field={fields.useSrc} />
-        <FieldWrapper headingLabel="Options" field={fields.optionDropdown} />
+        <DemoFieldWrapper headingLabel="Src" field={fields.src} />
+        <DemoFieldWrapper headingLabel="Code" field={fields.code} />
+        <DemoFieldWrapper
+          headingLabel="Use image source?"
+          field={fields.useSrc}
+        />
+        <DemoFieldWrapper
+          headingLabel="Options"
+          field={fields.optionDropdown}
+        />
         <ImageView
           field={fields.mainImage}
           onChange={(_, __, ___, description) => {
@@ -55,7 +61,7 @@ export const createDemoImageElement = (
         <ul>
           {fields.repeater.children.map((repeater, index) => (
             <li key={repeater.__ID}>
-              <FieldWrapper
+              <DemoFieldWrapper
                 headingLabel="Repeater text"
                 headingContent={
                   <>
@@ -79,7 +85,7 @@ export const createDemoImageElement = (
                 {repeater.nestedRepeater.children.map(
                   (nestedRepeater, index) => (
                     <li key={nestedRepeater.__ID}>
-                      <FieldWrapper
+                      <DemoFieldWrapper
                         headingLabel="Nested repeater text"
                         headingContent={
                           <>
