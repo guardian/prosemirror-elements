@@ -2,7 +2,7 @@ import type { Schema } from "prosemirror-model";
 import type { Plugin } from "prosemirror-state";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -35,10 +35,10 @@ export const createEmbedElement = (options: MainEmbedOptions) =>
         />
         <Preview html={fields.html.value} />
         <CustomDropdownView field={fields.role} label="Weighting" />
-        <FieldWrapper field={fields.url} headingLabel="Source URL" />
-        <FieldWrapper field={fields.html} headingLabel="Embed code" />
-        <FieldWrapper field={fields.caption} headingLabel="Caption" />
-        <FieldWrapper field={fields.alt} headingLabel="Alt text" />
+        <DemoFieldWrapper field={fields.url} headingLabel="Source URL" />
+        <DemoFieldWrapper field={fields.html} headingLabel="Embed code" />
+        <DemoFieldWrapper field={fields.caption} headingLabel="Caption" />
+        <DemoFieldWrapper field={fields.alt} headingLabel="Alt text" />
         <CustomCheckboxView
           field={fields.isMandatory}
           label="This element is required for publication"

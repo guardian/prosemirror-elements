@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { space } from "@guardian/src-foundations";
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { InputHeading } from "../../editorial-source-components/InputHeading";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { Link } from "../../editorial-source-components/Link";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomDropdownView } from "../../renderers/react/customFieldViewComponents/CustomDropdownView";
@@ -21,7 +21,7 @@ export const membershipElement = createReactElementSpec({
   component: ({ fields }) => (
     <FieldLayoutVertical data-cy={MembershipElementTestId}>
       <div css={flexRow}>
-        <InputHeading headingLabel="Membership event:" />
+        <DemoInputHeading headingLabel="Membership event:" />
         <Link href={fields.originalUrl.value}>{fields.linkText.value}</Link>
       </div>
       <CustomDropdownView field={fields.role} label="Weighting" />

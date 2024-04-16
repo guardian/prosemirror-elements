@@ -1,5 +1,5 @@
 import { getByLabelText, getByText, waitFor } from "@testing-library/dom";
-import { FieldWrapper } from "../../../editorial-source-components/FieldWrapper";
+import { DemoFieldWrapper } from "../../../editorial-source-components/DemoFieldWrapper";
 import { createTextField } from "../../../plugin/fieldViews/TextFieldView";
 import { createEditorWithElements } from "../../../plugin/helpers/test";
 import { createReactElementSpec } from "../createReactElementSpec";
@@ -12,10 +12,10 @@ describe("createReactElementSpec", () => {
     },
     component: ({ fields }) => (
       <div>
-        <FieldWrapper
+        <DemoFieldWrapper
           headingLabel="field1"
           field={fields.field1}
-        ></FieldWrapper>
+        ></DemoFieldWrapper>
       </div>
     ),
     validate: undefined,

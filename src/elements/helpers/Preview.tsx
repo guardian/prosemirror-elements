@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Description } from "../../editorial-source-components/Description";
-import type { InputHeadingProps } from "../../editorial-source-components/InputHeading";
-import { InputHeading } from "../../editorial-source-components/InputHeading";
+import type { DemoInputHeadingProps } from "../../editorial-source-components/DemoInputHeading";
+import { DemoInputHeading } from "../../editorial-source-components/DemoInputHeading";
 import { hasOwnProperty } from "./hasOwnProperty";
 
-type PreviewProps = Partial<InputHeadingProps> & {
+type PreviewProps = Partial<DemoInputHeadingProps> & {
   html?: string;
   iframeUrl?: string;
   minHeight?: number;
@@ -159,7 +159,7 @@ export const Preview = ({
 
   return (
     <div>
-      {headingLabel && <InputHeading headingLabel={headingLabel} {...rest} />}
+      {headingLabel && <DemoInputHeading headingLabel={headingLabel} {...rest} />}
       {preview}
     </div>
   );

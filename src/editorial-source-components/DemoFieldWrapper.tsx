@@ -1,8 +1,9 @@
+import { css } from "@emotion/react";
 import type { ValidationError } from "../plugin/elementSpec";
 import type { FieldView } from "../plugin/fieldViews/FieldView";
 import type { Field } from "../plugin/types/Element";
 import { FieldComponent } from "../renderers/react/FieldComponent";
-import { InputHeading } from "./InputHeading";
+import { DemoInputHeading } from "./DemoInputHeading";
 
 type Props<F> = {
   field: F;
@@ -17,7 +18,8 @@ type Props<F> = {
   showHeading?: boolean;
 };
 
-export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
+// This component is used only in the prosemirror-elements internal demo
+export const DemoFieldWrapper = <F extends Field<FieldView<unknown>>>({
   field,
   errors,
   headingLabel,
@@ -30,7 +32,7 @@ export const FieldWrapper = <F extends Field<FieldView<unknown>>>({
 }: Props<F>) => (
   <div className={className}>
     {showHeading ? (
-      <InputHeading
+      <DemoInputHeading
         name={field.name}
         fieldId={field.view.getId()}
         headingLabel={headingLabel}

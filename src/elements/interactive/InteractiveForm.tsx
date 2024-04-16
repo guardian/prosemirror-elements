@@ -1,6 +1,6 @@
 import React from "react";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { FieldWrapper } from "../../editorial-source-components/FieldWrapper";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { Link } from "../../editorial-source-components/Link";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { CustomCheckboxView } from "../../renderers/react/customFieldViewComponents/CustomCheckboxView";
@@ -35,8 +35,8 @@ export const createInteractiveElement = (props: MainInteractiveProps) =>
           iframeUrl={fields.iframeUrl.value}
         />
         <CustomDropdownView field={fields.role} label="Weighting" />
-        <FieldWrapper field={fields.alt} headingLabel="Alt text" />
-        <FieldWrapper field={fields.caption} headingLabel="Caption" />
+        <DemoFieldWrapper field={fields.alt} headingLabel="Alt text" />
+        <DemoFieldWrapper field={fields.caption} headingLabel="Caption" />
         <CustomCheckboxView
           field={fields.isMandatory}
           label="This element is required for publication"
