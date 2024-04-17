@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.4.0
+
+### Minor Changes
+
+- 878f142: Export AltStyleWrapper and support inline field titles
+
 ## 9.3.2
 
 ### Patch Changes
