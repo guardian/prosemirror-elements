@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.3.2
+
+### Patch Changes
+
+- 0201c04: Exports required styles and controls required by the timeline element
+
 ## 9.3.1
 
 ### Patch Changes
