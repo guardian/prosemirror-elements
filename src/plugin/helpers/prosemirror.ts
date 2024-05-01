@@ -13,13 +13,21 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   const range = [_from, _to];
   range.sort((a, b) => a - b);
   const [from, to] = range;
-
   const arr: NodesBetweenArgs[] = [];
-  state.doc.nodesBetween(
-    from,
-    to,
-    (node, pos, parent, index) => !!arr.push([node, pos, parent, index])
-  );
+  state.doc.nodesBetween(from, to, (node, pos, parent, index) => {
+    arr.push([node, pos, parent, index]);
+    /*
+      Returning false from state.doc.nodesBetween prevents recursion into the node's children.
+      We don't want to recurse.
+
+      This allows us to treat list elements and their nested contents as a single entity for movement purposes.
+      In other words, we can move top-level elements up and down past a list element.
+      Before, with recursion, top-level elements would move inside the list element, often breaking the document structure.
+
+      Note this still allows us to move nested elements **within** list elements.
+    */
+    return false;
+  });
   if (dir < 0) {
     arr.reverse();
   }
