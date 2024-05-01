@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.5.0
+
+### Minor Changes
+
+- 3d8f778: Make addChildAfter optional for RightActionControls
+
 ## 9.4.0
 
 ### Minor Changes
