@@ -387,7 +387,7 @@ export const RightRepeaterActionControls = ({
           <SvgArrowDownStraight />
         </Button>
       </VerticalActions>
-      {addChildAfter ?
+      {addChildAfter ? (
         <VerticalActions verticalPosition={"bottom"}>
           <Button
             type="button"
@@ -398,7 +398,7 @@ export const RightRepeaterActionControls = ({
             +
           </Button>
         </VerticalActions>
-      : null }
+      ) : null}
     </SideActions>
   );
 };
