@@ -316,7 +316,7 @@ export type LeftRepeaterActionProps = {
 };
 
 export type RightRepeaterActionProps = {
-  addChildAfter: MouseEventHandler<HTMLButtonElement>;
+  addChildAfter?: MouseEventHandler<HTMLButtonElement>;
   moveChildUpOne: MouseEventHandler<HTMLButtonElement>;
   moveChildDownOne: MouseEventHandler<HTMLButtonElement>;
   numberOfChildNodes: number;
@@ -387,16 +387,18 @@ export const RightRepeaterActionControls = ({
           <SvgArrowDownStraight />
         </Button>
       </VerticalActions>
-      <VerticalActions verticalPosition={"bottom"}>
-        <Button
-          type="button"
-          data-cy={addChildTestId}
-          onClick={addChildAfter}
-          aria-label="Add repeater child"
-        >
-          +
-        </Button>
-      </VerticalActions>
+      {addChildAfter ? (
+        <VerticalActions verticalPosition={"bottom"}>
+          <Button
+            type="button"
+            data-cy={addChildTestId}
+            onClick={addChildAfter}
+            aria-label="Add repeater child"
+          >
+            +
+          </Button>
+        </VerticalActions>
+      ) : null}
     </SideActions>
   );
 };
