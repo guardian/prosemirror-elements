@@ -3,6 +3,7 @@ import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
+import { useAutoAnimate } from "../../hooks/useAutoAnimate";
 import {
   actionSpacing,
   buttonWidth,
@@ -80,10 +81,12 @@ export const createReactAltStylesElementSpec = <
     fieldDescriptions,
     component: ({ fields }) => {
       const repeaterField = repeaterFieldExtractor(fields);
+      const [parent] = useAutoAnimate();
       return (
         <FieldLayoutVertical
           data-cy={AltStyleElementTestId}
           useAlternateStyles={true}
+          ref={parent}
         >
           {repeaterField.children.map((child, index) => (
             // Use field ID as key instead of node index to avoid React render conflicts
