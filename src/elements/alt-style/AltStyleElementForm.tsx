@@ -16,6 +16,7 @@ import type {
 import { AltStyleElementWrapper } from "../../renderers/react/AltStyleElementWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { Body } from "../../renderers/react/ElementWrapper";
+import { useAutoAnimate } from "../../renderers/react/useAutoAnimate";
 import {
   LeftRepeaterActionControls,
   RightRepeaterActionControls,
@@ -80,10 +81,12 @@ export const createReactAltStylesElementSpec = <
     fieldDescriptions,
     component: ({ fields }) => {
       const repeaterField = repeaterFieldExtractor(fields);
+      const [parent] = useAutoAnimate();
       return (
         <FieldLayoutVertical
           data-cy={AltStyleElementTestId}
           useAlternateStyles={true}
+          ref={parent}
         >
           {repeaterField.children.map((child, index) => (
             // Use field ID as key instead of node index to avoid React render conflicts

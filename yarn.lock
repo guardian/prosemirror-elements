@@ -1663,6 +1663,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@formkit/auto-animate@^0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@formkit/auto-animate/-/auto-animate-0.8.2.tgz#24a56e816159fd5585405dcee6bb992f81c27585"
+  integrity sha512-SwPWfeRa5veb1hOIBMdzI+73te5puUBHmqqaF1Bu7FjvxlYSz/kJcZKSa9Cg60zL0uRNeJL2SbRxV6Jp6Q1nFQ==
+
 "@guardian/eslint-config-typescript@^0.5.0":
   version "0.5.0"
   resolved "https://registry.npmjs.org/@guardian/eslint-config-typescript/-/eslint-config-typescript-0.5.0.tgz"
