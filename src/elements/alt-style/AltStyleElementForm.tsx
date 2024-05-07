@@ -3,7 +3,6 @@ import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
 import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
-import { useAutoAnimate } from "../../hooks/useAutoAnimate";
 import {
   actionSpacing,
   buttonWidth,
@@ -17,6 +16,7 @@ import type {
 import { AltStyleElementWrapper } from "../../renderers/react/AltStyleElementWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { Body } from "../../renderers/react/ElementWrapper";
+import { useAutoAnimate } from "../../renderers/react/useAutoAnimate";
 import {
   LeftRepeaterActionControls,
   RightRepeaterActionControls,
