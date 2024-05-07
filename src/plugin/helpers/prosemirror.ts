@@ -4,6 +4,7 @@ import type { EditorState, Transaction } from "prosemirror-state";
 import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
+import { anyDescendantFieldIsNestedElementField } from "../fieldViews/NestedElementFieldView";
 
 type NodesBetweenArgs = [Node, number, Node | null, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -17,15 +18,15 @@ const nodesBetween = (state: EditorState, _from: number, _to: number) => {
   state.doc.nodesBetween(from, to, (node, pos, parent, index) => {
     arr.push([node, pos, parent, index]);
     /*
-      Returning false from state.doc.nodesBetween prevents recursion into the node's children. We want
-      to allow one level of recursion (for textElements, which contain paragraphs), but no further.
+      Returning false from state.doc.nodesBetween prevents recursion into the node's children. We don't
+      want to recurse when the node is a list element.
 
       This allows us to treat list elements and their contents as a single entity for movement purposes.
       This means we can move top-level elements up and down past a list element. Before, with
       recursion, top-level elements would move inside the list element, often breaking the document
       structure. Note this still allows us to move nested elements **within** list elements.
     */
-    return parent?.type.name === "doc";
+    return !anyDescendantFieldIsNestedElementField(node);
   });
   if (dir < 0) {
     arr.reverse();
