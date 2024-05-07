@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.5.1
+
+### Patch Changes
+
+- 78a5731: Adds basic animations to list elements
+
 ## 9.5.0
 
 ### Minor Changes
