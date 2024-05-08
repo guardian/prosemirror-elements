@@ -122,6 +122,21 @@ export const createPlugin = <
         getElementDataFromNode,
         transformElementOut
       ),
+      // Are we in an element? If so, mark scroll to selection as handled – or
+      // the parent editor will scroll to the top of the node containing the
+      // nested element.
+      handleScrollToSelection(view) {
+        const selection = view.state.selection;
+
+        let isWithinElement = false;
+        view.state.doc.nodesBetween(selection.from, selection.to, (node) => {
+          if (isProseMirrorElement(node)) {
+            isWithinElement = true;
+          }
+        });
+
+        return isWithinElement;
+      },
     },
   });
 };
