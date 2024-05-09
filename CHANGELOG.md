@@ -1,5 +1,15 @@
 # @guardian/prosemirror-elements
 
+## 9.6.0
+
+### Minor Changes
+
+- 9bf0077: Fix element movement near repeater elements
+
+### Patch Changes
+
+- 6c37c7a: Fix element movement near list els and stop outer editor controlling scroll
+
 ## 9.5.1
 
 ### Patch Changes
