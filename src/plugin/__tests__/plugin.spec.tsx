@@ -9,6 +9,7 @@ import type { FieldNameToValueMapWithEmptyValues } from "../helpers/fieldView";
 import { createEditorWithElements } from "../helpers/test";
 import { elementSelectedNodeAttr } from "../nodeSpec";
 import type { FieldDescriptions } from "../types/Element";
+import { Fragment, Slice } from "prosemirror-model";
 
 describe("createPlugin", () => {
   // Called when our consumer is updated by the plugin.
@@ -91,18 +92,19 @@ describe("createPlugin", () => {
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
 
       const positionAfterElement = 19;
-      const tr = view.state.tr.replaceRangeWith(
+      const tr = view.state.tr.replace(
         positionAfterElement,
         positionAfterElement,
-        exampleText
+        new Slice(Fragment.from(exampleText), 0, 0)
       );
       view.dispatch(tr);
 
       expect(consumerRenderSpy.mock.calls.length).toBe(
         initialConsumerUpdateCount
       );
+      // replaceRangeWith will update the selection, updating the fieldView
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
-        initialFieldViewUpdateCount
+        initialFieldViewUpdateCount + 1
       );
     });
 
@@ -288,18 +290,19 @@ describe("createPlugin", () => {
       // By inserting content before the element, we enable the content to move
       // upward, changing the command output.
       const positionThatEnablesUpCommand = 0;
-      const tr = view.state.tr.replaceWith(
+      const tr = view.state.tr.replace(
         positionThatEnablesUpCommand,
         positionThatEnablesUpCommand,
-        view.state.schema.text("Text before element")
-      );
+        new Slice(Fragment.from(view.state.schema.text("Text before element")), 0, 0)
+      )
       view.dispatch(tr);
 
       expect(consumerRenderSpy.mock.calls.length).toBe(
         initialConsumerUpdateCount + 1
       );
+      // The position of the selection is moved, so the fieldView is updated
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
-        initialFieldViewUpdateCount
+        initialFieldViewUpdateCount + 1
       );
     });
   });
@@ -331,7 +334,7 @@ describe("createPlugin", () => {
         );
       });
 
-      it("should not update the fieldView", () => {
+      it("should update the fieldView", () => {
         const { view } = createDefaultEditor();
 
         const initialFieldViewUpdateCount =
@@ -340,7 +343,7 @@ describe("createPlugin", () => {
         applyNoopSelection(view);
 
         expect(fieldViewRenderSpy.mock.calls.length).toBe(
-          initialFieldViewUpdateCount
+          initialFieldViewUpdateCount + 1
         );
       });
 
@@ -367,7 +370,7 @@ describe("createPlugin", () => {
         );
       });
 
-      it("should not update the fieldView", () => {
+      it("should update the fieldView", () => {
         const { view } = createDefaultEditor();
 
         const initialFieldViewUpdateCount =
@@ -376,7 +379,7 @@ describe("createPlugin", () => {
         applyWholeDocSelection(view);
 
         expect(fieldViewRenderSpy.mock.calls.length).toBe(
-          initialFieldViewUpdateCount
+          initialFieldViewUpdateCount + 1
         );
       });
 
@@ -406,7 +409,7 @@ describe("createPlugin", () => {
         );
       });
 
-      it("should not update the fieldView", () => {
+      it("should update the fieldView", () => {
         const { view } = createDefaultEditor();
 
         applyWholeDocSelection(view);
@@ -417,7 +420,7 @@ describe("createPlugin", () => {
         applyNoopSelection(view);
 
         expect(fieldViewRenderSpy.mock.calls.length).toBe(
-          initialFieldViewUpdateCount
+          initialFieldViewUpdateCount + 1
         );
       });
 
