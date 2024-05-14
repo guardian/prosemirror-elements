@@ -1,8 +1,8 @@
 import { uniqueId } from "lodash";
 import type { Node } from "prosemirror-model";
+import type { Selection } from "prosemirror-state";
 import type { DecorationSource } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
-import { Selection } from "prosemirror-state";
 
 /**
  * The specification for an element field, to be modelled as a Node in Prosemirror.

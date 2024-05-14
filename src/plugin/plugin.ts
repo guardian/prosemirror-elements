@@ -1,7 +1,7 @@
 import { DOMSerializer } from "prosemirror-model";
 import type { Node } from "prosemirror-model";
 import type { EditorState } from "prosemirror-state";
-import { NodeSelection, Plugin, TextSelection } from "prosemirror-state";
+import { NodeSelection, Plugin } from "prosemirror-state";
 import type { EditorProps } from "prosemirror-view";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type {
@@ -293,7 +293,13 @@ const createNodeView = <
           anyDescendantFieldIsNestedElementField(newNode) ||
           selectionHasChanged
         ) {
-          updateFieldViewsFromNode(newFields, newNode, innerDecos, 0, newSelection);
+          updateFieldViewsFromNode(
+            newFields,
+            newNode,
+            innerDecos,
+            0,
+            newSelection
+          );
         }
 
         // Only update our consumer if anything internal to the field has changed.

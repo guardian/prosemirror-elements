@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
+import type { Selection } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
@@ -20,7 +21,6 @@ import type {
   RepeaterField,
 } from "./types/Element";
 import { isRepeaterField } from "./types/Element";
-import { Selection } from "prosemirror-state";
 
 const getRepeaterDecorations = (
   outerDecos: DecorationSource,

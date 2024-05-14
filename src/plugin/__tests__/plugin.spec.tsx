@@ -1,3 +1,4 @@
+import { Fragment, Slice } from "prosemirror-model";
 import { AllSelection, Plugin, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
@@ -9,7 +10,6 @@ import type { FieldNameToValueMapWithEmptyValues } from "../helpers/fieldView";
 import { createEditorWithElements } from "../helpers/test";
 import { elementSelectedNodeAttr } from "../nodeSpec";
 import type { FieldDescriptions } from "../types/Element";
-import { Fragment, Slice } from "prosemirror-model";
 
 describe("createPlugin", () => {
   // Called when our consumer is updated by the plugin.
@@ -292,8 +292,12 @@ describe("createPlugin", () => {
       const tr = view.state.tr.replace(
         positionThatEnablesUpCommand,
         positionThatEnablesUpCommand,
-        new Slice(Fragment.from(view.state.schema.text("Text before element")), 0, 0)
-      )
+        new Slice(
+          Fragment.from(view.state.schema.text("Text before element")),
+          0,
+          0
+        )
+      );
       view.dispatch(tr);
 
       expect(consumerRenderSpy.mock.calls.length).toBe(
