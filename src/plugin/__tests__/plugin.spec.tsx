@@ -102,7 +102,6 @@ describe("createPlugin", () => {
       expect(consumerRenderSpy.mock.calls.length).toBe(
         initialConsumerUpdateCount
       );
-      // replaceRangeWith will update the selection, updating the fieldView
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
         initialFieldViewUpdateCount + 1
       );
