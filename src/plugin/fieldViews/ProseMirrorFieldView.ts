@@ -1,6 +1,6 @@
-import type { AttributeSpec, Node } from "prosemirror-model";
+import { AttributeSpec, Node } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
-import type { Plugin, Transaction } from "prosemirror-state";
+import { Plugin, Selection, TextSelection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { DecorationSource, EditorProps } from "prosemirror-view";
@@ -78,13 +78,14 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   public onUpdate(
     node: Node,
     elementOffset: number,
-    decorations: DecorationSource
+    decorations: DecorationSource,
+    selection?: Selection
   ) {
     if (!node.hasMarkup(this.node.type)) {
       return false;
     }
 
-    this.updateInnerEditor(node, decorations, elementOffset);
+    this.updateInnerEditor(node, decorations, elementOffset, selection);
 
     return true;
   }
@@ -134,7 +135,8 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   private updateInnerEditor(
     node: Node,
     decorations: DecorationSource,
-    elementOffset: number
+    elementOffset: number,
+    selection?: Selection
   ) {
     if (!this.innerEditorView) {
       return;
@@ -192,6 +194,46 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       endOfInnerDiff += overlap;
     }
 
+    if (selection) {
+      // Check if incoming selection is within this field
+      const incomingAnchorPos = selection.$anchor.pos;
+      const incomingHeadPos = selection.$head.pos;
+
+      const fieldStart = this.offset + this.getPos() + 2;
+      const fieldEnd = this.offset + this.getPos() + this.innerEditorView.state.doc.nodeSize;
+
+      const selectionAnchorIsWithinThisField = incomingAnchorPos > fieldStart && incomingAnchorPos < fieldEnd;
+      const selectionHeadIsWithinThisField = incomingHeadPos > fieldStart && incomingHeadPos < fieldEnd;
+          
+      if (selectionAnchorIsWithinThisField && selectionHeadIsWithinThisField) {
+        // The inner editor's selection will be offset relative to the start of this field, compared to the incoming selection
+        const currentAnchorPos = this.innerEditorView.state.selection.$anchor.pos;
+        const currentHeadPos = this.innerEditorView.state.selection.$head.pos;
+        const offsetIncomingAnchorPos = incomingAnchorPos - fieldStart;
+        const offsetIncomingHeadPos = selection.$head.pos - fieldStart;
+
+        if (currentAnchorPos !== offsetIncomingAnchorPos || currentHeadPos !== offsetIncomingHeadPos){
+          const offsetMap = StepMap.offset(
+            -fieldStart
+          );
+          const mappedSelection = selection.map(state.tr.doc, offsetMap);
+
+          this.innerEditorView.dispatch(
+            state.tr
+              .setSelection(
+                mappedSelection
+              )
+              .replace(
+                diffStart,
+                endOfInnerDiff,
+                node.slice(diffStart, endOfOuterDiff)
+              )
+              .setMeta("fromOutside", true)
+          )
+          return
+        }
+      };
+    }
     this.innerEditorView.dispatch(
       state.tr
         .replace(
