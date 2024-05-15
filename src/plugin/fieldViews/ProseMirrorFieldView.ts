@@ -157,7 +157,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       const incomingAnchorPos = selection.$anchor.pos;
       const incomingHeadPos = selection.$head.pos;
 
-      const fieldStart = this.offset + this.getPos() + 2;
+      // We must offset to account for a few things:
+      //  - getPos() returns the position directly before the parent node (+1)
+      //  - the node we will be altering is a child of its parent (+1)
+      const contentOffset = 2;
+      const fieldStart = this.offset + this.getPos() + contentOffset;
       const fieldEnd =
         this.offset + this.getPos() + this.innerEditorView.state.doc.nodeSize;
 
