@@ -51,7 +51,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     // The outer editor instance. Updated from within this class when the inner state changes.
     private outerView: EditorView,
     // Returns the current position of the parent FieldView in the document.
-    private getPos: () => number,
+    protected getPos: () => number,
     // The offset of this node relative to its parent FieldView.
     public offset: number,
     // The initial decorations for the FieldView.
@@ -166,7 +166,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       const selectionHeadIsWithinThisField =
         incomingHeadPos > fieldStart && incomingHeadPos < fieldEnd;
       if (selectionAnchorIsWithinThisField && selectionHeadIsWithinThisField) {
-        // The inner editor's selection will be offset relative to the start of this field, 
+        // The inner editor's selection will be offset relative to the start of this field,
         // compared to the incoming selection
         const currentAnchorPos = this.innerEditorView.state.selection.$anchor
           .pos;
@@ -180,24 +180,20 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
           const offsetMap = StepMap.offset(-fieldStart);
           const mappedSelection = selection.map(state.tr.doc, offsetMap);
           shouldDispatchTransaction = true;
-          tr = tr.setSelection(mappedSelection)
+          tr = tr.setSelection(mappedSelection);
         }
       }
     }
 
-    // Check if the passed-in Node is different to the existing content, 
+    // Check if the passed-in Node is different to the existing content,
     // figure out the smallest change to the node content we need to make to
     // successfully update the inner editor, and apply it.
 
     const diffStart = node.content.findDiffStart(state.doc.content);
     const diffEnd = node.content.findDiffEnd(state.doc.content);
 
-    if (diffStart && diffEnd){
-    let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
-    let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
-
+    if (diffStart && diffEnd) {
       let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
-
       // This overlap accounts for a situation where we're diffing nodes where we encounter
       // identical content.
       //
@@ -226,20 +222,18 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
         endOfOuterDiff += overlap;
         endOfInnerDiff += overlap;
       }
-      
+
       shouldDispatchTransaction = true;
       tr = tr.replace(
         diffStart,
         endOfInnerDiff,
         node.slice(diffStart, endOfOuterDiff)
-      )
-    }
-    if (shouldDispatchTransaction){
-      this.innerEditorView.dispatch(
-        tr.setMeta("fromOutside", true)
       );
+    }
+    if (shouldDispatchTransaction) {
+      this.innerEditorView.dispatch(tr.setMeta("fromOutside", true));
     } else {
-      return this.maybeRerenderDecorations()
+      return this.maybeRerenderDecorations();
     }
   }
 
