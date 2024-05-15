@@ -147,52 +147,10 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     this.applyDecorationsFromOuterEditor(decorations, node, elementOffset);
 
     const state = this.innerEditorView.state;
+    let shouldDispatchTransaction = false;
+    let tr = state.tr;
 
-    // Figure out the smallest change to the node content we need to make
-    // to successfully update the inner editor, and apply it.
-
-    const diffStart = node.content.findDiffStart(state.doc.content);
-
-    if (diffStart === null) {
-      return this.maybeRerenderDecorations();
-    }
-
-    const diffEnd = node.content.findDiffEnd(state.doc.content);
-    if (!diffEnd) {
-      // There's no difference between these nodes.
-      return this.maybeRerenderDecorations();
-    }
-
-    let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
-
-    // This overlap accounts for a situation where we're diffing nodes where we encounter
-    // identical content.
-    //
-    // For example, if the inner node has content 'a', and the outer node has content 'aa',
-    // `diffStart` sees (numbers are positions, ^ denotes the value found by the method)
-    //
-    // ab    inner node
-    // abb   outer node
-    // 123
-    //   ^
-    //
-    // `diffEnd` for the inner node is
-    //  ab   inner node
-    // abb   outer node
-    // 123
-    //  ^
-    //
-    // But 2 is not the correct end of the diff. The correct diff is (3, 3).
-    //
-    // This happens because `findDiffEnd` finds the first point at which the content differs,
-    // starting from the end of the nodes. So if we encounter identical content, the diff will
-    // be shorter by the length of the identical content we encounter – or the overlap between
-    // the two nodes from the point of view of the diff.
-    const overlap = diffStart - Math.min(endOfOuterDiff, endOfInnerDiff);
-    if (overlap > 0) {
-      endOfOuterDiff += overlap;
-      endOfInnerDiff += overlap;
-    }
+    // Check if the inner selection needs to be updated
 
     if (selection) {
       // Check if incoming selection is within this field
@@ -207,45 +165,82 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
         incomingAnchorPos > fieldStart && incomingAnchorPos < fieldEnd;
       const selectionHeadIsWithinThisField =
         incomingHeadPos > fieldStart && incomingHeadPos < fieldEnd;
-
       if (selectionAnchorIsWithinThisField && selectionHeadIsWithinThisField) {
-        // The inner editor's selection will be offset relative to the start of this field, compared to the incoming selection
+        // The inner editor's selection will be offset relative to the start of this field, 
+        // compared to the incoming selection
         const currentAnchorPos = this.innerEditorView.state.selection.$anchor
           .pos;
         const currentHeadPos = this.innerEditorView.state.selection.$head.pos;
         const offsetIncomingAnchorPos = incomingAnchorPos - fieldStart;
         const offsetIncomingHeadPos = selection.$head.pos - fieldStart;
-
         if (
           currentAnchorPos !== offsetIncomingAnchorPos ||
           currentHeadPos !== offsetIncomingHeadPos
         ) {
           const offsetMap = StepMap.offset(-fieldStart);
           const mappedSelection = selection.map(state.tr.doc, offsetMap);
-
-          this.innerEditorView.dispatch(
-            state.tr
-              .setSelection(mappedSelection)
-              .replace(
-                diffStart,
-                endOfInnerDiff,
-                node.slice(diffStart, endOfOuterDiff)
-              )
-              .setMeta("fromOutside", true)
-          );
-          return;
+          shouldDispatchTransaction = true;
+          tr = tr.setSelection(mappedSelection)
         }
       }
     }
-    this.innerEditorView.dispatch(
-      state.tr
-        .replace(
-          diffStart,
-          endOfInnerDiff,
-          node.slice(diffStart, endOfOuterDiff)
-        )
-        .setMeta("fromOutside", true)
-    );
+
+    // Check if the passed-in Node is different to the existing content, 
+    // figure out the smallest change to the node content we need to make to
+    // successfully update the inner editor, and apply it.
+
+    const diffStart = node.content.findDiffStart(state.doc.content);
+    const diffEnd = node.content.findDiffEnd(state.doc.content);
+
+    if (diffStart && diffEnd){
+    let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
+    let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
+
+      let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
+
+      // This overlap accounts for a situation where we're diffing nodes where we encounter
+      // identical content.
+      //
+      // For example, if the inner node has content 'a', and the outer node has content 'aa',
+      // `diffStart` sees (numbers are positions, ^ denotes the value found by the method)
+      //
+      // ab    inner node
+      // abb   outer node
+      // 123
+      //   ^
+      //
+      // `diffEnd` for the inner node is
+      //  ab   inner node
+      // abb   outer node
+      // 123
+      //  ^
+      //
+      // But 2 is not the correct end of the diff. The correct diff is (3, 3).
+      //
+      // This happens because `findDiffEnd` finds the first point at which the content differs,
+      // starting from the end of the nodes. So if we encounter identical content, the diff will
+      // be shorter by the length of the identical content we encounter – or the overlap between
+      // the two nodes from the point of view of the diff.
+      const overlap = diffStart - Math.min(endOfOuterDiff, endOfInnerDiff);
+      if (overlap > 0) {
+        endOfOuterDiff += overlap;
+        endOfInnerDiff += overlap;
+      }
+      
+      shouldDispatchTransaction = true;
+      tr = tr.replace(
+        diffStart,
+        endOfInnerDiff,
+        node.slice(diffStart, endOfOuterDiff)
+      )
+    }
+    if (shouldDispatchTransaction){
+      this.innerEditorView.dispatch(
+        tr.setMeta("fromOutside", true)
+      );
+    } else {
+      return this.maybeRerenderDecorations()
+    }
   }
 
   private updateOuterEditor(
