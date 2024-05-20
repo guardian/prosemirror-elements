@@ -110,34 +110,6 @@ const altStyleElementName = "alt-style";
 const repeaterElementName = "repeater";
 const nestedElementName = "nested";
 
-type Name =
-  | typeof embedElementName
-  | typeof imageElementName
-  | typeof demoImageElementName
-  | typeof codeElementName
-  | typeof formElementName
-  | typeof pullquoteElementName
-  | typeof recipeElementName
-  | typeof richlinkElementName
-  | typeof interactiveElementName
-  | typeof videoElementName
-  | typeof mapElementName
-  | typeof audioElementName
-  | typeof documentElementName
-  | typeof tableElementName
-  | typeof membershipElementName
-  | typeof witnessElementName
-  | typeof instagramElementName
-  | typeof vineElementName
-  | typeof tweetElementName
-  | typeof contentAtomName
-  | typeof commentElementName
-  | typeof campaignCalloutListElementName
-  | typeof cartoonElementName
-  | typeof altStyleElementName
-  | typeof repeaterElementName
-  | typeof nestedElementName;
-
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
   html.includes("fail")
@@ -179,94 +151,94 @@ const standardElement = createStandardElement({
 
 const telemetryEventService = new UserTelemetryEventSender("example.com");
 
+const elements = {
+  [demoImageElementName]: createDemoImageElement(
+    onSelectImage,
+    onDemoCropImage
+  ),
+  [imageElementName]: imageElement,
+  [embedElementName]: createEmbedElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    convertTwitter: (src) => console.log(`Add Twitter embed with src: ${src}`),
+    convertYouTube: (src) => console.log(`Add youtube embed with src: ${src}`),
+    createCaptionPlugins,
+    targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+  }),
+  [campaignCalloutListElementName]: createCalloutElement({
+    fetchCampaignList: () => Promise.resolve(sampleCampaignList),
+    targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
+  }),
+  [interactiveElementName]: createInteractiveElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    createCaptionPlugins,
+  }),
+  [codeElementName]: codeElement,
+  [formElementName]: deprecatedElement,
+  [pullquoteElementName]: pullquoteElement,
+  [recipeElementName]: recipeElement,
+  "rich-link": richlinkElement,
+  [videoElementName]: createStandardElement({
+    createCaptionPlugins,
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    hasThumbnailRole: false,
+  }),
+  [audioElementName]: standardElement,
+  [mapElementName]: standardElement,
+  [tableElementName]: tableElement,
+  [documentElementName]: createStandardElement({
+    createCaptionPlugins,
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    useLargePreview: true,
+  }),
+  [membershipElementName]: membershipElement,
+  [witnessElementName]: deprecatedElement,
+  [vineElementName]: deprecatedElement,
+  [instagramElementName]: deprecatedElement,
+  [commentElementName]: commentElement,
+  [cartoonElementName]: createCartoonElement(
+    onCropCartoon,
+    createCaptionPlugins
+  ),
+  [tweetElementName]: createTweetElement({
+    checkThirdPartyTracking: mockThirdPartyTracking,
+    createCaptionPlugins,
+  }),
+  [contentAtomName]: createContentAtomElement(() =>
+    Promise.resolve({
+      title: "Test Atom",
+      defaultHtml: `<div class="atom-Profile">
+        <p><strong>Test item</strong></p>
+        <p><p>-here is a test item</p></p>
+        <p><strong>second post</strong></p>
+        <p><p>- test</p></p>
+      </div>`,
+      isPublished: false,
+      hasUnpublishedChanges: true,
+      embedLink: "https://example.com",
+      editorLink: "https://example.com",
+    })
+  ),
+  [altStyleElementName]: keyTakeawaysElement,
+  [repeaterElementName]: repeaterElement,
+  [nestedElementName]: nestedElement,
+};
+
 const {
   plugin: elementPlugin,
   insertElement,
   nodeSpec,
   getElementDataFromNode,
-} = buildElementPlugin(
-  {
-    "demo-image-element": createDemoImageElement(
-      onSelectImage,
-      onDemoCropImage
-    ),
-    image: imageElement,
-    embed: createEmbedElement({
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      convertTwitter: (src) =>
-        console.log(`Add Twitter embed with src: ${src}`),
-      convertYouTube: (src) =>
-        console.log(`Add youtube embed with src: ${src}`),
-      createCaptionPlugins,
-      targetingUrl: "https://targeting.code.dev-gutools.co.uk",
+} = buildElementPlugin(elements, {
+  sendTelemetryEvent: (type: string, tags) =>
+    telemetryEventService.addEvent({
+      app: "ProseMirrorElements",
+      stage: "TEST",
+      eventTime: new Date().toISOString(),
+      type,
+      value: true,
+      tags,
     }),
-    callout: createCalloutElement({
-      fetchCampaignList: () => Promise.resolve(sampleCampaignList),
-      targetingUrl: "https://targeting.code.dev-gutools.co.uk/",
-    }),
-    interactive: createInteractiveElement({
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      createCaptionPlugins,
-    }),
-    code: codeElement,
-    form: deprecatedElement,
-    pullquote: pullquoteElement,
-    recipe: recipeElement,
-    "rich-link": richlinkElement,
-    video: createStandardElement({
-      createCaptionPlugins,
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      hasThumbnailRole: false,
-    }),
-    audio: standardElement,
-    map: standardElement,
-    table: tableElement,
-    document: createStandardElement({
-      createCaptionPlugins,
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      useLargePreview: true,
-    }),
-    membership: membershipElement,
-    witness: deprecatedElement,
-    vine: deprecatedElement,
-    instagram: deprecatedElement,
-    comment: commentElement,
-    cartoon: createCartoonElement(onCropCartoon, createCaptionPlugins),
-    tweet: createTweetElement({
-      checkThirdPartyTracking: mockThirdPartyTracking,
-      createCaptionPlugins,
-    }),
-    "content-atom": createContentAtomElement(() =>
-      Promise.resolve({
-        title: "Test Atom",
-        defaultHtml: `<div class="atom-Profile">
-          <p><strong>Test item</strong></p>
-          <p><p>-here is a test item</p></p>
-          <p><strong>second post</strong></p>
-          <p><p>- test</p></p>
-        </div>`,
-        isPublished: false,
-        hasUnpublishedChanges: true,
-        embedLink: "https://example.com",
-        editorLink: "https://example.com",
-      })
-    ),
-    "alt-style": keyTakeawaysElement,
-    repeater: repeaterElement,
-    nested: nestedElement,
-  },
-  {
-    sendTelemetryEvent: (type: string, tags) =>
-      telemetryEventService.addEvent({
-        app: "ProseMirrorElements",
-        stage: "TEST",
-        eventTime: new Date().toISOString(),
-        type,
-        value: true,
-        tags,
-      }),
-  }
-);
+});
 
 const strike: MarkSpec = {
   parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
@@ -397,15 +369,15 @@ const createEditor = (server: CollabServer) => {
 
   const createElementButton = (
     buttonText: string,
-    elementName: Name,
-    values: Record<string, unknown>
+    elementName: keyof typeof elements,
+    values: Record<string, any>
   ) => {
     const elementButton = document.createElement("button");
     elementButton.innerHTML = `Add ${buttonText}`;
     elementButton.id = elementName;
-    elementButton.addEventListener("click", () =>
-      insertElement({ elementName, values })(view.state, view.dispatch)
-    );
+    elementButton.addEventListener("click", () => {
+      insertElement({ elementName, values })(view.state, view.dispatch);
+    });
     btnContainer.appendChild(elementButton);
   };
 
