@@ -303,9 +303,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   }
 
   protected applyDecorationsFromOuterEditor(
-    decorations: DecorationSource,
-    node: Node,
-    elementOffset: number
+    decorations: DecorationSource, // The decorations for the NodeView that represents this element
+    node: Node, // The node that represents the field
+    fieldOffset: number // The offset of the field, relative to this element
   ) {
     // Do nothing if the decorations have not changed.
     if (decorations === this.outerDecorations) {
