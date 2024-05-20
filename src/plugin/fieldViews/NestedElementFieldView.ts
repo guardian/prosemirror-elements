@@ -1,5 +1,6 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
 import type { PluginKey } from "prosemirror-state";
+import { Mapping, StepMap } from "prosemirror-transform";
 import type {
   DecorationSource,
   EditorProps,
@@ -154,6 +155,31 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     this.fieldViewElement.classList.add(
       "ProseMirrorElements__NestedElementField"
     );
+  }
+
+  protected applyDecorationsFromOuterEditor(
+    decorations: DecorationSource,
+    node: Node,
+    elementOffset: number
+  ) {
+    // Do nothing if the decorations have not changed.
+    if (decorations === this.outerDecorations) {
+      return;
+    }
+
+    this.outerDecorations = decorations;
+
+    // We receive decorations from the parent document, so we must
+    // only deal with the subset of decorations that apply to this node.
+    const localDecoSet = decorations
+      .forChild(0, node) // Reach into the nested node
+      .forChild(elementOffset - 2, node); // And ... something else. Likely an artefact of repeater parents.
+
+    const localOffset = -1;
+    const offsetMap = new Mapping([StepMap.offset(localOffset)]);
+
+    this.decorations = localDecoSet.map(offsetMap, node);
+    this.decorationsPending = true;
   }
 
   protected getInnerEditorPropsOverrides(outerView: EditorView): EditorProps {
