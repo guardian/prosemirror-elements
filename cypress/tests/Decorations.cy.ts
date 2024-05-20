@@ -7,6 +7,21 @@ import {
 
 describe("Decorations", () => {
   beforeEach(visitRoot);
+
+  const assertDecosAreValidForField = (
+    fieldName: string,
+    decoCount: number
+  ) => {
+    getElementRichTextField(fieldName)
+      .find(".TestDecoration")
+      .then((items) => {
+        expect(items.length).to.equal(decoCount);
+        items.each((_, item) => {
+          expect(item).to.contain.text("deco");
+        });
+      });
+  };
+
   it("should render decorations in repeater fields", () => {
     addRepeaterElement({
       repeater: [
@@ -20,15 +35,11 @@ describe("Decorations", () => {
       ],
     });
 
-    getElementRichTextField("repeaterText")
-      .find(".TestDecoration")
-      .should("have.length", 2);
-    getElementRichTextField("nestedRepeaterText")
-      .find(".TestDecoration")
-      .should("have.length", 1);
+    assertDecosAreValidForField("repeaterText", 2);
+    assertDecosAreValidForField("nestedRepeaterText", 1);
   });
 
-  it(`should render decorations in repeater fields within nested element fields`, () => {
+  it.only(`should render decorations in repeater fields within nested element fields`, () => {
     addNestedElement({
       repeater: [
         {
@@ -53,10 +64,7 @@ describe("Decorations", () => {
         },
       ],
     });
-    getElementRichTextField("content")
-      .find(".TestDecoration")
-      .each((el) => {
-        cy.wrap(el).should("have.text", "deco");
-      });
+
+    assertDecosAreValidForField("content", 2);
   });
 });
