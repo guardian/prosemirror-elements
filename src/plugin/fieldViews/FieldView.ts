@@ -1,5 +1,6 @@
 import { uniqueId } from "lodash";
 import type { Node } from "prosemirror-model";
+import type { Selection } from "prosemirror-state";
 import type { DecorationSource } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
 
@@ -45,7 +46,8 @@ export abstract class FieldView<NodeValue> {
   public abstract onUpdate(
     node: Node,
     elementOffset: number,
-    decorations: DecorationSource
+    decorations: DecorationSource,
+    selection: Selection
   ): boolean;
 
   /**

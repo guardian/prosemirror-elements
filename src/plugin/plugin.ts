@@ -221,6 +221,7 @@ const createNodeView = <
   let currentDecos = innerDecos;
   let currentIsSelected = false;
   let currentCommandValues = getCommandValues(initCommands);
+  let currentSelection = view.state.selection;
 
   const getElementDataForUpdator = () =>
     getFieldValuesFromNode(
@@ -257,6 +258,7 @@ const createNodeView = <
         const newIsSelected = isProseMirrorElementSelected(newNode);
         const newCommands = commands(getPos, view);
         const newCommandValues = getCommandValues(newCommands);
+        const newSelection = view.state.selection;
 
         const isSelectedChanged = currentIsSelected !== newIsSelected;
         const innerDecosChanged = currentDecos !== innerDecos;
@@ -265,6 +267,7 @@ const createNodeView = <
           currentCommandValues,
           newCommandValues
         );
+        const selectionHasChanged = !newSelection.eq(currentSelection);
 
         // Only recalculate our field values if our node content has changed.
         const newFields = fieldValuesChanged
@@ -280,16 +283,23 @@ const createNodeView = <
             })
           : currentFields;
 
-        // Only update our FieldViews if their content or decorations have changed.
+        // Only update our FieldViews if their content or decorations have changed, or the selection has changed.
         // nestedElement FieldViews are always updated as a workaround for a bug
         // with merging text elements in the zipRoot plugin after an intermediate element is
         // deleted.
         if (
           fieldValuesChanged ||
           innerDecosChanged ||
-          anyDescendantFieldIsNestedElementField(newNode)
+          anyDescendantFieldIsNestedElementField(newNode) ||
+          selectionHasChanged
         ) {
-          updateFieldViewsFromNode(newFields, newNode, innerDecos);
+          updateFieldViewsFromNode(
+            newFields,
+            newNode,
+            innerDecos,
+            0,
+            newSelection
+          );
         }
 
         // Only update our consumer if anything internal to the field has changed.
@@ -302,6 +312,7 @@ const createNodeView = <
         currentDecos = innerDecos;
         currentFields = newFields;
         currentCommandValues = newCommandValues;
+        currentSelection = newSelection;
 
         return true;
       }

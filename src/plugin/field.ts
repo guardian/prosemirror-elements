@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { set } from "lodash/fp";
 import type { DOMSerializer, Node } from "prosemirror-model";
+import type { Selection } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
@@ -352,14 +353,15 @@ export const updateFieldViewsFromNode = <
   fields: FieldNameToField<FDesc>,
   node: Node,
   decos: DecorationSource,
-  offset = 0
+  offset = 0,
+  selection?: Selection
 ) => {
   node.forEach((node, localOffset) => {
     const fieldName = getFieldNameFromNode(
       node
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    field.view.onUpdate(node, offset + localOffset, decos);
+    field.view.onUpdate(node, offset + localOffset, decos, selection);
 
     if (!isRepeaterField(field)) {
       return;
@@ -378,7 +380,8 @@ export const updateFieldViewsFromNode = <
         field.children[index],
         childNode,
         repeaterDecos,
-        offset + localOffset + repeaterOffset + depthOffset
+        offset + localOffset + repeaterOffset + depthOffset,
+        selection
       );
     });
   });
