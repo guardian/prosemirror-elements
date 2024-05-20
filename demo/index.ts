@@ -24,8 +24,10 @@ import type { MediaPayload } from "../src/elements/helpers/types/Media";
 import { createImageElement } from "../src/elements/image/ImageElementForm";
 import { createInteractiveElement } from "../src/elements/interactive/InteractiveForm";
 import { membershipElement } from "../src/elements/membership/MembershipForm";
+import { nestedElement } from "../src/elements/nested/NestedElementForm";
 import { pullquoteElement } from "../src/elements/pullquote/PullquoteForm";
 import { recipeElement } from "../src/elements/recipe/RecipeElementForm";
+import { repeaterElement } from "../src/elements/repeater/RepeaterElementForm";
 import { richlinkElement } from "../src/elements/rich-link/RichlinkForm";
 import { createStandardElement } from "../src/elements/standard/StandardForm";
 import { tableElement } from "../src/elements/table/TableForm";
@@ -66,8 +68,10 @@ import {
   sampleInteractiveAtom,
   sampleMap,
   sampleMembership,
+  sampleNested,
   samplePullquote,
   sampleRecipe,
+  sampleRepeater,
   sampleRichLink,
   sampleTable,
   sampleTweet,
@@ -103,6 +107,8 @@ const commentElementName = "comment";
 const campaignCalloutListElementName = "callout";
 const cartoonElementName = "cartoon";
 const altStyleElementName = "alt-style";
+const repeaterElementName = "repeater";
+const nestedElementName = "nested";
 
 type Name =
   | typeof embedElementName
@@ -128,7 +134,9 @@ type Name =
   | typeof commentElementName
   | typeof campaignCalloutListElementName
   | typeof cartoonElementName
-  | typeof altStyleElementName;
+  | typeof altStyleElementName
+  | typeof repeaterElementName
+  | typeof nestedElementName;
 
 const createCaptionPlugins = (schema: Schema) => exampleSetup({ schema });
 const mockThirdPartyTracking = (html: string) =>
@@ -244,6 +252,8 @@ const {
       })
     ),
     "alt-style": keyTakeawaysElement,
+    repeater: repeaterElement,
+    nested: nestedElement,
   },
   {
     sendTelemetryEvent: (type: string, tags) =>
@@ -442,6 +452,8 @@ const createEditor = (server: CollabServer) => {
       name: altStyleElementName,
       values: sampleAltStylesElement,
     },
+    { label: "Repeater", name: repeaterElementName, values: sampleRepeater },
+    { label: "Nested", name: nestedElementName, values: sampleNested },
   ] as const;
 
   buttonData.map(({ label, name, values }) =>

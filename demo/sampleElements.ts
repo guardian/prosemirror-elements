@@ -268,11 +268,52 @@ export const sampleImage = {
   ],
 };
 
+export const sampleRepeater = {
+  repeater: [
+    {
+      repeaterText: "Example repeater text 1 deco",
+      nestedRepeater: [
+        { nestedRepeaterText: "Example nested repeater text 1 deco" },
+      ],
+    },
+    { repeaterText: "Example repeater text 2 deco" },
+  ],
+};
+
 export const sampleCallout = {
   altText: "",
   caption: "",
   html:
     '<div data-callout-tagname="callout-demo-2"><h2>Callout<h2><p>callout-demo-2</p></div>',
+};
+
+export const sampleNested = {
+  repeater: [
+    {
+      content: [
+        {
+          elementType: "pullquote",
+          fields: {
+            html: "1",
+            attribution: "",
+            weighting: "supporting",
+          },
+        },
+      ],
+    },
+    {
+      content: [
+        {
+          elementType: "pullquote",
+          fields: {
+            html: "2",
+            attribution: "",
+            weighting: "supporting",
+          },
+        },
+      ],
+    },
+  ],
 };
 
 export const sampleCampaignCalloutList = {};
