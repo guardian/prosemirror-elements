@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.1
+
+### Patch Changes
+
+- 2fc82a8: Handle selection changes passed from outer editor in ProseMirrorFieldViews
+
 ## 9.6.0
 
 ### Minor Changes
