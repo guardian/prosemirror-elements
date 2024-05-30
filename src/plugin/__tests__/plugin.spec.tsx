@@ -85,13 +85,14 @@ describe("createPlugin", () => {
     createEditorWithSingleElementPresent(defaultEditorOptions);
 
   describe("Response to content changes", () => {
-    it("should not update consumers or fieldViews when the element content has not changed", () => {
+    it("should not update consumers or fieldViews when the element content and selection have not changed", () => {
       const { view, exampleText } = createDefaultEditor();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
       const initialFieldViewUpdateCount = fieldViewRenderSpy.mock.calls.length;
 
       const positionAfterElement = 19;
+      // replace does not update the selection
       const tr = view.state.tr.replace(
         positionAfterElement,
         positionAfterElement,
@@ -107,7 +108,7 @@ describe("createPlugin", () => {
       );
     });
 
-    it("should call the consumer and FieldView when the element content has changed", () => {
+    it("should call the consumer and FieldView when the element content has changed, but the selection has not", () => {
       const { view, exampleText } = createDefaultEditor();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
@@ -115,10 +116,11 @@ describe("createPlugin", () => {
 
       // This edit falls inside of the element, inserting new content
       const positionInsideElement = 5;
-      const tr = view.state.tr.replaceWith(
+      // replace does not update the selection
+      const tr = view.state.tr.replace(
         positionInsideElement,
         positionInsideElement,
-        exampleText
+        new Slice(Fragment.from(exampleText), 0, 0)
       );
       view.dispatch(tr);
 
@@ -130,11 +132,12 @@ describe("createPlugin", () => {
       );
     });
 
-    it("should provide the consumer with new field values when element content has changed", () => {
+    it("should provide the consumer with new field values when element content and selection have changed", () => {
       const { view, exampleText } = createDefaultEditor();
 
       // This edit covers the whole of the element field, replacing its content
       const positionInsideElement = 2;
+      // replaceWith does update the selection
       const tr = view.state.tr.replaceWith(
         positionInsideElement,
         positionInsideElement + 15,
