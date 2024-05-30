@@ -197,6 +197,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     const diffStart = node.content.findDiffStart(state.doc.content);
     const diffEnd = node.content.findDiffEnd(state.doc.content);
 
+    // Check for null specifically, rather than falsiness, because a diff starting at pos 0 is a valid diff
     if (diffStart !== null && diffEnd) {
       let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
       // This overlap accounts for a situation where we're diffing nodes where we encounter

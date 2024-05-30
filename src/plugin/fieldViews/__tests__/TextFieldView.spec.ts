@@ -115,4 +115,121 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     expect(updatedSelection?.from).toBe(0);
     expect(updatedSelection?.to).toBe(0);
   });
+
+  it(`should update its internal doc when a node with different content is passed in, 
+      with different content starting at the first position of the inner editor`, () => {
+    const { view } = createEditorWithElements(
+      [],
+      "Some arbitrary text content"
+    );
+    const nodeName = getNodeNameFromField("testField", "doc");
+    const node = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("bcdef")
+    );
+    const decorations = DecorationSet.create(view.state.doc, []);
+    const fieldView = new TestProseMirrorFieldView(
+      node,
+      view,
+      () => 0,
+      0,
+      decorations,
+      textFieldDescription
+    );
+    const offset = fieldView.offset;
+    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
+    if (!textFieldViewInnerEditor)
+      throw new Error("Text field editor was undefined");
+
+    const newNode = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("abcdef")
+    );
+    fieldView.onUpdate(newNode, offset, decorations);
+    const updatedNode = fieldView.getInnerEditorView()?.state.doc;
+
+    expect(updatedNode?.textContent).toBe("abcdef");
+  });
+
+  it(`should update its internal doc when a node with different content is passed in, 
+      with different content only in the final position of the inner editor`, () => {
+    const { view } = createEditorWithElements(
+      [],
+      "Some arbitrary text content"
+    );
+    const nodeName = getNodeNameFromField("testField", "doc");
+    const node = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("abcdd")
+    );
+    const decorations = DecorationSet.create(view.state.doc, []);
+    const fieldView = new TestProseMirrorFieldView(
+      node,
+      view,
+      () => 0,
+      0,
+      decorations,
+      textFieldDescription
+    );
+    const offset = fieldView.offset;
+    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
+    if (!textFieldViewInnerEditor)
+      throw new Error("Text field editor was undefined");
+
+    const newNode = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("abcde")
+    );
+    fieldView.onUpdate(newNode, offset, decorations);
+    const updatedNode = fieldView.getInnerEditorView()?.state.doc;
+
+    expect(updatedNode?.textContent).toBe("abcde");
+  });
+
+  it(`should update its internal doc when a node with different content is passed in, 
+      with different content not at the beginning or end of the inner editor`, () => {
+    const { view } = createEditorWithElements(
+      [],
+      "Some arbitrary text content"
+    );
+    const nodeName = getNodeNameFromField("testField", "doc");
+    const node = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("apple")
+    );
+    const decorations = DecorationSet.create(view.state.doc, []);
+    const fieldView = new TestProseMirrorFieldView(
+      node,
+      view,
+      () => 0,
+      0,
+      decorations,
+      textFieldDescription
+    );
+    const offset = fieldView.offset;
+    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
+    if (!textFieldViewInnerEditor)
+      throw new Error("Text field editor was undefined");
+
+    const newNode = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("abcde")
+    );
+    fieldView.onUpdate(newNode, offset, decorations);
+    const updatedNode = fieldView.getInnerEditorView()?.state.doc;
+
+    expect(updatedNode?.textContent).toBe("abcde");
+  });
 });
