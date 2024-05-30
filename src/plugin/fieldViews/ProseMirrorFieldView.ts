@@ -197,7 +197,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     const diffStart = node.content.findDiffStart(state.doc.content);
     const diffEnd = node.content.findDiffEnd(state.doc.content);
 
-    if (diffStart && diffEnd) {
+    if (diffStart !== null && diffEnd) {
       let { a: endOfOuterDiff, b: endOfInnerDiff } = diffEnd;
       // This overlap accounts for a situation where we're diffing nodes where we encounter
       // identical content.
