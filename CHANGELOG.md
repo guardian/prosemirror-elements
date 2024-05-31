@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.2
+
+### Patch Changes
+
+- d480886: Fix bug for elements changes that start at pos 0
+
 ## 9.6.1
 
 ### Patch Changes
