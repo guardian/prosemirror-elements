@@ -1,5 +1,5 @@
 import { DOMParser } from "prosemirror-model";
-import type { AttributeSpec, Node } from "prosemirror-model";
+import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
@@ -79,13 +79,20 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     node: Node,
     elementOffset: number,
     decorations: DecorationSource,
-    selection?: Selection
+    selection?: Selection,
+    storedMarks?: readonly Mark[] | null
   ) {
     if (!node.hasMarkup(this.node.type)) {
       return false;
     }
 
-    this.updateInnerEditor(node, decorations, elementOffset, selection);
+    this.updateInnerEditor(
+      node,
+      decorations,
+      elementOffset,
+      selection,
+      storedMarks
+    );
 
     return true;
   }
@@ -136,7 +143,8 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     node: Node,
     decorations: DecorationSource,
     elementOffset: number,
-    selection?: Selection
+    selection?: Selection,
+    storedMarks?: readonly Mark[] | null
   ) {
     if (!this.innerEditorView) {
       return;
@@ -236,6 +244,14 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
         node.slice(diffStart, endOfOuterDiff)
       );
     }
+
+    if (storedMarks) {
+      storedMarks.forEach((mark) => {
+        tr = tr.addStoredMark(mark);
+        shouldDispatchTransaction = true;
+      });
+    }
+
     if (shouldDispatchTransaction) {
       this.innerEditorView.dispatch(tr.setMeta("fromOutside", true));
     } else {
