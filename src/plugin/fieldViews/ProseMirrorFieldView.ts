@@ -246,14 +246,15 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     }
 
     if (storedMarks) {
-      storedMarks.forEach((mark) => {
-        tr = tr.addStoredMark(mark);
-        shouldDispatchTransaction = true;
-      });
+      shouldDispatchTransaction = true;
     }
 
     if (shouldDispatchTransaction) {
-      this.innerEditorView.dispatch(tr.setMeta("fromOutside", true));
+      tr = tr.setMeta("fromOutside", true);
+      if (storedMarks) {
+        tr = tr.setStoredMarks(storedMarks);
+      }
+      this.innerEditorView.dispatch(tr);
     } else {
       return this.maybeRerenderDecorations();
     }

@@ -362,7 +362,13 @@ export const updateFieldViewsFromNode = <
       node
     ) as keyof FieldNameToField<FDesc>;
     const field = fields[fieldName];
-    field.view.onUpdate(node, offset + localOffset, decos, selection, storedMarks);
+    field.view.onUpdate(
+      node,
+      offset + localOffset,
+      decos,
+      selection,
+      storedMarks
+    );
 
     if (!isRepeaterField(field)) {
       return;
