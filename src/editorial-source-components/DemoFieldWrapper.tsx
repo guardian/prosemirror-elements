@@ -44,7 +44,7 @@ export const DemoFieldWrapper = <F extends Field<FieldView<unknown>>>({
     ) : null}
     <FieldComponent
       field={field}
-      hasValidationErrors={!!field.errors.length}
+      hasValidationErrors={field.errors.length > 0}
       useAlternateStyles={useAlternateStyles}
     />
   </div>

@@ -17,7 +17,7 @@ module.exports = {
             // This rule also errors on any ambiguous type comparisons (e.g !! on a type `null | undefined | ""`)
             // https://typescript-eslint.io/rules/strict-boolean-expressions/
             allowString: true,
-            allowNumber: true,
+            allowNumber: false,
             allowNullableObject: true,
             allowNullableBoolean: true,
             allowNullableString: true,

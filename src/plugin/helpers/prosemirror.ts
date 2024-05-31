@@ -122,7 +122,7 @@ const moveNode = (consumerPredicate: Predicate) => (
   const to = node ? pos + node.nodeSize : pos;
   const tr = state.tr.deleteRange(pos, to);
 
-  if (node && (nextPos || nextPos === 0)) {
+  if (node) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
     tr.insert(insertPos, node.cut(0));
   }

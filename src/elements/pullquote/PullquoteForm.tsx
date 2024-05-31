@@ -14,17 +14,18 @@ export const pullquoteElement = createReactElementSpec({
     // It is necessary to filter errors for the HTML field as we have two overlapping length check validators.
     // We only want to show the smaller length check "warning" instead of the higher length check "error".
     // The desired behaviour is to display a "WARN" level error if there is one, otherwise show what's found.
-    const htmlErrors = fields.html.errors.length
-      ? [
-          fields.html.errors.reduce((acc, cur) => {
-            if (acc.level === "WARN") {
-              return acc;
-            } else {
-              return cur;
-            }
-          }),
-        ]
-      : [];
+    const htmlErrors =
+      fields.html.errors.length > 0
+        ? [
+            fields.html.errors.reduce((acc, cur) => {
+              if (acc.level === "WARN") {
+                return acc;
+              } else {
+                return cur;
+              }
+            }),
+          ]
+        : [];
 
     return (
       <div data-cy={PullquoteElementTestId}>

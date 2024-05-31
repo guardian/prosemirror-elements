@@ -146,7 +146,7 @@ export const htmlRequired = (
   }
   const el = document.createElement("div");
   el.innerHTML = value ?? "";
-  if (!el.innerText.length) {
+  if (el.innerText.length === 0) {
     return [
       {
         error: "Required",

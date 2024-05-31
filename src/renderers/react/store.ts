@@ -26,7 +26,7 @@ export const createStore = <Value>(initialValue: Value) => {
     update: (val: Value): boolean => {
       store.currentValue = val;
       subscribers.forEach((sub) => sub(store.getValue()));
-      return subscribers.length ? true : false;
+      return subscribers.length > 0;
     },
 
     /**

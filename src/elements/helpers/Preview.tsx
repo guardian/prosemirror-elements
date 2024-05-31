@@ -59,7 +59,7 @@ const maxHeightRelativeToViewport = 0.5;
 const hasInnerText = (html: string) => {
   const div = document.createElement("div");
   div.innerHTML = html;
-  return !!div.innerText.trim().length;
+  return div.innerText.trim().length > 0;
 };
 
 export const Preview = ({
