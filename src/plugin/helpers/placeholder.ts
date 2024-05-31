@@ -58,13 +58,13 @@ export const createPlaceholderPlugin = (text: PlaceholderOption) =>
           PME_UPDATE_PLACEHOLDER
         );
 
-        return newPlaceholder ? newPlaceholder : oldPlaceholder;
+        return newPlaceholder !== undefined ? newPlaceholder : oldPlaceholder;
       },
     },
     props: {
       decorations: (state: EditorState) => {
         const placeholder = placeholderPluginKey.getState(state);
-        if (!placeholder || state.doc.textContent) {
+        if (placeholder === undefined || state.doc.textContent) {
           return DecorationSet.empty;
         }
 

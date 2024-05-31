@@ -72,7 +72,7 @@ export const transformElementIn = <Name extends keyof TransformMap>(
   const transformer = transformMap[elementName];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- This may be used in a JS context and be falst
-  if (transformer) {
+  if (transformer !== undefined) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
     const result = transformer.in((values as unknown) as any);
     return result as ReturnType<TransformMapIn<Name>>;
@@ -88,7 +88,7 @@ export const transformElementOut = <Name extends keyof TransformMap>(
   const transformer = transformMap[elementName];
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- This may be used in a JS context and be falst
-  if (transformer) {
+  if (transformer !== undefined) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Required due to typesafety complexity between transformer and params
     const result = transformer.out((values as unknown) as any);
     return result as ReturnType<TransformMapOut<Name>>;

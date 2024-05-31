@@ -125,7 +125,7 @@ export const createCalloutElement = ({
         (campaign) => campaign.id === campaignId
       );
       const isActiveCallout =
-        !callout?.activeUntil || callout.activeUntil >= Date.now();
+        callout?.activeUntil === undefined || callout.activeUntil >= Date.now();
       const trimmedTargetingUrl = targetingUrl.replace(/\/$/, "");
 
       return campaignId && campaignId != "none-selected" ? (

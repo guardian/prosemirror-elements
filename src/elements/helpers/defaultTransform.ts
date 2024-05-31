@@ -42,7 +42,7 @@ export const transformElementDataIn = <FDesc extends FieldDescriptions<string>>(
       fields.isMandatory === "true";
   }
 
-  if (assets?.length) {
+  if (assets?.length !== undefined && assets.length > 0) {
     return { ...transformedFields, assets };
   }
 

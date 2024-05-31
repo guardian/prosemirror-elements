@@ -106,7 +106,7 @@ export class TextFieldView extends ProseMirrorFieldView {
 
     const br = node.type.schema.nodes.hard_break;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it is possible for this to be false.
-    const enableMultiline = !!br && isMultiline;
+    const enableMultiline = br !== undefined && isMultiline;
 
     if (enableMultiline) {
       const newLineCommand = isCode
@@ -142,7 +142,7 @@ export class TextFieldView extends ProseMirrorFieldView {
       dom.style.whiteSpace = "pre-wrap";
     }
 
-    if (enableMultiline || maxRows) {
+    if (enableMultiline || maxRows !== undefined) {
       // We wait to ensure that the browser has applied the appropriate styles.
       void waitForNextLayout().then(() => {
         if (!this.innerEditorView) {
@@ -167,7 +167,7 @@ export class TextFieldView extends ProseMirrorFieldView {
           }
         }
 
-        if (maxRows) {
+        if (maxRows !== undefined) {
           const maxHeightPx = `${
             parseInt(lineHeight, 10) * maxRows + parseInt(paddingTop)
           }px`;

@@ -143,7 +143,7 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
           this.innerEditorView.dom
         );
         const domElement = this.innerEditorView.dom as HTMLDivElement;
-        if (minRows) {
+        if (minRows !== undefined) {
           const initialInputHeightPx = `${
             parseInt(lineHeight, 10) * minRows + parseInt(paddingTop) * 2
           }px`;

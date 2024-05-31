@@ -93,7 +93,7 @@ export const getFieldsFromNode = <
     ) as keyof FieldNameToField<FDesc>;
     const fieldDescription = fieldDescriptions[fieldName];
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- strictly, we should check.
-    if (!fieldDescription) {
+    if (fieldDescription === undefined) {
       throw new Error(
         getErrorMessageForAbsentField(fieldName, Object.keys(fieldDescriptions))
       );
@@ -227,7 +227,7 @@ export const updateFieldsFromNode = <
     const field = fields[fieldName];
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this is possible at runtime.
-    if (!field) {
+    if (field === undefined) {
       throw new Error(
         getErrorMessageForAbsentField(fieldName, Object.keys(fields))
       );

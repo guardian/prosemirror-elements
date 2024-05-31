@@ -60,7 +60,7 @@ export const validateValue = (
 ): ValidationError[] => {
   const errors = [] as ValidationError[];
 
-  if (validators?.length) {
+  if (validators?.length !== undefined) {
     validators.forEach((validate) =>
       errors.push(...validate(value, fieldName))
     );
