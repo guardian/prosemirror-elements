@@ -177,7 +177,7 @@ const removeNode = (getPos: () => number | undefined) => (
   dispatch: ((tr: Transaction) => void) | false,
   view?: EditorView
 ) => {
-  if (dispatch == false) {
+  if (dispatch === false) {
     return true;
   }
   const pos = getPos();
