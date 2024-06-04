@@ -15,7 +15,7 @@ export const getImageSrc = (assets: Asset[], desiredWidth: number) => {
   const sortedAssets = assets
     .filter(
       (asset) =>
-        asset.fields.isMaster === false || asset.fields.isMaster === undefined
+        asset.fields.isMaster === "false" || asset.fields.isMaster === false || asset.fields.isMaster === undefined
     )
     .sort(sortByWidthDifference);
 
