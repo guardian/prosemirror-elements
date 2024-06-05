@@ -1,4 +1,4 @@
-import { DOMParser, Fragment, Slice } from "prosemirror-model";
+import { DOMParser } from "prosemirror-model";
 import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
@@ -236,26 +236,12 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
       shouldDispatchTransaction = true;
       // If stored mark, apply mark to diff before doing the replace transaction
-      console.log({ storedMarks, stateMarks: state.storedMarks });
 
-      if (state.storedMarks?.length) {
-        tr = tr.addMark(diffStart, endOfInnerDiff, state.storedMarks[0]);
-      }
-
-      const slice = node.slice(diffStart, endOfOuterDiff);
-      if (storedMarks) {
-        const newNodes: Node[] = [];
-        slice.content.forEach((node) => newNodes.push(node.mark(storedMarks)));
-        const fragment = Fragment.fromArray(newNodes);
-        const sliceWithStoredMarks = new Slice(
-          fragment,
-          slice.openEnd,
-          slice.openEnd
-        );
-        tr = tr.replace(diffStart, endOfInnerDiff, sliceWithStoredMarks);
-      } else {
-        tr = tr.replace(diffStart, endOfInnerDiff, slice);
-      }
+      tr = tr.replace(
+        diffStart,
+        endOfInnerDiff,
+        node.slice(diffStart, endOfOuterDiff)
+      );
     }
 
     if (storedMarks) {
