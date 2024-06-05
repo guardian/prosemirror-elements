@@ -235,7 +235,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       }
 
       shouldDispatchTransaction = true;
-      // If stored mark, apply mark to diff before doing the replace transaction
 
       tr = tr.replace(
         diffStart,
@@ -246,13 +245,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     if (storedMarks) {
       shouldDispatchTransaction = true;
+      tr = tr.setStoredMarks(storedMarks);
     }
 
     if (shouldDispatchTransaction) {
       tr = tr.setMeta("fromOutside", true);
-      if (storedMarks) {
-        tr = tr.setStoredMarks(storedMarks);
-      }
       this.innerEditorView.dispatch(tr);
     } else {
       return this.maybeRerenderDecorations();
