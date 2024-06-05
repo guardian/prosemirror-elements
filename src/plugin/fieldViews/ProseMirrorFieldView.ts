@@ -305,6 +305,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     }
 
     if (innerTr.getMeta("paste") === true) {
+      // Pass the "paste" meta specifically, because we know it's needed by
+      // another plugin to handle pastes - meta values won't be transferred
+      // to the outerTr unless we set them.
       outerTr.setMeta("paste", true);
     }
 
