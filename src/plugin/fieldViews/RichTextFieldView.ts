@@ -72,7 +72,7 @@ export const createFlatRichTextField = ({
     createPlugins: (schema) => {
       const br = schema.nodes.hard_break;
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- there's no guarantee this is present in the Schema.
-      if (!br) {
+      if (br === undefined) {
         throw new Error(
           "[prosemirror-elements]: Attempted to add a FlatRichTextField, but there was no hard_break node in the schema. You must supply one to use this field."
         );

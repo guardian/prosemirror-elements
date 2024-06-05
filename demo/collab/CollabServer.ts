@@ -114,7 +114,7 @@ export class EditorConnection {
     setInterval(() => {
       const version = getVersion(this.state);
       const state = this.server.getState(version);
-      if (!state) {
+      if (state === false) {
         return console.log("Could not get steps on last poll");
       }
       const { steps, selections } = state;

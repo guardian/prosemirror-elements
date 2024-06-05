@@ -13,7 +13,12 @@ export const getImageSrc = (assets: Asset[], desiredWidth: number) => {
     widthDifference(stringOrNumberToNumber(assetB.fields.width));
 
   const sortedAssets = assets
-    .filter((asset) => !asset.fields.isMaster)
+    .filter(
+      (asset) =>
+        asset.fields.isMaster === "false" ||
+        asset.fields.isMaster === false ||
+        asset.fields.isMaster === undefined
+    )
     .sort(sortByWidthDifference);
 
   return sortedAssets.length > 0 ? sortedAssets[0].url : undefined;

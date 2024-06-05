@@ -59,7 +59,7 @@ const maxHeightRelativeToViewport = 0.5;
 const hasInnerText = (html: string) => {
   const div = document.createElement("div");
   div.innerHTML = html;
-  return !!div.innerText.trim().length;
+  return div.innerText.trim().length > 0;
 };
 
 export const Preview = ({
@@ -78,14 +78,15 @@ export const Preview = ({
       Math.min(height, window.innerHeight * maxHeightRelativeToViewport) +
       extraPreviewSpace;
 
-    idealHeight = minHeight ? Math.max(minHeight, idealHeight) : idealHeight;
+    idealHeight =
+      minHeight !== undefined ? Math.max(minHeight, idealHeight) : idealHeight;
 
     setHeight(`${idealHeight}px`);
   };
 
   const updateIframeHeight = () => {
     const heightOfContent = getDocHeight(ref.current?.contentWindow?.document);
-    if (heightOfContent) {
+    if (heightOfContent !== undefined) {
       setIdealHeight(heightOfContent);
     }
   };
@@ -159,7 +160,7 @@ export const Preview = ({
 
   return (
     <div>
-      {headingLabel && (
+      {headingLabel !== null && headingLabel !== false && (
         <DemoInputHeading headingLabel={headingLabel} {...rest} />
       )}
       {preview}

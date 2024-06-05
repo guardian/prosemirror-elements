@@ -84,7 +84,9 @@ const nextPosFinder = (consumerPredicate: Predicate) => (
       const [nextNode = null, nextNodePos = null] =
         nodesBetween(state, pos, all.to).find(predicate) ?? [];
 
-      return nextNodePos && nextNode && nextNodePos + nextNode.nodeSize;
+      return nextNodePos !== null && nextNode !== null
+        ? nextNodePos + nextNode.nodeSize
+        : null;
     }
     case "top": {
       return pos === all.from ? null : all.from;
@@ -112,7 +114,7 @@ const moveNode = (consumerPredicate: Predicate) => (
     return false;
   }
 
-  if (!dispatch) {
+  if (dispatch === false) {
     return true;
   }
 
@@ -120,7 +122,7 @@ const moveNode = (consumerPredicate: Predicate) => (
   const to = node ? pos + node.nodeSize : pos;
   const tr = state.tr.deleteRange(pos, to);
 
-  if (node && (nextPos || nextPos === 0)) {
+  if (node) {
     const insertPos = tr.mapping.mapResult(nextPos).pos;
     tr.insert(insertPos, node.cut(0));
   }
@@ -175,7 +177,7 @@ const removeNode = (getPos: () => number | undefined) => (
   dispatch: ((tr: Transaction) => void) | false,
   view?: EditorView
 ) => {
-  if (!dispatch) {
+  if (dispatch === false) {
     return true;
   }
   const pos = getPos();
@@ -194,7 +196,7 @@ const selectNode = (getPos: () => number | undefined) => (
   dispatch: ((tr: Transaction) => void) | false,
   view: EditorView
 ) => {
-  if (!dispatch) {
+  if (dispatch === false) {
     return true;
   }
   const pos = getPos();

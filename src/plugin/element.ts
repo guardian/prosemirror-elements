@@ -75,7 +75,7 @@ export const buildElementPlugin = <
     }
 
     const maybeNewPos = findValidInsertPosition(state.selection.$head);
-    if (maybeNewPos) {
+    if (maybeNewPos !== undefined) {
       dispatch(state.tr.insert(maybeNewPos, maybeNode));
     } else {
       dispatch(state.tr.replaceSelectionWith(maybeNode));

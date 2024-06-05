@@ -36,7 +36,7 @@ const Errors = ({
   errors: string[];
   useAlternateStyles?: boolean;
 }) =>
-  !errors.length ? null : (
+  errors.length === 0 ? null : (
     <Error useAlternateStyles={useAlternateStyles}>{errors.join(", ")}</Error>
   );
 
@@ -81,7 +81,9 @@ export const DemoInputHeading = ({
     </Heading>
     {errors && errors.length > 0 ? (
       <Errors errors={errors} useAlternateStyles={useAlternateStyles} />
-    ) : description ? (
+    ) : description !== null &&
+      description !== undefined &&
+      description !== false ? (
       <Description>{description}</Description>
     ) : null}
   </DemoInputHeadingContainer>

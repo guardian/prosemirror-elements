@@ -177,11 +177,12 @@ const RoleOptionsDropdown = ({
   ]);
 
   // if the image is very small and the element supports thumbnails, only allow the thumbnail role in the drop-down
-  const roleOptions = minAssetValidation(mainImage, "").length
-    ? allOptions.some((value) => value.text === "thumbnail")
-      ? [thumbnailOption]
-      : allOptions
-    : allOptions;
+  const roleOptions =
+    minAssetValidation(mainImage, "").length > 0
+      ? allOptions.some((value) => value.text === "thumbnail")
+        ? [thumbnailOption]
+        : allOptions
+      : allOptions;
 
   /**
    * We must check our role when our role options change, to
@@ -214,7 +215,7 @@ const imageViewStyles = css`
 `;
 
 const Errors = ({ errors }: { errors: string[] }) =>
-  !errors.length ? null : <Error>{errors.join(", ")}</Error>;
+  errors.length === 0 ? null : <Error>{errors.join(", ")}</Error>;
 
 const ImageView = ({ field, updateFields }: ImageViewProps) => {
   const [imageFields, setImageFields] = useCustomFieldState(field);

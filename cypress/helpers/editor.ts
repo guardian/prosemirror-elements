@@ -26,7 +26,7 @@ export const getElementType = (element: JQuery) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it's not always truthy.
-  if (element.find(selectDataCy(elementWrapperTestId))[0]) {
+  if (element.find(selectDataCy(elementWrapperTestId))[0] !== undefined) {
     return "element";
   }
   return "unknown";

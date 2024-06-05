@@ -7,10 +7,24 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       extends: ["@guardian/eslint-config-typescript"],
       rules: {
-        "@typescript-eslint/unbound-method": 0,
-        "@typescript-eslint/explicit-module-boundary-types": 0,
-        "@typescript-eslint/no-unused-vars": 2,
-        "import/no-cycle": 2
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "import/no-cycle": "error",
+        "@typescript-eslint/strict-boolean-expressions": [
+          'error',
+          {
+            // This rule also errors on any ambiguous type comparisons (e.g !! on a type `null | undefined | ""`)
+            // https://typescript-eslint.io/rules/strict-boolean-expressions/
+            allowString: true,
+            allowNumber: false,
+            allowNullableObject: true,
+            allowNullableBoolean: true,
+            allowNullableString: true,
+            allowNullableNumber: false, // We only want to enforce this for numbers
+            allowAny: true,
+          },
+        ],
       },
     },
   ],
