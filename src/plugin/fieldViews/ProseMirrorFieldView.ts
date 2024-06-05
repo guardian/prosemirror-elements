@@ -105,19 +105,13 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     const node = this.getNodeFromValue(value);
     const tr = this.innerEditorView.state.tr;
     console.log("update");
-    tr.replaceWith(
-      0,
-      this.innerEditorView.state.doc.content.size,
-      node
-    ).setStoredMarks(this.innerEditorView.state.storedMarks);
+    tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
     this.dispatchTransaction(tr);
   }
 
   public updatePlaceholder(value: PlaceholderOption) {
     this.innerEditorView?.dispatch(
-      this.innerEditorView.state.tr
-        .setMeta(PME_UPDATE_PLACEHOLDER, value)
-        .setStoredMarks(this.innerEditorView.state.storedMarks)
+      this.innerEditorView.state.tr.setMeta(PME_UPDATE_PLACEHOLDER, value)
     );
   }
 
@@ -129,44 +123,16 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (!this.innerEditorView) {
       return;
     }
-    if (tr.doc.type.name === "key_takeaways__content") {
-      console.log({
-        innerStateFirst: this.innerEditorView.state,
-        tr,
-      });
-    }
+
     const { state, transactions } = this.innerEditorView.state.applyTransaction(
       tr
     );
-    // Applying the outer state first ensures that decorations in the parent
-    // view are correctly mapped through this transaction by the time they're
-    // accessed by the innerEditorView.
-    if (tr.doc.type.name === "key_takeaways__content") {
-      console.log({ innerState: this.innerEditorView.state });
-      console.log({ updatedState: state });
-    }
 
     this.innerEditorView.updateState(state);
-    if (tr.doc.type.name === "key_takeaways__content") {
-      console.log({ afterState: this.innerEditorView.state });
-    }
     this.decorationsPending = false;
 
     if (!tr.getMeta("fromOutside")) {
-      if (tr.doc.type.name === "key_takeaways__content") {
-        console.log({
-          time: new Date(Date.now()).toISOString(),
-          toOuter: transactions,
-        });
-      }
       this.updateOuterEditor(tr, state, transactions);
-    } else {
-      if (tr.doc.type.name === "key_takeaways__content") {
-        console.log({
-          time: new Date(Date.now()).toISOString(),
-          fromOuter: transactions,
-        });
-      }
     }
   }
 
@@ -335,9 +301,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     const selectionHasChanged = !outerTr.selection.eq(mappedSelection);
     if (selectionHasChanged) {
-      outerTr
-        .setSelection(mappedSelection)
-        .setStoredMarks(this.outerView.state.storedMarks);
+      outerTr.setSelection(mappedSelection);
     }
 
     const shouldUpdateOuter = innerTr.docChanged || selectionHasChanged;
@@ -401,9 +365,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (this.decorationsPending && this.innerEditorView) {
       // This empty transaction forces the editor to rerender its decorations.
       this.innerEditorView.dispatch(
-        this.innerEditorView.state.tr
-          .setMeta("fromOutside", true)
-          .setStoredMarks(this.innerEditorView.state.storedMarks)
+        this.innerEditorView.state.tr.setMeta("fromOutside", true)
       );
     }
   }
