@@ -1,4 +1,4 @@
-import { DOMParser } from "prosemirror-model";
+import { DOMParser, Fragment, Slice } from "prosemirror-model";
 import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
@@ -104,13 +104,20 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     const node = this.getNodeFromValue(value);
     const tr = this.innerEditorView.state.tr;
-    tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
+    console.log("update");
+    tr.replaceWith(
+      0,
+      this.innerEditorView.state.doc.content.size,
+      node
+    ).setStoredMarks(this.innerEditorView.state.storedMarks);
     this.dispatchTransaction(tr);
   }
 
   public updatePlaceholder(value: PlaceholderOption) {
     this.innerEditorView?.dispatch(
-      this.innerEditorView.state.tr.setMeta(PME_UPDATE_PLACEHOLDER, value)
+      this.innerEditorView.state.tr
+        .setMeta(PME_UPDATE_PLACEHOLDER, value)
+        .setStoredMarks(this.innerEditorView.state.storedMarks)
     );
   }
 
@@ -122,21 +129,45 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (!this.innerEditorView) {
       return;
     }
-
+    if (tr.doc.type.name === "key_takeaways__content") {
+      console.log({
+        innerStateFirst: this.innerEditorView.state,
+        tr,
+      });
+    }
     const { state, transactions } = this.innerEditorView.state.applyTransaction(
       tr
     );
-
     // Applying the outer state first ensures that decorations in the parent
     // view are correctly mapped through this transaction by the time they're
     // accessed by the innerEditorView.
-    if (!tr.getMeta("fromOutside")) {
-      this.updateOuterEditor(tr, state, transactions);
+    if (tr.doc.type.name === "key_takeaways__content") {
+      console.log({ innerState: this.innerEditorView.state });
+      console.log({ updatedState: state });
     }
 
     this.innerEditorView.updateState(state);
-
+    if (tr.doc.type.name === "key_takeaways__content") {
+      console.log({ afterState: this.innerEditorView.state });
+    }
     this.decorationsPending = false;
+
+    if (!tr.getMeta("fromOutside")) {
+      if (tr.doc.type.name === "key_takeaways__content") {
+        console.log({
+          time: new Date(Date.now()).toISOString(),
+          toOuter: transactions,
+        });
+      }
+      this.updateOuterEditor(tr, state, transactions);
+    } else {
+      if (tr.doc.type.name === "key_takeaways__content") {
+        console.log({
+          time: new Date(Date.now()).toISOString(),
+          fromOuter: transactions,
+        });
+      }
+    }
   }
 
   private updateInnerEditor(
@@ -238,11 +269,27 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       }
 
       shouldDispatchTransaction = true;
-      tr = tr.replace(
-        diffStart,
-        endOfInnerDiff,
-        node.slice(diffStart, endOfOuterDiff)
-      );
+      // If stored mark, apply mark to diff before doing the replace transaction
+      console.log({ storedMarks, stateMarks: state.storedMarks });
+
+      if (state.storedMarks?.length) {
+        tr = tr.addMark(diffStart, endOfInnerDiff, state.storedMarks[0]);
+      }
+
+      const slice = node.slice(diffStart, endOfOuterDiff);
+      if (storedMarks) {
+        const newNodes: Node[] = [];
+        slice.content.forEach((node) => newNodes.push(node.mark(storedMarks)));
+        const fragment = Fragment.fromArray(newNodes);
+        const sliceWithStoredMarks = new Slice(
+          fragment,
+          slice.openEnd,
+          slice.openEnd
+        );
+        tr = tr.replace(diffStart, endOfInnerDiff, sliceWithStoredMarks);
+      } else {
+        tr = tr.replace(diffStart, endOfInnerDiff, slice);
+      }
     }
 
     if (storedMarks) {
@@ -288,7 +335,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     const selectionHasChanged = !outerTr.selection.eq(mappedSelection);
     if (selectionHasChanged) {
-      outerTr.setSelection(mappedSelection);
+      outerTr
+        .setSelection(mappedSelection)
+        .setStoredMarks(this.outerView.state.storedMarks);
     }
 
     const shouldUpdateOuter = innerTr.docChanged || selectionHasChanged;
@@ -352,7 +401,9 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (this.decorationsPending && this.innerEditorView) {
       // This empty transaction forces the editor to rerender its decorations.
       this.innerEditorView.dispatch(
-        this.innerEditorView.state.tr.setMeta("fromOutside", true)
+        this.innerEditorView.state.tr
+          .setMeta("fromOutside", true)
+          .setStoredMarks(this.innerEditorView.state.storedMarks)
       );
     }
   }
