@@ -1,7 +1,8 @@
 import type { NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
-import { TextSelection, Transaction } from "prosemirror-state";
+import type { Transaction } from "prosemirror-state";
+import { TextSelection } from "prosemirror-state";
 import { StepMap } from "prosemirror-transform";
 import { DecorationSet } from "prosemirror-view";
 import { createEditorWithElements } from "../../helpers/test";
