@@ -15,6 +15,40 @@ class TestProseMirrorFieldView extends TextFieldView {
   };
 }
 
+const getEditorWithTextField = () => {
+  const { view } = createEditorWithElements([], "Some arbitrary text content");
+  const nodeName = getNodeNameFromField("testField", "doc");
+  const node = testSchema.nodes[nodeName].create(
+    {
+      type: "text",
+    },
+    testSchema.text("some text")
+  );
+  const decorations = DecorationSet.create(view.state.doc, []);
+  const fieldView = new TestProseMirrorFieldView(
+    node,
+    view,
+    () => 0,
+    0,
+    decorations,
+    textFieldDescription
+  );
+  const offset = fieldView.offset;
+  const textFieldViewInnerEditor = fieldView.getInnerEditorView();
+  if (!textFieldViewInnerEditor) {
+    throw new Error("Text field editor was undefined");
+  }
+  return {
+    view,
+    nodeName,
+    node,
+    decorations,
+    fieldView,
+    offset,
+    textFieldViewInnerEditor,
+  };
+};
+
 const testSchema = new Schema({
   nodes: {
     doc: schema.nodes.doc,
@@ -27,6 +61,14 @@ const testSchema = new Schema({
       isCode: false,
     }) as { testField: NodeSpec }),
   },
+  marks: {
+    strike: {
+      parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
+      toDOM() {
+        return ["s"];
+      },
+    }
+  }
 });
 
 const textFieldDescription: TextFieldDescription = {
@@ -38,27 +80,13 @@ const textFieldDescription: TextFieldDescription = {
 
 describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () => {
   it("should update its internal selection when a new selection is passed in, encompassed within its range", () => {
-    const { view } = createEditorWithElements([]);
-    const nodeName = getNodeNameFromField("testField", "doc");
-    const node = testSchema.nodes[nodeName].create(
-      {
-        type: "text",
-      },
-      testSchema.text("some text")
-    );
-    const decorations = DecorationSet.create(view.state.doc, []);
-    const fieldView = new TestProseMirrorFieldView(
+    const {
       node,
-      view,
-      () => 0,
-      0,
       decorations,
-      textFieldDescription
-    );
-    const offset = fieldView.offset;
-    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
-    if (!textFieldViewInnerEditor)
-      throw new Error("Text field editor was undefined");
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
 
     const initialSelection = textFieldViewInnerEditor.state.selection;
     // Offset the initial selection so that it is within the inner editor's field
@@ -79,30 +107,14 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
   });
 
   it("should not update its internal selection when a selection is passed in outside of its range", () => {
-    const { view } = createEditorWithElements(
-      [],
-      "Some arbitrary text content"
-    );
-    const nodeName = getNodeNameFromField("testField", "doc");
-    const node = testSchema.nodes[nodeName].create(
-      {
-        type: "text",
-      },
-      testSchema.text("some text")
-    );
-    const decorations = DecorationSet.create(view.state.doc, []);
-    const fieldView = new TestProseMirrorFieldView(
-      node,
+    const {
       view,
-      () => 0,
-      0,
+      node,
       decorations,
-      textFieldDescription
-    );
-    const offset = fieldView.offset;
-    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
-    if (!textFieldViewInnerEditor)
-      throw new Error("Text field editor was undefined");
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
 
     const initialSelection = textFieldViewInnerEditor.state.selection;
     // A selection that will be outside the innerEditor's range
@@ -118,30 +130,12 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
 
   it(`should update its internal doc when a node with different content is passed in, 
       with different content starting at the first position of the inner editor`, () => {
-    const { view } = createEditorWithElements(
-      [],
-      "Some arbitrary text content"
-    );
-    const nodeName = getNodeNameFromField("testField", "doc");
-    const node = testSchema.nodes[nodeName].create(
-      {
-        type: "text",
-      },
-      testSchema.text("bcdef")
-    );
-    const decorations = DecorationSet.create(view.state.doc, []);
-    const fieldView = new TestProseMirrorFieldView(
-      node,
-      view,
-      () => 0,
-      0,
+    const {
+      nodeName,
       decorations,
-      textFieldDescription
-    );
-    const offset = fieldView.offset;
-    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
-    if (!textFieldViewInnerEditor)
-      throw new Error("Text field editor was undefined");
+      fieldView,
+      offset,
+    } = getEditorWithTextField();
 
     const newNode = testSchema.nodes[nodeName].create(
       {
@@ -157,30 +151,12 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
 
   it(`should update its internal doc when a node with different content is passed in, 
       with different content only in the final position of the inner editor`, () => {
-    const { view } = createEditorWithElements(
-      [],
-      "Some arbitrary text content"
-    );
-    const nodeName = getNodeNameFromField("testField", "doc");
-    const node = testSchema.nodes[nodeName].create(
-      {
-        type: "text",
-      },
-      testSchema.text("abcdd")
-    );
-    const decorations = DecorationSet.create(view.state.doc, []);
-    const fieldView = new TestProseMirrorFieldView(
-      node,
-      view,
-      () => 0,
-      0,
+    const {
+      nodeName,
       decorations,
-      textFieldDescription
-    );
-    const offset = fieldView.offset;
-    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
-    if (!textFieldViewInnerEditor)
-      throw new Error("Text field editor was undefined");
+      fieldView,
+      offset,
+    } = getEditorWithTextField();
 
     const newNode = testSchema.nodes[nodeName].create(
       {
@@ -196,30 +172,12 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
 
   it(`should update its internal doc when a node with different content is passed in, 
       with different content not at the beginning or end of the inner editor`, () => {
-    const { view } = createEditorWithElements(
-      [],
-      "Some arbitrary text content"
-    );
-    const nodeName = getNodeNameFromField("testField", "doc");
-    const node = testSchema.nodes[nodeName].create(
-      {
-        type: "text",
-      },
-      testSchema.text("apple")
-    );
-    const decorations = DecorationSet.create(view.state.doc, []);
-    const fieldView = new TestProseMirrorFieldView(
-      node,
-      view,
-      () => 0,
-      0,
+    const {
+      nodeName,
       decorations,
-      textFieldDescription
-    );
-    const offset = fieldView.offset;
-    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
-    if (!textFieldViewInnerEditor)
-      throw new Error("Text field editor was undefined");
+      fieldView,
+      offset,
+    } = getEditorWithTextField();
 
     const newNode = testSchema.nodes[nodeName].create(
       {
@@ -231,5 +189,66 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     const updatedNode = fieldView.getInnerEditorView()?.state.doc;
 
     expect(updatedNode?.textContent).toBe("abcde");
+  });
+
+  it("should store a mark when the outerEditor updates it with an array of marks", () => {
+    const {
+      node,
+      decorations,
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
+    const initialMarks = textFieldViewInnerEditor.state.storedMarks;
+
+    const exampleMark = testSchema.marks.strike.create();
+    fieldView.onUpdate(node, offset, decorations, undefined, [exampleMark]);
+
+    const updatedMarks = textFieldViewInnerEditor.state.storedMarks;
+
+    expect(initialMarks).toBe(null);
+    expect(updatedMarks).toStrictEqual([exampleMark]);
+  });
+
+  it("should not have a storedMark in its inner editor state when the outerEditor updates it with an array of marks, then with an empty array", () => {
+    const {
+      node,
+      decorations,
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
+    const initialMarks = textFieldViewInnerEditor.state.storedMarks;
+
+    const exampleMark = testSchema.marks.strike.create();
+    fieldView.onUpdate(node, offset, decorations, undefined, [exampleMark]);
+    const updatedMarks = textFieldViewInnerEditor.state.storedMarks;
+    fieldView.onUpdate(node, offset, decorations, undefined, []);
+    const removedMarks = textFieldViewInnerEditor.state.storedMarks;
+
+    expect(initialMarks).toBe(null);
+    expect(updatedMarks).toStrictEqual([exampleMark]);
+    expect(removedMarks).toStrictEqual([]);
+  });
+
+  it("should not have a storedMark in its inner editor state when the outerEditor updates it first with an array of marks, then with null", () => {
+    const {
+      node,
+      decorations,
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
+    const initialMarks = textFieldViewInnerEditor.state.storedMarks;
+
+    const exampleMark = testSchema.marks.strike.create();
+    fieldView.onUpdate(node, offset, decorations, undefined, [exampleMark]);
+    const updatedMarks = textFieldViewInnerEditor.state.storedMarks;
+    fieldView.onUpdate(node, offset, decorations, undefined, null);
+    const removedMarks = textFieldViewInnerEditor.state.storedMarks;
+
+    expect(initialMarks).toBe(null);
+    expect(updatedMarks).toStrictEqual([exampleMark]);
+    expect(removedMarks).toStrictEqual(null);
   });
 });

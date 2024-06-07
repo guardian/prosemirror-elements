@@ -243,7 +243,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       );
     }
 
-    if (storedMarks) {
+    if (Array.isArray(storedMarks) || storedMarks === null) {
       shouldDispatchTransaction = true;
       tr = tr.setStoredMarks(storedMarks);
     }
