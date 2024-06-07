@@ -295,7 +295,11 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     }
 
     const shouldUpdateOuter = innerTr.docChanged || selectionHasChanged;
-    if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
+    if (shouldUpdateOuter) this.dispatchToOuterView(outerTr);
+  }
+
+  protected dispatchToOuterView(tr: Transaction) {
+    this.outerView.dispatch(tr);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- default implementation

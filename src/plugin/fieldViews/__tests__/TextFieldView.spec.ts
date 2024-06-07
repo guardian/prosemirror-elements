@@ -1,7 +1,7 @@
 import type { NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
-import { TextSelection } from "prosemirror-state";
+import { TextSelection, Transaction } from "prosemirror-state";
 import { StepMap } from "prosemirror-transform";
 import { DecorationSet } from "prosemirror-view";
 import { createEditorWithElements } from "../../helpers/test";
@@ -14,6 +14,38 @@ class TestProseMirrorFieldView extends TextFieldView {
     return this.innerEditorView;
   };
 }
+
+const mockDispatchToOuterView = jest.fn();
+
+class TestProseMirrorFieldViewWithOuterViewSpy extends TextFieldView {
+  getInnerEditorView = () => {
+    return this.innerEditorView;
+  };
+
+  dispatchToOuterView = mockDispatchToOuterView;
+}
+
+const testSchema = new Schema({
+  nodes: {
+    doc: schema.nodes.doc,
+    text: schema.nodes.text,
+    ...(getNodeSpecForField("doc", "testField", {
+      type: "text",
+      defaultValue: "",
+      isMultiline: false,
+      rows: 4,
+      isCode: false,
+    }) as { testField: NodeSpec }),
+  },
+  marks: {
+    strike: {
+      parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
+      toDOM() {
+        return ["s"];
+      },
+    },
+  },
+});
 
 const getEditorWithTextField = () => {
   const { view } = createEditorWithElements([], "Some arbitrary text content");
@@ -49,28 +81,6 @@ const getEditorWithTextField = () => {
   };
 };
 
-const testSchema = new Schema({
-  nodes: {
-    doc: schema.nodes.doc,
-    text: schema.nodes.text,
-    ...(getNodeSpecForField("doc", "testField", {
-      type: "text",
-      defaultValue: "",
-      isMultiline: false,
-      rows: 4,
-      isCode: false,
-    }) as { testField: NodeSpec }),
-  },
-  marks: {
-    strike: {
-      parseDOM: [{ tag: "s" }, { tag: "del" }, { tag: "strike" }],
-      toDOM() {
-        return ["s"];
-      },
-    }
-  }
-});
-
 const textFieldDescription: TextFieldDescription = {
   type: "text",
   isMultiline: false,
@@ -96,14 +106,14 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
       offsetMap
     );
     fieldView.onUpdate(node, offset, decorations, mappedSelection);
-    const updatedSelection = fieldView.getInnerEditorView()?.state.selection;
+    const updatedSelection = textFieldViewInnerEditor.state.selection;
 
     expect(initialSelection.from).toBe(0);
     expect(initialSelection.to).toBe(0);
     // Selection is positioned at '1' relative to the outer editor, rather than 3, because
     // the inner editor is offset by 2
-    expect(updatedSelection?.from).toBe(1);
-    expect(updatedSelection?.to).toBe(1);
+    expect(updatedSelection.from).toBe(1);
+    expect(updatedSelection.to).toBe(1);
   });
 
   it("should not update its internal selection when a selection is passed in outside of its range", () => {
@@ -120,12 +130,12 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     // A selection that will be outside the innerEditor's range
     const newSelection = TextSelection.create(view.state.doc, 15, 15);
     fieldView.onUpdate(node, offset, decorations, newSelection);
-    const updatedSelection = fieldView.getInnerEditorView()?.state.selection;
+    const updatedSelection = textFieldViewInnerEditor.state.selection;
 
     expect(initialSelection.from).toBe(0);
     expect(initialSelection.to).toBe(0);
-    expect(updatedSelection?.from).toBe(0);
-    expect(updatedSelection?.to).toBe(0);
+    expect(updatedSelection.from).toBe(0);
+    expect(updatedSelection.to).toBe(0);
   });
 
   it(`should update its internal doc when a node with different content is passed in, 
@@ -156,6 +166,7 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
       decorations,
       fieldView,
       offset,
+      textFieldViewInnerEditor,
     } = getEditorWithTextField();
 
     const newNode = testSchema.nodes[nodeName].create(
@@ -165,9 +176,9 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
       testSchema.text("abcde")
     );
     fieldView.onUpdate(newNode, offset, decorations);
-    const updatedNode = fieldView.getInnerEditorView()?.state.doc;
+    const updatedNode = textFieldViewInnerEditor.state.doc;
 
-    expect(updatedNode?.textContent).toBe("abcde");
+    expect(updatedNode.textContent).toBe("abcde");
   });
 
   it(`should update its internal doc when a node with different content is passed in, 
@@ -177,6 +188,7 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
       decorations,
       fieldView,
       offset,
+      textFieldViewInnerEditor,
     } = getEditorWithTextField();
 
     const newNode = testSchema.nodes[nodeName].create(
@@ -186,9 +198,9 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
       testSchema.text("abcde")
     );
     fieldView.onUpdate(newNode, offset, decorations);
-    const updatedNode = fieldView.getInnerEditorView()?.state.doc;
+    const updatedNode = textFieldViewInnerEditor.state.doc;
 
-    expect(updatedNode?.textContent).toBe("abcde");
+    expect(updatedNode.textContent).toBe("abcde");
   });
 
   it("should store a mark when the outerEditor updates it with an array of marks", () => {
@@ -250,5 +262,45 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     expect(initialMarks).toBe(null);
     expect(updatedMarks).toStrictEqual([exampleMark]);
     expect(removedMarks).toStrictEqual(null);
+  });
+
+  it("should preserve 'paste' meta in transactions dispatched to the outer editor", () => {
+    const { view } = createEditorWithElements(
+      [],
+      "Some arbitrary text content"
+    );
+    const nodeName = getNodeNameFromField("testField", "doc");
+    const node = testSchema.nodes[nodeName].create(
+      {
+        type: "text",
+      },
+      testSchema.text("some text")
+    );
+    const decorations = DecorationSet.create(view.state.doc, []);
+    const fieldView = new TestProseMirrorFieldViewWithOuterViewSpy(
+      node,
+      view,
+      () => 0,
+      0,
+      decorations,
+      textFieldDescription
+    );
+    const textFieldViewInnerEditor = fieldView.getInnerEditorView();
+    if (!textFieldViewInnerEditor) {
+      throw new Error("Text field editor was undefined");
+    }
+
+    // const initialSelection = textFieldViewInnerEditor.state.selection;
+    // // A selection that will be outside the innerEditor's range
+    // const newSelection = TextSelection.create(view.state.doc, 15, 15);
+    // fieldView.onUpdate(node, offset, decorations, newSelection);
+    const tr = textFieldViewInnerEditor.state.tr;
+    tr.setMeta("paste", true);
+    textFieldViewInnerEditor.dispatch(tr);
+
+    expect(mockDispatchToOuterView.mock.calls).toHaveLength(1);
+    expect(
+      (mockDispatchToOuterView.mock.calls[0] as Transaction[])[0]
+    ).toHaveProperty("meta", { paste: true });
   });
 });
