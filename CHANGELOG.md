@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.3
+
+### Patch Changes
+
+- bcfd8fe: Pass stored marks to element fields from outer editor (fixing problem with guardian/prosemirror-noting)
+
 ## 9.6.2
 
 ### Patch Changes
