@@ -1,3 +1,4 @@
+import { isEqual } from "lodash";
 import { DOMParser } from "prosemirror-model";
 import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
@@ -242,7 +243,12 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       );
     }
 
-    if (Array.isArray(storedMarks) || storedMarks === null) {
+    const storedMarksHaveChanged = !isEqual(
+      storedMarks,
+      this.innerEditorView.state.storedMarks
+    );
+
+    if (storedMarksHaveChanged && storedMarks !== undefined) {
       shouldDispatchTransaction = true;
       tr = tr.setStoredMarks(storedMarks);
     }
