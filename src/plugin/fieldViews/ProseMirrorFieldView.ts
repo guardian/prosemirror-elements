@@ -104,7 +104,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     const node = this.getNodeFromValue(value);
     const tr = this.innerEditorView.state.tr;
-    console.log("update");
     tr.replaceWith(0, this.innerEditorView.state.doc.content.size, node);
     this.dispatchTransaction(tr);
   }
