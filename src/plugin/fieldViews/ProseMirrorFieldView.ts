@@ -1,5 +1,6 @@
+import { isEqual } from "lodash";
 import { DOMParser } from "prosemirror-model";
-import type { AttributeSpec, Node } from "prosemirror-model";
+import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { Mapping, StepMap } from "prosemirror-transform";
@@ -79,13 +80,20 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     node: Node,
     elementOffset: number,
     decorations: DecorationSource,
-    selection?: Selection
+    selection?: Selection,
+    storedMarks?: readonly Mark[] | null
   ) {
     if (!node.hasMarkup(this.node.type)) {
       return false;
     }
 
-    this.updateInnerEditor(node, decorations, elementOffset, selection);
+    this.updateInnerEditor(
+      node,
+      decorations,
+      elementOffset,
+      selection,
+      storedMarks
+    );
 
     return true;
   }
@@ -120,23 +128,20 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       tr
     );
 
-    // Applying the outer state first ensures that decorations in the parent
-    // view are correctly mapped through this transaction by the time they're
-    // accessed by the innerEditorView.
+    this.innerEditorView.updateState(state);
+    this.decorationsPending = false;
+
     if (!tr.getMeta("fromOutside")) {
       this.updateOuterEditor(tr, state, transactions);
     }
-
-    this.innerEditorView.updateState(state);
-
-    this.decorationsPending = false;
   }
 
   private updateInnerEditor(
     node: Node,
     decorations: DecorationSource,
     elementOffset: number,
-    selection?: Selection
+    selection?: Selection,
+    storedMarks?: readonly Mark[] | null
   ) {
     if (!this.innerEditorView) {
       return;
@@ -230,14 +235,27 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       }
 
       shouldDispatchTransaction = true;
+
       tr = tr.replace(
         diffStart,
         endOfInnerDiff,
         node.slice(diffStart, endOfOuterDiff)
       );
     }
+
+    const storedMarksHaveChanged = !isEqual(
+      storedMarks,
+      this.innerEditorView.state.storedMarks
+    );
+
+    if (storedMarksHaveChanged && storedMarks !== undefined) {
+      shouldDispatchTransaction = true;
+      tr = tr.setStoredMarks(storedMarks);
+    }
+
     if (shouldDispatchTransaction) {
-      this.innerEditorView.dispatch(tr.setMeta("fromOutside", true));
+      tr = tr.setMeta("fromOutside", true);
+      this.innerEditorView.dispatch(tr);
     } else {
       return this.maybeRerenderDecorations();
     }
@@ -274,8 +292,19 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       outerTr.setSelection(mappedSelection);
     }
 
+    if (innerTr.getMeta("paste") === true) {
+      // Pass the "paste" meta specifically, because we know it's needed by
+      // another plugin to handle pastes - meta values won't be transferred
+      // to the outerTr unless we set them.
+      outerTr.setMeta("paste", true);
+    }
+
     const shouldUpdateOuter = innerTr.docChanged || selectionHasChanged;
-    if (shouldUpdateOuter) this.outerView.dispatch(outerTr);
+    if (shouldUpdateOuter) this.dispatchToOuterView(outerTr);
+  }
+
+  protected dispatchToOuterView(tr: Transaction) {
+    this.outerView.dispatch(tr);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- default implementation

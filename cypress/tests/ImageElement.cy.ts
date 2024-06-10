@@ -24,6 +24,8 @@ import {
   selectAllShortcut,
   selectDataCy,
   setDocFromHtml,
+  setStoredMark,
+  setStrongStoredMark,
   typeIntoElementField,
   visitRoot,
 } from "../helpers/editor";
@@ -209,9 +211,46 @@ describe("ImageElement", () => {
           .should("have.text", oldDecoString);
       });
 
+      it(`caption - should apply a storedMark to a character if one is specified by the outer editor`, () => {
+        addImageElement();
+        const focusedField = getElementRichTextField("caption").focus();
+        setStrongStoredMark();
+        focusedField.type("a");
+        getElementRichTextField("caption").should(
+          "have.html",
+          "<p><strong>a</strong></p>"
+        );
+      });
+
+      it(`caption - should stop applying an existing stored mark when the outer editor has an empty array as its stored marks`, () => {
+        addImageElement();
+        const focusedField = getElementRichTextField("caption").focus();
+        setStrongStoredMark();
+        focusedField.type("a");
+        setStoredMark([]);
+        focusedField.type("b");
+        getElementRichTextField("caption").should(
+          "have.html",
+          "<p><strong>a</strong>b</p>"
+        );
+      });
+
+      it(`caption - should not apply a stored mark when the outer editor has null as its stored mark`, () => {
+        addImageElement();
+        const focusedField = getElementRichTextField("caption").focus();
+        setStrongStoredMark();
+        setStoredMark(null);
+        focusedField.type("ab");
+        getElementRichTextField("caption").should("have.html", "<p>ab</p>");
+      });
+
       rteFieldStyles.forEach((style) => {
         it(`caption – should toggle style of an input in an element`, () => {
           addImageElement();
+
+          // This is not necessary outside of integration tests. Unclear why at present.
+          focusElementField("caption");
+
           getElementMenuButton("caption", `Toggle ${style.title}`).click();
           typeIntoElementField("caption", "Example text");
           getElementRichTextField("caption")
@@ -222,6 +261,10 @@ describe("ImageElement", () => {
 
       it(`restrictedTextField – can toggle italic style of an input in an element`, () => {
         addImageElement();
+
+        // This is not necessary outside of integration tests. Unclear why at present.
+        focusElementField("restrictedTextField");
+
         getElementMenuButton("restrictedTextField", "Toggle emphasis").click();
         typeIntoElementField("restrictedTextField", "Example text");
         getElementRichTextField("restrictedTextField")

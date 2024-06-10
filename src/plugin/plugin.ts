@@ -222,6 +222,7 @@ const createNodeView = <
   let currentIsSelected = false;
   let currentCommandValues = getCommandValues(initCommands);
   let currentSelection = view.state.selection;
+  let currentStoredMarks = view.state.storedMarks;
 
   const getElementDataForUpdator = () =>
     getFieldValuesFromNode(
@@ -259,6 +260,7 @@ const createNodeView = <
         const newCommands = commands(getPos, view);
         const newCommandValues = getCommandValues(newCommands);
         const newSelection = view.state.selection;
+        const newStoredMarks = view.state.storedMarks;
 
         const isSelectedChanged = currentIsSelected !== newIsSelected;
         const innerDecosChanged = currentDecos !== innerDecos;
@@ -268,6 +270,7 @@ const createNodeView = <
           newCommandValues
         );
         const selectionHasChanged = !newSelection.eq(currentSelection);
+        const storedMarksHaveChanged = currentStoredMarks !== newStoredMarks;
 
         // Only recalculate our field values if our node content has changed.
         const newFields = fieldValuesChanged
@@ -291,14 +294,16 @@ const createNodeView = <
           fieldValuesChanged ||
           innerDecosChanged ||
           anyDescendantFieldIsNestedElementField(newNode) ||
-          selectionHasChanged
+          selectionHasChanged ||
+          storedMarksHaveChanged
         ) {
           updateFieldViewsFromNode(
             newFields,
             newNode,
             innerDecos,
             0,
-            newSelection
+            newSelection,
+            newStoredMarks
           );
         }
 
@@ -313,6 +318,7 @@ const createNodeView = <
         currentFields = newFields;
         currentCommandValues = newCommandValues;
         currentSelection = newSelection;
+        currentStoredMarks = newStoredMarks;
 
         return true;
       }

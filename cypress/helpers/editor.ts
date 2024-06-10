@@ -1,3 +1,4 @@
+import type { Mark } from "prosemirror-model";
 import type { WindowType } from "../../demo/types";
 import { getFieldHeadingTestId } from "../../src/editorial-source-components/DemoInputHeading";
 import { placeholderTestAttribute } from "../../src/plugin/helpers/placeholder";
@@ -100,6 +101,21 @@ export const changeTestDecoString = (newTestString: string) => {
     view.dispatch(
       view.state.tr.setMeta(ChangeTestDecoStringAction, newTestString)
     );
+  });
+};
+
+export const setStrongStoredMark = () => {
+  cy.window().then((win: WindowType) => {
+    const view = win.PM_ELEMENTS.view;
+    const strongMark = view.state.schema.marks.strong.create();
+    view.dispatch(view.state.tr.setStoredMarks([strongMark]));
+  });
+};
+
+export const setStoredMark = (value: readonly Mark[] | null) => {
+  cy.window().then((win: WindowType) => {
+    const view = win.PM_ELEMENTS.view;
+    view.dispatch(view.state.tr.setStoredMarks(value));
   });
 };
 
