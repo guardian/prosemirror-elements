@@ -291,10 +291,6 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
       throw new Error("Text field editor was undefined");
     }
 
-    // const initialSelection = textFieldViewInnerEditor.state.selection;
-    // // A selection that will be outside the innerEditor's range
-    // const newSelection = TextSelection.create(view.state.doc, 15, 15);
-    // fieldView.onUpdate(node, offset, decorations, newSelection);
     const tr = textFieldViewInnerEditor.state.tr;
     tr.setMeta("paste", true);
     textFieldViewInnerEditor.dispatch(tr);
