@@ -2,7 +2,7 @@ import type { NodeSpec } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import type { Transaction } from "prosemirror-state";
-import { TextSelection } from "prosemirror-state";
+import { AllSelection, TextSelection } from "prosemirror-state";
 import { StepMap } from "prosemirror-transform";
 import { DecorationSet } from "prosemirror-view";
 import { createEditorWithElements } from "../../helpers/test";
@@ -139,7 +139,55 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     expect(updatedSelection.to).toBe(0);
   });
 
-  it(`should update its internal doc when a node with different content is passed in, 
+  it("should not update its internal selection when a selection is passed in outside of its range - forward selection that covers the node", () => {
+    const {
+      view,
+      node,
+      decorations,
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
+
+    const initialSelection = textFieldViewInnerEditor.state.selection;
+    // A selection that will be outside the innerEditor's range
+    const newSelection = new AllSelection(view.state.doc);
+    fieldView.onUpdate(node, offset, decorations, newSelection);
+    const updatedSelection = textFieldViewInnerEditor.state.selection;
+
+    expect(initialSelection.from).toBe(0);
+    expect(initialSelection.to).toBe(0);
+    expect(updatedSelection.from).toBe(0);
+    expect(updatedSelection.to).toBe(0);
+  });
+
+  it("should not update its internal selection when a selection is passed in outside of its range - backwards selection that covers the node", () => {
+    const {
+      view,
+      node,
+      decorations,
+      fieldView,
+      offset,
+      textFieldViewInnerEditor,
+    } = getEditorWithTextField();
+
+    const initialSelection = textFieldViewInnerEditor.state.selection;
+    // A selection that will be outside the innerEditor's range
+    const newSelection = TextSelection.create(
+      view.state.doc,
+      view.state.doc.content.size,
+      0
+    );
+    fieldView.onUpdate(node, offset, decorations, newSelection);
+    const updatedSelection = textFieldViewInnerEditor.state.selection;
+
+    expect(initialSelection.from).toBe(0);
+    expect(initialSelection.to).toBe(0);
+    expect(updatedSelection.from).toBe(0);
+    expect(updatedSelection.to).toBe(0);
+  });
+
+  it(`should update its internal doc when a node with different content is passed in,
       with different content starting at the first position of the inner editor`, () => {
     const {
       nodeName,
@@ -160,7 +208,7 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     expect(updatedNode?.textContent).toBe("abcdef");
   });
 
-  it(`should update its internal doc when a node with different content is passed in, 
+  it(`should update its internal doc when a node with different content is passed in,
       with different content only in the final position of the inner editor`, () => {
     const {
       nodeName,
@@ -182,7 +230,7 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     expect(updatedNode.textContent).toBe("abcde");
   });
 
-  it(`should update its internal doc when a node with different content is passed in, 
+  it(`should update its internal doc when a node with different content is passed in,
       with different content not at the beginning or end of the inner editor`, () => {
     const {
       nodeName,
