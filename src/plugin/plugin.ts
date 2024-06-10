@@ -295,7 +295,6 @@ const createNodeView = <
           innerDecosChanged ||
           anyDescendantFieldIsNestedElementField(newNode) ||
           selectionHasChanged ||
-          (Array.isArray(newStoredMarks) && newStoredMarks.length > 0) ||
           storedMarksHaveChanged
         ) {
           updateFieldViewsFromNode(
