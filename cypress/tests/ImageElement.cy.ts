@@ -212,6 +212,10 @@ describe("ImageElement", () => {
       rteFieldStyles.forEach((style) => {
         it(`caption – should toggle style of an input in an element`, () => {
           addImageElement();
+
+          // This is not necessary outside of integration tests. Unclear why at present.
+          focusElementField("caption");
+
           getElementMenuButton("caption", `Toggle ${style.title}`).click();
           typeIntoElementField("caption", "Example text");
           getElementRichTextField("caption")
@@ -222,6 +226,10 @@ describe("ImageElement", () => {
 
       it(`restrictedTextField – can toggle italic style of an input in an element`, () => {
         addImageElement();
+
+        // This is not necessary outside of integration tests. Unclear why at present.
+        focusElementField("restrictedTextField");
+
         getElementMenuButton("restrictedTextField", "Toggle emphasis").click();
         typeIntoElementField("restrictedTextField", "Example text");
         getElementRichTextField("restrictedTextField")
