@@ -176,7 +176,10 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
         this.offset + this.getPos() + this.innerEditorView.state.doc.nodeSize;
 
       const incomingSelectionIsWithinThisField =
-        incomingAnchorPos > fieldStart && incomingHeadPos < fieldEnd;
+        incomingAnchorPos > fieldStart &&
+        incomingAnchorPos < fieldEnd &&
+        incomingHeadPos > fieldStart &&
+        incomingHeadPos < fieldEnd;
 
       // The inner editor's selection will be offset relative to the start of this field,
       // compared to the incoming selection
