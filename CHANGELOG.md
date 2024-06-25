@@ -1,5 +1,12 @@
 # @guardian/prosemirror-elements
 
+## 9.6.4
+
+### Patch Changes
+
+- 3427374: Bumps prosemirror-transform to sort issue with bullet lists in rich text fields
+- 031f8db: Fix selection error when backwards selections cover fields (#410)
+
 ## 9.6.3
 
 ### Patch Changes
