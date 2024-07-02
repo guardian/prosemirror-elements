@@ -328,7 +328,6 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
     const exampleMark = testSchema.marks.strike.create();
     fieldView.onUpdate(node, offset, decorations, undefined, [exampleMark]);
     const markTr = textFieldViewInnerEditor.state.tr.addStoredMark(exampleMark);
-
     textFieldViewInnerEditor.dispatch(markTr);
     const updatedInnerMarks = textFieldViewInnerEditor.state.storedMarks;
     const updatedOuterMarks = view.state.storedMarks;
