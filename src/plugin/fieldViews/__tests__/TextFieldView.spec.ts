@@ -314,10 +314,7 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
   });
 
   it("should update the storedMarks in the outer editor state when the inner editor sets a storedMark", () => {
-    const {
-      view,
-      textFieldViewInnerEditor,
-    } = getEditorWithTextField();
+    const { view, textFieldViewInnerEditor } = getEditorWithTextField();
     const initialInnerMarks = textFieldViewInnerEditor.state.storedMarks;
     const initialOuterMarks = view.state.storedMarks;
 
