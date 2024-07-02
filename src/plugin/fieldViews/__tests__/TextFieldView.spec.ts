@@ -316,24 +316,20 @@ describe("the TextFieldView, as an extension of the ProseMirrorFieldView", () =>
   it("should update the storedMarks in the outer editor state when the inner editor sets a storedMark", () => {
     const {
       view,
-      node,
-      decorations,
-      fieldView,
-      offset,
       textFieldViewInnerEditor,
     } = getEditorWithTextField();
     const initialInnerMarks = textFieldViewInnerEditor.state.storedMarks;
     const initialOuterMarks = view.state.storedMarks;
 
+    expect(initialInnerMarks).toBe(null);
+    expect(initialOuterMarks).toBe(null);
+
     const exampleMark = testSchema.marks.strike.create();
-    fieldView.onUpdate(node, offset, decorations, undefined, [exampleMark]);
     const markTr = textFieldViewInnerEditor.state.tr.addStoredMark(exampleMark);
     textFieldViewInnerEditor.dispatch(markTr);
     const updatedInnerMarks = textFieldViewInnerEditor.state.storedMarks;
     const updatedOuterMarks = view.state.storedMarks;
 
-    expect(initialInnerMarks).toBe(null);
-    expect(initialOuterMarks).toBe(null);
     expect(updatedInnerMarks).toStrictEqual([exampleMark]);
     expect(updatedOuterMarks).toStrictEqual([exampleMark]);
   });
