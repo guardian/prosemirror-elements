@@ -302,7 +302,17 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       outerTr.setMeta("paste", true);
     }
 
-    const shouldUpdateOuter = innerTr.docChanged || selectionHasChanged;
+    const storedMarksHaveChanged = !isEqual(
+      this.outerView.state.storedMarks,
+      innerTr.storedMarks
+    );
+
+    if (storedMarksHaveChanged) {
+      outerTr.setStoredMarks(innerTr.storedMarks);
+    }
+
+    const shouldUpdateOuter =
+      innerTr.docChanged || selectionHasChanged || storedMarksHaveChanged;
     if (shouldUpdateOuter) this.dispatchToOuterView(outerTr);
   }
 
