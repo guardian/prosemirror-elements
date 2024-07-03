@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.5
+
+### Patch Changes
+
+- fff9bd7: Fix bullet lists in rich text fields and release fix for mark button clicking
+
 ## 9.6.4
 
 ### Patch Changes
