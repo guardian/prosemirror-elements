@@ -21,7 +21,7 @@ export const createHistoryCommands = (
     undoNoScroll(outerView.state, outerView.dispatch);
     return view?.dispatch(view.state.tr.scrollIntoView()) ?? false;
   },
-  "Mod-y": (_, __, view) => {
+  "Mod-shift-z": (_, __, view) => {
     redoNoScroll(outerView.state, outerView.dispatch);
     return view?.dispatch(view.state.tr.scrollIntoView()) ?? false;
   },
