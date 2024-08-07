@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.6
+
+### Patch Changes
+
+- 4e8f152: Use Composer's standard redo shortcut rather than Mod-y
+
 ## 9.6.5
 
 ### Patch Changes
