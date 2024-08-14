@@ -9,7 +9,9 @@ import type { ElementSpecMap, FieldDescriptions } from "../types/Element";
 import { createParsers } from "./prosemirror";
 
 const initialDecoPhrase = "deco";
+const initialWidgetDecoPhrase = "widget";
 const testDecorationPluginKey = new PluginKey<string>("TEST_DECO_PLUGIN");
+const testWidgetDecorationPluginKey = new PluginKey<string>("TEST_WIDGET_DECO_PLUGIN");
 export const ChangeTestDecoStringAction = "CHANGE_TEST_DECO_STRING";
 
 export const testDecorationPlugin = new Plugin<string>({
@@ -46,6 +48,68 @@ export const testDecorationPlugin = new Plugin<string>({
         state.doc,
         ranges.map(([from, to]) =>
           Decoration.inline(from, to, { class: "TestDecoration" })
+        )
+      );
+    },
+  },
+});
+
+const getTestWidgetDecoration = () => {
+  const span = document.createElement("span");
+  span.style.display = "inline-block";
+  span.style.width = "2px";
+  span.style.height = "0.7rem";
+  // span.style.whiteSpace = "nowrap";
+  // span.style.overflowX = "hidden";
+  // span.style.textOverflow = "ellipsis";
+  // span.style.verticalAlign = "bottom";
+  // span.style.fontFamily = "Guardian Agate Sans";
+  // Passes accessibility contrast on a white background
+  span.style.backgroundColor = "#FF0000";
+  // span.style.cursor = "text";
+  // span.draggable = false;
+  // span.innerHTML = text;
+  span.setAttribute("data-cy", "TestWidgetDecoration");
+
+  return span;
+};
+
+
+export const testWidgetDecorationPlugin = new Plugin<string>({
+  key: testWidgetDecorationPluginKey,
+  state: {
+    init() {
+      return initialWidgetDecoPhrase;
+    },
+    apply(tr, oldTestString) {
+      const maybeNewTestString = tr.getMeta(ChangeTestDecoStringAction) as
+        | string
+        | undefined;
+      return maybeNewTestString ?? oldTestString;
+    },
+  },
+  props: {
+    decorations: (state) => {
+      const testString =
+        testWidgetDecorationPluginKey.getState(state) ?? initialWidgetDecoPhrase;
+      const ranges = [] as Array<[number, number]>;
+      state.doc.descendants((node, offset) => {
+        if (node.isLeaf && node.textContent) {
+          const indexOfDeco = node.textContent.indexOf(testString);
+          if (indexOfDeco !== -1) {
+            ranges.push([
+              indexOfDeco + offset,
+              indexOfDeco + offset + testString.length,
+            ]);
+          }
+        }
+      });
+
+      return DecorationSet.create(
+        state.doc,
+        ranges.flatMap(([from, to]) =>
+          [Decoration.widget(to, getTestWidgetDecoration ),
+          Decoration.widget(from, getTestWidgetDecoration )]
         )
       );
     },

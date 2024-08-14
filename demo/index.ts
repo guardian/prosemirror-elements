@@ -38,6 +38,7 @@ import {
 import {
   testDecorationPlugin,
   testInnerEditorEventPropagationPlugin,
+  testWidgetDecorationPlugin,
 } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
@@ -373,6 +374,7 @@ const createEditor = (server: CollabServer) => {
         ...exampleSetup({ schema }),
         elementPlugin,
         testDecorationPlugin,
+        testWidgetDecorationPlugin,
         testInnerEditorEventPropagationPlugin,
         collabPlugin,
         updateElementDataPlugin,
