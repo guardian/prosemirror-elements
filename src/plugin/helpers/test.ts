@@ -108,8 +108,8 @@ export const testWidgetDecorationPlugin = new Plugin<string>({
       return DecorationSet.create(
         state.doc,
         ranges.flatMap(([from, to]) =>
-          [Decoration.widget(to, getTestWidgetDecoration ),
-          Decoration.widget(from, getTestWidgetDecoration )]
+          [Decoration.widget(to, getTestWidgetDecoration, { isTestWidgetDeco: true} ),
+          Decoration.widget(from, getTestWidgetDecoration, { isTestWidgetDeco: true})]
         )
       );
     },
