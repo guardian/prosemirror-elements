@@ -161,16 +161,8 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     this.offset = elementOffset;
     this.node = node;
-    // Absolute position of the field in the document
-    // Note: we must offset to account for a few things:
-    //  - getPos() returns the position directly before the parent node (+1)
-    //  - the node we will be altering is a child of its parent (+1)
-    const contentOffset = 2;
-    const fieldStart = this.offset + this.getPos() + contentOffset;
-    const fieldEnd =
-      this.offset + this.getPos() + this.innerEditorView.state.doc.nodeSize;
-
     this.applyDecorationsFromOuterEditor(decorations, node);
+
     const state = this.innerEditorView.state;
     let shouldDispatchTransaction = false;
     let tr = state.tr;
@@ -185,6 +177,15 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       // Relative positions of the current selection in the inner editor
       const currentAnchorPos = this.innerEditorView.state.selection.$anchor.pos;
       const currentHeadPos = this.innerEditorView.state.selection.$head.pos;
+
+      // Absolute position of the field in the document
+      // Note: we must offset to account for a few things:
+      //  - getPos() returns the position directly before the parent node (+1)
+      //  - the node we will be altering is a child of its parent (+1)
+      const contentOffset = 2;
+      const fieldStart = this.offset + this.getPos() + contentOffset;
+      const fieldEnd =
+        this.offset + this.getPos() + this.innerEditorView.state.doc.nodeSize;
 
       const incomingSelectionIsWithinThisField =
         incomingAnchorPos > fieldStart &&
