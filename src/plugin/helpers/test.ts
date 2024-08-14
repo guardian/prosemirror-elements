@@ -59,22 +59,15 @@ const getTestWidgetDecoration = () => {
   span.style.display = "inline-block";
   span.style.width = "2px";
   span.style.height = "0.7rem";
-  // span.style.whiteSpace = "nowrap";
-  // span.style.overflowX = "hidden";
-  // span.style.textOverflow = "ellipsis";
-  // span.style.verticalAlign = "bottom";
-  // span.style.fontFamily = "Guardian Agate Sans";
-  // Passes accessibility contrast on a white background
   span.style.backgroundColor = "#FF0000";
-  // span.style.cursor = "text";
-  // span.draggable = false;
-  // span.innerHTML = text;
   span.setAttribute("data-cy", "TestWidgetDecoration");
 
   return span;
 };
 
-
+// A plugin for use in the demo that adds a small red line on either side of the word 'widget',
+// the first time it appears in a text node. This makes it simple for us to test Widget decorations
+// within the demo.
 export const testWidgetDecorationPlugin = new Plugin<string>({
   key: testWidgetDecorationPluginKey,
   state: {
