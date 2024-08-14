@@ -78,10 +78,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   ) {
     super();
 
-    this.applyDecorationsFromOuterEditor(
-      decorations,
-      node,
-    );
+    this.applyDecorationsFromOuterEditor(decorations, node);
     this.setupFocusHandler();
     this.parser = DOMParser.fromSchema(node.type.schema);
 
@@ -164,7 +161,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     this.offset = elementOffset;
     this.node = node;
-     // Absolute position of the field in the document
+    // Absolute position of the field in the document
     // Note: we must offset to account for a few things:
     //  - getPos() returns the position directly before the parent node (+1)
     //  - the node we will be altering is a child of its parent (+1)
@@ -173,10 +170,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     const fieldEnd =
       this.offset + this.getPos() + this.innerEditorView.state.doc.nodeSize;
 
-    this.applyDecorationsFromOuterEditor(
-      decorations,
-      node,
-    );
+    this.applyDecorationsFromOuterEditor(decorations, node);
     const state = this.innerEditorView.state;
     let shouldDispatchTransaction = false;
     let tr = state.tr;
@@ -362,9 +356,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
-  private setDecorationsForEditor(
-    decorations: DecorationSet,
-  ){
+  private setDecorationsForEditor(decorations: DecorationSet) {
     this.decorations = decorations;
     this.decorationsPending = true;
   }
@@ -375,30 +367,39 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     // The offset of the field from its containing element
     fieldOffsetFromElement: number,
     // The node representing the current field in the ProseMirror document.
-    fieldNode: Node 
-  ){
+    fieldNode: Node
+  ) {
     // This field may receive decorations that will not apply to its range.
     // Find the decorations in the context of the original document that should apply to this field, based on the position of
     // the decorations in the original field.
     // We must filter the decorations before we offset them via a 'map', otherwise there may be errors due to decorations
     // being mapped outside of a valid range.
-    const relevantDecosFromOriginalDoc = decorationSet.find(fieldOffsetFromElement, fieldOffsetFromElement + fieldNode.nodeSize);
-    // We must recombine the Decoration[] into a DecorationSet because we can only 'map' a DecorationSet, not a Decoration[], 
+    const relevantDecosFromOriginalDoc = decorationSet.find(
+      fieldOffsetFromElement,
+      fieldOffsetFromElement + fieldNode.nodeSize
+    );
+    // We must recombine the Decoration[] into a DecorationSet because we can only 'map' a DecorationSet, not a Decoration[],
     // and we want to reposition the decorations relative to the current field.
     // We must do this in the context of the original document, because ProseMirror uses the structure of the document to structure
-    // the decorations - in particular Widget and Node decorations rely on the document structure for a correct DecorationSet to be 
+    // the decorations - in particular Widget and Node decorations rely on the document structure for a correct DecorationSet to be
     // formed.
     const offsetMap = new Mapping([StepMap.offset(-fieldOffsetFromElement)]);
-    const relevantDecosInOriginalDoc = DecorationSet.create(this.outerView.state.doc, relevantDecosFromOriginalDoc)
+    const relevantDecosInOriginalDoc = DecorationSet.create(
+      this.outerView.state.doc,
+      relevantDecosFromOriginalDoc
+    );
     // We now 'map' the decorations based on the offset, so that they are positioned relative to the current field, rather
     // than the outer doc.
-    const mappedDecorations = relevantDecosInOriginalDoc.map(offsetMap, fieldNode);
-    return mappedDecorations
+    const mappedDecorations = relevantDecosInOriginalDoc.map(
+      offsetMap,
+      fieldNode
+    );
+    return mappedDecorations;
   }
 
   protected applyDecorationsFromOuterEditor(
     decorations: DecorationSource | DecorationSet | DecorationGroup,
-    fieldNode: Node,
+    fieldNode: Node
   ) {
     // Do nothing if the decorations have not changed.
     if (decorations === this.outerDecorations) {
@@ -414,17 +415,28 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     if ("find" in decorations) {
       // 'decorations' is a DecorationSet. Map them, then set them as the field's decorations.
-      const relevantDecorationSet = this.getMappedDecorationsFromSet(decorations, fieldOffsetFromElement, fieldNode);
+      const relevantDecorationSet = this.getMappedDecorationsFromSet(
+        decorations,
+        fieldOffsetFromElement,
+        fieldNode
+      );
       this.setDecorationsForEditor(relevantDecorationSet);
     } else if ("members" in decorations) {
       // 'decorations' is a DecorationGroup. Map each member DecorationSet, combine them into a single DecorationSet,
       // then set them as the field's decorations.
-      const relevantDecorations = decorations.members.map(decorationSet =>
-        this.getMappedDecorationsFromSet(decorationSet, fieldOffsetFromElement, fieldNode)
-      ).flatMap((set) =>
-        set.find()
+      const relevantDecorations = decorations.members
+        .map((decorationSet) =>
+          this.getMappedDecorationsFromSet(
+            decorationSet,
+            fieldOffsetFromElement,
+            fieldNode
+          )
+        )
+        .flatMap((set) => set.find());
+      const decorationsAsSet = DecorationSet.create(
+        fieldNode,
+        relevantDecorations
       );
-      const decorationsAsSet = DecorationSet.create(fieldNode, relevantDecorations);
       this.setDecorationsForEditor(decorationsAsSet);
     }
   }

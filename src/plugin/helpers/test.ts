@@ -11,7 +11,9 @@ import { createParsers } from "./prosemirror";
 const initialDecoPhrase = "deco";
 const initialWidgetDecoPhrase = "widget";
 const testDecorationPluginKey = new PluginKey<string>("TEST_DECO_PLUGIN");
-const testWidgetDecorationPluginKey = new PluginKey<string>("TEST_WIDGET_DECO_PLUGIN");
+const testWidgetDecorationPluginKey = new PluginKey<string>(
+  "TEST_WIDGET_DECO_PLUGIN"
+);
 export const ChangeTestDecoStringAction = "CHANGE_TEST_DECO_STRING";
 
 export const testDecorationPlugin = new Plugin<string>({
@@ -84,7 +86,8 @@ export const testWidgetDecorationPlugin = new Plugin<string>({
   props: {
     decorations: (state) => {
       const testString =
-        testWidgetDecorationPluginKey.getState(state) ?? initialWidgetDecoPhrase;
+        testWidgetDecorationPluginKey.getState(state) ??
+        initialWidgetDecoPhrase;
       const ranges = [] as Array<[number, number]>;
       state.doc.descendants((node, offset) => {
         if (node.isLeaf && node.textContent) {
@@ -100,10 +103,14 @@ export const testWidgetDecorationPlugin = new Plugin<string>({
 
       return DecorationSet.create(
         state.doc,
-        ranges.flatMap(([from, to]) =>
-          [Decoration.widget(to, getTestWidgetDecoration, { isTestWidgetDeco: true} ),
-          Decoration.widget(from, getTestWidgetDecoration, { isTestWidgetDeco: true})]
-        )
+        ranges.flatMap(([from, to]) => [
+          Decoration.widget(to, getTestWidgetDecoration, {
+            isTestWidgetDeco: true,
+          }),
+          Decoration.widget(from, getTestWidgetDecoration, {
+            isTestWidgetDeco: true,
+          }),
+        ])
       );
     },
   },
