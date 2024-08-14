@@ -23,7 +23,8 @@ export interface AbstractTextFieldDescription
   isResizeable?: boolean;
 }
 
-// This class isn't made available by prosemirror-view - we should request a change there
+// The type of this class isn't made available by prosemirror-view - we should request a change there to make
+// it available as we have to interact with instance of it
 declare class DecorationGroup implements DecorationSource {
   readonly members: readonly DecorationSet[];
   constructor(members: readonly DecorationSet[]);
