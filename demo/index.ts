@@ -99,7 +99,6 @@ const documentElementName = "document";
 const tableElementName = "table";
 const interactiveElementName = "interactive";
 const membershipElementName = "membership";
-const witnessElementName = "witness";
 const instagramElementName = "instagram";
 const vineElementName = "vine";
 const tweetElementName = "tweet";
@@ -192,7 +191,6 @@ export const elements = {
     useLargePreview: true,
   }),
   [membershipElementName]: membershipElement,
-  [witnessElementName]: deprecatedElement,
   [vineElementName]: deprecatedElement,
   [instagramElementName]: deprecatedElement,
   [commentElementName]: commentElement,
@@ -222,6 +220,9 @@ export const elements = {
   [altStyleElementName]: keyTakeawaysElement,
   [repeaterElementName]: repeaterElement,
   [nestedElementName]: nestedElement,
+  // NOTE: TypeScript may be unhappy if you add another name to the union
+  // type of elements here because there's a limit of 24 on union types
+  // Related issue: https://github.com/microsoft/TypeScript/issues/40803
 };
 
 const {
