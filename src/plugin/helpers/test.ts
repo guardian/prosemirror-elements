@@ -58,6 +58,7 @@ export const testDecorationPlugin = new Plugin<string>({
 
 const getTestWidgetDecoration = () => {
   const span = document.createElement("span");
+  span.className = "TestWidgetDecoration";
   span.style.display = "inline-block";
   span.style.width = "2px";
   span.style.height = "0.7rem";
