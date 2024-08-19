@@ -248,7 +248,7 @@ export const updateFieldsFromNode = <
           view,
           getPos,
           offset: accumulatedOffset,
-          innerDecos: innerDecos,
+          innerDecos,
           getElementDataFromNode,
           transformElementOut,
         });
