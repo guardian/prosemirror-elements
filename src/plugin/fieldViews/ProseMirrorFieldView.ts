@@ -421,7 +421,10 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
         fieldOffsetFromElement,
         fieldNode
       );
-      this.setDecorationsForEditor(relevantDecorationSet);
+      // Decorations may be lost if we don't recreate the DecorationSet in the context of the innerEditor
+      const decoArray = relevantDecorationSet.find();
+      const decosForField = DecorationSet.create(fieldNode, decoArray);
+      this.setDecorationsForEditor(decosForField);
     } else if ("members" in decorations) {
       // 'decorations' is a DecorationGroup. Map each member DecorationSet, combine them into a single DecorationSet,
       // then set them as the field's decorations.
