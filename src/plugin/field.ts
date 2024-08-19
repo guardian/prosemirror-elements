@@ -104,7 +104,7 @@ export const getFieldsFromNode = <
           fieldDescriptions: fieldDescription.fields as FDesc,
           view,
           getPos,
-          innerDecos: innerDecos,
+          innerDecos,
           serializer,
           offset: offset + localOffset + repeaterOffset + depthOffset,
           getElementDataFromNode,
