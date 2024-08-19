@@ -350,11 +350,6 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     return view;
   }
 
-  private setDecorationsForEditor(decorations: DecorationSet) {
-    this.decorations = decorations;
-    this.decorationsPending = true;
-  }
-
   protected applyDecorationsFromOuterEditor(
     decorations: DecorationSource | DecorationSet | DecorationGroup,
     fieldNode: Node
@@ -378,7 +373,8 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
       this.outerView.state.doc
     );
 
-    this.setDecorationsForEditor(mappedDecorationSet);
+    this.decorations = mappedDecorationSet;
+    this.decorationsPending = true;
   }
 
   /**
