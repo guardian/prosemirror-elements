@@ -2,6 +2,7 @@ import {
   addNestedElement,
   addRepeaterElement,
   getElementRichTextField,
+  typeIntoProsemirror,
   visitRoot,
 } from "../helpers/editor";
 
@@ -66,6 +67,24 @@ describe("Decorations", () => {
   };
 
   it("should render inline decorations in repeater fields", () => {
+    addRepeaterElement({
+      repeater: [
+        {
+          repeaterText: "Example repeater text 1 deco",
+          nestedRepeater: [
+            { nestedRepeaterText: "Example nested repeater text 1 deco" },
+          ],
+        },
+        { repeaterText: "Example repeater text 2 deco" },
+      ],
+    });
+
+    assertInlineDecosAreValidForField("repeaterText", 2);
+    assertInlineDecosAreValidForField("nestedRepeaterText", 1);
+  });
+
+  it("should render inline decorations in repeater fields when there is existing text in the document", () => {
+    typeIntoProsemirror("Existing document content\n".repeat(3));
     addRepeaterElement({
       repeater: [
         {
