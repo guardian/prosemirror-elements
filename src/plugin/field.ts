@@ -236,7 +236,7 @@ export const updateFieldsFromNode = <
                 getPos,
                 serializer,
                 offset: accumulatedOffset,
-                innerDecos: innerDecos,
+                innerDecos,
                 getElementDataFromNode,
                 transformElementOut,
               });
