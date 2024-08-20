@@ -1,4 +1,5 @@
 import type { Mark } from "prosemirror-model";
+import type { insertElement } from "../../demo";
 import type { WindowType } from "../../demo/types";
 import { getFieldHeadingTestId } from "../../src/editorial-source-components/DemoInputHeading";
 import { placeholderTestAttribute } from "../../src/plugin/helpers/placeholder";
@@ -119,26 +120,19 @@ export const setStoredMark = (value: readonly Mark[] | null) => {
   });
 };
 
-export const addImageElement = (values: Record<string, unknown> = {}) => {
+const addElement = (
+  elementName: Parameters<typeof insertElement>[0]["elementName"]
+) => (values: Record<string, unknown> = {}) => {
   cy.window().then((win: WindowType) => {
     const { view, insertElement } = win.PM_ELEMENTS;
-    insertElement({ elementName: "demo-image-element", values })(
-      view.state,
-      view.dispatch
-    );
+    insertElement({ elementName, values })(view.state, view.dispatch);
   });
 };
 
-export const addAltStyleElement = (values: Record<string, unknown> = {}) => {
-  cy.window().then((win: WindowType) => {
-    const { view, insertElement } = win.PM_ELEMENTS;
-    insertElement({ elementName: "alt-style", values })(
-      view.state,
-      view.dispatch
-    );
-  });
-};
-
+export const addImageElement = addElement("demo-image-element");
+export const addAltStyleElement = addElement("alt-style");
+export const addRepeaterElement = addElement("repeater");
+export const addNestedElement = addElement("nested");
 export const getButton = (id: string) => cy.get(`button${selectDataCy(id)}`);
 
 export const clickButton = (id: string) => getButton(id).click();

@@ -3,9 +3,14 @@ import { DOMParser } from "prosemirror-model";
 import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
-import { Mapping, StepMap } from "prosemirror-transform";
-import type { DecorationSource, EditorProps } from "prosemirror-view";
+import { StepMap } from "prosemirror-transform";
+import type {
+  DecorationGroup,
+  DecorationSource,
+  EditorProps,
+} from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
+import { getMappedDecorationsFromSource } from "../helpers/decorations";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { PME_UPDATE_PLACEHOLDER } from "../helpers/placeholder";
 import type { BaseFieldDescription } from "./FieldView";
@@ -66,7 +71,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   ) {
     super();
 
-    this.applyDecorationsFromOuterEditor(decorations, node, offset);
+    this.applyDecorationsFromOuterEditor(decorations, node);
     this.setupFocusHandler();
     this.parser = DOMParser.fromSchema(node.type.schema);
 
@@ -149,7 +154,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
 
     this.offset = elementOffset;
     this.node = node;
-    this.applyDecorationsFromOuterEditor(decorations, node, elementOffset);
+    this.applyDecorationsFromOuterEditor(decorations, node);
 
     const state = this.innerEditorView.state;
     let shouldDispatchTransaction = false;
@@ -346,9 +351,8 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   }
 
   protected applyDecorationsFromOuterEditor(
-    decorations: DecorationSource,
-    node: Node,
-    elementOffset: number
+    decorations: DecorationSource | DecorationSet | DecorationGroup,
+    fieldNode: Node
   ) {
     // Do nothing if the decorations have not changed.
     if (decorations === this.outerDecorations) {
@@ -356,15 +360,20 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     }
 
     this.outerDecorations = decorations;
-    const localDecoSet = Array.isArray(decorations)
-      ? DecorationSet.create(node, decorations)
-      : decorations;
-    // Offset because the node we are displaying these decorations in is a child of its parent (-1)
-    const localOffset = -1;
-    const offsetMap = new Mapping([
-      StepMap.offset(-elementOffset + localOffset),
-    ]);
-    this.decorations = localDecoSet.map(offsetMap, node);
+    // The incoming decorations are positioned relative to the parent NodeView, so we only
+    // need to consider the offset of this field from its parent NodeView, and can ignore
+    // the offset of the parent from the outer editor's document.
+    // The node we will be altering is a child of its parent, so we add +1 to the offset.
+    const fieldOffsetFromElement = this.offset + 1;
+
+    const mappedDecorationSet = getMappedDecorationsFromSource(
+      decorations,
+      fieldOffsetFromElement,
+      fieldNode,
+      this.outerView.state.doc
+    );
+
+    this.decorations = mappedDecorationSet;
     this.decorationsPending = true;
   }
 
