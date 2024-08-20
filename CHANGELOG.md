@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.7
+
+### Patch Changes
+
+- 4568680: Improve handling of decorations, especially in nested and repeater fields
+
 ## 9.6.6
 
 ### Patch Changes
