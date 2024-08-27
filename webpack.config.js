@@ -24,9 +24,12 @@ export default {
   entry: "./demo/index.ts",
   mode: "development",
   devServer: {
-    contentBase: path.join(dirName, "./demo"),
+    static: {
+      directory: path.resolve(dirName, "demo"),
+    },
     compress: true,
     port: 7890,
-    disableHostCheck: true,
+    allowedHosts: "all",
+    open: [ "https://prosemirror-elements.local.dev-gutools.co.uk" ]
   },
 };
