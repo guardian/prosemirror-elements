@@ -124,6 +124,10 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
     if (this.innerEditorView) this.close();
   }
 
+  public focus() {
+    this.innerEditorView?.focus();
+  }
+
   private dispatchTransaction(tr: Transaction) {
     if (!this.innerEditorView) {
       return;
