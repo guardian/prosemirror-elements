@@ -7801,21 +7801,21 @@ prosemirror-menu@^1.0.0:
     prosemirror-history "^1.0.0"
     prosemirror-state "^1.0.0"
 
-prosemirror-model@>=1.0.0, prosemirror-model@^1.0.0, prosemirror-model@^1.16.0, prosemirror-model@^1.19.0, prosemirror-model@^1.19.4:
-  version "1.19.4"
-  resolved "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.19.4.tgz"
-  integrity sha512-RPmVXxUfOhyFdayHawjuZCxiROsm9L4FCUA6pWI+l7n2yCBsWy9VpdE1hpDHUS8Vad661YLY9AzqfjLhAKQ4iQ==
+prosemirror-model@>=1.0.0, prosemirror-model@^1.0.0, prosemirror-model@^1.16.0, prosemirror-model@^1.19.0, prosemirror-model@^1.21.0, prosemirror-model@1.22.3:
+  version "1.22.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.22.3.tgz#52fdf5897f348b0f07f64bea89156d90afdf645a"
+  integrity sha512-V4XCysitErI+i0rKFILGt/xClnFJaohe/wrrlT2NSZ+zk8ggQfDH4x2wNK7Gm0Hp4CIoWizvXFP7L9KMaCuI0Q==
   dependencies:
     orderedmap "^2.0.0"
 
-prosemirror-model@^1.21.0:
-  version "1.21.2"
-  resolved "https://registry.yarnpkg.com/prosemirror-model/-/prosemirror-model-1.21.2.tgz#05839500831d48f329feb78d3ad5c51f3682a226"
-  integrity sha512-zT9DBnr/6pzw85+dDfEF11KZmS4mmjgvUIoTxQkm96HxhpF2KGZaq+zWt/xHe32Dh8dn/u/UC77TjGVnYoClGQ==
+prosemirror-schema-basic@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-schema-basic/-/prosemirror-schema-basic-1.2.3.tgz#649c349bb21c61a56febf9deb71ac68fca4cedf2"
+  integrity sha512-h+H0OQwZVqMon1PNn0AG9cTfx513zgIG2DY00eJ00Yvgb3UD+GQ/VlWW5rcaxacpCGT1Yx8nuhwXk4+QbXUfJA==
   dependencies:
-    orderedmap "^2.0.0"
+    prosemirror-model "^1.19.0"
 
-prosemirror-schema-basic@^1.0.0, prosemirror-schema-basic@^1.2.2:
+prosemirror-schema-basic@^1.0.0:
   version "1.2.2"
   resolved "https://registry.npmjs.org/prosemirror-schema-basic/-/prosemirror-schema-basic-1.2.2.tgz"
   integrity sha512-/dT4JFEGyO7QnNTe9UaKUhjDXbTNkiWTq/N4VpKaF79bBjSExVV2NXmJpcM7z/gD7mbqNjxbmWW5nf1iNSSGnw==
@@ -7831,7 +7831,7 @@ prosemirror-schema-list@^1.0.0:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.0.0"
 
-prosemirror-state@>=1.0.0, prosemirror-state@^1.0.0, prosemirror-state@^1.2.2, prosemirror-state@^1.4.3:
+prosemirror-state@1.4.3, prosemirror-state@>=1.0.0, prosemirror-state@^1.0.0, prosemirror-state@^1.2.2:
   version "1.4.3"
   resolved "https://registry.npmjs.org/prosemirror-state/-/prosemirror-state-1.4.3.tgz"
   integrity sha512-goFKORVbvPuAQaXhpbemJFRKJ2aixr+AZMGiquiqKxaucC6hlpHNZHWgz5R7dS4roHiwq9vDctE//CZ++o0W1Q==
