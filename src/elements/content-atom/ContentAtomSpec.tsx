@@ -22,6 +22,10 @@ export type FetchContentAtomData = (
 export const contentAtomFields = {
   id: createTextField(),
   atomType: createTextField(),
+  jsonData: createTextField({
+    rows: 4,
+    isResizeable: true,
+  }),
   role: createCustomDropdownField(undefinedDropdownValue, [
     { text: "inline (default)", value: undefinedDropdownValue },
     { text: "Immersive", value: "immersive" },

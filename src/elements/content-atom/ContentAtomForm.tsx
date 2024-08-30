@@ -1,5 +1,6 @@
 import { upperFirst } from "lodash";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { Error } from "../../editorial-source-components/Error";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import { Label, NonBoldLabel } from "../../editorial-source-components/Label";
@@ -82,6 +83,10 @@ export const createContentAtomElement = (
               html={contentAtomData?.defaultHtml}
               headingLabel={null}
               minHeight={100}
+            />
+            <DemoFieldWrapper
+              headingLabel="Custom data"
+              field={fields.jsonData}
             />
             <CustomDropdownView
               field={fields.role}
