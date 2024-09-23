@@ -409,13 +409,16 @@ describe("ImageElement", () => {
         addImageElement({ code: "Code \n \n \n \n \n text" });
         getElementRichTextField("code")
           .invoke("css", "height")
-          .then((height) =>
-            getElementRichTextField("code")
-              .invoke("css", "max-height")
-              // Chained expressions here allow us to compare numerical value of string px properties
-              .then((maxHeight) => parseInt(maxHeight.toString()))
-              .should("be.above", parseInt(height.toString()))
-          );
+          .then((height) => {
+            cy.wait(200);
+            return (
+              getElementRichTextField("code")
+                .invoke("css", "max-height")
+                // Chained expressions here allow us to compare numerical value of string px properties
+                .then((maxHeight) => parseInt(maxHeight.toString()))
+                .should("be.above", parseInt(height.toString()))
+            );
+          });
       });
 
       it(`should visually extend no more than the number of lines specified by maxRows`, () => {
