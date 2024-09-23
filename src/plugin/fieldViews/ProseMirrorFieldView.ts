@@ -4,11 +4,7 @@ import type { AttributeSpec, Mark, Node } from "prosemirror-model";
 import type { Plugin, Selection, Transaction } from "prosemirror-state";
 import { EditorState } from "prosemirror-state";
 import { StepMap } from "prosemirror-transform";
-import type {
-  DecorationGroup,
-  DecorationSource,
-  EditorProps,
-} from "prosemirror-view";
+import type { DecorationSource, EditorProps } from "prosemirror-view";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import { getMappedDecorationsFromSource } from "../helpers/decorations";
 import type { PlaceholderOption } from "../helpers/placeholder";
@@ -351,7 +347,7 @@ export abstract class ProseMirrorFieldView extends FieldView<string> {
   }
 
   protected applyDecorationsFromOuterEditor(
-    decorations: DecorationSource | DecorationSet | DecorationGroup,
+    decorations: DecorationSource,
     fieldNode: Node
   ) {
     // Do nothing if the decorations have not changed.
