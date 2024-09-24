@@ -1,6 +1,6 @@
 import type { Node } from "prosemirror-model";
 import { Mapping, StepMap } from "prosemirror-transform";
-import type { DecorationGroup, DecorationSource } from "prosemirror-view";
+import type { DecorationSource } from "prosemirror-view";
 import { DecorationSet } from "prosemirror-view";
 
 export const getMappedDecorationsFromSet = (
@@ -42,43 +42,29 @@ export const getMappedDecorationsFromSet = (
 };
 
 export const getMappedDecorationsFromSource = (
-  decorations: DecorationSource | DecorationSet | DecorationGroup,
+  decorations: DecorationSource,
   fieldOffsetFromElement: number,
   fieldNode: Node,
   document: Node
 ): DecorationSet => {
-  if ("find" in decorations) {
-    // 'decorations' is a DecorationSet. Map them, then set them as the field's decorations.
-    const relevantDecorationSet = getMappedDecorationsFromSet(
-      decorations,
+  const relevantDecorationSets: DecorationSet[] = [];
+
+  // Map each member DecorationSet, combine them into a single DecorationSet,
+  // then set them as the field's decorations.
+  decorations.forEachSet((set) => {
+    const mappedDecos = getMappedDecorationsFromSet(
+      set,
       fieldOffsetFromElement,
       fieldNode,
       document
     );
-    // Decorations may be lost if we don't recreate the DecorationSet in the context of the innerEditor
-    const decoArray = relevantDecorationSet.find();
-    const decosForField = DecorationSet.create(fieldNode, decoArray);
-    return decosForField;
-  } else if ("members" in decorations) {
-    // 'decorations' is a DecorationGroup. Map each member DecorationSet, combine them into a single DecorationSet,
-    // then set them as the field's decorations.
-    const relevantDecorations = decorations.members
-      .map((decorationSet) =>
-        getMappedDecorationsFromSet(
-          decorationSet,
-          fieldOffsetFromElement,
-          fieldNode,
-          document
-        )
-      )
-      .flatMap((set) => set.find());
-    const decorationsAsSet = DecorationSet.create(
-      fieldNode,
-      relevantDecorations
-    );
-    return decorationsAsSet;
-  }
-  // The DecorationSource should be implemented as a DecorationSet or a DecorationGroup. If it isn't, return an empty
-  // DecorationSet
-  return DecorationSet.create(fieldNode, []);
+    relevantDecorationSets.push(mappedDecos);
+  });
+
+  const relevantDecorations = relevantDecorationSets.flatMap((set) =>
+    set.find()
+  );
+  // Decorations may be lost if we don't recreate the DecorationSet in the context of the innerEditor
+  const decorationsAsSet = DecorationSet.create(fieldNode, relevantDecorations);
+  return decorationsAsSet;
 };
