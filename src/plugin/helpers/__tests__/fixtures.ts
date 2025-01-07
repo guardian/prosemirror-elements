@@ -43,6 +43,7 @@ export const schema: Schema = new Schema({
 });
 
 export const {
+  doc,
   example,
   example__caption,
   example__html,

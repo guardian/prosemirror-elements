@@ -22,8 +22,12 @@ import type {
   TransformElementOut,
 } from "./helpers/element";
 import { getFieldValuesFromNode } from "./helpers/element";
-import type { Commands } from "./helpers/prosemirror";
-import { createUpdateDecorations } from "./helpers/prosemirror";
+import type { Commands, Predicate } from "./helpers/prosemirror";
+import {
+  buildCommands,
+  createUpdateDecorations,
+  getValidElementInsertionRange,
+} from "./helpers/prosemirror";
 import {
   elementSelectedNodeAttr,
   getNodeNameFromElementName,
@@ -33,7 +37,9 @@ import {
 
 const decorations = createUpdateDecorations();
 
-export type PluginState = unknown;
+export type PluginState = {
+  validInsertionRange: { from: number; to: number } | undefined;
+};
 
 const selectionIsZeroWidth = (state: EditorState) =>
   state.selection.from === state.selection.to;
@@ -46,13 +52,36 @@ export const createPlugin = <
   elementsSpec: {
     [elementName in ElementNames]: ElementSpec<FDesc>;
   },
-  commands: Commands,
   sendTelemetryEvent: SendTelemetryEvent,
   getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
+  predicate: Predicate,
   transformElementOut?: TransformElementOut
 ): Plugin<PluginState> => {
+  const commands = buildCommands(predicate);
   return new Plugin<PluginState>({
     key: pluginKey,
+    state: {
+      init(_, state) {
+        const validInsertionRange = getValidElementInsertionRange(
+          state.doc,
+          predicate
+        );
+
+        return {
+          validInsertionRange,
+        };
+      },
+      apply(_, __, ___, newState) {
+        const validInsertionRange = getValidElementInsertionRange(
+          newState.doc,
+          predicate
+        );
+
+        return {
+          validInsertionRange,
+        };
+      },
+    },
     /**
      * Update the elements to represent the current selection.
      */
@@ -219,7 +248,8 @@ const createNodeView = <
   let currentFields = fields;
   let currentDecos = innerDecos;
   let currentIsSelected = false;
-  let currentCommandValues = getCommandValues(initCommands);
+  const pluginState = pluginKey.getState(view.state);
+  let currentCommandValues = getCommandValues(getPos(), pluginState?.validInsertionRange);
   let currentSelection = view.state.selection;
   let currentStoredMarks = view.state.storedMarks;
 
@@ -257,7 +287,9 @@ const createNodeView = <
       ) {
         const newIsSelected = isProseMirrorElementSelected(newNode);
         const newCommands = commands(getPos, view);
-        const newCommandValues = getCommandValues(newCommands);
+        const pluginState = pluginKey.getState(view.state);
+        const newCommandValues = getCommandValues(getPos(), pluginState?.validInsertionRange);
+
         const newSelection = view.state.selection;
         const newStoredMarks = view.state.storedMarks;
 
@@ -330,11 +362,14 @@ const createNodeView = <
   };
 };
 
-const getCommandValues = (commands: ReturnType<Commands>) => ({
-  moveUp: commands.moveUp(false),
-  moveDown: commands.moveDown(false),
-  moveTop: commands.moveTop(false),
-  moveBottom: commands.moveBottom(false),
+const getCommandValues = (
+  pos: number,
+  range: { from: number; to: number } | undefined
+) => ({
+  moveUp: range && pos > range.from,
+  moveDown: range && pos < range.to,
+  moveTop: range && pos > range.from,
+  moveBottom: range && pos < range.to,
 });
 
 const commandsHaveChanged = (
