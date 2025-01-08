@@ -27,6 +27,7 @@ import {
   buildCommands,
   createUpdateDecorations,
   getValidElementInsertionRange,
+  selectionHasChangedForRange,
 } from "./helpers/prosemirror";
 import {
   elementSelectedNodeAttr,
@@ -285,7 +286,9 @@ const createNodeView = <
         newNode.type.name === nodeName &&
         newNode.attrs.type === initElementNode.attrs.type
       ) {
+        const pos = getPos();
         const newIsSelected = isProseMirrorElementSelected(newNode);
+
         const newCommands = commands(getPos, view);
         const pluginState = pluginKey.getState(view.state);
         const newCommandValues = getCommandValues(getPos(), pluginState?.validInsertionRange);
@@ -300,7 +303,12 @@ const createNodeView = <
           currentCommandValues,
           newCommandValues
         );
-        const selectionHasChanged = !newSelection.eq(currentSelection);
+        const selectionChangeAffectsNode = selectionHasChangedForRange(
+          pos,
+          pos + newNode.nodeSize,
+          currentSelection,
+          newSelection
+        );
         const storedMarksHaveChanged = currentStoredMarks !== newStoredMarks;
 
         // Only recalculate our field values if our node content has changed.
@@ -321,7 +329,7 @@ const createNodeView = <
         if (
           fieldValuesChanged ||
           innerDecosChanged ||
-          selectionHasChanged ||
+          selectionChangeAffectsNode ||
           storedMarksHaveChanged
         ) {
           updateFieldViewsFromNode(

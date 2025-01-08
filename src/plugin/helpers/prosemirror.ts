@@ -340,6 +340,34 @@ const selectAllText = (
   return true;
 };
 
+export const selectionHasChangedForRange = (
+  from: number,
+  to: number,
+  currentSelection: Selection,
+  newSelection: Selection
+) => {
+  if (newSelection.eq(currentSelection)) {
+    return false;
+  }
+
+  const currentSelectionCoversRange = doRangesIntersect(
+    { from, to },
+    currentSelection
+  );
+
+  const newSelectionCoversRange = doRangesIntersect({ from, to }, newSelection);
+
+  return currentSelectionCoversRange || newSelectionCoversRange;
+};
+
+type Range = {
+  from: number;
+  to: number;
+};
+
+const doRangesIntersect = (rangeA: Range, rangeB: Range) =>
+  Math.max(rangeA.from, rangeB.from) <= Math.min(rangeA.to, rangeB.to);
+
 export {
   buildCommands,
   defaultPredicate,
