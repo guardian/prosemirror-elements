@@ -499,11 +499,13 @@ const createEditor = (server: CollabServer) => {
   });
   btnContainer.appendChild(toggleImageFields);
 
-  new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
-    if (isFirstEditor) {
-      set(state.doc);
-    }
-  });
+  if (enableExpensiveFeatures) {
+    new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
+      if (isFirstEditor) {
+        set(state.doc);
+      }
+    });
+  }
 
   editorNo++;
 
@@ -530,7 +532,9 @@ declare global {
   interface Window extends WindowType {}
 }
 
-applyDevTools(firstEditor);
+if (enableExpensiveFeatures) {
+  applyDevTools(firstEditor);
+}
 
 window.PM_ELEMENTS = {
   view: firstEditor,
