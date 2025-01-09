@@ -359,6 +359,8 @@ const createEditor = (server: CollabServer) => {
         collabPlugin,
         updateElementDataPlugin,
         createSelectionCollabPlugin(clientID),
+        testDecorationPlugin,
+        testWidgetDecorationPlugin,
       ]
     : [];
 
@@ -368,8 +370,6 @@ const createEditor = (server: CollabServer) => {
       plugins: [
         ...exampleSetup({ schema }),
         elementPlugin,
-        testDecorationPlugin,
-        testWidgetDecorationPlugin,
         testInnerEditorEventPropagationPlugin,
         ...expensivePlugins,
       ],
