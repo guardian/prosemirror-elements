@@ -81,6 +81,9 @@ import {
 } from "./sampleElements";
 import type { WindowType } from "./types";
 
+// Enable collaboration and serialisation. Disabling can be useful when measuring performance improvements.
+const enableExpensiveFeatures = false;
+
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
@@ -350,6 +353,14 @@ const createEditor = (server: CollabServer) => {
     }
   });
 
+  const expensivePlugins = enableExpensiveFeatures
+    ? [
+        collabPlugin,
+        updateElementDataPlugin,
+        createSelectionCollabPlugin(clientID),
+      ]
+    : [];
+
   const view = new EditorView(editorElement, {
     state: EditorState.create({
       doc: isFirstEditor ? get() : firstEditor?.state.doc,
@@ -359,9 +370,7 @@ const createEditor = (server: CollabServer) => {
         testDecorationPlugin,
         testWidgetDecorationPlugin,
         testInnerEditorEventPropagationPlugin,
-        collabPlugin,
-        updateElementDataPlugin,
-        createSelectionCollabPlugin(clientID),
+        ...expensivePlugins,
       ],
     }),
   });
@@ -515,7 +524,9 @@ const createEditor = (server: CollabServer) => {
 const server = new CollabServer();
 firstEditor = createEditor(server);
 const doc = firstEditor.state.doc;
-server.init(doc);
+if (enableExpensiveFeatures) {
+  server.init(doc);
+}
 
 // Add more editors
 const addEditorButton = document.createElement("button");
