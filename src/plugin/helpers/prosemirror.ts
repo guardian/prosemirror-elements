@@ -174,8 +174,7 @@ export const findAllNodesThatMatchPredicate = (
 };
 
 /**
- * Get the smallest and largest positions before and after which an element can
- * be inserted.
+ * Get the range within which an element can be inserted.
  */
 export const getValidElementInsertionRange = (
   node: Node,
