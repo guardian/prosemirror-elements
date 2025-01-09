@@ -149,10 +149,10 @@ export const findAllNodesThatMatchPredicate = (
   to: number,
   predicate: Predicate
 ) => {
-  const result: {
+  const result: Array<{
     node: Node;
     pos: number;
-  }[] = [];
+  }> = [];
   node.nodesBetween(from, to, (iterNode, pos, parent, index) => {
     if (predicate(iterNode, pos, parent, index)) {
       result.push({ node: iterNode, pos });
@@ -167,7 +167,7 @@ export const findAllNodesThatMatchPredicate = (
       recursion, top-level elements would move inside the list element, often breaking the document
       structure. Note this still allows us to move nested elements **within** list elements.
     */
-    return !result && !anyDescendantFieldIsNestedElementField(iterNode);
+    return !anyDescendantFieldIsNestedElementField(iterNode);
   });
 
   return result;
@@ -189,7 +189,7 @@ export const getValidElementInsertionRange = (
     predicate
   );
 
-  if (!validNodes.length) {
+  if (validNodes.length === 0) {
     return undefined;
   }
 

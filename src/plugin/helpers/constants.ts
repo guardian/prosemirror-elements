@@ -2,7 +2,7 @@
 // renderers that must be able to uniquely identify children – for example, in
 
 import { PluginKey } from "prosemirror-state";
-import { PluginState } from "../plugin";
+import type { PluginState } from "../plugin";
 
 // React, where a `key` attribute is expected in arrays of ReactNodes.
 export const RepeaterFieldMapIDKey = "__ID";

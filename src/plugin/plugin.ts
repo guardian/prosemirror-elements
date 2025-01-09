@@ -250,7 +250,10 @@ const createNodeView = <
   let currentDecos = innerDecos;
   let currentIsSelected = false;
   const pluginState = pluginKey.getState(view.state);
-  let currentCommandValues = getCommandValues(getPos(), pluginState?.validInsertionRange);
+  let currentCommandValues = getCommandValues(
+    getPos(),
+    pluginState?.validInsertionRange
+  );
   let currentSelection = view.state.selection;
   let currentStoredMarks = view.state.storedMarks;
 
@@ -291,7 +294,10 @@ const createNodeView = <
 
         const newCommands = commands(getPos, view);
         const pluginState = pluginKey.getState(view.state);
-        const newCommandValues = getCommandValues(getPos(), pluginState?.validInsertionRange);
+        const newCommandValues = getCommandValues(
+          getPos(),
+          pluginState?.validInsertionRange
+        );
 
         const newSelection = view.state.selection;
         const newStoredMarks = view.state.storedMarks;

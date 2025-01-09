@@ -82,7 +82,7 @@ import {
 import type { WindowType } from "./types";
 
 // Enable collaboration and serialisation. Disabling can be useful when measuring performance improvements.
-const enableExpensiveFeatures = false;
+const enableExpensiveFeatures = true;
 
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
@@ -353,6 +353,7 @@ const createEditor = (server: CollabServer) => {
     }
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
   const expensivePlugins = enableExpensiveFeatures
     ? [
         collabPlugin,
@@ -508,12 +509,19 @@ const createEditor = (server: CollabServer) => {
   });
   btnContainer.appendChild(toggleImageFields);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
   if (enableExpensiveFeatures) {
-    new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
-      if (isFirstEditor) {
-        set(state.doc);
+    new EditorConnection(
+      view,
+      server,
+      clientID,
+      `User ${clientID}`,
+      (state) => {
+        if (isFirstEditor) {
+          set(state.doc);
+        }
       }
-    });
+    );
   }
 
   editorNo++;
@@ -524,6 +532,8 @@ const createEditor = (server: CollabServer) => {
 const server = new CollabServer();
 firstEditor = createEditor(server);
 const doc = firstEditor.state.doc;
+
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
 if (enableExpensiveFeatures) {
   server.init(doc);
 }
@@ -543,6 +553,7 @@ declare global {
   interface Window extends WindowType {}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
 if (enableExpensiveFeatures) {
   applyDevTools(firstEditor);
 }

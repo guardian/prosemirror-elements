@@ -10,7 +10,6 @@ import type { FieldNameToValueMapWithEmptyValues } from "../helpers/fieldView";
 import { createEditorWithElements } from "../helpers/test";
 import { elementSelectedNodeAttr } from "../nodeSpec";
 import type { FieldDescriptions } from "../types/Element";
-import { pluginKey } from "../helpers/constants";
 
 describe("createPlugin", () => {
   // Called when our consumer is updated by the plugin.

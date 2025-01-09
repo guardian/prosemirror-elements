@@ -1,6 +1,9 @@
-import { defaultPredicate, getValidElementInsertionRange } from "../prosemirror";
-import { doc, example, example__caption } from "./fixtures";
 import { Node } from "prosemirror-model";
+import {
+  defaultPredicate,
+  getValidElementInsertionRange,
+} from "../prosemirror";
+import { doc, example, example__caption } from "./fixtures";
 
 describe("prosemirror utilities", () => {
   const a = example("<a>", example__caption("a"));
