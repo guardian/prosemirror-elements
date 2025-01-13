@@ -72,7 +72,11 @@ export const createPlugin = <
           validInsertionRange,
         };
       },
-      apply(_, __, ___, newState) {
+      apply(tr, oldPluginState, ___, newState) {
+        if (!tr.docChanged) {
+          return oldPluginState;
+        }
+
         const validInsertionRange = getValidElementInsertionRange(
           newState.doc,
           predicate
