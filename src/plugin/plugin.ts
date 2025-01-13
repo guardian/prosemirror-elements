@@ -299,7 +299,7 @@ const createNodeView = <
         const newCommands = commands(getPos, view);
         const pluginState = pluginKey.getState(view.state);
         const newCommandValues = getCommandValues(
-          getPos(),
+          pos,
           pluginState?.validInsertionRange
         );
 
