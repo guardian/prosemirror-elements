@@ -81,6 +81,9 @@ import {
 } from "./sampleElements";
 import type { WindowType } from "./types";
 
+// Enable collaboration and serialisation. Disabling can be useful when measuring performance improvements.
+const enableExpensiveFeatures = true;
+
 // Only show focus when the user is keyboard navigating, not when
 // they click a text field.
 FocusStyleManager.onlyShowFocusOnTabs();
@@ -350,18 +353,25 @@ const createEditor = (server: CollabServer) => {
     }
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
+  const expensivePlugins = enableExpensiveFeatures
+    ? [
+        collabPlugin,
+        updateElementDataPlugin,
+        createSelectionCollabPlugin(clientID),
+        testDecorationPlugin,
+        testWidgetDecorationPlugin,
+      ]
+    : [];
+
   const view = new EditorView(editorElement, {
     state: EditorState.create({
       doc: isFirstEditor ? get() : firstEditor?.state.doc,
       plugins: [
         ...exampleSetup({ schema }),
         elementPlugin,
-        testDecorationPlugin,
-        testWidgetDecorationPlugin,
         testInnerEditorEventPropagationPlugin,
-        collabPlugin,
-        updateElementDataPlugin,
-        createSelectionCollabPlugin(clientID),
+        ...expensivePlugins,
       ],
     }),
   });
@@ -499,11 +509,20 @@ const createEditor = (server: CollabServer) => {
   });
   btnContainer.appendChild(toggleImageFields);
 
-  new EditorConnection(view, server, clientID, `User ${clientID}`, (state) => {
-    if (isFirstEditor) {
-      set(state.doc);
-    }
-  });
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
+  if (enableExpensiveFeatures) {
+    new EditorConnection(
+      view,
+      server,
+      clientID,
+      `User ${clientID}`,
+      (state) => {
+        if (isFirstEditor) {
+          set(state.doc);
+        }
+      }
+    );
+  }
 
   editorNo++;
 
@@ -513,7 +532,11 @@ const createEditor = (server: CollabServer) => {
 const server = new CollabServer();
 firstEditor = createEditor(server);
 const doc = firstEditor.state.doc;
-server.init(doc);
+
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
+if (enableExpensiveFeatures) {
+  server.init(doc);
+}
 
 // Add more editors
 const addEditorButton = document.createElement("button");
@@ -530,7 +553,10 @@ declare global {
   interface Window extends WindowType {}
 }
 
-applyDevTools(firstEditor);
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
+if (enableExpensiveFeatures) {
+  applyDevTools(firstEditor);
+}
 
 window.PM_ELEMENTS = {
   view: firstEditor,

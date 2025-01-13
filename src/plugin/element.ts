@@ -9,7 +9,7 @@ import {
   createGetNodeFromElementData,
 } from "./helpers/element";
 import type { Predicate } from "./helpers/prosemirror";
-import { buildCommands, defaultPredicate } from "./helpers/prosemirror";
+import { defaultPredicate } from "./helpers/prosemirror";
 import { getNodeSpecFromFieldDescriptions } from "./nodeSpec";
 import { createPlugin } from "./plugin";
 import type {
@@ -84,9 +84,9 @@ export const buildElementPlugin = <
 
   const plugin = createPlugin(
     elementSpecs,
-    buildCommands(predicate),
     sendTelemetryEvent,
     getElementDataFromNode,
+    predicate,
     transformElementOut
   );
   let nodeSpec: OrderedMap<NodeSpec> = OrderedMap.from({});

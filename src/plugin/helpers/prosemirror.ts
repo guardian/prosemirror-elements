@@ -1,6 +1,6 @@
 import type { Node, Schema } from "prosemirror-model";
 import { DOMParser, DOMSerializer } from "prosemirror-model";
-import type { EditorState, Transaction } from "prosemirror-state";
+import type { EditorState, Selection, Transaction } from "prosemirror-state";
 import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
@@ -137,6 +137,66 @@ const moveNode = (consumerPredicate: Predicate) => (
 
   dispatch(tr);
   return true;
+};
+
+/**
+ * Find all the nodes that match the predicate, returning the node and its
+ * position.
+ */
+export const findAllNodesThatMatchPredicate = (
+  node: Node,
+  from: number,
+  to: number,
+  predicate: Predicate
+) => {
+  const result: Array<{
+    node: Node;
+    pos: number;
+  }> = [];
+  node.nodesBetween(from, to, (iterNode, pos, parent, index) => {
+    if (predicate(iterNode, pos, parent, index)) {
+      result.push({ node: iterNode, pos });
+    }
+
+    /*
+      Returning false from state.doc.nodesBetween prevents recursion into the node's children. We don't
+      want to recurse when the node is a list element.
+
+      This allows us to treat list elements and their contents as a single entity for movement purposes.
+      This means we can move top-level elements up and down past a list element. Before, with
+      recursion, top-level elements would move inside the list element, often breaking the document
+      structure. Note this still allows us to move nested elements **within** list elements.
+    */
+    return !anyDescendantFieldIsNestedElementField(iterNode);
+  });
+
+  return result;
+};
+
+/**
+ * Get the range within which an element can be inserted.
+ */
+export const getValidElementInsertionRange = (
+  node: Node,
+  predicate: Predicate
+): { from: number; to: number } | undefined => {
+  const allSelection = new AllSelection(node);
+  const validNodes = findAllNodesThatMatchPredicate(
+    node,
+    allSelection.from,
+    allSelection.to,
+    predicate
+  );
+
+  if (validNodes.length === 0) {
+    return undefined;
+  }
+
+  const from = validNodes[0].pos;
+  const toNode = validNodes[validNodes.length - 1];
+  const to = toNode.pos + toNode.node.nodeSize + 1;
+
+  return { from, to };
 };
 
 const moveNodeUp = (predicate: Predicate) => (
@@ -278,6 +338,34 @@ const selectAllText = (
   );
   return true;
 };
+
+export const selectionHasChangedForRange = (
+  from: number,
+  to: number,
+  currentSelection: Selection,
+  newSelection: Selection
+) => {
+  if (newSelection.eq(currentSelection)) {
+    return false;
+  }
+
+  const currentSelectionCoversRange = doRangesIntersect(
+    { from, to },
+    currentSelection
+  );
+
+  const newSelectionCoversRange = doRangesIntersect({ from, to }, newSelection);
+
+  return currentSelectionCoversRange || newSelectionCoversRange;
+};
+
+type Range = {
+  from: number;
+  to: number;
+};
+
+const doRangesIntersect = (rangeA: Range, rangeB: Range) =>
+  Math.max(rangeA.from, rangeB.from) <= Math.min(rangeA.to, rangeB.to);
 
 export {
   buildCommands,
