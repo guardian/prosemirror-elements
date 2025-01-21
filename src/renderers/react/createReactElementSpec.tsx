@@ -61,5 +61,10 @@ export const createReactElementSpec = <
     unmountComponentAtNode(dom);
   };
 
-  return createElementSpec(fieldDescriptions, initElementView, validate, destroy);
+  return createElementSpec(
+    fieldDescriptions,
+    initElementView,
+    validate,
+    destroy
+  );
 };

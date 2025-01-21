@@ -1,4 +1,3 @@
-import type { Node } from "prosemirror-model";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { createElementValidator } from "./helpers/validation";
@@ -19,9 +18,7 @@ type Subscriber<FDesc extends FieldDescriptions<string>> = (
 /**
  * A class for subscribing to, and publishing, updates to element-related state.
  */
-export class ElementStateUpdatePublisher<
-  FDesc extends FieldDescriptions<string>
-> {
+export class ElementViewPublisher<FDesc extends FieldDescriptions<string>> {
   public sub: Subscriber<FDesc> | undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function -- nothing to do on class construction
   constructor() {}
@@ -73,15 +70,12 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   validateElement: Validator<FDesc> | undefined = undefined,
   destroy: (dom: HTMLElement) => void
 ): ElementSpec<FDesc> => {
-  const validate = createElementValidator(
-    fieldDescriptions,
-    validateElement
-  );
+  const validate = createElementValidator(fieldDescriptions, validateElement);
 
   return {
     fieldDescriptions,
     validate,
-    createUpdateElementViewFn: (
+    createElementView: (
       dom,
       fields,
       updateState,
@@ -89,7 +83,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
       sendTelemetryEvent,
       getElementData
     ) => {
-      const elementStateUpdatePublisher = new ElementStateUpdatePublisher<FDesc>();
+      const elementStateUpdatePublisher = new ElementViewPublisher<FDesc>();
 
       initElementView(
         validate,
@@ -102,7 +96,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
         getElementData
       );
 
-      return elementStateUpdatePublisher.update;
+      return { update: elementStateUpdatePublisher.update };
     },
     destroy,
   };

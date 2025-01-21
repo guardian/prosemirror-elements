@@ -270,7 +270,7 @@ const createNodeView = <
       transformElementOut
     );
 
-  const updateElementView = element.createUpdateElementViewFn(
+  const elementView = element.createElementView(
     dom,
     fields,
     (fields) => {
@@ -354,7 +354,7 @@ const createNodeView = <
 
         // Only update our consumer if anything internal to the field has changed.
         if (fieldValuesChanged || commandsChanged || isSelectedChanged) {
-          updateElementView(newFields, newCommands, newIsSelected);
+          elementView.update(newFields, newCommands, newIsSelected);
         }
 
         currentNode = newNode;

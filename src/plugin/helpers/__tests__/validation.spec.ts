@@ -118,9 +118,7 @@ describe("Validation helpers", () => {
         field2: createDefaultRichTextField([maxLength(5)]),
       };
 
-      const validator = createElementValidator(
-        fieldDescriptions
-      );
+      const validator = createElementValidator(fieldDescriptions);
 
       const result = validator({
         field1: "OK!",
