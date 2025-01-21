@@ -16,22 +16,20 @@ type Subscriber<FDesc extends FieldDescriptions<string>> = (
   isSelected: boolean
 ) => void;
 
-type Updater<FDesc extends FieldDescriptions<string>> = {
-  update: Subscriber<FDesc>;
-  subscribe: (s: Subscriber<FDesc>) => void;
-};
-
-const createUpdater = <
+/**
+ * A class for subscribing to, and publishing, updates to element-related state.
+ */
+export class ElementStateUpdatePublisher<
   FDesc extends FieldDescriptions<string>
->(): Updater<FDesc> => {
-  let sub: Subscriber<FDesc> = () => undefined;
-  return {
-    subscribe: (fn) => {
-      sub = fn;
-    },
-    update: (fields, commands, isSelected) => sub(fields, commands, isSelected),
-  };
-};
+> {
+  public sub: Subscriber<FDesc> | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- nothing to do on class construction
+  constructor() {}
+
+  public subscribe = (fn: Subscriber<FDesc>) => (this.sub = fn);
+  public update: Subscriber<FDesc> = (fields, commands, isSelected) =>
+    this.sub?.(fields, commands, isSelected);
+}
 
 export type ErrorLevel = "ERROR" | "WARN";
 
@@ -91,18 +89,20 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
       sendTelemetryEvent,
       getElementData
     ) => {
-      const updater = createUpdater<FDesc>();
-      render(
+      const elementStateUpdatePublisher = new ElementStateUpdatePublisher<FDesc>();
+
+      initElementView(
         validate,
         dom,
         fields,
         (fields) => updateState(fields),
         commands,
-        updater.subscribe,
+        elementStateUpdatePublisher.subscribe,
         sendTelemetryEvent,
         getElementData
       );
-      return updater.update;
+
+      return elementStateUpdatePublisher.update;
     },
     destroy,
   };
