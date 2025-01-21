@@ -1,7 +1,7 @@
 import type { Node } from "prosemirror-model";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
-import { validateWithFieldAndElementValidators } from "./helpers/validation";
+import { createElementValidator } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
@@ -52,7 +52,12 @@ export type FieldValidator = (
   fieldName: string
 ) => ValidationError[];
 
-export type Renderer<FDesc extends FieldDescriptions<string>> = (
+/**
+ * Initialise the view for an element, providing the necessary data to display
+ * it, validate it, and subscribe to updates to its state. Called when an
+ * element is first added to a document.
+ */
+export type InitElementView<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
@@ -66,11 +71,11 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
 
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
-  render: Renderer<FDesc>,
+  initElementView: InitElementView<FDesc>,
   validateElement: Validator<FDesc> | undefined = undefined,
   destroy: (dom: HTMLElement) => void
 ): ElementSpec<FDesc> => {
-  const validate = validateWithFieldAndElementValidators(
+  const validate = createElementValidator(
     fieldDescriptions,
     validateElement
   );
@@ -78,7 +83,7 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   return {
     fieldDescriptions,
     validate,
-    createUpdator: (
+    createUpdateElementViewFn: (
       dom,
       fields,
       updateState,

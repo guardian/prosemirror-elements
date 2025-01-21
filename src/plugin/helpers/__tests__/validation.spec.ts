@@ -3,7 +3,7 @@ import {
   createValidator,
   maxLength,
   required,
-  validateWithFieldAndElementValidators,
+  createElementValidator,
 } from "../validation";
 
 describe("Validation helpers", () => {
@@ -91,7 +91,7 @@ describe("Validation helpers", () => {
         field2: [maxLength(5)],
       });
 
-      const validator = validateWithFieldAndElementValidators(
+      const validator = createElementValidator(
         fieldDescriptions,
         elementValidator
       );
@@ -118,7 +118,7 @@ describe("Validation helpers", () => {
         field2: createDefaultRichTextField([maxLength(5)]),
       };
 
-      const validator = validateWithFieldAndElementValidators(
+      const validator = createElementValidator(
         fieldDescriptions
       );
 
@@ -148,7 +148,7 @@ describe("Validation helpers", () => {
         field2: [maxLength(5)],
       });
 
-      const validator = validateWithFieldAndElementValidators(
+      const validator = createElementValidator(
         fieldDescriptions,
         elementValidator
       );

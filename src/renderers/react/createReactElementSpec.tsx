@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { createElementSpec } from "../../plugin/elementSpec";
-import type { Renderer, Validator } from "../../plugin/elementSpec";
+import type { InitElementView, Validator } from "../../plugin/elementSpec";
 import type { Consumer } from "../../plugin/types/Consumer";
 import type {
   ExtractFieldValues,
@@ -32,7 +32,7 @@ export const createReactElementSpec = <
   onRemove,
   wrapperComponent = ElementWrapper,
 }: CreateReactElementSpecOptions<FDesc>) => {
-  const renderer: Renderer<FDesc> = (
+  const initElementView: InitElementView<FDesc> = (
     validate,
     dom,
     fields,
@@ -56,9 +56,10 @@ export const createReactElementSpec = <
       />,
       dom
     );
+
   const destroy = (dom: HTMLElement) => {
     unmountComponentAtNode(dom);
   };
 
-  return createElementSpec(fieldDescriptions, renderer, validate, destroy);
+  return createElementSpec(fieldDescriptions, initElementView, validate, destroy);
 };

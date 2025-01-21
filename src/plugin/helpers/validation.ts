@@ -27,9 +27,7 @@ export const createValidator = (
   return errors;
 };
 
-export const validateWithFieldAndElementValidators = <
-  FDesc extends FieldDescriptions<string>
->(
+export const createElementValidator = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
   validateElement: Validator<FDesc> | undefined = undefined
 ): Validator<FDesc> => (fields: Partial<FieldNameToValueMap<FDesc>>) => {

@@ -261,7 +261,7 @@ const createNodeView = <
   let currentSelection = view.state.selection;
   let currentStoredMarks = view.state.storedMarks;
 
-  const getElementDataForUpdator = () =>
+  const getElementDataForUpdater = () =>
     getFieldValuesFromNode(
       currentNode,
       element.fieldDescriptions,
@@ -270,7 +270,7 @@ const createNodeView = <
       transformElementOut
     );
 
-  const update = element.createUpdator(
+  const updateElementView = element.createUpdateElementViewFn(
     dom,
     fields,
     (fields) => {
@@ -283,7 +283,7 @@ const createNodeView = <
     },
     initCommands,
     sendTelemetryEvent,
-    getElementDataForUpdator
+    getElementDataForUpdater
   );
 
   return {
@@ -354,7 +354,7 @@ const createNodeView = <
 
         // Only update our consumer if anything internal to the field has changed.
         if (fieldValuesChanged || commandsChanged || isSelectedChanged) {
-          update(newFields, newCommands, newIsSelected);
+          updateElementView(newFields, newCommands, newIsSelected);
         }
 
         currentNode = newNode;

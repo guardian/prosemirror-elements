@@ -106,7 +106,7 @@ export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
 export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   validate: Validator<FDesc>;
-  createUpdator: (
+  createUpdateElementViewFn: (
     dom: HTMLElement,
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
