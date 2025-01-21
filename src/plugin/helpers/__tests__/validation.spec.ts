@@ -1,9 +1,9 @@
 import { createDefaultRichTextField } from "../../fieldViews/RichTextFieldView";
 import {
+  createElementValidator,
   createValidator,
   maxLength,
   required,
-  createElementValidator,
 } from "../validation";
 
 describe("Validation helpers", () => {
