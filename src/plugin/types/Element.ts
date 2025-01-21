@@ -33,7 +33,7 @@ import type {
   FieldNameToValueMapWithEmptyValues,
   FieldTypeToViewMap,
 } from "../helpers/fieldView";
-import type { CommandCreator } from "./Commands";
+import type { CommandCreator, CommandState } from "./Commands";
 
 export type FieldDescription =
   | TextFieldDescription
@@ -112,21 +112,26 @@ export type ElementView<FDesc extends FieldDescriptions<string>> = {
    */
   update: (
     fields: FieldNameToField<FDesc>,
-    commands: ReturnType<CommandCreator>,
+    commandState: CommandState,
     isSelected: boolean
   ) => void;
+};
+
+export type CreateElementViewConfig<FDesc extends FieldDescriptions<string>> = {
+  dom: HTMLElement;
+  fields: FieldNameToField<FDesc>;
+  updateFields: (fields: FieldNameToValueMap<FDesc>) => void;
+  commands: ReturnType<CommandCreator>;
+  commandState: CommandState;
+  sendTelemetryEvent: SendTelemetryEvent | undefined;
+  getElementData: () => ExtractFieldValues<FDesc>;
 };
 
 export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   validate: Validator<FDesc>;
   createElementView: (
-    dom: HTMLElement,
-    fields: FieldNameToField<FDesc>,
-    updateState: (fields: FieldNameToValueMap<FDesc>) => void,
-    commands: ReturnType<CommandCreator>,
-    sendTelemetryEvent: SendTelemetryEvent | undefined,
-    getElementData: () => ExtractFieldValues<FDesc>
+    config: CreateElementViewConfig<FDesc>
   ) => ElementView<FDesc>;
   destroy: (dom: HTMLElement) => void;
 };

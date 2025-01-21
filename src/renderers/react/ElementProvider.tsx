@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 import type { Validator } from "../../plugin/elementSpec";
 import type { FieldNameToValueMap } from "../../plugin/helpers/fieldView";
-import type { Commands } from "../../plugin/types/Commands";
+import type { Commands, CommandState } from "../../plugin/types/Commands";
 import type { Consumer, ConsumerOptions } from "../../plugin/types/Consumer";
 import type {
   FieldDescriptions,
@@ -16,11 +16,12 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
   subscribe: (
     fn: (
       fields: FieldNameToField<FDesc>,
-      commands: Commands,
+      commandState: CommandState,
       isSelected: boolean
     ) => void
   ) => void;
   commands: Commands;
+  commandState: CommandState;
   fields: FieldNameToField<FDesc>;
   onStateChange: (fields: FieldNameToValueMap<FDesc>) => void;
   validate: Validator<FDesc>;
@@ -31,7 +32,7 @@ type IProps<FDesc extends FieldDescriptions<string>> = {
 };
 
 type IState<FDesc extends FieldDescriptions<string>> = {
-  commands: Commands;
+  commandState: CommandState;
   fields: FieldNameToField<FDesc>;
   isSelected: boolean;
 };
@@ -44,16 +45,16 @@ export class ElementProvider<
     this.updateFields = this.updateFields.bind(this);
 
     this.state = {
-      commands: this.props.commands,
+      commandState: this.props.commandState,
       fields: this.props.fields,
       isSelected: false,
     };
   }
 
   public componentDidMount() {
-    this.props.subscribe((fields, commands, isSelected) =>
+    this.props.subscribe((fields, commandState, isSelected) =>
       this.setState({
-        commands,
+        commandState,
         fields,
         isSelected,
       })
@@ -68,7 +69,8 @@ export class ElementProvider<
     return (
       <TelemetryContext.Provider value={this.props.sendTelemetryEvent}>
         <this.props.wrapperComponent
-          {...this.state.commands}
+          commands={this.props.commands}
+          commandState={this.state.commandState}
           isSelected={this.state.isSelected}
           onRemove={this.props.onRemove}
         >

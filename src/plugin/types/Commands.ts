@@ -4,12 +4,17 @@ export type CommandCreator = (
   state: EditorState,
   dispatch: (tr: Transaction) => void
 ) => {
-  remove: (run?: boolean) => true | void;
-  select: (run?: boolean) => true | void;
-  moveUp: (run?: boolean) => boolean | void;
-  moveDown: (run?: boolean) => boolean | void;
-  moveTop: (run?: boolean) => boolean | void;
-  moveBottom: (run?: boolean) => boolean | void;
+  remove: () => void;
+  select: () => void;
+  moveUp: () => void;
+  moveDown: () => void;
+  moveTop: () => void;
+  moveBottom: () => void;
+};
+
+export type CommandState = {
+  moveUp: boolean;
+  moveDown: boolean;
 };
 
 export type Commands = ReturnType<CommandCreator>;

@@ -14,6 +14,7 @@ import { SvgHighlightAlt } from "../../editorial-source-components/SvgHighlightA
 import { CommandTelemetryType } from "../../elements/helpers/types/TelemetryEvents";
 import type { SendTelemetryEvent } from "../../elements/helpers/types/TelemetryEvents";
 import { actionSpacing, buttonWidth } from "../../plugin/helpers/constants";
+import type { CommandState } from "../../plugin/types/Commands";
 
 export const removeTestId = "ElementWrapper__remove";
 export const selectTestId = "ElementWrapper__select";
@@ -158,8 +159,8 @@ const VerticalActions = styled("div")<{
 `;
 
 export type LeftActionProps = {
-  select: (run?: boolean) => true | void;
-  remove: (run?: boolean) => true | void;
+  select: () => void;
+  remove: () => void;
   onRemove?: () => void;
   closeClickedOnce: boolean;
   setCloseClickedOnce: React.Dispatch<React.SetStateAction<boolean>>;
@@ -179,10 +180,9 @@ export const LeftActionControls = ({
       <SeriousButton
         type="button"
         data-cy={selectTestId}
-        disabled={!select(false)}
         onClick={() => {
           sendTelemetryEvent?.(CommandTelemetryType.PMESelectButtonPressed);
-          select(true);
+          select();
         }}
         aria-label="Select element"
       >
@@ -194,11 +194,10 @@ export const LeftActionControls = ({
         type="button"
         activated={closeClickedOnce}
         data-cy={removeTestId}
-        disabled={!remove(false)}
         onClick={() => {
           if (closeClickedOnce) {
             sendTelemetryEvent?.(CommandTelemetryType.PMERemoveButtonPressed);
-            remove(true);
+            remove();
             onRemove?.();
           } else {
             setCloseClickedOnce(true);
@@ -217,10 +216,11 @@ export const LeftActionControls = ({
 );
 
 export type RightActionProps = {
-  moveUp: (run?: boolean) => boolean | void;
-  moveDown: (run?: boolean) => boolean | void;
-  moveTop: (run?: boolean) => boolean | void;
-  moveBottom: (run?: boolean) => boolean | void;
+  moveUp: () => boolean | void;
+  moveDown: () => boolean | void;
+  moveTop: () => boolean | void;
+  moveBottom: () => boolean | void;
+  commandState: CommandState;
   sendTelemetryEvent: SendTelemetryEvent;
 };
 
@@ -229,6 +229,7 @@ export const RightActionControls = ({
   moveDown,
   moveTop,
   moveBottom,
+  commandState,
   sendTelemetryEvent,
 }: RightActionProps) => (
   <SideActions className="actions" horizontalPosition={"right"}>
@@ -236,12 +237,12 @@ export const RightActionControls = ({
       <Button
         type="button"
         data-cy={moveTopTestId}
-        disabled={!moveTop(false)}
+        disabled={!commandState.moveUp}
         onClick={() => {
           sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
             jump: true,
           });
-          moveTop(true);
+          moveTop();
         }}
         aria-label="Move element to top"
       >
@@ -257,12 +258,12 @@ export const RightActionControls = ({
         type="button"
         data-cy={moveUpTestId}
         expanded
-        disabled={!moveUp(false)}
+        disabled={!commandState.moveUp}
         onClick={() => {
           sendTelemetryEvent?.(CommandTelemetryType.PMEUpButtonPressed, {
             jump: false,
           });
-          moveUp(true);
+          moveUp();
         }}
         aria-label="Move element up"
       >
@@ -273,12 +274,12 @@ export const RightActionControls = ({
       <Button
         type="button"
         data-cy={moveBottomTestId}
-        disabled={!moveBottom(false)}
+        disabled={!commandState.moveDown}
         onClick={() => {
           sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
             jump: true,
           });
-          moveBottom(true);
+          moveBottom();
         }}
         aria-label="Move element to bottom"
       >
@@ -294,12 +295,12 @@ export const RightActionControls = ({
         type="button"
         data-cy={moveDownTestId}
         expanded
-        disabled={!moveDown(false)}
+        disabled={!commandState.moveDown}
         onClick={() => {
           sendTelemetryEvent?.(CommandTelemetryType.PMEDownButtonPressed, {
             jump: false,
           });
-          moveDown(true);
+          moveDown();
         }}
         aria-label="Move element down"
       >

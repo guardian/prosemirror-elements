@@ -12,9 +12,9 @@ describe("createElementSpec", () => {
       } as const;
       createElementSpec(
         fieldDescriptions,
-        (_, __, fieldViews) => {
+        ({ fields }) => {
           // field1 is derived from the fieldDescriptions
-          fieldViews.field1;
+          fields.field1;
         },
         () => undefined,
         () => undefined
@@ -29,10 +29,10 @@ describe("createElementSpec", () => {
       } as const;
       createElementSpec(
         fieldDescriptions,
-        (_, __, fieldViews) => {
+        ({ fields }) => {
           // @ts-expect-error – field1 is not available on this object,
           // as it is not defined in `fieldDescriptions` passed into `mount`
-          fieldViews.field1;
+          fields.field1;
         },
         () => undefined,
         () => undefined

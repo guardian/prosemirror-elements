@@ -101,7 +101,7 @@ const nextPosFinder = (consumerPredicate: Predicate) => (
 const moveNode = (consumerPredicate: Predicate) => (
   getPos: () => number | undefined,
   state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false,
+  dispatch: (tr: Transaction) => void,
   dir: CommandDirection
 ) => {
   const pos = getPos();
@@ -113,10 +113,6 @@ const moveNode = (consumerPredicate: Predicate) => (
 
   if (nextPos === null) {
     return false;
-  }
-
-  if (dispatch === false) {
-    return true;
   }
 
   const { node } = state.doc.childAfter(pos);
@@ -202,32 +198,32 @@ export const getValidElementInsertionRange = (
 
 const moveNodeUp = (predicate: Predicate) => (
   getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "up");
+) => (view: EditorView) =>
+  moveNode(predicate)(getPos, view.state, view.dispatch, "up");
 
 const moveNodeDown = (predicate: Predicate) => (
   getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "down");
+) => (view: EditorView) =>
+  moveNode(predicate)(getPos, view.state, view.dispatch, "down");
 
 const moveNodeTop = (predicate: Predicate) => (
   getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "top");
+) => (view: EditorView) =>
+  moveNode(predicate)(getPos, view.state, view.dispatch, "top");
 
 const moveNodeBottom = (predicate: Predicate) => (
   getPos: () => number | undefined
-) => (view: EditorView, run = true) =>
-  moveNode(predicate)(getPos, view.state, run && view.dispatch, "bottom");
+) => (view: EditorView) =>
+  moveNode(predicate)(getPos, view.state, view.dispatch, "bottom");
 
 const buildMoveCommands = (predicate: Predicate) => (
   getPos: () => number | undefined,
   view: EditorView
 ) => ({
-  moveUp: (run = true) => moveNodeUp(predicate)(getPos)(view, run),
-  moveDown: (run = true) => moveNodeDown(predicate)(getPos)(view, run),
-  moveTop: (run = true) => moveNodeTop(predicate)(getPos)(view, run),
-  moveBottom: (run = true) => moveNodeBottom(predicate)(getPos)(view, run),
+  moveUp: () => moveNodeUp(predicate)(getPos)(view),
+  moveDown: () => moveNodeDown(predicate)(getPos)(view),
+  moveTop: () => moveNodeTop(predicate)(getPos)(view),
+  moveBottom: () => moveNodeBottom(predicate)(getPos)(view),
 });
 
 /**
@@ -235,12 +231,9 @@ const buildMoveCommands = (predicate: Predicate) => (
  */
 const removeNode = (getPos: () => number | undefined) => (
   state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false,
+  dispatch: (tr: Transaction) => void,
   view?: EditorView
 ) => {
-  if (dispatch === false) {
-    return true;
-  }
   const pos = getPos();
   if (pos === undefined) {
     return;
@@ -254,12 +247,9 @@ const removeNode = (getPos: () => number | undefined) => (
 
 const selectNode = (getPos: () => number | undefined) => (
   state: EditorState,
-  dispatch: ((tr: Transaction) => void) | false,
+  dispatch: (tr: Transaction) => void,
   view: EditorView
 ) => {
-  if (dispatch === false) {
-    return true;
-  }
   const pos = getPos();
   if (pos === undefined) {
     return;
@@ -275,10 +265,8 @@ const buildCommands = (predicate: Predicate) => (
   view: EditorView
 ) => ({
   ...buildMoveCommands(predicate)(getPos, view),
-  remove: (run = true) =>
-    removeNode(getPos)(view.state, run && view.dispatch, view),
-  select: (run = true) =>
-    selectNode(getPos)(view.state, run && view.dispatch, view),
+  remove: () => removeNode(getPos)(view.state, view.dispatch, view),
+  select: () => selectNode(getPos)(view.state, view.dispatch, view),
 });
 
 /**

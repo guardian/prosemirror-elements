@@ -32,16 +32,17 @@ export const createReactElementSpec = <
   onRemove,
   wrapperComponent = ElementWrapper,
 }: CreateReactElementSpecOptions<FDesc>) => {
-  const initElementView: InitElementView<FDesc> = (
+  const initElementView: InitElementView<FDesc> = ({
     validate,
     dom,
     fields,
-    updateState,
+    updateFields: updateState,
     commands,
+    commandState,
     subscribe,
     sendTelemetryEvent,
-    getElementData
-  ) =>
+    getElementData,
+  }) =>
     render(
       <ElementProvider<FDesc>
         subscribe={subscribe}
@@ -49,6 +50,7 @@ export const createReactElementSpec = <
         fields={fields}
         validate={validate}
         commands={commands}
+        commandState={commandState}
         component={component}
         sendTelemetryEvent={sendTelemetryEvent}
         onRemove={() => onRemove?.(getElementData())}

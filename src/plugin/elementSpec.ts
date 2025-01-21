@@ -1,17 +1,16 @@
-import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
 import { createElementValidator } from "./helpers/validation";
-import type { CommandCreator, Commands } from "./types/Commands";
+import type { CommandState } from "./types/Commands";
 import type {
+  CreateElementViewConfig,
   ElementSpec,
-  ExtractFieldValues,
   FieldDescriptions,
   FieldNameToField,
 } from "./types/Element";
 
 type Subscriber<FDesc extends FieldDescriptions<string>> = (
   fields: FieldNameToField<FDesc>,
-  commands: ReturnType<CommandCreator>,
+  commandState: CommandState,
   isSelected: boolean
 ) => void;
 
@@ -53,15 +52,10 @@ export type FieldValidator = (
  * element is first added to a document.
  */
 export type InitElementView<FDesc extends FieldDescriptions<string>> = (
-  validate: Validator<FDesc>,
-  // The HTMLElement representing the node parent. The renderer can mount onto this node.
-  dom: HTMLElement,
-  fields: FieldNameToField<FDesc>,
-  updateState: (fields: FieldNameToValueMap<FDesc>) => void,
-  commands: Commands,
-  subscribe: (fn: Subscriber<FDesc>) => void,
-  sendTelemetryEvent: SendTelemetryEvent | undefined,
-  getElementData: () => ExtractFieldValues<FDesc>
+  config: CreateElementViewConfig<FDesc> & {
+    validate: Validator<FDesc>;
+    subscribe: (fn: Subscriber<FDesc>) => void;
+  }
 ) => void;
 
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
@@ -75,26 +69,14 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   return {
     fieldDescriptions,
     validate,
-    createElementView: (
-      dom,
-      fields,
-      updateState,
-      commands,
-      sendTelemetryEvent,
-      getElementData
-    ) => {
+    createElementView: (config) => {
       const elementStateUpdatePublisher = new ElementViewPublisher<FDesc>();
 
-      initElementView(
+      initElementView({
+        ...config,
         validate,
-        dom,
-        fields,
-        (fields) => updateState(fields),
-        commands,
-        elementStateUpdatePublisher.subscribe,
-        sendTelemetryEvent,
-        getElementData
-      );
+        subscribe: elementStateUpdatePublisher.subscribe,
+      });
 
       return { update: elementStateUpdatePublisher.update };
     },

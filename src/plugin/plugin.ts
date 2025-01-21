@@ -213,7 +213,7 @@ const createNodeView = <
 >(
   nodeName: NodeName,
   element: ElementSpec<FDesc>,
-  commands: Commands,
+  createCommands: Commands,
   sendTelemetryEvent: SendTelemetryEvent,
   getElementDataFromNode: GetElementDataFromNode<ElementNames, ESpecMap>,
   transformElementOut?: TransformElementOut
@@ -223,7 +223,7 @@ const createNodeView = <
   const getPos = () => _getPos() ?? NaN;
 
   const serializer = DOMSerializer.fromSchema(initElementNode.type.schema);
-  const initCommands = commands(getPos, view);
+  const commands = createCommands(getPos, view);
 
   const fields = getFieldsFromNode({
     node: initElementNode,
@@ -254,14 +254,14 @@ const createNodeView = <
   let currentDecos = innerDecos;
   let currentIsSelected = false;
   const pluginState = pluginKey.getState(view.state);
-  let currentCommandValues = getCommandValues(
+  let currentCommandState = getCommandValues(
     getPos(),
     pluginState?.validInsertionRange
   );
   let currentSelection = view.state.selection;
   let currentStoredMarks = view.state.storedMarks;
 
-  const getElementDataForUpdater = () =>
+  const getElementData = () =>
     getFieldValuesFromNode(
       currentNode,
       element.fieldDescriptions,
@@ -270,10 +270,10 @@ const createNodeView = <
       transformElementOut
     );
 
-  const elementView = element.createElementView(
+  const elementView = element.createElementView({
     dom,
     fields,
-    (fields) => {
+    updateFields: (fields) => {
       view.dispatch(
         view.state.tr.setNodeMarkup(getPos(), undefined, {
           ...initElementNode.attrs,
@@ -281,10 +281,11 @@ const createNodeView = <
         })
       );
     },
-    initCommands,
+    commands,
+    commandState: currentCommandState,
     sendTelemetryEvent,
-    getElementDataForUpdater
-  );
+    getElementData,
+  });
 
   return {
     dom,
@@ -295,10 +296,8 @@ const createNodeView = <
       ) {
         const pos = getPos();
         const newIsSelected = isProseMirrorElementSelected(newNode);
-
-        const newCommands = commands(getPos, view);
         const pluginState = pluginKey.getState(view.state);
-        const newCommandValues = getCommandValues(
+        const newCommandState = getCommandValues(
           pos,
           pluginState?.validInsertionRange
         );
@@ -310,8 +309,8 @@ const createNodeView = <
         const innerDecosChanged = currentDecos !== innerDecos;
         const fieldValuesChanged = fieldValuesHaveChanged(currentNode, newNode);
         const commandsChanged = commandsHaveChanged(
-          currentCommandValues,
-          newCommandValues
+          currentCommandState,
+          newCommandState
         );
         const selectionChangeAffectsNode = selectionHasChangedForRange(
           pos,
@@ -354,14 +353,14 @@ const createNodeView = <
 
         // Only update our consumer if anything internal to the field has changed.
         if (fieldValuesChanged || commandsChanged || isSelectedChanged) {
-          elementView.update(newFields, newCommands, newIsSelected);
+          elementView.update(newFields, newCommandState, newIsSelected);
         }
 
         currentNode = newNode;
         currentIsSelected = newIsSelected;
         currentDecos = innerDecos;
         currentFields = newFields;
-        currentCommandValues = newCommandValues;
+        currentCommandState = newCommandState;
         currentSelection = newSelection;
         currentStoredMarks = newStoredMarks;
 
@@ -384,10 +383,10 @@ const getCommandValues = (
   pos: number,
   range: { from: number; to: number } | undefined
 ) => ({
-  moveUp: range && pos > range.from,
-  moveDown: range && pos < range.to,
-  moveTop: range && pos > range.from,
-  moveBottom: range && pos < range.to,
+  moveUp: !!range && pos > range.from,
+  moveDown: !!range && pos < range.to,
+  moveTop: !!range && pos > range.from,
+  moveBottom: !!range && pos < range.to,
 });
 
 const commandsHaveChanged = (

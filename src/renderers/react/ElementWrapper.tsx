@@ -3,7 +3,7 @@ import { space } from "@guardian/src-foundations";
 import { neutral } from "@guardian/src-foundations/palette";
 import type { ReactElement } from "react";
 import React, { useContext, useState } from "react";
-import type { CommandCreator } from "../../plugin/types/Commands";
+import type { CommandCreator, CommandState } from "../../plugin/types/Commands";
 import { TelemetryContext } from "./TelemetryContext";
 import { LeftActionControls, RightActionControls } from "./WrapperControls";
 
@@ -87,17 +87,15 @@ export type ElementWrapperProps = {
   children?: ReactElement;
   isSelected: boolean;
   onRemove?: () => void;
-} & ReturnType<CommandCreator>;
+  commandState: CommandState;
+  commands: ReturnType<CommandCreator>;
+};
 
 export const elementWrapperTestId = "ElementWrapper";
 
 export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
-  moveUp,
-  moveDown,
-  moveTop,
-  moveBottom,
-  remove,
-  select,
+  commands,
+  commandState,
   isSelected,
   onRemove,
   children,
@@ -112,8 +110,8 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
     >
       <Body>
         <LeftActionControls
-          select={select}
-          remove={remove}
+          select={commands.select}
+          remove={commands.remove}
           onRemove={onRemove}
           closeClickedOnce={closeClickedOnce}
           setCloseClickedOnce={setCloseClickedOnce}
@@ -124,10 +122,11 @@ export const ElementWrapper: React.FunctionComponent<ElementWrapperProps> = ({
           {children}
         </Panel>
         <RightActionControls
-          moveTop={moveTop}
-          moveUp={moveUp}
-          moveDown={moveDown}
-          moveBottom={moveBottom}
+          commandState={commandState}
+          moveTop={commands.moveTop}
+          moveUp={commands.moveUp}
+          moveDown={commands.moveDown}
+          moveBottom={commands.moveBottom}
           sendTelemetryEvent={sendTelemetryEvent}
         />
       </Body>

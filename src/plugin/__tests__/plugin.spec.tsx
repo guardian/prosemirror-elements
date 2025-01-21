@@ -55,7 +55,7 @@ describe("createPlugin", () => {
   }: CreateEditorOptions<FDesc>) => {
     const testElement = createElementSpec(
       element,
-      (_validate, _dom, fields, _updateFields, commands, subscribe) => {
+      ({ commands, subscribe, fields }) => {
         // We call our spy once for the initial render, and then subscribe for update.
         consumerRenderSpy(fields, commands, false);
         subscribe(consumerRenderSpy);

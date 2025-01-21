@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import type { ReactElement } from "react";
-import type { CommandCreator } from "../../plugin/types/Commands";
+import type { CommandCreator, CommandState } from "../../plugin/types/Commands";
 import { Overlay } from "./ElementWrapper";
 
 const AltStyleContainer = styled("div")`
@@ -34,7 +34,9 @@ export type ElementWrapperProps = {
   children?: ReactElement;
   isSelected: boolean;
   onRemove?: () => void;
-} & ReturnType<CommandCreator>;
+  commandState: CommandState;
+  commands: ReturnType<CommandCreator>;
+};
 
 export const elementWrapperTestId = "ElementWrapper";
 
