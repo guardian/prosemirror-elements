@@ -128,14 +128,6 @@ const moveNode = (consumerPredicate: Predicate) => (
     tr.insert(insertPos, node.cut(0));
   }
 
-  // const mappedPos = tr.mapping.mapResult(pos).pos;
-  // merge the surrounding blocks if possible
-  // this is only useful if we have root `textElement` nodes like in composer
-  // as the time of this commit
-  // if (canJoin(tr.doc, mappedPos)) {
-  //   tr.join(mappedPos);
-  // }
-
   dispatch(tr);
   return true;
 };
