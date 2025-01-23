@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.9
+
+### Patch Changes
+
+- 4cd0626: Improve performance in large articles containing many elements
+
 ## 9.6.8
 
 ### Patch Changes
