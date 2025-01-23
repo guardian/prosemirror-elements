@@ -1,7 +1,6 @@
-import type { Node } from "prosemirror-model";
 import type { SendTelemetryEvent } from "../elements/helpers/types/TelemetryEvents";
 import type { FieldNameToValueMap } from "./helpers/fieldView";
-import { validateWithFieldAndElementValidators } from "./helpers/validation";
+import { createElementValidator } from "./helpers/validation";
 import type { CommandCreator, Commands } from "./types/Commands";
 import type {
   ElementSpec,
@@ -16,22 +15,18 @@ type Subscriber<FDesc extends FieldDescriptions<string>> = (
   isSelected: boolean
 ) => void;
 
-type Updater<FDesc extends FieldDescriptions<string>> = {
-  update: Subscriber<FDesc>;
-  subscribe: (s: Subscriber<FDesc>) => void;
-};
+/**
+ * A class for subscribing to, and publishing, updates to element-related state.
+ */
+export class ElementViewPublisher<FDesc extends FieldDescriptions<string>> {
+  public sub: Subscriber<FDesc> | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- nothing to do on class construction
+  constructor() {}
 
-const createUpdater = <
-  FDesc extends FieldDescriptions<string>
->(): Updater<FDesc> => {
-  let sub: Subscriber<FDesc> = () => undefined;
-  return {
-    subscribe: (fn) => {
-      sub = fn;
-    },
-    update: (fields, commands, isSelected) => sub(fields, commands, isSelected),
-  };
-};
+  public subscribe = (fn: Subscriber<FDesc>) => (this.sub = fn);
+  public update: Subscriber<FDesc> = (fields, commands, isSelected) =>
+    this.sub?.(fields, commands, isSelected);
+}
 
 export type ErrorLevel = "ERROR" | "WARN";
 
@@ -52,7 +47,12 @@ export type FieldValidator = (
   fieldName: string
 ) => ValidationError[];
 
-export type Renderer<FDesc extends FieldDescriptions<string>> = (
+/**
+ * Initialise the view for an element, providing the necessary data to display
+ * it, validate it, and subscribe to updates to its state. Called when an
+ * element is first added to a document.
+ */
+export type InitElementView<FDesc extends FieldDescriptions<string>> = (
   validate: Validator<FDesc>,
   // The HTMLElement representing the node parent. The renderer can mount onto this node.
   dom: HTMLElement,
@@ -66,19 +66,16 @@ export type Renderer<FDesc extends FieldDescriptions<string>> = (
 
 export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
   fieldDescriptions: FDesc,
-  render: Renderer<FDesc>,
+  initElementView: InitElementView<FDesc>,
   validateElement: Validator<FDesc> | undefined = undefined,
   destroy: (dom: HTMLElement) => void
 ): ElementSpec<FDesc> => {
-  const validate = validateWithFieldAndElementValidators(
-    fieldDescriptions,
-    validateElement
-  );
+  const validate = createElementValidator(fieldDescriptions, validateElement);
 
   return {
     fieldDescriptions,
     validate,
-    createUpdator: (
+    createElementView: (
       dom,
       fields,
       updateState,
@@ -86,18 +83,20 @@ export const createElementSpec = <FDesc extends FieldDescriptions<string>>(
       sendTelemetryEvent,
       getElementData
     ) => {
-      const updater = createUpdater<FDesc>();
-      render(
+      const elementStateUpdatePublisher = new ElementViewPublisher<FDesc>();
+
+      initElementView(
         validate,
         dom,
         fields,
         (fields) => updateState(fields),
         commands,
-        updater.subscribe,
+        elementStateUpdatePublisher.subscribe,
         sendTelemetryEvent,
         getElementData
       );
-      return updater.update;
+
+      return { update: elementStateUpdatePublisher.update };
     },
     destroy,
   };

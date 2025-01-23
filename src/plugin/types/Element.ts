@@ -103,21 +103,31 @@ export type FieldNameToField<FDesc extends FieldDescriptions<string>> = {
     : Field<FieldTypeToViewMap<FDesc[name]>[FDesc[name]["type"]]>;
 };
 
+/**
+ * A view representing an element's UI.
+ */
+export type ElementView<FDesc extends FieldDescriptions<string>> = {
+  /**
+   * Update the UI with new values.
+   */
+  update: (
+    fields: FieldNameToField<FDesc>,
+    commands: ReturnType<CommandCreator>,
+    isSelected: boolean
+  ) => void;
+};
+
 export type ElementSpec<FDesc extends FieldDescriptions<string>> = {
   fieldDescriptions: FDesc;
   validate: Validator<FDesc>;
-  createUpdator: (
+  createElementView: (
     dom: HTMLElement,
     fields: FieldNameToField<FDesc>,
     updateState: (fields: FieldNameToValueMap<FDesc>) => void,
     commands: ReturnType<CommandCreator>,
     sendTelemetryEvent: SendTelemetryEvent | undefined,
     getElementData: () => ExtractFieldValues<FDesc>
-  ) => (
-    fields: FieldNameToField<FDesc>,
-    commands: ReturnType<CommandCreator>,
-    isSelected: boolean
-  ) => void;
+  ) => ElementView<FDesc>;
   destroy: (dom: HTMLElement) => void;
 };
 

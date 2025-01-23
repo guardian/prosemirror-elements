@@ -1,9 +1,9 @@
 import { createDefaultRichTextField } from "../../fieldViews/RichTextFieldView";
 import {
+  createElementValidator,
   createValidator,
   maxLength,
   required,
-  validateWithFieldAndElementValidators,
 } from "../validation";
 
 describe("Validation helpers", () => {
@@ -91,7 +91,7 @@ describe("Validation helpers", () => {
         field2: [maxLength(5)],
       });
 
-      const validator = validateWithFieldAndElementValidators(
+      const validator = createElementValidator(
         fieldDescriptions,
         elementValidator
       );
@@ -118,9 +118,7 @@ describe("Validation helpers", () => {
         field2: createDefaultRichTextField([maxLength(5)]),
       };
 
-      const validator = validateWithFieldAndElementValidators(
-        fieldDescriptions
-      );
+      const validator = createElementValidator(fieldDescriptions);
 
       const result = validator({
         field1: "OK!",
@@ -148,7 +146,7 @@ describe("Validation helpers", () => {
         field2: [maxLength(5)],
       });
 
-      const validator = validateWithFieldAndElementValidators(
+      const validator = createElementValidator(
         fieldDescriptions,
         elementValidator
       );
