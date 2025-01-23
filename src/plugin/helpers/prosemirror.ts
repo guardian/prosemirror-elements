@@ -187,7 +187,7 @@ export const getValidElementInsertionRange = (
 
   const from = validNodes[0].pos;
   const toNode = validNodes[validNodes.length - 1];
-  const to = toNode.pos + toNode.node.nodeSize + 1;
+  const to = toNode.pos + toNode.node.nodeSize;
 
   return { from, to };
 };
