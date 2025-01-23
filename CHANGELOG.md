@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.8
+
+### Patch Changes
+
+- 0c6bd3b: Improve performance in large articles containing many elements
+
 ## 9.6.7
 
 ### Patch Changes
