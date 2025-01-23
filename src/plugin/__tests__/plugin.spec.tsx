@@ -104,7 +104,7 @@ describe("createPlugin", () => {
         initialConsumerUpdateCount
       );
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
-        initialFieldViewUpdateCount + 1
+        initialFieldViewUpdateCount
       );
     });
 
@@ -283,7 +283,7 @@ describe("createPlugin", () => {
   });
 
   describe("Response to command changes", () => {
-    it("should update the consumer when the command output changes", () => {
+    it("should update the consumer, but not the fieldView, when the command output changes", () => {
       const { view } = createDefaultEditor();
 
       const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
@@ -306,20 +306,25 @@ describe("createPlugin", () => {
       expect(consumerRenderSpy.mock.calls.length).toBe(
         initialConsumerUpdateCount + 1
       );
-      // The position of the selection is moved, so the fieldView is updated
+
       expect(fieldViewRenderSpy.mock.calls.length).toBe(
-        initialFieldViewUpdateCount + 1
+        initialFieldViewUpdateCount
       );
     });
   });
 
   describe("Response to selection changes", () => {
-    const applyNoopSelection = (view: EditorView) => {
-      const selectEntireDoc = TextSelection.between(
-        view.state.doc.resolve(0),
-        view.state.doc.resolve(1)
+    const applySelectionAtStartOfDoc = (view: EditorView) => {
+      const tr = view.state.tr.setSelection(
+        TextSelection.near(view.state.doc.resolve(0))
       );
-      const tr = view.state.tr.setSelection(selectEntireDoc);
+      view.dispatch(tr);
+    };
+
+    const applyNoopSelection = (view: EditorView) => {
+      const tr = view.state.tr.setSelection(
+        TextSelection.fromJSON(view.state.doc, view.state.selection.toJSON())
+      );
       view.dispatch(tr);
     };
     const applyWholeDocSelection = (view: EditorView) => {
@@ -340,7 +345,7 @@ describe("createPlugin", () => {
         );
       });
 
-      it("should update the fieldView", () => {
+      it("should not update the fieldView", () => {
         const { view } = createDefaultEditor();
 
         const initialFieldViewUpdateCount =
@@ -349,7 +354,7 @@ describe("createPlugin", () => {
         applyNoopSelection(view);
 
         expect(fieldViewRenderSpy.mock.calls.length).toBe(
-          initialFieldViewUpdateCount + 1
+          initialFieldViewUpdateCount
         );
       });
 
@@ -408,7 +413,7 @@ describe("createPlugin", () => {
 
         const initialConsumerUpdateCount = consumerRenderSpy.mock.calls.length;
 
-        applyNoopSelection(view);
+        applySelectionAtStartOfDoc(view);
 
         expect(consumerRenderSpy.mock.calls.length).toBe(
           initialConsumerUpdateCount + 1
@@ -423,7 +428,7 @@ describe("createPlugin", () => {
         const initialFieldViewUpdateCount =
           fieldViewRenderSpy.mock.calls.length;
 
-        applyNoopSelection(view);
+        applySelectionAtStartOfDoc(view);
 
         expect(fieldViewRenderSpy.mock.calls.length).toBe(
           initialFieldViewUpdateCount + 1
@@ -434,7 +439,7 @@ describe("createPlugin", () => {
         const { view } = createDefaultEditor();
 
         applyWholeDocSelection(view);
-        applyNoopSelection(view);
+        applySelectionAtStartOfDoc(view);
 
         expect(view.state.doc.firstChild?.attrs).toMatchObject({
           [elementSelectedNodeAttr]: false,
