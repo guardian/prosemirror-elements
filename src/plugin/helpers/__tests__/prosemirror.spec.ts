@@ -15,9 +15,12 @@ describe("prosemirror utilities", () => {
   describe("getValidInsertionRange", () => {
     it("gets a valid insertion range", () => {
       const range = getValidElementInsertionRange(document, defaultPredicate);
+
+      // Remove one to account for the fact that the tag exists inside the node,
+      // and the position should be outside the node.
       expect(range).toEqual({
         from: document.tag.a - 1,
-        to: document.tag.d + d.nodeSize,
+        to: document.tag.d + d.nodeSize - 1,
       });
     });
 

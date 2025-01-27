@@ -74,8 +74,7 @@ export const typeIntoElementField = (fieldName: string, content: string) =>
   getElementRichTextField(fieldName).focus().type(content);
 
 export const getArrayOfBlockElementTypes = () => {
-  // eslint-disable-next-line prefer-const -- it is reassigned.
-  let elementTypes = [] as string[];
+  const elementTypes = [] as string[];
   return new Cypress.Promise((resolve) => {
     cy.get(".Editor > .ProseMirror-menubar-wrapper > .ProseMirror")
       .children()
