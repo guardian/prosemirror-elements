@@ -297,10 +297,9 @@ const createUpdateDecorations = () => (state: EditorState): DecorationSet => {
   } = pluginState;
 
   state.doc.descendants((node, pos) => {
-    if (
-      node.attrs.addUpdateDecoration &&
-      (pos <= from || pos + node.nodeSize >= to)
-    ) {
+    const nodeIsOutsideValidInsertionRange =
+      pos <= from || pos + node.nodeSize >= to;
+    if (node.attrs.addUpdateDecoration && nodeIsOutsideValidInsertionRange) {
       decorations.push(
         Decoration.node(
           pos,
