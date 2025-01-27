@@ -62,7 +62,7 @@ describe("ElementWrapper", () => {
       expect(expectedBtnStates).to.deep.equal(btnStates);
     };
 
-    it("should move an element the top downwards", async () => {
+    it("should move an element from the top downwards", async () => {
       addImageElement();
       const { downBtn } = getButtons();
       downBtn.click();
@@ -70,6 +70,7 @@ describe("ElementWrapper", () => {
       const elementTypes = await getArrayOfBlockElementTypes();
 
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
+
       await assertButtonStates({
         topBtn: false,
         upBtn: false,
@@ -87,6 +88,7 @@ describe("ElementWrapper", () => {
       const elementTypes = await getArrayOfBlockElementTypes();
 
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
+
       await assertButtonStates({
         topBtn: false,
         upBtn: false,
@@ -121,6 +123,7 @@ describe("ElementWrapper", () => {
       const elementTypes = await getArrayOfBlockElementTypes();
 
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
+
       await assertButtonStates({
         topBtn: false,
         upBtn: false,
@@ -139,6 +142,7 @@ describe("ElementWrapper", () => {
       const elementTypes = await getArrayOfBlockElementTypes();
 
       expect(elementTypes).to.deep.equal(["element", "paragraph", "paragraph"]);
+
       await assertButtonStates({
         topBtn: true,
         upBtn: true,
