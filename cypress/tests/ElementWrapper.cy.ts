@@ -26,36 +26,125 @@ describe("ElementWrapper", () => {
   });
 
   describe("Element movement", () => {
-    it("should move an element down", async () => {
+    const getButtons = () => {
+      const bottomBtn = cy.get(selectDataCy(moveBottomTestId));
+      const downBtn = cy.get(selectDataCy(moveDownTestId));
+      const topBtn = cy.get(selectDataCy(moveTopTestId));
+      const upBtn = cy.get(selectDataCy(moveUpTestId));
+
+      return {
+        bottomBtn,
+        downBtn,
+        topBtn,
+        upBtn,
+      };
+    };
+
+    const assertButtonStates = async (
+      expectedBtnStates: Record<keyof ReturnType<typeof getButtons>, boolean>
+    ) => {
+      const btns = getButtons();
+      const btnStates: Record<string, boolean> = {};
+
+      await Cypress.Promise.all(
+        Object.entries(btns).map(
+          ([name, btnEl]: [string, Cypress.Chainable<JQuery>]) => {
+            return new Cypress.Promise<void>((resolve) => {
+              btnEl.then((el) => {
+                btnStates[name] = el.prop("disabled") as boolean;
+                resolve();
+              });
+            });
+          }
+        )
+      );
+
+      expect(expectedBtnStates).to.deep.equal(btnStates);
+    };
+
+    it("should move an element the top downwards", async () => {
       addImageElement();
-      cy.get(selectDataCy(moveDownTestId)).click();
+      const { downBtn } = getButtons();
+      downBtn.click();
+
       const elementTypes = await getArrayOfBlockElementTypes();
+
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
+      await assertButtonStates({
+        topBtn: false,
+        upBtn: false,
+        downBtn: false,
+        bottomBtn: false,
+      });
+    });
+
+    it("should move an element from the bottom upwards", async () => {
+      addImageElement();
+      const { bottomBtn, upBtn } = getButtons();
+      bottomBtn.click();
+      upBtn.click();
+
+      const elementTypes = await getArrayOfBlockElementTypes();
+
+      expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
+      await assertButtonStates({
+        topBtn: false,
+        upBtn: false,
+        downBtn: false,
+        bottomBtn: false,
+      });
     });
 
     it("should move an element to the bottom", async () => {
       addImageElement();
-      cy.get(selectDataCy(moveBottomTestId)).click();
+      const { bottomBtn } = getButtons();
+      bottomBtn.click();
+
       const elementTypes = await getArrayOfBlockElementTypes();
+
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph", "element"]);
+
+      await assertButtonStates({
+        topBtn: false,
+        upBtn: false,
+        downBtn: true,
+        bottomBtn: true,
+      });
     });
 
     it("should move an element up", async () => {
       addImageElement();
-      cy.get(selectDataCy(moveDownTestId)).click();
-      cy.get(selectDataCy(moveDownTestId)).click();
-      cy.get(selectDataCy(moveUpTestId)).click();
+      const { bottomBtn, upBtn } = getButtons();
+      bottomBtn.click();
+      upBtn.click();
+
       const elementTypes = await getArrayOfBlockElementTypes();
+
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
+      await assertButtonStates({
+        topBtn: false,
+        upBtn: false,
+        downBtn: false,
+        bottomBtn: false,
+      });
     });
 
     it("should move an element to the top", async () => {
       addImageElement();
-      cy.get(selectDataCy(moveDownTestId)).click();
-      cy.get(selectDataCy(moveDownTestId)).click();
+      const { bottomBtn, upBtn } = getButtons();
+      bottomBtn.click();
+      upBtn.click();
       cy.get(selectDataCy(moveTopTestId)).click();
+
       const elementTypes = await getArrayOfBlockElementTypes();
+
       expect(elementTypes).to.deep.equal(["element", "paragraph", "paragraph"]);
+      await assertButtonStates({
+        topBtn: true,
+        upBtn: true,
+        downBtn: false,
+        bottomBtn: false,
+      });
     });
 
     it("should remove an element", async () => {
