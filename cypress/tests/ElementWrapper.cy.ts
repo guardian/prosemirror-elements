@@ -40,26 +40,32 @@ describe("ElementWrapper", () => {
       };
     };
 
-    const assertButtonStates = async (
+    const assertButtonStates = (
       expectedBtnStates: Record<keyof ReturnType<typeof getButtons>, boolean>
     ) => {
-      const btns = getButtons();
-      const btnStates: Record<string, boolean> = {};
+      // This is how the docs describe waiting for promises:
+      // https://docs.cypress.io/api/utilities/promise#Waiting-for-Promises
+      // Removing this causes the test to fail in headless mode at the
+      // time of writing
+      cy.wrap(null).then(() => {
+        const btns = getButtons();
+        const btnStates: Record<string, boolean> = {};
 
-      await Cypress.Promise.all(
-        Object.entries(btns).map(
-          ([name, btnEl]: [string, Cypress.Chainable<JQuery>]) => {
-            return new Cypress.Promise<void>((resolve) => {
-              btnEl.then((el) => {
-                btnStates[name] = el.prop("disabled") as boolean;
-                resolve();
+        return Cypress.Promise.all(
+          Object.entries(btns).map(
+            ([name, btnEl]: [string, Cypress.Chainable<JQuery>]) => {
+              return new Cypress.Promise<void>((resolve) => {
+                btnEl.then((el) => {
+                  btnStates[name] = el.prop("disabled") as boolean;
+                  resolve();
+                });
               });
-            });
-          }
-        )
-      );
-
-      expect(expectedBtnStates).to.deep.equal(btnStates);
+            }
+          )
+        ).then(() => {
+          expect(expectedBtnStates).to.deep.equal(btnStates);
+        });
+      });
     };
 
     it("should move an element from the top downwards", async () => {
@@ -71,7 +77,7 @@ describe("ElementWrapper", () => {
 
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
 
-      await assertButtonStates({
+      assertButtonStates({
         topBtn: false,
         upBtn: false,
         downBtn: false,
@@ -89,7 +95,7 @@ describe("ElementWrapper", () => {
 
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
 
-      await assertButtonStates({
+      assertButtonStates({
         topBtn: false,
         upBtn: false,
         downBtn: false,
@@ -106,7 +112,7 @@ describe("ElementWrapper", () => {
 
       expect(elementTypes).to.deep.equal(["paragraph", "paragraph", "element"]);
 
-      await assertButtonStates({
+      assertButtonStates({
         topBtn: false,
         upBtn: false,
         downBtn: true,
@@ -124,7 +130,7 @@ describe("ElementWrapper", () => {
 
       expect(elementTypes).to.deep.equal(["paragraph", "element", "paragraph"]);
 
-      await assertButtonStates({
+      assertButtonStates({
         topBtn: false,
         upBtn: false,
         downBtn: false,
@@ -143,7 +149,7 @@ describe("ElementWrapper", () => {
 
       expect(elementTypes).to.deep.equal(["element", "paragraph", "paragraph"]);
 
-      await assertButtonStates({
+      assertButtonStates({
         topBtn: true,
         upBtn: true,
         downBtn: false,
