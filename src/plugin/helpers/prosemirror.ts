@@ -5,6 +5,7 @@ import { AllSelection, NodeSelection, TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import { anyDescendantFieldIsNestedElementField } from "../fieldViews/NestedElementFieldView";
+import { pluginKey } from "./constants";
 
 type NodesBetweenArgs = [Node, number, Node | null, number];
 export type Commands = ReturnType<typeof buildCommands>;
@@ -127,14 +128,6 @@ const moveNode = (consumerPredicate: Predicate) => (
     tr.insert(insertPos, node.cut(0));
   }
 
-  // const mappedPos = tr.mapping.mapResult(pos).pos;
-  // merge the surrounding blocks if possible
-  // this is only useful if we have root `textElement` nodes like in composer
-  // as the time of this commit
-  // if (canJoin(tr.doc, mappedPos)) {
-  //   tr.join(mappedPos);
-  // }
-
   dispatch(tr);
   return true;
 };
@@ -194,7 +187,7 @@ export const getValidElementInsertionRange = (
 
   const from = validNodes[0].pos;
   const toNode = validNodes[validNodes.length - 1];
-  const to = toNode.pos + toNode.node.nodeSize + 1;
+  const to = toNode.pos + toNode.node.nodeSize;
 
   return { from, to };
 };
@@ -280,12 +273,33 @@ const buildCommands = (predicate: Predicate) => (
     selectNode(getPos)(view.state, run && view.dispatch, view),
 });
 
-// this forces our view to update every time an edit is made by inserting
-// a decoration right on top of it and updating it's attributes
-const createUpdateDecorations = () => (state: EditorState) => {
+/**
+ * Creates decorations that overlay elements that are beyond the move commands'
+ * valid insertion ranges. Decorations that overlay nodes force their node views
+ * to rerender when they change. This is the approach recommended by the library
+ * author here:
+ * https://discuss.prosemirror.net/t/force-nodes-of-specific-type-to-re-render/2480/10
+ *
+ * Creating decorations when nodes move into valid insertion ranges, and
+ * removing them when they move out, forces them to rerender, ensuring that
+ * their UI is kept up to date with the plugin state.
+ */
+const createUpdateDecorations = () => (state: EditorState): DecorationSet => {
   const decorations: Decoration[] = [];
+  const pluginState = pluginKey.getState(state);
+
+  if (!pluginState || !pluginState.validInsertionRange) {
+    return DecorationSet.empty;
+  }
+
+  const {
+    validInsertionRange: { from, to },
+  } = pluginState;
+
   state.doc.descendants((node, pos) => {
-    if (node.attrs.addUpdateDecoration) {
+    const nodeIsOutsideValidInsertionRange =
+      pos <= from || pos + node.nodeSize >= to;
+    if (node.attrs.addUpdateDecoration && nodeIsOutsideValidInsertionRange) {
       decorations.push(
         Decoration.node(
           pos,
