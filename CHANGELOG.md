@@ -5,7 +5,6 @@
 ### Patch Changes
 
 - 4cd0626: Improve performance in large articles containing many elements
-- b511c60: Do not render element decorations unless necessary, improving performance in large documents
 
 ## 9.6.8
 
