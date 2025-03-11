@@ -42,12 +42,19 @@ export interface NestedElementFieldDescription
 export const anyDescendantFieldIsNestedElementField = (node: Node) => {
   let descendantFieldIsNestedElementField = false;
   node.descendants((node) => {
-    if (node.type.spec.group?.includes("nested-element-field")) {
+    if (node.type.spec.group?.includes(nestedElementFieldGroupName)) {
       descendantFieldIsNestedElementField = true;
     }
   });
   return descendantFieldIsNestedElementField;
 };
+
+export const nestedElementFieldGroupName = "nested-element-field"
+
+export const isNestedElementAttribute = "isNestedElement"
+
+export const isNestedElementField = (node: Node) =>
+  node.attrs?.[isNestedElementAttribute] === true
 
 export const createNestedElementField = ({
   absentOnEmpty,

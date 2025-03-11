@@ -12,14 +12,20 @@ export type { Options } from "./plugin/fieldViews/DropdownFieldView";
 export type { FieldView } from "./plugin/fieldViews/FieldView";
 export { createTextField } from "./plugin/fieldViews/TextFieldView";
 export { createRichTextField } from "./plugin/fieldViews/RichTextFieldView";
-export { createNestedElementField } from "./plugin/fieldViews/NestedElementFieldView";
+export {
+  createNestedElementField,
+  isNestedElementField
+} from "./plugin/fieldViews/NestedElementFieldView";
 export { createCheckBoxField } from "./plugin/fieldViews/CheckboxFieldView";
 export {
   createCustomDropdownField,
   createCustomField,
 } from "./plugin/fieldViews/CustomFieldView";
 export { createFlatRichTextField } from "./plugin/fieldViews/RichTextFieldView";
-export { createRepeaterField } from "./plugin/fieldViews/RepeaterFieldView";
+export {
+  createRepeaterField,
+  isRepeaterField
+} from "./plugin/fieldViews/RepeaterFieldView";
 
 export {
   htmlMaxLength,
