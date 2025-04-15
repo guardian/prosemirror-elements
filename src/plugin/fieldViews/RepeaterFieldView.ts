@@ -35,7 +35,7 @@ export interface RepeaterFieldDescription<
 /**
  * A FieldView representing a node that contains user-defined child nodes.
  */
-export class RepeaterFieldView extends FieldView<unknown> {
+export class RepeaterFieldView<ChildValue> extends FieldView<ChildValue> {
   public static fieldType = repeaterFieldType;
   public static fieldContentType = FieldContentType.REPEATER;
   public static defaultValue = [];
@@ -48,7 +48,8 @@ export class RepeaterFieldView extends FieldView<unknown> {
     // The outer editor instance. Updated from within this class when nodes are added or removed.
     private outerView: EditorView,
     private fieldName: string,
-    public minChildren: number
+    public minChildren: number,
+    private getChildNodeFromData: (data: ChildValue) => Node
   ) {
     super();
   }
@@ -96,13 +97,7 @@ export class RepeaterFieldView extends FieldView<unknown> {
    * You can pre-populate this with
    * If list is empty, you will need to pass -1.
    */
-  public addChildAfter(
-    index: number,
-    {
-      textContent,
-      nodeContent,
-    }: { textContent?: string; nodeContent?: Node } = {}
-  ) {
+  public addChildAfter(index: number, childValue?: ChildValue) {
     if (index < -1 || index > this.node.childCount - 1) {
       console.error(
         `Cannot add at index ${index}: index out of range. Minimum -1, Maximum ${
@@ -115,9 +110,9 @@ export class RepeaterFieldView extends FieldView<unknown> {
     const repeaterChildNodeName = getRepeaterChildNameFromParent(
       this.node.type.name
     );
-    const maybeNode =
-      nodeContent ??
-      (textContent ? this.outerView.state.schema.text(textContent) : undefined);
+    const maybeNode = childValue
+      ? this.getChildNodeFromData(childValue)
+      : undefined;
 
     const newNode = this.node.type.schema.nodes[
       repeaterChildNodeName
@@ -149,10 +144,8 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
-  public addChildAtEnd(
-    maybeContent: { textContent?: string; nodeContent?: Node } = {}
-  ) {
-    this.addChildAfter(this.node.childCount - 1, maybeContent);
+  public addChildAtEnd(childValue?: ChildValue) {
+    this.addChildAfter(this.node.childCount - 1, childValue);
   }
 
   /**
