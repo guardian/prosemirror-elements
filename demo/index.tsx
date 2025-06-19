@@ -7,7 +7,7 @@ import { Option, Select } from "@guardian/src-select";
 import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import { collab } from "prosemirror-collab";
-import applyDevTools from "prosemirror-dev-tools";
+import prosemirrorDevTools from "prosemirror-dev-tools";
 import { exampleSetup } from "prosemirror-example-setup";
 import type { MarkSpec, Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
@@ -276,8 +276,6 @@ const schema = new Schema({
 
 const { serializer, parser } = createParsers(schema);
 
-const btnContainer = document.getElementById("button-container");
-
 const get = () => {
   const state = window.localStorage.getItem("pm");
   return state
@@ -421,7 +419,7 @@ const server = new CollabServer();
 const buttonData: Array<{
   label: string;
   name: string;
-  values?: any;
+  values?: Record<string, unknown>;
   callback?: (view: EditorView) => void;
 }> = [
   {
@@ -539,7 +537,7 @@ const App = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
     if (enableExpensiveFeatures) {
-      applyDevTools(firstEditor);
+      prosemirrorDevTools(firstEditor);
     }
 
     window.PM_ELEMENTS = {
@@ -562,16 +560,18 @@ const App = () => {
   const [elementType, setElementType] = useState<string>(buttonData[0].label);
 
   const addElement = () => {
-    const { values, callback, name } = buttonData.find(
-      (e) => e.label === elementType
-    )!;
+    const elementData = buttonData.find((e) => e.label === elementType);
+    if (!elementData) {
+      return;
+    }
+    const { values, callback, name: elementName } = elementData;
 
     if (!firstEditor) {
       return;
     }
 
     if (values) {
-      insertElement({ elementName: name as any, values: values as any })(
+      insertElement({ elementName, values } as any)(
         firstEditor.state,
         firstEditor.dispatch
       );
@@ -611,7 +611,10 @@ const App = () => {
             <Button
               size="xsmall"
               priority="secondary"
-              onClick={() => createEditor(editorContainerRef.current!)}
+              onClick={() =>
+                editorContainerRef.current &&
+                createEditor(editorContainerRef.current)
+              }
             >
               Create another editor
             </Button>
