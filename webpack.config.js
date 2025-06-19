@@ -21,7 +21,7 @@ export default {
     path: path.resolve(dirName, "dist"),
   },
   devtool: "inline-source-map",
-  entry: "./demo/index.ts",
+  entry: "./demo/index.tsx",
   mode: "development",
   devServer: {
     static: {

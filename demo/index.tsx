@@ -1,3 +1,5 @@
+import React, { useEffect, useRef, useState } from "react";
+import { render } from "react-dom";
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
 import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
@@ -80,6 +82,7 @@ import {
   sampleVine,
 } from "./sampleElements";
 import type { WindowType } from "./types";
+import { Option, Select } from "@guardian/src-select";
 
 // Enable collaboration and serialisation. Disabling can be useful when measuring performance improvements.
 const enableExpensiveFeatures = true;
@@ -266,11 +269,7 @@ const schema = new Schema({
 
 const { serializer, parser } = createParsers(schema);
 
-const editorsContainer = document.querySelector("#editor-container");
 const btnContainer = document.getElementById("button-container");
-if (!editorsContainer || !btnContainer) {
-  throw new Error("No #editor element present in DOM");
-}
 
 const get = () => {
   const state = window.localStorage.getItem("pm");
@@ -290,13 +289,13 @@ let editorNo = 0;
 let firstCollabPlugin: ReturnType<typeof collab> | undefined;
 let firstEditor: EditorView | undefined;
 
-const createEditor = (server: CollabServer) => {
+const createEditor = (editorContainer: HTMLElement) => {
   // Add the editor nodes to the DOM
   const isFirstEditor = !firstEditor;
   const editorElement = document.createElement("div");
   editorElement.id = `editor-${editorNo}`;
   editorElement.classList.add("Editor");
-  editorsContainer.appendChild(editorElement);
+  editorContainer.appendChild(editorElement);
 
   const contentElement = document.getElementById(`content-${editorNo}`);
   if (contentElement?.parentElement) {
@@ -380,71 +379,6 @@ const createEditor = (server: CollabServer) => {
     firstEditor = view;
   }
 
-  const createElementButton = (
-    buttonText: string,
-    elementName: keyof typeof elements,
-    values: Record<string, any>
-  ) => {
-    const elementButton = document.createElement("button");
-    elementButton.innerHTML = `Add ${buttonText}`;
-    elementButton.id = elementName;
-    elementButton.addEventListener("click", () => {
-      insertElement({ elementName, values })(view.state, view.dispatch);
-    });
-    btnContainer.appendChild(elementButton);
-  };
-
-  const buttonData = [
-    {
-      label: "Campaign Callout List",
-      name: campaignCalloutListElementName,
-      values: sampleCampaignCalloutList,
-    },
-    { label: "Embed", name: embedElementName, values: sampleEmbed },
-    { label: "Callout", name: embedElementName, values: sampleCallout },
-    { label: "Demo image", name: demoImageElementName, values: sampleImage },
-    { label: "Rich-link", name: richlinkElementName, values: sampleRichLink },
-    { label: "Video", name: videoElementName, values: sampleVideo },
-    { label: "Audio", name: audioElementName, values: sampleAudio },
-    { label: "Map", name: mapElementName, values: sampleMap },
-    { label: "Document", name: documentElementName, values: sampleDocument },
-    { label: "Table", name: tableElementName, values: sampleTable },
-    {
-      label: "Membership",
-      name: membershipElementName,
-      values: sampleMembership,
-    },
-    {
-      label: "Interactive",
-      name: interactiveElementName,
-      values: sampleInteractive,
-    },
-    { label: "Pullquote", name: pullquoteElementName, values: samplePullquote },
-    { label: "Code", name: codeElementName, values: sampleCode },
-    { label: "Form", name: formElementName, values: sampleForm },
-    { label: "Vine", name: vineElementName, values: sampleVine },
-    { label: "Tweet", name: tweetElementName, values: sampleTweet },
-    { label: "Recipe", name: recipeElementName, values: sampleRecipe },
-    { label: "Recipe atom", name: contentAtomName, values: sampleContentAtom },
-    {
-      label: "Interactive atom",
-      name: contentAtomName,
-      values: sampleInteractiveAtom,
-    },
-    { label: "Comment", name: commentElementName, values: sampleComment },
-    {
-      label: "Alt Style",
-      name: altStyleElementName,
-      values: sampleAltStylesElement,
-    },
-    { label: "Repeater", name: repeaterElementName, values: sampleRepeater },
-    { label: "Nested", name: nestedElementName, values: sampleNested },
-  ] as const;
-
-  buttonData.map(({ label, name, values }) =>
-    createElementButton(label, name, values)
-  );
-
   const imageElementButton = document.createElement("button");
   imageElementButton.innerHTML = "Add Image";
   imageElementButton.id = imageElementName;
@@ -471,7 +405,6 @@ const createEditor = (server: CollabServer) => {
     };
     onCropImage(setMedia);
   });
-  btnContainer.appendChild(imageElementButton);
 
   const cartoonElementButton = document.createElement("button");
   cartoonElementButton.innerHTML = "Add Cartoon";
@@ -497,7 +430,6 @@ const createEditor = (server: CollabServer) => {
     };
     onCropImage(setMedia);
   });
-  btnContainer.appendChild(cartoonElementButton);
 
   // Add a button allowing you to toggle the image role fields
   const toggleImageFields = document.createElement("button");
@@ -507,7 +439,6 @@ const createEditor = (server: CollabServer) => {
       [...additionalRoleOptions].splice(Math.floor(Math.random() * 3), 2)
     );
   });
-  btnContainer.appendChild(toggleImageFields);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
   if (enableExpensiveFeatures) {
@@ -530,20 +461,146 @@ const createEditor = (server: CollabServer) => {
 };
 
 const server = new CollabServer();
-firstEditor = createEditor(server);
-const doc = firstEditor.state.doc;
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
-if (enableExpensiveFeatures) {
-  server.init(doc);
-}
+const buttonData = [
+  {
+    label: "Campaign Callout List",
+    name: campaignCalloutListElementName,
+    values: sampleCampaignCalloutList,
+  },
+  { label: "Embed", name: embedElementName, values: sampleEmbed },
+  { label: "Callout", name: embedElementName, values: sampleCallout },
+  { label: "Demo image", name: demoImageElementName, values: sampleImage },
+  { label: "Rich-link", name: richlinkElementName, values: sampleRichLink },
+  { label: "Video", name: videoElementName, values: sampleVideo },
+  { label: "Audio", name: audioElementName, values: sampleAudio },
+  { label: "Map", name: mapElementName, values: sampleMap },
+  { label: "Document", name: documentElementName, values: sampleDocument },
+  { label: "Table", name: tableElementName, values: sampleTable },
+  {
+    label: "Membership",
+    name: membershipElementName,
+    values: sampleMembership,
+  },
+  {
+    label: "Interactive",
+    name: interactiveElementName,
+    values: sampleInteractive,
+  },
+  { label: "Pullquote", name: pullquoteElementName, values: samplePullquote },
+  { label: "Code", name: codeElementName, values: sampleCode },
+  { label: "Form", name: formElementName, values: sampleForm },
+  { label: "Vine", name: vineElementName, values: sampleVine },
+  { label: "Tweet", name: tweetElementName, values: sampleTweet },
+  { label: "Recipe", name: recipeElementName, values: sampleRecipe },
+  { label: "Recipe atom", name: contentAtomName, values: sampleContentAtom },
+  {
+    label: "Interactive atom",
+    name: contentAtomName,
+    values: sampleInteractiveAtom,
+  },
+  { label: "Comment", name: commentElementName, values: sampleComment },
+  {
+    label: "Alt Style",
+    name: altStyleElementName,
+    values: sampleAltStylesElement,
+  },
+  { label: "Repeater", name: repeaterElementName, values: sampleRepeater },
+  { label: "Nested", name: nestedElementName, values: sampleNested },
+] as const;
 
-// Add more editors
-const addEditorButton = document.createElement("button");
-addEditorButton.innerHTML = "Add another editor";
-addEditorButton.id = "add-editor";
-addEditorButton.addEventListener("click", () => createEditor(server));
-btnContainer.appendChild(addEditorButton);
+const App = () => {
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+  // const createElementButton = (
+  //   buttonText: string,
+  //   elementName: keyof typeof elements,
+  //   values: Record<string, any>
+  // ) => {
+  //   const elementButton = document.createElement("button");
+  //   elementButton.innerHTML = `Add ${buttonText}`;
+  //   elementButton.id = elementName;
+  //   elementButton.addEventListener("click", () => {
+  //
+  //   });
+  //   btnContainer.appendChild(elementButton);
+  // };
+  useEffect(() => {
+    if (!editorContainerRef.current) {
+      return;
+    }
+    firstEditor = createEditor(editorContainerRef.current);
+    const doc = firstEditor.state.doc;
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
+    if (enableExpensiveFeatures) {
+      server.init(doc);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
+    if (enableExpensiveFeatures) {
+      applyDevTools(firstEditor);
+    }
+
+    window.PM_ELEMENTS = {
+      view: firstEditor,
+      insertElement: insertElement,
+      docToHtml: () =>
+        firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "",
+      htmlToDoc: (html: string) => {
+        const node = htmlToDoc(parser, html);
+        firstEditor?.updateState(
+          EditorState.create({
+            doc: node,
+            plugins: firstEditor.state.plugins,
+          })
+        );
+      },
+    };
+  }, [editorContainerRef]);
+
+  const [elementType, setElementType] = useState<string>(buttonData[0].label);
+
+  const addElement = () => {
+    const { values, name } = buttonData.find((e) => e.label === elementType)!;
+
+    if (!firstEditor) {
+      return;
+    }
+
+    insertElement({ elementName: name as any, values: values as any })(
+      firstEditor.state,
+      firstEditor.dispatch
+    );
+  };
+
+  return (
+    <div>
+      App
+      <div>
+        <Select
+          label="Add an element"
+          value={elementType}
+          onChange={(e) => setElementType(e.target.value)}
+        >
+          {buttonData.map(({ label }) => (
+            <Option key={label} value={label}>
+              {label}
+            </Option>
+          ))}
+        </Select>
+        <button onClick={() => addElement()}>Add</button>
+      </div>
+      <div>
+        <button onClick={() => createEditor()}>Create another editor</button>
+      </div>
+      <div ref={editorContainerRef}></div>
+    </div>
+  );
+};
+
+const appContainer = document.getElementById("app");
+
+render(<App />, appContainer);
 
 // Handy debugging tools. We assign a few things to window for our integration tests,
 // and to facilitate debugging.
@@ -552,24 +609,3 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface -- necessary to extend the Window object
   interface Window extends WindowType {}
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- for dev use
-if (enableExpensiveFeatures) {
-  applyDevTools(firstEditor);
-}
-
-window.PM_ELEMENTS = {
-  view: firstEditor,
-  insertElement: insertElement,
-  docToHtml: () =>
-    firstEditor ? docToHtml(serializer, firstEditor.state.doc) : "",
-  htmlToDoc: (html: string) => {
-    const node = htmlToDoc(parser, html);
-    firstEditor?.updateState(
-      EditorState.create({
-        doc: node,
-        plugins: firstEditor.state.plugins,
-      })
-    );
-  },
-};
