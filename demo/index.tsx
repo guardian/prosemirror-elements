@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { render } from "react-dom";
+import { css } from "@emotion/react";
+import { Button } from "@guardian/src-button";
+import { headline } from "@guardian/src-foundations/typography";
 import { FocusStyleManager } from "@guardian/src-foundations/utils";
+import { Column, Columns, Stack } from "@guardian/src-layout";
+import { Option, Select } from "@guardian/src-select";
 import { UserTelemetryEventSender } from "@guardian/user-telemetry-client";
 import omit from "lodash/omit";
 import { collab } from "prosemirror-collab";
@@ -11,6 +14,8 @@ import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
+import React, { useEffect, useRef, useState } from "react";
+import { render } from "react-dom";
 import { buildElementPlugin, undefinedDropdownValue } from "../src";
 import { keyTakeawaysElement } from "../src/elements/alt-style/AltStyleElementForm";
 import { createCalloutElement } from "../src/elements/callout/Callout";
@@ -45,7 +50,10 @@ import {
   testWidgetDecorationPlugin,
 } from "../src/plugin/helpers/test";
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
-import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
+import {
+  createSelectionCollabPlugin,
+  selectColor,
+} from "./collab/SelectionPlugin";
 import {
   getImageFromMediaPayload,
   onCropCartoon,
@@ -82,7 +90,6 @@ import {
   sampleVine,
 } from "./sampleElements";
 import type { WindowType } from "./types";
-import { Option, Select } from "@guardian/src-select";
 
 // Enable collaboration and serialisation. Disabling can be useful when measuring performance improvements.
 const enableExpensiveFeatures = true;
@@ -304,6 +311,7 @@ const createEditor = (editorContainer: HTMLElement) => {
 
   // Create the editor
   const clientID = editorNo.toString();
+  editorElement.style.border = `2px solid ${selectColor(parseInt(clientID))}`;
   const currentVersion =
     firstEditor && firstCollabPlugin
       ? (firstCollabPlugin.getState(firstEditor.state) as number)
@@ -379,58 +387,6 @@ const createEditor = (editorContainer: HTMLElement) => {
     firstEditor = view;
   }
 
-  const imageElementButton = document.createElement("button");
-  imageElementButton.innerHTML = "Add Image";
-  imageElementButton.id = imageElementName;
-  imageElementButton.addEventListener("click", () => {
-    const setMedia = (mediaPayload: MediaPayload) => {
-      const {
-        mediaId,
-        mediaApiUri,
-        assets,
-        suppliersReference,
-        caption,
-        photographer,
-        source,
-      } = mediaPayload;
-      insertElement({
-        elementName: imageElementName,
-        values: {
-          caption,
-          photographer,
-          source,
-          mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
-        },
-      })(view.state, view.dispatch);
-    };
-    onCropImage(setMedia);
-  });
-
-  const cartoonElementButton = document.createElement("button");
-  cartoonElementButton.innerHTML = "Add Cartoon";
-  cartoonElementButton.id = cartoonElementName;
-  cartoonElementButton.addEventListener("click", () => {
-    const setMedia = (mediaPayload: MediaPayload) => {
-      const { photographer, caption, source } = mediaPayload;
-
-      const imageToInsert = getImageFromMediaPayload(mediaPayload);
-
-      // TODO: handle this error
-      if (!imageToInsert) return;
-
-      insertElement({
-        elementName: cartoonElementName,
-        values: {
-          largeImages: [imageToInsert],
-          photographer,
-          source,
-          caption,
-        },
-      })(view.state, view.dispatch);
-    };
-    onCropImage(setMedia);
-  });
-
   // Add a button allowing you to toggle the image role fields
   const toggleImageFields = document.createElement("button");
   toggleImageFields.innerHTML = "Randomise image role options";
@@ -462,7 +418,12 @@ const createEditor = (editorContainer: HTMLElement) => {
 
 const server = new CollabServer();
 
-const buttonData = [
+const buttonData: Array<{
+  label: string;
+  name: string;
+  values?: any;
+  callback?: (view: EditorView) => void;
+}> = [
   {
     label: "Campaign Callout List",
     name: campaignCalloutListElementName,
@@ -471,6 +432,58 @@ const buttonData = [
   { label: "Embed", name: embedElementName, values: sampleEmbed },
   { label: "Callout", name: embedElementName, values: sampleCallout },
   { label: "Demo image", name: demoImageElementName, values: sampleImage },
+  {
+    label: "Image",
+    name: imageElementName,
+    callback: (view: EditorView) => {
+      const setMedia = (mediaPayload: MediaPayload) => {
+        const {
+          mediaId,
+          mediaApiUri,
+          assets,
+          suppliersReference,
+          caption,
+          photographer,
+          source,
+        } = mediaPayload;
+        insertElement({
+          elementName: imageElementName,
+          values: {
+            caption,
+            photographer,
+            source,
+            mainImage: { assets, suppliersReference, mediaId, mediaApiUri },
+          },
+        })(view.state, view.dispatch);
+      };
+      onCropImage(setMedia);
+    },
+  },
+  {
+    label: "Cartoon",
+    name: cartoonElementName,
+    callback: (view: EditorView) => {
+      const setMedia = (mediaPayload: MediaPayload) => {
+        const { photographer, caption, source } = mediaPayload;
+
+        const imageToInsert = getImageFromMediaPayload(mediaPayload);
+
+        // TODO: handle this error
+        if (!imageToInsert) return;
+
+        insertElement({
+          elementName: cartoonElementName,
+          values: {
+            largeImages: [imageToInsert],
+            photographer,
+            source,
+            caption,
+          },
+        })(view.state, view.dispatch);
+      };
+      onCropImage(setMedia);
+    },
+  },
   { label: "Rich-link", name: richlinkElementName, values: sampleRichLink },
   { label: "Video", name: videoElementName, values: sampleVideo },
   { label: "Audio", name: audioElementName, values: sampleAudio },
@@ -511,19 +524,7 @@ const buttonData = [
 
 const App = () => {
   const editorContainerRef = useRef<HTMLDivElement>(null);
-  // const createElementButton = (
-  //   buttonText: string,
-  //   elementName: keyof typeof elements,
-  //   values: Record<string, any>
-  // ) => {
-  //   const elementButton = document.createElement("button");
-  //   elementButton.innerHTML = `Add ${buttonText}`;
-  //   elementButton.id = elementName;
-  //   elementButton.addEventListener("click", () => {
-  //
-  //   });
-  //   btnContainer.appendChild(elementButton);
-  // };
+
   useEffect(() => {
     if (!editorContainerRef.current) {
       return;
@@ -561,40 +562,78 @@ const App = () => {
   const [elementType, setElementType] = useState<string>(buttonData[0].label);
 
   const addElement = () => {
-    const { values, name } = buttonData.find((e) => e.label === elementType)!;
+    const { values, callback, name } = buttonData.find(
+      (e) => e.label === elementType
+    )!;
 
     if (!firstEditor) {
       return;
     }
 
-    insertElement({ elementName: name as any, values: values as any })(
-      firstEditor.state,
-      firstEditor.dispatch
-    );
+    if (values) {
+      insertElement({ elementName: name as any, values: values as any })(
+        firstEditor.state,
+        firstEditor.dispatch
+      );
+    }
+
+    if (callback) {
+      callback(firstEditor);
+    }
   };
 
   return (
-    <div>
-      App
-      <div>
-        <Select
-          label="Add an element"
-          value={elementType}
-          onChange={(e) => setElementType(e.target.value)}
+    <>
+      <h1
+        css={css`
+          ${headline.medium()}
+        `}
+      >
+        prosemirror-elements sandbox
+      </h1>
+      <Columns>
+        <Column span={3}>
+          <Stack space={1}>
+            <Select
+              label="Add an element"
+              value={elementType}
+              onChange={(e) => setElementType(e.target.value)}
+            >
+              {buttonData.map(({ label }) => (
+                <Option key={label} value={label}>
+                  {label}
+                </Option>
+              ))}
+            </Select>
+            <Button size="xsmall" onClick={() => addElement()}>
+              Add
+            </Button>
+            <Button
+              size="xsmall"
+              priority="secondary"
+              onClick={() => createEditor(editorContainerRef.current!)}
+            >
+              Create another editor
+            </Button>
+          </Stack>
+        </Column>
+        <Column
+          span={13}
+          css={css`
+            overflow-y: scroll;
+            padding: 0 25px;
+          `}
         >
-          {buttonData.map(({ label }) => (
-            <Option key={label} value={label}>
-              {label}
-            </Option>
-          ))}
-        </Select>
-        <button onClick={() => addElement()}>Add</button>
-      </div>
-      <div>
-        <button onClick={() => createEditor()}>Create another editor</button>
-      </div>
-      <div ref={editorContainerRef}></div>
-    </div>
+          <div
+            css={css`
+              display: flex;
+              gap: 4px;
+            `}
+            ref={editorContainerRef}
+          ></div>
+        </Column>
+      </Columns>
+    </>
   );
 };
 

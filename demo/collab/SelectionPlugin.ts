@@ -220,7 +220,7 @@ const notEmpty = <TValue>(
   return value !== null && value !== undefined;
 };
 
-const selectColor = (index: number, isBackground = false) => {
+export const selectColor = (index: number, isBackground = false) => {
   const hue = index * 137.508; // Use golden angle approximation
   return `hsl(${hue},50%,${isBackground ? 90 : 50}%)`;
 };
