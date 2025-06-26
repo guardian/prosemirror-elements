@@ -132,14 +132,11 @@ const getStateForNewUserSelection = (
     )
   );
 
-  const newClientIDs = oldState.clientIDs.add(selectionChange.clientID);
-
   if (selectionChange.selection) {
     const decorations = getDecosForSelection(
       selectionChange.userName,
       selectionChange.clientID,
-      selectionChange.selection,
-      newClientIDs
+      selectionChange.selection
     );
     newDecSet = newDecSet.add(doc, decorations);
   }
@@ -148,25 +145,18 @@ const getStateForNewUserSelection = (
     ...oldState,
     decorations: newDecSet,
     selections: newSels,
-    clientIDs: newClientIDs,
   };
 };
 
 const getDecosForSelection = (
   userName: string,
   clientID: ClientID,
-  { head, from, to, empty }: Selection,
-  clientIDs: Set<ClientID>
+  { head, from, to, empty }: Selection
 ): Decoration[] => {
-  const clientIDIndex = Array.from(clientIDs).indexOf(clientID);
-  if (clientIDIndex === -1) {
-    return [];
-  }
-
-  const cursorColor = selectColor(clientIDIndex);
+  const cursorColor = selectColor(parseInt(clientID));
   const cursorDeco = getCursorDeco(head, clientID, userName, cursorColor);
 
-  const selectionColor = selectColor(clientIDIndex, true);
+  const selectionColor = selectColor(parseInt(clientID), true);
   const selectionDeco = empty
     ? undefined
     : getSelectionDeco(from, to, clientID, selectionColor);

@@ -13,7 +13,7 @@ import type { MarkSpec, Node } from "prosemirror-model";
 import { Schema } from "prosemirror-model";
 import { schema as basicSchema, marks } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
-import { EditorView } from "prosemirror-view";
+import { DecorationSet, EditorView } from "prosemirror-view";
 import React, { useEffect, useRef, useState } from "react";
 import { render } from "react-dom";
 import { buildElementPlugin, undefinedDropdownValue } from "../src";
@@ -518,7 +518,7 @@ const buttonData: Array<{
   },
   { label: "Repeater", name: repeaterElementName, values: sampleRepeater },
   { label: "Nested", name: nestedElementName, values: sampleNested },
-] as const;
+];
 
 const App = () => {
   const editorContainerRef = useRef<HTMLDivElement>(null);
