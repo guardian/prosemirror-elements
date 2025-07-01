@@ -112,7 +112,7 @@ export const getNodeSpecForField = (
             {
               tag: "div",
               getAttrs: createGetAttrsForTextNode(nodeName),
-              preserveWhitespace: field.isCode ? "full" : false,
+              preserveWhitespace: field.isCode ? "full" : true,
             },
           ],
           code: field.isCode,

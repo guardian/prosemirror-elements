@@ -334,7 +334,7 @@ const docToHtml = (serializer: DOMSerializer, doc: Node) => {
 const htmlToDoc = (parser: DOMParser, html: string) => {
   const dom = document.createElement("div");
   dom.innerHTML = html;
-  return parser.parse(dom);
+  return parser.parse(dom, { preserveWhitespace: true });
 };
 
 // Select all text within a node, as opposed to AllSelection
