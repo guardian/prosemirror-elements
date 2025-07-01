@@ -949,6 +949,21 @@ describe("buildElementPlugin", () => {
           expect(node?.textContent).toBe("");
         });
 
+        it("should retain whitespace in rich text", () => {
+          const { getNodeFromElementData, view } = createEditorWithElements({
+            testElement,
+          });
+
+          const fieldText = "<p>   </p>";
+
+          const node = getNodeFromElementData(
+            { elementName: "testElement", values: { field1: fieldText } },
+            view.state.schema
+          );
+
+          expect(node?.textContent).toBe("   ");
+        });
+
         it("should retain HTML chars in plain text", () => {
           const { getNodeFromElementData, view } = createEditorWithElements({
             testElement,

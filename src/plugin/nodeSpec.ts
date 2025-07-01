@@ -520,7 +520,7 @@ const createContentNodeFromRichText = <S extends Schema>(
   element.innerHTML = fieldValue;
   return parser.parse(element, {
     topNode,
-    preserveWhitespace: false,
+    preserveWhitespace: true,
   });
 };
 
