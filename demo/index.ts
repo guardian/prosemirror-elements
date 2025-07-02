@@ -32,11 +32,7 @@ import { richlinkElement } from "../src/elements/rich-link/RichlinkForm";
 import { createStandardElement } from "../src/elements/standard/StandardForm";
 import { tableElement } from "../src/elements/table/TableForm";
 import { createTweetElement } from "../src/elements/tweet/TweetForm";
-import {
-  createParsers,
-  docToHtml,
-  htmlToDoc,
-} from "../src/plugin/helpers/prosemirror";
+import { createParsers } from "../src/plugin/helpers/prosemirror";
 import {
   testDecorationPlugin,
   testInnerEditorEventPropagationPlugin,
@@ -45,7 +41,9 @@ import {
 import { CollabServer, EditorConnection } from "./collab/CollabServer";
 import { createSelectionCollabPlugin } from "./collab/SelectionPlugin";
 import {
+  docToHtml,
   getImageFromMediaPayload,
+  htmlToDoc,
   onCropCartoon,
   onCropImage,
   onDemoCropImage,

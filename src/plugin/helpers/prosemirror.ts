@@ -324,19 +324,6 @@ const createParsers = <S extends Schema>(schema: S) => {
   return { parser, serializer };
 };
 
-const docToHtml = (serializer: DOMSerializer, doc: Node) => {
-  const dom = serializer.serializeFragment(doc.content);
-  const e = document.createElement("div");
-  e.appendChild(dom);
-  return e.innerHTML;
-};
-
-const htmlToDoc = (parser: DOMParser, html: string) => {
-  const dom = document.createElement("div");
-  dom.innerHTML = html;
-  return parser.parse(dom, { preserveWhitespace: "full" });
-};
-
 // Select all text within a node, as opposed to AllSelection
 const selectAllText = (
   state: EditorState,
@@ -386,7 +373,5 @@ export {
   defaultPredicate,
   createUpdateDecorations,
   createParsers,
-  docToHtml,
-  htmlToDoc,
   selectAllText,
 };
