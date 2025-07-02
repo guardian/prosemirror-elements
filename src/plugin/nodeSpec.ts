@@ -112,7 +112,7 @@ export const getNodeSpecForField = (
             {
               tag: "div",
               getAttrs: createGetAttrsForTextNode(nodeName),
-              preserveWhitespace: field.isCode ? "full" : true,
+              preserveWhitespace: "full",
             },
           ],
           code: field.isCode,
@@ -518,9 +518,10 @@ const createContentNodeFromRichText = <S extends Schema>(
   const parser = DOMParser.fromSchema(schema);
   const element = document.createElement("div");
   element.innerHTML = fieldValue;
+
   return parser.parse(element, {
     topNode,
-    preserveWhitespace: true,
+    preserveWhitespace: "full",
   });
 };
 
