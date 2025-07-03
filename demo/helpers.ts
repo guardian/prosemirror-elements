@@ -1,3 +1,4 @@
+import type { DOMParser, DOMSerializer, Node } from "prosemirror-model";
 import type { EditorState, Transaction } from "prosemirror-state";
 import { Plugin } from "prosemirror-state";
 import type { DemoSetMedia } from "../src/elements/demo-image/DemoImageElement";
@@ -217,4 +218,17 @@ export const getImageFromMediaPayload = (
     height: +mainAsset.fields.height,
     mediaId: mediaPayload.mediaId,
   };
+};
+
+export const docToHtml = (serializer: DOMSerializer, doc: Node) => {
+  const dom = serializer.serializeFragment(doc.content);
+  const e = document.createElement("div");
+  e.appendChild(dom);
+  return e.innerHTML;
+};
+
+export const htmlToDoc = (parser: DOMParser, html: string) => {
+  const dom = document.createElement("div");
+  dom.innerHTML = html;
+  return parser.parse(dom, { preserveWhitespace: true });
 };

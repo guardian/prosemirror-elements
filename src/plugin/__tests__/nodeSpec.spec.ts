@@ -147,7 +147,7 @@ describe("nodeSpec generation", () => {
         expect(field1NodeSpec).toHaveProperty("content", "text*");
         expect(field1NodeSpec?.parseDOM?.[0]).toMatchObject({
           tag: "div",
-          preserveWhitespace: false,
+          preserveWhitespace: "full",
         });
       });
     });
