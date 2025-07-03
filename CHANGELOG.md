@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.6.10
+
+### Patch Changes
+
+- 53b0797: Preserve whitespace when parsing plain text from DOM
+
 ## 9.6.9
 
 ### Patch Changes
