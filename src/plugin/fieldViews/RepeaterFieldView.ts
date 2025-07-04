@@ -35,7 +35,7 @@ export interface RepeaterFieldDescription<
 /**
  * A FieldView representing a node that contains user-defined child nodes.
  */
-export class RepeaterFieldView extends FieldView<unknown> {
+export class RepeaterFieldView<ChildValue> extends FieldView<ChildValue> {
   public static fieldType = repeaterFieldType;
   public static fieldContentType = FieldContentType.REPEATER;
   public static defaultValue = [];
@@ -48,7 +48,8 @@ export class RepeaterFieldView extends FieldView<unknown> {
     // The outer editor instance. Updated from within this class when nodes are added or removed.
     private outerView: EditorView,
     private fieldName: string,
-    public minChildren: number
+    public minChildren: number,
+    private getChildNodeFromData: (data: ChildValue) => Node
   ) {
     super();
   }
@@ -93,9 +94,10 @@ export class RepeaterFieldView extends FieldView<unknown> {
 
   /**
    * Add a new child from this repeater at the given index.
+   * You can pre-populate this with
    * If list is empty, you will need to pass -1.
    */
-  public addChildAfter(index: number) {
+  public addChildAfter(index: number, childValue?: ChildValue) {
     if (index < -1 || index > this.node.childCount - 1) {
       console.error(
         `Cannot add at index ${index}: index out of range. Minimum -1, Maximum ${
@@ -108,9 +110,14 @@ export class RepeaterFieldView extends FieldView<unknown> {
     const repeaterChildNodeName = getRepeaterChildNameFromParent(
       this.node.type.name
     );
+    const maybeNode = childValue
+      ? this.getChildNodeFromData(childValue)
+      : undefined;
+
     const newNode = this.node.type.schema.nodes[
       repeaterChildNodeName
-    ].createAndFill({ [RepeaterFieldMapIDKey]: getRepeaterID() });
+    ].createAndFill({ [RepeaterFieldMapIDKey]: getRepeaterID() }, maybeNode);
+
     if (!newNode) {
       console.warn(
         `[prosemirror-elements]: Could not create new repeater node of type ${this.fieldName}: createAndFill did not return a node`
@@ -137,8 +144,8 @@ export class RepeaterFieldView extends FieldView<unknown> {
     this.outerView.dispatch(tr);
   }
 
-  public addChildAtEnd() {
-    this.addChildAfter(this.node.childCount - 1);
+  public addChildAtEnd(childValue?: ChildValue) {
+    this.addChildAfter(this.node.childCount - 1, childValue);
   }
 
   /**
