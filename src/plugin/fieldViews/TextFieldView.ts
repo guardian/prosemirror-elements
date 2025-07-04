@@ -7,7 +7,7 @@ import type { FieldValidator } from "../elementSpec";
 import {
   createHistoryCommands,
   filteredKeymap,
-  preventCaretBoundaryTraversal,
+  preventCaretBoundaryTraversalKeymap,
 } from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { createPlaceholderPlugin } from "../helpers/placeholder";
@@ -105,7 +105,7 @@ export class TextFieldView extends ProseMirrorFieldView {
     const keymapping: Record<string, Command> = {
       ...modifiedBaseKeymap,
       ...createHistoryCommands(outerView),
-      ...preventCaretBoundaryTraversal,
+      ...preventCaretBoundaryTraversalKeymap,
       ...filteredKeymap,
     };
 

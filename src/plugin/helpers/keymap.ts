@@ -32,7 +32,7 @@ export const createHistoryCommands = (
   These commands restrict caret traversal to the current text block
   When navigating with the arrow keys the caret should stop at the beginning and end of text blocks
 */
-export const preventCaretBoundaryTraversal: Record<string, Command> = {
+export const preventCaretBoundaryTraversalKeymap: Record<string, Command> = {
   ArrowRight: (state: EditorState) => {
     if (
       state.selection.$from.parentOffset ===
