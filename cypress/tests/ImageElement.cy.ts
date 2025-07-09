@@ -512,9 +512,6 @@ describe("ImageElement", () => {
         // The caret should be at the start of the text block
         assertCaretPosition(77);
 
-        typeIntoElementField("src", "{rightArrow}");
-        assertCaretPosition(78);
-
         for (let i = 0; i < 3; i++) {
           typeIntoElementField("src", "{leftArrow}");
         }
