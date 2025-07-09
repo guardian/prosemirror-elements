@@ -143,6 +143,13 @@ export const assertEditorFocus = (shouldBeFocused: boolean) => {
   });
 };
 
+export const assertCaretPosition = (position: number) => {
+  getDocSelection().then(([from, to]) => {
+    expect(from).to.equal(position);
+    expect(to).to.equal(position);
+  });
+};
+
 type ElementFields = {
   altTextValue?: string;
   captionValue?: string;
