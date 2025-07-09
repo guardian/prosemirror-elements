@@ -4,7 +4,11 @@ import type { AttributeSpec, Node, Schema } from "prosemirror-model";
 import type { EditorState, Plugin, Transaction } from "prosemirror-state";
 import type { DecorationSource, EditorView } from "prosemirror-view";
 import type { FieldValidator } from "../elementSpec";
-import { createHistoryCommands, filteredKeymap } from "../helpers/keymap";
+import {
+  createHistoryCommands,
+  filteredKeymap,
+  preventCaretBoundaryTraversalKeymap,
+} from "../helpers/keymap";
 import type { PlaceholderOption } from "../helpers/placeholder";
 import { createPlaceholderPlugin } from "../helpers/placeholder";
 import { selectAllText } from "../helpers/prosemirror";
@@ -85,6 +89,7 @@ export const createFlatRichTextField = ({
           );
           return true;
         },
+        ...preventCaretBoundaryTraversalKeymap,
       };
 
       const plugin = keymap(keymapping);
