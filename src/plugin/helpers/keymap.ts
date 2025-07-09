@@ -57,9 +57,7 @@ export const preventCaretBoundaryTraversalKeymap: Record<string, Command> = {
   ) => {
     if (view?.endOfTextblock("up", state)) {
       // Move the cursor to the start of this block
-      const tr = state.tr.setSelection(
-        TextSelection.between(state.doc.resolve(0), state.doc.resolve(0))
-      );
+      const tr = state.tr.setSelection(TextSelection.atStart(state.doc));
       dispatch?.(tr);
       return true;
     }
@@ -72,12 +70,7 @@ export const preventCaretBoundaryTraversalKeymap: Record<string, Command> = {
   ) => {
     if (view?.endOfTextblock("down", state)) {
       // Move the cursor to the end of this block
-      const tr = state.tr.setSelection(
-        TextSelection.between(
-          state.doc.resolve(state.doc.content.size),
-          state.doc.resolve(state.doc.content.size)
-        )
-      );
+      const tr = state.tr.setSelection(TextSelection.atEnd(state.doc));
       dispatch?.(tr);
       return true;
     }
