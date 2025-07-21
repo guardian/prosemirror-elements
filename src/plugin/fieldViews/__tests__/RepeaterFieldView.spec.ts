@@ -198,15 +198,21 @@ describe("isRepeaterFieldNode", () => {
     insertElement({
       elementName: "testElement",
       values: {
-        repeater1: [],
+        repeater1: [
+          {
+            field1: "content",
+          },
+        ],
       },
     })(view.state, view.dispatch);
 
     const docNode = view.state.doc;
-    const repeaterNode = view.state.doc.firstChild?.firstChild;
+    const repeaterParent = view.state.doc.firstChild?.firstChild;
+    const repeaterChild = view.state.doc.firstChild?.firstChild?.firstChild;
 
     expect(isRepeaterField(docNode)).toBe(false);
-    expect(!!repeaterNode && isRepeaterField(repeaterNode)).toBe(true);
+    expect(!!repeaterParent && isRepeaterField(repeaterParent)).toBe(true);
+    expect(!!repeaterChild && isRepeaterField(repeaterChild)).toBe(true);
   });
 });
 
