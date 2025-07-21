@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.7.0
+
+### Minor Changes
+
+- b172df8: add isNestedElementField() and isRepeaterField()
+
 ## 9.6.10
 
 ### Patch Changes
