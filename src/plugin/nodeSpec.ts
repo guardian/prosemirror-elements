@@ -3,10 +3,16 @@ import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import { useTyperighterAttrs } from "../elements/helpers/typerighter";
 import { FieldContentType } from "./fieldViews/FieldView";
+import {
+  isNestedElementAttribute,
+  nestedElementFieldGroupName,
+} from "./fieldViews/NestedElementFieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
 import {
   getRepeaterChildNodeName,
   getRepeaterParentNodeName,
+  isRepeaterChildAttribute,
+  isRepeaterParentAttribute,
   repeaterFieldType,
 } from "./fieldViews/RepeaterFieldView";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
@@ -124,7 +130,7 @@ export const getNodeSpecForField = (
     case "nestedElement": {
       return {
         [nodeName]: {
-          group: `${fieldGroupName} nested-element-field`,
+          group: `${fieldGroupName} ${nestedElementFieldGroupName}`,
           content: field.content ?? "element+",
           toDOM: getDefaultToDOMForContentNode(nodeName),
           parseDOM: [
@@ -135,7 +141,12 @@ export const getNodeSpecForField = (
             },
           ],
           marks: field.marks,
-          attrs: field.attrs,
+          attrs: {
+            [isNestedElementAttribute]: {
+              default: true,
+            },
+            ...field.attrs,
+          },
         },
       };
     }
@@ -217,7 +228,12 @@ export const getNodeSpecForField = (
           content: `${childNodeName}{${field.minChildren},}`,
           toDOM: getDefaultToDOMForRepeaterNode(parentNodeName),
           parseDOM: getDefaultParseDOMForLeafNode(parentNodeName),
-          attrs: { ...useTyperighterAttrs },
+          attrs: {
+            [isRepeaterParentAttribute]: {
+              default: true,
+            },
+            ...useTyperighterAttrs,
+          },
         },
         [childNodeName]: {
           group: fieldGroupName,
@@ -227,6 +243,9 @@ export const getNodeSpecForField = (
           attrs: {
             [RepeaterFieldMapIDKey]: {
               default: getRepeaterID(),
+            },
+            [isRepeaterChildAttribute]: {
+              default: true,
             },
             ...useTyperighterAttrs,
           },
