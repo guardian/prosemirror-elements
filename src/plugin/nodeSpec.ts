@@ -3,13 +3,16 @@ import type { Node, NodeSpec, NodeType, Schema } from "prosemirror-model";
 import { DOMParser } from "prosemirror-model";
 import { useTyperighterAttrs } from "../elements/helpers/typerighter";
 import { FieldContentType } from "./fieldViews/FieldView";
-import { isNestedElementAttribute, nestedElementFieldGroupName } from "./fieldViews/NestedElementFieldView";
+import {
+  isNestedElementAttribute,
+  nestedElementFieldGroupName,
+} from "./fieldViews/NestedElementFieldView";
 import type { RepeaterFieldDescription } from "./fieldViews/RepeaterFieldView";
 import {
   getRepeaterChildNodeName,
   getRepeaterParentNodeName,
-  isRepeaterParentAttribute,
   isRepeaterChildAttribute,
+  isRepeaterParentAttribute,
   repeaterFieldType,
 } from "./fieldViews/RepeaterFieldView";
 import { RepeaterFieldMapIDKey } from "./helpers/constants";
@@ -140,9 +143,9 @@ export const getNodeSpecForField = (
           marks: field.marks,
           attrs: {
             [isNestedElementAttribute]: {
-              default: true
+              default: true,
             },
-            ...field.attrs
+            ...field.attrs,
           },
         },
       };
@@ -227,9 +230,9 @@ export const getNodeSpecForField = (
           parseDOM: getDefaultParseDOMForLeafNode(parentNodeName),
           attrs: {
             [isRepeaterParentAttribute]: {
-              default: true
+              default: true,
             },
-            ...useTyperighterAttrs
+            ...useTyperighterAttrs,
           },
         },
         [childNodeName]: {
@@ -242,7 +245,7 @@ export const getNodeSpecForField = (
               default: getRepeaterID(),
             },
             [isRepeaterChildAttribute]: {
-              default: true
+              default: true,
             },
             ...useTyperighterAttrs,
           },
