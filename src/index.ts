@@ -14,7 +14,7 @@ export { createTextField } from "./plugin/fieldViews/TextFieldView";
 export { createRichTextField } from "./plugin/fieldViews/RichTextFieldView";
 export {
   createNestedElementField,
-  isNestedElementField
+  isNestedElementField,
 } from "./plugin/fieldViews/NestedElementFieldView";
 export { createCheckBoxField } from "./plugin/fieldViews/CheckboxFieldView";
 export {
@@ -24,7 +24,7 @@ export {
 export { createFlatRichTextField } from "./plugin/fieldViews/RichTextFieldView";
 export {
   createRepeaterField,
-  isRepeaterField
+  isRepeaterField,
 } from "./plugin/fieldViews/RepeaterFieldView";
 
 export {

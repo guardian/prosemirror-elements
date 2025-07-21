@@ -15,12 +15,12 @@ export const getRepeaterParentNodeName = (nodeName: string) =>
 export const getRepeaterChildNameFromParent = (nodeName: string) =>
   nodeName.replace("__parent", "__child");
 
-export const isRepeaterParentAttribute = "isRepeaterParent"
-export const isRepeaterChildAttribute = "isRepeaterParent"
+export const isRepeaterParentAttribute = "isRepeaterParent";
+export const isRepeaterChildAttribute = "isRepeaterParent";
 
 export const isRepeaterField = (node: Node): boolean =>
-  node.attrs?.[isRepeaterParentAttribute] === true
-  || node.attrs?.[isRepeaterChildAttribute] === true
+  node.attrs?.[isRepeaterParentAttribute] === true ||
+  node.attrs?.[isRepeaterChildAttribute] === true;
 
 export const createRepeaterField = <FDesc extends FieldDescriptions<string>>(
   fields: FDesc,

@@ -3,7 +3,24 @@ import {
   createEditorWithElements,
   createNoopElement,
 } from "../../helpers/test";
-import { RepeaterFieldView } from "../RepeaterFieldView";
+import { isRepeaterField, RepeaterFieldView } from "../RepeaterFieldView";
+
+const nestedTestElement = createNoopElement({
+  nestedField: {
+    type: "nestedElement",
+    content: "block+",
+  },
+});
+
+const testElement = createNoopElement({
+  repeater1: {
+    type: "repeater",
+    fields: {
+      field1: { type: "richText" },
+    },
+    minChildren: 0,
+  },
+});
 
 describe("RepeaterFieldView", () => {
   it("should add a repeater child at the start when index is -1", () => {
@@ -172,27 +189,33 @@ describe("RepeaterFieldView", () => {
   });
 });
 
+describe("isRepeaterFieldNode", () => {
+  it("should correctly identify a repeater field node", () => {
+    const { view, insertElement } = createEditorWithElements({
+      testElement,
+    });
+
+    insertElement({
+      elementName: "testElement",
+      values: {
+        repeater1: [],
+      },
+    })(view.state, view.dispatch);
+
+    const docNode = view.state.doc;
+    const repeaterNode = view.state.doc.firstChild?.firstChild;
+
+    expect(isRepeaterField(docNode)).toBe(false);
+    expect(!!repeaterNode && isRepeaterField(repeaterNode)).toBe(true);
+  });
+});
+
 const testRepeaterMutation = (
   initialContent: string[],
   mutation: (repeaterFieldView: RepeaterFieldView) => void,
   expectedFinalContent: string[],
   minChildren = 0
 ) => {
-  const nestedTestElement = createNoopElement({
-    nestedField: {
-      type: "nestedElement",
-      content: "block+",
-    },
-  });
-  const testElement = createNoopElement({
-    repeater1: {
-      type: "repeater",
-      fields: {
-        field1: { type: "richText" },
-      },
-      minChildren: 0,
-    },
-  });
   const { view, insertElement } = createEditorWithElements({
     nestedTestElement,
     testElement,

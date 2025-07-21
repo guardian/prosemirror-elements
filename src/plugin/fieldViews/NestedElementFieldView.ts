@@ -49,12 +49,12 @@ export const anyDescendantFieldIsNestedElementField = (node: Node) => {
   return descendantFieldIsNestedElementField;
 };
 
-export const nestedElementFieldGroupName = "nested-element-field"
+export const nestedElementFieldGroupName = "nested-element-field";
 
-export const isNestedElementAttribute = "isNestedElement"
+export const isNestedElementAttribute = "isNestedElement";
 
 export const isNestedElementField = (node: Node) =>
-  node.attrs?.[isNestedElementAttribute] === true
+  node.attrs[isNestedElementAttribute] === true;
 
 export const createNestedElementField = ({
   absentOnEmpty,
