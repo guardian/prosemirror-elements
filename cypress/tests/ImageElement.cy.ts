@@ -7,6 +7,7 @@ import {
 } from "../../src/elements/demo-image/DemoImageElementForm";
 import {
   addImageElement,
+  assertCaretPosition,
   assertDocHtml,
   boldShortcut,
   changeTestDecoString,
@@ -483,6 +484,68 @@ describe("ImageElement", () => {
           expect(from).to.equal(32);
           expect(to).to.equal(39);
         });
+      });
+
+      it("should prevent the caret moving from one text to another with up arrow", () => {
+        addImageElement({
+          caption: "A long caption that you might move around using arrow keys",
+          src: "Foobar.",
+        });
+        focusElementField("src");
+        // The caret should be at the start of the text block
+        assertCaretPosition(77);
+
+        typeIntoElementField("src", "{rightArrow}");
+        assertCaretPosition(78);
+
+        typeIntoElementField("src", "{upArrow}");
+        assertCaretPosition(77);
+      });
+
+      it("should prevent the caret moving from one text to another with left arrow", () => {
+        addImageElement({
+          caption: "A long caption that you might move around using arrow keys",
+          src: "Foobar.",
+        });
+
+        focusElementField("src");
+        // The caret should be at the start of the text block
+        assertCaretPosition(77);
+
+        for (let i = 0; i < 3; i++) {
+          typeIntoElementField("src", "{leftArrow}");
+        }
+
+        assertCaretPosition(77);
+      });
+
+      it("should prevent the caret moving from one text to another with down arrow", () => {
+        addImageElement({
+          caption: "A long caption that you might move around using arrow keys",
+          src: "Foobar.",
+        });
+        focusElementField("src");
+        // The caret should be at the start of the text block
+        assertCaretPosition(77);
+
+        typeIntoElementField("src", "{downArrow}");
+        assertCaretPosition(84);
+      });
+
+      it("should prevent the caret moving from one text to another with right arrow", () => {
+        addImageElement({
+          caption: "A long caption that you might move around using arrow keys",
+          src: "Foobar.",
+        });
+        focusElementField("src");
+        // The caret should be at the start of the text block
+        assertCaretPosition(77);
+
+        for (let i = 0; i < 15; i++) {
+          typeIntoElementField("src", "{rightArrow}");
+        }
+
+        assertCaretPosition(84);
       });
     });
 

@@ -1,6 +1,7 @@
 import { baseKeymap } from "prosemirror-commands";
 import { redoNoScroll, undoNoScroll } from "prosemirror-history";
-import type { Command } from "prosemirror-state";
+import type { Command, EditorState, Transaction } from "prosemirror-state";
+import { TextSelection } from "prosemirror-state";
 import type { EditorView } from "prosemirror-view";
 
 const blockedKeys = ["Enter", "Mod-Enter", "Mod-a"];
@@ -26,3 +27,53 @@ export const createHistoryCommands = (
     return view?.dispatch(view.state.tr.scrollIntoView()) ?? false;
   },
 });
+
+/*
+  These commands restrict caret traversal to the current text block
+  When navigating with the arrow keys the caret should stop at the beginning and end of text blocks
+*/
+export const preventCaretBoundaryTraversalKeymap: Record<string, Command> = {
+  ArrowRight: (state: EditorState) => {
+    if (
+      state.selection.$from.parentOffset ===
+      state.selection.$from.parent.content.size
+    ) {
+      return true;
+    }
+
+    return false;
+  },
+  ArrowLeft: (state: EditorState) => {
+    if (state.selection.$from.parentOffset === 0) {
+      return true;
+    }
+
+    return false;
+  },
+  ArrowUp: (
+    state: EditorState,
+    dispatch?: (tr: Transaction) => void,
+    view?: EditorView
+  ) => {
+    if (view?.endOfTextblock("up", state)) {
+      // Move the cursor to the start of this block
+      const tr = state.tr.setSelection(TextSelection.atStart(state.doc));
+      dispatch?.(tr);
+      return true;
+    }
+    return false;
+  },
+  ArrowDown: (
+    state: EditorState,
+    dispatch?: (tr: Transaction) => void,
+    view?: EditorView
+  ) => {
+    if (view?.endOfTextblock("down", state)) {
+      // Move the cursor to the end of this block
+      const tr = state.tr.setSelection(TextSelection.atEnd(state.doc));
+      dispatch?.(tr);
+      return true;
+    }
+    return false;
+  },
+};
