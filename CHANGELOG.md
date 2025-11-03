@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.8.0
+
+### Minor Changes
+
+- bbf92ce: Limit caret traversal with arrow keys to within boundaries of text blocks
+
 ## 9.7.0
 
 ### Minor Changes
