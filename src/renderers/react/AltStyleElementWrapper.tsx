@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { space } from "@guardian/src-foundations";
 import type { ReactElement } from "react";
 import type { CommandCreator } from "../../plugin/types/Commands";
-import { Overlay } from "./ElementWrapper";
+import { noSelectionHighlighting, Overlay } from "./ElementWrapper";
 
 const AltStyleContainer = styled("div")`
   padding-bottom: 8px;
@@ -17,17 +17,7 @@ const AltStylePanel = styled("div")<{
   position: relative;
   flex-grow: 1;
 
-  * {
-    ::selection {
-      background: ${({ isSelected }) =>
-        isSelected ? "transparent" : undefined};
-    }
-
-    ::-moz-selection {
-      background: ${({ isSelected }) =>
-        isSelected ? "transparent" : undefined};
-    }
-  }
+  ${({ isSelected }) => (isSelected ? noSelectionHighlighting : "")}
 `;
 
 export type ElementWrapperProps = {

@@ -48,6 +48,18 @@ export const Body = styled("div")`
   }
 `;
 
+export const noSelectionHighlighting = `
+ * {
+    ::selection {
+      background: transparent;
+    }
+
+    ::-moz-selection {
+     background: transparent;
+    }
+  }
+`;
+
 const Panel = styled("div")<{
   isSelected: boolean;
 }>`
@@ -58,17 +70,7 @@ const Panel = styled("div")<{
   overflow: hidden;
   padding: ${space[3]}px;
 
-  * {
-    ::selection {
-      background: ${({ isSelected }) =>
-        isSelected ? "transparent" : undefined};
-    }
-
-    ::-moz-selection {
-      background: ${({ isSelected }) =>
-        isSelected ? "transparent" : undefined};
-    }
-  }
+  ${({ isSelected }) => (isSelected ? noSelectionHighlighting : "")}
 `;
 
 export const Overlay = styled("div")`
