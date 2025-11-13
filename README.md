@@ -24,6 +24,11 @@ Modelling non-text content in Prosemirror can be tricky. `prosemirror-elements` 
 - are first class citizens of the Prosemirror schema (for example, nested rich text fields play nicely with collaborative editing)
 - are renderer-agnostic (we use React as a default)
 
+## Working on composer prosemirror-elements
+A note for guardian developers - in https://github.com/guardian/flexible-content/pull/4410 a number of elements were moved from this repo into the flexible-content
+repo to improve the developer feedback loop when working on the elements. If you are making a change intended for composer then you should make the changes within the
+flexible-content repo. 
+
 ## Setup
 
 1. Ensure you have `dev-nginx` and `yarn` installed on your local machine.
