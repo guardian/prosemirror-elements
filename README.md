@@ -53,6 +53,8 @@ When your PR is merged, Changesets will create a PR to release the new version.
 
 We've found yalc useful in testing local changes to prosemirror-elements in applications that use it.
 
+**Note that only the library code needs to be tested in this way** — elements themselves (both data and UI) are defined in the consuming application. So if you're making changes to an element model, or its UI, you shouldn't need to use this approach!
+
 Setup:
 
 1. Install `yalc` globally with `npm i yalc -g` or `yarn global add yalc`.
