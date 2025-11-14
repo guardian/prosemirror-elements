@@ -52,7 +52,7 @@ This repository uses [changesets](https://github.com/changesets/changesets) for 
 
 To release a new version with your changes, run `yarn changeset add` and follow the prompts. This will create a new changeset file in the `.changeset` directory. Commit this file with your PR.
 
-When your PR is merged, Changesets will create a PR to release the new version.
+When your PR is merged, Changesets will create a PR to release the new version. Please feel free to approve and release a changesets PR that has been created as a result of your work.
 
 ### Testing locally in applications using `prosemirror-elements`
 
