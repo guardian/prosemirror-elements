@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.9.0
+
+### Minor Changes
+
+- 87a3c66: fix highlighting of selected text in firefox
+
 ## 9.8.0
 
 ### Minor Changes
