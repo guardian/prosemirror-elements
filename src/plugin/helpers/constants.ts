@@ -1,9 +1,8 @@
-// A key that uniquely identifies a repeater field-to-name map. Useful for
-// renderers that must be able to uniquely identify children – for example, in
-
 import { PluginKey } from "prosemirror-state";
 import type { PluginState } from "../plugin";
 
+// A key that uniquely identifies a repeater field-to-name map. Useful for
+// renderers that must be able to uniquely identify children – for example, in
 // React, where a `key` attribute is expected in arrays of ReactNodes.
 export const RepeaterFieldMapIDKey = "__ID";
 
