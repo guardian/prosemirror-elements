@@ -16,10 +16,6 @@ import { createTestSchema } from "../test";
 import { transformElementIn, transformElementOut } from "../transform";
 import { allElementFixtures } from "./fixtures";
 
-jest.mock("@formkit/auto-animate", () => ({
-  autoAnimate: jest.fn(),
-}));
-
 describe("Element fixtures", () => {
   /**
    * This spec runs every fixture declared in `./fixtures/index.ts` through

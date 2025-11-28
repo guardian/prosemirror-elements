@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
-import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import {
   actionSpacing,
@@ -16,12 +15,10 @@ import type {
 import { AltStyleElementWrapper } from "../../renderers/react/AltStyleElementWrapper";
 import { createReactElementSpec } from "../../renderers/react/createReactElementSpec";
 import { Body } from "../../renderers/react/ElementWrapper";
-import { useAutoAnimate } from "../../renderers/react/useAutoAnimate";
 import {
   LeftRepeaterActionControls,
   RightRepeaterActionControls,
 } from "../../renderers/react/WrapperControls";
-import { keyTakeawaysFields } from "./AltStyleElementSpec";
 
 export const AltStyleElementTestId = "AltStyleElement";
 
@@ -81,12 +78,10 @@ export const createReactAltStylesElementSpec = <
     fieldDescriptions,
     component: ({ fields }) => {
       const repeaterField = repeaterFieldExtractor(fields);
-      const [parent] = useAutoAnimate();
       return (
         <FieldLayoutVertical
           data-cy={AltStyleElementTestId}
           useAlternateStyles={true}
-          ref={parent}
         >
           {repeaterField.children.map((child, index) => (
             // Use field ID as key instead of node index to avoid React render conflicts
@@ -116,22 +111,3 @@ export const createReactAltStylesElementSpec = <
     },
     wrapperComponent: AltStyleElementWrapper,
   });
-
-export const keyTakeawaysElement = createReactAltStylesElementSpec(
-  keyTakeawaysFields,
-  (fields) => fields.repeater,
-  (repeaterChild) => (
-    <>
-      <DemoFieldWrapper
-        field={repeaterChild.title}
-        showHeading={false}
-        useAlternateStyles={true}
-      />
-      <DemoFieldWrapper
-        field={repeaterChild.content}
-        showHeading={false}
-        useAlternateStyles={true}
-      />
-    </>
-  )
-);
