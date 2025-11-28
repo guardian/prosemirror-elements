@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { neutral, space } from "@guardian/src-foundations";
 import React from "react";
-import { DemoFieldWrapper } from "../../editorial-source-components/DemoFieldWrapper";
 import { FieldLayoutVertical } from "../../editorial-source-components/FieldLayout";
 import {
   actionSpacing,
@@ -21,7 +20,6 @@ import {
   LeftRepeaterActionControls,
   RightRepeaterActionControls,
 } from "../../renderers/react/WrapperControls";
-import { keyTakeawaysFields } from "./AltStyleElementSpec";
 
 export const AltStyleElementTestId = "AltStyleElement";
 
@@ -116,22 +114,3 @@ export const createReactAltStylesElementSpec = <
     },
     wrapperComponent: AltStyleElementWrapper,
   });
-
-export const keyTakeawaysElement = createReactAltStylesElementSpec(
-  keyTakeawaysFields,
-  (fields) => fields.repeater,
-  (repeaterChild) => (
-    <>
-      <DemoFieldWrapper
-        field={repeaterChild.title}
-        showHeading={false}
-        useAlternateStyles={true}
-      />
-      <DemoFieldWrapper
-        field={repeaterChild.content}
-        showHeading={false}
-        useAlternateStyles={true}
-      />
-    </>
-  )
-);
