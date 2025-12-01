@@ -7,7 +7,6 @@ export type {
 export { buildElementPlugin } from "./plugin/element";
 export { fieldGroupName, isProseMirrorElement } from "./plugin/nodeSpec";
 export type { CustomField, Field } from "./plugin/types/Element";
-
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
 export type { FieldView } from "./plugin/fieldViews/FieldView";
 export { createTextField } from "./plugin/fieldViews/TextFieldView";
@@ -59,3 +58,7 @@ export {
   INNER_EDITOR_BLUR,
 } from "./plugin/fieldViews/NestedElementFieldView";
 export { RepeaterFieldMapIDKey } from "./plugin/helpers/constants";
+export { RepeaterField } from "./plugin/types/Element";
+export { CustomFieldDescription } from "./plugin/fieldViews/CustomFieldView";
+export { TextFieldDescription } from "./plugin/fieldViews/TextFieldView";
+export { RepeaterFieldDescription } from "./plugin/fieldViews/RepeaterFieldView";
