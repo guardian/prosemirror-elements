@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.10.0
+
+### Minor Changes
+
+- a0eb8f7: remove auto-animate and export field description interfaces
+
 ## 9.9.0
 
 ### Minor Changes
