@@ -17,6 +17,7 @@ const interactiveOptions = [
   { text: "showcase", value: "showcase" },
   { text: "thumbnail", value: "thumbnail" },
   { text: "immersive", value: "immersive" },
+  { text: "full width", value: "fullWidth" },
 ];
 
 export const createContentAtomElement = (
