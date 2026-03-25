@@ -64,6 +64,11 @@ jobs:
           node-version-file: .nvmrc
           cache: "yarn"
 
+      # See https://docs.npmjs.com/trusted-publishers
+      # Find the latest version with `npm info npm@latest version`
+      - name: Install suitable NPM version for trusted publishing
+        run: npm install -g npm@11.12.0
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
@@ -79,4 +84,3 @@ jobs:
           commit: "Bump package versions"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
