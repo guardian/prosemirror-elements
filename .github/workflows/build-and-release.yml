@@ -92,7 +92,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn changeset publish
+          publish: npx changeset publish
           title: "🦋 Release package updates"
           commit: "Bump package versions"
           setupGitUser: false
