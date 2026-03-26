@@ -83,5 +83,6 @@ jobs:
           publish: yarn changeset publish
           title: "🦋 Release package updates"
           commit: "Bump package versions"
+          setupGitUser: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
