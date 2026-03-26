@@ -76,6 +76,18 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Use GitHub App Token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.GU_CHANGESETS_APP_ID }}
+          private-key: ${{ secrets.GU_CHANGESETS_PRIVATE_KEY }}
+
+      - name: Set git user to Gu Changesets app
+        run: |
+          git config user.name "gu-changesets-release-pr[bot]"
+          git config user.email "gu-changesets-release-pr[bot]@users.noreply.github.com"
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -85,4 +97,4 @@ jobs:
           commit: "Bump package versions"
           setupGitUser: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
