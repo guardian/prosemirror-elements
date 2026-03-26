@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.10.1
+
+### Patch Changes
+
+- 49a904b: no-op release to test migration to NPM trusted publishing
+
 ## 9.10.0
 
 ### Minor Changes
