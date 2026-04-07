@@ -18,6 +18,8 @@ Modelling non-text content in ProseMirror can be tricky. prosemirror-elements pr
 - Are first-class citizens of the ProseMirror schema — nested rich text fields participate fully in collaborative editing, selections, decorations, and marks.
 - Are renderer-agnostic — React bindings are provided as a default, but the core is framework-independent.
 
+![ProseMirror Elements Demo](./docs/assets/prosemirror-elements-demo.gif)
+
 The library is used by Guardian editorial tools to power structured content such as images, pullquotes, callouts, embeds, recipes, and more.
 
 > **Note for Guardian developers:** Many element definitions used in Composer have been moved into the [flexible-content](https://github.com/guardian/flexible-content) repo (see [PR #4410](https://github.com/guardian/flexible-content/pull/4410)). If you are making a change intended for Composer, make the changes there instead.
