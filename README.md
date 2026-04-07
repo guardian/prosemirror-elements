@@ -1,6 +1,6 @@
 # @guardian/prosemirror-elements
 
-A [ProseMirror](https://prosemirror.net/) plugin that makes modeling arbitrary nested content simple. It allows structured, non-text content to be modelled as first-class citizens of the ProseMirror schema. We call this content elements.
+A [ProseMirror](https://prosemirror.net/) plugin that makes modelling arbitrary nested content simple. It allows structured, non-text content to be modelled as first-class citizens of the ProseMirror schema. We call this content elements.
 
 ## Contents
 
@@ -26,7 +26,7 @@ The library is used by Guardian editorial tools to power structured content such
 
 ## 2. Getting Started
 
-This section provide instructions for setting up and contributing to the plugin code, for integration it into consuming code see the [Quick-Start Guide](./docs/quick-start.md) .
+This section provides instructions for setting up and contributing to the plugin code. For integrating it into consuming code, see the [Quick-Start Guide](./docs/quick-start.md).
 
 ### Setup
 
@@ -93,7 +93,7 @@ The project is structured into three main areas:
 - [Quick-Start Guide](docs/quick-start.md) — creating your first element
 - [How prosemirror-elements works](docs/how-it-works.md) — detailed technical walkthrough
 - [Vision](docs/vision.md) — project goals and design philosophy
-- [ADRs](docs/decision-records/) – significant decision which were made during project development
+- [ADRs](docs/decision-records/) – records of significant decisions made during project development
 - [ProseMirror documentation](https://prosemirror.net/docs/) 
 
 ## 5. Terminology
