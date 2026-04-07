@@ -26,6 +26,8 @@ The library is used by Guardian editorial tools to power structured content such
 
 ## 2. Getting Started
 
+This section provide instructions for setting up and contributing to the plugin code, for integration it into consuming code see the [Quick-Start Guide](./docs/quick-start.md) .
+
 ### Setup
 
 1. Ensure you have `dev-nginx` and `yarn` installed on your local machine.
@@ -36,7 +38,7 @@ The library is used by Guardian editorial tools to power structured content such
 1. Ensure nginx is running.
 2. `yarn start` builds the project locally, spins up a webserver on https://prosemirror-elements.local.dev-gutools.co.uk, and watches for file changes.
 
-## Testing
+### Testing
 
 - Run the unit tests via Jest with `yarn test:unit`.
 - Run the integration tests via Cypress with `yarn test:integration`.
@@ -71,7 +73,7 @@ See the [Quick-Start Guide](docs/quick-start.md) for a step-by-step walkthrough 
 
 ### Overview
 
-For an explanation of the plugin's core funcitonality, see [How prosemirror-elements works](docs/how-it-works.md).
+For an explanation of the plugin's core functionality, see [How prosemirror-elements works](docs/how-it-works.md).
 
 ### Core technologies
 
