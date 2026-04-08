@@ -1,6 +1,6 @@
 # @guardian/prosemirror-elements
 
-A [ProseMirror](https://prosemirror.net/) plugin that makes modelling arbitrary nested content simple. It allows structured, non-text content to be modelled as first-class citizens of the ProseMirror schema. We call this content elements.
+A [ProseMirror](https://prosemirror.net/) plugin that makes modelling arbitrary nested content simple. It allows structured, non-text content to be modelled as first-class citizens of the ProseMirror schema. This content is called 'elements'.
 
 ## Contents
 
