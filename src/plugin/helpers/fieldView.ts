@@ -111,7 +111,8 @@ export const getElementFieldViewFromType = (
         offset,
         innerDecos,
         field,
-        field.allowedPlugins
+        field.allowedPlugins,
+        field.ownPlugins
       );
     case "richText":
       return new RichTextFieldView(

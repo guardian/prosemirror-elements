@@ -22,8 +22,8 @@ type NestedElementOptions = {
   placeholder?: PlaceholderOption;
   isResizeable?: boolean;
   allowedPlugins?: PluginKey[];
-  minRows?: number;
   ownPlugins?: Plugin[];
+  minRows?: number;
 };
 
 export interface NestedElementFieldDescription
@@ -37,6 +37,7 @@ export interface NestedElementFieldDescription
   // include its key in the output data created by `getElementDataFromNode`.
   absentOnEmpty?: boolean;
   allowedPlugins?: PluginKey[];
+  ownPlugins?: Plugin[];
   minRows?: number;
 }
 
@@ -66,6 +67,7 @@ export const createNestedElementField = ({
   placeholder,
   isResizeable,
   allowedPlugins = [],
+  ownPlugins = [],
   minRows = 4,
 }: NestedElementOptions): NestedElementFieldDescription => {
   return {
@@ -78,6 +80,7 @@ export const createNestedElementField = ({
     placeholder,
     isResizeable,
     allowedPlugins,
+    ownPlugins,
     minRows,
   };
 };
