@@ -1,5 +1,5 @@
 import type { AttributeSpec, Node } from "prosemirror-model";
-import type { PluginKey } from "prosemirror-state";
+import type { Plugin, PluginKey } from "prosemirror-state";
 import type {
   DecorationSource,
   EditorProps,
@@ -23,6 +23,7 @@ type NestedElementOptions = {
   isResizeable?: boolean;
   allowedPlugins?: PluginKey[];
   minRows?: number;
+  ownPlugins?: Plugin[];
 };
 
 export interface NestedElementFieldDescription
@@ -109,8 +110,10 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
     // The initial decorations for the FieldView.
     decorations: DecorationSource,
     { placeholder, isResizeable, minRows }: NestedElementFieldDescription,
-    // Specify plugins of which the field should have its own copy
-    allowedPlugins: PluginKey[] = []
+    // Specify plugins of the outer editor of which the field should have its own copy
+    allowedPlugins: PluginKey[] = [],
+    // Specify plugins which the field should have (in addition to the allowedPlugins)
+    ownPlugins: Plugin[] = []
   ) {
     super(
       node,
@@ -118,12 +121,15 @@ export class NestedElementFieldView extends ProseMirrorFieldView {
       getPos,
       offset,
       decorations,
-      outerView.state.plugins.filter(
-        (plugin) =>
-          !plugin.spec.key ||
-          pluginKey === plugin.spec.key ||
-          allowedPlugins.includes(plugin.spec.key)
-      ),
+      [
+        ...outerView.state.plugins.filter(
+          (plugin) =>
+            !plugin.spec.key ||
+            pluginKey === plugin.spec.key ||
+            allowedPlugins.includes(plugin.spec.key)
+        ),
+        ...ownPlugins,
+      ],
       placeholder,
       isResizeable
     );
