@@ -1,4 +1,5 @@
 export type { FieldValidator, ValidationError } from "./plugin/elementSpec";
+export type { ExternalElementData } from "./plugin/helpers/element";
 export type { FieldNameToValueMap } from "./plugin/helpers/fieldView";
 export type {
   FieldDescriptions,
@@ -10,21 +11,28 @@ export type { CustomField, Field } from "./plugin/types/Element";
 export type { Options } from "./plugin/fieldViews/DropdownFieldView";
 export type { FieldView } from "./plugin/fieldViews/FieldView";
 export { createTextField } from "./plugin/fieldViews/TextFieldView";
-export { createRichTextField } from "./plugin/fieldViews/RichTextFieldView";
+export type { TextFieldView } from "./plugin/fieldViews/TextFieldView";
+export {
+  createRichTextField,
+  createFlatRichTextField,
+} from "./plugin/fieldViews/RichTextFieldView";
+export type { RichTextFieldView } from "./plugin/fieldViews/RichTextFieldView";
 export {
   createNestedElementField,
   isNestedElementField,
 } from "./plugin/fieldViews/NestedElementFieldView";
+export type { NestedElementFieldView } from "./plugin/fieldViews/NestedElementFieldView";
 export { createCheckBoxField } from "./plugin/fieldViews/CheckboxFieldView";
+export type { CheckboxFieldView } from "./plugin/fieldViews/CheckboxFieldView";
 export {
   createCustomDropdownField,
   createCustomField,
 } from "./plugin/fieldViews/CustomFieldView";
-export { createFlatRichTextField } from "./plugin/fieldViews/RichTextFieldView";
 export {
   createRepeaterField,
   isRepeaterField,
 } from "./plugin/fieldViews/RepeaterFieldView";
+export type { RepeaterFieldView } from "./plugin/fieldViews/RepeaterFieldView";
 
 export {
   htmlMaxLength,
@@ -35,7 +43,7 @@ export {
 } from "./plugin/helpers/validation";
 export { undefinedDropdownValue } from "./plugin/helpers/constants";
 
-export { createStore } from "./renderers/react/store";
+export { createStore, Store } from "./renderers/react/store";
 export { TelemetryContext } from "./renderers/react/TelemetryContext";
 export { useCustomFieldState } from "./renderers/react/useCustomFieldViewState";
 export { createReactElementSpec } from "./renderers/react/createReactElementSpec";
