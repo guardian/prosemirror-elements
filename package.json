@@ -1,15 +1,15 @@
 {
   "name": "@guardian/prosemirror-elements",
-  "version": "9.10.1",
+  "version": "9.10.2",
   "type": "module",
   "main": "dist/cjs/index.js",
   "repository": {
     "url": "git+https://github.com/guardian/prosemirror-elements.git"
   },
   "exports": {
-		"require": "./dist/cjs/index.js",
-		"import": "./dist/esm/index.js"
-	},
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js"
+  },
   "types": "dist/declaration/index.d.ts",
   "publishConfig": {
     "access": "public"
