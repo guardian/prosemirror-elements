@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.10.2
+
+### Patch Changes
+
+- b490aec: Fixes exports for projects consuming this package as an ES module
+
 ## 9.10.1
 
 ### Patch Changes
