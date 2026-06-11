@@ -1,14 +1,9 @@
 {
   "name": "@guardian/prosemirror-elements",
   "version": "9.10.2",
-  "type": "module",
   "main": "dist/cjs/index.js",
   "repository": {
     "url": "git+https://github.com/guardian/prosemirror-elements.git"
-  },
-  "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js"
   },
   "types": "dist/declaration/index.d.ts",
   "publishConfig": {
@@ -17,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve",
-    "build": "yarn tsc --build ./tsconfig-cjs.json && yarn tsc --build ./tsconfig-esm.json",
+    "build": "yarn tsc --build ./tsconfig-cjs.json",
     "test:integration": "cypress open --e2e --browser chrome",
     "test:unit": "jest --runInBand",
     "ci:build": "yarn lint && yarn test:unit && yarn build",
