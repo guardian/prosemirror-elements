@@ -1,5 +1,11 @@
 # @guardian/prosemirror-elements
 
+## 9.10.3
+
+### Patch Changes
+
+- c4727ec: Remove ESM support (that did not actually work)
+
 ## 9.10.2
 
 ### Patch Changes
