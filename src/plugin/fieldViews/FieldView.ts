@@ -28,7 +28,7 @@ export enum FieldContentType {
 /**
  * Represents a prosemirror-element view of a Prosemirror Node.
  */
-export abstract class FieldView<NodeValue> {
+export abstract class FieldView<FieldValue> {
   public static fieldType: string;
   public static fieldContentType: FieldContentType;
   // The HTML element this fieldView renders content into.
@@ -53,7 +53,7 @@ export abstract class FieldView<NodeValue> {
   /**
    * Programmatically update this fieldView with the given value.
    */
-  public abstract update(value: NodeValue): void;
+  public abstract update(value: FieldValue): void;
 
   /**
    * Destroy this fieldView, cleaning up any resources it has instantiated.

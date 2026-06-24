@@ -13,6 +13,7 @@ import { TextFieldView } from "../fieldViews/TextFieldView";
 import type { FieldDescription, FieldDescriptions } from "../types/Element";
 import type { ExternalElementData } from "./element";
 import type { KeysWithValsOfType, Optional } from "./types";
+import { createNodesForFieldValues } from "../nodeSpec";
 
 export const fieldTypeToViewMap = {
   [TextFieldView.fieldType]: TextFieldView,
@@ -97,12 +98,12 @@ type Options = {
 
 export const getElementFieldViewFromType = (
   fieldName: string,
-  field: FieldDescription,
+  fieldDescription: FieldDescription,
   { node, view, getPos, offset, innerDecos }: Options
 ) => {
-  switch (field.type) {
+  switch (fieldDescription.type) {
     case "text":
-      return new TextFieldView(node, view, getPos, offset, innerDecos, field);
+      return new TextFieldView(node, view, getPos, offset, innerDecos, fieldDescription);
     case "nestedElement":
       return new NestedElementFieldView(
         node,
@@ -110,8 +111,8 @@ export const getElementFieldViewFromType = (
         getPos,
         offset,
         innerDecos,
-        field,
-        field.allowedPlugins
+        fieldDescription,
+        fieldDescription.allowedPlugins
       );
     case "richText":
       return new RichTextFieldView(
@@ -120,7 +121,7 @@ export const getElementFieldViewFromType = (
         getPos,
         offset,
         innerDecos,
-        field
+        fieldDescription
       );
     case "checkbox":
       return new CheckboxFieldView(
@@ -128,7 +129,7 @@ export const getElementFieldViewFromType = (
         view,
         getPos,
         offset,
-        field.defaultValue ?? CheckboxFieldView.defaultValue
+        fieldDescription.defaultValue ?? CheckboxFieldView.defaultValue
       );
     case "custom":
       return new CustomFieldView(node, view, getPos, offset);
@@ -138,17 +139,25 @@ export const getElementFieldViewFromType = (
         view,
         getPos,
         offset,
-        field.defaultValue ?? DropdownFieldView.defaultValue,
-        field.options
+        fieldDescription.defaultValue ?? DropdownFieldView.defaultValue,
+        fieldDescription.options
       );
     case "repeater":
+      const a = (childValue: unknown) => createNodesForFieldValues(
+        node.type.schema, // got
+        fieldDescription, // need (parent has)
+        childValue, // got
+        nodeName, // ? not sure what 'node' means here
+        getNodeFromElementData, // will need (parent doesn't appear to have)
+      );
       return new RepeaterFieldView(
         node,
         offset,
         getPos,
         view,
         fieldName,
-        field.minChildren
+        fieldDescription.minChildren,
+        a
       );
   }
 };
