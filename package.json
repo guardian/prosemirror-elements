@@ -85,5 +85,8 @@
     "webpack-dev-server": "5.2.0",
     "webpack-node-externals": "^3.0.0"
   },
+  "resolutions": {
+    "**/express/path-to-regexp": "0.1.13"
+  },
   "packageManager": "yarn@1.22.22"
 }
